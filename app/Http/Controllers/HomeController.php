@@ -47,7 +47,7 @@ class HomeController extends Controller
     
         $rand_service = Service::getSixCategoryForHomePage();
 
-        return view('home', compact(
+        return view('front.home', compact(
             'app_setting',
             'all_slider',
             'all_trainer',
@@ -66,7 +66,7 @@ class HomeController extends Controller
 
     public function about()
     {
-        return view('about', [
+        return view('front.about', [
             'page'             => 'about'
         ]);
     }
@@ -84,7 +84,7 @@ class HomeController extends Controller
 
     public function allBlog()
     {
-        return view('blog', [
+        return view('front.blog', [
             'page' => 'all_blog',
             'get_all_blog' => Blog::getAllBlogsForHomePage(),
             'get_all_blog_category' => Blog::getAllBlogCategory()
@@ -104,10 +104,46 @@ class HomeController extends Controller
 
     public function gallery()
     {
-        return view('gallery', [
+        return view('front.gallery', [
             'page' => 'gallery',
             'all_gallery' => \App\Models\Gallery::getAllGallery(),
             'all_category' => \App\Models\Gallery::getAllCategory(),
+        ]);
+    }
+
+    public function allService($slug)
+    {
+        $app_setting = \App\Models\Setting::first();
+        $service = Service::getServiceCategoryBySlug($slug);
+
+        if (!$service) {
+            abort(404); // show 404 if not found
+        }
+
+        $all_service_data = Service::getAllServiceByCategoryId($service->service_cat_id);
+
+        return view('front.all_service', [
+            'page' => 'all_service',
+            'app_setting' => $app_setting,
+            'service' => $service,
+            'all_service_data' => $all_service_data,
+            'title' => $service->service_cat_name
+        ]);
+    }
+
+    public function serviceDetails($slug)
+    {
+        $service = Service::getServiceBySlug($slug);
+
+        if (!$service) {
+            abort(404); // show 404 page if service not found
+        }
+
+        return view('front.service_details', [
+            'page' => 'service_details',
+            'app_setting' => \App\Models\Setting::first(),
+            'service' => $service,
+            'title' => $service->service_name,
         ]);
     }
 

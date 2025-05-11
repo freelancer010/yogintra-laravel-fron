@@ -22,11 +22,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- FAVICON -->
-    <link href="{{ $app_setting->fevicon }}" rel="shortcut icon" type="image/png">
-    <link href="{{ $app_setting->fevicon }}" rel="apple-touch-icon">
-    <link href="{{ $app_setting->fevicon }}" rel="apple-touch-icon" sizes="72x72">
-    <link href="{{ $app_setting->fevicon }}" rel="apple-touch-icon" sizes="114x114">
-    <link href="{{ $app_setting->fevicon }}" rel="apple-touch-icon" sizes="144x144">
+    <link href="{{ asset($app_setting->fevicon) }}" rel="shortcut icon" type="image/png">
+    <link href="{{ asset($app_setting->fevicon) }}" rel="apple-touch-icon">
+    <link href="{{ asset($app_setting->fevicon) }}" rel="apple-touch-icon" sizes="72x72">
+    <link href="{{ asset($app_setting->fevicon) }}" rel="apple-touch-icon" sizes="114x114">
+    <link href="{{ asset($app_setting->fevicon) }}" rel="apple-touch-icon" sizes="144x144">
 
     <!-- FOR PWA MANIFEST -->
     <link rel="manifest" href="{{ asset('manifest.json')}}">

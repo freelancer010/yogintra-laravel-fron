@@ -9,7 +9,7 @@ Route::get('/all-trainers', [HomeController::class, 'allTrainers']);
 Route::get('/blog', [HomeController::class, 'allBlog']);
 Route::get('/blog-details/{slug}', [HomeController::class, 'blogDetails']);
 Route::get('/blog-category/{slug}', [HomeController::class, 'blogCategory']);
-Route::get('/all-service/{slug}', [HomeController::class, 'allService']);
+Route::get('/service/{slug}', [HomeController::class, 'allService'])->name('all-service');
 Route::get('/service-details/{slug}', [HomeController::class, 'serviceDetails']);
 Route::get('/gallery', [HomeController::class, 'gallery']);
 Route::get('/contact', [HomeController::class, 'contact']);
