@@ -64,16 +64,7 @@ class HomeController extends Controller
     public function about()
     {
         return view('about', [
-            'page' => 'about',
-            'app_setting' => Setting::first(),
-            'all_service' => DB::table('service_category')->get(),
-            'visual_setting' => DB::table('visual_setting')->first()
-        ]);
-
-        return view('about', [
-            'page' => 'about',
-            'app_setting' => Setting::getAllAppSetting(),
-            'title' => Setting::getAllAppSetting()->app_meta_title
+            'page'             => 'about'
         ]);
     }
 
@@ -112,11 +103,10 @@ class HomeController extends Controller
 
     public function gallery()
     {
-        return view('front.index', [
+        return view('gallery', [
             'page' => 'gallery',
-            'app_setting' => Setting::getAllAppSetting(),
-            'all_gallery' => Gallery::getAllGallery(),
-            'all_category' => Gallery::getAllCategory()
+            'all_gallery' => \App\Models\Gallery::getAllGallery(),
+            'all_category' => \App\Models\Gallery::getAllCategory(),
         ]);
     }
 

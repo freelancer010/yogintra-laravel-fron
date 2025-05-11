@@ -1,12 +1,487 @@
 @extends('layouts.layout')
-@push('styles')
+@section('meta_title', 'About us | YogIntra - Best Yoga Center in India')
+@section('meta_description', 'YogIntra is the Best Yoga Center in India for a transformative journey. Immerse yourself in the ancient practice of yoga with experienced instructors./')
+@section('meta_keywords', 'Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai, Yoga Teacher Training Courses.')
 
+@push('styles')
+  <style>
+      .article {
+         width: 100%;
+         margin-top: 8vh;
+         display: flex;
+         justify-content: center;
+      }
+
+      /* GENERAL SETTINGS */
+      h3.yog-ttl {
+         text-align: center;
+         font-size: 2rem;
+         margin-bottom: 1vh;
+      }
+
+      h3.yog-ttl.wht {
+         color: #fff;
+      }
+
+      p.yog-cont {
+         font-size: 1.5rem;
+         padding: 0 2rem;
+      }
+
+      /* BOX SETTINGS */
+      .box1 {
+         background-color: var(--purple);
+         border: 3px solid var(--dark);
+         color: var(--dark);
+         margin-right: 8vh;
+         border-radius: 15px;
+         padding-top: 70px;
+         padding-bottom: 70px;
+         width:50%;
+      }
+
+      .box2 {
+         background-color: #fff;
+         border: 3px solid var(--light);
+         color: var(--light);
+         margin-left: 1vh;
+         position: relative;
+         border-radius: 15px;
+         padding-top: 70px;
+         padding-bottom: 70px;
+         width:100%;
+      }
+
+      /* BOX-TEXT SETTINGS */
+      .text-box1 {
+         padding: 2vh;
+         text-align: center;
+      }
+
+      .text-box2 {
+         padding: 2vh;
+         text-align: center;
+      }
+
+      /* TITLE SETTINGS */
+      .title1 {
+         grid-row: 1/2;
+         grid-column: 1/3;
+         align-self: end;
+         justify-self: end;
+         color: var(--light);
+      }
+
+      .title2 {
+         grid-row: 5/6;
+         grid-column: 5/7;
+         align-self: top;
+         justify-self: end;
+         color: var(--light);
+      }
+      @media screen and (min-width: 1000px) and (max-width: 1200px) {
+         .cst-font{
+            font-size:28px;
+         }
+         .about-section .content-column {
+            margin-top: 115px !important;
+         }
+         .about-section .image-column .inner-column .author-desc{
+            width:38% !important;
+         }
+      }
+      .sec-title {
+         position: relative;
+         z-index: 1;
+         margin-bottom: 20px;
+      }
+
+      .sec-title .title {
+         position: relative;
+         display: block;
+         font-size: 18px;
+         line-height: 24px;
+         color: #176a71;
+         font-weight: 500;
+         margin-bottom: 15px;
+      }
+
+      .sec-title h2 {
+         position: relative;
+         display: block;
+         font-size: 40px;
+         line-height: 1.28em;
+         color: #222222;
+         font-weight: 600;
+         padding-bottom: 18px;
+      }
+
+      .sec-title h2:before {
+         position: absolute;
+         content: '';
+         left: 0px;
+         bottom: 0px;
+         width: 50px;
+         height: 3px;
+         background-color: #d1d2d6;
+      }
+
+      .sec-title .text {
+         position: relative;
+         font-size: 16px;
+         line-height: 26px;
+         color: #848484;
+         font-weight: 400;
+         margin-top: 35px;
+      }
+
+      .sec-title.light h2 {
+         color: #ffffff;
+      }
+
+      .sec-title.text-center h2:before {
+         left: 50%;
+         margin-left: -25px;
+      }
+
+      .list-style-one {
+         position: relative;
+      }
+
+      .list-style-one li {
+         position: relative;
+         font-size: 16px;
+         line-height: 26px;
+         color: #222222;
+         font-weight: 400;
+         padding-left: 35px;
+         margin-bottom: 12px;
+      }
+
+      .list-style-one li:before {
+         content: "\f058";
+         position: absolute;
+         left: 0;
+         top: 0px;
+         display: block;
+         font-size: 18px;
+         padding: 0px;
+         color: #ff2222;
+         font-weight: 600;
+         -moz-font-smoothing: grayscale;
+         -webkit-font-smoothing: antialiased;
+         font-style: normal;
+         font-variant: normal;
+         text-rendering: auto;
+         line-height: 1.6;
+         font-family: "Font Awesome 5 Free";
+      }
+
+      .list-style-one li a:hover {
+         color: #176a71;
+      }
+
+      .btn-style-one {
+         position: relative;
+         display: inline-block;
+         font-size: 17px;
+         line-height: 30px;
+         color: #ffffff;
+         padding: 10px 30px;
+         font-weight: 600;
+         overflow: hidden;
+         letter-spacing: 0.02em;
+         background-color: #176a71;
+      }
+
+      .btn-style-one:hover {
+         background-color: #176a71;
+         color: #ffffff;
+      }
+
+      .about-section {
+         position: relative;
+         padding: 120px 0 70px;
+      }
+
+      .about-section .sec-title {
+         margin-bottom: 45px;
+      }
+
+      .about-section .content-column {
+         position: relative;
+         margin-bottom: 50px;
+      }
+
+      .about-section .content-column .inner-column {
+         position: relative;
+         padding-left: 30px;
+      }
+
+      .about-section .text {
+         margin-bottom: 20px;
+         font-size: 16px;
+         line-height: 26px;
+         color: #848484;
+         font-weight: 400;
+      }
+
+      .about-section .list-style-one {
+         margin-bottom: 45px;
+      }
+
+      .about-section .btn-box {
+         position: relative;
+      }
+
+      .about-section .btn-box a {
+         padding: 15px 50px;
+      }
+
+      .about-section .image-column {
+         position: relative;
+      }
+
+      .about-section .image-column .text-layer {
+         position: absolute;
+         right: -110px;
+         top: 50%;
+         font-size: 325px;
+         line-height: 1em;
+         color: #ffffff;
+         margin-top: -175px;
+         font-weight: 500;
+      }
+
+      .about-section .image-column .inner-column {
+         position: relative;
+         padding-left: 80px;
+         padding-bottom: 0px;
+      }
+
+      .about-section .image-column .inner-column .author-desc {
+         position: absolute;
+         bottom: 16px;
+         z-index: 1;
+         background: orange;
+         padding: 10px 15px;
+         left: 96px;
+         width: calc(100% - 185px);
+         border-radius: 50px;
+      }
+
+      .about-section .image-column .inner-column .author-desc h2 {
+         font-size: 21px;
+         letter-spacing: 1px;
+         text-align: center;
+         color: #fff;
+         margin: 0;
+      }
+
+      .about-section .image-column .inner-column .author-desc span {
+         font-size: 16px;
+         /*letter-spacing: 6px;*/
+         text-align: center;
+         color: #fff;
+         display: block;
+         font-weight: 400;
+      }
+
+      .about-section .image-column .inner-column:before {
+         content: '';
+         position: absolute;
+         width: calc(50% + 80px);
+         height: calc(100% + 160px);
+         top: -80px;
+         left: -3px;
+         background: transparent;
+         z-index: 0;
+         border: 44px solid #176a71;
+      }
+
+      .about-section .image-column .image-1 {
+         position: relative;
+      }
+
+      .about-section .image-column .image-2 {
+         position: absolute;
+         left: 0;
+         bottom: 0;
+      }
+
+      .about-section .image-column .image-2 img,
+      .about-section .image-column .image-1 img {
+         box-shadow: 0 30px 50px rgba(8, 13, 62, .15);
+         border-radius: 46px;
+      }
+
+      .about-section .image-column .video-link {
+         position: absolute;
+         left: 70px;
+         top: 170px;
+      }
+
+      .about-section .image-column .video-link .link {
+         position: relative;
+         display: block;
+         font-size: 22px;
+         color: #191e34;
+         font-weight: 400;
+         text-align: center;
+         height: 100px;
+         width: 100px;
+         line-height: 100px;
+         background-color: #ffffff;
+         border-radius: 50%;
+         box-shadow: 0 30px 50px rgba(8, 13, 62, .15);
+         -webkit-transition: all 300ms ease;
+         -moz-transition: all 300ms ease;
+         -ms-transition: all 300ms ease;
+         -o-transition: all 300ms ease;
+         transition: all 300ms ease;
+      }
+
+      .about-section .image-column .video-link .link:hover {
+         background-color: #191e34;
+         color: #fff;
+      }
+
+      .layer-overlay.overlay-theme-colored2-9::before {
+         background: rgba(17, 17, 17, 0.5) none repeat scroll 0 0;
+      }
+
+      .YogIntra-info {
+         color: #3d3333;
+      }
+
+      @media only screen and (max-width: 600px) {
+         .about-section .image-column .image-1 img {
+            border-radius: 0 !important;
+         }
+
+         .about-section .image-column .inner-column {
+            padding-left: 0 !important;
+         }
+        .padding-top-media
+        {
+            margin-top:30px;
+        }
+         .about-section .image-column .inner-column::before {
+            content: '';
+            position: absolute;
+            width: 100% !important;
+            height: 350px !important;
+            top: -10px !important;
+            /*left: -7px !important;*/
+            background: transparent;
+            z-index: 0;
+            border: 44px solid #176a71;
+         }
+
+         .about-section {
+            position: relative;
+            padding: 10px 0 0px !important;
+         }
+
+         .about-section .image-column .inner-column .author-desc {
+            position: absolute;
+            bottom: 0 !important;
+            z-index: 1;
+            background: orange;
+            padding: 5px 5px !important;
+            left: 0 !important;
+            width: 100% !important;
+            border-radius: 0 !important;
+         }
+
+         .about-section .image-column .inner-column .author-desc span {
+            font-size: 16px;
+            letter-spacing: 0 !important;
+            text-align: center;
+            color: #fff;
+            display: block;
+            font-weight: 400;
+         }
+
+         .sec-title h2 {
+            position: relative;
+            display: block;
+            font-size: 30px !important;
+            line-height: 1.28em;
+            color: #222222;
+            font-weight: 600;
+            padding-bottom: 18px;
+            text-align: center;
+         }
+
+         .about-section .content-column .inner-column {
+            position: relative;
+            padding-left: 0 !important;
+         }
+
+         .about-section .sec-title {
+            margin-bottom: 5px !important;
+         }
+
+         .sec-title h2::before {
+            position: absolute;
+            content: '';
+            left: 150px !important;
+            bottom: 0px;
+            width: 50px;
+            height: 3px;
+            background-color: #d1d2d6;
+            text-align: center;
+         }
+
+         .about-section .btn-box a {
+            padding: 10px 30px !important;
+         }
+
+         .about-section .btn-box {
+            position: relative;
+            text-align: center !important;
+         }
+
+         .section-padding {
+            padding-bottom: 0px !important;
+         }
+
+         .section-padding-2 {
+            padding-top: 0 !important;
+         }
+         .text-xs-center
+         {
+            text-align: center;
+         }
+         .text-size
+         {
+            font-size: 14px!important;
+         }
+         .article
+         {
+            margin-top: 0!important;
+            display: block!important;
+         }
+         .box1
+         {
+            margin-right: 20px!important;
+            margin-left: 20px;
+         }
+         .box2
+         {
+            padding-top: 0!important;
+            padding-bottom: 0!important;
+            margin: 20px!important;
+         }
+      }
+   </style>
 @endpush
 @section('content')
 
 <!-- Section: inner-header -->
 <section class="inner-header divider parallax layer-overlay overlay-dark-7"
-    style="background-image: url('{{ asset('css/images/bg/bg8.jpg') }}'); background-position: 50% 55px; height: 300px;">
+    style="background-image: url('{{ asset('assets/front/images/bg/bg8.jpg') }}'); background-position: 50% 55px; height: 300px;">
     <div class="container pt-60 pb-60">
         <div class="section-content">
             <div class="row">
@@ -122,5 +597,11 @@
 </section>
 @endsection
 
-@push('scripts')
+@push('scripts')   
+   <!-- end main-content -->
+   <script type="text/javascript">
+      $('[data-bg-img]').each(function() {
+         $(this).css('background-image', 'url(' + $(this).data("bg-img") + ')');
+      });
+   </script>
 @endpush
