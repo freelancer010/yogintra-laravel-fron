@@ -6,7 +6,7 @@ use App\Http\Controllers\HomeController;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'about']);
 Route::get('/all-trainers', [HomeController::class, 'allTrainers']);
-Route::get('/all-blog', [HomeController::class, 'allBlog']);
+Route::get('/blog', [HomeController::class, 'allBlog']);
 Route::get('/blog-details/{slug}', [HomeController::class, 'blogDetails']);
 Route::get('/blog-category/{slug}', [HomeController::class, 'blogCategory']);
 Route::get('/all-service/{slug}', [HomeController::class, 'allService']);

@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
+
 use App\Models\Setting;
 use App\Models\Slider;
 use App\Models\Front;
 use App\Models\Service;
 use App\Models\LandingPage;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\DB;
+use App\Models\Blog;
 
 class HomeController extends Controller
 {
@@ -81,10 +84,8 @@ class HomeController extends Controller
 
     public function allBlog()
     {
-        return view('front.index', [
+        return view('blog', [
             'page' => 'all_blog',
-            'app_setting' => Setting::getAllAppSetting(),
-            'title' => Setting::getAllAppSetting()->app_meta_title,
             'get_all_blog' => Blog::getAllBlogsForHomePage(),
             'get_all_blog_category' => Blog::getAllBlogCategory()
         ]);
