@@ -1,0 +1,28 @@
+
+{
+  "author": "Yogintra",
+  "name": "Yogintra",
+  "short_name": "Yogintra",
+  "description": "Experience your site by Yogintra web application",
+  "orientation": "portrait",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#238ee0",
+  "icons": [
+    {
+      "src": "./assets/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/site-logo.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    }
+  ],
+  "manifest_version": 2,
+  "version": "0.1"
+}
