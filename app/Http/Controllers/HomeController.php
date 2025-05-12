@@ -13,6 +13,7 @@ use App\Models\Front;
 use App\Models\Service;
 use App\Models\LandingPage;
 use App\Models\Blog;
+use App\Models\Yoga;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,11 @@ class HomeController extends Controller
         $this->api_main = 'https://crm.yogintra.com';
     }
 
+    /**
+     * Display the home page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $app_setting = Setting::first();
@@ -64,6 +70,11 @@ class HomeController extends Controller
     }   
     
 
+    /**
+     * Display the about page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function about()
     {
         return view('front.about', [
@@ -102,6 +113,11 @@ class HomeController extends Controller
         ]);
     }
 
+    /* 
+    * Display the blog category page.
+    * @param string $slug
+    * @return \Illuminate\View\View
+    */
     public function gallery()
     {
         return view('front.gallery', [
@@ -111,6 +127,11 @@ class HomeController extends Controller
         ]);
     }
 
+    /**
+     * Display the blog category page.
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
     public function allService($slug)
     {
         $app_setting = \App\Models\Setting::first();
@@ -131,6 +152,11 @@ class HomeController extends Controller
         ]);
     }
 
+    /**
+     * Display the service details page.
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
     public function serviceDetails($slug)
     {
         $service = Service::getServiceBySlug($slug);
@@ -144,6 +170,39 @@ class HomeController extends Controller
             'app_setting' => \App\Models\Setting::first(),
             'service' => $service,
             'title' => $service->service_name,
+        ]);
+    }
+
+    /**
+     * Display the yoga centeres page.
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
+    public function allYogaCenter()
+    {
+        return view('front.all_yoga_center', [
+            'page' => 'all_yoga_center',
+            'all_center' => Yoga::getAll(),
+        ]);
+    }
+
+
+    /**
+     * Display the yoga center details page.
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
+    public function yogaCenterDetails($slug)
+    {
+        $center = Yoga::getBySlug($slug);
+
+        if (!$center) {
+            abort(404); // handle not found
+        }
+
+        return view('front.yoga_center_details', [
+            'center' => $center,
+            'title' => $center->page_meta_title ?? $center->center_name
         ]);
     }
 
