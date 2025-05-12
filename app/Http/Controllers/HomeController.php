@@ -244,6 +244,20 @@ class HomeController extends Controller
     }
 
 
+    /**
+     * Display the event details page.
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
+    public function allWorkshop()
+    {
+        $data = [];
+        $data['all_event'] = Event::where('category', 'Workshop')->where('status', 'On')->orderByDesc('id')->get();
+
+        return view('front.all_workshop', $data);
+    }
+
+
     public function submitContactForm(Request $request)
     {
         $data = $request->only([

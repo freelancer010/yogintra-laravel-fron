@@ -21,6 +21,7 @@ Route::get('/terms-and-condition', [HomeController::class, 'termsAndCondition'])
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/refund-policy', [HomeController::class, 'refundPolicy']);
 Route::get('/retreat', [HomeController::class, 'allRetreat'])->name('retreat.all');
-Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm'])->name('form.submit');;
+Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm'])->name('form.submit');
+Route::get('/workshop', [HomeController::class, 'allWorkshop'])->name('workshop');
 Route::get('/yoga_center', [HomeController::class, 'allYogaCenter'])->name('yoga.center');
 Route::get('/yoga-center/{slug}', [HomeController::class, 'yogaCenterDetails'])->name('yoga.center.details');
