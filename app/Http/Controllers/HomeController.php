@@ -221,11 +221,7 @@ class HomeController extends Controller
 
     public function contact()
     {
-        return view('front.index', [
-            'page' => 'contact',
-            'app_setting' => Setting::getAllAppSetting(),
-            'title' => Setting::getAllAppSetting()->app_meta_title
-        ]);
+        return view('front.contact');
     }
 
     public function submitContactForm(Request $request)
