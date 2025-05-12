@@ -14,6 +14,7 @@ use App\Models\Service;
 use App\Models\LandingPage;
 use App\Models\Blog;
 use App\Models\Yoga;
+use App\Models\Event;
 
 class HomeController extends Controller
 {
@@ -203,6 +204,18 @@ class HomeController extends Controller
         return view('front.yoga_center_details', [
             'center' => $center,
             'title' => $center->page_meta_title ?? $center->center_name
+        ]);
+    }
+
+    /**
+     * Display the teacherTrainingCourse page.
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
+    public function teacherTrainingCourse()
+    {
+        return view('front.all_events', [
+            'all_event' => Event::getAllEventsForHomePage('TTC'),
         ]);
     }
 

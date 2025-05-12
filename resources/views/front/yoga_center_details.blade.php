@@ -2,11 +2,30 @@
 
 @extends('layouts.layout')
 
-@section('meta_title', 'Best Yoga Center in India | YogIntra')
-@section('meta_description', 'Yoga Training is a renowned Best Yoga Center in India. It offers various yoga classes, online yoga classes, or group yoga classes in India.')
-@section('meta_keywords', 'Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, best yoga classes in Mumbai, Yoga Teacher Training Courses')
+@section('meta_description', $center->page_meta_description)
+@section('meta_title', $center->page_title)
+@section('meta_keywords', $center->page_keywords)
 
 @push('styles')
+
+  <style type="text/css">
+    .styled-icons a .fa {
+      line-height: 2.2;
+    }
+
+    .form_booking {
+      background-color: #efefef;
+      padding: 20px;
+    }
+  </style>
+  <style>
+    .form-step {
+        display: none;
+    }
+    .form-step.active {
+        display: block;
+    }
+</style>
 @endpush
 
 @section('content')
@@ -110,7 +129,150 @@
 
 
 @endsection
-
 @push('scripts')
+<script type="text/javascript">
+  $("#booking-form").submit(function(e) {
+    e.preventDefault();
+    var form = $(this);
+    $.ajax({
+      type: "POST",
+      url: "{{ url('/submit_event_form') }}",
+      data: form.serialize(),
+      success: function(data) {
+        window.location.href = "{{ url('/payment_for_event') }}";
+      }
+    });
+  });
 
+  let totalAmountMain = 0;
+
+  $(document).ready(function () {
+    const checkboxes = document.querySelectorAll('.addon-checkbox');
+    checkboxes.forEach(function (checkbox) {
+      checkbox.addEventListener('change', function () {
+        calculateTotalAmount();
+      });
+    });
+  });
+
+  function calculateTotalAmount() {
+    let totalAmount = 0;
+    const checkboxes = document.querySelectorAll('.addon-checkbox');
+    checkboxes.forEach(function (checkbox) {
+      if (checkbox.checked) {
+        totalAmount += parseFloat(checkbox.getAttribute('data-price'));
+      }
+    });
+
+    totalAmountMain = totalAmount;
+    let ticket_amt = parseFloat($('#tpl').val()) || 0;
+    let sum = totalAmount + ticket_amt;
+
+    $('#ttl_p').html(sum);
+    $('#tplMainAmt').val(sum);
+  }
+
+  function get_price(e) {
+    let amount = e == 1 
+      ? {{ $event->ticket_price_indian ?? 0 }} 
+      : {{ $event->ticket_price_foreigner ?? 0 }};
+    
+    $('#tpl').val(amount);
+    $('#ttl_p').html(amount + totalAmountMain);
+    $('#tplMainAmt').val(amount + totalAmountMain);
+  }
+
+  // ----- AJAX Call Handler -----
+  function ajaxCall() {
+    this.send = function (data, url, method, success, type) {
+      type = 'json';
+      let successRes = function (data) {
+        success(data);
+      };
+      let errorRes = function (xhr, ajaxOptions, thrownError) {
+        console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+      };
+      jQuery.ajax({
+        url: url,
+        type: method,
+        data: data,
+        success: successRes,
+        error: errorRes,
+        dataType: type,
+        timeout: 60000
+      });
+    }
+  }
+
+  // ----- Location Info API -----
+  function locationInfo() {
+    var rootUrl = "https://geodata.phplift.net/api/index.php";
+    var call = new ajaxCall();
+
+    this.getCities = function (id) {
+      jQuery(".cities option:gt(0)").remove();
+      var url = rootUrl + '?type=getCities&countryId=&stateId=' + id;
+      jQuery('.cities').find("option:eq(0)").html("Please wait..");
+      call.send({}, url, 'post', function (data) {
+        jQuery('.cities').find("option:eq(0)").html("Select City");
+        if (Object.keys(data['result']).length > 0) {
+          jQuery.each(data['result'], function (key, val) {
+            let option = `<option value='${val.name}'>${val.name}</option>`;
+            jQuery('.cities').append(option);
+          });
+        }
+        jQuery(".cities").prop("disabled", false);
+      });
+    };
+
+    this.getStates = function (id) {
+      jQuery(".states option:gt(0), .cities option:gt(0)").remove();
+      var url = rootUrl + '?type=getStates&countryId=' + id;
+      jQuery('.states').find("option:eq(0)").html("Please wait..");
+      call.send({}, url, 'post', function (data) {
+        jQuery('.states').find("option:eq(0)").html("Select State");
+        jQuery.each(data['result'], function (key, val) {
+          let option = `<option value='${val.name}' stateid='${val.id}'>${val.name}</option>`;
+          jQuery('.states').append(option);
+        });
+        jQuery(".states").prop("disabled", false);
+      });
+    };
+
+    this.getCountries = function () {
+      var url = rootUrl + '?type=getCountries';
+      jQuery('.countries').find("option:eq(0)").html("Please wait..");
+      call.send({}, url, 'post', function (data) {
+        jQuery('.countries').find("option:eq(0)").html("Select Country");
+        jQuery.each(data['result'], function (key, val) {
+          let option = `<option value='${val.name}' countryid='${val.id}'>${val.name}</option>`;
+          jQuery('.countries').append(option);
+        });
+      });
+    };
+  }
+
+  jQuery(function () {
+    var loc = new locationInfo();
+    loc.getCountries();
+
+    jQuery(".countries").on("change", function () {
+      var countryId = jQuery("option:selected", this).attr('countryid');
+      if (countryId != '') {
+        loc.getStates(countryId);
+      } else {
+        jQuery(".states option:gt(0)").remove();
+      }
+    });
+
+    jQuery(".states").on("change", function () {
+      var stateId = jQuery("option:selected", this).attr('stateid');
+      if (stateId != '') {
+        loc.getCities(stateId);
+      } else {
+        jQuery(".cities option:gt(0)").remove();
+      }
+    });
+  });
+</script>
 @endpush
