@@ -20,6 +20,7 @@ Route::get('/teacher_training_course', [HomeController::class, 'teacherTrainingC
 Route::get('/terms-and-condition', [HomeController::class, 'termsAndCondition']);
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/refund-policy', [HomeController::class, 'refundPolicy']);
+Route::get('/retreat', [HomeController::class, 'allRetreat'])->name('retreat.all');
 Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm'])->name('form.submit');;
 Route::get('/yoga_center', [HomeController::class, 'allYogaCenter'])->name('yoga.center');
 Route::get('/yoga-center/{slug}', [HomeController::class, 'yogaCenterDetails'])->name('yoga.center.details');

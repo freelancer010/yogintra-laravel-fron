@@ -219,10 +219,30 @@ class HomeController extends Controller
         ]);
     }
 
+    /**
+     * Display the event details page.
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
     public function contact()
     {
         return view('front.contact');
     }
+
+    /**
+     * Display the event details page.
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
+    public function allRetreat()
+    {
+        $all_event = Event::where('category', 'Retreat')->where('status', 'On')->orderByDesc('id')->get();
+
+        return view('front.all_retreat', [
+            'all_event' => $all_event
+        ]);
+    }
+
 
     public function submitContactForm(Request $request)
     {
