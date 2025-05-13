@@ -13,6 +13,7 @@ use App\Models\Front;
 use App\Models\Service;
 use App\Models\LandingPage;
 use App\Models\Blog;
+use App\Models\BlogCategory;
 use App\Models\Yoga;
 use App\Models\Event;
 
@@ -156,12 +157,33 @@ class HomeController extends Controller
 
     public function blogDetails($slug)
     {
-        return view('front.index', [
+        $setting = Setting::first();
+        $blog = Blog::with('category')->where('blog_slug', $slug)->firstOrFail();
+        $categories = BlogCategory::all();
+
+        return view('front.blog_details', [
             'page' => 'blog_details',
-            'app_setting' => Setting::getAllAppSetting(),
-            'blog' => Blog::getBlogBySlug($slug),
-            'title' => Blog::getBlogBySlug($slug)->blog_title,
-            'get_all_blog_category' => Blog::getAllBlogCategory()
+            'app_setting' => $setting,
+            'blog' => $blog,
+            'title' => $blog->blog_title,
+            'get_all_blog_category' => $categories,
+        ]);
+    }
+
+    public function blogCategory($slug)
+    {
+        $setting = Setting::first();
+        $category = BlogCategory::where('category_slug', $slug)->firstOrFail();
+        $blogs = Blog::where('blog_category', $category->id)->get();
+        $categories = BlogCategory::all();
+
+        return view('front.blog_category', [
+            'page' => 'blog_category',
+            'app_setting' => $setting,
+            'category' => $category,
+            'get_all_blog' => $blogs,
+            'get_all_blog_category' => $categories,
+            'title' => $category->category_name,
         ]);
     }
 
