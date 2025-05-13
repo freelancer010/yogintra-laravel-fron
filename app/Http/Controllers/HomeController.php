@@ -140,6 +140,11 @@ class HomeController extends Controller
     }
 
 
+    public function becomeYogaTrainer()
+    {
+        return view('front.become_yoga_trainer');
+    }
+
     public function allBlog()
     {
         return view('front.blog', [
