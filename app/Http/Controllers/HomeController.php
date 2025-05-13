@@ -83,16 +83,62 @@ class HomeController extends Controller
         ]);
     }
 
+
+    /**
+     * Display the trainers page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function allTrainers()
     {
-        return view('front.index', [
-            'page' => 'all_trainers',
-            'app_setting' => Setting::getAllAppSetting(),
-            'title' => Setting::getAllAppSetting()->app_meta_title,
-            'all_trainer' => Http::get($this->api . '/get_all_trainer')->json(),
+        $response = Http::get($this->api.'/get_all_trainer');
+
+        return view('front.all_trainer', [
+            'all_trainer' => $response->json(),
             'api' => $this->api_main
         ]);
     }
+
+    /**
+     * Display the trainer details page.
+     *
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
+    public function get_data_for_trainer(Request $request)
+    {
+        $data = ['data' => $request->input('data')];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->api.'/getTrainerSearchData');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            return response('cURL Error: ' . curl_error($ch), 500);
+        }
+
+        curl_close($ch);
+
+        $trainers = json_decode($response, true);
+        $api = $this->api_main;
+        $currentYear = now()->year;
+
+        $html = '';
+
+        foreach ($trainers as $i => $trainer) {
+            $birthYear = date('Y', strtotime($trainer['dob']));
+            $age = $currentYear - $birthYear;
+
+            $html .= view('partials.trainer_card', compact('trainer', 'age', 'api', 'i'))->render();
+        }
+
+        return $html;
+    }
+
 
     public function allBlog()
     {

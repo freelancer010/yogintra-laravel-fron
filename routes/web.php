@@ -5,7 +5,8 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'about']);
-Route::get('/all-trainers', [HomeController::class, 'allTrainers']);
+Route::get('/trainers', [HomeController::class, 'allTrainers'])->name('trainers.index');
+Route::post('/get_data_for_trainer', [HomeController::class, 'get_data_for_trainer']);
 Route::get('/blog', [HomeController::class, 'allBlog']);
 Route::get('/blog-details/{slug}', [HomeController::class, 'blogDetails']);
 Route::get('/blog-category/{slug}', [HomeController::class, 'blogCategory']);
