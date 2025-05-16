@@ -331,6 +331,31 @@ class HomeController extends Controller
     }
 
 
+    /**
+     * Display the landing page.
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
+    public function landingPage($slug)
+    {
+        $data['all_slider'] = Front::getAllSlider();		
+        $data['section_1'] = Front::getOurFeaturesHeading();
+        $data['section_1_content'] = Front::getAllOurFeatures();
+        $data['section_2'] = Front::getOurServiceImage();
+        $data['section_2_content'] = Front::getAllOurService();
+        $data['rand_service'] = Service::getSixCategoryForHomePage();
+
+        $response = Http::get($this->api . '/get_all_trainer_limit');
+        $data['all_trainer'] = $response->successful() ? $response->json() : [];
+
+        $data['api'] = config('services.crm.main_url');
+        $data['page'] = 'landing_page';
+        $data['page_data'] = Front::getLandingPageBySlug($slug);
+        $data['title'] = $data['page_data']->meta_title ?? 'Landing Page';
+
+        return view('front.landing_page', $data);
+    }
+
     public function submitContactForm(Request $request)
     {
         $data = $request->only([
