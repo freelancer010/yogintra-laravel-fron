@@ -789,7 +789,7 @@
                 <div class="col-md-4">
                     <img loading="lazy" src="{{ asset('assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp') }}" alt="YogIntra" class="img-fluid">
                 </div>
-                <div class="col-md-8 text-center text-md-start">
+                <div class="col-md-8 text-start text-md-start">
                     <h2 class="mt-4">About YogIntra:</h2>
                     <p class="text-size">
                         Back In 2011, started with a thought to make common people experience Yoga in their busy schedule, YogIntra is now nationally and internationally building community to help people stay healthy with numerous Yoga Experts for all age groups and genders. YogIntra comes from two words Yog and Intra, where Yog comes from the Sanskrit word “Yuj” which means connection between “Soul” (Aatma) and “God” (Parmatma).
@@ -834,52 +834,55 @@
     </div>
 </section>
 
-<section>
-    <div class="container pt-70 pb-70" style="padding-top: 30px !important; padding-bottom: 30px !important;">
-        <div class="section-title text-center">
-            <div class="row">
-                <div class="col-md-8 offset-md-2">
-                    <h2 class="mt-0 line-height-1">Meet Our <span class="text-theme-colored2">Instructors</span></h2>
+    <section class="bg-lighter">
+        <div class="container pt-70 pb-70">
+            <div class="section-title text-center">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h2 class="mt-0 line-height-1">Meet Our <span class="text-theme-colored2">Instructors</span></h2>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row mtli-row-clearfix">
-            <div class="col-md-12">
-                <div class="owl-carousel-4col" data-nav="true" data-dots="true">
-                    @foreach ($all_trainer as $key => $trainer)
-                        @php
-                            $currentYear = now()->year;
-                            $birthYear = \Carbon\Carbon::parse($trainer['dob'])->year;
-                        @endphp
-                        <div class="item">
-                            <div class="team-members text-center maxwidth400">
-                                <div class="team-thumb">
-                                    <img loading="lazy" class="img-fullwidth" style="height: 200px; width: auto" alt="YogIntra trainers" src="{{ asset($trainer['profile_image']) }}">
-                                </div>
-                                <div class="team-details">
-                                    <div class="p-10 bg-theme-colored2">
-                                        <h4 class="text-uppercase mt-0 mb-0"><a href="#">{{ $trainer['name'] }}</a></h4>
-                                        <p class="mt-0 mb-0">Age - {{ $currentYear - $birthYear }}</p>
+            <div class="row mtli-row-clearfix">
+                <div class="col-md-12">
+                    <div class="owl-carousel-4col" data-nav="true" data-dots="true">
+                        @foreach ($all_trainer as $trainer)
+                            <div class="item">
+                                <div class="team-members text-center maxwidth400">
+                                    <div class="team-thumb">
+                                        <img class="img-fullwidth" width="200" height="200" loading="lazy" alt="yogintra trainers" src="{{ $api . '/' . $trainer->profile_image }}">
+                                    </div>
+                                    @php
+                                        $currentYear = now()->year;
+                                        $birthYear = \Carbon\Carbon::parse($trainer->dob)->year;
+                                        $age = $currentYear - $birthYear;
+                                    @endphp
+                                    <div class="team-details">
+                                        <div class="p-10">
+                                            <h4 class="text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name }}</h4>
+                                            <p class="mt-0 mb-0">Age - {{ $age }}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="text-center">
-                    <a href="{{ url('trainers') }}" class="btn btn-success mt-15">View Our More Instructors <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        @endforeach
+                    </div>
+
+                    <div class="text-center">
+                        <a href="{{ url('trainers') }}" class="btn btn-success mt-15">
+                            View Our More Instructors <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-
-    </div>
-</section>
+    </section>
 
 <section>
     <div class="container pt-1" style="padding-top: 30px !important; padding-bottom: 30px !important;">
         <div class="row">
-            <div class="col-md-8 offset-md-2">
+            <div class="col-md-12 offset-md-2">
                 <p style="text-align: center;">
                     <span style="color: inherit; font-size: 36px; font-family: Philosopher, sans-serif !important;">Gallery</span>
                 </p>

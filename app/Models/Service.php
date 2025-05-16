@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Service extends Model
 {
-    protected $table = 'service';
+    protected $table = 'service_category';
     protected $primaryKey = 'service_id';
     public $timestamps = false;
 

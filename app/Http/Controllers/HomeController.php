@@ -346,12 +346,11 @@ class HomeController extends Controller
         $data['rand_service'] = Service::getSixCategoryForHomePage();
 
         $response = Http::get($this->api . '/get_all_trainer_limit');
-        $data['all_trainer'] = $response->successful() ? $response->json() : [];
-
-        $data['api'] = config('services.crm.main_url');
-        $data['page'] = 'landing_page';
+        $data['all_trainer'] = collect(Http::get($this->api . '/get_all_trainer_limit')->json())->map(function ($trainer) {
+            return (object) $trainer;
+        });
+        $data['api'] = $this->api_main;;
         $data['page_data'] = Front::getLandingPageBySlug($slug);
-        $data['title'] = $data['page_data']->meta_title ?? 'Landing Page';
 
         return view('front.landing_page', $data);
     }
