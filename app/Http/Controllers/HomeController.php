@@ -393,4 +393,23 @@ class HomeController extends Controller
             'title' => 'Refund Policy'
         ]);
     }
+
+    /**
+     * Display the event details page.
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
+    public function eventDetails($slug)
+    {
+        $event = DB::table('event')
+        ->where('link', $slug)
+        // ->where('status', 'On')
+        ->first();
+
+        if (!$event) {
+            abort(404);
+        }
+
+        return view('front.event_details', compact('event'));
+    }
 }

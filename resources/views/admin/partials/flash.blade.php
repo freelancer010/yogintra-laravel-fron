@@ -9,9 +9,3 @@
         swal("Oops!", "{{ session('error') }}", "error");
     </script>
 @endif
-
-@if (session('errors'))
-    <script>
-        swal("Oops!", "{{ session('errors') }}", "error");
-    </script>
-@endif

@@ -25,8 +25,8 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="card card-default">
-          <div class="card-header">
-            <h3 class="card-title">View All Events</h3>
+          <div class="card-header mt-3 px-5">
+            <h3 class="card-title border-0">All Events data</h3>
             <div class="card-tools">
               <a href="{{ url('admin/event/add_new_event') }}" class="btn btn-primary btn-sm">
                 <i class="fa fa-plus"></i> Add New Event
@@ -38,7 +38,7 @@
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>#ID</th>
                   <th>Title</th>
                   <th>Slug</th>
                   <th>Date & Time</th>
@@ -52,7 +52,7 @@
                     <td>{{ $i + 1 }}</td>
                     <td>{{ $event->title }}</td>
                     <td>
-                      <a href="{{ url('event/' . $event->link) }}" target="_blank">Go to Event</a>
+                      <a href="{{ url('event/' . $event->link) }}" class="btn btn-primary btn-sm" target="_blank">Go to Event&nbsp;<i class="fas fa-arrow-right" ></i></a>
                     </td>
                     <td>{{ \Carbon\Carbon::parse($event->date_time)->format('d-m-Y h:i A') }}</td>
                     <td>

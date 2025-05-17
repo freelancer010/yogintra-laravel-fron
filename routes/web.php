@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\EventController;
+
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'about']);
@@ -30,6 +32,8 @@ Route::get('/yoga_center', [HomeController::class, 'allYogaCenter'])->name('yoga
 Route::get('/yoga-center/{slug}', [HomeController::class, 'yogaCenterDetails'])->name('yoga.center.details');
 Route::get('/become-yoga-trainer', [HomeController::class, 'becomeYogaTrainer']);
 Route::get('/city/{slug}', [HomeController::class, 'landingPage']);
+Route::get('/event/{slug}', [HomeController::class, 'eventDetails'])->name('event.details');
+Route::post('/event/register', [EventRegistrationController::class, 'store'])->name('event.register');
 
 
 ///////---------------------- |ADMIN ROUTES| -----------------------------/////////
@@ -49,8 +53,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
 
     // Event
-    Route::get('/event/view_all_event', [App\Http\Controllers\Admin\EventController::class, 'index'])->name('event.index');
-    Route::get('/event/event_booking', [App\Http\Controllers\Admin\EventController::class, 'booking'])->name('event.booking');
+    Route::get('/event/view_all_event', [EventController::class, 'index'])->name('event.index');
+    Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
+    Route::get('/event/add_new_event', [EventController::class, 'create'])->name('event.create');
+    Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
 
     // Service
     Route::get('/service/service_category', [App\Http\Controllers\AdminController::class, 'category'])->name('service.category');
