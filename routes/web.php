@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\TinymceController;
 
 
 Route::get('/', [HomeController::class, 'index']);
@@ -58,7 +59,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/event/status/{id}/{status}', [EventController::class, 'toggleStatus'])->name('event.status');
     Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
     Route::delete('/event/delete_event/{id}', [EventController::class, 'destroy'])->name('event.destroy');
-    
+    Route::post('/tinymce/upload', [TinymceController::class, 'upload']);
+
     // Service
     Route::get('/service/service_category', [App\Http\Controllers\AdminController::class, 'category'])->name('service.category');
     Route::get('/service/all_service', [App\Http\Controllers\AdminController::class, 'index'])->name('service.index');
