@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -118,14 +121,83 @@ class EventController extends Controller
 
     public function update(Request $request, $id)
     {
-        $updated = DB::table('event')->where('id', $id)->update([
-            'title' => $request->input('title'),
-            // Add other fields
+        $event = DB::table('event')->where('id', $id)->first();
+        if (!$event) {
+            abort(404);
+        }
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'link' => 'required|string|max:255',
+            'date_time' => 'required|date',
+            'end_date_time' => 'required|date',
         ]);
 
-        return $updated
-            ? redirect()->route('admin.event.index')->with('success', 'Event Successfully Updated')
-            : back()->with('error', 'Event Update Failed');
+        // Prepare data
+        $data = [
+            'title' => $request->title,
+            'link' => strtolower(str_replace(' ', '-', $request->link)),
+            'keyword' => $request->keyword,
+            'description' => $request->description,
+            'short_content' => $request->short_content,
+            'content' => $request->content,
+            'date_time' => $request->date_time,
+            'end_date_time' => $request->end_date_time,
+            'event_mode' => $request->event_mode,
+            'main_price' => $request->main_price,
+            'discount_price' => $request->discount_price,
+            'event_location' => $request->event_location,
+            'head_code' => $request->head_code ?? '',
+            'event_host_by' => $request->event_host_by,
+            'category' => $request->category,
+            'country' => $request->country ?? '',
+            'state' => $request->state ?? '',
+            'city' => $request->city ?? '',
+            'pin_code' => $request->pin_code ?? '',
+
+            // Ticket - Indian
+            'ticket_indian' => $request->ticket_indian ?? '',
+            'ticket_short_des_indian' => $request->ticket_short_des_indian ?? '',
+            'ticket_price_indian' => $request->ticket_price_indian ?? '',
+            'ticket_capacity_indian' => $request->ticket_capacity_indian ?? '',
+            'ticket_d_qnty_indian' => $request->ticket_d_qnty_indian ?? '',
+            'ticket_r_qnty_indian' => $request->ticket_r_qnty_indian ?? '',
+
+            // Ticket - Foreigner
+            'ticket_foreigner' => $request->ticket_foreigner ?? '',
+            'ticket_short_des_foreigner' => $request->ticket_short_des_foreigner ?? '',
+            'ticket_price_foreigner' => $request->ticket_price_foreigner ?? '',
+            'ticket_capacity_foreigner' => $request->ticket_capacity_foreigner ?? '',
+            'ticket_d_qnty_foreigner' => $request->ticket_d_qnty_foreigner ?? '',
+            'ticket_r_qnty_foreigner' => $request->ticket_r_qnty_foreigner ?? '',
+
+            // Checkboxes
+            'Indian_stu_checkbox' => $request->has('Indian_stu_checkbox') ? 1 : 0 ?? '',
+            'Foreign_stu_checkbox' => $request->has('Foreign_stu_checkbox') ? 1 : 0 ?? '',
+
+            // JSON fields
+            'Extra_addon_checkbox' => json_encode($request->Extra_addon_checkbox ?? []),
+            'addon_name' => json_encode($request->addon_name ?? []),
+            'addon_price' => json_encode($request->addon_price ?? []),
+        ];
+
+        // Handle file upload
+        if ($request->hasFile('image')) {
+            if ($event->image && file_exists(public_path($event->image))) {
+                @unlink(public_path($event->image));
+            }
+
+            $file = $request->file('image');
+            $filename = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads'), basename($filename));
+
+            $data['image'] = $filename;
+        }
+
+        // Update DB
+        DB::table('event')->where('id', $id)->update($data);
+
+        return redirect()->route('admin.event.index')->with('success', 'Event successfully updated!');
     }
 
     public function destroy($id)

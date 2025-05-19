@@ -403,7 +403,7 @@ class HomeController extends Controller
     {
         $event = DB::table('event')
         ->where('link', $slug)
-        // ->where('status', 'On')
+        ->where('status', 'On')
         ->first();
 
         if (!$event) {

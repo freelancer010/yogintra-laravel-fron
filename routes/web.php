@@ -46,18 +46,19 @@ Route::get('/dashboard', function () {
     return redirect()->route('admin.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-
-// Admin routes group
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
-
-    // Event
+    // Event Routes
     Route::get('/event/view_all_event', [EventController::class, 'index'])->name('event.index');
-    Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
     Route::get('/event/add_new_event', [EventController::class, 'create'])->name('event.create');
     Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
-
+    Route::get('/event/edit_event/{id}', [EventController::class, 'edit'])->name('event.edit');
+    Route::put('/event/update/{id}', [EventController::class, 'update'])->name('event.update');
+    Route::get('/event/status/{id}/{status}', [EventController::class, 'toggleStatus'])->name('event.status');
+    Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
+    Route::delete('/event/delete_event/{id}', [EventController::class, 'destroy'])->name('event.destroy');
+    
     // Service
     Route::get('/service/service_category', [App\Http\Controllers\AdminController::class, 'category'])->name('service.category');
     Route::get('/service/all_service', [App\Http\Controllers\AdminController::class, 'index'])->name('service.index');
