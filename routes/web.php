@@ -4,9 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\TinymceController;
 
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\ServiceController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'about']);
@@ -63,8 +64,12 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
 
     // Service
-    Route::get('/service/service_category', [App\Http\Controllers\AdminController::class, 'category'])->name('service.category');
-    Route::get('/service/all_service', [App\Http\Controllers\AdminController::class, 'index'])->name('service.index');
+    Route::get('/service/service_category', [ServiceController::class, 'serviceCategory'])->name('service.category');
+    Route::get('/service/all_service', [ServiceController::class, 'index'])->name('service.index');
+    Route::get('/service/edit_category/{id}', [ServiceController::class, 'editCategory'])->name('service.edit_category');
+    Route::delete('/service/delete_category/{id}', [ServiceController::class, 'deleteCategory'])->name('service.delete_category');
+    Route::post('/service/add_category', [ServiceController::class, 'addCategory'])->name('service.add_category');
+    Route::put('/service/update_category/{id}', [ServiceController::class, 'update'])->name('service.update_category');
 
     // Yoga Center
     Route::get('/yoga_center/view_all_yoga_center', [App\Http\Controllers\AdminController::class, 'index'])->name('yoga_centers.index');
