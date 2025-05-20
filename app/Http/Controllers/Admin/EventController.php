@@ -216,12 +216,17 @@ class EventController extends Controller
             : back()->with('error', 'Status Change Failed');
     }
 
-    public function bookings()
+    public function booking()
     {
-        $bookings = DB::table('event_bookings')->get();
-        return view('admin.event.bookings', [
+        $all_booking = DB::table('event_booking as a')
+            ->select('a.*', 'b.title', 'b.category', 'b.addon_name')
+            ->join('event as b', 'b.id', '=', 'a.booking_event_id')
+            ->orderByDesc('a.booking_date') // ✅ Replace 'id' with actual column name
+            ->get();
+
+        return view('admin.event.all_event_booking', [
             'title' => 'All Event Booking',
-            'all_booking' => $bookings
+            'all_booking' => $all_booking,
         ]);
     }
 }

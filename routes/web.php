@@ -60,6 +60,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
     Route::delete('/event/delete_event/{id}', [EventController::class, 'destroy'])->name('event.destroy');
     Route::post('/tinymce/upload', [TinymceController::class, 'upload']);
+    Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
 
     // Service
     Route::get('/service/service_category', [App\Http\Controllers\AdminController::class, 'category'])->name('service.category');
