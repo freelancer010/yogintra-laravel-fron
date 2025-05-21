@@ -9,6 +9,17 @@ use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
+    
+    public function index()
+    {
+        $services = DB::table('service')
+            ->join('service_category', 'service_category.service_cat_id', '=', 'service.service_category')
+            ->select('service.*', 'service_category.service_cat_name')
+            ->get();
+
+        return view('admin.service.all_service', compact('services'));
+    }
+
     public function serviceCategory()
     {
         $data['title'] = 'Service Category';

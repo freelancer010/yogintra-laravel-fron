@@ -65,11 +65,17 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Service
     Route::get('/service/service_category', [ServiceController::class, 'serviceCategory'])->name('service.category');
-    Route::get('/service/all_service', [ServiceController::class, 'index'])->name('service.index');
     Route::get('/service/edit_category/{id}', [ServiceController::class, 'editCategory'])->name('service.edit_category');
-    Route::delete('/service/delete_category/{id}', [ServiceController::class, 'deleteCategory'])->name('service.delete_category');
     Route::post('/service/add_category', [ServiceController::class, 'addCategory'])->name('service.add_category');
     Route::put('/service/update_category/{id}', [ServiceController::class, 'update'])->name('service.update_category');
+    Route::delete('/service/delete_category/{id}', [ServiceController::class, 'deleteCategory'])->name('service.delete_category');
+    
+    Route::get('/service/all_service', [ServiceController::class, 'index'])->name('service.index');
+    Route::get('/service/create', [ServiceController::class, 'create'])->name('service.create');
+    Route::post('/service/store', [ServiceController::class, 'store'])->name('service.store');
+    Route::get('/service/edit/{id}', [ServiceController::class, 'edit'])->name('service.edit');
+    Route::put('/service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
+    Route::delete('/service/delete/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
 
     // Yoga Center
     Route::get('/yoga_center/view_all_yoga_center', [App\Http\Controllers\AdminController::class, 'index'])->name('yoga_centers.index');
