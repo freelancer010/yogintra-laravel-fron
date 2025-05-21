@@ -8,6 +8,7 @@ use App\Http\Controllers\TinymceController;
 
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\YogaCenterController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'about']);
@@ -63,13 +64,14 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('/tinymce/upload', [TinymceController::class, 'upload']);
     Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
 
-    // Service
+    // Service categories
     Route::get('/service/service_category', [ServiceController::class, 'serviceCategory'])->name('service.category');
     Route::get('/service/edit_category/{id}', [ServiceController::class, 'editCategory'])->name('service.edit_category');
     Route::post('/service/add_category', [ServiceController::class, 'addCategory'])->name('service.add_category');
     Route::put('/service/update_category/{id}', [ServiceController::class, 'update'])->name('service.update_category');
     Route::delete('/service/delete_category/{id}', [ServiceController::class, 'deleteCategory'])->name('service.delete_category');
     
+    // Services
     Route::get('/service/all_service', [ServiceController::class, 'index'])->name('service.index');
     Route::get('/service/create', [ServiceController::class, 'create'])->name('service.create');
     Route::post('/service/store', [ServiceController::class, 'store'])->name('service.store');
@@ -78,7 +80,12 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::delete('/service/delete/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
 
     // Yoga Center
-    Route::get('/yoga_center/view_all_yoga_center', [App\Http\Controllers\AdminController::class, 'index'])->name('yoga_centers.index');
+    Route::get('/yoga_center/view_all_yoga_center', [YogaCenterController::class, 'index'])->name('yoga_centers.index');
+    Route::get('/yoga_center/add_center', [YogaCenterController::class, 'create'])->name('yoga_centers.create');
+    Route::post('/yoga_center/store_center', [YogaCenterController::class, 'store'])->name('yoga_centers.store');
+    Route::get('/yoga_center/edit_center/{id}', [YogaCenterController::class, 'edit'])->name('yoga_centers.edit');
+    Route::put('/yoga_center/update_center/{id}', [YogaCenterController::class, 'update'])->name('yoga_centers.update');
+    Route::delete('/yoga_center/delete_center/{id}', [YogaCenterController::class, 'destroy'])->name('yoga_centers.destroy');
 
     // Gallery
     Route::get('/gallery/view_all_category', [App\Http\Controllers\AdminController::class, 'categories'])->name('gallery.categories');
