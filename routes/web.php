@@ -36,7 +36,7 @@ Route::get('/yoga-center/{slug}', [HomeController::class, 'yogaCenterDetails'])-
 Route::get('/become-yoga-trainer', [HomeController::class, 'becomeYogaTrainer']);
 Route::get('/city/{slug}', [HomeController::class, 'landingPage']);
 Route::get('/event/{slug}', [HomeController::class, 'eventDetails'])->name('event.details');
-Route::post('/event/register', [EventRegistrationController::class, 'store'])->name('event.register');
+// Route::post('/event/register', [EventRegistrationController::class, 'store'])->name('event.register');
 
 
 ///////---------------------- |ADMIN ROUTES| -----------------------------/////////
@@ -45,7 +45,7 @@ Route::post('/event/register', [EventRegistrationController::class, 'store'])->n
 // Route::middleware(['auth'])->prefix('admin')->group(function () {
 //     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 // });
-Route::get('/dashboard', function () {
+Route::get('/admin', function () {
     return redirect()->route('admin.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
