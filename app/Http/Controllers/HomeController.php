@@ -24,7 +24,8 @@ class HomeController extends Controller
 
     public function __construct()
     {
-        $this->api = $this->api_main = 'https://crm.yogintra.com';
+        $this->api = 'https://crm.yogintra.com/api';
+        $this->api_main = 'https://crm.yogintra.com';
     }
 
     /**
