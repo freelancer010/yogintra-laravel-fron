@@ -9,6 +9,9 @@ use App\Http\Controllers\TinymceController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\YogaCenterController;
+use App\Http\Controllers\Admin\FrontSettingController;
+
+
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'about']);
@@ -99,11 +102,20 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Landing Page
     Route::get('/landing_page/landing_page', [App\Http\Controllers\AdminController::class, 'index'])->name('landing.index');
 
-    // Front Setting
-    Route::get('/front_setting/all_slider', [App\Http\Controllers\AdminController::class, 'slider'])->name('front.slider');
-    Route::get('/front_setting/section_1', [App\Http\Controllers\AdminController::class, 'section1'])->name('front.section1');
-    Route::get('/front_setting/section_2', [App\Http\Controllers\AdminController::class, 'section2'])->name('front.section2');
-    Route::get('/front_setting/testimonial', [App\Http\Controllers\AdminController::class, 'testimonial'])->name('front.testimonial');
+    // --------| Front Setting |-------------------
+    Route::get('/front_setting/all_slider', [AdminController::class, 'slider'])->name('front.slider');
+    Route::get('/front_setting/section_1', [AdminController::class, 'section1'])->name('front.section1');
+    Route::get('/front_setting/section_2', [FrontSettingController::class, 'section2'])->name('front.section2');
+
+    Route::post('/front_setting/section_2/image/update', [FrontSettingController::class, 'updateServiceImage'])->name('front.section2.image.update');
+
+    Route::post('/front_setting/section_2/service/store', [FrontSettingController::class, 'storeService'])->name('front.section2.service.store');
+    Route::get('/front_setting/section_2/service/edit/{id}', [FrontSettingController::class, 'editService'])->name('front.section2.service.edit');
+    Route::put('/front_setting/section_2/service/update/{id}', [FrontSettingController::class, 'updateService'])->name('front.section2.service.update');
+    Route::delete('/front_setting/section_2/service/delete/{id}', [FrontSettingController::class, 'deleteService'])->name('front.section2.service.delete');
+
+    Route::get('/front_setting/testimonial', [AdminController::class, 'testimonial'])->name('front.testimonial');
+    // --------| Front Setting |-------------------
 
     // Settings
     Route::get('/setting/application_setting', [App\Http\Controllers\AdminController::class, 'application'])->name('setting.application');

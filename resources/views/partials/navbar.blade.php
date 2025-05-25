@@ -28,14 +28,18 @@
                         </a>
                         <ul class="menuzord-menu menuzord-right menuzord-indented scrollable" style="max-height: 400px;">
                             <li class="{{ request()->segment(1) == '' ? 'active' : '' }}"><a href="{{ url('/') }}">Home</a></li>
-                            <li class="{{ in_array(request()->segment(1), ['about', 'gallery', 'blog']) ? 'active' : '' }}">
+                            <li class="{{ in_array(request()->segment(1), ['about', 'gallery']) ? 'active' : '' }}">
                                 <a href="#">About</a>
                                 <ul class="dropdown">
                                     <li><a href="{{ url('/about') }}">About</a></li>   
                                     <li><a href="{{ url('/gallery') }}">Gallery</a></li>
-                                    <li><a href="{{ url('/blog') }}">Blog</a></li>
                                 </ul>
                             </li>
+                            
+                            <li class="{{ request()->segment(1) == 'blog' ? 'active' : '' }}">
+                                <a href="{{ url('/blog') }}">Blog</a>
+                            </li>
+
                             <li class="{{ request()->segment(1) == 'service' ? 'active' : '' }}">
                                 <a href="#">Yoga Services</a>
                                 <ul class="dropdown">
@@ -51,14 +55,13 @@
                             <li class="{{ request()->segment(1) == 'yoga_center' ? 'active' : '' }}">
                                 <a href="{{ url('/yoga_center') }}">Yoga Center</a>
                             </li>
-                            <li class="{{ request()->segment(1) == 'teacher_training_course' ? 'active' : '' }}">
-                                <a href="{{ url('/teacher_training_course') }}">TTC</a>
-                            </li>
-                            <li class="{{ request()->segment(1) == 'retreat' ? 'active' : '' }}">
-                                <a href="{{ url('/retreat') }}">Retreat</a>
-                            </li>
-                            <li class="{{ request()->segment(1) == 'workshop' ? 'active' : '' }}">
-                                <a href="{{ url('/workshop') }}">Workshop</a>
+                            <li class="{{ in_array(request()->segment(1), ['teacher_training_course', 'retreat', 'workshop']) ? 'active' : '' }}">
+                                <a href="#">Events</a>
+                                <ul class="dropdown">
+                                    <li><a href="{{ url('/teacher_training_course') }}">TTC</a></li>   
+                                    <li><a href="{{ url('/retreat') }}">Retreat</a></li>
+                                    <li><a href="{{ url('/workshop') }}">Workshop</a></li>
+                                </ul>
                             </li>
                             <li class="{{ request()->segment(1) == 'trainers' ? 'active' : '' }}">
                                 <a href="{{ url('/trainers') }}">Trainer</a>
