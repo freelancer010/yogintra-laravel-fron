@@ -201,9 +201,48 @@
 
     @include('partials.footer') {{-- Include Footer --}}
 
-    <!-- Scripts -->
-    <script src="{{ asset('assets/front/js/custom.min.js') }}"></script>
+    <!-- Scripts -->     
+    <script>
+        window.addEventListener('load', function() {
+            if (window.location.pathname === "/") {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-11419284283/kVoECMPr76YaELvmkcUq'
+            });
 
+            }
+        });
+            
+        window.addEventListener('load', function() {
+            if (window.location.pathname.includes('/thank_you')) {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-11419284283/ZXcKCMDr76YaELvmkcUq'
+            });
+            }
+        });
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('#wa-btn-wrapper')) {
+            gtag('event', 'conversion', {'send_to': 'AW-11419284283/TdtYCMbr76YaELvmkcUq'});
+            }
+        })
+    </script>
+
+    <!-- end wrapper -->
+    <script type="text/javascript">
+        $('form').submit(function() {
+            $('button[type="submit"]').html('Processing....');
+            $('button[type="submit"]').attr('disabled',true);
+            $(".loader").show();
+        });
+    </script>
+
+    <script async src='https://d2mpatx37cqexb.cloudfront.net/delightchat-whatsapp-widget/embeds/embed.min.js'></script>
+    <script>
+        var wa_btnSetting = {"btnColor":"#16BE45","ctaText":"","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"left","whatsAppNumber":"919867291573","welcomeMessage":"Hello","zIndex":999999,"btnColorScheme":"light"};
+        window.onload = () => {
+            _waEmbed(wa_btnSetting);
+        };
+    </script>
+    <script src="{{ asset('assets/front/js/custom.min.js') }}"></script>
     @stack('scripts') {{-- For additional JS in child views --}}
 </body>
 </html>
