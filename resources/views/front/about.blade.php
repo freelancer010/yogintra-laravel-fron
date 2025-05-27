@@ -520,7 +520,7 @@
                         <h2>About Founder:</h2>
                     </div>
                     <div class="text">
-                        Mr. Amit Pandey started his journey of yoga back in 2005 as student in Yogic science and then he understood Yoga is the only way he would be able to help people bring smiles back on their faces in this struggling and fast life...
+                        Mr. Amit Pandey started his journey of yoga back in 2005 as student in Yogic science and then he understood Yoga is the only way he would be able to help people bring smiles back on their faces in this struggling and fast life. He served few years Internationally as a Yoga trainer but coming back to India during his visit a few years back, a thought him hard “Charity begins at home.” And then he never went back thinking about people here need know about Yoga and Yoga Benefits.
                     </div>
                     <div class="btn-box">
                         <a href="{{ url('/contact') }}" class="theme-btn btn-style-one">Contact Us</a>
@@ -541,7 +541,9 @@
                 </div>
                 <div class="col-md-8 text-xs-center">
                     <h2 class="mt-40 text-xs-center">About YogIntra:</h2>
-                    <p class="text-size">Back In 2011, Started with a thought to make common people experience Yoga in their busy schedule...</p>
+                    <p class="text-size">
+                     Back In 2011, Started with a thought to make common people experience Yoga in their busy schedule, YogIntra is now nationally and internationally building community to help people stay healthy with a numerous Yoga Experts for all age group and gender. YogIntra comes from two words Yog and Intra, where yog comes from Sanskrit word “Yuj” Which Means connection between “Soul” (Aatma) and “God”(Parmatma) And Intra is an English Word Which Means Within. YogIntra is the connection between the soul and God within oneself.
+                  </p>
                 </div>
             </div>
         </div>
@@ -556,7 +558,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <h2 class="mt-0 text-white">Why YogIntra?</h2>
-                    <p class="text-white">We at YogIntra look at our customers as our assets, hence we believe in serving them with utmost comfort and care...</p>
+                    <p class="text-white">We at YogIntra look at our customers as our assets, hence we believe in serving them with utmost comfort and care. Within Mumbai we have more than 400 trainers teaching personally, online, workshops and Quick sessions. More than 200+ happy Customers, more than 50+ workshops in different cities and countries, Different online and offline sessions regarding Yoga and health awareness.</p>
                 </div>
             </div>
         </div>
@@ -584,7 +586,7 @@
                             <h3 class="yog-ttl">Our Vision And Mission:</h3>
                             <p class="yog-cont">Making the best version of a human form in Yoga</p>
                             <p class="yog-cont"><br>
-                                With a vision of YogIntra building a community helping people stay healthy...
+                              With a vision of YogIntra building a community helping people stay healthy, YogIntra have a mission of creating a strong and healthy youth. We are aiming to add yoga in every individuals schedule despite of today’s fast life that people can stay smiling in the toughest situation.
                             </p>
                         </div>
                     </div>

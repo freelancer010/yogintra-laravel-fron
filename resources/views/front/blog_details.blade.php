@@ -43,7 +43,7 @@
   <section>
     <div class="container mt-30 mb-30 pt-30 pb-30">
       <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-12">
           <div class="blog-posts single-post">
             <article class="post clearfix mb-0">
               <div class="entry-header">
@@ -53,7 +53,7 @@
               </div>
               <div class="entry-content">
                 <div class="entry-meta media no-bg no-border mt-15 pb-20">
-                  <div class="entry-date media-left text-center flip bg-theme-colored pt-5 pr-15 pb-5 pl-15">
+                  <div class="entry-date media-left text-center flip pt-5 pr-15 pb-5 pl-15">
                     <ul>
                       <li class="font-16 font-weight-600 text-primary">{{ \Carbon\Carbon::parse($blog->created_at)->format('d') }}</li>
                       <li class="font-12 text-uppercase text-primary">{{ \Carbon\Carbon::parse($blog->created_at)->format('M') }}</li>
@@ -64,7 +64,7 @@
                       <h3 class="entry-title text-dark text-uppercase pt-0 mt-0">{{ $blog->blog_title }}</h3>
                       @if($blog->blog_author)
                         <span class="mb-10 text-gray-darkgray mr-10 font-13">
-                          <i class="fa fa-user mr-5 text-theme-colored"></i> Author : {{ $blog->blog_author }}
+                          <i class="fa fa-user mr-5"></i> Author : {{ $blog->blog_author }}
                         </span>
                       @endif
                     </div>
@@ -83,12 +83,12 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
 <script>
   $(document).ready(function() {
     $("#share").jsSocials({
       shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon", "whatsapp"]
     });
   });
-</script>
+</script> -->
 @endpush

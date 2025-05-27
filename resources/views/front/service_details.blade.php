@@ -58,23 +58,29 @@
         display: none;
     }
     .am-service-gallery{
-        min-height: 256px;
-        background-image: linear-gradient(90deg, rgba(219, 164, 53, 0.65) 0%, #dba435 100%);
+        min-height: 500px;
+        background-position: center top;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .am-service-title {
+        margin-left:20px;
     }
     .am-service-header {
-        position: relative;
         margin-bottom: 48px;
         display: flex;
-        align-items: flex-start;
-        justify-content: space-around;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 10px 30px;
+        border-bottom: 2px solid #ccc;
     }
     .am-service-image {
         display: inline-block;
         vertical-align: middle;
         border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        max-width: 100px;
+        width: 100%;
+        max-width: 136px;
+        height: 135px;
     }
     .am-service-data
     {
@@ -82,6 +88,8 @@
         vertical-align: middle;
         padding: 0 16px;
         flex: 1;
+        width: 100%;
+        margin-bottom:50px;
     }
     .am-service-image img
     {
@@ -92,23 +100,47 @@
     .am-service {
         background: #fff;
         background-color: rgb(255, 255, 255);
-        margin: -60px 5% 0;
+        margin: -180px auto 50px auto;
         position: relative;
-        padding: 24px;
+        padding: 25px;
         z-index: 3;
+        box-shadow: 0 10px 10px #99680750;
+        border-radius: 20px;
+        width: 60%;
     }
+    
     .am-service-price {
-        display: inline-block;
+        font-size: 26px;
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #f9c347, #ffb347);
+        color: #ffffff;
+        box-shadow: 0 4px 6px #00000090;
+        border-radius: 0 20px 0 31px;
+        font-weight: bold;
+        font-family: sans-serif;
+        letter-spacing: 1px;
         position: absolute;
         top: 0;
         right: 0;
-        padding: 16px 24px;
-        border-radius: 30px;
-        background-color: #dba435;
-        color: #5c420e;
-        font-size: 24px;
-        line-height: 1.2;
+        text-align: center;
     }
+
+    .am-data i {
+        text-align: center;
+        padding: 30px;
+        background: var(--theme-color-2) !important;
+        color: #ffffff;
+        border-radius: 50%;
+        font-size: 25px;
+    }
+
+    @media (max-width: 768px) {
+        .am-service {
+            padding: 16px;
+            width: 90%;
+        }
+    }
+
     @media only screen and (max-width: 600px) {
         .am-service-header
         {
@@ -155,51 +187,43 @@
 </div>
 
 <!-- Service Content -->
-<div class="container">
+<div class="">
     <div class="section-title pb-0 pt-0">
         <div class="row">
-            <div class="am-service-gallery"></div>
+            <div class="am-service-gallery" style="background-image: url('{{ asset('assets/service_details.webp')}}')" alt="{{ $service->service_name }}"></div>
             <div class="am-service">
                 <div class="row">
                     <div class="am-service-header">
                         <div class="am-service-image">
                             <img class="" src="{{ asset($service->service_image) }}" alt="{{ $service->service_name }}">
                         </div>
-                        <div class="am-service-data">
-                            <h2 class="text-theme-colored line-bottom text-theme-colored mb-5">{{ $service->service_name }}</h2>
-                            <div class="mt-0">
-                                <span class="text-theme-colored2">Capacity :</span> {{ $service->service_capacity }} | 
-                                <span class="text-theme-colored2">Duration :</span> {{ $service->service_duration }} hr
-                            </div>
+                        <div class="am-service-title">
+                            <h2 class="text-theme-colored line-bottom text-theme-colored mb-5 p-0">{{ $service->service_name }}</h2>
                         </div>
-                        <div class="am-service-price">
-                            INR {{ number_format($service->service_price) }}.00
+                    </div>
+                    <div class="row text-center mt-5 am-service-data">
+                        <div class="col-lg-4 mb-5 col-sm-6 col-xsm-12 am-data">
+                            <i class="fa fa-users"></i><br>
+                            <small>Capacity</small><br><strong>{{ $service->service_capacity }}</strong>
                         </div>
+                        <div class="col-lg-4 mb-5 col-sm-6 col-xsm-12 am-data">
+                            <i class="fa fa-clock-o"></i><br>
+                            <small>Duration</small><br><strong>{{ $service->service_duration }} hr</strong>
+                        </div>
+                        <div class="col-lg-4 mb-5 col-sm-12 col-xsm-12 am-data">
+                            <i class="fa fa-list"></i><br>
+                            <small>Category</small><br><strong>{{ $service->service_cat_name }}</strong>
+                        </div>
+                    </div>
+                    <div class="am-service-price">
+                        INR {{ number_format($service->service_price) }}.00
                     </div>
 
                     <div class="text-center mb-50">
                         {!! $service->service_description !!}
-                    </div>
-
-                    <div>
-                        <table class="table borderless">
-                            <tr>
-                                <td width="30%">Category :</td>
-                                <td>{{ $service->service_cat_name }}</td>
-                            </tr>
-                            <tr>
-                                <td width="30%">Duration :</td>
-                                <td>{{ $service->service_duration }} hr</td>
-                            </tr>
-                            <tr>
-                                <td width="30%">Capacity :</td>
-                                <td>{{ $service->service_capacity }}</td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <div class="col-md-12 mt-10 text-center">
-                        <button class="btn btn-success" onclick="booking_modal()">Book Now</button>
+                    </div>                    
+                    <div class="col-md-12 mt-10 text-center mb-15">
+                        <button class="btn btn-lg btn-warning" onclick="booking_modal()" style="border-radius: 30px;">Book Your Class</button>
                     </div>
                 </div>
             </div>

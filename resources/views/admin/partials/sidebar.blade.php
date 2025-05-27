@@ -57,7 +57,7 @@
                 'title' => 'Gallery',
                 'icon' => 'fas fa-images', // ✅ updated
                 'items' => [
-                ['name' => 'View All Category', 'route' => 'admin.gallery.categories'],
+                ['name' => 'View All Category', 'route' => 'admin.gallery.category.index'],
                 ['name' => 'View All Gallery', 'route' => 'admin.gallery.index']
                 ]
             ],

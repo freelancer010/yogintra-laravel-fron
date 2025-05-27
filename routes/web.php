@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\YogaCenterController;
 use App\Http\Controllers\Admin\FrontSettingController;
+use App\Http\Controllers\Admin\GalleryController;
 
 
 
@@ -91,8 +92,15 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::delete('/yoga_center/delete_center/{id}', [YogaCenterController::class, 'destroy'])->name('yoga_centers.destroy');
 
     // Gallery
-    Route::get('/gallery/view_all_category', [App\Http\Controllers\AdminController::class, 'categories'])->name('gallery.categories');
-    Route::get('/gallery/view_all_gallery', [App\Http\Controllers\AdminController::class, 'index'])->name('gallery.index');
+    // -- category
+    Route::get('/gallery/view_all_category', [GalleryController::class, 'index'])->name('gallery.category.index');
+    Route::post('/gallery/store_category', [GalleryController::class, 'store'])->name('gallery.category.store');
+    Route::put('/gallery/update_category/{id}', [GalleryController::class, 'update'])->name('gallery.category.update');
+    Route::delete('/gallery/delete_category/{id}', [GalleryController::class, 'destroy'])->name('gallery.category.delete');
+    
+    Route::get('/gallery/view_all_gallery', [GalleryController::class, 'index'])->name('gallery.index');
+
+
 
     // Blog
     Route::get('/blog/blog_category', [App\Http\Controllers\AdminController::class, 'category'])->name('blog.category');

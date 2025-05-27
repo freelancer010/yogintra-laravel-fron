@@ -187,7 +187,7 @@
                         <h5 class="section-3 mb-0">{{ $section_2->os_image_sub_heading }}</h5>
                         <div class="section-3-title ssc-ttl">{{ $section_2->os_image_heading }}</div>
                         <div>
-                            <p>{{ $section_2->os_image_description }}</p>
+                            <p>{!! $section_2->os_image_description !!}</p>
                         </div>
                         <div class="row mt-10">
                             @foreach ($section_2_content as $content_sec_2)

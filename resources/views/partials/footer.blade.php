@@ -1,4 +1,4 @@
-<footer id="footer" class="footer bg-black-111" style="background-color:#000!important; padding-top: 20px;">
+<footer id="footer" class="footer bg-black-111" style="background-color:#000!important;">
     <div class="container pt-40 pb-10">
         <div class="row border-bottom-black">
             <div class="col-sm-6 col-md-3">
@@ -16,6 +16,16 @@
                     </ul>
                 </div>
             </div>
+        <div class="col-sm-6 col-md-2">
+                <div class="widget dark">
+                    <h5 class="widget-title line-bottom">Our Events</h5>
+                    <ul class="list-border">
+                        <li><a href="{{ url('/teacher_training_course') }}">TTC</a></li>   
+                        <li><a href="{{ url('/retreat') }}">Retreat</a></li>
+                        <li><a href="{{ url('/workshop') }}">Workshop</a></li>
+                    </ul>
+                </div>
+            </div>
             <div class="col-sm-6 col-md-2">
                 <div class="widget dark">
                     <h5 class="widget-title line-bottom">Useful Links</h5>
@@ -24,16 +34,6 @@
                         <li><a href="{{ url('become-yoga-trainer') }}">Hire</a></li>
                         <li><a href="{{ url('blog') }}">Blog</a></li>
                         <li><a href="{{ url('contact') }}">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-2">
-                <div class="widget dark">
-                    <h5 class="widget-title line-bottom">Our Events</h5>
-                    <ul class="list-border">
-                        <li><a href="{{ url('/teacher_training_course') }}">TTC</a></li>   
-                        <li><a href="{{ url('/retreat') }}">Retreat</a></li>
-                        <li><a href="{{ url('/workshop') }}">Workshop</a></li>
                     </ul>
                 </div>
             </div>

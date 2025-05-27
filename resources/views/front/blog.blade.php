@@ -47,7 +47,7 @@
                             </div>
                             <div class="entry-content border-1px p-20 pr-10">
                                 <div class="entry-meta media mt-0 no-bg no-border">
-                                    <div class="entry-date media-left text-center flip bg-theme-colored pt-5 pr-15 pb-5 pl-15">
+                                    <div class="entry-date media-left text-center flip pt-5 pr-15 pb-5 pl-15">
                                         <ul>
                                             <li class="font-16 font-weight-600 text-primary">{{ \Carbon\Carbon::parse($all_blog->created_at)->format('d') }}</li>
                                             <li class="font-12 text-uppercase text-primary">{{ \Carbon\Carbon::parse($all_blog->created_at)->format('M') }}</li>
