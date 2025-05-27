@@ -35,16 +35,181 @@
         </div>
       </div>
     </div>
-    <div class="section-content">
-      <div class="row">
-        <div class="col-md-5">
-          <img src="{{ asset('assets/coming_soon.png') }}" alt="Coming Soon">
-        </div>
-        <div class="col-md-7">
-          @include('components.multi-step-form')
+      <div class="section-content">
+        <div class="row">
+          <div class="col-md-5">
+            <img src="{{ asset('assets/coming_soon.png') }}">
+          </div>
+          <div class="col-md-7">
+            <form id="multi-step-form" name="contact_form" class="contact-form-transparent" method="POST" action="{{ route('trainer.submit') }}">
+              @csrf
+              <!-- Step 1 -->
+              <div class="form-step active" id="step-1">
+                <div class="form-group">
+                  <label for="name">Your Name:</label>
+                  <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone Number:</label>
+                  <input type="text" class="form-control" id="phone" name="number" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email ID:</label>
+                  <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                  <label for="dob">Date of Birth:</label>
+                  <input type="date" class="form-control" id="dob" name="dob" required>
+                </div>
+                <button class="btn btn-primary next" type="button">Next</button>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="form-step" id="step-2">
+                <div class="form-group">
+                  <label for="certification">University of Certification:</label>
+                  <input type="text" class="form-control" id="certification" name="education" required>
+                </div>
+                <div class="form-group">
+                  <label for="year_certification">Year Of Certification:</label>
+                  <input type="text" class="form-control" id="year_certification" name="certification" required>
+                </div>
+                <div class="form-group">
+                  <label for="year_experience">Year Of Experience:</label>
+                  <input type="number" class="form-control" id="year_experience" name="experience" required>
+                </div>
+                <div class="form-group">
+                  <label for="youga_certificate">Other Yoga Certification (If Any):</label>
+                  <textarea class="form-control" id="youga_certificate" name="Other_Certificate"></textarea>
+                </div>
+                <button class="btn btn-primary prev" type="button">Previous</button>
+                <button class="btn btn-primary next" type="button">Next</button>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="form-step" id="step-3">
+                <div class="form-group">
+                  <label for="country">Select Country:</label>
+                  <select class="form-control countries" id="country" name="country" required>
+                    <option value="">Select A Country</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="state">Select State:</label>
+                  <select class="form-control states" id="state" name="state" required>
+                    <option value="">Select your Country First</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="city">Select City:</label>
+                  <select class="form-control cities" id="city" name="city" required>
+                    <option value="">Select your state first</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="address">Your Address:</label>
+                  <textarea class="form-control" id="address" name="address" required></textarea>
+                </div>
+                <button class="btn btn-primary prev" type="button">Previous</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 @endsection
+
+@push('styles')
+<style>
+  .form-step { display: none; }
+  .form-step.active { display: block; }
+</style>
+@endpush
+
+@push('scripts')
+<script src="https://geodata.phplift.net/api/index.js"></script>
+<script>
+$(document).ready(function () {
+  var currentStep = 1;
+
+  $('.next').click(function () {
+    if (validateStep(currentStep)) {
+      $('#step-' + currentStep).removeClass('active');
+      currentStep++;
+      $('#step-' + currentStep).addClass('active');
+    }
+  });
+
+  $('.prev').click(function () {
+    $('#step-' + currentStep).removeClass('active');
+    currentStep--;
+    $('#step-' + currentStep).addClass('active');
+  });
+
+  function validateStep(step) {
+    let valid = true;
+    $('#step-' + step + ' input[required], #step-' + step + ' select[required], #step-' + step + ' textarea[required]').each(function () {
+      if (!$(this).val()) {
+        $(this).addClass('is-invalid');
+        valid = false;
+      } else {
+        $(this).removeClass('is-invalid');
+      }
+    });
+    return valid;
+  }
+
+  // Country -> State -> City chaining
+  $.get('https://geodata.phplift.net/api/index.php?type=getCountries', function (data) {
+    $.each(data.result, function (i, val) {
+      $('#country').append(`<option value="${val.name}" countryid="${val.id}">${val.name}</option>`);
+    });
+  });
+
+  $('#country').change(function () {
+    let countryId = $('#country option:selected').attr('countryid');
+    $('#state').html('<option>Please wait...</option>');
+    $.get(`https://geodata.phplift.net/api/index.php?type=getStates&countryId=${countryId}`, function (data) {
+      $('#state').html('<option value="">Select State</option>');
+      $.each(data.result, function (i, val) {
+        $('#state').append(`<option value="${val.name}" stateid="${val.id}">${val.name}</option>`);
+      });
+    });
+  });
+
+  $('#state').change(function () {
+    let stateId = $('#state option:selected').attr('stateid');
+    $('#city').html('<option>Please wait...</option>');
+    $.get(`https://geodata.phplift.net/api/index.php?type=getCities&stateId=${stateId}`, function (data) {
+      $('#city').html('<option value="">Select City</option>');
+      $.each(data.result, function (i, val) {
+        $('#city').append(`<option value="${val.name}">${val.name}</option>`);
+      });
+    });
+  });
+
+  // AJAX form submit
+  $('#multi-step-form').submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: '{{ route('trainer.submit') }}',
+      type: 'POST',
+      data: $(this).serialize(),
+      success: function (response) {
+        if (response.success) {
+          window.location.href = '{{ url('thank_you') }}';
+        } else {
+          alert('Submission failed, please try again.');
+        }
+      },
+      error: function () {
+        alert('Something went wrong.');
+      }
+    });
+  });
+});
+</script>
+@endpush

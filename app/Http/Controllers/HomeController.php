@@ -412,4 +412,29 @@ class HomeController extends Controller
 
         return view('front.event_details', compact('event'));
     }
+
+    public function submitTrainerForm(Request $request)
+    {
+        $data = $request->only([
+            'name', 'number', 'email', 'dob',
+            'country', 'state', 'city', 'address',
+            'education', 'certification', 'experience', 'Other_Certificate'
+        ]);
+
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://crm.yogintra.com/api/addRecruitments',
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query($data),
+            CURLOPT_RETURNTRANSFER => true
+        ]);
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        return $response == '1'
+            ? response()->json(['success' => true])
+            : response()->json(['success' => false], 500);
+    }
+
 }

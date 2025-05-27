@@ -40,6 +40,10 @@ Route::get('/yoga-center/{slug}', [HomeController::class, 'yogaCenterDetails'])-
 Route::get('/become-yoga-trainer', [HomeController::class, 'becomeYogaTrainer']);
 Route::get('/city/{slug}', [HomeController::class, 'landingPage']);
 Route::get('/event/{slug}', [HomeController::class, 'eventDetails'])->name('event.details');
+Route::post('/become-yoga-trainer', [HomeController::class, 'submitTrainerForm'])->name('trainer.submit');
+Route::get('/thank_you', function () {
+    return view('front.thank_you');
+})->name('thank_you');
 // Route::post('/event/register', [EventRegistrationController::class, 'store'])->name('event.register');
 
 
