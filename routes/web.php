@@ -91,15 +91,18 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::put('/yoga_center/update_center/{id}', [YogaCenterController::class, 'update'])->name('yoga_centers.update');
     Route::delete('/yoga_center/delete_center/{id}', [YogaCenterController::class, 'destroy'])->name('yoga_centers.destroy');
 
-    // Gallery
     // -- category
     Route::get('/gallery/view_all_category', [GalleryController::class, 'index'])->name('gallery.category.index');
     Route::post('/gallery/store_category', [GalleryController::class, 'store'])->name('gallery.category.store');
     Route::put('/gallery/update_category/{id}', [GalleryController::class, 'update'])->name('gallery.category.update');
     Route::delete('/gallery/delete_category/{id}', [GalleryController::class, 'destroy'])->name('gallery.category.delete');
-    
-    Route::get('/gallery/view_all_gallery', [GalleryController::class, 'index'])->name('gallery.index');
 
+    // 📸 Gallery Management
+    Route::get('/gallery/view_all_gallery', [GalleryController::class, 'viewAllGallery'])->name('gallery.index');
+    Route::post('/gallery/store_gallery', [GalleryController::class, 'storeGallery'])->name('gallery.store');
+    Route::get('/gallery/edit_gallery/{id}', [GalleryController::class, 'editGallery'])->name('gallery.edit');
+    Route::put('/gallery/update_gallery/{id}', [GalleryController::class, 'updateGallery'])->name('gallery.update');
+    Route::delete('/gallery/delete_gallery/{id}', [GalleryController::class, 'deleteGallery'])->name('gallery.delete');
 
 
     // Blog
