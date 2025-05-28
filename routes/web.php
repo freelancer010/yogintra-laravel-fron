@@ -35,6 +35,7 @@ Route::get('/refund-policy', [HomeController::class, 'refundPolicy']);
 Route::get('/retreat', [HomeController::class, 'allRetreat'])->name('retreat.all');
 Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm'])->name('form.submit');
 Route::get('/workshop', [HomeController::class, 'allWorkshop'])->name('workshop');
+Route::get('/workshop/{slug}', [HomeController::class, 'eventDetails'])->name('workshop.details');
 Route::get('/yoga_center', [HomeController::class, 'allYogaCenter'])->name('yoga.center');
 Route::get('/yoga-center/{slug}', [HomeController::class, 'yogaCenterDetails'])->name('yoga.center.details');
 Route::get('/become-yoga-trainer', [HomeController::class, 'becomeYogaTrainer']);

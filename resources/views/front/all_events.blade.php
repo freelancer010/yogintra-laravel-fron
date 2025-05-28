@@ -43,7 +43,7 @@
 </section>
 
 @if($all_event)
-<section id="upcoming-events">
+<section id="upcoming-events" style="margin-top:60px">
     <div class="container pb-0 pt-0">
         <div class="section-content">
             <div class="row">

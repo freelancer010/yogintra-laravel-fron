@@ -7,7 +7,7 @@
 @section('content')
 <!-- Start main-content -->
 <div class="main-content">
-  <section class="inner-header divider parallax layer-overlay overlay-dark-7" style='background-image: url("{{ asset('front/images/bg/bg6.jpg') }}"); background-position: 50% 45px;height: 300px;'>
+  <section class="inner-header divider parallax layer-overlay overlay-dark-7" style='background-image: url("{{ asset("assets/front/images/bg/bg6.jpg") }}"); background-position: 50% 45px;height: 300px;'>
     <div class="container pt-60 pb-60">
       <div class="section-content">
         <div class="row">
@@ -24,7 +24,7 @@
     </div>
   </section>
 
-  <section class="bg-theme-colored">
+  <section class="bg-theme-colored d-none">
     <div class="container pt-40 pb-40">
       <div class="row text-center">
         <div class="col-md-12">
