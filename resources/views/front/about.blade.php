@@ -509,7 +509,7 @@
                     </div>
                     <figure class="image-1">
                         <a href="#" class="lightbox-image" data-fancybox="images">
-                            <img title="Amit Pandey" src="{{ asset('assets/image0-1-e1652675710448-povumdsa83b7dajv3gfs2377ei7o24wz5y0tn7sz34.jpeg') }}" alt="Amit Pandey">
+                            <img title="Amit Pandey" src="{{ asset('assets/image0-1-e1652675710448-povumdsa83b7dajv3gfs2377ei7o24wz5y0tn7sz34.webp') }}" alt="Amit Pandey">
                         </a>
                     </figure>
                 </div>
@@ -532,7 +532,7 @@
 </section>
 
 <!-- Section: About YogIntra -->
-<section class="divider" data-bg-img="{{ asset('assets/bg-graphic-free-img-1.jpg') }}">
+<section class="divider" data-bg-img="{{ asset('assets/bg-graphic-free-img-1.webp') }}">
     <div class="container pt-45 pb-20 section-padding-2">
         <div class="section-title">
             <div class="row">
@@ -552,7 +552,7 @@
 
 <!-- Section: Why YogIntra -->
 <section class="divider parallax layer-overlay overlay-theme-colored2-9"
-    data-bg-img="{{ asset('assets/about-women.png') }}">
+    data-bg-img="{{ asset('assets/about-women.webp') }}">
     <div class="container pt-125 pb-125">
         <div class="section-title">
             <div class="row">
@@ -571,7 +571,7 @@
         <div class="section-content">
             <div class="row">
                 <div class="article">
-                    <div class="box1" data-bg-img="{{ asset('assets/greenfloralbg-image1.jpg') }}">
+                    <div class="box1" data-bg-img="{{ asset('assets/greenfloralbg-image1.webp') }}">
                         <div class="text-box1">
                             <h3 class="yog-ttl wht">OUR VISION</h3>
                             <p class="yog-cont">HISTORY</p>

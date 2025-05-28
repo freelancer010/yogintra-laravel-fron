@@ -735,7 +735,7 @@
                     </div>
                     <figure class="image-1">
                         <a href="#" class="lightbox-image" data-fancybox="images">
-                            <img loading="lazy" title="Amit Pandey" src="{{ asset('assets/image0-1-e1652675710448-povumdsa83b7dajv3gfs2377ei7o24wz5y0tn7sz34.jpeg') }}" alt="CEO & Founder of Yogintra Amit Pandey">
+                            <img loading="lazy" title="Amit Pandey" src="{{ asset('assets/image0-1-e1652675710448-povumdsa83b7dajv3gfs2377ei7o24wz5y0tn7sz34.webp') }}" alt="CEO & Founder of Yogintra Amit Pandey">
                         </a>
                     </figure>
                 </div>

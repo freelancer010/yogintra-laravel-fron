@@ -156,7 +156,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Yogintra",
-    "image": "https://yogintra.com/assets/og-logo.jpg",
+    "image": "https://yogintra.com/assets/og-logo.webp",
     "@id": "https://yogintra.com/",
     "url": "https://yogintra.com/",
     "telephone": "+91-9867291573",

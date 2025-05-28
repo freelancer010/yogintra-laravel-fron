@@ -38,7 +38,7 @@
       <div class="section-content">
         <div class="row">
           <div class="col-md-5">
-            <img src="{{ asset('assets/coming_soon.png') }}">
+            <img src="{{ asset('assets/coming_soon.webp') }}">
           </div>
           <div class="col-md-7">
             <form id="multi-step-form" name="contact_form" class="contact-form-transparent" method="POST" action="{{ route('trainer.submit') }}">
