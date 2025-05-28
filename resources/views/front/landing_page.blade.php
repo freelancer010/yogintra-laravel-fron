@@ -634,7 +634,7 @@
     <div class="section-title text-center">
       
       <div class="row">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-12 offset-md-2">
           <p style="text-align: center;">
             <span style="color: inherit; font-size: 36px; font-family: Philosopher, sans-serif !important;">
               THE MAIN REASONS TO PRACTICE YOGA
@@ -655,7 +655,7 @@
 
       <div class="row">
         <div class="col-sm-6">
-          <div class="icon-box icon-theme-colored benefit-icon left media p-0 mb-sm-10 mt-30">
+          <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030a9e1ab49health-icon.png') }}" alt="yogintra good for health">
             </a>
@@ -667,7 +667,7 @@
         </div>
 
         <div class="col-sm-6">
-          <div class="icon-box icon-theme-colored benefit-icon left media p-0 mb-sm-10 mt-30">
+          <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030aafc7902heart-beat.png') }}" alt="yogintra Good for Cardio">
             </a>
@@ -679,7 +679,7 @@
         </div>
 
         <div class="col-sm-6">
-          <div class="icon-box icon-theme-colored benefit-icon left media p-0 mb-sm-10 mt-30">
+          <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030ac4021e6weight-loss.png') }}" alt="yogintra Good for Body">
             </a>
@@ -691,7 +691,7 @@
         </div>
 
         <div class="col-sm-6">
-          <div class="icon-box icon-theme-colored benefit-icon left media p-0 mb-sm-10 mt-30">
+          <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030ad5516adbreathing.png') }}" alt="yogintra Good for Breathing">
             </a>
@@ -756,8 +756,8 @@
     <div class="container">
         <div class="section-title text-center">
             <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <p class="h3" style="font-family: Philosopher, sans-serif;">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</p>
+                <div class="col-md-12">
+                    <p class="h3" style="color: inherit; font-size: 36px; font-family: Philosopher, sans-serif !important; font-weight:normal;">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</p>
                     <h2>|| तत्र स्थितौ यत्नोऽभ्यासः ||</h2>
                 </div>
             </div>
@@ -792,7 +792,7 @@
                 <div class="col-md-8 text-start text-md-start">
                     <h2 class="mt-4">About YogIntra:</h2>
                     <p class="text-size">
-                        Back In 2011, started with a thought to make common people experience Yoga in their busy schedule, YogIntra is now nationally and internationally building community to help people stay healthy with numerous Yoga Experts for all age groups and genders. YogIntra comes from two words Yog and Intra, where Yog comes from the Sanskrit word “Yuj” which means connection between “Soul” (Aatma) and “God” (Parmatma).
+                        Back In 2011, Started with a thought to make common people experience Yoga in their busy schedule, YogIntra is now nationally and internationally building community to help people stay healthy with a numerous Yoga Experts for all age group and gender. YogIntra comes from two words Yog and Intra, where yog comes from Sanskrit word “Yuj” Which Means connection between “Soul” (Aatma) and “God”(Parmatma) And Intra is an English Word Which Means Within. YogIntra is the connection between the soul and God within oneself.
                     </p>
                 </div>
             </div>
