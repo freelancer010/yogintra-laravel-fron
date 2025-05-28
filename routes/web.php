@@ -26,7 +26,6 @@ Route::get('/service-details/{slug}', [HomeController::class, 'serviceDetails'])
 Route::get('/gallery', [HomeController::class, 'gallery']);
 Route::get('/contact', [HomeController::class, 'contact']);
 Route::get('/event-details/{slug}', [HomeController::class, 'eventDetails']);
-Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm']);
 Route::get('/coming-soon', [HomeController::class, 'comingSoon']);
 Route::get('/teacher_training_course', [HomeController::class, 'teacherTrainingCourse'])->name('ttc');
 Route::get('/terms-and-condition', [HomeController::class, 'termsAndCondition']);

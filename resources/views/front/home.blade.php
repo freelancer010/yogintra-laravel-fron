@@ -355,79 +355,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <form id="multi-step-form" name="contact_form" class="contact-form-transparent" method="post">
-                        @csrf
-                        <!-- Step 1: Personal Information -->
-                        <div class="form-step active" id="step-1">
-                            <div class="form-group">
-                                <label for="name">Your Name:</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone Number:</label>
-                                <input type="text" class="form-control" id="phone" name="number" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email ID:</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            <button class="btn btn-primary next" type="button">Next</button>
-                        </div>
-
-                        <!-- Step 2: Location -->
-                        <div class="form-step" id="step-2">
-                            <div class="form-group">
-                                <label for="country">Select Country:</label>
-                                <select class="form-control countries" id="country" name="country" required>
-                                    <option value="">Select A Country</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="state">Select State:</label>
-                                <select class="form-control states" id="state" name="state" required>
-                                    <option value="">Select your Country First</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="city">Select City:</label>
-                                <select class="form-control cities" id="city" name="city" required>
-                                    <option value="">Select your state first</option>
-                                </select>
-                            </div>
-                            <button class="btn btn-primary prev" type="button">Previous</button>
-                            <button class="btn btn-primary next" type="button">Next</button>
-                        </div>
-
-                        <!-- Step 3: Service Information -->
-                        <div class="form-step" id="step-3">
-                            <div class="form-group">
-                                <label for="service">Service Menu:</label>
-                                <select class="form-control" id="service" name="class" required>
-                                    @foreach ($all_service as $service)
-                                        <option value="{{ $service->service_cat_name }}">{{ $service->service_cat_name }}</option>
-                                    @endforeach
-                                    <option value="Yoga Center">Yoga Center</option>
-                                    <option value="TTC">TTC</option>
-                                    <option value="Retreat">Retreat</option>
-                                    <option value="Workshop">Workshop</option>
-                                </select>
-                            </div>
-                            <div class="form-group d-none">
-                                <label for="call-time">Call Request Time From:</label>
-                                <input type="time" class="form-control" id="call-time" name="call-from">
-                            </div>
-                            <div class="form-group d-none">
-                                <label for="call-time-2">To:</label>
-                                <input type="time" class="form-control" id="call-time-2" name="call-to">
-                            </div>
-                            <div class="form-group">
-                                <label for="message">Message:</label>
-                                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                            </div>
-                            <button class="btn btn-primary prev" type="button">Previous</button>
-                            <button type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                    </form>
+                    @include('components.multi-step-form', ['app_setting' => $app_setting])
                 </div>
                 <div class="col-sm-6">
                     <img src="{{ asset('assets/chose_yoga.jpg') }}" class="bf-ftr-img" loading="lazy" alt="yoga poses">
@@ -439,85 +367,57 @@
 
 @endsection
 @push('scripts')
-
-<script type="text/javascript">
-    
-    $("#multi-step-form").submit(function(e) {
-        e.preventDefault();
-        var form = $(this);
-
-        $.ajax({
-            type: "POST",
-            url: "{{ route('form.submit') }}", // Use Laravel route
-            data: form.serialize(),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(data) {
-                console.log(data);
-                if (data.success) {
-                    window.location = "{{ url('/thank-you') }}"; // Redirect on success
-                } else {
-                    alert('Data Submission Failed');
-                }
-            },
-            error: function(xhr) {
-                console.log(xhr.responseText);
-                alert('An error occurred while submitting.');
-            }
-        });
-    });
-  
-      function ajaxCall() {
-        this.send = function(data, url, method, success, type) {
-          type = 'json';
-          var successRes = function(data) {
-            success(data);
-          }
-          var errorRes = function(xhr, ajaxOptions, thrownError) {            
-            console.log(xhr.responseText);
-          }   
-          jQuery.ajax({
-            url: url,
-            type: method,
-            data: data,
-            success: successRes,
-            error: errorRes,
-            dataType: type,
-            timeout: 60000,
-            xhrFields: {},
-          });
-        }
-      }
-  
-      function locationInfo() {
-        var rootUrl = "https://geodata.phplift.net/api/index.php";
-        var call = new ajaxCall();
-        this.getCities = function(id) {
-            jQuery(".cities option:gt(0)").remove();
-            var url = rootUrl+'?type=getCities&countryId='+ '&stateId=' + id;
-            var method = "post";
-            var data = {};
-            jQuery('.cities').find("option:eq(0)").html("Please wait..");
-            call.send(data, url, method, function(data) {
-                jQuery('.cities').find("option:eq(0)").html("Select City");
-                    var listlen = Object.keys(data['result']).length;
-                    if(listlen > 0)
-                    {
-                        jQuery.each(data['result'], function(key, val) {
-                            var option = `<option value='${val.name}'>${val.name}</option>`;
-                            jQuery('.cities').append(option);
-                        });
+    <script type="text/javascript">  
+        function ajaxCall() {
+            this.send = function(data, url, method, success, type) {
+                type = 'json';
+                var successRes = function(data) {
+                        success(data);
                     }
-                    jQuery(".cities").prop("disabled",false);
-            });
+                    var errorRes = function(xhr, ajaxOptions, thrownError) {            
+                        // console.log(xhr.responseText);
+                    }   
+                    jQuery.ajax({
+                        url: url,
+                        type: method,
+                        data: data,
+                        success: successRes,
+                        error: errorRes,
+                        dataType: type,
+                        timeout: 60000,
+                        xhrFields: {},
+                });
+            }
+        }
+    
+        function locationInfo() {
+            var rootUrl = "https://geodata.phplift.net/api/index.php";
+            var call = new ajaxCall();
+            this.getCities = function(id) {
+                jQuery(".cities option:gt(0)").remove();
+                var url = rootUrl+'?type=getCities&countryId='+ '&stateId=' + id;
+                var method = "post";
+                var data = {};
+                jQuery('.cities').find("option:eq(0)").html("Please wait..");
+                call.send(data, url, method, function(data) {
+                    jQuery('.cities').find("option:eq(0)").html("Select City");
+                        var listlen = Object.keys(data['result']).length;
+                        if(listlen > 0)
+                        {
+                            jQuery.each(data['result'], function(key, val) {
+                                var option = `<option value='${val.name}'>${val.name}</option>`;
+                                jQuery('.cities').append(option);
+                            });
+                        }
+                        jQuery(".cities").prop("disabled",false);
+                });
         };
-  
+
         this.getStates = function(id) {
             jQuery(".states option:gt(0)").remove();
             jQuery(".cities option:gt(0)").remove();
             var stateClasses = jQuery('#stateId').attr('class');
-  
+
             
             var url = rootUrl+'?type=getStates&countryId=' + id;
             var method = "post";
@@ -537,7 +437,7 @@
                 
             });
         };
-  
+
         this.getCountries = function() {
             var url = rootUrl+'?type=getCountries';
             var method = "post";
@@ -555,234 +455,114 @@
                 
             });
         };
-  
-      }
-  
-  
-      $(document).ready(function () {
-          $.ajax({
-              url: "https://restcountries.com/v3.1/all",
-              type: 'GET',
-              success: function(response) { }
-          });
-  
-          var loc = new locationInfo();
-          var currentStep = 1;
-  
-          jQuery(".countries").on("change", function(ev) {
-            var countryId = jQuery("option:selected", this).attr('countryid');
-            if(countryId != ''){
-                loc.getStates(countryId);
+
+        }
+
+        var $owl_carousel_4col = $('.owl-carousel-4col');
+
+        if ( $owl_carousel_4col.length > 0 ) {
+            if(!$owl_carousel_4col.hasClass("owl-carousel")){
+                $owl_carousel_4col.addClass("owl-carousel owl-theme");
             }
-            else{
-                jQuery(".states option:gt(0)").remove();
+            $owl_carousel_4col.each(function() {
+                var data_dots = ( $(this).data("dots") === undefined ) ? false: $(this).data("dots");
+                var data_nav = ( $(this).data("nav")=== undefined ) ? false: $(this).data("nav");
+                var data_duration = ( $(this).data("duration") === undefined ) ? 4000: $(this).data("duration");
+                $(this).owlCarousel({
+                    // rtl: THEMEMASCOT.isRTL.check(),
+                    autoplay: true,
+                    autoplayTimeout: data_duration,
+                    loop: true,
+                    items: 4,
+                    margin: 15,
+                    dots: false,
+                    nav: data_nav,
+                    navText: [
+                        '<i class="fa fa-chevron-left"></i>',
+                        '<i class="fa fa-chevron-right"></i>'
+                    ],
+                    responsive: {
+                        0: {
+                            items: 1,
+                            center: true
+                        },
+                        480: {
+                            items: 1,
+                            center: false
+                        },
+                        600: {
+                            items: 3,
+                            center: false
+                        },
+                        750: {
+                            items: 3,
+                            center: false
+                        },
+                        960: {
+                            items: 3
+                        },
+                        1170: {
+                            items: 4
+                        },
+                        1300: {
+                            items: 4
+                        }
+                    }
+                });
+            });
+        }
+        
+        var $owl_carousel_3col = $('.owl-carousel-3col');
+    
+        if ( $owl_carousel_3col.length > 0 ) {
+            if(!$owl_carousel_3col.hasClass("owl-carousel")){
+                $owl_carousel_3col.addClass("owl-carousel owl-theme");
             }
-          });
-          jQuery(".states").on("change", function(ev) {
-            var stateId = jQuery("option:selected", this).attr('stateid');
-            if(stateId != ''){
-                loc.getCities(stateId);
-            }
-            else{
-                jQuery(".cities option:gt(0)").remove();
-            }
-          });
-  
-          $(".next").click(function () {
-              if (validateStep(currentStep)) {
-                  $("#step-" + currentStep).removeClass("active");
-                  currentStep++;
-                  $("#step-" + currentStep).addClass("active");
-                  loc.getCountries();
-              }
-          });
-  
-          $(".prev").click(function () {
-              $("#step-" + currentStep).removeClass("active");
-              currentStep--;
-              $("#step-" + currentStep).addClass("active");
-          });
-  
-          function validateStep(step) {
-              var isValid = true;
-  
-              // Reset previous error messages and styles
-              $(".form-group").removeClass("has-error");
-              $(".error-message").remove();
-  
-              if (step === 1) {
-                  // Step 1 Validation
-                  var name = $("#name").val();
-                  var phone = $("#phone").val();
-                  var email = $("#email").val();
-  
-                  if (!name) {
-                      isValid = false;
-                      $("#name").closest(".form-group").addClass("has-error");
-                      $("#name").after('<div class="error-message">Please enter your name.</div>');
-                  }
-                  if (!phone) {
-                      isValid = false;
-                      $("#phone").closest(".form-group").addClass("has-error");
-                      $("#phone").after('<div class="error-message">Please enter your phone number.</div>');
-                  }
-                  if (!email) {
-                      isValid = false;
-                      $("#email").closest(".form-group").addClass("has-error");
-                      $("#email").after('<div class="error-message">Please enter your email address.</div>');
-                  }
-              } else if (step === 2) {
-                  // Step 2 Validation
-                  var country = $("#country").val();
-                  var state = $("#state").val();
-                  var city = $("#city").val();
-  
-                  if (!country) {
-                      isValid = false;
-                      $("#country").closest(".form-group").addClass("has-error");
-                      $("#country").after('<div class="error-message">Please select your country.</div>');
-                  }
-                  if (!state) {
-                      isValid = false;
-                      $("#state").closest(".form-group").addClass("has-error");
-                      $("#state").after('<div class="error-message">Please select your state.</div>');
-                  }
-                  if (!city) {
-                      isValid = false;
-                      $("#city").closest(".form-group").addClass("has-error");
-                      $("#city").after('<div class="error-message">Please select your city.</div>');
-                  }
-              } else if (step === 3) {
-                  // Step 3 Validation
-                  var callTime = $("#call-time").val();
-                  var callTime_2 = $("#call-time-2").val();
-                  var message = $("#message").val();
-  
-                  // if (!callTime) {
-                  //     isValid = false;
-                  //     $("#call-time").closest(".form-group").addClass("has-error");
-                  //     $("#call-time").after('<div class="error-message">Please enter your call request time.</div>');
-                  // }
-                  // if (!callTime_2) {
-                  //     isValid = false;
-                  //     $("#call-time-2").closest(".form-group").addClass("has-error");
-                  //     $("#call-time-2").after('<div class="error-message">Please enter your call To time.</div>');
-                  // }
-                  if (!message) {
-                      isValid = false;
-                      $("#message").closest(".form-group").addClass("has-error");
-                      $("#message").after('<div class="error-message">Please enter a message.</div>');
-                  }
-              }
-              return isValid;
-          }
-      });
-      
-      var $owl_carousel_4col = $('.owl-carousel-4col');
-  
-      if ( $owl_carousel_4col.length > 0 ) {
-          if(!$owl_carousel_4col.hasClass("owl-carousel")){
-              $owl_carousel_4col.addClass("owl-carousel owl-theme");
-          }
-          $owl_carousel_4col.each(function() {
-              var data_dots = ( $(this).data("dots") === undefined ) ? false: $(this).data("dots");
-              var data_nav = ( $(this).data("nav")=== undefined ) ? false: $(this).data("nav");
-              var data_duration = ( $(this).data("duration") === undefined ) ? 4000: $(this).data("duration");
-              $(this).owlCarousel({
-                  // rtl: THEMEMASCOT.isRTL.check(),
-                  autoplay: true,
-                  autoplayTimeout: data_duration,
-                  loop: true,
-                  items: 4,
-                  margin: 15,
-                  dots: false,
-                  nav: data_nav,
-                  navText: [
-                      '<i class="fa fa-chevron-left"></i>',
-                      '<i class="fa fa-chevron-right"></i>'
-                  ],
-                  responsive: {
-                      0: {
-                          items: 1,
-                          center: true
-                      },
-                      480: {
-                          items: 1,
-                          center: false
-                      },
-                      600: {
-                          items: 3,
-                          center: false
-                      },
-                      750: {
-                          items: 3,
-                          center: false
-                      },
-                      960: {
-                          items: 3
-                      },
-                      1170: {
-                          items: 4
-                      },
-                      1300: {
-                          items: 4
-                      }
-                  }
-              });
-          });
-      }
-      
-      var $owl_carousel_3col = $('.owl-carousel-3col');
-  
-      if ( $owl_carousel_3col.length > 0 ) {
-          if(!$owl_carousel_3col.hasClass("owl-carousel")){
-              $owl_carousel_3col.addClass("owl-carousel owl-theme");
-          }
-          $owl_carousel_3col.each(function() {
-              var data_dots = ( $(this).data("dots") === undefined ) ? false: $(this).data("dots");
-              var data_nav = ( $(this).data("nav")=== undefined ) ? false: $(this).data("nav");
-              var data_duration = ( $(this).data("duration") === undefined ) ? 4000: $(this).data("duration");
-              $(this).owlCarousel({
-                  autoplay: true,
-                  autoplayTimeout: data_duration,
-                  loop: true,
-                  items: 3,
-                  margin: 15,
-                  dots: data_dots,
-                  nav: data_nav,
-                  navText: [
-                      '<i class="fa fa-chevron-left"></i>',
-                      '<i class="fa fa-chevron-right"></i>'
-                  ],
-                  responsive: {
-                      0: {
-                          items: 1,
-                          center: false
-                      },
-                      480: {
-                          items: 1,
-                          center: false
-                      },
-                      600: {
-                          items: 1,
-                          center: false
-                      },
-                      750: {
-                          items: 2,
-                          center: false
-                      },
-                      960: {
-                          items: 2
-                      },
-                      1170: {
-                          items: 3
-                      },
-                      1300: {
-                          items: 3
-                      }
-                  }
-              });
-          });
-      }
+            $owl_carousel_3col.each(function() {
+                var data_dots = ( $(this).data("dots") === undefined ) ? false: $(this).data("dots");
+                var data_nav = ( $(this).data("nav")=== undefined ) ? false: $(this).data("nav");
+                var data_duration = ( $(this).data("duration") === undefined ) ? 4000: $(this).data("duration");
+                $(this).owlCarousel({
+                    autoplay: true,
+                    autoplayTimeout: data_duration,
+                    loop: true,
+                    items: 3,
+                    margin: 15,
+                    dots: data_dots,
+                    nav: data_nav,
+                    navText: [
+                        '<i class="fa fa-chevron-left"></i>',
+                        '<i class="fa fa-chevron-right"></i>'
+                    ],
+                    responsive: {
+                        0: {
+                            items: 1,
+                            center: false
+                        },
+                        480: {
+                            items: 1,
+                            center: false
+                        },
+                        600: {
+                            items: 1,
+                            center: false
+                        },
+                        750: {
+                            items: 2,
+                            center: false
+                        },
+                        960: {
+                            items: 2
+                        },
+                        1170: {
+                            items: 3
+                        },
+                        1300: {
+                            items: 3
+                        }
+                    }
+                });
+            });
+        }
     </script>
 @endpush
