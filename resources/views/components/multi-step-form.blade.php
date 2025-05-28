@@ -3,9 +3,13 @@ use Illuminate\Support\Facades\DB;
 $all_service = DB::table('service_category')->get();
 @endphp
 
-<form id="multi-step-form" class="{{$form_type == 'landing' ? 'booking-form form-home bg-black-333 p-30' : ''}}" method="post">
+<form id="multi-step-form" 
+@if(isset($form_type))
+class="{{$form_type == 'landing' ? 'booking-form form-home bg-black-333 p-30' : ''}}"
+@endif
+method="post">
     <!-- Step 1: Personal Information -->
-    @if($form_type == 'landing')<h3 class="mt-0 text-white mb-20">Make An Appointment</h3>@endif
+    @if(isset($form_type) && ($form_type == 'landing'))<h3 class="mt-0 text-white mb-20">Make An Appointment</h3>@endif
     @csrf
     <div class="form-step active" id="step-1">
         <div class="form-group">
