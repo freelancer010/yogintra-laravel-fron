@@ -81,7 +81,7 @@
         </div>
       </div>
       <div class="modal-footer text-center" style="background: #dcd8d8; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;">
-        <h3 class="pt-1 pb-0">
+        <h3 class="pt-1 pb-0 text-center">
           <i class="fa fa-map-marker" aria-hidden="true"></i> <span id="address"></span>
         </h3>
       </div>
