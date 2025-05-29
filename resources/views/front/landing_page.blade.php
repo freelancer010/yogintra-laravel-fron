@@ -695,9 +695,9 @@
         <div class="section-content text-center">
             <div class="row">
                 @foreach ($yogaServices as $service)
-                    <div class="col-xs-12 col-sm-6 col-md-3 mb-4 wow fadeInLeft mt-3" data-wow-duration="1s" data-wow-delay="0.3s">
+                    <div class="col-xs-12 col-sm-6 col-md-3 mb-4 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                         <img loading="lazy" width="160" height="160" class="img-circle img-thumbnail mb-2" src="{{ asset($service['image']) }}" alt="{{ $service['title'] }}">
-                        <h4 class="mb-2">{{ $service['title'] }}</h4>
+                        <h4 class="mb-5">{{ $service['title'] }}</h4>
                         <a href="{{ url($service['link']) }}" class="btn btn-success">Visit Now</a>
                     </div>
                 @endforeach
@@ -813,7 +813,7 @@
             </div>
         </div>
         <div class="row">
-            <p style="font-size: 14px; text-align: center;">Discover tranquility through our yoga gallery: poses and serenity captured in stillness.</p>
+            <p class="mb-20" style="font-size: 14px; text-align: center;">Discover tranquility through our yoga gallery: poses and serenity captured in stillness.</p>
         </div>
         <div class="row mt-3">
             @for ($i = 1; $i <= 3; $i++)
