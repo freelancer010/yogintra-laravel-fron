@@ -37,9 +37,11 @@
   <section>
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
-          <ul>
-            <li>
+        @include('front.pages.event_registration_form')
+        <div class="col-md-8">
+          <img src="{{ asset($event->image) }}" alt="{{ $event->title }}" width="100%">
+          <div class="row mt-15">
+            <div class="col-md-6 mt-20">
               <div class="bg-light media border-bottom p-15 mb-20">
                 <div class="media-left">
                   <i class="pe-7s-pen text-theme-colored font-24 mt-5"></i>
@@ -49,8 +51,8 @@
                   <p>{{ $event->title }}</p>
                 </div>
               </div>
-            </li>
-            <li>
+            </div>
+            <div class="col-md-6 mt-20">
               <div class="bg-light media border-bottom p-15 mb-20">
                 <div class="media-left">
                   <i class="pe-7s-users text-theme-colored font-24 mt-5"></i>
@@ -60,8 +62,9 @@
                   <p>{{ $event->event_host_by }}</p>
                 </div>
               </div>
-            </li>
-            <li>
+            </div>
+ 
+            <div class="col-md-6 mt-20">
               <div class="bg-light media border-bottom p-15 mb-20">
                 <div class="media-left">
                   <i class="pe-7s-home text-theme-colored font-24 mt-5"></i>
@@ -71,8 +74,8 @@
                   <p>{{ $event->event_location }}, {{ $event->city }}, {{ $event->state }}, {{ $event->country }} - {{ $event->pin_code }}</p>
                 </div>
               </div>
-            </li>
-            <li>
+            </div>
+            <div class="col-md-6 mt-20">
               <div class="bg-light media border-bottom p-15 mb-20">
                 <div class="media-left">
                   <i class="pe-7s-date text-theme-colored font-24 mt-5"></i>
@@ -82,27 +85,31 @@
                   <p>{{ \Carbon\Carbon::parse($event->date_time)->format('M d, Y h:i A') }} to {{ \Carbon\Carbon::parse($event->end_date_time)->format('M d, Y h:i A') }}</p>
                 </div>
               </div>
-            </li>
-            <li>
-              <h5>Share:</h5>
-              <div class="styled-icons icon-sm icon-gray icon-circled">
-                <a href="https://www.facebook.com/yogintra"><i class="fa fa-facebook"></i></a>
-                <a href="https://twitter.com/yogintra"><i class="fa fa-twitter"></i></a>
-                <a href="https://www.instagram.com/yogintra"><i class="fa fa-instagram"></i></a>
-                <a href="https://www.linkedin.com/in/yogintra/"><i class="fa fa-linkedin"></i></a>
+            </div>
+
+            <div class="col-md-6 mt-20">
+              <div class="bg-light media border-bottom p-15 mb-20">
+                <div class="media-left">
+                  <i class="pe-7s-date text-theme-colored font-24 mt-5"></i>
+                </div>
+                <div class="media-body">
+                  <h5 class="mt-0 mb-0">Share:</h5>
+                  <div class="styled-icons icon-sm icon-gray icon-circled">
+                    <a href="https://www.facebook.com/yogintra"><i class="fa fa-facebook"></i></a>
+                    <a href="https://twitter.com/yogintra"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/yogintra"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/yogintra/"><i class="fa fa-linkedin"></i></a>
+                  </div>
+                </div>
               </div>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-8">
-          <img src="{{ asset($event->image) }}" alt="{{ $event->title }}" width="100%">
+            </div>
+          </div>
         </div>
       </div>
 
       
       <div class="row mt-60">
-        @include('front.pages.event_registration_form')
-        <div class="col-sm-8 offset-sm-2">
+        <div class="col-sm-12 offset-sm-2">
           <h4 class="line-bottom mt-20 mb-20 text-theme-colored">All Details</h4>
           <ul id="myTab" class="nav nav-tabs boot-tabs">
             <li class="active"><a href="#small" data-toggle="tab">Description</a></li>

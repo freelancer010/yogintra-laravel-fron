@@ -1,25 +1,29 @@
-<div class="col-md-4 mt-5">
+<div class="col-md-4">
   <div class="form_booking">
     <form id="booking-form" name="booking-form" action="#" method="post" enctype="multipart/form-data">
-      <h3 class="title text-theme-colored text-center">Registration Form</h3>
+      <h3 class="title text-theme-colored text-center mb-15">Registration Form</h3>
       <div class="row">
         <div class="col-sm-12">
           <div class="form-group">
-            <input type="text" placeholder="Enter Name" name="register_name" required class="form-control">
+            <label for="name">Name</label>
+            <input id="name" type="text" placeholder="Enter Name" name="register_name" required class="form-control">
           </div>
         </div>
         <div class="col-sm-12">
           <div class="form-group">
-            <input type="email" placeholder="Enter Email" name="register_email" class="form-control" required>
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="Enter Email" name="register_email" class="form-control" required>
           </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-12">
           <div class="form-group">
-            <input type="text" placeholder="Enter Phone" name="register_phone" class="form-control" required>
+            <label for="phone">Phone</label>
+            <input id="phone" type="text" placeholder="Enter Phone" name="register_phone" class="form-control" required>
           </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-12">
           <div class="form-group">
+            <label for="reg_ticket">Ticket</label>
             <select id="reg_ticket" onchange="get_price(this.value)" name="register_ticket" class="form-control" required>
               <option value="">Select Ticket</option>
               @if($event->Indian_stu_checkbox)
@@ -39,7 +43,7 @@
             </select>
           </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-12">
           <div class="form-group">
             <label>Select State:</label>
             <select class="form-control states" id="state" name="register_state" required>
@@ -47,7 +51,7 @@
             </select>
           </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-12">
           <div class="form-group">
             <label>Select City:</label>
             <select class="form-control cities" id="city" name="register_city" required>
