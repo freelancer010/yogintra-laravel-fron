@@ -98,7 +98,7 @@
 
         <div class="col-sm-12">
           <div class="form-group text-center">
-            <button class="btn btn-dark btn-theme-colored btn-sm btn-block mt-20 pt-10 pb-10" type="submit">Register now</button>
+            <button class="btn btn-dark btn-theme-colored btn-sm btn-block mt-20 pt-10 pb-10 text-uppercase" type="submit">Register now</button>
           </div>
         </div>
       </div>

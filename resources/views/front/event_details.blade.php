@@ -39,7 +39,8 @@
       <div class="row">
         @include('front.pages.event_registration_form')
         <div class="col-md-8">
-          <img src="{{ asset($event->image) }}" alt="{{ $event->title }}" width="100%">
+          <div class="event-img-holder"style="background:url('{{ asset($event->image) }}')" width="100%">
+          </div>
           <div class="row mt-15">
             <div class="col-md-6 mt-20">
               <div class="bg-light media border-bottom p-15 mb-20">
@@ -138,6 +139,20 @@
   .form_booking {
     background-color: #efefef;
     padding: 20px;
+  }
+  .event-img-holder {
+    height: 73vh;
+    background-size: cover !important;
+    background-position: center !important;
+    border-radius: 5px;
+    background-repeat: no-repeat !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .media {
+    box-shadow: 0px 0 10px #00000030;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #ccc !important;
   }
 </style>
 <script>
