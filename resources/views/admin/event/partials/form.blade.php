@@ -1,12 +1,12 @@
 <div class="row">
   
-  <div class="col-md-12">
+  <!-- <div class="col-md-12">
     <div class="form-group">
       <img id="imagePreview" src="{{ isset($event->image) ? asset($event->image) : '' }}" class="mt-2" style="max-height: auto; width:50%; margin: auto; display: {{ isset($event->image) ? 'block' : 'none' }};">
       <label>Front Image</label>
       <input type="file" name="image" class="form-control" id="imageInput">
     </div>
-  </div>
+  </div> -->
 
   <div class="col-md-3">
     <div class="form-group">
@@ -108,6 +108,34 @@
     </div>
   </div>
 
+    <div class="col-md-6">
+    <div class="form-group">
+      <label for="country">Country <span class="text-danger">*</span></label>
+      <input type="text" name="country" id="country" class="form-control" placeholder="Enter Country" value="{{ old('country', $event->country ?? '') }}">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="state">State <span class="text-danger">*</span></label>
+      <input type="text" name="state" id="state" class="form-control" placeholder="Enter state" value="{{ old('state', $event->state ?? '') }}">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="city">City <span class="text-danger">*</span></label>
+      <input type="text" name="city" id="city" class="form-control" placeholder="Enter city" value="{{ old('city', $event->city ?? '') }}">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="pin_code">Pin Code <span class="text-danger">*</span></label>
+      <input type="text" name="pin_code" id="pin_code" class="form-control" placeholder="Enter pin_code" value="{{ old('pin_code', $event->pin_code ?? '') }}">
+    </div>
+  </div>
+  
   <div class="col-md-12">
     <div class="form-group">
       <label>Event Location <span class="text-danger">*</span></label>

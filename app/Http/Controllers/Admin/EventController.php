@@ -36,17 +36,17 @@ class EventController extends Controller
             'title' => 'required|string|max:255',
             'link' => 'required|string|max:255',
             'category' => 'required|string',
-            'image' => 'required|image|max:2048',
+            'image' => 'nullable|image|max:2048',
             'date_time' => 'required|date',
             'end_date_time' => 'required|date',
             'event_mode' => 'nullable|in:1,2',
-            'main_price' => 'nullable|numeric',
-            'discount_price' => 'nullable|numeric',
+            // 'main_price' => 'nullable|numeric',
+            // 'discount_price' => 'nullable|numeric',
             'event_location' => 'required|string',
-            'country' => 'required|string',
-            'state' => 'required|string',
-            'city' => 'required|string',
-            'pin_code' => 'required|string',
+            // 'country' => 'required|string',
+            // 'state' => 'required|string',
+            // 'city' => 'required|string',
+            // 'pin_code' => 'required|string',
         ]);
 
         $imagePath = null;
@@ -56,7 +56,7 @@ class EventController extends Controller
 
         $data = [
             'title' => $request->input('title'),
-            'link' => Str::slug($request->input('link')),
+            'link' => strtolower(str_replace(" ", "-", $request->input('link'))),
             'category' => $request->input('category'),
             'keyword' => $request->input('keyword', ''),
             'description' => $request->input('description', ''),
@@ -70,13 +70,15 @@ class EventController extends Controller
             'discount_price' => $request->input('discount_price', 0),
             'event_location' => $request->input('event_location'),
             'event_host_by' => $request->input('event_host_by', ''),
+            // 'event_host_plat' => $request->input('event_host_plat', ''),
+            // 'event_build_mode' => $request->input('event_build_mode', ''),
+            'head_code' => $request->input('head_code', ''),
+
             'country' => $request->input('country'),
             'state' => $request->input('state'),
             'city' => $request->input('city'),
             'pin_code' => $request->input('pin_code'),
-            'head_code' => $request->input('head_code', ''),
 
-            // Ticket fields (with safe defaults)
             'ticket_indian' => $request->input('ticket_indian', 'Indian Student'),
             'ticket_short_des_indian' => $request->input('ticket_short_des_indian', ''),
             'ticket_price_indian' => $request->input('ticket_price_indian', 0),
@@ -91,11 +93,9 @@ class EventController extends Controller
             'ticket_d_qnty_foreigner' => $request->input('ticket_d_qnty_foreigner', 0),
             'ticket_r_qnty_foreigner' => $request->input('ticket_r_qnty_foreigner', 0),
 
-            // Checkboxes
             'Indian_stu_checkbox' => $request->has('Indian_stu_checkbox') ? 1 : 0,
             'Foreign_stu_checkbox' => $request->has('Foreign_stu_checkbox') ? 1 : 0,
 
-            // Addon handling
             'Extra_addon_checkbox' => json_encode($request->input('Extra_addon_checkbox', [])),
             'addon_name' => json_encode(array_filter($request->input('addon_name', []))),
             'addon_price' => json_encode(array_filter($request->input('addon_price', []))),
