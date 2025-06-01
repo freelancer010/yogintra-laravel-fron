@@ -37,26 +37,20 @@
         </div>
         <div class="col-sm-12">
           <div class="form-group">
-            <label>Select Country:</label>
-            <select class="form-control countries" id="country" name="register_country" required>
-              <option value="">Select A Country</option>
-            </select>
+            <label for="country">Country:</label>
+            <input id="country" type="text" placeholder="Enter country" name="register_country" required class="form-control">
           </div>
         </div>
         <div class="col-sm-12">
           <div class="form-group">
-            <label>Select State:</label>
-            <select class="form-control states" id="state" name="register_state" required>
-              <option value="">Select your Country First</option>
-            </select>
+            <label for="state">State:</label>
+            <input id="state" type="text" placeholder="Enter state" name="register_state" required class="form-control">
           </div>
         </div>
         <div class="col-sm-12">
           <div class="form-group">
-            <label>Select City:</label>
-            <select class="form-control cities" id="city" name="register_city" required>
-              <option value="">Select your state first</option>
-            </select>
+            <label>City:</label>
+            <input id="city" type="text" placeholder="Enter city" name="register_city" required class="form-control">
           </div>
         </div>
 
