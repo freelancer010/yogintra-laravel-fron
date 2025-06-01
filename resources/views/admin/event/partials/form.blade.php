@@ -1,13 +1,4 @@
 <div class="row">
-  
-  <!-- <div class="col-md-12">
-    <div class="form-group">
-      <img id="imagePreview" src="{{ isset($event->image) ? asset($event->image) : '' }}" class="mt-2" style="max-height: auto; width:50%; margin: auto; display: {{ isset($event->image) ? 'block' : 'none' }};">
-      <label>Front Image</label>
-      <input type="file" name="image" class="form-control" id="imageInput">
-    </div>
-  </div> -->
-
   <div class="col-md-3">
     <div class="form-group">
       <label>Category <span class="text-danger">*</span></label>
@@ -208,6 +199,23 @@
           </div>
         @endforeach
       </div>
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <div class="form-group mt-3">
+      <label for="image">Front Image <span class="text-danger">*</span></label>
+      <div class="mb-2">
+        <input type="file" name="image" id="image" class="form-control-file" required accept="image/*" onchange="previewImage(event)">
+        <small class="form-text text-muted">Max size: 2MB. Formats: JPG, PNG.</small>
+      </div>
+      <img 
+        id="imagePreview" 
+        src="https://via.placeholder.com/150x100?text=Preview" 
+        class="img-thumbnail border-secondary" 
+        style="display:none; max-height: 150px;"
+        src="{{ isset($event->image) ? asset($event->image) : '' }}"
+      >
     </div>
   </div>
 </div>

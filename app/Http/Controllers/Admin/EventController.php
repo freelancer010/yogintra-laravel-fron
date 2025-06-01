@@ -33,25 +33,22 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'link' => 'required|string|max:255',
-            'category' => 'required|string',
+            'title'          => 'required|string|max:255',
+            'link'           => 'required|string|max:255',
+            'category'       => 'required|string',
             'image' => 'nullable|image|max:2048',
             'date_time' => 'required|date',
             'end_date_time' => 'required|date',
             'event_mode' => 'nullable|in:1,2',
-            // 'main_price' => 'nullable|numeric',
-            // 'discount_price' => 'nullable|numeric',
             'event_location' => 'required|string',
-            // 'country' => 'required|string',
-            // 'state' => 'required|string',
-            // 'city' => 'required|string',
-            // 'pin_code' => 'required|string',
         ]);
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('uploads/events', 'public');
+            $image = $request->file('image');
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/events'), $filename);
+            $imagePath = 'uploads/events/' . $filename;
         }
 
         $data = [
@@ -70,8 +67,6 @@ class EventController extends Controller
             'discount_price' => $request->input('discount_price', 0),
             'event_location' => $request->input('event_location'),
             'event_host_by' => $request->input('event_host_by', ''),
-            // 'event_host_plat' => $request->input('event_host_plat', ''),
-            // 'event_build_mode' => $request->input('event_build_mode', ''),
             'head_code' => $request->input('head_code', ''),
 
             'country' => $request->input('country'),
@@ -129,76 +124,72 @@ class EventController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'link' => 'required|string|max:255',
+            'category' => 'required|string',
             'date_time' => 'required|date',
             'end_date_time' => 'required|date',
+            'event_location' => 'required|string',
         ]);
 
-        // Prepare data
         $data = [
-            'title' => $request->title,
-            'link' => strtolower(str_replace(' ', '-', $request->link)),
-            'keyword' => $request->keyword,
-            'description' => $request->description,
-            'short_content' => $request->short_content,
-            'content' => $request->content,
-            'date_time' => $request->date_time,
-            'end_date_time' => $request->end_date_time,
-            'event_mode' => $request->event_mode,
-            'main_price' => $request->main_price,
-            'discount_price' => $request->discount_price,
-            'event_location' => $request->event_location,
-            'head_code' => $request->head_code ?? '',
-            'event_host_by' => $request->event_host_by,
-            'category' => $request->category,
-            'country' => $request->country ?? '',
-            'state' => $request->state ?? '',
-            'city' => $request->city ?? '',
-            'pin_code' => $request->pin_code ?? '',
+            'title' => $request->input('title'),
+            'link' => strtolower(str_replace(" ", "-", $request->input('link'))),
+            'category' => $request->input('category'),
+            'keyword' => $request->input('keyword', ''),
+            'description' => $request->input('description', ''),
+            'short_content' => $request->input('short_content', ''),
+            'content' => $request->input('content', ''),
+            'date_time' => $request->input('date_time'),
+            'end_date_time' => $request->input('end_date_time'),
+            'event_mode' => $request->input('event_mode', 1),
+            'main_price' => $request->input('main_price', 0),
+            'discount_price' => $request->input('discount_price', 0),
+            'event_location' => $request->input('event_location'),
+            'event_host_by' => $request->input('event_host_by', ''),
+            // 'event_host_plat' => $request->input('event_host_plat', ''),
+            // 'event_build_mode' => $request->input('event_build_mode', ''),
+            'head_code' => $request->input('head_code', ''),
+            'country' => $request->input('country'),
+            'state' => $request->input('state'),
+            'city' => $request->input('city'),
+            'pin_code' => $request->input('pin_code'),
 
-            // Ticket - Indian
-            'ticket_indian' => $request->ticket_indian ?? '',
-            'ticket_short_des_indian' => $request->ticket_short_des_indian ?? '',
-            'ticket_price_indian' => $request->ticket_price_indian ?? '',
-            'ticket_capacity_indian' => $request->ticket_capacity_indian ?? '',
-            'ticket_d_qnty_indian' => $request->ticket_d_qnty_indian ?? '',
-            'ticket_r_qnty_indian' => $request->ticket_r_qnty_indian ?? '',
+            'ticket_indian' => $request->input('ticket_indian', 'Indian Student'),
+            'ticket_short_des_indian' => $request->input('ticket_short_des_indian', ''),
+            'ticket_price_indian' => $request->input('ticket_price_indian', 0),
+            'ticket_capacity_indian' => $request->input('ticket_capacity_indian', 0),
+            'ticket_d_qnty_indian' => $request->input('ticket_d_qnty_indian', 0),
+            'ticket_r_qnty_indian' => $request->input('ticket_r_qnty_indian', 0),
 
-            // Ticket - Foreigner
-            'ticket_foreigner' => $request->ticket_foreigner ?? '',
-            'ticket_short_des_foreigner' => $request->ticket_short_des_foreigner ?? '',
-            'ticket_price_foreigner' => $request->ticket_price_foreigner ?? '',
-            'ticket_capacity_foreigner' => $request->ticket_capacity_foreigner ?? '',
-            'ticket_d_qnty_foreigner' => $request->ticket_d_qnty_foreigner ?? '',
-            'ticket_r_qnty_foreigner' => $request->ticket_r_qnty_foreigner ?? '',
+            'ticket_foreigner' => $request->input('ticket_foreigner', 'Foreigner Student'),
+            'ticket_short_des_foreigner' => $request->input('ticket_short_des_foreigner', ''),
+            'ticket_price_foreigner' => $request->input('ticket_price_foreigner', 0),
+            'ticket_capacity_foreigner' => $request->input('ticket_capacity_foreigner', 0),
+            'ticket_d_qnty_foreigner' => $request->input('ticket_d_qnty_foreigner', 0),
+            'ticket_r_qnty_foreigner' => $request->input('ticket_r_qnty_foreigner', 0),
 
-            // Checkboxes
-            'Indian_stu_checkbox' => $request->has('Indian_stu_checkbox') ? 1 : 0 ?? '',
-            'Foreign_stu_checkbox' => $request->has('Foreign_stu_checkbox') ? 1 : 0 ?? '',
+            'Indian_stu_checkbox' => $request->has('Indian_stu_checkbox') ? 1 : 0,
+            'Foreign_stu_checkbox' => $request->has('Foreign_stu_checkbox') ? 1 : 0,
 
-            // JSON fields
-            'Extra_addon_checkbox' => json_encode($request->Extra_addon_checkbox ?? []),
-            'addon_name' => json_encode($request->addon_name ?? []),
-            'addon_price' => json_encode($request->addon_price ?? []),
+            'Extra_addon_checkbox' => json_encode($request->input('Extra_addon_checkbox', [])),
+            'addon_name' => json_encode(array_filter($request->input('addon_name', []))),
+            'addon_price' => json_encode(array_filter($request->input('addon_price', []))),
         ];
 
-        // Handle file upload
         if ($request->hasFile('image')) {
             if ($event->image && file_exists(public_path($event->image))) {
                 @unlink(public_path($event->image));
             }
-
-            $file = $request->file('image');
-            $filename = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), basename($filename));
-
-            $data['image'] = $filename;
+            $image = $request->file('image');
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/events'), $filename);
+            $data['image'] = 'uploads/events/' . $filename;
         }
 
-        // Update DB
         DB::table('event')->where('id', $id)->update($data);
 
         return redirect()->route('admin.event.index')->with('success', 'Event successfully updated!');
     }
+
 
     public function destroy($id)
     {

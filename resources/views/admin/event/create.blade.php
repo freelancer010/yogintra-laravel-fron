@@ -40,18 +40,7 @@
 
         <form action="{{ route('admin.event.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
-
           @include('admin.event.partials.form')
-
-          <div class="form-group mt-3">
-            <label for="image">Front Image <span class="text-danger">*</span></label>
-            <div class="mb-2">
-              <input type="file" name="image" id="image" class="form-control-file" required accept="image/*" onchange="previewImage(event)">
-              <small class="form-text text-muted">Max size: 2MB. Formats: JPG, PNG.</small>
-            </div>
-            <img id="imagePreview" src="https://via.placeholder.com/150x100?text=Preview" class="img-thumbnail border-secondary" style="display:none; max-height: 150px;">
-          </div>
-
           <button type="submit" class="btn btn-success">Save</button>
         </form>
       </div>
