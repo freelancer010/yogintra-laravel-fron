@@ -37,79 +37,151 @@
   <section>
     <div class="container">
       <div class="row">
-        @include('front.pages.event_registration_form')
-        <div class="col-md-8">
-          <div class="event-img-holder"style="background:url('{{ asset($event->image) }}')" width="100%">
-          </div>
-          <div class="row mt-15">
-            <div class="col-md-6 mt-20">
-              <div class="bg-light media border-bottom p-15 mb-20">
-                <div class="media-left">
-                  <i class="pe-7s-pen text-theme-colored font-24 mt-5"></i>
+        <div class="col-md-5">
+          <div class="form_booking">
+            <form id="booking-form" class="mb-0" name="booking-form" action="#" method="post" enctype="multipart/form-data">
+              <h3 class="title text-theme-colored text-center mb-15">Registration Form</h3>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input id="name" type="text" placeholder="Enter Name" name="register_name" required class="form-control">
+                  </div>
                 </div>
-                <div class="media-body">
-                  <h5 class="mt-0 mb-0">Topics:</h5>
-                  <p>{{ $event->title }}</p>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input id="phone" type="text" placeholder="Enter Phone" name="register_phone" class="form-control" required>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-6 mt-20">
-              <div class="bg-light media border-bottom p-15 mb-20">
-                <div class="media-left">
-                  <i class="pe-7s-users text-theme-colored font-24 mt-5"></i>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <input id="email" type="email" placeholder="Enter Email" name="register_email" class="form-control" required>
+                  </div>
                 </div>
-                <div class="media-body">
-                  <h5 class="mt-0 mb-0">Host:</h5>
-                  <p>{{ $event->event_host_by }}</p>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <select id="reg_ticket" onchange="get_price(this.value)" name="register_ticket" class="form-control" required>
+                      <option value="">Select Ticket</option>
+                      @if($event->Indian_stu_checkbox)
+                      <option value="1">Indian Student</option>
+                      @endif
+                      @if($event->Foreign_stu_checkbox)
+                      <option value="2">Foreigner Student</option>
+                      @endif
+                    </select>
+                  </div>
                 </div>
-              </div>
-            </div>
- 
-            <div class="col-md-6 mt-20">
-              <div class="bg-light media border-bottom p-15 mb-20">
-                <div class="media-left">
-                  <i class="pe-7s-home text-theme-colored font-24 mt-5"></i>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input id="country" type="text" placeholder="Enter country" name="register_country" required class="form-control">
+                  </div>
                 </div>
-                <div class="media-body">
-                  <h5 class="mt-0 mb-0">Location:</h5>
-                  <p>{{ $event->event_location }}, {{ $event->city }}, {{ $event->state }}, {{ $event->country }} - {{ $event->pin_code }}</p>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input id="state" type="text" placeholder="Enter state" name="register_state" required class="form-control">
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-6 mt-20">
-              <div class="bg-light media border-bottom p-15 mb-20">
-                <div class="media-left">
-                  <i class="pe-7s-date text-theme-colored font-24 mt-5"></i>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <input id="city" type="text" placeholder="Enter city" name="register_city" required class="form-control">
+                  </div>
                 </div>
-                <div class="media-body">
-                  <h5 class="mt-0 mb-0">Event Date:</h5>
-                  <p>{{ \Carbon\Carbon::parse($event->date_time)->format('M d, Y h:i A') }} to {{ \Carbon\Carbon::parse($event->end_date_time)->format('M d, Y h:i A') }}</p>
-                </div>
-              </div>
-            </div>
 
-            <div class="col-md-6 mt-20">
-              <div class="bg-light media border-bottom p-15 mb-20">
-                <div class="media-left">
-                  <i class="pe-7s-date text-theme-colored font-24 mt-5"></i>
+                @if ($event->addon_name && $event->Extra_addon_checkbox)
+                  @php
+                    $addonNames = json_decode($event->addon_name, true);
+                    $addonCheckboxes = json_decode($event->Extra_addon_checkbox, true);
+                    $addonPrices = json_decode($event->addon_price, true);
+                  @endphp
+                  @if (is_array($addonNames) && count($addonNames))
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      @foreach ($addonNames as $index => $name)
+                        @if (isset($addonCheckboxes[$index]) && $addonCheckboxes[$index] === 'checked')
+                          <div class="form-group mb-0">
+                            <input type="checkbox" class="addon-checkbox" name="register_addon[]" value="{{ $index }}" data-price="{{ $addonPrices[$index] }}">
+                          </div>
+                        @endif
+                      @endforeach
+                    </div>
+                  @endif
+                @endif
+
+                <div class="col-sm-12">
+                  <h4>Main Price : ₹<b id="ttl_p1">0</b></h4>
+                  <h4>Discount Price : ₹<b id="ttl_p2">0</b></h4>
+                  <h4>Total Price : ₹<b id="ttl_p">0</b></h4>
+                  <input type="hidden" id="tpl">
+                  <input type="hidden" id="tplMainAmt" name="ttl_amt">
+                  <input type="hidden" name="event_id" value="{{ $event->id }}">
+                  <input type="hidden" name="event_category" value="{{ $event->category }}">
+                  <input type="hidden" name="event_name" value="{{ $event->title }}">
                 </div>
-                <div class="media-body">
-                  <h5 class="mt-0 mb-0">Share:</h5>
-                  <div class="styled-icons icon-sm icon-gray icon-circled">
-                    <a href="https://www.facebook.com/yogintra"><i class="fa fa-facebook"></i></a>
-                    <a href="https://twitter.com/yogintra"><i class="fa fa-twitter"></i></a>
-                    <a href="https://www.instagram.com/yogintra"><i class="fa fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/in/yogintra/"><i class="fa fa-linkedin"></i></a>
+
+                <div class="col-sm-12">
+                  <div class="form-group text-center mb-0">
+                    <button class="btn btn-dark btn-theme-colored btn-sm btn-block mt-20 pt-10 pb-10 text-uppercase" type="submit">Register now</button>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="event-img-holder"style="background:url('{{ asset($event->image) }}')" width="100%">
           </div>
         </div>
       </div>
+      <div class="row mt-15">
+        <div class="col-md-3 mt-20">
+          <div class="bg-light media border-bottom p-15 mb-20">
+            <div class="media-left">
+              <i class="pe-7s-pen text-theme-colored font-24 mt-5"></i>
+            </div>
+            <div class="media-body">
+              <h5 class="mt-0 mb-0">Topics:</h5>
+              <p>{{ $event->title }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mt-20">
+          <div class="bg-light media border-bottom p-15 mb-20">
+            <div class="media-left">
+              <i class="pe-7s-users text-theme-colored font-24 mt-5"></i>
+            </div>
+            <div class="media-body">
+              <h5 class="mt-0 mb-0">Host:</h5>
+              <p>{{ $event->event_host_by }}</p>
+            </div>
+          </div>
+        </div>
 
-      
-      <div class="row mt-60">
+        <div class="col-md-3 mt-20">
+          <div class="bg-light media border-bottom p-15 mb-20">
+            <div class="media-left">
+              <i class="pe-7s-home text-theme-colored font-24 mt-5"></i>
+            </div>
+            <div class="media-body">
+              <h5 class="mt-0 mb-0">Location:</h5>
+              <p>{{ $event->event_location }}, {{ $event->city }}, {{ $event->state }}, {{ $event->country }} - {{ $event->pin_code }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mt-20">
+          <div class="bg-light media border-bottom p-15 mb-20">
+            <div class="media-left">
+              <i class="pe-7s-date text-theme-colored font-24 mt-5"></i>
+            </div>
+            <div class="media-body">
+              <h5 class="mt-0 mb-0">Event Date:</h5>
+              <p>{{ \Carbon\Carbon::parse($event->date_time)->format('M d, Y h:i A') }} to {{ \Carbon\Carbon::parse($event->end_date_time)->format('M d, Y h:i A') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>      
+      <div class="row mt-5">
         <div class="col-sm-12 offset-sm-2">
           <h4 class="line-bottom mt-20 mb-20 text-theme-colored">All Details</h4>
           <ul id="myTab" class="nav nav-tabs boot-tabs">
@@ -129,8 +201,9 @@
     </div>
   </section>
 </div>
+@endsection
 
-@push('scripts')
+@push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
   .styled-icons a .fa {
@@ -155,30 +228,153 @@
     border-bottom: 1px solid #ccc !important;
   }
 </style>
+@endpush
+
+@push('scripts')
 <script>
   $(document).ready(function () {
-    $('#basic-coupon-clock').countdown("{{ \Carbon\Carbon::parse($event->date_time)->format('Y/m/d H:i') }}", function (event) {
-      $(this).html(event.strftime('%D days %H:%M:%S'));
-    });
-
-    $('#myTab a').click(function (e) {
+    // Booking form submission
+    $("#booking-form").submit(function(e) {
       e.preventDefault();
-      $(this).tab('show');
-    });
+      let form = $(this);
 
-    $("#booking-form").submit(function (e) {
-      e.preventDefault();
-      var form = $(this);
       $.ajax({
         type: "POST",
-        url: "{{ url('/submit-event-form') }}",
+        url: "{{ route('submit.event.form') }}", // Laravel named route
         data: form.serialize(),
-        success: function (data) {
-          window.location.href = "{{ url('/payment_for_event') }}";
+        headers: {
+          'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        success: function(data) {
+          if (data.success) {
+            window.location.href = "{{ route('payment.for.event') }}";
+          }
+        },
+        error: function(xhr) {
+          console.error(xhr.responseText);
         }
       });
+    });
+
+    // Addon checkbox price update
+    const checkboxes = document.querySelectorAll('.addon-checkbox');
+    checkboxes.forEach(cb => cb.addEventListener('change', calculateTotalAmount));
+  });
+
+  let totalAmountMain = 0;
+
+  function calculateTotalAmount() {
+    let totalAmount = 0;
+    document.querySelectorAll('.addon-checkbox:checked').forEach(cb => {
+      totalAmount += parseFloat(cb.dataset.price);
+    });
+    totalAmountMain = totalAmount;
+
+    let ticket_amt = parseFloat($('#tpl').val()) || 0;
+    let sum = ticket_amt + totalAmount;
+
+    $('#ttl_p').html(sum);
+    $('#tplMainAmt').val(sum);
+  }
+
+  function get_price(e) {
+    let main, discount, amount;
+    if (e == 1) {
+      main = @json($event->main_price);
+      discount = @json($event->discount_price);
+      amount = @json($event->ticket_price_indian);
+    } else {
+      main = @json($event->main_price);
+      discount = @json($event->discount_price);
+      amount = @json($event->ticket_price_foreigner);
+    }
+
+    $('#tpl').val(amount);
+    $('#ttl_p').html(amount + totalAmountMain);
+    $('#ttl_p1').html(main);
+    $('#ttl_p2').html(discount);
+    $('#tplMainAmt').val(amount + totalAmountMain);
+  }
+
+  function ajaxCall() {
+    this.send = function(data, url, method, success, type = 'json') {
+      $.ajax({
+        url: url,
+        type: method,
+        data: data,
+        success: success,
+        error: function(xhr) {
+          console.error(xhr.responseText);
+        },
+        dataType: type,
+        timeout: 60000
+      });
+    }
+  }
+
+  function locationInfo() {
+    const rootUrl = "https://geodata.phplift.net/api/index.php";
+    const call = new ajaxCall();
+
+    this.getCities = function(id) {
+      $(".cities option:gt(0)").remove();
+      let url = `${rootUrl}?type=getCities&countryId=&stateId=${id}`;
+      $(".cities").find("option:eq(0)").html("Please wait...");
+      call.send({}, url, "post", function(data) {
+        $(".cities").find("option:eq(0)").html("Select City");
+        Object.values(data.result).forEach(val => {
+          $(".cities").append(`<option value='${val.name}'>${val.name}</option>`);
+        });
+        $(".cities").prop("disabled", false);
+      });
+    };
+
+    this.getStates = function(id) {
+      $(".states option:gt(0), .cities option:gt(0)").remove();
+      let url = `${rootUrl}?type=getStates&countryId=${id}`;
+      $(".states").find("option:eq(0)").html("Please wait...");
+      call.send({}, url, "post", function(data) {
+        $(".states").find("option:eq(0)").html("Select State");
+        Object.values(data.result).forEach(val => {
+          $(".states").append(`<option value='${val.name}' stateid='${val.id}'>${val.name}</option>`);
+        });
+        $(".states").prop("disabled", false);
+      });
+    };
+
+    this.getCountries = function() {
+      let url = `${rootUrl}?type=getCountries`;
+      $(".countries").find("option:eq(0)").html("Please wait...");
+      call.send({}, url, "post", function(data) {
+        $(".countries").find("option:eq(0)").html("Select Country");
+        Object.values(data.result).forEach(val => {
+          $(".countries").append(`<option value='${val.name}' countryid='${val.id}'>${val.name}</option>`);
+        });
+      });
+    };
+  }
+
+  $(function () {
+    const loc = new locationInfo();
+    loc.getCountries();
+
+    $(".countries").on("change", function () {
+      let countryId = $("option:selected", this).attr('countryid');
+      if (countryId) {
+        loc.getStates(countryId);
+      } else {
+        $(".states option:gt(0)").remove();
+      }
+    });
+
+    $(".states").on("change", function () {
+      let stateId = $("option:selected", this).attr('stateid');
+      if (stateId) {
+        loc.getCities(stateId);
+      } else {
+        $(".cities option:gt(0)").remove();
+      }
     });
   });
 </script>
 @endpush
-@endsection

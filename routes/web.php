@@ -46,6 +46,14 @@ Route::get('/thank_you', function () {
 })->name('thank_you');
 // Route::post('/event/register', [EventRegistrationController::class, 'store'])->name('event.register');
 
+Route::post('/submit-event-form', [EventController::class, 'submitEventForm'])->name('submit.event.form');
+Route::get('/payment-for-event', [EventController::class, 'paymentForEvent'])->name('payment.for.event');
+Route::post('/rezorpay-payment-for-event', [EventController::class, 'rezorpayPaymentForEvent'])->name('razorpay.payment.callback');
+Route::get('/event-thank-you', [EventController::class, 'eventThankYou'])->name('event.thankyou');
+
+
+
+
 
 ///////---------------------- |ADMIN ROUTES| -----------------------------/////////
 

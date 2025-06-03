@@ -206,7 +206,11 @@
     <div class="form-group mt-3">
       <label for="image">Front Image <span class="text-danger">*</span></label>
       <div class="mb-2">
-        <input type="file" name="image" id="image" class="form-control-file" required accept="image/*" onchange="previewImage(event)">
+        <input type="file" name="image" id="image" class="form-control-file" 
+        @if($mode != 'edit')
+        required 
+        @endif
+        accept="image/*" onchange="previewImage(event)">
         <small class="form-text text-muted">Max size: 2MB. Formats: JPG, PNG.</small>
       </div>
       <img 
