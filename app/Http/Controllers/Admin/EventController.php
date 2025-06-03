@@ -276,7 +276,7 @@ class EventController extends Controller
         $order_id = now()->format('Ymd') . rand(1000, 9999);
         $mainAmount = (int) Session::get('register_ttl_amt');
 
-        d($mainAmount);
+        dd($mainAmount);
         // If it's 0 or less, show an error or redirect
         if ($mainAmount < 1) {
             return redirect()->back()->with('error', 'Invalid order amount.');
