@@ -246,7 +246,7 @@ class EventController extends Controller
         $setting = DB::table('application_setting')->first();
         $api = new Api($setting->rozar_key_id, $setting->rozar_key_secret);
         $order_id = date('Ymd') . rand(1000, 9999);
-        $mainAmount = Session::get('register_ttl_amt');
+        $mainAmount = Session::get('ttl_amt');
 
         $razorpayOrder = $api->order->create([
             'receipt' => $order_id,
@@ -274,7 +274,7 @@ class EventController extends Controller
         $api = new Api($setting->rozar_key_id, $setting->rozar_key_secret);
 
         $order_id = now()->format('Ymd') . rand(1000, 9999);
-        $mainAmount = (int) Session::get('register_ttl_amt');
+        $mainAmount = (int) Session::get('ttl_amt');
 
         dd($mainAmount);
         // If it's 0 or less, show an error or redirect
@@ -364,7 +364,7 @@ class EventController extends Controller
                 'booking_phone_no' => Session::get('register_phone'),
                 'booking_addon' => Session::get('register_addon'),
                 'booking_ticket' => Session::get('register_ticket'),
-                'booking_price' => Session::get('register_ttl_amt'),
+                'booking_price' => Session::get('ttl_amt'),
                 'booking_event_id' => Session::get('register_event_id'),
                 'booking_pay_id' => $request->razorpay_payment_id,
                 'booking_date' => now()
