@@ -272,8 +272,7 @@ class EventController extends Controller
         $api = new Api($setting->rozar_key_id, $setting->rozar_key_secret);
 
         $order_id = now()->format('Ymd') . rand(1000, 9999);
-        // $mainAmount = (int) Session::get('register_ttl_amt');
-        $mainAmount = 100; // For testing, set a fixed amount
+        $mainAmount = (int) Session::get('register_ttl_amt');
 
         // If it's 0 or less, show an error or redirect
         if ($mainAmount < 1) {
