@@ -232,6 +232,8 @@ class EventController extends Controller
             'event_category', 'register_addon'
         ]);
 
+        Session::flush();
+
         foreach ($data as $key => $value) {
             Session::put($key, is_array($value) ? json_encode($value) : $value);
         }
