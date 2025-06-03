@@ -1,0 +1,1 @@
+/home/u575918738/domains/yogintra.com/laravel_crm/public
