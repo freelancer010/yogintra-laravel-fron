@@ -289,7 +289,7 @@
       amount = @json($event->ticket_price_foreigner);
     }
 
-    amount = parseFloat(amount); // ✅ force it to number
+    amount = parseFloat(amount-discount); // ✅ force it to number
 
     $('#tpl').val(amount);
     $('#ttl_p').html(amount + totalAmountMain);
