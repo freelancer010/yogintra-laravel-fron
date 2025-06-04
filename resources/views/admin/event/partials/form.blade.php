@@ -102,21 +102,21 @@
     <div class="col-md-6">
     <div class="form-group">
       <label for="country">Country <span class="text-danger">*</span></label>
-      <input type="text" name="country" id="country" class="form-control" placeholder="Enter Country" value="{{ old('country', $event->country ?? '') }}">
+      <input type="text" name="country" id="country" class="form-control" placeholder="Enter Country" required value="{{ old('country', $event->country ?? '') }}">
     </div>
   </div>
 
   <div class="col-md-6">
     <div class="form-group">
       <label for="state">State <span class="text-danger">*</span></label>
-      <input type="text" name="state" id="state" class="form-control" placeholder="Enter state" value="{{ old('state', $event->state ?? '') }}">
+      <input type="text" name="state" id="state" class="form-control" placeholder="Enter state" required value="{{ old('state', $event->state ?? '') }}">
     </div>
   </div>
 
   <div class="col-md-6">
     <div class="form-group">
       <label for="city">City <span class="text-danger">*</span></label>
-      <input type="text" name="city" id="city" class="form-control" placeholder="Enter city" value="{{ old('city', $event->city ?? '') }}">
+      <input type="text" name="city" id="city" class="form-control" placeholder="Enter city" required value="{{ old('city', $event->city ?? '') }}">
     </div>
   </div>
 
