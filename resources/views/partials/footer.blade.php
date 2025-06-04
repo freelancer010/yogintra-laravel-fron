@@ -2,11 +2,11 @@
     <div class="container pt-40 pb-10">
         <div class="row border-bottom-black">
             <div class="col-sm-6 col-md-3">
-                <div class="widget dark mb-5">
+                <div class=" dark mb-5">
                     <img class="mt-10 mb-20" width="246" height="66" alt="YogIntra" loading="lazy" src="{{ asset('uploads/6522371db10e06501ab36d6f70Rectrangular-logo-2.png') }}">
                     <p>YogIntra helps promote a balanced development of the physical, mental, and spiritual being.</p>
                 </div>
-                <div class="widget dark">
+                <div class=" dark">
                     <ul class="styled-icons icon-dark icon-circled icon-sm">
                         <li><a href="https://www.facebook.com/yogintra"><i class="fa fa-facebook"></i></a></li>
                         <li><a href="https://www.instagram.com/yogintra"><i class="fa fa-instagram"></i></a></li>
@@ -17,8 +17,8 @@
                 </div>
             </div>
         <div class="col-sm-6 col-md-2">
-                <div class="widget dark">
-                    <h5 class="widget-title line-bottom">Our Events</h5>
+                <div class=" dark">
+                    <h5 class="-title line-bottom">Our Events</h5>
                     <ul class="list-border">
                         <li><a href="{{ url('/teacher_training_course') }}">TTC</a></li>   
                         <li><a href="{{ url('/retreat') }}">Retreat</a></li>
@@ -27,8 +27,8 @@
                 </div>
             </div>
             <div class="col-sm-6 col-md-2">
-                <div class="widget dark">
-                    <h5 class="widget-title line-bottom">Useful Links</h5>
+                <div class=" dark">
+                    <h5 class="-title line-bottom">Useful Links</h5>
                     <ul class="list-border">
                         <li><a href="{{ url('about') }}">About</a></li>
                         <li><a href="{{ url('become-yoga-trainer') }}">Hire</a></li>
@@ -38,8 +38,8 @@
                 </div>
             </div>
             <div class="col-sm-6 col-md-2">
-                <div class="widget dark">
-                    <h5 class="widget-title line-bottom">Our Service</h5>
+                <div class=" dark">
+                    <h5 class="-title line-bottom">Our Service</h5>
                     <ul class="list-border">
                         <li><a href="{{ url('service/home-visit-yoga') }}">Home Visit Yoga</a></li>
                         <li><a href="{{ url('service/private-online-yoga') }}">Private Online Yoga</a></li>
@@ -49,8 +49,8 @@
                 </div>
             </div>
             <div class="col-sm-6 col-md-3">
-                <div class="widget dark">
-                    <h5 class="widget-title line-bottom">Support</h5>
+                <div class=" dark">
+                    <h5 class="-title line-bottom">Support</h5>
                     <div class="opening-hours">
                         <ul class="list-border mt-5">
                             <li class="m-0 pl-10 pr-10"> 
