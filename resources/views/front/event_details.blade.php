@@ -289,6 +289,8 @@
       amount = @json($event->ticket_price_foreigner);
     }
 
+    amount = parseFloat(amount); // ✅ force it to number
+
     $('#tpl').val(amount);
     $('#ttl_p').html(amount + totalAmountMain);
     $('#ttl_p1').html(main);
@@ -311,70 +313,5 @@
       });
     }
   }
-
-  function locationInfo() {
-    const rootUrl = "https://geodata.phplift.net/api/index.php";
-    const call = new ajaxCall();
-
-    this.getCities = function(id) {
-      $(".cities option:gt(0)").remove();
-      let url = `${rootUrl}?type=getCities&countryId=&stateId=${id}`;
-      $(".cities").find("option:eq(0)").html("Please wait...");
-      call.send({}, url, "post", function(data) {
-        $(".cities").find("option:eq(0)").html("Select City");
-        Object.values(data.result).forEach(val => {
-          $(".cities").append(`<option value='${val.name}'>${val.name}</option>`);
-        });
-        $(".cities").prop("disabled", false);
-      });
-    };
-
-    this.getStates = function(id) {
-      $(".states option:gt(0), .cities option:gt(0)").remove();
-      let url = `${rootUrl}?type=getStates&countryId=${id}`;
-      $(".states").find("option:eq(0)").html("Please wait...");
-      call.send({}, url, "post", function(data) {
-        $(".states").find("option:eq(0)").html("Select State");
-        Object.values(data.result).forEach(val => {
-          $(".states").append(`<option value='${val.name}' stateid='${val.id}'>${val.name}</option>`);
-        });
-        $(".states").prop("disabled", false);
-      });
-    };
-
-    this.getCountries = function() {
-      let url = `${rootUrl}?type=getCountries`;
-      $(".countries").find("option:eq(0)").html("Please wait...");
-      call.send({}, url, "post", function(data) {
-        $(".countries").find("option:eq(0)").html("Select Country");
-        Object.values(data.result).forEach(val => {
-          $(".countries").append(`<option value='${val.name}' countryid='${val.id}'>${val.name}</option>`);
-        });
-      });
-    };
-  }
-
-  $(function () {
-    const loc = new locationInfo();
-    loc.getCountries();
-
-    $(".countries").on("change", function () {
-      let countryId = $("option:selected", this).attr('countryid');
-      if (countryId) {
-        loc.getStates(countryId);
-      } else {
-        $(".states option:gt(0)").remove();
-      }
-    });
-
-    $(".states").on("change", function () {
-      let stateId = $("option:selected", this).attr('stateid');
-      if (stateId) {
-        loc.getCities(stateId);
-      } else {
-        $(".cities option:gt(0)").remove();
-      }
-    });
-  });
 </script>
 @endpush
