@@ -2,8 +2,8 @@
 
 @extends('layouts.layout')
 
-@section('meta_title', 'Yogintra service details')
-@section('meta_description', 'Yogintra service details')
+@section('meta_title', $service->service_name)
+@section('meta_description', $service->service_name)
 @section('meta_keywords', '')
 
 @push('styles')
