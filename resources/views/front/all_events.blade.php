@@ -41,8 +41,7 @@
         </div>
     </div>
 </section>
-
-@if($all_event)
+@if($all_event->count())
 <section id="upcoming-events" style="margin-top:60px">
     <div class="container pb-0 pt-0">
         <div class="section-content">
