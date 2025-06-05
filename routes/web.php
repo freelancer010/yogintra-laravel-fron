@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TinymceController;
 
+// Admin Controllers
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\YogaCenterController;
@@ -17,34 +18,44 @@ use App\Http\Controllers\Admin\GalleryController;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'about']);
 Route::get('/trainers', [HomeController::class, 'allTrainers'])->name('trainers.index');
-Route::post('/get_data_for_trainer', [HomeController::class, 'get_data_for_trainer']);
+Route::get('/gallery', [HomeController::class, 'gallery']);
+
+Route::get('/contact', [HomeController::class, 'contact']);
+Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm'])->name('form.submit');
+
 Route::get('/blog', [HomeController::class, 'allBlog']);
 Route::get('/blog/{slug}', [HomeController::class, 'blogDetails'])->name('blog.details');
 Route::get('/blog_category/{slug}', [HomeController::class, 'blogCategory'])->name('blog.category');
-Route::get('/service/{slug}', [HomeController::class, 'allService'])->name('all-service');
+
 Route::get('/service-details/{slug}', [HomeController::class, 'serviceDetails']);
-Route::get('/gallery', [HomeController::class, 'gallery']);
-Route::get('/contact', [HomeController::class, 'contact']);
+Route::get('/service/{slug}', [HomeController::class, 'allService'])->name('all-service');
+
 Route::get('/event-details/{slug}', [HomeController::class, 'eventDetails']);
-Route::get('/coming-soon', [HomeController::class, 'comingSoon']);
+Route::get('/event/{slug}', [HomeController::class, 'eventDetails'])->name('event.details');
+
+Route::post('/get_data_for_trainer', [HomeController::class, 'get_data_for_trainer']);
+
 Route::get('/teacher_training_course', [HomeController::class, 'teacherTrainingCourse'])->name('ttc');
 Route::get('/terms-and-condition', [HomeController::class, 'termsAndCondition']);
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/refund-policy', [HomeController::class, 'refundPolicy']);
 Route::get('/retreat', [HomeController::class, 'allRetreat'])->name('retreat.all');
-Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm'])->name('form.submit');
+
 Route::get('/workshop', [HomeController::class, 'allWorkshop'])->name('workshop');
 Route::get('/workshop/{slug}', [HomeController::class, 'eventDetails'])->name('workshop.details');
+
 Route::get('/yoga_center', [HomeController::class, 'allYogaCenter'])->name('yoga.center');
 Route::get('/yoga-center/{slug}', [HomeController::class, 'yogaCenterDetails'])->name('yoga.center.details');
+
 Route::get('/become-yoga-trainer', [HomeController::class, 'becomeYogaTrainer']);
-Route::get('/city/{slug}', [HomeController::class, 'landingPage']);
-Route::get('/event/{slug}', [HomeController::class, 'eventDetails'])->name('event.details');
 Route::post('/become-yoga-trainer', [HomeController::class, 'submitTrainerForm'])->name('trainer.submit');
+
+Route::get('/city/{slug}', [HomeController::class, 'landingPage']);
+
+Route::get('/coming-soon', [HomeController::class, 'comingSoon']);
 Route::get('/thank_you', function () {
     return view('front.thank_you');
 })->name('thank_you');
-// Route::post('/event/register', [EventRegistrationController::class, 'store'])->name('event.register');
 
 Route::post('/submit-event-form', [EventController::class, 'submitEventForm'])->name('submit.event.form');
 Route::get('/payment-for-event', [EventController::class, 'paymentForEvent'])->name('payment.for.event');

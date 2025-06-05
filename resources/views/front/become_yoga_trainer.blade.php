@@ -132,8 +132,12 @@
 @push('scripts')
 <script src="https://geodata.phplift.net/api/index.js"></script>
 <script>
-$(document).ready(function () {
-  var currentStep = 1;
+  $(document).ready(function () {
+    $('input').on('input', function() {
+      this.value = this.value.toUpperCase();
+    });
+
+    var currentStep = 1;
 
   $('.next').click(function () {
     if (validateStep(currentStep)) {
