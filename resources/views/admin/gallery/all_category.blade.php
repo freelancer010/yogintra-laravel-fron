@@ -25,7 +25,7 @@
           <h3 class="card-title">View All Category</h3>
           <div class="card-tools">
             <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCategoryModal">
-              <i class="fa fa-plus"></i> Add Gallery
+              <i class="fa fa-plus"></i> Add Category
             </button>
           </div>
         </div>

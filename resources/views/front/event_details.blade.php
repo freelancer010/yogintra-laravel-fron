@@ -233,6 +233,11 @@
 @push('scripts')
 <script>
   $(document).ready(function () {
+
+    $('input').on('input', function() {
+      this.value = this.value.toUpperCase();
+    });
+
     // Booking form submission
     $("#booking-form").submit(function(e) {
       e.preventDefault();

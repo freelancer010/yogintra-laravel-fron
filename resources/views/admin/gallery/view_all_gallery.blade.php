@@ -53,21 +53,16 @@
                 <td>{{ $data->g_cat_name }}</td>
                 <td>
                   <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                      Action
-                    </button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="{{ route('admin.gallery.edit', $data->gallery_id) }}">
-                        <i class="fas fa-edit"></i> Edit
-                      </a>
-                      <form action="{{ route('admin.gallery.delete', $data->gallery_id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="dropdown-item text-danger">
-                          <i class="fas fa-trash"></i> Delete
-                        </button>
-                      </form>
-                    </div>
+                    <a class="dropdown-item" href="{{ route('admin.gallery.edit', $data->gallery_id) }}">
+                      <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form action="{{ route('admin.gallery.delete', $data->gallery_id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="dropdown-item text-danger">
+                        <i class="fas fa-trash"></i> Delete
+                      </button>
+                    </form>
                   </div>
                 </td>
               </tr>

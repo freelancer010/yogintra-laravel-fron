@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\YogaCenterController;
 use App\Http\Controllers\Admin\FrontSettingController;
 use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Admin\BlogController;
 
 
 
@@ -129,10 +130,17 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
 
     // Blog
-    Route::get('/blog/blog_category', [App\Http\Controllers\AdminController::class, 'category'])->name('blog.category');
-    Route::get('/blog/add_new_post', [App\Http\Controllers\AdminController::class, 'create'])->name('blog.create');
-    Route::get('/blog/view_all_post', [App\Http\Controllers\AdminController::class, 'index'])->name('blog.index');
+    Route::get('/blog/blog-category', [BlogController::class, 'blogCategory'])->name('blog.category');
+    Route::post('/blog/blog-category/store', [BlogController::class, 'store'])->name('blog_category.store');
+    Route::get('/blog/blog-category/edit/{blog_category}', [BlogController::class, 'edit'])->name('blog_category.edit');
+    Route::post('/blog/blog-category/update/{blog_category}', [BlogController::class, 'update'])->name('blog_category.update');
+    Route::get('/blog/blog-category/delete/{blog_category}', [BlogController::class, 'destroy'])->name('blog_category.delete');
 
+    Route::get('/blog/add_new_post', [BlogController::class, 'create'])->name('blog.create');
+    Route::get('/blog/view_all_post', [BlogController::class, 'index'])->name('blog.index');
+
+
+    
     // Landing Page
     Route::get('/landing_page/landing_page', [App\Http\Controllers\AdminController::class, 'index'])->name('landing.index');
 

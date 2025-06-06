@@ -90,21 +90,15 @@
               <div class="form-step" id="step-3">
                 <div class="form-group">
                   <label for="country">Select Country:</label>
-                  <select class="form-control countries" id="country" name="country" required>
-                    <option value="">Select A Country</option>
-                  </select>
+                  <input type="text" class="form-control" name="country" required>
                 </div>
                 <div class="form-group">
                   <label for="state">Select State:</label>
-                  <select class="form-control states" id="state" name="state" required>
-                    <option value="">Select your Country First</option>
-                  </select>
+                  <input type="text" class="form-control" name="state" required>
                 </div>
                 <div class="form-group">
                   <label for="city">Select City:</label>
-                  <select class="form-control cities" id="city" name="city" required>
-                    <option value="">Select your state first</option>
-                  </select>
+                  <input type="text" class="form-control" name="city" required>
                 </div>
                 <div class="form-group">
                   <label for="address">Your Address:</label>

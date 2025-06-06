@@ -578,7 +578,7 @@
       </div>
 
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-6">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030a9e1ab49health-icon.png') }}" alt="yogintra good for health">
@@ -590,7 +590,7 @@
           </div>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-6">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030aafc7902heart-beat.png') }}" alt="yogintra Good for Cardio">
@@ -602,7 +602,7 @@
           </div>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-6">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030ac4021e6weight-loss.png') }}" alt="yogintra Good for Body">
@@ -614,7 +614,7 @@
           </div>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-6">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030ad5516adbreathing.png') }}" alt="yogintra Good for Breathing">
@@ -695,7 +695,7 @@
         <div class="section-content text-center">
             <div class="row">
                 @foreach ($yogaServices as $service)
-                    <div class="col-xs-12 col-sm-6 col-md-3 mb-4 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
+                    <div class="col-xs-12 col-6 col-md-3 mb-4 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                         <img loading="lazy" width="160" height="160" class="img-circle img-thumbnail mb-2" src="{{ asset($service['image']) }}" alt="{{ $service['title'] }}">
                         <h4 class="mb-5">{{ $service['title'] }}</h4>
                         <a href="{{ url($service['link']) }}" class="btn btn-success">Visit Now</a>
@@ -817,7 +817,7 @@
         </div>
         <div class="row mt-3">
             @for ($i = 1; $i <= 3; $i++)
-                <div class="col-xs-12 col-sm-6 col-md-4 sm-text-center mb-30 mb-sm-30">
+                <div class="col-xs-12 col-6 col-md-4 sm-text-center mb-30 mb-sm-30">
                     <div class="team-members text-center maxwidth400" onclick="open_modal({{ $i }})">
                         <div class="team-thumb">
                             <img loading="lazy" class="img-fullwidth" id="imageresource_{{ $i }}" style="height: 200px; width: auto" alt="yogintra" src="{{ asset('uploads/yoga-pose' . $i . '.jpeg') }}">
