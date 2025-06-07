@@ -26,7 +26,7 @@ Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm']
 
 Route::get('/blog', [HomeController::class, 'allBlog']);
 Route::get('/blog/{slug}', [HomeController::class, 'blogDetails'])->name('blog.details');
-Route::get('/blog_category/{slug}', [HomeController::class, 'blogCategory'])->name('blog.category');
+Route::get('/blog-category/{slug}', [HomeController::class, 'blogCategory'])->name('blog.category');
 
 Route::get('/service-details/{slug}', [HomeController::class, 'serviceDetails']);
 Route::get('/service/{slug}', [HomeController::class, 'allService'])->name('all-service');
@@ -34,9 +34,9 @@ Route::get('/service/{slug}', [HomeController::class, 'allService'])->name('all-
 Route::get('/event-details/{slug}', [HomeController::class, 'eventDetails']);
 Route::get('/event/{slug}', [HomeController::class, 'eventDetails'])->name('event.details');
 
-Route::post('/get_data_for_trainer', [HomeController::class, 'get_data_for_trainer']);
+Route::post('/get-data-for-trainer', [HomeController::class, 'get_data_for_trainer'])->name('trainer.data');
 
-Route::get('/teacher_training_course', [HomeController::class, 'teacherTrainingCourse'])->name('ttc');
+Route::get('/teacher-training-course', [HomeController::class, 'teacherTrainingCourse'])->name('ttc');
 Route::get('/terms-and-condition', [HomeController::class, 'termsAndCondition']);
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/refund-policy', [HomeController::class, 'refundPolicy']);
@@ -45,7 +45,7 @@ Route::get('/retreat', [HomeController::class, 'allRetreat'])->name('retreat.all
 Route::get('/workshop', [HomeController::class, 'allWorkshop'])->name('workshop');
 Route::get('/workshop/{slug}', [HomeController::class, 'eventDetails'])->name('workshop.details');
 
-Route::get('/yoga_center', [HomeController::class, 'allYogaCenter'])->name('yoga.center');
+Route::get('/yoga-center', [HomeController::class, 'allYogaCenter'])->name('yoga.center');
 Route::get('/yoga-center/{slug}', [HomeController::class, 'yogaCenterDetails'])->name('yoga.center.details');
 
 Route::get('/become-yoga-trainer', [HomeController::class, 'becomeYogaTrainer']);

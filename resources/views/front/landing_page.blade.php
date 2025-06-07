@@ -661,7 +661,7 @@
         [
             'title' => 'TTC',
             'image' => 'uploads/ttc.webp',
-            'link' => 'teacher_training_course',
+            'link' => 'teacher-training-course',
         ],
         [
             'title' => 'Retreat',

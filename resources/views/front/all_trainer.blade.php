@@ -140,7 +140,7 @@
   function get_data(data) {
     $.ajax({
       type: "POST",
-      url: "{{ url('get_data_for_trainer') }}",
+      url: "{{ url('get-data-for-trainer') }}",
       data: { data: data },
       success: function(response) {
         $('#content_data').html(response);

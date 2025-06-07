@@ -230,7 +230,7 @@
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" height="150" width="150" loading="lazy" alt="TTC">
                                 <h4 class="mb-5">TTC</h4>
-                                <a href="{{ url('teacher_training_course') }}" class="btn btn-success">Visit Now</a>
+                                <a href="{{ url('teacher-training-course') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">

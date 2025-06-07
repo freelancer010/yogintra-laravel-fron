@@ -20,7 +20,7 @@
                 <div class="widget dark mb-0">
                     <h5 class="widget-title line-bottom">Our Events</h5>
                     <ul class="list-border">
-                        <li><a href="{{ url('/teacher_training_course') }}">TTC</a></li>   
+                        <li><a href="{{ url('/teacher-training-course') }}">TTC</a></li>   
                         <li><a href="{{ url('/retreat') }}">Retreat</a></li>
                         <li><a href="{{ url('/workshop') }}">Workshop</a></li>
                     </ul>
