@@ -110,7 +110,10 @@
                 @endif
 
                 <div class="col-sm-12">
-                  <h4>Main Price : ₹<b id="ttl_p1">0</b></h4>
+                  <div class="price-holder">
+                    <h4>Main Price : </h4>
+                    <p>₹<b id="ttl_p1">0</b></p>
+                  </div>
                   <h4>Discount Price : ₹<b id="ttl_p2">0</b></h4>
                   <h4>Total Price : ₹<b id="ttl_p">0</b></h4>
                   <input type="hidden" id="tpl">
@@ -206,6 +209,12 @@
 @push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+  .price-holder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+  }
   .styled-icons a .fa {
     line-height: 2.2;
   }
