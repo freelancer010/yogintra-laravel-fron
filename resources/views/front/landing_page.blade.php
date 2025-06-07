@@ -695,7 +695,7 @@
         <div class="section-content text-center">
             <div class="row">
                 @foreach ($yogaServices as $service)
-                    <div class="col-xs-12 col-lg-6 col-md-3 mb-4 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
+                    <div class="col-xs-12 col-sm-6 col-md-3 mb-4 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                         <img loading="lazy" width="160" height="160" class="img-circle img-thumbnail mb-2" src="{{ asset($service['image']) }}" alt="{{ $service['title'] }}">
                         <h4 class="mb-5">{{ $service['title'] }}</h4>
                         <a href="{{ url($service['link']) }}" class="btn btn-success">Visit Now</a>
@@ -727,7 +727,7 @@
 <section class="about-section">
     <div class="container section-padding" style="padding-top: 30px !important; padding-bottom: 30px !important;">
         <div class="row">
-            <div class="image-column col-lg-6 col-md-12 col-sm-12">
+            <div class="image-column col-sm-6 col-md-12 col-sm-12">
                 <div class="inner-column wow fadeInLeft">
                     <div class="author-desc">
                         <h2>Amit Pandey</h2>
@@ -741,7 +741,7 @@
                 </div>
             </div>
 
-            <div class="content-column col-lg-6 col-md-12 col-sm-12 order-2 padding-top-media">
+            <div class="content-column col-sm-6 col-md-12 col-sm-12 order-2 padding-top-media">
                 <div class="inner-column">
                     <div class="sec-title">
                         <h2>About Founder:</h2>
@@ -817,7 +817,7 @@
         </div>
         <div class="row mt-3">
             @for ($i = 1; $i <= 3; $i++)
-                <div class="col-xs-12 col-lg-6 col-md-4 sm-text-center mb-30 mb-sm-30">
+                <div class="col-xs-12 col-sm-6 col-md-4 sm-text-center mb-30 mb-sm-30">
                     <div class="team-members text-center maxwidth400" onclick="open_modal({{ $i }})">
                         <div class="team-thumb">
                             <img loading="lazy" class="img-fullwidth" id="imageresource_{{ $i }}" style="height: 200px; width: auto" alt="yogintra" src="{{ asset('uploads/yoga-pose' . $i . '.jpeg') }}">
