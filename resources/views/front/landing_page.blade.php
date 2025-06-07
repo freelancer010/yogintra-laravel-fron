@@ -578,7 +578,7 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6" style="width:48%;">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030a9e1ab49health-icon.png') }}" alt="yogintra good for health">
@@ -590,7 +590,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-6" style="width:48%;">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030aafc7902heart-beat.png') }}" alt="yogintra Good for Cardio">
@@ -602,7 +602,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-6" style="width:48%;">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030ac4021e6weight-loss.png') }}" alt="yogintra Good for Body">
@@ -614,7 +614,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-6" style="width:48%;">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
             <a class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030ad5516adbreathing.png') }}" alt="yogintra Good for Breathing">
