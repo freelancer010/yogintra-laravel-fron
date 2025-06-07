@@ -727,7 +727,7 @@
 <section class="about-section">
     <div class="container section-padding" style="padding-top: 30px !important; padding-bottom: 30px !important;">
         <div class="row">
-            <div class="image-column col-sm-6 col-md-12 col-sm-12">
+            <div class="image-column col-lg-6 col-md-12 col-sm-12">
                 <div class="inner-column wow fadeInLeft">
                     <div class="author-desc">
                         <h2>Amit Pandey</h2>
@@ -741,7 +741,7 @@
                 </div>
             </div>
 
-            <div class="content-column col-sm-6 col-md-12 col-sm-12 order-2 padding-top-media">
+            <div class="content-column col-lg-6 col-md-12 col-sm-12 order-2 padding-top-media">
                 <div class="inner-column">
                     <div class="sec-title">
                         <h2>About Founder:</h2>
