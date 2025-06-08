@@ -282,7 +282,7 @@ class EventController extends Controller
         }
 
         $razorpayOrder = $api->order->create([
-            'receipt'         => 'ORD_' . now()->format('YmdHis'),
+            'receipt'         => 'YOGINTRA',
             'amount'          => $mainAmount * 100, // converting to paise
             'currency'        => 'INR',
             'payment_capture' => 1
