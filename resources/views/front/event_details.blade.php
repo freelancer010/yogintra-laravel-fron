@@ -110,12 +110,19 @@
                 @endif
 
                 <div class="col-sm-12">
+                  <hr>
                   <div class="price-holder">
-                    <h4>Main Price : </h4>
+                    <p>Main Price : </p>
                     <p>₹<b id="ttl_p1">0</b></p>
                   </div>
-                  <h4>Discount Price : ₹<b id="ttl_p2">0</b></h4>
-                  <h4>Total Price : ₹<b id="ttl_p">0</b></h4>
+                  <div class="price-holder">
+                    <p>Discount Price : </p>
+                    <p>₹<b id="ttl_p2">0</b></p>
+                  </div>
+                  <div class="price-holder">
+                    <p>Total Price : </p>
+                    <p>₹<b id="ttl_p">0</b></p>
+                  </div>
                   <input type="hidden" id="tpl">
                   <input type="hidden" id="tplMainAmt" name="ttl_amt">
                   <input type="hidden" name="event_id" value="{{ $event->id }}">
@@ -223,7 +230,7 @@
     padding: 20px;
   }
   .event-img-holder {
-    height: 73vh;
+    height: 77.5vh;
     background-size: cover !important;
     background-position: center !important;
     border-radius: 5px;
@@ -235,6 +242,10 @@
     border-radius: 5px;
     border: 1px solid #ccc;
     border-bottom: 1px solid #ccc !important;
+  }
+  hr {
+    border-bottom: 2px solid #ccc !important;
+    margin: 0 auto 10px auto !important;
   }
 </style>
 @endpush
