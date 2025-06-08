@@ -37,7 +37,7 @@
   <section>
     <div class="container">
       <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-4">
           <div class="form_booking">
             <form id="booking-form" class="mb-0" name="booking-form" action="#" method="post" enctype="multipart/form-data">
               <h3 class="title text-theme-colored text-center mb-15">Registration Form</h3>
@@ -139,7 +139,7 @@
             </form>
           </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-8">
           <div class="event-img-holder"style="background:url('{{ asset($event->image) }}')" width="100%">
           </div>
         </div>
