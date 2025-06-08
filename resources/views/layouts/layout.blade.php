@@ -51,8 +51,8 @@
     <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="all">
     <link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css">
     
-        <!-- Footer -->
-        <style>
+    <!-- Footer -->
+    <style>
         .horizontal-list {
             list-style-type: none;
             padding: 0;

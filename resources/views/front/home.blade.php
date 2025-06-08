@@ -1,5 +1,6 @@
 @extends('layouts.layout')
 @push('styles')
+    <link rel="preload" as="image" href="{{ asset('assets/Home-Banner.webp') }}" type="image/webp">
     <style>
         .yg-txt-right{
             text-align:right;
@@ -69,6 +70,31 @@
         .kzANES{
         height: none !important;
         }
+
+        .position-relative {
+            position: relative;
+        }
+        .position-absolute {
+            position: absolute;
+        }
+        .top-0 {
+            top: 0;
+        }
+        .left-0 {
+            left: 0;
+        }
+        .w-100 {
+            width: 100%;
+        }
+        .h-100 {
+            height: 100%;
+        }
+        .d-flex {
+            display: flex;
+        }
+        .align-items-center {
+            align-items: center;
+        }
   </style>
 @endpush
 @section('content')
@@ -119,16 +145,31 @@
             @endforeach
         </div>
 
-        <div class="mobile-home" style="background-image: url('{{ asset('assets/Home-Banner.webp') }}');">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="bg-white-transparent pt-20 pb-50 outline-border">
-                        <h2 class="text-black-555 mob-font-54">{{ $mob_heading }}</h2>
-                        <h5 class="font-weight-400 margin-tp sub_heading mob-sub_heading">{{ $mob_sub_heading }}</h5>
+        <div class="mobile-home position-relative" style="width: 100%;">
+            <img
+                src="{{ asset('assets/Home-Banner.webp') }}"
+                alt="Yoga and Meditation Banner"
+                width="360"
+                height="640"
+                decoding="async"
+                fetchpriority="high"
+                style="width: 100%; height: auto; display: block;"
+            >
+
+            <div class="position-absolute top-0 left-0 w-100 align-items-center p-15 pt-0">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="bg-white-transparent pt-20 pb-50 outline-border">
+                                <h2 class="text-black-555 mob-font-54">{{ $mob_heading }}</h2>
+                                <h5 class="font-weight-400 margin-tp sub_heading mob-sub_heading">{{ $mob_sub_heading }}</h5>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </section>
 
     <section class="section-content-image" style="background-image: url('{{ asset($section_1->of_image) }}'); background-repeat: no-repeat; background-size: auto;">
