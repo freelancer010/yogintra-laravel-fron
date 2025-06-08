@@ -89,26 +89,25 @@
                 @if ($event->addon_name && $event->Extra_addon_checkbox)
                   @php
                     $addonNames = json_decode($event->addon_name, true);
-                    $addonCheckboxes = json_decode($event->Extra_addon_checkbox, true);
                     $addonPrices = json_decode($event->addon_price, true);
+                    $addonCheckboxes = json_decode($event->Extra_addon_checkbox, true);
                   @endphp
+
                   @if (is_array($addonNames) && count($addonNames))
                     <div class="col-sm-12">
-                      <div class="form-group">
-                      </div>
-                    </div>
-                    <div class="col-sm-12">
                       @foreach ($addonNames as $index => $name)
-                        @if (isset($addonCheckboxes[$index]) && $addonCheckboxes[$index] === 'checked')
+                        @if (!empty($addonCheckboxes[$index]))
                           <div class="form-group mb-0">
-                            <input type="checkbox" class="addon-checkbox" name="register_addon[]" value="{{ $index }}" data-price="{{ $addonPrices[$index] }}">
+                            <label>
+                              <input type="checkbox" class="addon-checkbox" name="register_addon[]" value="{{ $index }}" data-price="{{ $addonPrices[$index] }}">
+                              {{ $name }} (+ ₹{{ $addonPrices[$index] }})
+                            </label>
                           </div>
                         @endif
                       @endforeach
                     </div>
                   @endif
                 @endif
-
                 <div class="col-sm-12">
                   <hr>
                   <div class="price-holder">

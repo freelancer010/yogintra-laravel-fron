@@ -409,7 +409,6 @@ class HomeController extends Controller
         if (!$event) {
             abort(404);
         }
-dd($event);
         return view('front.event_details', compact('event'));
     }
 
@@ -423,7 +422,7 @@ dd($event);
 
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => 'https://crm.yogintra.com/api/addRecruitments',
+            CURLOPT_URL => $this->api.'/addRecruitments',
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => http_build_query($data),
             CURLOPT_RETURNTRANSFER => true
