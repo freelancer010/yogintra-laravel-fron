@@ -409,7 +409,7 @@ class HomeController extends Controller
         if (!$event) {
             abort(404);
         }
-
+dd($event);
         return view('front.event_details', compact('event'));
     }
 
