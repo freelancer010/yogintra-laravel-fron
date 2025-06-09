@@ -151,7 +151,7 @@
             @endforeach
         </div>
 
-        <div class="mobile-home position-relative" style="width: 100%;">
+        <div class="mobile-home position-relative p-0" style="width: 100%;">
             <img
                 src="{{ asset('assets/Home-Banner.webp') }}"
                 alt="Yoga and Meditation Banner"
