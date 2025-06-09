@@ -3,7 +3,7 @@
     <link rel="preload" as="image" href="{{ asset('assets/Home-Banner.webp') }}" type="image/webp">
     <style>
         #home {
-            min-height: 80vh;
+            min-height: 100vh;
         }
         .yg-txt-right{
             text-align:right;
@@ -30,6 +30,9 @@
         background-color: #fff;
         }
         @media (max-width: 767px) {
+            #home {
+                min-height: 60vh !important ;
+            }
             .section-content-image {
                 background-image: none!important;
             }
