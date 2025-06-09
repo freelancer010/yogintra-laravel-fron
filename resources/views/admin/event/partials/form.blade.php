@@ -207,7 +207,7 @@
       <label for="image">Front Image <span class="text-danger">*</span></label>
       <div class="mb-2">
         <input type="file" name="image" id="image" class="form-control-file" 
-        @if($mode != 'edit')
+        @if(isset($mode) && $mode != 'edit')
         required 
         @endif
         accept="image/*" onchange="previewImage(event)">

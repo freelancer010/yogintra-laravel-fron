@@ -14,17 +14,11 @@ class Blog extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'blog_title',
-        'blog_slug',
-        'blog_meta_keywords',
-        'blog_meta_description',
-        'blog_short_description',
-        'blog_content',
-        'blog_author',
-        'blog_category',
-        'blog_image',
-        'created_at',
-        'status',
+        'blog_title', 'blog_slug', 'blog_author', 'blog_short_description',
+        'blog_meta_keywords', 'blog_meta_description', 'blog_content',
+        'blog_category', 'blog_image', 'created_at', 'status', 'blog_view', 
+        'blog_like', 'blog_dislike', 'blog_love', 'blog_wow', 'blog_funny', 
+        'blog_angry'
     ];
 
     public static function getAllBlogsForHomePage()
