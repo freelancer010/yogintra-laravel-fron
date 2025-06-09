@@ -1,16 +1,10 @@
 @extends('layouts.layout')
 
-@section('meta')
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-<meta name="description" content="{{ $blog->blog_meta_description }}" />
-<meta property="og:title" content="{{ $blog->blog_title }}" />
-<meta property="og:description" content="{{ $blog->blog_meta_description }}" />
-<meta name="keywords" content="{{ $blog->blog_meta_keywords }}" />
-<meta name="author" content="YogIntra" />
-<title>{{ $blog->blog_title }}</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-flat.css" />
+@section('meta_title', $blog->blog_title)
+@section('meta_description', $blog->blog_meta_description)
+@section('meta_keywords', $blog->blog_meta_keywords)
+
+@push('styles')
 <style>
   .post p a {
     color: blue !important;
@@ -19,7 +13,7 @@
     color: #fff !important;
   }
 </style>
-@endsection
+@endpush
 
 @section('content')
 <div class="main-content">
@@ -81,14 +75,3 @@
   </section>
 </div>
 @endsection
-
-@push('scripts')
-<!-- <script src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
-<script>
-  $(document).ready(function() {
-    $("#share").jsSocials({
-      shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon", "whatsapp"]
-    });
-  });
-</script> -->
-@endpush
