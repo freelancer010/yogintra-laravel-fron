@@ -2,6 +2,9 @@
 @push('styles')
     <link rel="preload" as="image" href="{{ asset('assets/Home-Banner.webp') }}" type="image/webp">
     <style>
+        #home {
+            min-height: 100vh;
+        }
         .yg-txt-right{
             text-align:right;
         }
