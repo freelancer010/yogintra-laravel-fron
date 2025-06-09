@@ -3,6 +3,7 @@
 @section('meta_title', $blog->blog_title)
 @section('meta_description', $blog->blog_meta_description)
 @section('meta_keywords', $blog->blog_meta_keywords)
+@section('og_image', asset($blog->blog_image))
 
 @push('styles')
 <style>
