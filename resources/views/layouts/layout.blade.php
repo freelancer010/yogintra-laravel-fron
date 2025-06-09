@@ -16,7 +16,13 @@
 
     <meta property="og:title" content="@yield('meta_title', $app_setting->app_meta_title ?? 'YogIntra')" />
     <meta property="og:description" content="@yield('meta_description', $app_setting->app_meta_description ?? 'Yogintra')" />
-    
+    <meta property="og:image" content="{{ asset('assets/og-logo.webp') }}" />
+    <meta property="og:image:type" content="image/webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+
     <meta name="author" content="YogIntra" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
