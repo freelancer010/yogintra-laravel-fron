@@ -172,7 +172,7 @@
 
     </section>
 
-    <section class="section-content-image" style="background-image: url('{{ asset($section_1->of_image) }}'); background-repeat: no-repeat; background-size: auto;">
+    <section class="section-content-image" style="background-image: url('{{ asset($section_1->of_image) }}'); background-repeat: no-repeat; background-size: auto; min-height: 600px;">
         <div class="container">
             <div class="section-title text-center">
                 <div class="row">
