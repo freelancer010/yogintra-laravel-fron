@@ -22,4 +22,9 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+        
+    # Redirect www to non-www
+    RewriteCond %{HTTP_HOST} ^www\\.yogintra\\.com [NC]
+    RewriteRule ^(.*)$ https://yogintra.com/$1 [L,R=301]
 </IfModule>
