@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+
 use App\Models\BlogCategory;
 use App\Models\Blog;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Session;
 use App\Models\Setting;
+
 
 class BlogController extends Controller
 {
@@ -48,17 +52,15 @@ class BlogController extends Controller
     }
 
     // Show edit form
-    public function edit(BlogCategory $blog_category)
+    public function editCategory(BlogCategory $blog_category)
     {
-        $data['title'] = "Edit Blog Category";
-        $data['app_setting'] = Setting::first();
         $data['category'] = $blog_category;
 
         return view('admin.blog.edit_blog_category', $data);
     }
 
     // Update the category
-    public function update(Request $request, BlogCategory $blog_category)
+    public function updateCategory(Request $request, BlogCategory $blog_category)
     {
         $request->validate([
             'category_name' => 'required',
@@ -76,7 +78,7 @@ class BlogController extends Controller
     }
 
     // Delete a category
-    public function destroy(BlogCategory $blog_category)
+    public function destroyCategory(BlogCategory $blog_category)
     {
         $blog_category->delete();
 
@@ -133,6 +135,60 @@ class BlogController extends Controller
         ]);
 
         \Session::flash('success', 'Post Successfully Added');
+        return redirect()->route('admin.blog.index');
+    }
+
+    
+    public function edit($id)
+    {
+        $data['blog'] = Blog::findOrFail($id);
+        $data['get_all_blog_category'] = BlogCategory::all();
+
+        return view('admin.blog.edit', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'blog_title' => 'required|string|max:255',
+            'blog_author' => 'nullable|string|max:255',
+            'blog_short_description' => 'nullable|string',
+            'blog_meta_keywords' => 'nullable|string',
+            'blog_meta_description' => 'nullable|string|max:160',
+            'blog_content' => 'nullable|string',
+            'blog_category' => 'required|exists:blog_category,id',
+            'blog_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:20480',
+        ]);
+
+        $blog = Blog::findOrFail($id);
+
+        // Image upload (if a new one is uploaded)
+        if ($request->hasFile('blog_image')) {
+            // Delete old image if exists
+            if ($blog->blog_image && File::exists(public_path($blog->blog_image))) {
+                File::delete(public_path($blog->blog_image));
+            }
+
+            $image = $request->file('blog_image');
+            $filename = uniqid() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads/blogs'), $filename);
+            $blog->blog_image = 'uploads/blogs/' . $filename;
+        }
+
+        // Update other fields
+        $blog->update([
+            'blog_title' => $request->blog_title,
+            'blog_slug' => Str::slug($request->blog_title),
+            'blog_meta_keywords' => $request->blog_meta_keywords,
+            'blog_meta_description' => $request->blog_meta_description,
+            'blog_short_description' => $request->blog_short_description,
+            'blog_author' => $request->blog_author,
+            'blog_content' => $request->blog_content,
+            'blog_category' => $request->blog_category,
+            'status' => $blog->status ?? 1,
+        ]);
+
+        \Session::flash('success', 'Post Successfully Updated');
         return redirect()->route('admin.blog.index');
     }
 

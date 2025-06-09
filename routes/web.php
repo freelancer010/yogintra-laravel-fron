@@ -132,15 +132,16 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Blog
     Route::get('/blog/blog-category', [BlogController::class, 'blogCategory'])->name('blog.category');
     Route::post('/blog/blog-category/store', [BlogController::class, 'storeCategory'])->name('blog_category.store');
-    Route::get('/blog/blog-category/edit/{blog_category}', [BlogController::class, 'edit'])->name('blog_category.edit');
-    Route::post('/blog/blog-category/update/{blog_category}', [BlogController::class, 'update'])->name('blog_category.update');
-    Route::get('/blog/blog-category/delete/{blog_category}', [BlogController::class, 'destroy'])->name('blog_category.delete');
+    Route::get('/blog/blog-category/edit/{blog_category}', [BlogController::class, 'editCategory'])->name('blog_category.edit');
+    Route::post('/blog/blog-category/update/{blog_category}', [BlogController::class, 'updateCategory'])->name('blog_category.update');
+    Route::get('/blog/blog-category/delete/{blog_category}', [BlogController::class, 'destroyCategory'])->name('blog_category.delete');
 
     Route::get('/blog/add-new-post', [BlogController::class, 'create'])->name('blog.create');
     Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store');
     Route::get('/blog/view-all-post', [BlogController::class, 'index'])->name('blog.index');
     Route::get('/blog/edit/{blog}', [BlogController::class, 'edit'])->name('blog.edit');
     Route::get('/blog/delete/{blog}', [BlogController::class, 'destroy'])->name('blog.delete');
+    Route::post('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
 
 
     
