@@ -10,4 +10,4 @@ Disallow:
 User-agent: *
 Disallow: 
 Disallow: /cgi-bin/
-Sitemap: https://yogintra.com/
+Sitemap: https://yogintra.com/sitemap.xml
