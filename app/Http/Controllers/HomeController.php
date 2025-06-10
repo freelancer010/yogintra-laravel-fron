@@ -361,7 +361,7 @@ class HomeController extends Controller
             'name', 'number', 'email', 'country', 'state', 'city', 'class', 'call-from', 'call-to', 'message'
         ]);
         $data['source'] = 'Website';
-        $data['created_date'] = now()->setTimezone('Asia/Kolkata');;
+        $data['created_date'] = date('Y-m-d H:i:s');
 
         $response = Http::post($this->api . '/addLeads', $data);
         return response()->json($response->json());

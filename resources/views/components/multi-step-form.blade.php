@@ -18,7 +18,7 @@ method="post">
         </div>
         <div class="form-group">
             <label for="phone">Phone Number:</label>
-            <input type="text" class="form-control" id="phone" name="number" required>
+            <input type="number" class="form-control" id="phone" name="number" required>
         </div>
         <div class="form-group">
             <label for="email">Email ID:</label>
