@@ -3,6 +3,7 @@
 @section('meta_title', $event->title)
 @section('meta_description', $event->description)
 @section('meta_keywords', $event->keyword)
+@section('og_image', asset($event->image))
 
 @section('content')
 <!-- Start main-content -->
