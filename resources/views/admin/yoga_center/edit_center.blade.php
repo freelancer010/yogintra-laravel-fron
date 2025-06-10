@@ -52,7 +52,7 @@
                            </div>
                            <div class="mt-3 col-md-12">
                               <label>Map Link</label>
-                              <textarea name="map_link" class="form-control text-editor">{{ $center->map_link }}</textarea>
+                              <textarea name="map_link" class="form-control">{{ $center->map_link }}</textarea>
                            </div>
                            <div class="mt-3 col-md-6">
                               <label>Page Title</label>

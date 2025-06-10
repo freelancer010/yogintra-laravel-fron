@@ -77,6 +77,52 @@ class YogaCenterController extends Controller
         return view('admin.yoga_center.edit_center', compact('center'));
     }
 
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'center_name' => 'required|string|max:255',
+            'center_country' => 'required|string',
+            'center_state' => 'required|string',
+            'center_city' => 'required|string',
+            'center_address' => 'required|string',
+            'center_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5000',
+        ]);
+
+        $originalString = $request->map_link;
+        $modifiedString = str_replace('width="600" height="450"', 'width="440" height="200"', $originalString);
+
+        $data = [
+            'center_name' => $request->center_name,
+            'center_slug' => Str::slug($request->center_name),
+            'center_description' => $request->center_description ?? '',
+            'center_country' => $request->center_country,
+            'center_state' => $request->center_state,
+            'center_city' => $request->center_city,
+            'center_address' => $request->center_address,
+            'map_link' => $modifiedString,
+            'page_title' => $request->page_title,
+            'page_meta_title' => $request->page_meta_title,
+            'page_Slug' => $request->page_Slug,
+            'page_keywords' => $request->page_keywords,
+            'page_meta_description' => $request->page_meta_description,
+            'mobile_number' => $request->mobile_number,
+            'email_address' => $request->email_address,
+        ];
+
+        // Handle optional new image
+        if ($request->hasFile('center_image')) {
+            $image = $request->file('center_image');
+            $filename = 'uploads/' . uniqid() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads'), basename($filename));
+            $data['center_image'] = $filename;
+        }
+
+        DB::table('yoga_center')->where('center_id', $id)->update($data);
+
+        return redirect()->route('admin.yoga_centers.index')->with('success', 'Yoga center updated successfully.');
+    }
+
+
     public function destroy($id)
     {
         $center = DB::table('yoga_center')->where('center_id', $id)->first();
