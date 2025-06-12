@@ -13,6 +13,8 @@ use Illuminate\Support\Str;
 use Razorpay\Api\Api;
 
 use App\Models\Event;
+use App\Mail\EventBookingConfirmation;
+use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
 {
@@ -346,18 +348,32 @@ class EventController extends Controller
 
     public function bookEvent($razorpay_payment_id = 'NA')
     {
-        // Save booking in DB
+        $data = [
+            'name' => Session::get('register_name'),
+            'email' => Session::get('register_email'),
+            'phone' => Session::get('register_phone'),
+            'addon' => Session::get('register_addon') ?? '',
+            'ticket' => Session::get('register_ticket'),
+            'amount' => Session::get('ttl_amt'),
+            'event_id' => Session::get('event_id'),
+            'pay_id' => $razorpay_payment_id,
+            'date' => now(),
+        ];
+
         DB::table('event_booking')->insert([
-            'booking_name' => Session::get('register_name'),
-            'booking_email_id' => Session::get('register_email'),
-            'booking_phone_no' => Session::get('register_phone'),
-            'booking_addon' => Session::get('register_addon') ?? '',
-            'booking_ticket' => Session::get('register_ticket'),
-            'booking_price' => Session::get('ttl_amt'),
-            'booking_event_id' => Session::get('event_id'),
-            'booking_pay_id' => $razorpay_payment_id,
-            'booking_date' => now()
+            'booking_name' => $data['name'],
+            'booking_email_id' => $data['email'],
+            'booking_phone_no' => $data['phone'],
+            'booking_addon' => $data['addon'],
+            'booking_ticket' => $data['ticket'],
+            'booking_price' => $data['amount'],
+            'booking_event_id' => $data['event_id'],
+            'booking_pay_id' => $data['pay_id'],
+            'booking_date' => $data['date']
         ]);
+
+        // Send confirmation email
+        Mail::to($data['email'])->send(new EventBookingConfirmation($data));
     }
 
     public function eventThankYou()
