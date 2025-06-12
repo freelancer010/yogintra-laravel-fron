@@ -70,11 +70,11 @@
                 ['name' => 'View All Post', 'route' => 'admin.blog.index']
               ]
             ],
-            'landing_page' => [
-              'title' => 'Landing Page',
+            'landing-page' => [
+              'title' => 'Landing Pages',
               'icon' => 'far fa-id-card',
               'items' => [
-                ['name' => 'Landing Page', 'route' => 'admin.landing.index']
+                ['name' => 'Landing Pages', 'route' => 'admin.landing-pages.index']
               ]
             ],
             'front_setting' => [

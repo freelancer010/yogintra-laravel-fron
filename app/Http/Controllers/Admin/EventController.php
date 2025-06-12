@@ -238,36 +238,17 @@ class EventController extends Controller
             Session::put($key, is_array($value) ? json_encode($value) : $value);
         }
 
+        if($data['ttl_amt'] == 0) {
+            $this->bookEvent('NA');
+            return response()->json(['success' => true, 'free' => true], 200);
+        }
+
         return response()->json(['success' => true]);
     }
 
-    public function paymentForEvent22()
-    {
-        $setting = DB::table('application_setting')->first();
-        $api = new Api($setting->rozar_key_id, $setting->rozar_key_secret);
-        $order_id = date('Ymd') . rand(1000, 9999);
-        $mainAmount = Session::get('ttl_amt');
-
-        $razorpayOrder = $api->order->create([
-            'receipt' => $order_id,
-            'amount' => $mainAmount * 100,
-            'currency' => 'INR',
-            'payment_capture' => 1
-        ]);
-
-        $razorpayOrderId = $razorpayOrder['id'];
-        Session::put('razorpay_order_id', $razorpayOrderId);
-
-        $raz_pay_data = $this->rozrPayPrepareDataPrdPayForEvent($razorpayOrder['amount'], $razorpayOrderId, $order_id);
-
-        return View::make('rezorpay_payment_for_event', ['data' => $raz_pay_data]);
-    }
 
     public function paymentForEvent()
     {
-
-        // $api = new Api($key_id, $key_secret);
-
         $setting = DB::table('application_setting')->first();
         $key_id = $setting->rozar_key_id;
         $key_secret = $setting->rozar_key_secret;
@@ -356,27 +337,28 @@ class EventController extends Controller
         }
 
         if ($success) {
-            // Save booking in DB
-            DB::table('event_booking')->insert([
-                'booking_name' => Session::get('register_name'),
-                'booking_email_id' => Session::get('register_email'),
-                'booking_phone_no' => Session::get('register_phone'),
-                'booking_addon' => Session::get('register_addon'),
-                'booking_ticket' => Session::get('register_ticket'),
-                'booking_price' => Session::get('ttl_amt'),
-                'booking_event_id' => Session::get('register_event_id'),
-                'booking_pay_id' => $request->razorpay_payment_id,
-                'booking_date' => now()
-            ]);
-
-            // TODO: Send Email if required
-
+            $this->bookEvent($request->razorpay_payment_id);
             return redirect()->route('event.thankyou');
         } else {
             return response()->json(['error' => $error], 400);
         }
     }
 
+    public function bookEvent($razorpay_payment_id = 'NA')
+    {
+        // Save booking in DB
+        DB::table('event_booking')->insert([
+            'booking_name' => Session::get('register_name'),
+            'booking_email_id' => Session::get('register_email'),
+            'booking_phone_no' => Session::get('register_phone'),
+            'booking_addon' => Session::get('register_addon') ?? '',
+            'booking_ticket' => Session::get('register_ticket'),
+            'booking_price' => Session::get('ttl_amt'),
+            'booking_event_id' => Session::get('event_id'),
+            'booking_pay_id' => $razorpay_payment_id,
+            'booking_date' => now()
+        ]);
+    }
 
     public function eventThankYou()
     {

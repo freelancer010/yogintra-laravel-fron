@@ -271,8 +271,10 @@
           'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
         success: function(data) {
-          if (data.success) {
+          if (data.success && data.free != true) {
             window.location.href = "{{ route('payment.for.event') }}";
+          } else {
+            window.location.href = "{{ route('event.thankyou') }}";
           }
         },
         error: function(xhr) {

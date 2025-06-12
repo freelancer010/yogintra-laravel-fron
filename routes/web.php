@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\YogaCenterController;
 use App\Http\Controllers\Admin\FrontSettingController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\LandingPageController;
 
 
 
@@ -129,7 +130,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::delete('/gallery/delete_gallery/{id}', [GalleryController::class, 'deleteGallery'])->name('gallery.delete');
 
 
-    // Blog
+    // ------------- Blog ----------------------
     Route::get('/blog/blog-category', [BlogController::class, 'blogCategory'])->name('blog.category');
     Route::post('/blog/blog-category/store', [BlogController::class, 'storeCategory'])->name('blog_category.store');
     Route::get('/blog/blog-category/edit/{blog_category}', [BlogController::class, 'editCategory'])->name('blog_category.edit');
@@ -142,12 +143,19 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/blog/edit/{blog}', [BlogController::class, 'edit'])->name('blog.edit');
     Route::get('/blog/delete/{blog}', [BlogController::class, 'destroy'])->name('blog.delete');
     Route::post('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
-
+    // ------------- END Blog ----------------------
 
     
-    // Landing Page
-    Route::get('/landing_page/landing_page', [App\Http\Controllers\AdminController::class, 'index'])->name('landing.index');
+    // --------------- Landing Page -------------------
+    Route::get('landing-pages', [LandingPageController::class, 'index'])->name('landing-pages.index');
+    Route::get('landing-pages/create', [LandingPageController::class, 'create'])->name('landing-pages.create');
+    Route::post('landing-pages/store', [LandingPageController::class, 'store'])->name('landing-pages.store');
+    Route::get('landing-pages/edit/{id}', [LandingPageController::class, 'edit'])->name('landing-pages.edit');
+    Route::post('landing-pages/update/{id}', [LandingPageController::class, 'update'])->name('landing-pages.update');
+    Route::get('landing-pages/delete/{id}', [LandingPageController::class, 'destroy'])->name('landing-pages.destroy');
+    //---------------- END LANDING PAGE -------------------
 
+    
     // --------| Front Setting |-------------------
     Route::get('/front_setting/all_slider', [AdminController::class, 'slider'])->name('front.slider');
     Route::get('/front_setting/section_1', [AdminController::class, 'section1'])->name('front.section1');

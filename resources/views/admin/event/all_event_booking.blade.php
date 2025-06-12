@@ -52,12 +52,17 @@
                       <span class="badge badge-success"><i class="fa fa-phone"></i> {{ $booking->booking_phone_no }}</span>
                     </td>
                     <td>
+                      @if(empty($booking->booking_addon))
+                        <li><b>1.</b> No Addon</li>
+                        <hr/>
+                      @else
                       <ul class="list-unstyled">
                         @foreach(json_decode($booking->booking_addon ?? '[]') as $index => $addonIndex)
                           <li><b>{{ $index + 1 }}.</b> {{ json_decode($booking->addon_name)[$addonIndex] ?? 'N/A' }}</li>
                           <hr/>
                         @endforeach
                       </ul>
+                      @endif
                     </td>
                     <td>
                       {{ $booking->booking_ticket == 1 ? 'Indian Student' : 'Foreigner Student' }}
