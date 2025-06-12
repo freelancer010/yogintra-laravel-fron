@@ -46,7 +46,7 @@
                   <img src="{{ asset($blog->blog_image) }}" alt="{{ $blog->blog_title }}" class="img-responsive img-fullwidth">
                 </div>
               </div>
-              <div class="entry-content">
+              <div class="entry-content p-15">
                 <div class="entry-meta media no-bg no-border mt-15 pb-20">
                   <div class="entry-date media-left text-center flip pt-5 pr-15 pb-5 pl-15">
                     <ul>
