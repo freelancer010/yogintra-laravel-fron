@@ -45,10 +45,13 @@
       }
  
     @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-      h1.font-54{
-          font-size: 1.857143rem !important;
+        html {
+            text-align: center;
         }
-      }
+        h1.font-54{
+            font-size: 1.857143rem !important;
+            }
+        }
       .sec-title {
          position: relative;
          z-index: 1;

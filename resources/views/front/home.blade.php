@@ -31,7 +31,7 @@
         }
         @media (max-width: 767px) {
             #home {
-                min-height: 60vh !important ;
+                min-height: 70vh !important ;
             }
             .section-content-image {
                 background-image: none!important;
