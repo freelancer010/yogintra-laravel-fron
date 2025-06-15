@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 @push('styles')
-    <link rel="preload" as="image" href="{{ asset('assets/Home-Banner.webp') }}" type="image/webp">
+    <link rel="preload" as="image" href="{{ asset('assets/Mobile-Banner.webp') }}" type="image/webp">
     <style>
         #home {
             min-height: 100vh;
@@ -153,7 +153,7 @@
 
         <div class="mobile-home position-relative p-0" style="width: 100%;">
             <img
-                src="{{ asset('assets/Home-Banner.webp') }}"
+                src="{{ asset('assets/Mobile-Banner.webp') }}"
                 alt="Yoga and Meditation Banner"
                 width="360"
                 height="640"
