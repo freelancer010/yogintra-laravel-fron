@@ -45,7 +45,7 @@
       }
  
     @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-        html {
+        #about {
             text-align: center;
         }
         h1.font-54{
@@ -712,7 +712,7 @@
     </div>
 </section>
 
-<section class="divider" data-bg-img="{{ asset('assets/bg-graphic-free-img-1.webp') }}">
+<section class="divider" id="about" data-bg-img="{{ asset('assets/bg-graphic-free-img-1.webp') }}">
     <div class="container py-4">
         <div class="section-title">
             <div class="row align-items-center">
