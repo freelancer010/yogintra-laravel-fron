@@ -32,7 +32,7 @@
                <table id="example1" class="table table-bordered table-striped">
                   <thead>
                      <tr>
-                        <th>ID</th>
+                        <th>Image</th>
                         <th>Blog Title</th>
                         <th>Category</th>
                         <th>Action</th>
@@ -42,9 +42,9 @@
                      @foreach ($get_all_blog as $post)
                         <tr>
                            <td>
-                              {{ $post->blog_id }}
+                              <img src="{{ asset($post->blog_image) }}" width="100px">
                            </td>
-                           <td>
+                           <td style="width: 150px;">
                               {{ $post->blog_title }}
                               @if($post->blog_author)
                                  <br/>
