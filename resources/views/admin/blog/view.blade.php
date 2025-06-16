@@ -32,7 +32,7 @@
                <table id="example1" class="table table-bordered table-striped">
                   <thead>
                      <tr>
-                        <th>Image</th>
+                        <th>ID</th>
                         <th>Blog Title</th>
                         <th>Category</th>
                         <th>Action</th>
@@ -42,7 +42,7 @@
                      @foreach ($get_all_blog as $post)
                         <tr>
                            <td>
-                              <img src="{{ asset($post->blog_image) }}" width="100px">
+                              {{ $post->blog_id }}
                            </td>
                            <td>
                               {{ $post->blog_title }}
