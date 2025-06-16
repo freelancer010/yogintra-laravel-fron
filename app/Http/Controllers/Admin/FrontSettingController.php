@@ -4,85 +4,109 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Slider;
+use App\Models\OurServiceImage;
+use App\Models\OurService;
 
 class FrontSettingController extends Controller
 {
-    
+    public function slider()
+    {
+        $sliders = Slider::all();
+        return view('admin.front_setting.slider', compact('sliders'));
+    }
     public function section2()
     {
-        $service_heading = DB::table('our_service_image')->where('os_image_id', 1)->first();
-        $our_service = DB::table('our_service')->get();
-
-        return view('admin.front_setting.section_2', compact('service_heading', 'our_service'));
+        $service_image = OurServiceImage::first();
+        $services = OurService::all();
+        return view('admin.front_setting.section2', compact('service_image', 'services'));
     }
 
-    public function updateServiceHeading(Request $request)
+    public function updateServiceImage(Request $request)
     {
-        $data = $request->only(['os_image_heading', 'os_image_sub_heading', 'os_image_description']);
+        $request->validate([
+            'os_image_heading' => 'required|string',
+            'os_image_sub_heading' => 'nullable|string',
+            'os_image_description' => 'nullable|string',
+            'os_image_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5000'
+        ]);
+
+        $image = OurServiceImage::first();
+        $image->os_image_heading = $request->os_image_heading;
+        $image->os_image_sub_heading = $request->os_image_sub_heading;
+        $image->os_image_description = $request->os_image_description;
 
         if ($request->hasFile('os_image_image')) {
-            $file = $request->file('os_image_image');
-            $filename = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $filename);
-            $data['os_image_image'] = $filename;
+            if ($image->os_image_image && file_exists(public_path($image->os_image_image))) {
+                unlink(public_path($image->os_image_image));
+            }
+            $path = $request->file('os_image_image')->store('uploads', 'public');
+            $image->os_image_image = 'storage/' . $path;
         }
 
-        DB::table('our_service_image')->where('os_image_id', 1)->update($data);
+        $image->save();
 
-        return redirect()->back()->with('success', 'Service heading updated.');
+        return back()->with('success', 'Service image section updated successfully');
     }
 
     public function storeService(Request $request)
     {
-        $data = $request->only(['os_heading']);
+        $request->validate([
+            'os_heading' => 'required|string',
+            'os_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5000'
+        ]);
+
+        $service = new OurService();
+        $service->os_heading = $request->os_heading;
 
         if ($request->hasFile('os_image')) {
-            $file = $request->file('os_image');
-            $filename = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $filename);
-            $data['os_image'] = $filename;
+            $path = $request->file('os_image')->store('uploads', 'public');
+            $service->os_image = 'storage/' . $path;
         }
 
-        DB::table('our_service')->insert($data);
+        $service->save();
 
-        return redirect()->back()->with('success', 'New service added.');
+        return back()->with('success', 'Service added successfully');
     }
 
     public function editService($id)
     {
-        $service = DB::table('our_service')->where('os_id', $id)->first();
-
+        $service = OurService::findOrFail($id);
         return view('admin.front_setting.edit_service', compact('service'));
     }
 
     public function updateService(Request $request, $id)
     {
-        $data = $request->only(['os_heading']);
+        $request->validate([
+            'os_heading' => 'required|string',
+            'os_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5000'
+        ]);
+
+        $service = OurService::findOrFail($id);
+        $service->os_heading = $request->os_heading;
 
         if ($request->hasFile('os_image')) {
-            $file = $request->file('os_image');
-            $filename = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $filename);
-            $data['os_image'] = $filename;
+            if ($service->os_image && file_exists(public_path($service->os_image))) {
+                unlink(public_path($service->os_image));
+            }
+            $path = $request->file('os_image')->store('uploads', 'public');
+            $service->os_image = 'storage/' . $path;
         }
 
-        DB::table('our_service')->where('os_id', $id)->update($data);
+        $service->save();
 
-        return redirect()->route('admin.front_setting.section_2')->with('success', 'Service updated.');
+        return back()->with('success', 'Service updated successfully');
     }
 
     public function deleteService($id)
     {
-        $service = DB::table('our_service')->where('os_id', $id)->first();
-
-        if ($service && $service->os_image && file_exists(public_path($service->os_image))) {
+        $service = OurService::findOrFail($id);
+        if ($service->os_image && file_exists(public_path($service->os_image))) {
             unlink(public_path($service->os_image));
         }
+        $service->delete();
 
-        DB::table('our_service')->where('os_id', $id)->delete();
-
-        return redirect()->back()->with('success', 'Service deleted.');
+        return back()->with('success', 'Service deleted successfully');
     }
 }

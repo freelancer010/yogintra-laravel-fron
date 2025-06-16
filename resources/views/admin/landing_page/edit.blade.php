@@ -18,9 +18,9 @@
                     <div class="col-md-12 form-group mb-5 border-bottom text-center pb-5">
                         <label>Page Image</label><br>
                         @if($page->page_image)
-                            <img src="{{ asset($page->page_image) }}" width="45%" alt="Page Image">
+                            <img id="preview-image" src="{{ asset($page->page_image) }}" width="45%" alt="Page Image">
                         @endif
-                        <input type="file" name="page_image" class="form-control w-50 m-auto">
+                        <input type="file" name="page_image" class="form-control w-50 m-auto" onchange="previewImage(event)">
                     </div>
                         
                     <div class="col-md-6 form-group">
@@ -109,5 +109,15 @@
         });
       }
     });
+    
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+        const output = document.getElementById('preview-image');
+        output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
 </script>
+
 @endpush

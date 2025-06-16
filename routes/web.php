@@ -157,18 +157,19 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     
     // --------| Front Setting |-------------------
-    Route::get('/front_setting/all_slider', [AdminController::class, 'slider'])->name('front.slider');
-    Route::get('/front_setting/section_1', [AdminController::class, 'section1'])->name('front.section1');
-    Route::get('/front_setting/section_2', [FrontSettingController::class, 'section2'])->name('front.section2');
+    Route::prefix('front_setting')->name('front.')->group(function () {
+        Route::get('/all_slider', [FrontSettingController::class, 'slider'])->name('slider');
+        Route::get('/section_1', [FrontSettingController::class, 'section1'])->name('section1');
+        Route::get('/section_2', [FrontSettingController::class, 'section2'])->name('section2');
+        
+        Route::post('/section_2/image/update', [FrontSettingController::class, 'updateServiceImage'])->name('section2.image.update');
+        Route::post('/section_2/service/store', [FrontSettingController::class, 'storeService'])->name('section2.service.store');
+        Route::get('/section_2/service/edit/{id}', [FrontSettingController::class, 'editService'])->name('section2.service.edit');
+        Route::put('/section_2/service/update/{id}', [FrontSettingController::class, 'updateService'])->name('section2.service.update');
+        Route::delete('/section_2/service/delete/{id}', [FrontSettingController::class, 'deleteService'])->name('section2.service.delete');
 
-    Route::post('/front_setting/section_2/image/update', [FrontSettingController::class, 'updateServiceImage'])->name('front.section2.image.update');
-
-    Route::post('/front_setting/section_2/service/store', [FrontSettingController::class, 'storeService'])->name('front.section2.service.store');
-    Route::get('/front_setting/section_2/service/edit/{id}', [FrontSettingController::class, 'editService'])->name('front.section2.service.edit');
-    Route::put('/front_setting/section_2/service/update/{id}', [FrontSettingController::class, 'updateService'])->name('front.section2.service.update');
-    Route::delete('/front_setting/section_2/service/delete/{id}', [FrontSettingController::class, 'deleteService'])->name('front.section2.service.delete');
-
-    Route::get('/front_setting/testimonial', [AdminController::class, 'testimonial'])->name('front.testimonial');
+        Route::get('/testimonial', [FrontSettingController::class, 'testimonial'])->name('testimonial');
+    });
     // --------| Front Setting |-------------------
 
     // Settings
