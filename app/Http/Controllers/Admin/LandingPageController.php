@@ -74,7 +74,7 @@ class LandingPageController extends Controller
             'page_image_description' => 'required|string|max:255',
             'page_head_code' => 'nullable|string',
             'page_content' => 'nullable|string',
-            'page_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5000',
+            'page_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5000',
         ]);
 
         $page = DB::table('new_landing_page')->where('page_id', $id)->first();
