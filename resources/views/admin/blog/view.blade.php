@@ -54,11 +54,10 @@
                            <td>{{ $post->category->category_name ?? 'N/A' }}</td>
                            <td>
                               <div class="input-group-prepend">
-                                 <a class="dropdown-item" href="{{ route('admin.blog.edit', $post->blog_id) }}">
+                                 <a class="btn btn-sm border text-success" href="{{ route('admin.blog.edit', $post->blog_id) }}">
                                     <i class="fa fa-edit" aria-hidden="true"></i> Edit
                                  </a>
-                                 <div class="dropdown-divider"></div>
-                                 <a class="dropdown-item" onclick="return confirm('Are you sure?')" href="{{ route('admin.blog.delete', $post->blog_id) }}">
+                                 <a class="btn btn-sm border text-danger" onclick="return confirm('Are you sure?')" href="{{ route('admin.blog.delete', $post->blog_id) }}">
                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete
                                  </a>
                               </div>
