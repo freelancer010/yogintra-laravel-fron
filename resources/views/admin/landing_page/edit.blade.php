@@ -19,6 +19,7 @@
                         <label>Page Image</label><br>
                         @if($page->page_image)
                             <img id="preview-image" src="{{ asset($page->page_image) }}" width="45%" alt="Page Image">
+                            <span>File Name -  {{$page->page_image}}</span>
                         @endif
                         <input type="file" name="page_image" class="form-control w-50 m-auto" onchange="previewImage(event)">
                     </div>
