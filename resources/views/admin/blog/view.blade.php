@@ -34,7 +34,6 @@
                      <tr>
                         <th>Image</th>
                         <th>Blog Title</th>
-                        <th>Keywords</th>
                         <th>Category</th>
                         <th>View</th>
                         <th>Action</th>
@@ -53,7 +52,6 @@
                                  <b>Auth:</b> {{ $post->blog_author }}
                               @endif
                            </td>
-                           <td>{{ $post->blog_meta_keywords }}</td>
                            <td>{{ $post->category->category_name ?? 'N/A' }}</td>
                            <td>{{ $post->blog_view }}</td>
                            <td>
