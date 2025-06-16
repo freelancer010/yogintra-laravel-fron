@@ -44,7 +44,7 @@
                            <td>
                               <img src="{{ asset($post->blog_image) }}" width="100px">
                            </td>
-                           <td style="width: 150px;">
+                           <td style="width: 45%;">
                               {{ $post->blog_title }}
                               @if($post->blog_author)
                                  <br/>
@@ -53,7 +53,7 @@
                            </td>
                            <td>{{ $post->category->category_name ?? 'N/A' }}</td>
                            <td>
-                              <div class="input-group-prepend">
+                              <div class="input-group-prepend d-flex justify-content-around">
                                  <a class="btn btn-sm shadow-sm btn-success" href="{{ route('admin.blog.edit', $post->blog_id) }}">
                                     <i class="fa fa-edit" aria-hidden="true"></i> Edit
                                  </a>
