@@ -1,15 +1,15 @@
 @php
-use Illuminate\Support\Facades\DB;
-$all_service = DB::table('service_category')->get();
+    use Illuminate\Support\Facades\DB;
+    $all_service = DB::table('service_category')->get();
 @endphp
 
-<form id="multi-step-form" 
-@if(isset($form_type))
-class="{{$form_type == 'landing' ? 'booking-form form-home bg-black-333 p-30' : ''}}"
-@endif
-method="post">
+<form id="multi-step-form"
+    @if (isset($form_type)) class="{{ $form_type == 'landing' ? 'booking-form form-home bg-black-333 p-30' : '' }}" @endif
+    method="post">
     <!-- Step 1: Personal Information -->
-    @if(isset($form_type) && ($form_type == 'landing'))<h3 class="mt-0 text-white mb-20">Make An Appointment</h3>@endif
+    @if (isset($form_type) && $form_type == 'landing')
+        <h3 class="mt-0 text-white mb-20">Make An Appointment</h3>
+    @endif
     @csrf
     <div class="form-step active" id="step-1">
         <div class="form-group">
@@ -31,15 +31,18 @@ method="post">
     <div class="form-step" id="step-2">
         <div class="form-group">
             <label for="country">Select Country:</label>
-            <input type="text" class="form-control countries" id="country" name="country" required placeholder="Enter your Country" />
+            <input type="text" class="form-control countries" id="country" name="country" required
+                placeholder="Enter your Country" />
         </div>
         <div class="form-group">
             <label for="state">Select State:</label>
-            <input type="text" class="form-control states" id="state" name="state" required placeholder="Enter your State" />
+            <input type="text" class="form-control states" id="state" name="state" required
+                placeholder="Enter your State" />
         </div>
         <div class="form-group">
             <label for="city">Select City:</label>
-            <input type="text" class="form-control cities" id="city" name="city" required placeholder="Enter your city" />
+            <input type="text" class="form-control cities" id="city" name="city" required
+                placeholder="Enter your city" />
         </div>
         <button class="btn btn-primary prev" type="button">Previous</button>
         <button class="btn btn-primary next" type="button">Next</button>
@@ -80,106 +83,127 @@ method="post">
     .form-step {
         display: none;
     }
+
     .form-step.active {
         display: block;
     }
 </style>
 @push('scripts')
-<script>
-    $(document).ready(function () {
-        $('input').on('input', function() {
-            this.value = this.value.toUpperCase();
-        });
-        $("#multi-step-form").submit(function(e) {
-            e.preventDefault();
-            var form = $(this);
+    <script>
+        $(document).ready(function() {
+            $('input').on('input', function() {
+                this.value = this.value.toUpperCase();
+            });
+            $("#multi-step-form").submit(function(e) {
+                e.preventDefault();
+                var form = $(this);
 
-            $.ajax({
-                type: "POST",
-                url: "{{ route('form.submit') }}", // Use Laravel route
-                data: form.serialize(),
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(data) {
-                    window.location = "{{ url('/thank_you') }}"; // Redirect on success
-                    // if (data.status === 'success') {
-                    // } else {
-                    //     alert('Data Submission Failed');
-                    // }
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                    alert('An error occurred while submitting.');
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('form.submit') }}", // Use Laravel route
+                    data: form.serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data) {
+                        window.location = "{{ url('/thank_you') }}"; // Redirect on success
+                        // if (data.status === 'success') {
+                        // } else {
+                        //     alert('Data Submission Failed');
+                        // }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert('An error occurred while submitting.');
+                    }
+                });
+            });
+
+            var currentStep = 1;
+
+            $(".next").click(function() {
+                if (validateStep(currentStep)) {
+                    $("#step-" + currentStep).removeClass("active");
+                    currentStep++;
+                    $("#step-" + currentStep).addClass("active");
                 }
             });
-        });
 
-        var currentStep = 1;
-
-        $(".next").click(function () {
-            if (validateStep(currentStep)) {
+            $(".prev").click(function() {
                 $("#step-" + currentStep).removeClass("active");
-                currentStep++;
+                currentStep--;
                 $("#step-" + currentStep).addClass("active");
+            });
+
+            function validateStep(step) {
+                let isValid = true;
+                $(".form-group").removeClass("has-error");
+                $(".error-message").remove();
+
+                if (step === 1) {
+                    let name = $("#name").val();
+                    let phone = $("#phone").val();
+                    let email = $("#email").val();
+
+                    if (!name) {
+                        isValid = false;
+                        $("#name").closest(".form-group").addClass("has-error").append(
+                            '<div class="error-message">Please enter your name.</div>');
+                    }
+                    if (!phone || !/^\d{8,15}$/.test(phone)) {
+                        isValid = false;
+                        $("#phone")
+                            .closest(".form-group")
+                            .addClass("has-error")
+                            .append('<div class="error-message">Enter a valid phone number (8–15 digits).</div>');
+                    }
+                    if (!email) {
+                        isValid = false;
+                        $("#email").closest(".form-group").addClass("has-error").append(
+                            '<div class="error-message">Please enter your email address.</div>');
+                    }
+                } else if (step === 2) {
+                    let country = $("#country").val();
+                    let state = $("#state").val();
+                    let city = $("#city").val();
+
+                    if (!country) {
+                        isValid = false;
+                        $("#country").closest(".form-group").addClass("has-error").append(
+                            '<div class="error-message">Please select your country.</div>');
+                    }
+                    if (!state) {
+                        isValid = false;
+                        $("#state").closest(".form-group").addClass("has-error").append(
+                            '<div class="error-message">Please select your state.</div>');
+                    }
+                    if (!city) {
+                        isValid = false;
+                        $("#city").closest(".form-group").addClass("has-error").append(
+                            '<div class="error-message">Please select your city.</div>');
+                    }
+                } else if (step === 3) {
+                    let message = $("#message").val();
+                    if (!message) {
+                        isValid = false;
+                        $("#message").closest(".form-group").addClass("has-error").append(
+                            '<div class="error-message">Please enter a message.</div>');
+                    }
+                }
+
+                return isValid;
+            }
+        });
+        // 1. Only allow numbers on keypress
+        $('#phone').on('keypress', function(e) {
+            if (e.which < 48 || e.which > 57) {
+                return false;
             }
         });
 
-        $(".prev").click(function () {
-            $("#step-" + currentStep).removeClass("active");
-            currentStep--;
-            $("#step-" + currentStep).addClass("active");
+        // 2. Prevent paste into phone field
+        $('#phone').on('paste', function(e) {
+            e.preventDefault();
         });
-
-        function validateStep(step) {
-            let isValid = true;
-            $(".form-group").removeClass("has-error");
-            $(".error-message").remove();
-
-            if (step === 1) {
-                let name = $("#name").val();
-                let phone = $("#phone").val();
-                let email = $("#email").val();
-
-                if (!name) {
-                    isValid = false;
-                    $("#name").closest(".form-group").addClass("has-error").append('<div class="error-message">Please enter your name.</div>');
-                }
-                if (!phone) {
-                    isValid = false;
-                    $("#phone").closest(".form-group").addClass("has-error").append('<div class="error-message">Please enter your phone number.</div>');
-                }
-                if (!email) {
-                    isValid = false;
-                    $("#email").closest(".form-group").addClass("has-error").append('<div class="error-message">Please enter your email address.</div>');
-                }
-            } else if (step === 2) {
-                let country = $("#country").val();
-                let state = $("#state").val();
-                let city = $("#city").val();
-
-                if (!country) {
-                    isValid = false;
-                    $("#country").closest(".form-group").addClass("has-error").append('<div class="error-message">Please select your country.</div>');
-                }
-                if (!state) {
-                    isValid = false;
-                    $("#state").closest(".form-group").addClass("has-error").append('<div class="error-message">Please select your state.</div>');
-                }
-                if (!city) {
-                    isValid = false;
-                    $("#city").closest(".form-group").addClass("has-error").append('<div class="error-message">Please select your city.</div>');
-                }
-            } else if (step === 3) {
-                let message = $("#message").val();
-                if (!message) {
-                    isValid = false;
-                    $("#message").closest(".form-group").addClass("has-error").append('<div class="error-message">Please enter a message.</div>');
-                }
-            }
-
-            return isValid;
-        }
-    });
-</script>
+    </script>
 @endpush

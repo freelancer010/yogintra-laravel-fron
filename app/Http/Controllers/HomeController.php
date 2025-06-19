@@ -357,6 +357,17 @@ class HomeController extends Controller
 
     public function submitContactForm(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'number' => 'required|digits_between:8,15', // only digits, length check
+            'email' => 'required|email',
+            'country' => 'required|string',
+            'state' => 'required|string',
+            'city' => 'required|string',
+            'class' => 'required|string',
+            'message' => 'required|string|max:1000',
+        ]);
+
         $data = $request->only([
             'name', 'number', 'email', 'country', 'state', 'city', 'class', 'call-from', 'call-to', 'message'
         ]);
