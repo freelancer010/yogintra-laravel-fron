@@ -380,28 +380,22 @@ class HomeController extends Controller
 
     public function termsAndCondition()
     {
-        return view('front.index', [
-            'page' => 'terms_and_condition',
-            'app_setting' => Setting::getAllAppSetting(),
-            'title' => 'Terms & Condition'
+        return view('front.terms_and_condition', [
+            'page' => 'terms_and_condition'
         ]);
     }
 
     public function privacyPolicy()
     {
-        return view('front.index', [
+        return view('front.privacy_policy', [
             'page' => 'privacy_policy',
-            'app_setting' => Setting::getAllAppSetting(),
-            'title' => 'Privacy Policy'
         ]);
     }
 
     public function refundPolicy()
     {
-        return view('front.index', [
+        return view('front.refund_policy', [
             'page' => 'refund_policy',
-            'app_setting' => Setting::getAllAppSetting(),
-            'title' => 'Refund Policy'
         ]);
     }
 
