@@ -76,6 +76,9 @@
                   </a>
                </div>
             </div>
+
+            <div class="col-lg-3 col-6">
+               <a href="{{ route('sitemap.generate') }}" class="btn btn-success">Generate Sitemap</a>
          </div>
       </div>
    </section>

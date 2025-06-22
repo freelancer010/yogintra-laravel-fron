@@ -188,3 +188,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/generate-sitemap', [\App\Http\Controllers\SitemapController::class, 'generate'])
+    ->name('sitemap.generate');
