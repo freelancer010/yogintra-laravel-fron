@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Dynamic Meta Tags -->
-    <link rel="canonical" href="{{ strtolower(url()->current()) }}" />
+    <link rel="canonical" href="{{ url(strtolower(request()->path())) }}" />
 
     <meta name="description" content="{{ $app_setting->app_meta_description ?? '' }}" />
     <meta name="keywords" content="{{ $app_setting->app_keywords ?? '' }}" />
