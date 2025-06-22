@@ -1,3 +1,4 @@
+/public/sitemap.xml
 /public/uploads/*
 /.phpunit.cache
 /node_modules
