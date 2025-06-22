@@ -3,6 +3,8 @@
 @section('title', 'Dashboard')
 
 @section('content')
+@include('admin.partials.flash')
+
 <div class="content-wrapper m-0">
    <div class="content-header">
       <div class="container-fluid">

@@ -17,6 +17,12 @@ class SitemapController extends Controller
 {
     public function generate()
     {
+
+        if (app()->environment('local')) {
+            return redirect()->back()->with('message', 'Local environment detected, skipping sitemap generation.');
+        }
+
+        
         $staticUrls = [
             '/',
             '/about',
