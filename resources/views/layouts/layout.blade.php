@@ -194,6 +194,25 @@
     }
     </script>
 
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "YogIntra",
+        "url": "https://yogintra.com",
+        "logo": "https://yogintra.com/assets/og-logo.webp",
+        "sameAs": [
+            "https://www.facebook.com/YogIntra",
+            "https://www.instagram.com/YogIntra"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-9867291573",
+            "contactType": "Customer Support"
+        }
+    }
+    </script>
+
 </head>
 
 <body>
