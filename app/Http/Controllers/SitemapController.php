@@ -3,6 +3,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use App\Models\Setting;
+use App\Models\Slider;
+use App\Models\Front;
+use App\Models\Service;
+use App\Models\LandingPage;
+use App\Models\Blog;
+use App\Models\BlogCategory;
+use App\Models\Yoga;
+use App\Models\Event;
 
 class SitemapController extends Controller
 {
@@ -45,6 +54,12 @@ class SitemapController extends Controller
         $cities = DB::table('new_landing_page')->select('page_slug')->get();
         foreach ($cities as $city) {
             $urls[] = $this->formatUrl(url('/city/' . $city->page_slug), '0.80');
+        }
+
+        // Workshop Pages (from `event`)
+        $workshops = Event::where('category', 'Workshop')->where('status', 'On')->orderByDesc('id')->get();
+        foreach ($workshops as $workshop) {
+            $urls[] = $this->formatUrl(url('/workshop/' . $workshop->link), '0.80');
         }
 
         // Render and save
