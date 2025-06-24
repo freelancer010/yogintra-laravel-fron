@@ -662,7 +662,7 @@
         [
             'title' => 'Yoga Center',
             'image' => 'uploads/yog_center.webp',
-            'link' => 'yoga_center',
+            'link' => 'yoga-center',
         ],
         [
             'title' => 'TTC',

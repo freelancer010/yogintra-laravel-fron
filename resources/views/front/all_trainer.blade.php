@@ -117,37 +117,49 @@
 @endpush
 
 @push('scripts')
-@push('scripts')
 <script>
-  $.ajaxSetup({
-    headers: {
-      'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    }
-  });
-
-  function open_modal(id) {
-    let imgSrc = $('#imageresource_' + id).attr('src');
-    $('#imagepreview').css('background-image', 'url(' + imgSrc + ')');
-    $('#imagemodal').modal('show');
-    $('#main_name').html($('#name_' + id).val());
-    $('#age').html($('#age_' + id).val());
-    $('#address').html($('#address_' + id).val());
-    $('#experience').html($('#experience_' + id).val());
-    $('#education').html($('#Education_' + id).val());
-    $('#package').html($('#package_' + id).val());
-  }
-
-  function get_data(data) {
-    $.ajax({
-      type: "POST",
-      url: "{{ url('get-data-for-trainer') }}",
-      data: { data: data },
-      success: function(response) {
-        $('#content_data').html(response);
+  $(document).ready(function () {
+    // Set CSRF token for all AJAX requests
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
       }
     });
-  }
-</script>
-@endpush
 
+    // Function to open the modal and populate it with trainer data
+    window.open_modal = function (id) {
+      let imgSrc = $('#imageresource_' + id).attr('src');
+      $('#imagepreview').css('background-image', 'url(' + imgSrc + ')');
+      $('#imagemodal').modal('show');
+      $('#main_name').html($('#name_' + id).val());
+      $('#age').html($('#age_' + id).val());
+      $('#address').html($('#address_' + id).val());
+      $('#experience').html($('#experience_' + id).val());
+      $('#education').html($('#Education_' + id).val());
+      $('#package').html($('#package_' + id).val());
+    };
+
+    // Accessibility fix: remove aria-hidden when modal is shown
+    $('#imagemodal').on('show.bs.modal', function () {
+      $(this).removeAttr('aria-hidden');
+    });
+
+    // Accessibility fix: re-add aria-hidden when modal is hidden
+    $('#imagemodal').on('hidden.bs.modal', function () {
+      $(this).attr('aria-hidden', 'true');
+    });
+
+    // Function to fetch trainer data dynamically
+    window.get_data = function (data) {
+      $.ajax({
+        type: "POST",
+        url: "{{ url('get-data-for-trainer') }}",
+        data: { data: data },
+        success: function (response) {
+          $('#content_data').html(response);
+        }
+      });
+    };
+  });
+</script>
 @endpush
