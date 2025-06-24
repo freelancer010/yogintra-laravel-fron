@@ -6,10 +6,6 @@
 
     <!-- Dynamic Meta Tags -->
     <link rel="canonical" href="{{ url(strtolower(request()->path())) }}" />
-
-    <meta name="description" content="{{ $app_setting->app_meta_description ?? '' }}" />
-    <meta name="keywords" content="{{ $app_setting->app_keywords ?? '' }}" />
-    
     <title>@yield('meta_title', $app_setting->app_meta_title ?? 'YogIntra')</title>
     <meta name="description" content="@yield('meta_description', $app_setting->app_meta_description ?? 'Yogintra')">
     <meta name="keywords" content="@yield('meta_keywords', $app_setting->app_keywords ?? 'Yogintra')">
