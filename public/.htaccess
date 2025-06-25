@@ -39,14 +39,11 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-        
-    # Redirect www to non-www
-    RewriteCond %{HTTP_HOST} ^www\\.yogintra\\.com [NC]
-    RewriteRule ^(.*)$ https://yogintra.com/$1 [L,R=301]
-
     # Force lowercase URLs (e.g. /City/Mumbai → /city/mumbai)
     RewriteMap tolower int:tolower
     RewriteCond %{REQUEST_URI} [A-Z]
     RewriteRule ^(.*)$ ${tolower:%{REQUEST_URI}} [R=301,L]
 
+    RewriteCond %{HTTP_HOST} ^www\.yogintra\.com$
+    RewriteRule ^/?$ "http\:\/\/yogintra\.com\/" [R=301,L]
 </IfModule>
