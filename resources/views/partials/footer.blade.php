@@ -8,11 +8,11 @@
                 </div>
                 <div class="widget dark mb-0">
                     <ul class="styled-icons icon-dark icon-circled icon-sm">
-                        <li><a href="https://www.facebook.com/yogintra"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="https://www.instagram.com/yogintra"><i class="fa fa-instagram"></i></a></li>
-                        <li><a href="https://www.linkedin.com/in/yog-intra-410a09240"><i class="fa fa-linkedin"></i></a></li>
-                        <li><a href="https://twitter.com/yogintra"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="https://www.youtube.com/channel/UC04qAXsiUicHix2WChFPFvA"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="https://www.facebook.com/yogintra" aria-label="Visit us on Facebook"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://www.instagram.com/yogintra" aria-label="Visit us on Instagram"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="https://www.linkedin.com/in/yog-intra-410a09240" aria-label="Visit us on LinkedIn"><i class="fa fa-linkedin"></i></a></li>
+                        <li><a href="https://twitter.com/yogintra" aria-label="Visit us on Twitter"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="https://www.youtube.com/channel/UC04qAXsiUicHix2WChFPFvA" aria-label="Visit us on YouTube"><i class="fa fa-youtube"></i></a></li>
                     </ul>
                 </div>
             </div>
