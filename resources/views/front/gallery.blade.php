@@ -102,9 +102,6 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/front/js/imagesloaded.pkgd.min.js') }}"></script>
-<script src="{{ asset('assets/front/js/isotope.pkgd.min.js') }}"></script>
-
 <script>
     $(document).ready(function () {
         var $gallery = $(".gallery-isotope");

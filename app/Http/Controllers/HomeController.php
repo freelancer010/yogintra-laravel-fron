@@ -240,8 +240,6 @@ class HomeController extends Controller
         }
 
         return view('front.service_details', [
-            'page' => 'service_details',
-            'app_setting' => \App\Models\Setting::first(),
             'service' => $service,
             'title' => $service->service_name,
         ]);
