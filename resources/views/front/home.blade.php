@@ -153,7 +153,7 @@
 
         <div class="mobile-home position-relative p-0" style="width: 100%;">
             <img
-                src="{{ asset('assets/Mobile-Banner.webp') }}"
+                src="{{ asset('assets/Mobile-Banner-new.webp') }}"
                 alt="Yoga and Meditation Banner"
                 width="360"
                 height="640"
