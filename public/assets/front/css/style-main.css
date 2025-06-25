@@ -6192,6 +6192,10 @@ blockquote p {
   margin-right: 30px;
   padding: 0;
 }
+.icon-box.left i {
+  margin-right: 30px;
+  padding: 0;
+}
 .icon-box.iconbox-border {
   border: 1px solid #dcdcdc;
 }
@@ -8823,7 +8827,7 @@ a.btn,.btn-primary{
 .breadcrumb{display: none;}
 
 #home .mobile-home{
-  height: 60vh;
+  height: 100vh;
   width: 100%;
   background-size: cover;
   background-position-x: center;
@@ -8831,7 +8835,8 @@ a.btn,.btn-primary{
 }
 
 .mob-font-54 {
-  font-size: 2rem !important;
+  font-size: 2.25rem !important;
+  font-weight: 800;
 }
 
 .mob-sub_heading {

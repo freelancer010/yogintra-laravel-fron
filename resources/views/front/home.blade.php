@@ -163,7 +163,7 @@
             >
 
             <div class="position-absolute top-0 left-0 w-100 align-items-center p-15 pt-0">
-                <div class="container">
+                <div class="container pt-30">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="bg-white-transparent pt-20 pb-50 outline-border">
@@ -200,7 +200,7 @@
                             @foreach ($section_1_content as $content_1)
                                 <div class="col-sm-6">
                                     <div class="icon-box icon-theme-colored benefit-icon left media p-0 mb-sm-10 mt-30">
-                                        <a class="icon icon-circled icon-md pull-left flip">
+                                        <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
                                             <img src="{{ asset($content_1->of_image) }}" 
                                                 width="75" height="75" loading="lazy" alt="yogintra" decoding="async">
                                         </a>
