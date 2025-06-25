@@ -200,10 +200,5 @@
                 return false;
             }
         });
-
-        // 2. Prevent paste into phone field
-        $('#phone').on('paste', function(e) {
-            e.preventDefault();
-        });
     </script>
 @endpush
