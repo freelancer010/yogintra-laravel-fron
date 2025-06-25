@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 @push('styles')
-    <link rel="preload" as="image" href="{{ asset('assets/Mobile-Banner.webp') }}" type="image/webp">
+    <link rel="preload" as="image" href="{{ asset('assets/Mobile-Banner-new.webp') }}" type="image/webp">
     <style>
         #home {
             min-height: 100vh;
