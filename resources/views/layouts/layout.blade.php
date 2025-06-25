@@ -135,7 +135,7 @@
     <!-- End Meta Pixel Code -->
     
     <!-- Custom Scripts -->
-    <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}"></script>
