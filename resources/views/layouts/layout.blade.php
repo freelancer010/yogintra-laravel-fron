@@ -46,6 +46,10 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/stroke-gap-icons.css') }}" media="all">
     <link rel="stylesheet" href="{{ asset('assets/front/css/utility-classes.min.css') }}">
     <link rel="preconnect" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap">
+    <link rel="preload"    href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+    </noscript>
 
     <!-- MAIN CSS -->
     <link href="{{ asset('assets/front/css/style-main.min.css?fff=nvjkdsk') }}" rel="stylesheet" type="text/css" media="all">

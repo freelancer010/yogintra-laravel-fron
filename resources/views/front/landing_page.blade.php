@@ -586,7 +586,7 @@
       <div class="row">
         <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
-            <a class="icon icon-circled icon-md pull-left flip">
+            <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030a9e1ab49health-icon.png') }}" alt="yogintra good for health">
             </a>
             <div class="media-body">
@@ -598,7 +598,7 @@
 
         <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
-            <a class="icon icon-circled icon-md pull-left flip">
+            <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030aafc7902heart-beat.png') }}" alt="yogintra Good for Cardio">
             </a>
             <div class="media-body">
@@ -610,7 +610,7 @@
 
         <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
-            <a class="icon icon-circled icon-md pull-left flip">
+            <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030ac4021e6weight-loss.png') }}" alt="yogintra Good for Body">
             </a>
             <div class="media-body">
@@ -622,7 +622,7 @@
 
         <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
           <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
-            <a class="icon icon-circled icon-md pull-left flip">
+            <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
               <img loading="lazy" src="{{ asset('uploads/65030ad5516adbreathing.png') }}" alt="yogintra Good for Breathing">
             </a>
             <div class="media-body">

@@ -1,3 +1,19 @@
+<IfModule mod_headers.c>
+  Header set Content-Security-Policy "
+    default-src 'self';
+    script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://d2mpatx37cqexb.cloudfront.net 'unsafe-inline' 'unsafe-eval';
+    style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data: https://www.facebook.com https://yogintra.com;
+    object-src 'none';
+    connect-src 'self';
+    frame-src https://www.facebook.com;
+  "
+
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
