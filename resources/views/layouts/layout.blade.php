@@ -52,7 +52,10 @@
     </noscript>
 
     <!-- MAIN CSS -->
-    <link href="{{ asset('assets/front/css/style-main.min.css?fff=nvjkdsk') }}" rel="stylesheet" type="text/css" media="all">
+    {{-- <link href="{{ asset('assets/front/css/style-main.min.css?fff=nvjkdsk') }}" rel="stylesheet" type="text/css" media="all"> --}}
+    <link rel="preload" as="style" href="{{ asset('assets/front/css/style-main.min.css') }}" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/style-main.min.css') }}"></noscript>
+
     <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="all">
     <link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css">
@@ -106,6 +109,7 @@
             background-size: cover!important;
         }
     </style>
+    <link rel="preload" as="image" href="{{ asset('uploads/6501ab36d6f70Rectrangular-logo-2.png') }}">
 
     @stack('styles') {{-- For additional CSS in child views --}}
     
