@@ -46,20 +46,14 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/stroke-gap-icons.css') }}" media="all">
     <link rel="stylesheet" href="{{ asset('assets/front/css/utility-classes.min.css') }}">
     <link rel="preconnect" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap">
-    <link rel="preload"    href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
-    </noscript>
 
     <!-- MAIN CSS -->
-    {{-- <link href="{{ asset('assets/front/css/style-main.min.css?fff=nvjkdsk') }}" rel="stylesheet" type="text/css" media="all"> --}}
-    <link rel="preload" as="style" href="{{ asset('assets/front/css/style-main.min.css') }}" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/style-main.min.css') }}"></noscript>
-
+    <link href="{{ asset('assets/front/css/style-main.min.css?fff=nvjkdsk') }}" rel="stylesheet" type="text/css" media="all">
     <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="all">
     <link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css">
-    
+    <link rel="preload" as="image" href="{{ asset('uploads/6501ab36d6f70Rectrangular-logo-2.webp') }}">
+
     <!-- Footer -->
     <style>
         .horizontal-list {
@@ -109,11 +103,8 @@
             background-size: cover!important;
         }
     </style>
-    <link rel="preload" as="image" href="{{ asset('uploads/6501ab36d6f70Rectrangular-logo-2.png') }}">
 
     @stack('styles') {{-- For additional CSS in child views --}}
-    
-    <script src="https://analytics.ahrefs.com/analytics.js" data-key="bIsA8XszhdkDl05hoPLfFw" async></script>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8QW4B6YQ9G"></script>
@@ -145,7 +136,7 @@
     <!-- End Meta Pixel Code -->
     
     <!-- Custom Scripts -->
-    <script src="{{ asset('assets/front/js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}"></script>

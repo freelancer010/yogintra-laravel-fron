@@ -51,8 +51,8 @@ Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/refund-policy', [HomeController::class, 'refundPolicy']);
 Route::get('/retreat', [HomeController::class, 'allRetreat'])->name('retreat.all');
 
-Route::get('/workshop', [HomeController::class, 'allWorkshop'])->name('workshop');
-Route::get('/workshop/{slug}', [HomeController::class, 'eventDetails'])->name('workshop.details');
+Route::get('/event', [HomeController::class, 'allWorkshop'])->name('workshop');
+Route::get('/event/{slug}', [HomeController::class, 'eventDetails'])->name('workshop.details');
 
 Route::get('/yoga-center', [HomeController::class, 'allYogaCenter'])->name('yoga.center');
 Route::get('/yoga-center/{slug}', [HomeController::class, 'yogaCenterDetails'])->name('yoga.center.details');
