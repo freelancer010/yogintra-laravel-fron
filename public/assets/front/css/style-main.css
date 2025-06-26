@@ -8827,7 +8827,6 @@ a.btn,.btn-primary{
 .breadcrumb{display: none;}
 
 #home .mobile-home{
-  height: 100vh;
   width: 100%;
   background-size: cover;
   background-position-x: center;
