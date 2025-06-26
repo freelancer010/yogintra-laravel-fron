@@ -120,8 +120,7 @@
                 @endif
 
                 <div class="carousel-item bg-img-cover">
-                    <img src="{{ asset($slider->slider_image) }}" width="1519" height="854" alt="yogintra yoga poses"
-                        @if($index !== 0) loading="lazy" @endif>
+                    <img src="{{ asset($slider->slider_image) }}" width="1519" height="854" loading="lazy" alt="yogintra yoga poses" >
                     <div class="overlay"></div>
                     <div class="display-table" style="position: absolute; top: 0;">
                         <div class="display-table-cell">
