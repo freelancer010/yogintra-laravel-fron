@@ -47,14 +47,14 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/utility-classes.min.css') }}">
 
     {{-- PRE CONNECR --}}
-    <link rel="preconnect" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=…">
+    <link rel="preconnect" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap">
 
     <!-- MAIN CSS -->
-    <link rel="preload" as="style" href="{{ asset('assets/front/css/style-main.min.css?fff=nvjkdsk') }}" onload="this.rel='stylesheet'">
+    <link rel="preload" as="style" href="{{ asset('assets/front/css/style-main.min.css?fff=nvjkdsk') }}" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/style-main.min.css?fff=nvjkdsk') }}"></noscript>
+
     <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="all">
     <link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css">
@@ -142,58 +142,58 @@
     <!-- End Meta Pixel Code -->
     
     <!-- Custom Scripts -->
-    <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}" defer></script>
-    <script src="{{ asset('assets/front/js/jquery-ui.min.js') }}" defer></script>
-    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}" defer></script>
-    <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}" defer></script>
+    <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}"></script>
 
     <script type="application/ld+json">
     {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Yogintra",
-    "url": "https://yogintra.com/",
-    "logo": "https://yogintra.com/uploads/6501ab36d6f70Rectrangular-logo-2.png",
-    "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+91-9867291573",
-        "contactType": "Customer Service"
-    }
-    }
+        "@cont
+    }ext": "https://schema.org",
+        "@type": "Organization",
+        "name": "Yogintra",
+        "url": "https://yogintra.com/",
+        "logo": "https://yogintra.com/uploads/6501ab36d6f70Rectrangular-logo-2.png",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-9867291573",
+            "contactType": "Customer Service"
+        }
 
     {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Yogintra",
-    "image": "https://yogintra.com/assets/og-logo.webp",
-    "@id": "https://yogintra.com/",
-    "url": "https://yogintra.com/",
-    "telephone": "+91-9867291573",
-    "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "D-408 Shivlila Apt Mumbra devi colony road",
-        "addressLocality": "Mumbai Thane",
-        "addressRegion": "West Bengal",
-        "postalCode": "400612",
-        "addressCountry": "India"
-    },
-    "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 19.186440995177897,
-        "longitude": 73.04725068022144
-    },
-    "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-        ],
-        "opens": "09:00",
-        "closes": "20:00"
-    }
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Yogintra",
+        "image": "https://yogintra.com/assets/og-logo.webp",
+        "@id": "https://yogintra.com/",
+        "url": "https://yogintra.com/",
+        "telephone": "+91-9867291573",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "D-408 Shivlila Apt Mumbra devi colony road",
+            "addressLocality": "Mumbai Thane",
+            "addressRegion": "West Bengal",
+            "postalCode": "400612",
+            "addressCountry": "India"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 19.186440995177897,
+            "longitude": 73.04725068022144
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday"
+            ],
+            "opens": "09:00",
+            "closes": "20:00"
+        }
     }
     </script>
 
