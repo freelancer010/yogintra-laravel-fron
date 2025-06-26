@@ -108,6 +108,8 @@
     </style>
 
     @stack('styles') {{-- For additional CSS in child views --}}
+    
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="bIsA8XszhdkDl05hoPLfFw" async></script>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8QW4B6YQ9G"></script>
