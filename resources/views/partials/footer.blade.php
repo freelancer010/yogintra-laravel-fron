@@ -85,7 +85,7 @@
                     <ul style="list-style: none; padding: 0; margin: 0;">
                         @foreach ($all_landing_page as $page)
                             <li style="display: inline-block; margin-right: 10px;">
-                                <a href="{{ url('city/' . $page->page_slug) }}">{{ $page->page_name }} |</a>
+                                <a href="{{ url('city/' . $page->page_slug) }}">{{ $page->page_name }}&nbsp;&nbsp;&nbsp;|</a>
                             </li>
                         @endforeach
                     </ul>

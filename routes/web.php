@@ -30,14 +30,13 @@ Route::get('/blog/{slug}', [HomeController::class, 'blogDetails'])->name('blog.d
 Route::get('/blog-category/{slug}', [HomeController::class, 'blogCategory'])->name('blog.category');
 
 Route::get('/service-details/{slug}', [HomeController::class, 'serviceDetails']);
-Route::get('/service_details/{slug}', [HomeController::class, 'serviceDetails']);
 Route::get('/service/{slug}', [HomeController::class, 'allService'])->name('all-service');
-Route::get('/service', function () {
-    return redirect('/service/home-visit-yoga');
-})->name('service.home');
-Route::get('/padmasana-lotus-pose', function () {
-    return redirect('/blog/padmasana-lotus-pose');
-});
+// Route::get('/service', function () {
+//     return redirect('/service/home-visit-yoga');
+// })->name('service.home');
+// Route::get('/padmasana-lotus-pose', function () {
+//     return redirect('/blog/padmasana-lotus-pose');
+// });
 
 Route::get('/event-details/{slug}', [HomeController::class, 'eventDetails']);
 Route::get('/event/{slug}', [HomeController::class, 'eventDetails'])->name('event.details');
