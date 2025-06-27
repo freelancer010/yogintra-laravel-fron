@@ -53,12 +53,12 @@
                     <input id="phone" type="text" placeholder="Enter Phone" name="register_phone" class="form-control" required>
                   </div>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                   <div class="form-group">
                     <input id="email" type="email" placeholder="Enter Email" name="register_email" class="form-control" required>
                   </div>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                   <div class="form-group">
                     <select id="reg_ticket" onchange="get_price(this.value)" name="register_ticket" class="form-control" required>
                       <option value="">Select Ticket</option>
@@ -230,7 +230,7 @@
     padding: 20px;
   }
   .event-img-holder {
-    height: 77.5vh;
+    height: 71vh;
     background-size: cover !important;
     background-position: center !important;
     border-radius: 5px;

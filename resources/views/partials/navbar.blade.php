@@ -55,12 +55,12 @@
                             <li class="{{ request()->segment(1) == 'yoga-center' ? 'active' : '' }}">
                                 <a href="{{ url('/yoga-center') }}">Yoga Center</a>
                             </li>
-                            <li class="{{ in_array(request()->segment(1), ['teacher-training-course', 'retreat', 'workshop']) ? 'active' : '' }}">
+                            <li class="{{ in_array(request()->segment(2), ['teacher-training-course', 'retreat', 'workshop']) ? 'active' : '' }}">
                                 <a href="#">Events</a>
                                 <ul class="dropdown">
-                                    <li><a href="{{ url('/teacher-training-course') }}">TTC</a></li>   
-                                    <li><a href="{{ url('/retreat') }}">Retreat</a></li>
-                                    <li><a href="{{ url('/workshop') }}">Workshop</a></li>
+                                    <li><a href="{{ route('ttc') }}">TTC</a></li>   
+                                    <li><a href="{{ route('retreat.all') }}">Retreat</a></li>
+                                    <li><a href="{{ route('workshop') }}">Workshop</a></li>
                                 </ul>
                             </li>
                             <li class="{{ request()->segment(1) == 'trainers' ? 'active' : '' }}">
