@@ -38,7 +38,7 @@
   <section>
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 h-70">
           <div class="form_booking">
             <form id="booking-form" class="mb-0" name="booking-form" action="#" method="post" enctype="multipart/form-data">
               <h3 class="title text-theme-colored text-center mb-15">Registration Form</h3>
@@ -140,7 +140,7 @@
           </div>
         </div>
         <div class="col-md-8">
-          <div class="event-img-holder bg-gray text-center" >
+          <div class="event-img-holder bg-gray text-center h-70" >
             <img src="{{ asset($event->image) }}" alt="event image" class="img-responsive img-fullwidth" style="height: 100%; width: 100%; object-fit: cover; border-radius: 5px;">
           </div>
         </div>
@@ -230,8 +230,10 @@
     background-color: #efefef;
     padding: 20px;
   }
+  .h-70{
+    height: 70vh;
+  }
   .event-img-holder {
-    height: 71vh;
     background-size: cover !important;
     background-position: center !important;
     border-radius: 5px;
