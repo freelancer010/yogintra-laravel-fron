@@ -52,8 +52,8 @@
     <link rel="preconnect" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap">
 
     <!-- MAIN CSS -->
-    <link rel="preload" as="style" href="{{ asset('assets/front/css/style-main.min.css?fff=nvjkdsk') }}" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/style-main.min.css?fff=nvjkdsk') }}"></noscript>
+    <link rel="preload" as="style" href="{{ asset('assets/front/css/style-main.min.css?version=1.0.1') }}" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/style-main.min.css?version=1.0.1') }}"></noscript>
 
     <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="all">
