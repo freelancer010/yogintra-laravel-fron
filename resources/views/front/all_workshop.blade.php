@@ -37,7 +37,7 @@
               </div>
             </div>
             <div class="schedule-details clearfix p-15 pt-5" style="border-bottom: none!important;">
-              <h5 class="font-16 title"><a href="{{ url('workshop/'.$event->link) }}">{{ $event->title }}</a></h5>
+              <h5 class="font-16 title elipse-text-title"><a href="{{ url('workshop/'.$event->link) }}">{{ $event->title }}</a></h5>
               <ul class="list-inline font-11 mb-20">
                 <li><i class="fa fa-calendar mr-5"></i> {{ \Carbon\Carbon::parse($event->date_time)->format('d-m-Y h:i A') }}</li>
                 <li><i class="fa fa-map-marker mr-5"></i> {{ $event->event_location }}</li>

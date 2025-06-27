@@ -8918,6 +8918,14 @@ a.btn,.btn-primary{
     text-overflow: ellipsis
 }
 
+.elipse-text-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
 .sk_branding a.tutorial_link {
     display:none !important;
 }

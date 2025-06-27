@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             <div class="schedule-details clearfix p-15 pt-5">
-                                <h5 class="font-16 title">
+                                <h5 class="font-16 title elipse-text-title">
                                     <a href="{{ url('workshop/' . $event->link) }}">{{ $event->title }}</a>
                                 </h5>
                                 <ul class="list-inline font-11 mb-20">

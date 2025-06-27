@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="schedule-details clearfix p-15 pt-10">
-                                <h5 class="font-16 title">
+                                <h5 class="font-16 title elipse-text-title">
                                     <a href="{{ url('/yoga-center/' . $center->center_slug) }}">{{ $center->center_name }}</a>
                                 </h5>
                                 <ul class="list-inline font-11 mb-20" style="margin-bottom: 10px !important;">
