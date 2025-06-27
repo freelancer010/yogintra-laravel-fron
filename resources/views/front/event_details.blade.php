@@ -140,7 +140,8 @@
           </div>
         </div>
         <div class="col-md-8">
-          <div class="event-img-holder"style="background:url('{{ asset($event->image) }}')" width="100%">
+          <div class="event-img-holder bg-gray text-center" >
+            <img src="{{ asset($event->image) }}" alt="event image" class="img-responsive img-fullwidth" style="height: 100%; width: 100%; object-fit: cover; border-radius: 5px;">
           </div>
         </div>
       </div>
