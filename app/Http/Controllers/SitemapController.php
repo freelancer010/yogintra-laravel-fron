@@ -68,6 +68,18 @@ class SitemapController extends Controller
             $urls[] = $this->formatUrl(url('/workshop/' . $workshop->link), '0.80');
         }
 
+        // TTC Pages (from `event`)
+        $workshops = Event::where('category', 'TTC')->where('status', 'On')->orderByDesc('id')->get();
+        foreach ($workshops as $workshop) {
+            $urls[] = $this->formatUrl(url('/teacher-training-course/' . $workshop->link), '0.80');
+        }
+
+        // Retreat Pages (from `event`)
+        $workshops = Event::where('category', 'Retreat')->where('status', 'On')->orderByDesc('id')->get();
+        foreach ($workshops as $workshop) {
+            $urls[] = $this->formatUrl(url('/Retreat/' . $workshop->link), '0.80');
+        }
+
         // Render and save
         $xml = view('sitemap.xml', compact('urls'))->render();
         file_put_contents(public_path('sitemap.xml'), $xml);

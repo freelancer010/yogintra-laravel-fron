@@ -49,10 +49,13 @@ Route::get('/terms-and-condition', [HomeController::class, 'termsAndCondition'])
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/refund-policy', [HomeController::class, 'refundPolicy']);
 
-Route::get('/events/teacher-training-course', [HomeController::class, 'teacherTrainingCourse'])->name('ttc');
-Route::get('/events/retreat', [HomeController::class, 'allRetreat'])->name('retreat.all');
+Route::get('/teacher-training-course', [HomeController::class, 'teacherTrainingCourse'])->name('ttc');
+Route::get('/teacher-training-course/{slug}', [HomeController::class, 'eventDetails'])->name('ttc.details');
 
-Route::get('/events/workshop', [HomeController::class, 'allWorkshop'])->name('workshop');
+Route::get('/retreat', [HomeController::class, 'allRetreat'])->name('retreat.all');
+Route::get('/retreat/{slug}', [HomeController::class, 'allRetreat'])->name('retreat.all');
+
+Route::get('/workshop', [HomeController::class, 'allWorkshop'])->name('workshop');
 Route::get('/workshop/{slug}', [HomeController::class, 'eventDetails'])->name('workshop.details');
 
 Route::get('/yoga-center', [HomeController::class, 'allYogaCenter'])->name('yoga.center');
