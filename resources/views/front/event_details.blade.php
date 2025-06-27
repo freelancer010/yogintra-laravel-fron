@@ -38,8 +38,8 @@
   <section>
     <div class="container">
       <div class="row">
-        <div class="col-md-4 h-70">
-          <div class="form_booking">
+        <div class="col-md-4">
+          <div class="form_booking h-70">
             <form id="booking-form" class="mb-0" name="booking-form" action="#" method="post" enctype="multipart/form-data">
               <h3 class="title text-theme-colored text-center mb-15">Registration Form</h3>
               <div class="row">
