@@ -18,12 +18,21 @@
 
 @section('content')
 <div class="main-content">
-  <section class="inner-header divider parallax layer-overlay overlay-dark-7" style="background-image: url('{{ asset($blog->blog_image) }}'); background-position: 50% 55px;height: 300px;">
+  <section class="inner-header divider parallax layer-overlay overlay-dark-7" 
+    style="background-image: linear-gradient(360deg, black, transparent),url('{{ asset($blog->blog_image) }}'); 
+    background-position: 50% 55px;    
+    height: 60vh;
+    object-fit: cover;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: -10%;"
+  >
     <div class="container pt-60 pb-60">
       <div class="section-content">
         <div class="row">
-          <div class="col-md-12 text-center">
-            <h2 class="title text-white">{{ \Illuminate\Support\Str::limit($blog->blog_title, 100, '...') }}</h2>
+          <div class="col-md-12 text-center d-flex align-items-center justify-content-center">
+            <h1 class="title text-white">{{ \Illuminate\Support\Str::limit($blog->blog_title, 100, '...') }}</h1>
           </div>
         </div>
       </div>
@@ -36,7 +45,7 @@
         <div class="col-12">
           <div class="blog-posts single-post">
             <article class="post clearfix mb-0">
-              <div class="entry-header">
+              <div class="entry-header" style="border-radius: 12px; box-shadow: 0px 6px 10px #00000050;">
                 <div class="post-thumb thumb">
                   <img src="{{ asset($blog->blog_image) }}" alt="{{ $blog->blog_title }}" class="img-responsive img-fullwidth">
                 </div>
