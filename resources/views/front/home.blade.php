@@ -166,7 +166,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="bg-white-transparent pt-20 pb-50 outline-border">
-                                <h2 class="text-black-555 mob-font-54">{{ $mob_heading }}</h2>
+                                <h1 class="text-black-555 mob-font-54">{{ $mob_heading }}</h2>
                                 <h5 class="font-weight-400 margin-tp sub_heading mob-sub_heading">{{ $mob_sub_heading }}</h5>
                             </div>
                         </div>
