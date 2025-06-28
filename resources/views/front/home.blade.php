@@ -128,12 +128,12 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="bg-white-transparent pt-20 pb-50 outline-border">
-                                            <h2 class="text-black-555 font-54" style="font-weight: 900">
+                                            <h1 class="text-black-555 font-54" style="font-weight: 900">
                                                 {{ $slider->slider_heading }}
-                                            </h2>
-                                            <h5 class="font-weight-400 margin-tp sub_heading">
+                                            </h1>
+                                            <h4 class="font-weight-400 margin-tp sub_heading">
                                                 {{ $slider->slider_sub_heading }}
-                                            </h5>
+                                            </h4>
                                             @if ($slider->slider_btn_name && $slider->slider_btn_link)
                                                 <a style="background: #e07f00 !important" class="btn btn-theme-colored btn-flat mt-15 high-contrast-btn"
                                                 href="{{ $slider->slider_btn_link }}">

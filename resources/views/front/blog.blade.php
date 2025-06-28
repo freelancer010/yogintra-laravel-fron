@@ -39,7 +39,7 @@
                             <div class="entry-header">
                                 <div class="post-thumb thumb">
                                     <a href="{{ url('/blog/' . $all_blog->blog_slug) }}">
-                                        <img style="height:150px" class="img-responsive img-fullwidth"
+                                        <img style="height:150px;object-fit: cover;object-position: top center;" class="img-responsive img-fullwidth"
                                             src="{{ asset($all_blog->blog_image) }}"
                                             alt="{{ $all_blog->blog_title }}">
                                     </a>
