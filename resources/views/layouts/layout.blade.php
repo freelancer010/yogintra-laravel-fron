@@ -33,16 +33,7 @@
     <!-- FOR PWA MANIFEST -->
     <link rel="manifest" href="{{ asset('manifest.json')}}">
 
-    {{-- <link href="{{ asset('assets/front/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"> --}}
-    <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-
+    <link href="{{ asset('assets/front/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet" media="all">    
     <link href="{{ asset('assets/front/css/menuzord-megamenu.min.css')}}" rel="stylesheet">
     <link id="menuzord-menu-skins" href="{{ asset('assets/front/css/menuzord-skins/menuzord-bottom-trace.min.css')}}" rel="stylesheet">
@@ -54,19 +45,14 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/ionicons.min.css') }}" media="all">
     <link rel="stylesheet" href="{{ asset('assets/front/css/stroke-gap-icons.css') }}" media="all">
     <link rel="stylesheet" href="{{ asset('assets/front/css/utility-classes.min.css') }}">
-
-    {{-- PRE CONNECR --}}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap">
 
     <!-- MAIN CSS -->
-    <link rel="preload" as="style" href="{{ asset('assets/front/css/style-main.min.css?version=1.0.3') }}" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/style-main.min.css?version=1.0.3') }}"></noscript>
-
+    <link href="{{ asset('assets/front/css/style-main.min.css?fff=nvjkdsk') }}" rel="stylesheet" type="text/css" media="all">
+    <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="all">
     <link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css">
-    <link rel="preload" as="image" href="{{ asset('uploads/6501ab36d6f70Rectrangular-logo-2.png') }}">
-
+    
     <!-- Footer -->
     <style>
         .horizontal-list {
@@ -149,65 +135,58 @@
     <!-- End Meta Pixel Code -->
     
     <!-- Custom Scripts -->
-    {{-- <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"></script> --}}
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
-
-    {{-- <script src="{{ asset('assets/front/js/jquery-ui.min.js') }}"></script> --}}
-    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js" ></script>
-
-    {{-- <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script> --}}
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" ></script>
-
+    <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}"></script>
-
+    
     <script type="application/ld+json">
     {
-        "@cont
-    }ext": "https://schema.org",
-        "@type": "Organization",
-        "name": "Yogintra",
-        "url": "https://yogintra.com/",
-        "logo": "https://yogintra.com/uploads/6501ab36d6f70Rectrangular-logo-2.png",
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+91-9867291573",
-            "contactType": "Customer Service"
-        }
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Yogintra",
+    "url": "https://yogintra.com/",
+    "logo": "https://yogintra.com/uploads/6501ab36d6f70Rectrangular-logo-2.png",
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-9867291573",
+        "contactType": "Customer Service"
+    }
+    }
 
     {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Yogintra",
-        "image": "https://yogintra.com/assets/og-logo.webp",
-        "@id": "https://yogintra.com/",
-        "url": "https://yogintra.com/",
-        "telephone": "+91-9867291573",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "D-408 Shivlila Apt Mumbra devi colony road",
-            "addressLocality": "Mumbai Thane",
-            "addressRegion": "West Bengal",
-            "postalCode": "400612",
-            "addressCountry": "India"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 19.186440995177897,
-            "longitude": 73.04725068022144
-        },
-        "openingHoursSpecification": {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday"
-            ],
-            "opens": "09:00",
-            "closes": "20:00"
-        }
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Yogintra",
+    "image": "https://yogintra.com/assets/og-logo.webp",
+    "@id": "https://yogintra.com/",
+    "url": "https://yogintra.com/",
+    "telephone": "+91-9867291573",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "D-408 Shivlila Apt Mumbra devi colony road",
+        "addressLocality": "Mumbai Thane",
+        "addressRegion": "West Bengal",
+        "postalCode": "400612",
+        "addressCountry": "India"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 19.186440995177897,
+        "longitude": 73.04725068022144
+    },
+    "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "20:00"
+    }
     }
     </script>
 
