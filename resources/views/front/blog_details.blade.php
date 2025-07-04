@@ -19,20 +19,19 @@
 @section('content')
 <div class="main-content">
   <section class="inner-header divider parallax layer-overlay overlay-dark-7" 
-    style="background-image: linear-gradient(360deg, black, transparent),url('{{ asset($blog->blog_image) }}'); 
+    style="background-image: linear-gradient(360deg, #000000, transparent),url('{{ asset($blog->blog_image) }}'); 
     background-position: 50% 55px;    
-    height: 60vh;
+    height: 80vh;
     object-fit: cover;
     display: flex;
     justify-content: center;
-    text-align: center;
-    margin-bottom: -10%;"
+    text-align: center;"
   >
-    <div class="container pt-60 pb-60">
-      <div class="section-content">
+    <div class="container pt-60 pb-60 position-relative">
+      <div class="section-content position-absolute" style="bottom:5%">
         <div class="row">
-          <div class="col-md-12 text-center d-flex align-items-center justify-content-center">
-            <h1 class="title text-white">{{ \Illuminate\Support\Str::limit($blog->blog_title, 100, '...') }}</h1>
+          <div class="col-md-12 text-center">
+            {{-- <h1 class="title text-white">{{ \Illuminate\Support\Str::limit($blog->blog_title, 100, '...') }}</h1> --}}
           </div>
         </div>
       </div>
@@ -40,14 +39,14 @@
   </section>
 
   <section>
-    <div class="container mt-30 mb-30 pt-30 pb-30">
+    <div class="container mt-0 mb-30 pt-30 pb-30">
       <div class="row">
         <div class="col-12">
           <div class="blog-posts single-post">
             <article class="post clearfix mb-0">
-              <div class="entry-header" style="border-radius: 12px; box-shadow: 0px 6px 10px #00000050;">
+              <div class="entry-header">
                 <div class="post-thumb thumb">
-                  <img src="{{ asset($blog->blog_image) }}" alt="{{ $blog->blog_title }}" class="img-responsive img-fullwidth">
+                  {{-- <img src="{{ asset($blog->blog_image) }}" alt="{{ $blog->blog_title }}" class="img-responsive img-fullwidth"> --}}
                 </div>
               </div>
               <div class="entry-content p-15">
@@ -60,7 +59,7 @@
                   </div>
                   <div class="media-body pl-15">
                     <div class="event-content pull-left flip">
-                      <h3 class="entry-title text-dark text-uppercase pt-0 mt-0">{{ $blog->blog_title }}</h3>
+                      <h1 class="entry-title text-dark text-uppercase pt-0 mt-0">{{ $blog->blog_title }}</h3>
                       @if($blog->blog_author)
                         <span class="mb-10 text-gray-darkgray mr-10 font-13">
                           <i class="fa fa-user mr-5"></i> Author : {{ $blog->blog_author }}

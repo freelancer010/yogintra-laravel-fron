@@ -77,7 +77,7 @@
                 ['name' => 'Landing Pages', 'route' => 'admin.landing-pages.index']
               ]
             ],
-            'front_setting' => [
+            'front-setting' => [
               'title' => 'Front Setting',
               'icon' => 'fas fa-home',
               'items' => [

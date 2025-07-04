@@ -11,7 +11,7 @@
     <div class="section-content">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h2 class="title text-white">Recruitment</h2>
+          <h1 class="title text-white">Recruitment</h1>
           <ol class="breadcrumb text-center mt-10">
             <li><a class="text-white" href="{{ url('/') }}">Home</a></li>
             <li class="active text-gray">Recruitment</li>
@@ -29,7 +29,7 @@
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <div class="section-3-title">
-            <span class="">Become A Trainer</span>
+            <h2 class="fs-50">Become A Trainer</h2>
           </div>
           <p>As YogIntra is one of the best Yoga Platform, we are offering a chance to be a part of our organization. You can show your interest by filling the form and Our Team will contact you after analyzing your eligibility.</p>
         </div>

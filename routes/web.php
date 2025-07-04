@@ -169,16 +169,21 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     
     // --------| Front Setting |-------------------
-    Route::prefix('front_setting')->name('front.')->group(function () {
-        Route::get('/all_slider', [FrontSettingController::class, 'slider'])->name('slider');
-        Route::get('/section_1', [FrontSettingController::class, 'section1'])->name('section1');
-        Route::get('/section_2', [FrontSettingController::class, 'section2'])->name('section2');
+    Route::prefix('front-setting')->name('front.')->group(function () {
+        Route::get('/all-slider', [FrontSettingController::class, 'slider'])->name('slider');
+        Route::get('/edit-slider/{id}', [FrontSettingController::class, 'editSlider'])->name('slider.edit');
+        Route::put('/update-slider/{id}', [FrontSettingController::class, 'updateSlider'])->name('slider.update');
+        Route::post('/store-slider', [FrontSettingController::class, 'storeSlider'])->name('slider.store');
+        Route::get('/delete-slider/{id}', [FrontSettingController::class, 'deleteSlider'])->name('slider.delete');
+
+        Route::get('/section-1', [FrontSettingController::class, 'section1'])->name('section1');
+        Route::get('/section-2', [FrontSettingController::class, 'section2'])->name('section2');
         
-        Route::post('/section_2/image/update', [FrontSettingController::class, 'updateServiceImage'])->name('section2.image.update');
-        Route::post('/section_2/service/store', [FrontSettingController::class, 'storeService'])->name('section2.service.store');
-        Route::get('/section_2/service/edit/{id}', [FrontSettingController::class, 'editService'])->name('section2.service.edit');
-        Route::put('/section_2/service/update/{id}', [FrontSettingController::class, 'updateService'])->name('section2.service.update');
-        Route::delete('/section_2/service/delete/{id}', [FrontSettingController::class, 'deleteService'])->name('section2.service.delete');
+        Route::post('/section-2/image/update', [FrontSettingController::class, 'updateServiceImage'])->name('section2.image.update');
+        Route::post('/section-2/service/store', [FrontSettingController::class, 'storeService'])->name('section2.service.store');
+        Route::get('/section-2/service/edit/{id}', [FrontSettingController::class, 'editService'])->name('section2.service.edit');
+        Route::put('/section-2/service/update/{id}', [FrontSettingController::class, 'updateService'])->name('section2.service.update');
+        Route::delete('/section-2/service/delete/{id}', [FrontSettingController::class, 'deleteService'])->name('section2.service.delete');
 
         Route::get('/testimonial', [FrontSettingController::class, 'testimonial'])->name('testimonial');
     });

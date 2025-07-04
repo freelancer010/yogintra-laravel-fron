@@ -1,7 +1,6 @@
 @extends('layouts.layout')
 @push('styles')
     <link rel="preload" as="image" href="{{ asset('uploads/6501ab36d6f70Rectrangular-logo-2.png') }}" type="image/png">
-    <link rel="preload" as="image" href="{{ asset('assets/Mobile-Banner-new.webp') }}" type="image/webp">
     <style>
         #home {
             min-height: 100vh;
@@ -105,6 +104,9 @@
   </style>
 @endpush
 @section('content')
+    {{-- Preload the mobile banner image for faster paint --}}
+    <link rel="preload" as="image" href="{{ asset('assets/Mobile-Banner-new.webp') }}" fetchpriority="high" />
+
     <section id="home" class="divider">
         <div class="fullwidth-carousel" data-nav="true">
             @php
@@ -129,12 +131,10 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="bg-white-transparent pt-20 pb-50 outline-border">
-                                            <h1 class="text-black-555 font-54" style="font-weight: 900">
+                                            <h3 class="text-black-555 font-54" style="font-weight: 900">
                                                 {{ $slider->slider_heading }}
-                                            </h1>
-                                            <h4 class="font-weight-400 margin-tp sub_heading">
-                                                {{ $slider->slider_sub_heading }}
-                                            </h4>
+                                            </h3>
+                                            
                                             @if ($slider->slider_btn_name && $slider->slider_btn_link)
                                                 <a style="background: #e07f00 !important" class="btn btn-theme-colored btn-flat mt-15 high-contrast-btn"
                                                 href="{{ $slider->slider_btn_link }}">
@@ -167,8 +167,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="bg-white-transparent pt-20 pb-50 outline-border">
-                                <h1 class="text-black-555 mob-font-54">{{ $mob_heading }}</h2>
-                                <h5 class="font-weight-400 margin-tp sub_heading mob-sub_heading">{{ $mob_sub_heading }}</h5>
+                                <h3 class="text-black-555 mob-font-54">{{ $mob_heading }}</h3>
+                                <h3 class="font-weight-400 margin-tp sub_heading mob-sub_heading">{{ $mob_sub_heading }}</h3>
                             </div>
                         </div>
                     </div>
@@ -183,9 +183,9 @@
             <div class="section-title text-center">
                 <div class="row">
                     <div class="col-md-7 col-md-offset-5">
-                        <h2 class="text-uppercase line-bottom-double-line-centered mt-0 cst-font">
+                        <h1 class="text-uppercase line-bottom-double-line-centered mt-0 cst-font">
                             {{ $section_1->of_heading }}
-                        </h2>
+                        </h1>
                         <span>{{ $section_1->of_sub_heading }}</span>
                     </div>
                 </div>
@@ -205,8 +205,8 @@
                                                 width="75" height="75" loading="lazy" alt="{{ $content_1->of_heading }}" decoding="async">
                                         </a>
                                         <div class="media-body">
-                                            <h2 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h2>
-                                            <p>{{ $content_1->of_description }}</p>
+                                            <h3 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h3>
+                                            <p class="text-black">{{ $content_1->of_description }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -232,9 +232,9 @@
                     </div>
                     <div class="col-md-6">
                         <h5 class="section-3 mb-0">{{ $section_2->os_image_sub_heading }}</h5>
-                        <div class="section-3-title ssc-ttl">{{ $section_2->os_image_heading }}</div>
+                        <div class="fs-50 ssc-ttl">{{ $section_2->os_image_heading }}</div>
                         <div>
-                            <p>{!! $section_2->os_image_description !!}</p>
+                            <p class="text-black">{!! $section_2->os_image_description !!}</p>
                         </div>
                         <div class="row mt-10">
                             @foreach ($section_2_content as $content_sec_2)
@@ -242,7 +242,7 @@
                                     <div class="">
                                         <img src="{{ asset($content_sec_2->os_image) }}" width="90" height="95" loading="lazy" decoding="async" alt="{{ $content_sec_2->os_heading }}">
                                     </div>
-                                    <h2 style="font-size: 16px">{{ $content_sec_2->os_heading }}</h2>
+                                    <h3 style="font-size: 16px">{{ $content_sec_2->os_heading }}</h3>
                                 </div>
                             @endforeach
                         </div>
@@ -259,7 +259,7 @@
                     <div class="section-title">
                         <div class="row">
                             <div class="col-md-12">
-                                <h1 class="ssc-ttl brief-dec-title">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</h1>
+                                <h3 class="ssc-ttl brief-dec-title">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</h3>
                                 <p>We at YogIntra provide various services to the nature of the clients. Wish how you would like to spend your time here we can talk and come to a conclusion.</p>
                             </div>
                         </div>
@@ -269,32 +269,32 @@
                             @foreach ($rand_service as $r_service)
                                 <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <img class="img-circle img-thumbnail mb-0" src="{{ asset($r_service->service_cat_image) }}" height="150" width="150" loading="lazy" decoding="async" alt="{{ $r_service->service_cat_name }}">
-                                    <h4 class="mb-5">{{ $r_service->service_cat_name }}</h4>
+                                    <h2 class="mb-5">{{ $r_service->service_cat_name }}</h2>
                                     <a href="{{ url('service/' . $r_service->service_cat_slug) }}" class="btn btn-success">Book Now</a>
                                 </div>
                             @endforeach
 
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="TTC">
-                                <h4 class="mb-5">TTC</h4>
+                                <h2 class="mb-5">TTC</h2>
                                 <a href="{{ route('ttc') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="Retreat">
-                                <h4 class="mb-5">Retreat</h4>
+                                <h2 class="mb-5">Retreat</h2>
                                 <a href="{{ route('retreat.all') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="Workshop">
-                                <h4 class="mb-5">Workshop</h4>
+                                <h2 class="mb-5">Workshop</h2>
                                 <a href="{{ route('workshop') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20 animated" data-wow-duration="1s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.3s;">
                                 <img width="150" height="150" loading="lazy" decoding="async" class="img-circle img-thumbnail mb-0" src="{{ asset('uploads/yog_center.jpg') }}" alt="Yoga Center">
-                                <h4 class="mb-5">Yoga Center</h4>
+                                <h2 class="mb-5">Yoga Center</h2>
                                 <a href="{{ route('yoga.center') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
