@@ -437,6 +437,10 @@
             margin: 20px!important;
          }
       }
+
+    .fs-16 {
+        font-size: 16px;
+    }
    </style>
 @endpush
 
@@ -667,7 +671,7 @@
                 @foreach ($yogaServices as $service)
                     <div class="col-xs-12 col-sm-6 col-md-3 mb-4 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                         <img loading="lazy" width="160" height="160" class="img-circle img-thumbnail mb-2" src="{{ asset($service['image']) }}" alt="{{ $service['title'] }}">
-                        <h4 class="mb-5">{{ $service['title'] }}</h4>
+                        <h2 class="mb-5 fs-16">{{ $service['title'] }}</h2>
                         <a href="{{ url($service['link']) }}" class="btn btn-success">Visit Now</a>
                     </div>
                 @endforeach
