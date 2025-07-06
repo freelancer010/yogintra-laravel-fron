@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\FrontSettingController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\LandingPageController;
+use App\Http\Controllers\Admin\SettingController;
 
 
 
@@ -197,7 +198,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // --------| Front Setting |-------------------
 
     // Settings
-    Route::get('/setting/application_setting', [App\Http\Controllers\AdminController::class, 'application'])->name('setting.application');
+    Route::get('/setting/application_setting', [SettingController::class, 'applicationSetting'])->name('setting.application');
+    Route::post('/setting/update_application_setting', [SettingController::class, 'updateApplicationSetting'])->name('setting.update');
 
     // Profile & Password (optional, adjust as needed)
     Route::get('/update_profile/update_profile_details', [App\Http\Controllers\AdminController::class, 'edit'])->name('profile.edit');

@@ -94,15 +94,15 @@ class EventBooking extends Model
     }
 }
 
-class User extends Model
-{
-    use HasFactory;
+// class User extends Model
+// {
+//     use HasFactory;
     
-    protected $table = 'users';
-    protected $primaryKey = 'user_id';
-    public $timestamps = false;
-    protected $fillable = [
-        'user_name', 'user_mobile', 'user_email', 'user_password', 'user_role',
-        'user_photo', 'user_is_online', 'user_token', 'is_employee', 'user_status', 'user_created_at'
-    ];
-}
+//     protected $table = 'users';
+//     protected $primaryKey = 'user_id';
+//     public $timestamps = false;
+//     protected $fillable = [
+//         'user_name', 'user_mobile', 'user_email', 'user_password', 'user_role',
+//         'user_photo', 'user_is_online', 'user_token', 'is_employee', 'user_status', 'user_created_at'
+//     ];
+// }
