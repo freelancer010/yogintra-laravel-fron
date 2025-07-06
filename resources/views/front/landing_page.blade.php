@@ -584,55 +584,19 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
-          <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
-            <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
-              <img loading="lazy" src="{{ asset('uploads/65030a9e1ab49health-icon.png') }}" alt="yogintra good for health">
-            </a>
-            <div class="media-body">
-              <h3 class="media-heading heading"><b>Good for Health</b></h3>
-              <p>Yoga Fit is where you can find balance, harmony and energy. Also yoga improves strength, balance and flexibility.</p>
+        @foreach ($section_1_content as $content_1)
+            <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
+                <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
+                    <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
+                        <img loading="lazy" src="{{ asset($content_1->of_image) }}" width="75" height="75" loading="lazy" alt="{{ $content_1->of_heading }}" decoding="async">
+                    </a>
+                    <div class="media-body">
+                        <h3 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h3>
+                        <p>{{ $content_1->of_description }}</p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
-          <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
-            <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
-              <img loading="lazy" src="{{ asset('uploads/65030aafc7902heart-beat.png') }}" alt="yogintra Good for Cardio">
-            </a>
-            <div class="media-body">
-              <h3 class="media-heading heading"><b>Good for Cardio</b></h3>
-              <p>Yoga Fit improves blood circulation and decreases blood pressure of the body. A lower pulse rate helps your heart.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
-          <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
-            <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
-              <img loading="lazy" src="{{ asset('uploads/65030ac4021e6weight-loss.png') }}" alt="yogintra Good for Body">
-            </a>
-            <div class="media-body">
-              <h3 class="media-heading heading"><b>Good for Body</b></h3>
-              <p>Yoga Fit is where you can gain a balance of metabolism. Maintain a healthy weight, beautiful strong body, and control your hunger.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
-          <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
-            <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
-              <img loading="lazy" src="{{ asset('uploads/65030ad5516adbreathing.png') }}" alt="yogintra Good for Breathing">
-            </a>
-            <div class="media-body">
-              <h3 class="media-heading heading"><b>Good for Breathing</b></h3>
-              <p>Yoga Fit improves your respiratory by helping your lungs work more efficiently. Breathing exercises are a therapy which cures lung problems.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
+        @endforeach
     </div>
   </div>
 </section>
