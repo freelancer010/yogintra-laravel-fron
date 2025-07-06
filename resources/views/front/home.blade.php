@@ -101,6 +101,9 @@
         .align-items-center {
             align-items: center;
         }
+        .fs-16 {
+            font-size: 16px;
+        }
   </style>
 @endpush
 @section('content')
@@ -269,32 +272,32 @@
                             @foreach ($rand_service as $r_service)
                                 <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <img class="img-circle img-thumbnail mb-0" src="{{ asset($r_service->service_cat_image) }}" height="150" width="150" loading="lazy" decoding="async" alt="{{ $r_service->service_cat_name }}">
-                                    <h2 class="mb-5">{{ $r_service->service_cat_name }}</h2>
+                                    <h2 class="mb-5 fs-16">{{ $r_service->service_cat_name }}</h2>
                                     <a href="{{ url('service/' . $r_service->service_cat_slug) }}" class="btn btn-success">Book Now</a>
                                 </div>
                             @endforeach
 
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="TTC">
-                                <h2 class="mb-5">TTC</h2>
+                                <h2 class="mb-5 fs-16">TTC</h2>
                                 <a href="{{ route('ttc') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="Retreat">
-                                <h2 class="mb-5">Retreat</h2>
+                                <h2 class="mb-5 fs-16">Retreat</h2>
                                 <a href="{{ route('retreat.all') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="Workshop">
-                                <h2 class="mb-5">Workshop</h2>
+                                <h2 class="mb-5 fs-16">Workshop</h2>
                                 <a href="{{ route('workshop') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20 animated" data-wow-duration="1s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.3s;">
                                 <img width="150" height="150" loading="lazy" decoding="async" class="img-circle img-thumbnail mb-0" src="{{ asset('uploads/yog_center.jpg') }}" alt="Yoga Center">
-                                <h2 class="mb-5">Yoga Center</h2>
+                                <h2 class="mb-5 fs-16">Yoga Center</h2>
                                 <a href="{{ route('yoga.center') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
