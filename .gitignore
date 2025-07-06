@@ -1,10 +1,10 @@
 /public/sitemap.xml
 sitemap.xml
-/public/uploads/*
 /.phpunit.cache
 /node_modules
 /public/build
 /public/hot
+/public/uploads
 /public/storage
 /storage/*.key
 /storage/pail
