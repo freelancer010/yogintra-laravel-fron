@@ -176,6 +176,13 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::post('/store-slider', [FrontSettingController::class, 'storeSlider'])->name('slider.store');
         Route::get('/delete-slider/{id}', [FrontSettingController::class, 'deleteSlider'])->name('slider.delete');
 
+        Route::get('/our-features', [FrontSettingController::class, 'ourFeatures'])->name('our_features');
+        Route::post('/update-our-features-heading', [FrontSettingController::class, 'updateOurFeaturesHeading'])->name('our_features.heading.update');
+        Route::post('/add-our-features', [FrontSettingController::class, 'storeOurFeature'])->name('our_features.store');
+        Route::get('/edit-our-features/{id}', [FrontSettingController::class, 'editOurFeature'])->name('our_features.edit');
+        Route::post('/update-our-features/{id}', [FrontSettingController::class, 'updateOurFeature'])->name('our_features.update');
+        Route::get('/delete-our-features/{id}', [FrontSettingController::class, 'deleteOurFeature'])->name('our_features.delete');
+
         Route::get('/section-1', [FrontSettingController::class, 'section1'])->name('section1');
         Route::get('/section-2', [FrontSettingController::class, 'section2'])->name('section2');
         

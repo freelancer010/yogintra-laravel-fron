@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Slider;
 use App\Models\OurServiceImage;
 use App\Models\OurService;
+use App\Models\OurFeatureHeading;
+use App\Models\OurFeature;
 
 class FrontSettingController extends Controller
 {
@@ -149,5 +151,63 @@ class FrontSettingController extends Controller
         $slider = Slider::findOrFail($slider_id);
         return view('admin.front_setting.edit_slider', compact('slider'));
     }
+
+    public function section1()
+    {
+        $data['feature_heading'] = OurFeatureHeading::find(1);
+        $data['our_feature'] = OurFeature::all();
+        return view('admin.front_setting.section_1', $data);
+    }
+
+
+    public function editOurFeature($id)
+    {
+        $data['features'] = OurFeature::findOrFail($id);
+        return view('admin.front_setting.edit_section_1', $data);
+    }
+
+    public function updateOurFeature(Request $request, $id)
+    {
+        $feature = OurFeature::findOrFail($id);
+
+        $request->validate([
+            'of_heading' => 'required|string|max:255',
+            'of_description' => 'required|string',
+            'of_image' => 'nullable|image|max:2048',
+        ]);
+
+        $feature->of_heading = $request->of_heading;
+        $feature->of_description = $request->of_description;
+
+        if ($request->hasFile('of_image')) {
+            $image = $request->file('of_image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads'), $imageName);
+            $feature->of_image = 'uploads/' . $imageName;
+        }
+
+        $feature->save();
+
+        return redirect()->route('admin.front.our_features.edit', $id)->with('success', 'Feature updated successfully');
+    }
+
+    public function updateOurFeaturesHeading(Request $request)
+    {
+        $heading = OurFeatureHeading::find(1); // Or your actual logic
+        $heading->of_heading = $request->of_heading;
+        $heading->of_sub_heading = $request->of_sub_heading;
+
+        if ($request->hasFile('of_image')) {
+            $file = $request->file('of_image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/our-features'), $filename);
+            $heading->of_image = 'uploads/our-features/' . $filename;
+        }
+
+        $heading->save();
+
+        return redirect()->back()->with('success', 'Heading section updated successfully.');
+    }
+
 
 }
