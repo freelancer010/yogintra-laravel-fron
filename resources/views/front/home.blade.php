@@ -158,8 +158,8 @@
             <img
                 src="{{ asset('assets/Mobile-Banner-new.webp') }}"
                 alt="Yoga and Meditation Banner"
-                width="360"
-                height="640"
+                width="414"
+                height="650"
                 decoding="async"
                 fetchpriority="high"
                 style="width: 100%; height: auto; display: block;"
