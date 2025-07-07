@@ -102,7 +102,7 @@
             align-items: center;
         }
         .fs-16 {
-            font-size: 16px;
+            font-size: 16px !important;
         }
   </style>
 @endpush
@@ -255,7 +255,7 @@
         </div>
     </section>
 
-    <section class="divider types-of-yoga-section" style="background-image: url('{{ asset('assets/parallax-decor.webp') }}'); background-position: center center; background-size: auto;">
+    <section class="divider types-of-yoga-section" style="background-image: url('{{ asset('assets/parallax-decor2.png') }}'); background-position: center center; background-size: cover;">
         <div class="container">
             <div class="row">
                 <div class="col-sm-8">
@@ -270,26 +270,26 @@
                     <div class="section-content text-center">
                         <div class="row">
                             @foreach ($rand_service as $r_service)
-                                <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                <div class="col-xs-6 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <img class="img-circle img-thumbnail mb-0" src="{{ asset($r_service->service_cat_image) }}" height="150" width="150" loading="lazy" decoding="async" alt="{{ $r_service->service_cat_name }}">
                                     <h2 class="mb-5 fs-16">{{ $r_service->service_cat_name }}</h2>
                                     <a href="{{ url('service/' . $r_service->service_cat_slug) }}" class="btn btn-success">Book Now</a>
                                 </div>
                             @endforeach
 
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
+                            <div class="col-xs-6 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="TTC">
                                 <h2 class="mb-5 fs-16">TTC</h2>
                                 <a href="{{ route('ttc') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
+                            <div class="col-xs-6 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="Retreat">
                                 <h2 class="mb-5 fs-16">Retreat</h2>
                                 <a href="{{ route('retreat.all') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
+                            <div class="col-xs-6 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="Workshop">
                                 <h2 class="mb-5 fs-16">Workshop</h2>
                                 <a href="{{ route('workshop') }}" class="btn btn-success">Visit Now</a>
