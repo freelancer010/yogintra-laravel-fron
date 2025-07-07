@@ -248,7 +248,7 @@
 <div class="cookie-banner" id="cookieBanner">
     <div class="cookie-text">
         This website uses cookies to ensure you get the best experience. 
-        <a href="{{ url('/privacy-policy') }}" target="_blank">Learn more</a>
+        <a href="{{ url('/privacy-policy') }}" target="_blank"> Read our privacy policy</a>
     </div>
     <button onclick="acceptCookies()">Accept</button>
 </div>
