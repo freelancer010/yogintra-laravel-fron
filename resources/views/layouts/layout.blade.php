@@ -190,5 +190,81 @@
     </script>
     <script src="{{ asset('assets/front/js/custom.min.js') }}"></script>
     @stack('scripts')
+
+<!-- Cookie Consent -->
+<style>
+    .cookie-banner {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        max-width: 480px;
+        margin: auto;
+        background: #2f2f2f;
+        color: #fff;
+        padding: 15px 20px;
+        border-radius: 8px;
+        z-index: 9999;
+        display: none;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        flex-wrap: wrap;
+    }
+
+    .cookie-banner a {
+        color: #ffd700;
+        text-decoration: underline;
+    }
+
+    .cookie-banner button {
+        background-color: #28a745;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        margin-top: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    @media (min-width: 576px) {
+        .cookie-banner {
+            flex-wrap: nowrap;
+        }
+
+        .cookie-banner button {
+            margin-top: 0;
+            margin-left: 20px;
+        }
+    }
+</style>
+
+<div class="cookie-banner" id="cookieBanner">
+    <div class="cookie-text">
+        This website uses cookies to ensure you get the best experience. 
+        <a href="{{ url('/privacy-policy') }}" target="_blank">Learn more</a>
+    </div>
+    <button onclick="acceptCookies()">Accept</button>
+</div>
+
+    <script>
+        function acceptCookies() {
+            document.cookie = "cookie_consent=1; path=/; max-age=" + (60 * 60 * 24 * 365);
+            document.getElementById('cookieBanner').style.display = 'none';
+        }
+
+        function checkCookieConsent() {
+            const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+            const consent = cookies.find(cookie => cookie.startsWith('cookie_consent='));
+            if (!consent) {
+                document.getElementById('cookieBanner').style.display = 'flex';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', checkCookieConsent);
+    </script>
+
 </body>
 </html>
