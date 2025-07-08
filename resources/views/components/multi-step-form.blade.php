@@ -14,15 +14,15 @@
     <div class="form-step active" id="step-1">
         <div class="form-group">
             <label for="name">Your Name:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <input type="text" class="form-control" id="name" name="name" required placeholder="Enter your name here...">
         </div>
         <div class="form-group">
             <label for="phone">Phone Number:</label>
-            <input type="number" class="form-control" id="phone" name="number" required>
+            <input type="number" class="form-control" id="phone" name="number" required placeholder="Enter your number here...">
         </div>
         <div class="form-group">
             <label for="email">Email ID:</label>
-            <input type="text" class="form-control" id="email" name="email" required>
+            <input type="text" class="form-control" id="email" name="email" required placeholder="Enter your email here...">
         </div>
         <button class="btn btn-primary next" type="button">Next</button>
     </div>

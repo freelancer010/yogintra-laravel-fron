@@ -269,5 +269,72 @@
         document.addEventListener('DOMContentLoaded', checkCookieConsent);
     </script>
 
+    <!-- Message Box Trigger Button -->
+    <style>
+        #messageIcon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ffd700;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+
+            i {
+                font-size:20px
+            }
+        }
+
+        #messagePopup {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: white;
+            width: 300px;
+            max-width: 90%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            display: none;
+            z-index: 9999;
+        }
+
+        #messagePopup .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #999;
+        }
+    </style>
+
+    <div id="messageIcon">
+        <i class="fa fa-comment"></i>
+    </div>
+
+    <div id="messagePopup">
+        <div class="close-btn" onclick="toggleMessagePopup()">&times;</div>
+        
+        <p>Hello hope you are doing well!</p>
+        <hr/>
+        @include('components.multi-step-form') {{-- Use your actual message form partial path --}}
+    </div>
+
+    <script>
+        document.getElementById('messageIcon').addEventListener('click', toggleMessagePopup);
+        function toggleMessagePopup() {
+            const popup = document.getElementById('messagePopup');
+            popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+        }
+    </script>
+
 </body>
 </html>
