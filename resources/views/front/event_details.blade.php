@@ -14,9 +14,56 @@
   
   <section>
     <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="form_booking">
+      <div class="row mt-15">
+        <div class="col-md-3 mt-20">
+          <div class="bg-light media border-bottom p-15 mb-20">
+            <div class="media-left">
+              <i class="pe-7s-pen text-theme-colored font-24 mt-5"></i>
+            </div>
+            <div class="media-body">
+              <h5 class="mt-0 mb-0">Topics:</h5>
+              <p>{{ $event->title }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mt-20">
+          <div class="bg-light media border-bottom p-15 mb-20">
+            <div class="media-left">
+              <i class="pe-7s-users text-theme-colored font-24 mt-5"></i>
+            </div>
+            <div class="media-body">
+              <h5 class="mt-0 mb-0">Host:</h5>
+              <p>{{ $event->event_host_by }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mt-20">
+          <div class="bg-light media border-bottom p-15 mb-20">
+            <div class="media-left">
+              <i class="pe-7s-home text-theme-colored font-24 mt-5"></i>
+            </div>
+            <div class="media-body">
+              <h5 class="mt-0 mb-0">Location:</h5>
+              <p>{{ $event->event_location }}, {{ $event->city }}, {{ $event->state }}, {{ $event->country }} - {{ $event->pin_code }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mt-20">
+          <div class="bg-light media border-bottom p-15 mb-20">
+            <div class="media-left">
+              <i class="pe-7s-date text-theme-colored font-24 mt-5"></i>
+            </div>
+            <div class="media-body">
+              <h5 class="mt-0 mb-0">Event Date:</h5>
+              <p>{{ \Carbon\Carbon::parse($event->date_time)->format('M d, Y h:i A') }} to {{ \Carbon\Carbon::parse($event->end_date_time)->format('M d, Y h:i A') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>      
+            <div class="row">
+        <div class="col-md-12">
+          <div class="form_booking h-70">
             <form id="booking-form" class="mb-0" name="booking-form" action="#" method="post" enctype="multipart/form-data">
               <h3 class="title text-theme-colored text-center mb-15">Registration Form</h3>
               <div class="row">
@@ -116,55 +163,7 @@
             </form>
           </div>
         </div>
-        <div class="col-md-8">
-          <div class="row d-flex align-items-start">
-            <div class="col-md-6">
-              <div class="bg-light media border-bottom p-15 mb-20">
-                <div class="media-left">
-                  <i class="pe-7s-pen text-theme-colored font-24 mt-5"></i>
-                </div>
-                <div class="media-body">
-                  <h5 class="mt-0 mb-0">Topics:</h5>
-                  <p>{{ $event->title }}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="bg-light media border-bottom p-15 mb-20">
-                <div class="media-left">
-                  <i class="pe-7s-users text-theme-colored font-24 mt-5"></i>
-                </div>
-                <div class="media-body">
-                  <h5 class="mt-0 mb-0">Host:</h5>
-                  <p>{{ $event->event_host_by }}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 mt-20">
-              <div class="bg-light media border-bottom p-15 mb-20">
-                <div class="media-left">
-                  <i class="pe-7s-home text-theme-colored font-24 mt-5"></i>
-                </div>
-                <div class="media-body">
-                  <h5 class="mt-0 mb-0">Location:</h5>
-                  <p>{{ $event->event_location }}, {{ $event->city }}, {{ $event->state }}, {{ $event->country }} - {{ $event->pin_code }}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 mt-20">
-              <div class="bg-light media border-bottom p-15 mb-20">
-                <div class="media-left">
-                  <i class="pe-7s-date text-theme-colored font-24 mt-5"></i>
-                </div>
-                <div class="media-body">
-                  <h5 class="mt-0 mb-0">Event Date:</h5>
-                  <p>{{ \Carbon\Carbon::parse($event->date_time)->format('M d, Y h:i A') }} to {{ \Carbon\Carbon::parse($event->end_date_time)->format('M d, Y h:i A') }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>      
+      </div>
       <div class="row mt-5">
         <div class="col-sm-12 offset-sm-2">
           <h4 class="line-bottom mt-20 mb-20 text-theme-colored">All Details</h4>
