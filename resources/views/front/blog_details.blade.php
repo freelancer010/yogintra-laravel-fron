@@ -36,7 +36,7 @@
   }
 
   .image-sec {
-    margin-top: 100px;
+    margin-top: 90px;
   }
 </style>
 @endpush

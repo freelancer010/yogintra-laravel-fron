@@ -8,33 +8,10 @@
 @section('content')
 <!-- Start main-content -->
 <div class="main-content">
-  <section class="inner-header divider parallax layer-overlay overlay-dark-7" style='background-image: url("{{ asset("assets/front/images/bg/bg6.jpg") }}"); background-position: 50% 45px;height: 300px;'>
-    <div class="container pt-60 pb-60">
-      <div class="section-content">
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <h2 class="title text-white">{{ \Illuminate\Support\Str::limit($event->title, 30, '...') }}</h2>
-            <ol class="breadcrumb text-center mt-10">
-              <li><a href="{{ url('/') }}" class="text-white">Home</a></li>
-              <li><a href="#" class="text-white">{{ $event->category }}</a></li>
-              <li class="active text-gray">{{ \Illuminate\Support\Str::limit($event->title, 30, '...') }}</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
+  <section class="inner-header image-sec divider parallax text-center">
+    <img class="w-50" src="{{ asset($event->image) }}" />
   </section>
-
-  <section class="bg-theme-colored d-none">
-    <div class="container pt-40 pb-40">
-      <div class="row text-center">
-        <div class="col-md-12">
-          <h2 id="basic-coupon-clock" class="text-white"></h2>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  
   <section>
     <div class="container">
       <div class="row">
@@ -140,54 +117,51 @@
           </div>
         </div>
         <div class="col-md-8">
-          <div class="event-img-holder bg-gray text-center h-70" >
-            <img src="{{ asset($event->image) }}" alt="event image" class="img-responsive img-fullwidth" style="height: 100%; width: 100%; object-fit: cover; border-radius: 5px;">
-          </div>
-        </div>
-      </div>
-      <div class="row mt-15">
-        <div class="col-md-3 mt-20">
-          <div class="bg-light media border-bottom p-15 mb-20">
-            <div class="media-left">
-              <i class="pe-7s-pen text-theme-colored font-24 mt-5"></i>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="bg-light media border-bottom p-15 mb-20">
+                <div class="media-left">
+                  <i class="pe-7s-pen text-theme-colored font-24 mt-5"></i>
+                </div>
+                <div class="media-body">
+                  <h5 class="mt-0 mb-0">Topics:</h5>
+                  <p>{{ $event->title }}</p>
+                </div>
+              </div>
             </div>
-            <div class="media-body">
-              <h5 class="mt-0 mb-0">Topics:</h5>
-              <p>{{ $event->title }}</p>
+            <div class="col-md-6">
+              <div class="bg-light media border-bottom p-15 mb-20">
+                <div class="media-left">
+                  <i class="pe-7s-users text-theme-colored font-24 mt-5"></i>
+                </div>
+                <div class="media-body">
+                  <h5 class="mt-0 mb-0">Host:</h5>
+                  <p>{{ $event->event_host_by }}</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-3 mt-20">
-          <div class="bg-light media border-bottom p-15 mb-20">
-            <div class="media-left">
-              <i class="pe-7s-users text-theme-colored font-24 mt-5"></i>
-            </div>
-            <div class="media-body">
-              <h5 class="mt-0 mb-0">Host:</h5>
-              <p>{{ $event->event_host_by }}</p>
-            </div>
-          </div>
-        </div>
 
-        <div class="col-md-3 mt-20">
-          <div class="bg-light media border-bottom p-15 mb-20">
-            <div class="media-left">
-              <i class="pe-7s-home text-theme-colored font-24 mt-5"></i>
+            <div class="col-md-6 mt-20">
+              <div class="bg-light media border-bottom p-15 mb-20">
+                <div class="media-left">
+                  <i class="pe-7s-home text-theme-colored font-24 mt-5"></i>
+                </div>
+                <div class="media-body">
+                  <h5 class="mt-0 mb-0">Location:</h5>
+                  <p>{{ $event->event_location }}, {{ $event->city }}, {{ $event->state }}, {{ $event->country }} - {{ $event->pin_code }}</p>
+                </div>
+              </div>
             </div>
-            <div class="media-body">
-              <h5 class="mt-0 mb-0">Location:</h5>
-              <p>{{ $event->event_location }}, {{ $event->city }}, {{ $event->state }}, {{ $event->country }} - {{ $event->pin_code }}</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 mt-20">
-          <div class="bg-light media border-bottom p-15 mb-20">
-            <div class="media-left">
-              <i class="pe-7s-date text-theme-colored font-24 mt-5"></i>
-            </div>
-            <div class="media-body">
-              <h5 class="mt-0 mb-0">Event Date:</h5>
-              <p>{{ \Carbon\Carbon::parse($event->date_time)->format('M d, Y h:i A') }} to {{ \Carbon\Carbon::parse($event->end_date_time)->format('M d, Y h:i A') }}</p>
+            <div class="col-md-6 mt-20">
+              <div class="bg-light media border-bottom p-15 mb-20">
+                <div class="media-left">
+                  <i class="pe-7s-date text-theme-colored font-24 mt-5"></i>
+                </div>
+                <div class="media-body">
+                  <h5 class="mt-0 mb-0">Event Date:</h5>
+                  <p>{{ \Carbon\Carbon::parse($event->date_time)->format('M d, Y h:i A') }} to {{ \Carbon\Carbon::parse($event->end_date_time)->format('M d, Y h:i A') }}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
