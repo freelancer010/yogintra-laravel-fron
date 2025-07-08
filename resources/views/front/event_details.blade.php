@@ -117,7 +117,7 @@
           </div>
         </div>
         <div class="col-md-8">
-          <div class="row">
+          <div class="row d-flex align-items-start">
             <div class="col-md-6">
               <div class="bg-light media border-bottom p-15 mb-20">
                 <div class="media-left">
@@ -140,7 +140,6 @@
                 </div>
               </div>
             </div>
-
             <div class="col-md-6 mt-20">
               <div class="bg-light media border-bottom p-15 mb-20">
                 <div class="media-left">
