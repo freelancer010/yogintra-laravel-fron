@@ -28,7 +28,7 @@
   @media (max-width: 767px) {
     .image-sec img{
       height: 40vh;
-      width: 100%
+      width: auto
     }
   }
 
