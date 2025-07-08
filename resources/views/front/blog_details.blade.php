@@ -25,21 +25,13 @@
     height: 80vh;
   }
 
-  @media (max-width: 767px) {
-    .image-sec img{
-      height: 40vh;
-      width: auto
-    }
-  }
-
   .fs-16{
     font-size: 16px;
     text-align: left
   }
-  .w-50 {
+  .image-sec img {
     width: auto;
-    object-fit: cover;
-    height: 90vh;
+    height: auto;
     object-position: center
   }
 </style>
