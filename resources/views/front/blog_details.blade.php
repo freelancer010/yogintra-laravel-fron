@@ -13,20 +13,32 @@
   .jssocials-share-link {
     color: #fff !important;
   }
+  .header-section {
+    background-position: 50% 55px;    
+    height: 80vh;
+    object-fit: cover;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  @media (max-width: 767px) {
+    .overlay-dark-7 {
+      height: 40vh;
+    }
+  }
+
+  .fs-16{
+    font-size: 16px;
+    text-align: left
+  }
 </style>
 @endpush
 
 @section('content')
 <div class="main-content">
   <section class="inner-header divider parallax layer-overlay overlay-dark-7" 
-    style="background-image: linear-gradient(360deg, #000000, transparent),url('{{ asset($blog->blog_image) }}'); 
-    background-position: 50% 55px;    
-    height: 80vh;
-    object-fit: cover;
-    display: flex;
-    justify-content: center;
-    text-align: center;"
-  >
+    style="background-image: linear-gradient(360deg, #000000, transparent),url('{{ asset($blog->blog_image) }}');">
     <div class="container pt-60 pb-60 position-relative">
       <div class="section-content position-absolute" style="bottom:5%">
         <div class="row">
@@ -59,7 +71,7 @@
                   </div>
                   <div class="media-body pl-15">
                     <div class="event-content pull-left flip">
-                      <h1 class="entry-title text-dark text-uppercase pt-0 mt-0">{{ $blog->blog_title }}</h3>
+                      <h1 class="entry-title text-dark text-uppercase pt-0 mt-0 fs-16">{{ $blog->blog_title }}</h3>
                       @if($blog->blog_author)
                         <span class="mb-10 text-gray-darkgray mr-10 font-13">
                           <i class="fa fa-user mr-5"></i> Author : {{ $blog->blog_author }}
