@@ -325,7 +325,8 @@
         
         <p>Hello hope you are doing well!</p>
         <hr/>
-        @include('components.multi-step-form') {{-- Use your actual message form partial path --}}
+        <p>We are coming up with live chat soon!</p>
+        {{-- @include('components.multi-step-form') --}}
     </div>
 
     <script>
