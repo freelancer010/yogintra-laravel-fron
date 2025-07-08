@@ -15,16 +15,20 @@
   }
   .header-section {
     background-position: 50% 55px;    
-    height: 80vh;
     object-fit: cover;
     display: flex;
     justify-content: center;
     text-align: center;
   }
   
+  .overlay-dark-7 {
+    height: 80vh;
+  }
+
   @media (max-width: 767px) {
-    .overlay-dark-7 {
+    .image-sec img{
       height: 40vh;
+      width: 100%
     }
   }
 
@@ -32,26 +36,23 @@
     font-size: 16px;
     text-align: left
   }
+  .w-50 {
+    width: 80%;
+    object-fit: cover;
+    height: 90vh;
+    object-position: center
+  }
 </style>
 @endpush
 
 @section('content')
 <div class="main-content">
-  <section class="inner-header divider parallax layer-overlay overlay-dark-7" 
-    style="background-image: linear-gradient(360deg, #000000, transparent),url('{{ asset($blog->blog_image) }}');">
-    <div class="container pt-60 pb-60 position-relative">
-      <div class="section-content position-absolute" style="bottom:5%">
-        <div class="row">
-          <div class="col-md-12 text-center">
-            {{-- <h1 class="title text-white">{{ \Illuminate\Support\Str::limit($blog->blog_title, 100, '...') }}</h1> --}}
-          </div>
-        </div>
-      </div>
-    </div>
+  <section class="inner-header image-sec divider parallax text-center">
+    <img class="w-50" src="{{ asset($blog->blog_image) }}" />
   </section>
 
   <section>
-    <div class="container mt-0 mb-30 pt-30 pb-30">
+    <div class="container mt-0 mb-30 pt-0 pb-30">
       <div class="row">
         <div class="col-12">
           <div class="blog-posts single-post">
