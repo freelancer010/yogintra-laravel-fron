@@ -34,6 +34,10 @@
     height: auto;
     object-position: center
   }
+
+  .image-sec {
+    margin-top: 100px;
+  }
 </style>
 @endpush
 
