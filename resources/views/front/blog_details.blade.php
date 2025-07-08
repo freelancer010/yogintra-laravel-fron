@@ -37,7 +37,7 @@
     text-align: left
   }
   .w-50 {
-    width: 80%;
+    width: auto;
     object-fit: cover;
     height: 90vh;
     object-position: center
