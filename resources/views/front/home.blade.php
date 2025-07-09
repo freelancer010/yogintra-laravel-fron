@@ -104,6 +104,9 @@
         .fs-16 {
             font-size: 16px !important;
         }
+        .fs-50 {
+            font-size: 50px !important;
+        }
   </style>
 @endpush
 @section('content')
