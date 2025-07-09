@@ -439,4 +439,33 @@ class HomeController extends Controller
             : response()->json(['success' => false], 500);
     }
 
+
+    public function showTrainer($id)
+    {
+        // Prepare the POST data like before
+        $data = ['data' => '']; // You can send empty if API returns all
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->api . '/getTrainerSearchData');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $trainers = json_decode($response, true);
+
+        // Find the trainer by ID
+        $trainer = collect($trainers)->firstWhere('id', $id);
+
+        if (!$trainer) {
+            return abort(404, 'Trainer not found');
+        }
+
+        $api = $this->api_main;
+        $birthYear = date('Y', strtotime($trainer['dob']));
+        $age = now()->year - $birthYear;
+
+        return view('front.trainer.profile', compact('trainer', 'age', 'api'));
+    }
 }
