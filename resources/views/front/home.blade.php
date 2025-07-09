@@ -106,6 +106,7 @@
         }
         .fs-50 {
             font-size: 50px !important;
+            color: #000;
         }
   </style>
 @endpush
