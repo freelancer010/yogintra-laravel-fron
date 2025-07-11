@@ -274,7 +274,7 @@
                     <div class="section-content text-center">
                         <div class="row">
                             @foreach ($rand_service as $r_service)
-                                <div class="col-xs-6 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                <div class="col-xs-6 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <img class="img-circle img-thumbnail mb-0" src="{{ asset($r_service->service_cat_image) }}" height="150" width="150" loading="lazy" decoding="async" alt="{{ $r_service->service_cat_name }}">
                                     <h2 class="mb-5 fs-16">{{ $r_service->service_cat_name }}</h2>
                                     <a href="{{ url('service/' . $r_service->service_cat_slug) }}" class="btn btn-success">Book Now</a>
