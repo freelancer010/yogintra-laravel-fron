@@ -281,9 +281,9 @@
                                 </div>
                             @endforeach
 
-                            <div class="col-xs-6 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                            <div class="col-xs-6 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="TTC">
-                                <h2 class="mb-5 fs-16">TTC</h2>
+                                <h2 class="mb-5 fs-16">TTC (Teacher Training Course)</h2>
                                 <a href="{{ route('ttc') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
