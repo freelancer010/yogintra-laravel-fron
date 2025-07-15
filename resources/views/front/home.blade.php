@@ -33,6 +33,9 @@
             #home {
                 min-height: 60vh !important ;
             }
+            .m-fs-25{
+                font-size: 25px !important;
+            }
             .section-content-image {
                 background-image: none!important;
             }
@@ -105,7 +108,7 @@
             font-size: 16px !important;
         }
         .fs-50 {
-            font-size: 50px !important;
+            font-size: 50px;
             color: #000;
         }
   </style>
@@ -239,7 +242,7 @@
                     </div>
                     <div class="col-md-6">
                         <h5 class="section-3 mb-0">{{ $section_2->os_image_sub_heading }}</h5>
-                        <div class="fs-50 ssc-ttl">{{ $section_2->os_image_heading }}</div>
+                        <div class="fs-50 ssc-ttl m-fs-25">{{ $section_2->os_image_heading }}</div>
                         <div>
                             <p class="text-black">{!! $section_2->os_image_description !!}</p>
                         </div>

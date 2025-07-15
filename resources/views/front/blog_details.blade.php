@@ -35,8 +35,10 @@
     object-position: center
   }
 
-  .image-sec {
-    margin-top: 90px;
+  @media (min-width: 998px) {
+    .image-sec {
+      margin-top: 90px;
+    }
   }
 </style>
 @endpush
@@ -70,7 +72,7 @@
                     <div class="event-content pull-left flip">
                       <h1 class="entry-title text-dark text-uppercase pt-0 mt-0 fs-16">{{ $blog->blog_title }}</h3>
                       @if($blog->blog_author)
-                        <span class="mb-10 text-gray-darkgray mr-10 font-13">
+                        <span class="mb-10 text-gray-darkgray mr-10 mt-15 font-13">
                           <i class="fa fa-user mr-5"></i> Author : {{ $blog->blog_author }}
                         </span>
                       @endif

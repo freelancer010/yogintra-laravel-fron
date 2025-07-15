@@ -17,7 +17,7 @@
         <div class="section-content">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h2 class="title text-white">Blog</h2>
+                    <h1 class="title text-white">Blog</h1>
                     <ol class="breadcrumb text-center mt-10">
                         <li><a class="text-white" href="{{ url('/') }}">Home</a></li>
                         <li class="active text-gray">All Blog</li>
