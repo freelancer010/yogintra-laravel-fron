@@ -36,8 +36,7 @@
             <div class="section-content">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <h2 class="title text-white">{{ \Illuminate\Support\Str::limit($center->center_name, 30, '...') }}
-                        </h2>
+                        <h1 class="title text-white">{{ \Illuminate\Support\Str::limit($center->center_name, 30, '...') }}</h1>
                     </div>
                 </div>
             </div>

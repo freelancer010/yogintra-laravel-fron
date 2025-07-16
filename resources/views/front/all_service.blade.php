@@ -25,10 +25,10 @@
         <div class="section-content">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h2 class="title text-white">Service</h2>
+                    <h1 class="title text-white">Services</h1>
                     <ol class="breadcrumb text-center mt-10">
                         <li><a href="{{ url('/') }}" class="text-white">Home</a></li>
-                        <li class="active text-gray">Service</li>
+                        <li class="active text-gray">Services</li>
                     </ol>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                     @endforeach
                 @else
                     <div class="col-xs-12 col-sm-12 col-md-12 mb-30 text-center">
-                        <h2>No Data Found</h2>
+                        <h5>No Data Found</h5>
                     </div>
                 @endif
             </div>
