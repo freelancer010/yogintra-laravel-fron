@@ -138,6 +138,19 @@ class BlogController extends Controller
         return redirect()->route('admin.blog.index');
     }
 
+    public function destroy($id)
+    {
+        $blog = Blog::find($id);
+
+        if (!$blog) {
+            return redirect()->back()->with('error', 'Blog post not found.');
+        }
+
+        $blog->delete();
+
+        return redirect()->back()->with('success', 'Blog post deleted successfully.');
+    }
+
     
     public function edit($id)
     {
@@ -188,7 +201,7 @@ class BlogController extends Controller
             'status' => $blog->status ?? 1,
         ]);
 
-        \Session::flash('success', 'Post Successfully Updated');
+        // \Session::flash('success', 'Post Successfully Updated');
         return redirect()->route('admin.blog.index');
     }
 
