@@ -131,27 +131,49 @@
 <script src="https://cdn.tiny.cloud/1/p96sr398x0evyp69lvm9o2ieiuyexn462e38v64kghyfl7zy/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
-        // TinyMCE Init - fully featured toolbar (removed hr and toc)
-    tinymce.init({
-      selector: 'textarea.text-editor',
-      height: 500,
-      plugins: 'image media link code table lists advlist fullscreen preview anchor insertdatetime searchreplace wordcount charmap emoticons codesample visualblocks visualchars',
-      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media codesample | table charmap emoticons | code visualblocks fullscreen preview',
-      images_upload_url: '{{ url("/admin/tinymce/upload") }}',
-      automatic_uploads: true,
-      images_upload_credentials: true,
-      convert_urls: true,
-      relative_urls: false,
-      remove_script_host: false,
-      file_picker_types: 'image',
-      headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
-      },
-      setup: function (editor) {
-        editor.on('change', function () {
-          editor.save();
-        });
-      }
-    });
+  tinymce.init({
+    selector: 'textarea.text-editor',
+    height: 500,
+    plugins: 'image media link code table lists advlist fullscreen preview anchor insertdatetime searchreplace wordcount charmap emoticons codesample visualblocks visualchars',
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media codesample | table charmap emoticons | code visualblocks fullscreen preview',
+    automatic_uploads: true,
+    convert_urls: false,
+    relative_urls: false,
+    remove_script_host: false,
+    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+
+    // ✅ Custom image upload handler with CSRF token
+    images_upload_handler: function (blobInfo, success, failure) {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '{{ url("/admin/tinymce/upload") }}');
+      xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+      xhr.onload = function () {
+        if (xhr.status !== 200) {
+          failure('HTTP Error: ' + xhr.status);
+          return;
+        }
+
+        const json = JSON.parse(xhr.responseText);
+        if (!json || typeof json.location !== 'string') {
+          failure('Invalid JSON: ' + xhr.responseText);
+          return;
+        }
+
+        success(json.location);
+      };
+
+      const formData = new FormData();
+      formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+      xhr.send(formData);
+    },
+
+    setup: function (editor) {
+      editor.on('change', function () {
+        editor.save(); // ensure form textarea updates on change
+      });
+    }
+  });
 </script>
 @endpush
