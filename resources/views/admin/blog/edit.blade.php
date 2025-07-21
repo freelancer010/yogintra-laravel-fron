@@ -5,7 +5,10 @@
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
-        <div class="col-sm-6"><h1 class="m-0 text-dark">Edit Blog</h1></div>
+        <div class="col-sm-6">
+          <h1 class="m-0 text-dark">Edit Blog</h1>
+          <a target="_blank" href="{{ url('/blog/' . $blog->blog_slug) }}"> ({{$blog->blog_title}}) </a>
+        </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
@@ -21,15 +24,6 @@
   <section class="content">
     <div class="container-fluid">
       @include('admin.partials.flash')
-      @if ($errors->any())
-        <div class="alert alert-danger">
-          <ul class="mb-0">
-            @foreach ($errors->all() as $error)
-              <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-        </div>
-      @endif
 
       <div class="row">
         <div class="col-sm-12">
@@ -47,67 +41,47 @@
               @csrf
               <div class="card-body">
                 <div class="row">
-                    
-                  @if($blog->blog_image)
-                  <div class="col-md-6">
+                  <div class="col-md-3">
+
+                    @if($blog->blog_image)
                     <div class="form-group text-center">
-                      <b class="d-block mb-3">Preview Blog Image</b>
-                      <img src="{{ asset($blog->blog_image) }}" width="50%">
+                      <b class="d-block mb-3 text-left">Preview Blog Image</b>
+                      <img src="{{ asset($blog->blog_image) }}" width="100%">
                     </div>
-                  </div>
-                  @endif
-                  <div class="col-md-6">
+                    @endif
+
                     <div class="form-group">
                       <label for="blog_image">Blog Image</label>
                       <input type="file" name="blog_image" id="blog_image" class="form-control" accept="image/*">
                     </div>
-                  </div>
+                  
+                    <hr class="w-100 border-bottom mb-5">
 
-                  <hr class="w-100 border-bottom mb-5">
-
-                  <div class="col-md-7">
                     <div class="form-group">
                       <label for="blog_title">Title <span style="color:red">*</span></label>
                       <input id="blog_title" type="text" name="blog_title" class="form-control" required value="{{ old('blog_title', $blog->blog_title) }}">
                     </div>
-                  </div>
 
-                  <div class="col-md-5">
                     <div class="form-group">
                       <label for="blog_author">Author Name</label>
                       <input id="blog_author" type="text" name="blog_author" class="form-control" value="{{ old('blog_author', $blog->blog_author) }}">
                     </div>
-                  </div>
 
-                  <div class="col-md-12">
                     <div class="form-group">
                       <label for="blog_short_description">Short Description</label>
                       <textarea id="blog_short_description" name="blog_short_description" class="form-control" rows="3">{{ old('blog_short_description', $blog->blog_short_description) }}</textarea>
                     </div>
-                  </div>
 
-                  <div class="col-md-6">
                     <div class="form-group">
                       <label for="blog_meta_keywords">Meta Keywords</label>
                       <textarea id="blog_meta_keywords" name="blog_meta_keywords" class="form-control" rows="3">{{ old('blog_meta_keywords', $blog->blog_meta_keywords) }}</textarea>
                     </div>
-                  </div>
 
-                  <div class="col-md-6">
                     <div class="form-group">
                       <label for="blog_meta_description">Meta Description</label>
                       <textarea id="blog_meta_description" name="blog_meta_description" class="form-control" rows="3">{{ old('blog_meta_description', $blog->blog_meta_description) }}</textarea>
                     </div>
-                  </div>
 
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label for="editor">Content <span style="color:red">*</span></label>
-                      <textarea name="blog_content" id="editor" class="form-control" rows="10">{!! old('blog_content', $blog->blog_content) !!}</textarea>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12">
                     <div class="form-group">
                       <label for="blog_category">Select Category <span style="color:red">*</span></label>
                       <select id="blog_category" name="blog_category" class="form-control" required>
@@ -118,6 +92,15 @@
                           </option>
                         @endforeach
                       </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-9">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="editor">Content <span style="color:red">*</span></label>
+                        <textarea name="blog_content" id="editor" class="form-control" rows="10">{!! old('blog_content', $blog->blog_content) !!}</textarea>
+                      </div>
                     </div>
                   </div>
 
