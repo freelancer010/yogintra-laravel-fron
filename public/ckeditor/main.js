@@ -306,7 +306,7 @@ const editorConfig = {
 		}
 	},
 	// initialData:null,
-	licenseKey: LICENSE_KEY,
+	// licenseKey: LICENSE_KEY,
 	link: {
 		addTargetToExternalLinks: true,
 		defaultProtocol: 'https://',
