@@ -21,6 +21,15 @@
   <section class="content">
     <div class="container-fluid">
       @include('admin.partials.flash')
+      @if ($errors->any())
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
 
       <div class="row">
         <div class="col-sm-12">
@@ -34,7 +43,7 @@
               </div>
             </div>
 
-            <form action="{{ route('admin.blog.update', $blog->blog_id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.blog.update', $blog->blog_id) }}" method="POST" enctype="multipart/form-data">              
               @csrf
               <div class="card-body">
                 <div class="row">
@@ -49,8 +58,8 @@
                   @endif
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>Blog Image</label>
-                      <input type="file" name="blog_image" class="form-control">
+                      <label for="blog_image">Blog Image</label>
+                      <input type="file" name="blog_image" id="blog_image" class="form-control" accept="image/*">
                     </div>
                   </div>
 
@@ -58,53 +67,53 @@
 
                   <div class="col-md-7">
                     <div class="form-group">
-                      <label>Title <span style="color:red">*</span></label>
-                      <input type="text" name="blog_title" class="form-control" required value="{{ $blog->blog_title }}">
+                      <label for="blog_title">Title <span style="color:red">*</span></label>
+                      <input id="blog_title" type="text" name="blog_title" class="form-control" required value="{{ old('blog_title', $blog->blog_title) }}">
                     </div>
                   </div>
 
                   <div class="col-md-5">
                     <div class="form-group">
-                      <label>Author Name</label>
-                      <input type="text" name="blog_author" class="form-control" value="{{ $blog->blog_author }}">
+                      <label for="blog_author">Author Name</label>
+                      <input id="blog_author" type="text" name="blog_author" class="form-control" value="{{ old('blog_author', $blog->blog_author) }}">
                     </div>
                   </div>
 
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label>Short Description</label>
-                      <textarea name="blog_short_description" class="form-control">{{ $blog->blog_short_description }}</textarea>
+                      <label for="blog_short_description">Short Description</label>
+                      <textarea id="blog_short_description" name="blog_short_description" class="form-control" rows="3">{{ old('blog_short_description', $blog->blog_short_description) }}</textarea>
                     </div>
                   </div>
 
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>Meta Keywords</label>
-                      <textarea name="blog_meta_keywords" class="form-control">{{ $blog->blog_meta_keywords }}</textarea>
+                      <label for="blog_meta_keywords">Meta Keywords</label>
+                      <textarea id="blog_meta_keywords" name="blog_meta_keywords" class="form-control" rows="3">{{ old('blog_meta_keywords', $blog->blog_meta_keywords) }}</textarea>
                     </div>
                   </div>
 
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>Meta Description</label>
-                      <textarea name="blog_meta_description" class="form-control">{{ $blog->blog_meta_description }}</textarea>
+                      <label for="blog_meta_description">Meta Description</label>
+                      <textarea id="blog_meta_description" name="blog_meta_description" class="form-control" rows="3">{{ old('blog_meta_description', $blog->blog_meta_description) }}</textarea>
                     </div>
                   </div>
 
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label>Content</label>
-                      <textarea name="blog_content" class="form-control text-editor">{{ $blog->blog_content }}</textarea>
+                      <label for="editor">Content <span style="color:red">*</span></label>
+                      <textarea name="blog_content" id="editor" class="form-control" rows="10">{!! old('blog_content', $blog->blog_content) !!}</textarea>
                     </div>
                   </div>
 
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label>Select Category</label>
-                      <select name="blog_category" class="form-control" required>
+                      <label for="blog_category">Select Category <span style="color:red">*</span></label>
+                      <select id="blog_category" name="blog_category" class="form-control" required>
                         <option value="">Select Category</option>
                         @foreach ($get_all_blog_category as $category)
-                          <option value="{{ $category->id }}" {{ $blog->blog_category == $category->id ? 'selected' : '' }}>
+                          <option value="{{ $category->id }}" {{ (old('blog_category', $blog->blog_category) == $category->id) ? 'selected' : '' }}>
                             {{ $category->category_name }}
                           </option>
                         @endforeach
@@ -114,7 +123,9 @@
 
                   <div class="col-md-12">
                     <div class="form-group">
-                      <button type="submit" class="btn btn-success float-right">Update</button>
+                      <button type="submit" class="btn btn-success float-right">
+                        <i class="fa fa-save"></i> Update Blog
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -127,53 +138,22 @@
     </div>
   </section>
 @endsection
+@push('styles')
+<link rel="stylesheet" href="{{ asset('ckeditor/style.css') }}">
+<link rel="stylesheet" href="{{ asset('ckeditor/ckeditor/ckeditor5.css') }}">
+@endpush
+
 @push('scripts')
-<script src="https://cdn.tiny.cloud/1/p96sr398x0evyp69lvm9o2ieiuyexn462e38v64kghyfl7zy/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-
-<script>
-  tinymce.init({
-    selector: 'textarea.text-editor',
-    height: 500,
-    plugins: 'image media link code table lists advlist fullscreen preview anchor insertdatetime searchreplace wordcount charmap emoticons codesample visualblocks visualchars',
-    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media codesample | table charmap emoticons | code visualblocks fullscreen preview',
-    automatic_uploads: true,
-    convert_urls: false,
-    relative_urls: false,
-    remove_script_host: false,
-    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-
-    // ✅ Custom image upload handler with CSRF token
-    images_upload_handler: function (blobInfo, success, failure) {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', '{{ url("/admin/tinymce/upload") }}');
-      xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-
-      xhr.onload = function () {
-        if (xhr.status !== 200) {
-          failure('HTTP Error: ' + xhr.status);
-          return;
-        }
-
-        const json = JSON.parse(xhr.responseText);
-        if (!json || typeof json.location !== 'string') {
-          failure('Invalid JSON: ' + xhr.responseText);
-          return;
-        }
-
-        success(json.location);
-      };
-
-      const formData = new FormData();
-      formData.append('file', blobInfo.blob(), blobInfo.filename());
-
-      xhr.send(formData);
-    },
-
-    setup: function (editor) {
-      editor.on('change', function () {
-        editor.save(); // ensure form textarea updates on change
-      });
+<script type="importmap">
+  {
+    "imports": {
+      "ckeditor5": "../../../ckeditor/ckeditor/ckeditor5.js",
+      "ckeditor5/": "./"
     }
-  });
+  }
+</script>
+<script type="module" src="{{ asset('ckeditor/main.js') }}"></script>
+<script>
+ console.log( window.ClassicEditor.builtinPlugins.map( p => p.pluginName ) )
 </script>
 @endpush

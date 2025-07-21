@@ -79,7 +79,7 @@ Route::post('/rezorpay-payment-for-event', [EventController::class, 'rezorpayPay
 Route::get('/event-thank-you', [EventController::class, 'eventThankYou'])->name('event.thankyou');
 
 
-
+Route::post('/admin/ckeditor/upload', [App\Http\Controllers\Admin\CKEditorController::class, 'upload'])->name('ckeditor.upload');
 
 
 ///////---------------------- |ADMIN ROUTES| -----------------------------/////////
@@ -157,6 +157,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/blog/edit/{blog}', [BlogController::class, 'edit'])->name('blog.edit');
     Route::get('/blog/delete/{blog}', [BlogController::class, 'destroy'])->name('blog.delete');
     Route::post('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
+    Route::post('/upload-image', [BlogController::class, 'uploadImage'])->name('ckeditor.upload');
     // ------------- END Blog ----------------------
 
     

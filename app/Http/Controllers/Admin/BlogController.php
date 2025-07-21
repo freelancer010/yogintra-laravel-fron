@@ -162,6 +162,8 @@ class BlogController extends Controller
 
     public function update(Request $request, $id)
     {
+
+
         $request->validate([
             'blog_title' => 'required|string|max:255',
             'blog_author' => 'nullable|string|max:255',
@@ -175,11 +177,9 @@ class BlogController extends Controller
 
         $blog = Blog::findOrFail($id);
 
-        // Image upload (if a new one is uploaded)
         if ($request->hasFile('blog_image')) {
-            // Delete old image if exists
-            if ($blog->blog_image && File::exists(public_path($blog->blog_image))) {
-                File::delete(public_path($blog->blog_image));
+            if ($blog->blog_image && file_exists(public_path($blog->blog_image))) {
+                @unlink(public_path($blog->blog_image));
             }
 
             $image = $request->file('blog_image');
@@ -188,21 +188,34 @@ class BlogController extends Controller
             $blog->blog_image = 'uploads/blogs/' . $filename;
         }
 
-        // Update other fields
-        $blog->update([
-            'blog_title' => $request->blog_title,
-            'blog_slug' => Str::slug($request->blog_title),
-            'blog_meta_keywords' => $request->blog_meta_keywords,
-            'blog_meta_description' => $request->blog_meta_description,
-            'blog_short_description' => $request->blog_short_description,
-            'blog_author' => $request->blog_author,
-            'blog_content' => $request->blog_content,
-            'blog_category' => $request->blog_category,
-            'status' => $blog->status ?? 1,
-        ]);
+        $blog->blog_title = $request->blog_title;
+        $blog->blog_slug = \Str::slug($request->blog_title);
+        $blog->blog_author = $request->blog_author;
+        $blog->blog_short_description = $request->blog_short_description;
+        $blog->blog_meta_keywords = $request->blog_meta_keywords;
+        $blog->blog_meta_description = $request->blog_meta_description;
+        $blog->blog_content = $request->blog_content;
+        $blog->blog_category = $request->blog_category;
+        // $blog->updated_at = now();
 
-        // \Session::flash('success', 'Post Successfully Updated');
-        return redirect()->route('admin.blog.index');
+        $blog->save();
+
+        return redirect()->route('admin.blog.index')->with('success', 'Blog updated successfully!');
+    }
+
+    public function uploadImage(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $file = $request->file('upload');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('public/uploads', $filename);
+
+            return response()->json([
+                'url' => asset('storage/uploads/' . $filename)
+            ]);
+        }
+
+        return response()->json(['error' => 'No file uploaded.'], 400);
     }
 
 }
