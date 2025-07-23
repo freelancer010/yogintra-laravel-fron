@@ -176,4 +176,32 @@ class ServiceController extends Controller
         return view('admin.service.edit_service', compact('service', 'categories'));
     }
 
+    public function updateCategory(Request $request, $id)
+    {
+        $request->validate([
+            'service_cat_name' => 'required|string|max:255',
+            // add other validations as needed
+        ]);
+
+        $data = [
+            'service_cat_name' => $request->service_cat_name,
+            'page_title' => $request->page_title,
+            'page_meta_title' => $request->page_meta_title,
+            'page_Slug' => $request->page_Slug,
+            'page_keywords' => $request->page_keywords,
+            'page_meta_description' => $request->page_meta_description,
+        ];
+
+        // Handle image upload
+        if ($request->hasFile('service_cat_image')) {
+            $file = $request->file('service_cat_image');
+            $imagePath = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads'), basename($imagePath));
+            $data['service_cat_image'] = $imagePath;
+        }
+
+        DB::table('service_category')->where('service_cat_id', $id)->update($data);
+
+        return redirect()->back()->with('success', 'Category updated successfully.');
+    }
 }

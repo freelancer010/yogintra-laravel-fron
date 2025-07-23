@@ -173,6 +173,5 @@
     });
   </script>
   @stack('scripts')
-  @include('admin.partials.flash')
 </body>
 </html>

@@ -1,4 +1,4 @@
-@if (session('success'))
+{{-- @if (session('success'))
     <script>
         swal("Success!", "{{ session('success') }}", "success");
     </script>
@@ -14,7 +14,7 @@
     <script>
         swal("Notice", "{{ session('message') }}", "info");
     </script>
-@endif
+@endif --}}
 
 @if ($errors->any())
 <div class="alert alert-danger">

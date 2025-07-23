@@ -111,7 +111,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/service/service_category', [ServiceController::class, 'serviceCategory'])->name('service.category');
     Route::get('/service/edit_category/{id}', [ServiceController::class, 'editCategory'])->name('service.edit_category');
     Route::post('/service/add_category', [ServiceController::class, 'addCategory'])->name('service.add_category');
-    Route::put('/service/update_category/{id}', [ServiceController::class, 'update'])->name('service.update_category');
+    Route::put('/service/update_category/{id}', [ServiceController::class, 'updateCategory'])->name('service.update_category');
     Route::delete('/service/delete_category/{id}', [ServiceController::class, 'deleteCategory'])->name('service.delete_category');
     
     // Services
