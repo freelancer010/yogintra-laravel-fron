@@ -1,20 +1,29 @@
-{{-- @if (session('success'))
-    <script>
-        swal("Success!", "{{ session('success') }}", "success");
-    </script>
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 @endif
 
 @if (session('error'))
-    <script>
-        swal("Oops!", "{{ session('error') }}", "error");
-    </script>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 @endif
 
 @if (session('message'))
-    <script>
-        swal("Notice", "{{ session('message') }}", "info");
-    </script>
-@endif --}}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ session('message') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
 
 @if ($errors->any())
 <div class="alert alert-danger">

@@ -202,6 +202,6 @@ class ServiceController extends Controller
 
         DB::table('service_category')->where('service_cat_id', $id)->update($data);
 
-        return redirect()->back()->with('success', 'Category updated successfully.');
+        return redirect()->route('admin.service.category')->with('success', 'Category updated successfully.');
     }
 }

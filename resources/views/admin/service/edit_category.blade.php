@@ -61,7 +61,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                     <div class="form-group">
                       <label>Page Meta Keywords <small>(Comma separated)</small></label>
                       <textarea name="page_keywords" class="form-control">{{ $category->page_keywords }}</textarea>
@@ -75,16 +75,21 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-6">
                     <div class="form-group">
                       <label>Category Image</label>
-                      <input type="file" name="service_cat_image" class="form-control">
-                    </div>
-                  </div>
-
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <img src="{{ asset($category->service_cat_image) }}" width="100">
+                      <div class="d-flex align-items-center">
+                        <div>
+                          <img id="category_image_preview" src="{{ asset($category->service_cat_image) }}" width="100" class="rounded border" style="object-fit:cover; height:100px;">
+                        </div>
+                        <div class="ml-3">
+                          <label for="service_cat_image_input" class="btn btn-primary mb-0">
+                            <i class="fa fa-upload"></i> Choose Image
+                          </label>
+                          <input type="file" name="service_cat_image" class="form-control d-none" id="service_cat_image_input" accept="image/*">
+                          <div id="selected_file_name" class="text-muted small mt-2"></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -103,3 +108,17 @@
     </div>
   </section>
 @endsection
+
+@push('scripts')
+<script>
+document.getElementById('service_cat_image_input').addEventListener('change', function(event) {
+    const [file] = event.target.files;
+    if (file) {
+        document.getElementById('category_image_preview').src = URL.createObjectURL(file);
+        document.getElementById('selected_file_name').textContent = file.name;
+    } else {
+        document.getElementById('selected_file_name').textContent = '';
+    }
+});
+</script>
+@endpush
