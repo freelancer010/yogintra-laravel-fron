@@ -97,22 +97,26 @@ class GalleryController extends Controller
     {
         $data = [
             'gallery_category' => $request->gallery_category,
-            'gallery_video' => $request->gallery_video,
             'gallery_is_video_or_image' => $request->gallery_is_video_or_image,
         ];
 
-        if ($request->hasFile('gallery_image')) {
-            $old = DB::table('gallery')->where('gallery_id', $id)->first();
-            if ($old && file_exists(public_path($old->gallery_image))) {
-                unlink(public_path($old->gallery_image));
+        if ($request->gallery_is_video_or_image == 1) { // Image mode
+            $data['gallery_video'] = '';
+            // handle image upload...
+            if ($request->hasFile('gallery_image')) {
+                $file = $request->file('gallery_image');
+                $imagePath = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('uploads'), basename($imagePath));
+                $data['gallery_image'] = $imagePath;
             }
-            $file = $request->file('gallery_image');
-            $filename = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $filename);
-            $data['gallery_image'] = $filename;
+        } else { // Video mode
+            $data['gallery_video'] = $request->gallery_video;
+            // Optionally clear image if needed
+            // $data['gallery_image'] = '';
         }
 
         DB::table('gallery')->where('gallery_id', $id)->update($data);
+
         return redirect()->route('admin.gallery.index')->with('success', 'Gallery updated successfully.');
     }
 

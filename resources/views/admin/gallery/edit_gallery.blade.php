@@ -63,15 +63,23 @@
                   <div class="col-md-12" id="img">
                     <div class="form-group">
                       <label>Upload Image</label>
-                      <input class="form-control" type="file" name="gallery_image" id="image">
-                    </div>
-                  </div>
-
-                  <div class="col-md-12" id="pre_img">
-                    <div class="form-group">
-                      <label>Preview Upload Image</label>
-                      <div>
-                        <img src="{{ asset($gallery->gallery_image) }}" width="100px">
+                      <div class="d-flex align-items-center">
+                        <div>
+                          @if(!empty($gallery->gallery_image) && file_exists(public_path($gallery->gallery_image)))
+                            <img id="gallery_image_preview" src="{{ asset($gallery->gallery_image) }}" width="120" height="120" class="rounded-circle shadow border" style="object-fit:cover;">
+                          @elseif(!empty($gallery->gallery_image))
+                            <img id="gallery_image_preview" src="/{{ $gallery->gallery_image }}" width="120" height="120" class="rounded-circle shadow border" style="object-fit:cover;">
+                          @else
+                            <img id="gallery_image_preview" src="https://via.placeholder.com/120?text=No+Image" width="120" height="120" class="rounded-circle shadow border" style="object-fit:cover;">
+                          @endif
+                        </div>
+                        <div class="ml-4">
+                          <label for="image" class="btn btn-primary btn-sm mb-2">
+                            <i class="fa fa-upload"></i> Choose Image
+                          </label>
+                          <input type="file" name="gallery_image" class="d-none" id="image" accept="image/*">
+                          <div id="selected_file_name" class="text-muted small mt-2"></div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -91,39 +99,67 @@
                 </div>
               </div>
             </form>
+            @if(!empty($gallery->gallery_image))
+              <input type="hidden" name="existing_gallery_image" value="{{ $gallery->gallery_image }}">
+            @endif
 
           </div>
         </div>
       </div>
     </div>
   </section>
+@endsection
 
+@push('scripts')
 <script>
-  $(document).ready(function () {
-    onchnage({{ $gallery->gallery_is_video_or_image }});
-  });
-
-  function onchnage(e) {
-    if (e == 1) {
+  function showFields(mode) {
+    if (mode == 1 || mode == '1') {
+      $('#img').show();
       $('#v_url').hide();
       $('#add_btn').show();
-      $('#img').show();
-      $('#pre_img').show();
       $("#video").prop('required', false);
+      // REMOVE or COMMENT OUT the next line for edit forms:
+      // $("#image").prop('required', true);
+    } else if (mode == 2 || mode == '2') {
+      $('#img').hide();
+      $('#v_url').show();
+      $('#add_btn').show();
+      $("#video").prop('required', true);
+      $("#image").prop('required', false);
     } else {
       $('#img').hide();
-      $('#add_btn').show();
-      $('#pre_img').hide();
-      $('#v_url').show();
-      $("#video").prop('required', true);
+      $('#v_url').hide();
+      $('#add_btn').hide();
+      $("#video").prop('required', false);
       $("#image").prop('required', false);
     }
   }
-</script>
 
-<style>
-  #img, #v_url, #add_btn, #pre_img {
-    display: none;
-  }
-</style>
-@endsection
+  $(document).ready(function () {
+    // Hide all conditional fields initially
+    $('#img').hide();
+    $('#v_url').hide();
+    $('#add_btn').hide();
+
+    // Show the correct fields based on the selected mode
+    let mode = $('#mode').val();
+    showFields(mode);
+
+    // When mode changes
+    $('#mode').on('change', function() {
+      showFields($(this).val());
+    });
+
+    // Live preview for image upload
+    $('#image').on('change', function(event) {
+      const [file] = event.target.files;
+      if (file) {
+        $('#gallery_image_preview').attr('src', URL.createObjectURL(file));
+        $('#selected_file_name').text(file.name);
+      } else {
+        $('#selected_file_name').text('');
+      }
+    });
+  });
+</script>
+@endpush
