@@ -135,16 +135,68 @@
       selector: 'textarea.text-editor',
       height: 500,
       plugins: 'image media link code table lists advlist fullscreen preview anchor insertdatetime searchreplace wordcount charmap emoticons codesample visualblocks visualchars',
-      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media codesample | table charmap emoticons | code visualblocks fullscreen preview',
-      images_upload_url: '{{ url("/admin/tinymce/upload") }}',
+      toolbar: 'undo redo | blocks fontfamily fontsize | styles | bold italic underline strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media codesample | table charmap emoticons | code visualblocks fullscreen preview',
+      style_formats: [
+        { title: 'Image Left', selector: 'img', styles: { 'float': 'left', 'margin': '0 10px 0 0' } },
+        { title: 'Image Right', selector: 'img', styles: { 'float': 'right', 'margin': '0 0 0 10px' } },
+        { title: 'Clear Float', selector: 'p', styles: { 'clear': 'both' } }
+      ],
+      content_style: `
+        body { max-width: 100%; }
+        img { max-width: 100%; height: auto; display: block; margin: 10px 0; }
+        p { margin: 0 0 1em 0; }
+        .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before { 
+          display: none; 
+        }
+      `,
+      image_dimensions: false,
+      image_class_list: [
+        { title: 'Responsive', value: 'img-fluid' },
+        { title: 'Left align', value: 'float-left me-3' },
+        { title: 'Right align', value: 'float-right ms-3' },
+        { title: 'No alignment', value: '' }
+      ],
+      image_advtab: true,
+      image_caption: true,
+      images_upload_url: '{{ route("admin.tinymce.upload") }}',
       automatic_uploads: true,
       images_upload_credentials: true,
+      images_reuse_filename: true,
+      paste_data_images: true,
       convert_urls: true,
       relative_urls: false,
       remove_script_host: false,
       file_picker_types: 'image',
-      headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+      images_upload_handler: function (blobInfo, progress) {
+        return new Promise((resolve, reject) => {
+          const formData = new FormData();
+          formData.append('file', blobInfo.blob(), blobInfo.filename());
+          formData.append('_token', '{{ csrf_token() }}');
+
+          fetch('{{ route("admin.tinymce.upload") }}', {
+            method: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': '{{ csrf_token() }}',
+              'Accept': 'application/json'
+            },
+            body: formData
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('HTTP Error: ' + response.status);
+            }
+            return response.json();
+          })
+          .then(result => {
+            if (!result || typeof result.location !== 'string') {
+              throw new Error('Invalid JSON response');
+            }
+            resolve(result.location);
+          })
+          .catch(error => {
+            reject('Image upload failed: ' + error.message);
+          });
+        });
       },
       setup: function (editor) {
         editor.on('change', function () {

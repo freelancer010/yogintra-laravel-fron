@@ -81,7 +81,6 @@ Route::get('/event-thank-you', [EventController::class, 'eventThankYou'])->name(
 
 Route::post('/admin/ckeditor/upload', [App\Http\Controllers\Admin\CKEditorController::class, 'upload'])->name('ckeditor.upload');
 
-
 ///////---------------------- |ADMIN ROUTES| -----------------------------/////////
 
 
@@ -94,7 +93,8 @@ Route::get('/admin', function () {
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-
+    
+    Route::post('/tinymce/upload', [App\Http\Controllers\Admin\CKEditorController::class, 'tinymceUpload'])->name('tinymce.upload');
     // Event Routes
     Route::get('/event/view_all_event', [EventController::class, 'index'])->name('event.index');
     Route::get('/event/add_new_event', [EventController::class, 'create'])->name('event.create');
@@ -104,7 +104,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/event/status/{id}/{status}', [EventController::class, 'toggleStatus'])->name('event.status');
     Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
     Route::delete('/event/delete_event/{id}', [EventController::class, 'destroy'])->name('event.destroy');
-    Route::post('/tinymce/upload', [TinymceController::class, 'upload']);
+    // Route::post('/tinymce/upload', [TinymceController::class, 'upload']);
     Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
 
     // Service categories

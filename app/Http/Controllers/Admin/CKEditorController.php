@@ -56,4 +56,51 @@ class CKEditorController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Handle image upload for TinyMCE
+     */
+    public function tinymceUpload(Request $request)
+    {
+        try {
+            $request->validate([
+                'file' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            ]);
+
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                
+                // Generate unique filename
+                $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+                
+                // Create directory if it doesn't exist
+                $uploadPath = 'uploads/blog/content';
+                if (!Storage::disk('public')->exists($uploadPath)) {
+                    Storage::disk('public')->makeDirectory($uploadPath);
+                }
+                
+                // Store the file
+                $path = $file->storeAs($uploadPath, $filename, 'public');
+                
+                // Return JSON response for TinyMCE with proper structure
+                return response()->json([
+                    'location' => asset('storage/' . $path),  // Use asset helper for full URL
+                    'size' => $file->getSize(),
+                    'name' => $filename,
+                    'type' => $file->getMimeType()
+                ], 200, [
+                    'Content-Type' => 'application/json'
+                ]);
+            }
+
+            return response()->json([
+                'error' => 'No file was uploaded'
+            ], 400);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'File upload failed: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }
