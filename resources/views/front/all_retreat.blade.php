@@ -33,19 +33,51 @@
             <div class="thumb">
               <img class="img-fullwidth" alt="{{ $event->title }} Image" src="{{ asset($event->image) }}" style="height:300px;">
               <div class="overlay">
-                <a href="{{ url('event/'.$event->link) }}"><i class="fa fa-calendar mr-5"></i></a>
+                <a href="
+                @if($event->category == 'TTC') 
+                                            {{url('teacher-training-course/' . $event->link)}}
+                                        @elseif($event->category == 'Retreat') 
+                                            {{url('retreat/' . $event->link)}}
+                                        @else
+                                            {{url('workshop/' . $event->link) }}
+                                        @endif
+                                        "><i class="fa fa-calendar mr-5"></i></a>
               </div>
             </div>
             <div class="schedule-details clearfix p-15 pt-10" style="border-bottom: none!important;">
-              <h5 class="font-16 title elipse-text-title"><a href="{{ url('event/'.$event->link) }}">{{ $event->title }}</a></h5>
+              <h5 class="font-16 title elipse-text-title"><a href="
+                @if($event->category == 'TTC') 
+                                            {{url('teacher-training-course/' . $event->link)}}
+                                        @elseif($event->category == 'Retreat') 
+                                            {{url('retreat/' . $event->link)}}
+                                        @else
+                                            {{url('workshop/' . $event->link) }}
+                                        @endif
+                                        ">{{ $event->title }}</a></h5>
               <ul class="list-inline font-11 mb-20">
                 <li><i class="fa fa-calendar mr-5"></i> {{ \Carbon\Carbon::parse($event->date_time)->format('d-m-Y h:i A') }}</li>
                 <li><i class="fa fa-map-marker mr-5"></i> {{ $event->event_location }}</li>
               </ul>
               <p class="elipse-text">{{ $event->short_content }}</p>
               <div class="mt-10">
-                <a class="btn btn-dark btn-theme-colored btn-sm mt-10" href="{{ url('event/'.$event->link) }}">Register</a>
-                <a class="btn btn-dark btn-sm mt-10" href="{{ url('event/'.$event->link) }}">Details</a>
+                <a class="btn btn-dark btn-theme-colored btn-sm mt-10" href="
+                @if($event->category == 'TTC') 
+                                            {{url('teacher-training-course/' . $event->link)}}
+                                        @elseif($event->category == 'Retreat') 
+                                            {{url('retreat/' . $event->link)}}
+                                        @else
+                                            {{url('workshop/' . $event->link) }}
+                                        @endif
+                                        ">Register</a>
+                <a class="btn btn-dark btn-sm mt-10" href="
+                @if($event->category == 'TTC') 
+                                            {{url('teacher-training-course/' . $event->link)}}
+                                        @elseif($event->category == 'Retreat') 
+                                            {{url('retreat/' . $event->link)}}
+                                        @else
+                                            {{url('workshop/' . $event->link) }}
+                                        @endif
+                                        ">Details</a>
               </div>
             </div>
           </div>

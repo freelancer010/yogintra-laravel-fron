@@ -55,7 +55,7 @@ Route::get('/teacher-training-course', [HomeController::class, 'teacherTrainingC
 Route::get('/teacher-training-course/{slug}', [HomeController::class, 'eventDetails'])->name('ttc.details');
 
 Route::get('/retreat', [HomeController::class, 'allRetreat'])->name('retreat.all');
-Route::get('/retreat/{slug}', [HomeController::class, 'allRetreat'])->name('retreat.details');
+Route::get('/retreat/{slug}', [HomeController::class, 'eventDetails'])->name('retreat.details');
 
 Route::get('/workshop', [HomeController::class, 'allWorkshop'])->name('workshop');
 Route::get('/workshop/{slug}', [HomeController::class, 'eventDetails'])->name('workshop.details');
