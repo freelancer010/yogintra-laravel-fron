@@ -19,6 +19,7 @@
    </section>
    <section class="content">
       <div class="container-fluid">
+         @include('admin.partials.flash')
          <div class="card card-default">
             <div class="card-header">
                <h3 class="card-title">View All Service</h3>

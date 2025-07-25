@@ -74,8 +74,24 @@
                                 </ul>
                                 <p class="elipse-text">{{ $event->short_content }}</p>
                                 <div class="mt-10">
-                                    <a href="{{ url('workshop/' . $event->link) }}" class="btn btn-dark btn-theme-colored btn-sm mt-10">Register</a>
-                                    <a href="{{ url('workshop/' . $event->link) }}" class="btn btn-dark btn-sm mt-10">Details</a>
+                                    <a href="
+                                    @if($event->category == 'TTC') 
+                                            {{url('teacher-training-course/' . $event->link)}}
+                                        @elseif($event->category == 'Retreat') 
+                                            {{url('retreat/' . $event->link)}}
+                                        @else
+                                            {{url('workshop/' . $event->link) }}
+                                        @endif
+                                        " class="btn btn-dark btn-theme-colored btn-sm mt-10">Register</a>
+                                    <a href="
+                                    @if($event->category == 'TTC') 
+                                            {{url('teacher-training-course/' . $event->link)}}
+                                        @elseif($event->category == 'Retreat') 
+                                            {{url('retreat/' . $event->link)}}
+                                        @else
+                                            {{url('workshop/' . $event->link) }}
+                                        @endif
+                                        " class="btn btn-dark btn-sm mt-10">Details</a>
                                 </div>
                             </div>
                         </div>

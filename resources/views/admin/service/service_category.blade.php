@@ -89,7 +89,7 @@
           </div>
           <div class="form-group">
             <label>Page Title</label>
-            <input type="text" class="form-control" name="page_title">
+            <input type="text" class="form-control" name="page_title" id="pageTitleInput">
           </div>
           <div class="form-group">
             <label>Page Meta Title</label>
@@ -97,7 +97,7 @@
           </div>
           <div class="form-group">
             <label>Page Slug</label>
-            <input type="text" class="form-control" name="page_Slug">
+            <input type="text" class="form-control" name="page_Slug" id="pageSlugInput">
           </div>
           <div class="form-group">
             <label>Page Meta Keywords <small>(Comma separated)</small></label>
@@ -132,6 +132,17 @@
 <script>
   $(function () {
     $('#categoryTable').DataTable();
+
+    // Auto-generate slug from page title and auto-populate slug input
+    $('#pageTitleInput').on('input', function() {
+      var title = $(this).val();
+      var slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '') // remove non-alphanumeric
+        .trim()
+        .replace(/\s+/g, '-'); // replace spaces with -
+      $('#pageSlugInput').val(slug);
+    });
   });
 </script>
 @endpush

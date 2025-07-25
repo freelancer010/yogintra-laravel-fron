@@ -51,8 +51,8 @@ class ServiceController extends Controller
             'page_keywords' => $request->page_keywords,
             'page_meta_description' => $request->page_meta_description,
             'service_cat_image' => $imagePath,
-            'created_at' => now(),
-            'updated_at' => now()
+            // 'created_at' => now(),
+            // 'updated_at' => now()
         ]);
 
         return redirect()->back()->with('success', 'Category added successfully.');
