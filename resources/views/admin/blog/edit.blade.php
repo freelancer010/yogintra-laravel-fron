@@ -167,33 +167,56 @@
     file_picker_types: 'image',
     images_upload_handler: function (blobInfo, progress) {
       return new Promise((resolve, reject) => {
-        const formData = new FormData();
+        var xhr, formData;
+        xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+        xhr.open('POST', '{{ route("admin.tinymce.upload") }}');
+        
+        var token = '{{ csrf_token() }}';
+        xhr.setRequestHeader("X-CSRF-Token", token);
+        xhr.setRequestHeader("Accept", "application/json");
+        
+        xhr.upload.onprogress = function (e) {
+          progress(e.loaded / e.total * 100);
+        };
+        
+        xhr.onload = function() {
+          var json;
+          
+          if (xhr.status === 403) {
+            reject('HTTP Error: ' + xhr.status);
+            return;
+          }
+          
+          if (xhr.status < 200 || xhr.status >= 300) {
+            reject('HTTP Error: ' + xhr.status);
+            return;
+          }
+          
+          try {
+            json = JSON.parse(xhr.responseText);
+          } catch (e) {
+            reject('Invalid JSON: ' + xhr.responseText);
+            return;
+          }
+          
+          if (!json || typeof json.location != 'string') {
+            reject('Invalid JSON: ' + xhr.responseText);
+            return;
+          }
+          
+          resolve(json.location);
+        };
+        
+        xhr.onerror = function () {
+          reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+        };
+        
+        formData = new FormData();
         formData.append('file', blobInfo.blob(), blobInfo.filename());
-        formData.append('_token', '{{ csrf_token() }}');
-
-        fetch('{{ route("admin.tinymce.upload") }}', {
-          method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Accept': 'application/json'
-          },
-          body: formData
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('HTTP Error: ' + response.status);
-          }
-          return response.json();
-        })
-        .then(result => {
-          if (!result || typeof result.location !== 'string') {
-            throw new Error('Invalid JSON response');
-          }
-          resolve(result.location);
-        })
-        .catch(error => {
-          reject('Image upload failed: ' + error.message);
-        });
+        formData.append('_token', token);
+        
+        xhr.send(formData);
       });
     },
     setup: function (editor) {
