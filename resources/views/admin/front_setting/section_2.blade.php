@@ -101,12 +101,22 @@
                         <td>{{ $service->os_heading }}</td>
                         <td>
                            <div class="btn-group">
-                                <a class="dropdown-item" href="{{ route('admin.front.section2.service.edit', $service->os_id) }}"><i class="fas fa-edit"></i> Edit</a>
-                                <form action="{{ route('admin.front.section2.service.delete', $service->os_id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                              <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                 Action
+                              </button>
+                              <div class="dropdown-menu">
+                                 <a class="dropdown-item" href="{{ route('admin.front.section2.service.edit', $service->os_id) }}">
+                                    <i class="fas fa-edit"></i> Edit
+                                 </a>
+                                 <div class="dropdown-divider"></div>
+                                 <form action="{{ route('admin.front.section2.service.delete', $service->os_id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="dropdown-item text-danger"><i class="fas fa-trash"></i> Delete</button>
-                                </form>
+                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Are you sure?')">
+                                       <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                 </form>
+                              </div>
                            </div>
                         </td>
                      </tr>

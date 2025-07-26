@@ -21,6 +21,8 @@
 
    <section class="content">
       <div class="container-fluid">
+      @include('admin.partials.flash')
+
          <div class="row">
             <div class="col-sm-12">
                <div class="card card-default">

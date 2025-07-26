@@ -36,15 +36,15 @@
                 @foreach ($get_all_blog as $all_blog)
                     <div class="col-md-4">
                         <article class="post clearfix mb-30 bg-lighter">
-                            <div class="entry-header">
-                                <div class="post-thumb thumb">
-                                    <a href="{{ url('/blog/' . $all_blog->blog_slug) }}">
+                            <a href="{{ url('/blog/' . $all_blog->blog_slug) }}">
+                                <div class="entry-header">
+                                    <div class="post-thumb thumb">
                                         <img style="height:150px;object-fit: cover;object-position: top center;" class="img-responsive img-fullwidth"
                                             src="{{ asset($all_blog->blog_image) }}"
                                             alt="{{ $all_blog->blog_title }}">
-                                    </a>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                             <div class="entry-content border-1px p-20 pr-10">
                                 <div class="entry-meta media mt-0 no-bg no-border">
                                     <div class="entry-date media-left text-center flip pt-5 pr-15 pb-5 pl-15">

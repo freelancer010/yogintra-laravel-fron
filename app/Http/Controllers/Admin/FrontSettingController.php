@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use App\Models\Slider;
-use App\Models\OurServiceImage;
-use App\Models\OurService;
 use App\Models\OurFeatureHeading;
 use App\Models\OurFeature;
 
@@ -22,9 +21,9 @@ class FrontSettingController extends Controller
 
     public function section2()
     {
-        $service_image = OurServiceImage::first();
-        $services = OurService::all();
-        return view('admin.front_setting.section2', compact('service_image', 'services'));
+        $service_heading = DB::table('our_service_image')->where('os_image_id', 1)->first();
+        $our_service = DB::table('our_service')->get();
+        return view('admin.front_setting.section_2', compact('service_heading', 'our_service'));
     }
 
     public function updateServiceImage(Request $request)
@@ -143,7 +142,7 @@ class FrontSettingController extends Controller
 
         $slider->save();
 
-        return redirect()->back()->with('success', 'Slider updated successfully');
+        return redirect()->route('admin.front.slider')->with('success', 'Slider updated successfully');
     }
 
     public function editSlider($slider_id)

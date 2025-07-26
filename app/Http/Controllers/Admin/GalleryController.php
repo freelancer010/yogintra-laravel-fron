@@ -68,15 +68,20 @@ class GalleryController extends Controller
     {
         $data = [
             'gallery_category' => $request->gallery_category,
-            'gallery_video' => $request->gallery_video,
             'gallery_is_video_or_image' => $request->gallery_is_video_or_image,
+            'gallery_video' => '', // Default empty string
+            'gallery_image' => ''  // Default empty string
         ];
 
-        if ($request->hasFile('gallery_image')) {
-            $file = $request->file('gallery_image');
-            $filename = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $filename);
-            $data['gallery_image'] = $filename;
+        if ($request->gallery_is_video_or_image == '1') { // Image
+            if ($request->hasFile('gallery_image')) {
+                $file = $request->file('gallery_image');
+                $filename = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('uploads'), $filename);
+                $data['gallery_image'] = $filename;
+            }
+        } else if ($request->gallery_is_video_or_image == '2') { // Video
+            $data['gallery_video'] = $request->gallery_video;
         }
 
         DB::table('gallery')->insert($data);
