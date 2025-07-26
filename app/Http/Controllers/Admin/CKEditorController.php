@@ -93,7 +93,20 @@ class CKEditorController extends Controller
 
             // Prepare upload path
             $uploadPath = 'uploads/blog/content';
-            Storage::disk('public')->makeDirectory($uploadPath);
+            
+            try {
+                if (!Storage::disk('public')->exists($uploadPath)) {
+                    Log::info('TinyMCE: Creating upload directory: ' . $uploadPath);
+                    $created = Storage::disk('public')->makeDirectory($uploadPath, 0755, true);
+                    if (!$created) {
+                        Log::error('TinyMCE: Failed to create upload directory');
+                        return response()->json(['error' => 'Server configuration error'], 500);
+                    }
+                }
+            } catch (\Exception $e) {
+                Log::error('TinyMCE: Directory creation failed - ' . $e->getMessage());
+                return response()->json(['error' => 'Server configuration error'], 500);
+            }
 
             // Generate safe filename
             $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
@@ -111,12 +124,33 @@ class CKEditorController extends Controller
                 return response()->json(['error' => 'Failed to store file'], 500);
             }
 
+            // Verify file exists after upload
+            if (!Storage::disk('public')->exists($path)) {
+                Log::error('TinyMCE: File not found after upload: ' . $path);
+                return response()->json(['error' => 'File upload verification failed'], 500);
+            }
+
             // Generate full URL
             $fullUrl = asset('storage/' . $path);
             
+            // Verify storage link exists
+            $publicPath = public_path('storage');
+            if (!file_exists($publicPath)) {
+                Log::error('TinyMCE: Storage symlink not found at: ' . $publicPath);
+                try {
+                    \Artisan::call('storage:link');
+                    Log::info('TinyMCE: Created storage symlink');
+                } catch (\Exception $e) {
+                    Log::error('TinyMCE: Failed to create storage symlink - ' . $e->getMessage());
+                    return response()->json(['error' => 'Server configuration error'], 500);
+                }
+            }
+            
             Log::info('TinyMCE: File uploaded successfully', [
                 'path' => $path,
-                'url' => $fullUrl
+                'url' => $fullUrl,
+                'exists' => Storage::disk('public')->exists($path),
+                'symlink' => file_exists($publicPath)
             ]);
 
             return response()->json([
