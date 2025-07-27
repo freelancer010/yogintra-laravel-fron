@@ -22,7 +22,7 @@
         </div>
         <div class="form-group">
             <label for="email">Email ID:</label>
-            <input type="text" class="form-control" id="email" name="email" required placeholder="Enter your email here...">
+            <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email here...">
         </div>
         <button class="btn btn-primary next" type="button">Next</button>
     </div>
