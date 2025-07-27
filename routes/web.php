@@ -201,7 +201,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Settings
     Route::get('/setting/application_setting', [SettingController::class, 'applicationSetting'])->name('setting.application');
-    Route::post('/setting/update_application_setting', [SettingController::class, 'updateApplicationSetting'])->name('setting.update');
+    Route::post('/setting/update_application_setting/{type?}', [SettingController::class, 'updateApplicationSetting'])->name('setting.update');
 
     // Profile & Password (optional, adjust as needed)
     Route::get('/update_profile/update_profile_details', [App\Http\Controllers\AdminController::class, 'edit'])->name('profile.edit');

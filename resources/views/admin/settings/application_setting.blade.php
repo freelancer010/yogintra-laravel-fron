@@ -11,61 +11,99 @@
 
   <section class="content">
     <div class="container-fluid">
-      <form method="POST" action="{{ url('admin/setting/update-application-setting') }}" enctype="multipart/form-data">
-        @csrf
-
+      @include('admin.partials.flash')
         <div class="card card-default">
-          <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link active" href="#general" data-toggle="tab">General</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Contact</a></li>
-            <li class="nav-item"><a class="nav-link" href="#logo" data-toggle="tab">Logo</a></li>
-            <li class="nav-item"><a class="nav-link" href="#payment" data-toggle="tab">Payment</a></li>
-            <li class="nav-item"><a class="nav-link" href="#htmlhead" data-toggle="tab">HTML Head</a></li>
-            <li class="nav-item"><a class="nav-link" href="#social" data-toggle="tab">Social Media</a></li>
+          <ul class="nav nav-tabs" id="settingsTabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab">General</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="logo-tab" data-toggle="tab" href="#logo" role="tab">Logo</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab">Payment</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="htmlhead-tab" data-toggle="tab" href="#htmlhead" role="tab">HTML Head</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="social-tab" data-toggle="tab" href="#social" role="tab">Social Media</a>
+            </li>
           </ul>
 
           <div class="card-body">
-            <div class="tab-content">
-
+            <div class="tab-content" id="settingsTabContent">
               {{-- General --}}
-              <div class="tab-pane active" id="general">
-                @include('admin.settings.partials.general', ['setting' => $setting])
+              <div class="tab-pane fade show active" id="general" role="tabpanel">
+                <form id="generalForm" method="POST" action="{{ route('admin.setting.update', ['type' => 'general']) }}" enctype="multipart/form-data">
+                  @csrf
+                  @include('admin.settings.partials.general', ['setting' => $setting])
+                  <div class="mt-3 text-right">
+                    <button type="submit" class="btn btn-success">Save General Settings</button>
+                  </div>
+                </form>
               </div>
 
               {{-- Contact --}}
-              <div class="tab-pane" id="contact">
-                @include('admin.settings.partials.contact', ['setting' => $setting])
+              <div class="tab-pane fade" id="contact" role="tabpanel">
+                <form id="contactForm" method="POST" action="{{ route('admin.setting.update', ['type' => 'contact']) }}" enctype="multipart/form-data">
+                  @csrf
+                  @include('admin.settings.partials.contact', ['setting' => $setting])
+                  <div class="mt-3 text-right">
+                    <button type="submit" class="btn btn-success">Save Contact Settings</button>
+                  </div>
+                </form>
               </div>
 
               {{-- Logo --}}
-              <div class="tab-pane" id="logo">
-                @include('admin.settings.partials.logo', ['setting' => $setting])
+              <div class="tab-pane fade" id="logo" role="tabpanel">
+                <form id="logoForm" method="POST" action="{{ route('admin.setting.update', ['type' => 'logo']) }}" enctype="multipart/form-data">
+                  @csrf
+                  @include('admin.settings.partials.logo', ['setting' => $setting])
+                  <div class="mt-3 text-right">
+                    <button type="submit" class="btn btn-success">Save Logo Settings</button>
+                  </div>
+                </form>
               </div>
 
               {{-- Payment --}}
-              <div class="tab-pane" id="payment">
-                @include('admin.settings.partials.payment', ['setting' => $setting])
+              <div class="tab-pane fade" id="payment" role="tabpanel">
+                <form id="paymentForm" method="POST" action="{{ route('admin.setting.update', ['type' => 'payment']) }}" enctype="multipart/form-data">
+                  @csrf
+                  @include('admin.settings.partials.payment', ['setting' => $setting])
+                  <div class="mt-3 text-right">
+                    <button type="submit" class="btn btn-success">Save Payment Settings</button>
+                  </div>
+                </form>
               </div>
 
               {{-- HTML Head --}}
-              <div class="tab-pane" id="htmlhead">
-                @include('admin.settings.partials.htmlhead', ['setting' => $setting])
+              <div class="tab-pane fade" id="htmlhead" role="tabpanel">
+                <form id="htmlheadForm" method="POST" action="{{ route('admin.setting.update', ['type' => 'htmlhead']) }}" enctype="multipart/form-data">
+                  @csrf
+                  @include('admin.settings.partials.htmlhead', ['setting' => $setting])
+                  <div class="mt-3 text-right">
+                    <button type="submit" class="btn btn-success">Save HTML Head Settings</button>
+                  </div>
+                </form>
               </div>
 
               {{-- Social Media --}}
-              <div class="tab-pane" id="social">
-                @include('admin.settings.partials.social', ['setting' => $setting])
+              <div class="tab-pane fade" id="social" role="tabpanel">
+                <form id="socialForm" method="POST" action="{{ route('admin.setting.update', ['type' => 'social']) }}" enctype="multipart/form-data">
+                  @csrf
+                  @include('admin.settings.partials.social', ['setting' => $setting])
+                  <div class="mt-3 text-right">
+                    <button type="submit" class="btn btn-success">Save Social Media Settings</button>
+                  </div>
+                </form>
               </div>
-
             </div>
-
-            <div class="mt-3 text-right">
-              <button type="submit" class="btn btn-success">Save Settings</button>
-            </div>
-
           </div>
         </div>
-      </form>
     </div>
   </section>
 @endsection
@@ -79,5 +117,34 @@
       reader.readAsDataURL(input.files[0]);
     }
   }
+
+  // Maintain active tab after form submission
+  $(document).ready(function() {
+    // Get active tab from URL hash or localStorage
+    let activeTab = window.location.hash || localStorage.getItem('activeSettingsTab') || '#general';
+    
+    // Show the active tab
+    $('a[href="' + activeTab + '"]').tab('show');
+    
+    // Save the active tab to localStorage when changed
+    $('#settingsTabs a').on('click', function (e) {
+      localStorage.setItem('activeSettingsTab', $(this).attr('href'));
+    });
+
+    // Keep active tab after form submission
+    if (window.location.search.includes('updated=true')) {
+      let tab = localStorage.getItem('activeSettingsTab');
+      if (tab) {
+        $('a[href="' + tab + '"]').tab('show');
+      }
+    }
+
+    // Add loading state to submit buttons
+    $('form').on('submit', function() {
+      $(this).find('button[type="submit"]').prop('disabled', true).html(
+        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...'
+      );
+    });
+  });
 </script>
 @endpush
