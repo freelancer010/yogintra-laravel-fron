@@ -73,7 +73,7 @@
                   <div class="icon">
                      <i class="fab fa-blogger"></i>
                   </div>
-                  <a href="{{ url('/admin/blog/view_all_post') }}" class="small-box-footer">
+                  <a href="{{ url('/admin/blog/view-all-post') }}" class="small-box-footer">
                      More info <i class="fas fa-arrow-circle-right"></i>
                   </a>
                </div>
