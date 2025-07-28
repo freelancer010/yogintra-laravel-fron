@@ -133,7 +133,7 @@
                 @endif
 
                 <div class="carousel-item bg-img-cover">
-                    <img src="{{ asset($slider->slider_image) }}" width="1519" height="854" loading="lazy" alt="yogintra yoga poses" >
+                    <img src="{{ asset($slider->slider_image) }}" width="1519" height="854" loading="lazy" alt="YogIntra - {{ $slider->slider_heading }}" >
                     <div class="overlay"></div>
                     <div class="display-table" style="position: absolute; top: 0;">
                         <div class="display-table-cell">
@@ -164,7 +164,7 @@
         <div class="mobile-home position-relative p-0" style="width: 100%;">
             <img
                 src="{{ asset('assets/Mobile-Banner-new.webp') }}"
-                alt="Yoga and Meditation Banner"
+                alt="YogIntra Mobile Banner - Yoga and Meditation Services"
                 width="414"
                 height="650"
                 decoding="async"
@@ -212,7 +212,7 @@
                                     <div class="icon-box icon-theme-colored benefit-icon left media p-0 mb-sm-10 mt-30">
                                         <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
                                             <img src="{{ asset($content_1->of_image) }}" 
-                                                width="75" height="75" loading="lazy" alt="{{ $content_1->of_heading }}" decoding="async">
+                                                width="75" height="75" loading="lazy" alt="YogIntra Feature - {{ $content_1->of_heading }}" decoding="async">
                                         </a>
                                         <div class="media-body">
                                             <h3 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h3>
@@ -238,7 +238,7 @@
             <div class="section-content">
                 <div class="row">
                     <div class="col-md-6">
-                        <img src="{{ asset($section_2->os_image_image) }}" width="349" height="348" loading="lazy" decoding="async" alt="{{ $section_2->os_image_heading }}">
+                        <img src="{{ asset($section_2->os_image_image) }}" width="349" height="348" loading="lazy" decoding="async" alt="YogIntra Services - {{ $section_2->os_image_heading }}">
                     </div>
                     <div class="col-md-6">
                         <h5 class="section-3 mb-0">{{ $section_2->os_image_sub_heading }}</h5>
@@ -250,7 +250,7 @@
                             @foreach ($section_2_content as $content_sec_2)
                                 <div class="col-sm-4 text-center">
                                     <div class="">
-                                        <img src="{{ asset($content_sec_2->os_image) }}" width="90" height="95" loading="lazy" decoding="async" alt="{{ $content_sec_2->os_heading }}">
+                                        <img src="{{ asset($content_sec_2->os_image) }}" width="90" height="95" loading="lazy" decoding="async" alt="YogIntra Service Icon - {{ $content_sec_2->os_heading }}">
                                     </div>
                                     <h3 style="font-size: 16px">{{ $content_sec_2->os_heading }}</h3>
                                 </div>
@@ -278,32 +278,32 @@
                         <div class="row">
                             @foreach ($rand_service as $r_service)
                                 <div class="col-xs-12 col-sm-12 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
-                                    <img class="img-circle img-thumbnail mb-0" src="{{ asset($r_service->service_cat_image) }}" height="150" width="150" loading="lazy" decoding="async" alt="{{ $r_service->service_cat_name }}">
+                                    <img class="img-circle img-thumbnail mb-0" src="{{ asset($r_service->service_cat_image) }}" height="150" width="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
                                     <h2 class="mb-5 fs-16">{{ $r_service->service_cat_name }}</h2>
                                     <a href="{{ url('service/' . $r_service->service_cat_slug) }}" class="btn btn-success">Book Now</a>
                                 </div>
                             @endforeach
 
                             <div class="col-xs-12 col-sm-12 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
-                                <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="TTC">
+                                <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
                                 <h2 class="mb-5 fs-16">TTC (Teacher Training Course)</h2>
                                 <a href="{{ route('ttc') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
                             <div class="col-xs-12 col-sm-12 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
-                                <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="Retreat">
+                                <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs">
                                 <h2 class="mb-5 fs-16">Retreat</h2>
                                 <a href="{{ route('retreat.all') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
                             <div class="col-xs-12 col-sm-12 col-md-3 mb-sm-40 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
-                                <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="Workshop">
+                                <img class="img-circle img-thumbnail mb-0" src="{{ asset('assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops">
                                 <h2 class="mb-5 fs-16">Workshop</h2>
                                 <a href="{{ route('workshop') }}" class="btn btn-success">Visit Now</a>
                             </div>
 
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-sm-40 wow fadeInLeft mt-20 animated" data-wow-duration="1s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.3s;">
-                                <img width="150" height="150" loading="lazy" decoding="async" class="img-circle img-thumbnail mb-0" src="{{ asset('uploads/yog_center.jpg') }}" alt="Yoga Center">
+                                <img width="150" height="150" loading="lazy" decoding="async" class="img-circle img-thumbnail mb-0" src="{{ asset('uploads/yog_center.jpg') }}" alt="YogIntra Yoga Center and Training Facility">
                                 <h2 class="mb-5 fs-16">Yoga Center</h2>
                                 <a href="{{ route('yoga.center') }}" class="btn btn-success">Visit Now</a>
                             </div>
@@ -332,7 +332,7 @@
                             <div class="item">
                                 <div class="team-members text-center maxwidth400">
                                     <div class="team-thumb">
-                                        <img class="img-fullwidth" width="200" height="200" loading="lazy" decoding="async" alt="yogintra trainers" src="{{ $api . '/' . $trainer->profile_image }}">
+                                        <img class="img-fullwidth" width="200" height="200" loading="lazy" decoding="async" alt="YogIntra Instructor - {{ $trainer->name }}" src="{{ $api . '/' . $trainer->profile_image }}">
                                     </div>
                                     @php
                                         $currentYear = now()->year;

@@ -8,7 +8,7 @@
 @section('content')
 <!-- Start main-content -->
 <div class="main-content">
-  <section class="inner-header image-sec divider parallax text-center">
+  <section class="inner-header image-sec divider parallax text-center responsive-image-margin">
     <img class="w-50" src="{{ asset($event->image) }}" />
   </section>
   
@@ -221,6 +221,16 @@
   hr {
     border-bottom: 2px solid #ccc !important;
     margin: 0 auto 10px auto !important;
+  }
+
+  .responsive-image-margin {
+    margin-top: 100px;
+  }
+
+  @media (max-width: 768px) {
+    .responsive-image-margin {
+      margin-top: 0px;
+    }
   }
 </style>
 @endpush
