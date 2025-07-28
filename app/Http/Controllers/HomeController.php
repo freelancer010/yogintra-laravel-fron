@@ -21,6 +21,13 @@ class HomeController extends Controller
 {
     private $api;
     private $api_main;
+    
+    public function embedForm($source = null)
+    {
+        return view('embed.contact-form', [
+            'source' => $source
+        ]);
+    }
 
     public function __construct()
     {

@@ -121,7 +121,7 @@ class FrontSettingController extends Controller
             'slider_btn_name' => 'nullable|string|max:100',
             'slider_btn_link' => 'nullable|url',
             'slider_text_direction' => 'required|in:left,right,center',
-            'slider_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5000',
+            'slider_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5000',
         ]);
 
         $slider = Slider::findOrFail($id);

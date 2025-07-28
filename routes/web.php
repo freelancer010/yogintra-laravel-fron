@@ -26,6 +26,7 @@ Route::get('/gallery', [HomeController::class, 'gallery']);
 
 Route::get('/contact', [HomeController::class, 'contact']);
 Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm'])->name('form.submit');
+Route::get('/embed/contact-form/{source?}', [HomeController::class, 'embedForm'])->name('form.embed');
 
 Route::get('/blog', [HomeController::class, 'allBlog']);
 Route::get('/blog/{slug}', [HomeController::class, 'blogDetails'])->name('blog.details');

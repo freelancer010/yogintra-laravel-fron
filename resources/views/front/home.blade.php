@@ -146,8 +146,8 @@
                                             </h3>
                                             
                                             @if ($slider->slider_btn_name && $slider->slider_btn_link)
-                                                <a style="background: #e07f00 !important" class="btn btn-theme-colored btn-flat mt-15 high-contrast-btn"
-                                                href="{{ $slider->slider_btn_link }}">
+                                                <a style="background: #e07f00 !important" class="open-message-popup btn btn-theme-colored btn-flat mt-15 high-contrast-btn"
+                                                href="#">
                                                     {{ $slider->slider_btn_name }}
                                                 </a>
                                             @endif
@@ -369,18 +369,7 @@
         </div>
     </section>
 
-    <section class="bg-lighter">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    @include('components.multi-step-form', ['app_setting' => $app_setting])
-                </div>
-                <div class="col-sm-6">
-                    <img src="{{ asset('assets/chose_yoga.webp') }}" class="bf-ftr-img" decoding="async" loading="lazy" alt="yoga poses">
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Form moved to chat icon popup -->
 
 
 @endsection

@@ -178,11 +178,7 @@
     </script>
 
     <script type="text/javascript">
-        $('form').submit(function() {
-            $('button[type="submit"]').html('Processing....');
-            $('button[type="submit"]').attr('disabled',true);
-            $(".loader").show();
-        });
+        // Remove the general form submit handler as we're handling the multi-step form separately
     </script>
 
     <script async src='https://d2mpatx37cqexb.cloudfront.net/delightchat-whatsapp-widget/embeds/embed.min.js'></script>
@@ -286,10 +282,60 @@
             cursor: pointer;
             z-index: 9999;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            animation: pulseAnimation 2s infinite;
+        }
 
-            i {
-                font-size:20px
+        .tooltip-popup {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            width: 200px;
+            text-align: center;
+        }
+
+        .tooltip-popup::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 25px;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #333;
+        }
+
+        .tooltip-popup.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        @keyframes pulseAnimation {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            }
+        }
+
+        #messageIcon i {
+            font-size: 20px;
         }
 
         #messagePopup {
@@ -297,22 +343,217 @@
             bottom: 100px;
             right: 20px;
             background: white;
-            width: 300px;
+            width: 400px;
             max-width: 90%;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            border-radius: 8px;
-            padding: 15px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 25px;
             display: none;
             z-index: 9999;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        #messagePopup .form-step {
+            margin-bottom: 20px;
+        }
+
+        #messagePopup .form-control {
+            height: 44px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 15px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+            background-color: #fff;
+        }
+
+        #messagePopup .form-control:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+        }
+
+        #messagePopup textarea.form-control {
+            height: auto;
+            min-height: 100px;
+        }
+
+        #messagePopup label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+            color: #333;
+        }
+
+        #messagePopup .invalid-feedback {
+            display: block;
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: -12px;
+            margin-bottom: 12px;
+        }
+
+        #messagePopup .btn {
+            height: 44px;
+            font-size: 15px;
+            padding: 0 25px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        #messagePopup .btn-primary {
+            background: #ffd700;
+            border-color: #ffd700;
+            color: #000;
+        }
+
+        #messagePopup .btn-primary:hover {
+            background: #e6c200;
+            border-color: #e6c200;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         #messagePopup .close-btn {
             position: absolute;
-            top: 8px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             cursor: pointer;
-            font-size: 18px;
-            color: #999;
+            font-size: 22px;
+            color: #666;
+            z-index: 1;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        #messagePopup .close-btn:hover {
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        @media (max-width: 480px) {
+            #messagePopup {
+                width: 95%;
+                right: 2.5%;
+                left: 2.5%;
+                bottom: 80px;
+                padding: 20px;
+            }
+        }
+
+        /* Form step styling */
+        #messagePopup .form-step {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #messagePopup .form-step.active {
+            display: block;
+            opacity: 1;
+        }
+
+        #messagePopup .progress {
+            height: 4px;
+            margin-bottom: 20px;
+            background-color: #f0f0f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        #messagePopup .progress-bar {
+            background-color: #ffd700;
+            transition: width 0.3s ease;
+        }
+
+        #messagePopup .step-indicators {
+            margin-bottom: 25px;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #messagePopup .step {
+            font-size: 14px;
+            color: #666;
+            position: relative;
+            padding-bottom: 8px;
+            cursor: default;
+        }
+
+        #messagePopup .step::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ddd;
+            transition: background-color 0.3s;
+        }
+
+        #messagePopup .step.active {
+            color: #333;
+            font-weight: 500;
+        }
+
+        #messagePopup .step.active::after {
+            background-color: #ffd700;
+        }
+
+        #messagePopup .form-group {
+            margin-bottom: 20px;
+        }
+
+        #messagePopup .form-control.is-invalid {
+            border-color: #dc3545;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+
+        #messagePopup .invalid-feedback {
+            display: none;
+            margin-top: -12px;
+            margin-bottom: 12px;
+        }
+
+        #messagePopup .form-control.is-invalid + .invalid-feedback {
+            display: block;
+        }
+
+        #messagePopup select.form-control {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+            padding-right: 40px;
         }
     </style>
 
@@ -320,20 +561,136 @@
         <i class="fa fa-comment"></i>
     </div>
 
+    <div class="tooltip-popup">
+        Click here to get in touch with us!
+    </div>
+
     <div id="messagePopup">
         <div class="close-btn" onclick="toggleMessagePopup()">&times;</div>
-        
-        <p>Hello hope you are doing well!</p>
-        <hr/>
-        <p>We are coming up with live chat soon!</p>
-        {{-- @include('components.multi-step-form') --}}
+        <div class="popup-content">
+            <h4 class="text-center mb-20" style="font-size: 24px; font-weight: 600; color: #333; margin-bottom: 25px;">
+                Get In Touch
+            </h4>
+            <div class="form-wrapper">
+                @include('components.multi-step-form', ['app_setting' => $app_setting, 'form_type' => 'embed'])
+            </div>
+        </div>
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get form elements
+            const form = document.querySelector('#multi-step-form');
+            const steps = form.querySelectorAll('.form-step');
+            const progressBar = form.querySelector('.progress-bar');
+            const stepIndicators = form.querySelectorAll('.step-indicators .step');
+
+            // Function to show step
+            function showStep(stepNumber) {
+                steps.forEach(step => {
+                    step.classList.remove('active');
+                    if(step.dataset.step === stepNumber.toString()) {
+                        step.classList.add('active');
+                    }
+                });
+
+                // Update progress bar
+                // progressBar.style.width = ((stepNumber - 1) * 50) + '%';
+
+                // Update step indicators
+                stepIndicators.forEach(indicator => {
+                    indicator.classList.remove('active');
+                    if(parseInt(indicator.dataset.step) <= stepNumber) {
+                        indicator.classList.add('active');
+                    }
+                });
+            }
+
+            // Next button handler
+            form.querySelectorAll('.next-step').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const currentStep = this.closest('.form-step');
+                    const nextStep = parseInt(currentStep.dataset.step) + 1;
+                    
+                    // Validate current step
+                    const inputs = currentStep.querySelectorAll('input[required], select[required], textarea[required]');
+                    let isValid = true;
+                    
+                    inputs.forEach(input => {
+                        if(!input.value) {
+                            input.classList.add('is-invalid');
+                            isValid = false;
+                        } else {
+                            input.classList.remove('is-invalid');
+                        }
+                    });
+
+                    if(isValid) {
+                        showStep(nextStep);
+                    }
+                });
+            });
+
+            // Previous button handler
+            form.querySelectorAll('.prev-step').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const currentStep = this.closest('.form-step');
+                    const prevStep = parseInt(currentStep.dataset.step) - 1;
+                    showStep(prevStep);
+                });
+            });
+
+            // Note: Form submission is handled in multi-step-form.blade.php
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show tooltip after a short delay
+            setTimeout(function() {
+                document.querySelector('.tooltip-popup').classList.add('show');
+                document.getElementById('messageIcon').style.animation = 'pulseAnimation 2s infinite';
+            }, 2000);
+
+            // Hide tooltip when clicking anywhere
+            document.addEventListener('click', function() {
+                document.querySelector('.tooltip-popup').classList.remove('show');
+            });
+        });
+
+        // Add click handler for message icon and any elements with open-message-popup class
         document.getElementById('messageIcon').addEventListener('click', toggleMessagePopup);
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('open-message-popup') || e.target.closest('.open-message-popup')) {
+                toggleMessagePopup();
+                e.preventDefault();
+            }
+        });
+
         function toggleMessagePopup() {
             const popup = document.getElementById('messagePopup');
-            popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+            const icon = document.getElementById('messageIcon');
+            
+            if (popup.style.display === 'block') {
+                popup.style.display = 'none';
+            } else {
+                popup.style.display = 'block';
+                // Stop the pulse animation when popup is opened
+                icon.style.animation = 'none';
+            }
+        }
+
+        // Function to show success message in popup
+        function showSuccessInPopup(message) {
+            const popupContent = document.querySelector('#messagePopup .popup-content');
+            popupContent.innerHTML = `
+                <div class="success-message">
+                    <div class="success-icon">
+                        <i class="fa fa-check-circle"></i>
+                    </div>
+                    <h4>Thank You!</h4>
+                    <p>${message || 'Your enquiry has been submitted successfully. We\'ll get back to you soon.'}</p>
+                </div>
+            `;
         }
     </script>
 
