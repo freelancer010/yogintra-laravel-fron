@@ -86,13 +86,13 @@
                 ['name' => 'Section 2', 'route' => 'admin.front.section2'],
               ]
             ],
-            'setting' => [
-              'title' => 'Setting',
-              'icon' => 'fas fa-tools',
-              'items' => [
-                ['name' => 'Application Setting', 'route' => 'admin.setting.application']
-              ]
-            ]
+            // 'setting' => [
+            //   'title' => 'Setting',
+            //   'icon' => 'fas fa-tools',
+            //   'items' => [
+            //     ['name' => 'Application Setting', 'route' => 'admin.setting.application']
+            //   ]
+            // ]
           ];
         @endphp
 
@@ -114,6 +114,13 @@
             </ul>
           </li>
         @endforeach
+
+        <li class="nav-item">
+          <a href="{{ route('admin.setting.application') }}" class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-tools"></i>
+            <p>Setting</p>
+          </a>
+        </li>
 
         <li class="nav-item">
           <a href="{{ route('logout') }}" class="nav-link"
