@@ -1,8 +1,9 @@
 @extends('layouts.layout')
 
-@section('meta_title', $trainer['name'] . ' - Personal Yoga Trainer Profile')
+@section('meta_title', $trainer['name'] . ' - Personal Yoga Trainer')
 @section('meta_description', 'Meet ' . $trainer['name'] . ', a certified personal yoga trainer in ' . $trainer['city'] . ', ' . $trainer['state'] . '. Learn about their experience, education, and available yoga packages.')
 @section('meta_keywords', $trainer['name'] . ', yoga trainer, personal yoga instructor, yoga trainer in ' . $trainer['city'])
+@section('og_image', $api . '/' . $trainer['profile_image'])
 
 @section('content')
 <section class="inner-header divider parallax layer-overlay overlay-dark-7" style="background-image: url('{{ asset('assets/front/images/bg/bg8.jpg') }}'); height: 300px;">
@@ -31,7 +32,7 @@
       <div class="col-md-8">
         <h2 class="mb-3"><i class="fa fa-user text-primary"></i> {{ $trainer['name'] }}</h2>
         <p><i class="fa fa-birthday-cake text-info"></i> <strong>Age:</strong> {{ $age }} years</p>
-        <p><i class="fa fa-graduation-cap text-warning"></i> <strong>Education:</strong> {{ $trainer['Education'] }}</p>
+        <p><i class="fa fa-graduation-cap text-warning"></i> <strong>Education:</strong> {{ strtolower($trainer['Education']) }}</p>
         <p><i class="fa fa-briefcase text-success"></i> <strong>Experience:</strong> {{ $trainer['experience'] }}</p>
         <p><i class="fa fa-map-marker text-danger"></i> <strong>Location:</strong> {{ $trainer['city'] }}, {{ $trainer['state'] }}</p>
         <p><i class="fa fa-money text-purple"></i> <strong>Package:</strong> {{ $trainer['package'] }}</p>
