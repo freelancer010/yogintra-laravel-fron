@@ -136,8 +136,10 @@ class FrontSettingController extends Controller
                 unlink(public_path($slider->slider_image));
             }
 
-            $path = $request->file('slider_image')->store('uploads', 'public');
-            $slider->slider_image = 'storage/' . $path;
+            $image = $request->file('slider_image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads'), $imageName);
+            $slider->slider_image = 'uploads/' . $imageName;
         }
 
         $slider->save();

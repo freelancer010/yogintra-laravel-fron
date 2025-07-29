@@ -116,7 +116,7 @@
         @endforeach
 
         <li class="nav-item">
-          <a href="{{ route('admin.setting.application') }}" class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+          <a href="{{ route('admin.setting.application') }}" class="nav-link {{ request()->is('admin/setting/application_setting') ? 'active' : '' }}">
             <i class="nav-icon fas fa-tools"></i>
             <p>Setting</p>
           </a>
