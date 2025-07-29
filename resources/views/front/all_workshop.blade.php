@@ -65,7 +65,7 @@
       </div>
       <div class="col-md-7">
         <div class="mb-40">
-          <h1 class="text-uppercase text-center font-38 mt-0"><span class="text-theme-colored">MORE WORKSHOP</span> COMING SOON</h1>
+          <h2 class="text-uppercase text-center font-38 mt-0"><span class="text-theme-colored">MORE WORKSHOP</span> COMING SOON</h2>
         </div>
         @include('components.multi-step-form', ['app_setting' => $app_setting])
       </div>

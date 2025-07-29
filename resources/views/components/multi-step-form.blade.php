@@ -78,10 +78,46 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            // Set initial button state
+            $('#step-1 .next-step').prop('disabled', true).css('opacity', '0.5');
+
             // Convert inputs to uppercase
             $('input:not([type="email"])').on('input', function() {
                 this.value = this.value.toUpperCase();
             });
+
+            // Email validation function with UI updates
+            function validateEmailField() {
+                const $email = $('#email');
+                const $formGroup = $email.closest('.form-group');
+                const $nextBtn = $('#step-1 .next-step');
+                const emailValue = $email.val().trim();
+
+                // Clear previous errors
+                $formGroup.removeClass('has-error').find('.error-message').remove();
+
+                // Show error if empty
+                if (!emailValue) {
+                    $formGroup.addClass('has-error')
+                        .append('<div class="error-message">Email address is required</div>');
+                    $nextBtn.prop('disabled', true).css('opacity', '0.5');
+                    return false;
+                }
+                
+                // Show error if invalid format
+                if (!isValidEmail(emailValue)) {
+                    $formGroup.addClass('has-error')
+                        .append('<div class="error-message">Please enter a valid email address (e.g., example@domain.com)</div>');
+                    $nextBtn.prop('disabled', true).css('opacity', '0.5');
+                    return false;
+                }
+
+                $nextBtn.prop('disabled', false).css('opacity', '1');
+                return true;
+            }
+
+            // Validate email on page load
+            validateEmailField();
             
             // Form submission handler
             $("#multi-step-form").on('submit', function(e) {
@@ -214,7 +250,7 @@
             function validateCurrentStep(step) {
                 let isValid = true;
                 const fields = {
-                    1: ['name', 'phone', 'email'],
+                    1: ['name', 'phone'],  // Removed email from here as we validate it separately
                     2: ['country', 'state', 'city'],
                     3: ['class', 'message']
                 };
@@ -222,13 +258,13 @@
                 // Clear previous errors
                 $('.form-group').removeClass('has-error').find('.error-message').remove();
 
-                // Additional email validation for step 1
+                // Email validation for step 1
                 if (step === 1) {
                     const email = $('#email').val();
-                    if (!isValidEmail(email)) {
+                    if (!email || !isValidEmail(email)) {
                         $('#email').closest(".form-group").addClass("has-error")
                             .append('<div class="error-message">Please enter a valid email address (e.g., example@domain.com)</div>');
-                        return false;
+                        isValid = false;
                     }
                 }
 
@@ -322,13 +358,35 @@
             return regex.test(email);
         }
 
-        // Block special characters and validate email on input
-        $('#email').on('input', function(e) {
-            let value = $(this).val();
-            // Remove any special characters except those allowed in email
-            value = value.replace(/[^a-zA-Z0-9.@_-]/g, '');
-            $(this).val(value);
-        });
+        // Email field event handlers
+        const $emailField = $('#email');
+        
+        $emailField
+            .on('focus', function() {
+                // Show validation message immediately on focus if there's a value
+                if ($(this).val()) {
+                    validateEmailField();
+                }
+            })
+            .on('input', function() {
+                let value = $(this).val();
+                // Remove any special characters except those allowed in email
+                value = value.replace(/[^a-zA-Z0-9.@_-]/g, '');
+                $(this).val(value);
+                validateEmailField();
+            })
+            .on('blur', function() {
+                validateEmailField();
+            });
+
+        // Override the validateCurrentStep function for step 1
+        const originalValidateCurrentStep = validateCurrentStep;
+        validateCurrentStep = function(step) {
+            if (step === 1) {
+                return validateEmailField() && validateField($('#name')) && validateField($('#phone'));
+            }
+            return originalValidateCurrentStep(step);
+        };
     </script>
 @endpush
 
