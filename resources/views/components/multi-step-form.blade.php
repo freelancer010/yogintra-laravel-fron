@@ -222,6 +222,16 @@
                 // Clear previous errors
                 $('.form-group').removeClass('has-error').find('.error-message').remove();
 
+                // Additional email validation for step 1
+                if (step === 1) {
+                    const email = $('#email').val();
+                    if (!isValidEmail(email)) {
+                        $('#email').closest(".form-group").addClass("has-error")
+                            .append('<div class="error-message">Please enter a valid email address (e.g., example@domain.com)</div>');
+                        return false;
+                    }
+                }
+
                 // Validate current step fields
                 fields[step].forEach(fieldId => {
                     const $field = $('#' + fieldId);
