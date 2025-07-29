@@ -143,7 +143,76 @@
     <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}"></script>
 
     <!-- SCHEMA -->
-    <!-- (schema scripts go here as in original) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HealthAndBeautyBusiness",
+        "name": "{{ $app_setting->app_meta_title ?? 'YogIntra' }}",
+        "image": "{{ asset('assets/og-logo.webp') }}",
+        "url": "{{ url('/') }}",
+        "@id": "{{ url('/') }}",
+        "logo": "{{ asset('assets/og-logo.webp') }}",
+        "description": "{{ $app_setting->app_meta_description ?? 'Yogintra - Your Trusted Source for Yoga Training and Wellness' }}",
+        "priceRange": "₹₹",
+        "telephone": "+91-9867291573",
+        "email": "support@yogintra.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Mumbai",
+            "addressRegion": "Maharashtra",
+            "postalCode": "",
+            "addressCountry": "IN"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "19.0760",
+            "longitude": "72.8777"
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+            ],
+            "opens": "06:00",
+            "closes": "20:00"
+        },
+        "sameAs": [
+            "https://www.facebook.com/yogintra",
+            "https://www.instagram.com/yogintra",
+            "https://www.twitter.com/yogintra"
+        ],
+        "offers": {
+            "@type": "AggregateOffer",
+            "priceCurrency": "INR",
+            "name": "Yoga Training Services",
+            "description": "Professional yoga training services including personal training, group classes, and workshops"
+        },
+        "potentialAction": {
+            "@type": "ReserveAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "{{ url('/contact') }}",
+                "inLanguage": "en-US",
+                "actionPlatform": [
+                    "http://schema.org/DesktopWebPlatform",
+                    "http://schema.org/IOSPlatform",
+                    "http://schema.org/AndroidPlatform"
+                ]
+            },
+            "result": {
+                "@type": "Reservation",
+                "name": "Yoga Session Booking"
+            }
+        }
+    }
+    </script>
 
 </head>
 <body>
