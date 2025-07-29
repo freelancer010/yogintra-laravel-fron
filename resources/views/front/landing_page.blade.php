@@ -453,8 +453,8 @@
         <div class="display-table-cell">
             <div class="container pt-100 pb-100">
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="home-content">
+                    <div class="col-md-12">
+                        <div class="home-content text-center">
                             {{-- Uncomment if you want to show the logo --}}
                             {{-- <div>
                                 <img src="{{ asset($app_setting->app_sticky_logo) }}" alt="Logo">
@@ -467,10 +467,6 @@
                             </h5>
                             {{-- <a class="btn btn-colored btn-theme-colored btn-flat smooth-scroll-to-target mt-15" href="#donate-now">Donate Now</a> --}}
                         </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        @include('components.multi-step-form', ['app_setting' => $app_setting, 'form_type' => 'landing'])
                     </div>
                 </div>
             </div>

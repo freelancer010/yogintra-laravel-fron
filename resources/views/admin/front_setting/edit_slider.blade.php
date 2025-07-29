@@ -71,7 +71,13 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Slider Background Image <span class="required">*</span> (Size 1920px X 1280px)</label>
-                    <input type="file" class="form-control" name="slider_image">
+                    <div class="custom-file-upload">
+                        <input type="file" class="file-input" name="slider_image" id="slider_image" style="display: none;">
+                        <button type="button" class="btn btn-primary" onclick="document.getElementById('slider_image').click()">
+                            <i class="fas fa-cloud-upload-alt"></i> Choose Image
+                        </button>
+                        <span id="file-chosen">No file chosen</span>
+                    </div>
                   </div>
                 </div>
 
@@ -89,9 +95,48 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>Preview Image</label><br>
-                    <img style="border: 1px solid black" src="{{ asset($slider->slider_image) }}" width="150px;">
+                    <img id="imagePreview" style="border: 1px solid black; max-width: 100%; height: auto;" src="{{ asset($slider->slider_image) }}" width="150px;">
                   </div>
                 </div>
+
+                <style>
+                    .custom-file-upload {
+                        display: inline-block;
+                        margin-top: 5px;
+                    }
+                    .custom-file-upload button {
+                        margin-right: 10px;
+                    }
+                    #file-chosen {
+                        margin-left: 10px;
+                        color: #666;
+                    }
+                    #imagePreview {
+                        transition: all 0.3s ease;
+                        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    }
+                    #imagePreview:hover {
+                        transform: scale(1.02);
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    }
+                </style>
+
+                <script>
+                    document.getElementById('slider_image').addEventListener('change', function(e) {
+                        // Update file name display
+                        const fileChosen = document.getElementById('file-chosen');
+                        fileChosen.textContent = this.files[0] ? this.files[0].name : 'No file chosen';
+
+                        // Preview image
+                        if (this.files && this.files[0]) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                document.getElementById('imagePreview').src = e.target.result;
+                            };
+                            reader.readAsDataURL(this.files[0]);
+                        }
+                    });
+                </script>
 
                 <div class="col-md-12">
                   <div class="form-group text-right">
