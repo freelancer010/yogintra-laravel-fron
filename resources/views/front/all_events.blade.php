@@ -31,7 +31,7 @@
         <div class="section-content">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h2 class="title text-white">Yoga Teacher Training Course</h2>
+                    <h1 class="title text-white">Yoga Teacher Training Course</h1>
                     <ol class="breadcrumb text-center text-black mt-10">
                         <li><a href="{{ url('/') }}" class="text-white">Home</a></li>
                         <li class="active text-gray">TTC</li>

@@ -10,7 +10,7 @@
     <div class="section-content">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h2 class="title text-white">Workshop</h2>
+          <h1 class="title text-white">Workshop</h1>
           <ol class="breadcrumb text-center text-black mt-10">
             <li><a href="{{ url('/') }}" class="text-white">Home</a></li>
             <li class="active text-white">Workshop</li>

@@ -11,7 +11,7 @@
     <div class="section-content">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h2 class="title text-white">Contact</h2>
+          <h1 class="title text-white">Contact</h1>
           <ol class="breadcrumb text-center text-black mt-10">
             <li><a href="{{ url('/') }}" class="text-white">Home</a></li>
             <li class="active text-gray">Contact</li>
@@ -29,7 +29,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="esc-heading small-border text-center">
-            <h3>Have any Questions?</h3>
+            <h2>Have any Questions?</h2>
           </div>
         </div>
       </div>

@@ -67,7 +67,7 @@
                       <input id="blog_author" type="text" name="blog_author" class="form-control" value="{{ old('blog_author', $blog->blog_author) }}">
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
                       <label for="blog_short_description">Short Description</label>
                       <textarea id="blog_short_description" name="blog_short_description" class="form-control" rows="3">{{ old('blog_short_description', $blog->blog_short_description) }}</textarea>
                     </div>
