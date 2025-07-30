@@ -641,7 +641,10 @@
                 Get In Touch
             </h4>
             <div class="form-wrapper">
-                @include('components.multi-step-form', ['app_setting' => $app_setting, 'form_type' => 'embed'])
+                <x-multi-step-form 
+                    :form-type="'embed'" 
+                    :source="request()->segment(2) ?? 'Quick Enquiry'" 
+                />
             </div>
         </div>
     </div>

@@ -1,9 +1,15 @@
+@props(['source' => null])
+
 @php
     use Illuminate\Support\Facades\DB;
     $all_service = DB::table('service_category')->get();
+    
+    // For this blade, always set form_type to embed
+    $form_type = 'embed';
+    
+    // Debug log the form type
+    \Log::debug('Form type in embed contact form:', ['form_type' => $form_type]);
 @endphp
-
-@props(['form_type' => '', 'source' => null])
 
 <form id="multi-step-form" class="booking-form {{ $form_type == 'landing' ? 'bg-black-333 p-30' : '' }} {{ $form_type == 'embed' ? 'embedded-form' : '' }}">
     @if ($form_type == 'landing')
@@ -11,6 +17,8 @@
     @endif
     @csrf
     <input type="hidden" name="form_type" value="{{ $form_type }}">
+    {{-- Debug form type value --}}
+    @php \Log::debug('Form type value in blade:', ['form_type' => $form_type]); @endphp
     {{-- Always include form type and source (if available) --}}
     @if($source)
         <input type="hidden" name="source" value="{{ $source }}">
@@ -184,10 +192,23 @@
                 const originalBtnText = submitBtn.html();
                 submitBtn.html('<span class="spinner"></span> Submitting...').prop('disabled', true);
 
+                // Get the form data and log it
+                const formData = new FormData(form[0]);
+                const formDataObj = {};
+                formData.forEach((value, key) => {
+                    formDataObj[key] = value;
+                });
+                console.log('Form data before submission:', formDataObj);
+
+                // Ensure form_type is set
+                if (!formDataObj.form_type) {
+                    formDataObj.form_type = '{{ $form_type }}';
+                }
+
                 $.ajax({
                     type: "POST",
                     url: "{{ route('form.submit') }}",
-                    data: form.serialize(),
+                    data: formDataObj,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },

@@ -15,7 +15,7 @@
         }
         .container { 
             width: 100%; 
-            padding: 15px; 
+            padding: 0; 
             max-width: 800px;
         }
         .error-message {
@@ -30,7 +30,7 @@
             border-color: #dc3545 !important;
         }
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 16px;
             position: relative;
         }
         .embedded-form {
@@ -38,17 +38,27 @@
             width: 100%;
             margin: 0 auto;
             background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
+        ::placeholder {
+            color: #999;
+            opacity: 1;
+            font-size: 14px;
+        }
+        .form-control:focus {
+            border-color: #ffce00;
+            box-shadow: 0 0 0 2px rgba(255, 206, 0, 0.2);
         }
         .embedded-form .form-control {
             width: 100%;
-            padding: 0.625rem 0.875rem;
-            border: 1.5px solid #e0e0e0;
-            border-radius: 6px;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             transition: all 0.2s ease-in-out;
-            font-size: 0.95rem;
+            font-size: 14px;
+            height: 40px;
         }
         .embedded-form .form-control:focus {
             border-color: #2563eb;
@@ -56,27 +66,30 @@
             box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
         }
         .embedded-form label {
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #374151;
-            font-size: 0.9375rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
             display: block;
         }
         .btn {
-            padding: 0.625rem 1.25rem;
-            font-weight: 500;
-            border-radius: 6px;
+            padding: 8px 20px;
+            font-weight: 600;
+            border-radius: 4px;
             transition: all 0.2s ease-in-out;
-            font-size: 0.95rem;
+            font-size: 14px;
+            height: 40px;
+            line-height: 24px;
         }
         .btn-primary {
-            background: #2563eb;
-            border-color: #2563eb;
-            color: white;
+            background: #ffce00;
+            border-color: #ffce00;
+            color: #000;
         }
         .btn-primary:hover {
-            background: #1d4ed8;
-            border-color: #1d4ed8;
+            background: #f5c400;
+            border-color: #f5c400;
+            color: #000;
         }
         .btn-secondary {
             background: #6b7280;
@@ -354,8 +367,12 @@
 <body>
     <div class="container">
         <div class="embedded-form">
-            <h4 class="form-heading">Enquire Now</h4>
-            <x-multi-step-form form-type="embed" :source="$source ?? null" />
+            <h4 class="form-heading" style="color: #6c1c45; font-size: 28px; font-weight: 700; margin-bottom: 20px;">Enquire Now</h4>
+            @php
+                // Ensure source is set properly for embedded form
+                $formSource = $source ?? request('source', 'Embedded Form');
+            @endphp
+            <x-multi-step-form :source="$formSource" />
         </div>
         <div class="success-message-container" style="display: none;">
             <div class="success-message-box">
@@ -527,6 +544,18 @@
                 const $submitBtn = $form.find('button[type="submit"]');
                 $submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...');
 
+                // Get form data and ensure form_type is set to 'embed'
+                const formData = new FormData($form[0]);
+                formData.set('form_type', 'embed'); // Force form_type to be 'embed'
+                
+                const formDataObj = {};
+                formData.forEach((value, key) => {
+                    formDataObj[key] = value;
+                });
+                
+                // Log the data for debugging
+                console.log('Form Data:', formDataObj);
+                
                 $.ajax({
                     url: "{{ route('form.submit') }}",
                     method: 'POST',

@@ -377,7 +377,7 @@ class HomeController extends Controller
         ]);
 
         $data = $request->only([
-            'name', 'number', 'email', 'country', 'state', 'city', 'class', 'call-from', 'call-to', 'message'
+            'name', 'number', 'email', 'country', 'state', 'city', 'class', 'call-from', 'call-to', 'message', 'source', 'form_type'
         ]);
 
         // Set lead source based on form type and source
@@ -387,21 +387,12 @@ class HomeController extends Controller
         // Determine the lead source based on form type and provided source
         if ($formType === 'embed' && $source) {
             $data['lead-source'] = $source;
-            \Log::info('Form submission from embedded form with source: ' . $source);
         } else if ($formType === 'landing' && $source) {
             $data['lead-source'] = 'Landing Page: ' . $source;
-            \Log::info('Form submission from landing page: ' . $source);
         } else {
             $data['lead-source'] = 'Website';
-            \Log::info('Form submission from website');
         }
 
-        \Log::info('Form submission details', [
-            'form_type' => $formType,
-            'source' => $source,
-            'lead_source' => $data['lead-source']
-        ]);
-        
         $data['created_date'] = date('Y-m-d H:i:s');
 
         $response = Http::post($this->api . '/addLeads', $data);
