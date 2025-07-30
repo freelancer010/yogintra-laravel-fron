@@ -3,13 +3,18 @@
     $all_service = DB::table('service_category')->get();
 @endphp
 
-@props(['form_type' => ''])
+@props(['form_type' => '', 'source' => null])
 
 <form id="multi-step-form" class="booking-form {{ $form_type == 'landing' ? 'bg-black-333 p-30' : '' }} {{ $form_type == 'embed' ? 'embedded-form' : '' }}">
     @if ($form_type == 'landing')
         <h3 class="mt-0 text-white mb-20">Make An Appointment</h3>
     @endif
     @csrf
+    <input type="hidden" name="form_type" value="{{ $form_type }}">
+    {{-- Always include form type and source (if available) --}}
+    @if($source)
+        <input type="hidden" name="source" value="{{ $source }}">
+    @endif
     
     <!-- Step 1: Personal Information -->
     <div class="form-step active" id="step-1" data-step="1">
@@ -74,13 +79,36 @@
         </div>
     </div>
 </form>
+<div class="success-message-container" style="display: none;">
+    <div class="success-message-box">
+        <div class="success-checkmark">
+            <div class="check-icon">
+                <span class="icon-line line-tip"></span>
+                <span class="icon-line line-long"></span>
+                <div class="icon-circle"></div>
+                <div class="icon-fix"></div>
+            </div>
+        </div>
+        <h4 class="success-title">Thank You!</h4>
+        <p class="success-text">Your enquiry has been submitted successfully. We'll get back to you soon.</p>
+    </div>
+</div>
 
 @push('scripts')
     <script>
         $(document).ready(function() {
-            // Convert inputs to uppercase
+            // Initially disable all next buttons
+            $('.next-step').prop('disabled', true);
+
+            // Convert inputs to uppercase and validate
             $('input:not([type="email"])').on('input', function() {
                 this.value = this.value.toUpperCase();
+                validateCurrentStepAndToggleButton();
+            });
+
+            // Real-time validation on all form controls
+            $('.form-control').on('input keyup change', function() {
+                validateCurrentStepAndToggleButton();
             });
             
             // Form submission handler
@@ -164,12 +192,20 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        // Use the showSuccessInPopup function
-                        showSuccessInPopup(response.message);
-                        // Reset form after successful submission
-                        form[0].reset();
-                        // Reset the first step
-                        moveToStep(1);
+                        // Hide form and show success message
+                        form.fadeOut(300, function() {
+                            // Reset form
+                            form[0].reset();
+                            moveToStep(1);
+                            // Show success message with animation
+                            $('.success-message-container').fadeIn(300).css('display', 'flex');
+                            // After 3 seconds, hide success message and show form
+                            setTimeout(function() {
+                                $('.success-message-container').fadeOut(300, function() {
+                                    form.fadeIn(300);
+                                });
+                            }, 3000);
+                        });
                     },
                     error: function(xhr, status, error) {
                         console.log('Status:', status);
@@ -211,34 +247,50 @@
                 }, 200);
             }
 
-            function validateCurrentStep(step) {
-                let isValid = true;
+            function validateCurrentStepAndToggleButton() {
                 const fields = {
                     1: ['name', 'phone', 'email'],
                     2: ['country', 'state', 'city'],
                     3: ['class', 'message']
                 };
 
-                // Clear previous errors
-                $('.form-group').removeClass('has-error').find('.error-message').remove();
+                // Get current step
+                const $currentStep = $('.form-step.active');
+                const currentStepNumber = $currentStep.data('step');
+                
+                if (!currentStepNumber || !fields[currentStepNumber]) return;
 
-                // Validate current step fields
-                fields[step].forEach(fieldId => {
+                let isValid = true;
+                
+                // Validate all fields in current step
+                fields[currentStepNumber].forEach(fieldId => {
                     const $field = $('#' + fieldId);
                     if (!validateField($field)) {
                         isValid = false;
                     }
                 });
 
+                // Toggle next button
+                const $nextButton = $currentStep.find('.next-step');
+                $nextButton.prop('disabled', !isValid);
+                
                 return isValid;
             }
 
-            // Show validation messages on input blur
+            function validateCurrentStep(step) {
+                // Clear previous errors
+                $('.form-group').removeClass('has-error').find('.error-message').remove();
+                return validateCurrentStepAndToggleButton();
+            }
+
+            // Validate fields and update button state on blur
             $('#name, #phone, #email, #country, #state, #city, #message').on('blur', function() {
                 validateField($(this));
+                validateCurrentStepAndToggleButton();
             });
 
             function validateField($field) {
+                if (!$field || !$field.length) return false;
                 const id = $field.attr('id');
                 const value = $field.val();
                 let isValid = true;
@@ -497,6 +549,172 @@
                 margin-bottom: 10px;
             }
             .success-message p {
+                font-size: 14px;
+            }
+        }
+
+        /* Success Message Styles */
+        .success-message-container {
+            display: none;
+            position: relative;
+            width: 100%;
+            padding: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .success-message-box {
+            text-align: center;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .check-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            border-radius: 50%;
+            box-sizing: content-box;
+            border: 4px solid #4CAF50;
+        }
+
+        .check-icon::before {
+            top: 3px;
+            left: -2px;
+            width: 30px;
+            transform-origin: 100% 50%;
+            border-radius: 100px 0 0 100px;
+        }
+
+        .check-icon::after {
+            top: 0;
+            left: 30px;
+            width: 60px;
+            transform-origin: 0 50%;
+            border-radius: 0 100px 100px 0;
+            animation: rotate-circle 4.25s ease-in;
+        }
+
+        .check-icon::before, .check-icon::after {
+            content: '';
+            height: 100px;
+            position: absolute;
+            background: #fff;
+            transform: rotate(-45deg);
+        }
+
+        .icon-line {
+            height: 5px;
+            background-color: #4CAF50;
+            display: block;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 10;
+        }
+
+        .icon-line.line-tip {
+            top: 46px;
+            left: 14px;
+            width: 25px;
+            transform: rotate(45deg);
+            animation: icon-line-tip 0.75s;
+        }
+
+        .icon-line.line-long {
+            top: 38px;
+            right: 8px;
+            width: 47px;
+            transform: rotate(-45deg);
+            animation: icon-line-long 0.75s;
+        }
+
+        .icon-circle {
+            top: -4px;
+            left: -4px;
+            z-index: 10;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: absolute;
+            box-sizing: content-box;
+            border: 4px solid #50b268;
+        }
+
+        .icon-fix {
+            top: 8px;
+            width: 5px;
+            left: 26px;
+            z-index: 1;
+            height: 85px;
+            position: absolute;
+            transform: rotate(-45deg);
+            background-color: #fff;
+        }
+
+        @keyframes rotate-circle {
+            0% { transform: rotate(-45deg); }
+            5% { transform: rotate(-45deg); }
+            12% { transform: rotate(-405deg); }
+            100% { transform: rotate(-405deg); }
+        }
+
+        @keyframes icon-line-tip {
+            0% { width: 0; left: 1px; top: 19px; }
+            54% { width: 0; left: 1px; top: 19px; }
+            70% { width: 50px; left: -8px; top: 37px; }
+            84% { width: 17px; left: 21px; top: 48px; }
+            100% { width: 25px; left: 14px; top: 46px; }
+        }
+
+        @keyframes icon-line-long {
+            0% { width: 0; right: 46px; top: 54px; }
+            65% { width: 0; right: 46px; top: 54px; }
+            84% { width: 55px; right: 0px; top: 35px; }
+            100% { width: 47px; right: 8px; top: 38px; }
+        }
+
+        .success-title {
+            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .success-text {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .success-message-container {
+                padding: 15px;
+            }
+            .success-message-box {
+                padding: 20px;
+            }
+            .success-checkmark {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 15px;
+            }
+            .success-title {
+                font-size: 20px;
+            }
+            .success-text {
                 font-size: 14px;
             }
         }
