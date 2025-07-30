@@ -252,7 +252,7 @@
 
     <script async src='https://d2mpatx37cqexb.cloudfront.net/delightchat-whatsapp-widget/embeds/embed.min.js'></script>
     <script>
-        var wa_btnSetting = {"btnColor":"#16BE45","ctaText":"","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"left","whatsAppNumber":"919867291573","welcomeMessage":"Hello","zIndex":999999,"btnColorScheme":"light"};
+        var wa_btnSetting = {"btnColor":"#16BE45","ctaText":"","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"right","whatsAppNumber":"919867291573","welcomeMessage":"Hello","zIndex":999999,"btnColorScheme":"light"};
         window.onload = () => {
             _waEmbed(wa_btnSetting);
         };
@@ -338,7 +338,7 @@
     <style>
         #messageIcon {
             position: fixed;
-            bottom: 20px;
+            bottom: 90px;
             right: 20px;
             background-color: #ffd700;
             color: white;
@@ -356,7 +356,7 @@
 
         .tooltip-popup {
             position: fixed;
-            bottom: 80px;
+            bottom: 150px;
             right: 20px;
             background: #333;
             color: white;
@@ -631,7 +631,7 @@
     </div>
 
     <div class="tooltip-popup">
-        Click here to get in touch with us!
+        Enquire with us!
     </div>
 
     <div id="messagePopup">
