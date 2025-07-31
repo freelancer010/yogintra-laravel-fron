@@ -2,7 +2,7 @@
 
 @section('meta_title', $trainer['name'] . ' - Personal Yoga Trainer')
 @section('meta_description', 'Meet ' . $trainer['name'] . ', a certified personal yoga trainer in ' . $trainer['city'] . ', ' . $trainer['state'] . '. Learn about their experience, education, and available yoga packages.')
-@section('meta_keywords', $trainer['name'] . ', yoga trainer, personal yoga instructor, yoga trainer in ' . $trainer['city'])
+@section('meta_keywords', $trainer['name'] . ', yoga trainer, personal yoga instructor, yoga trainer in ' . $trainer['city'] . ', Yoga Trainers, Certified Yoga Instructors, Experienced Yoga Teachers, Best Yoga Trainers in India, Professional Yoga Coaches, Yoga Near me, Best Yoga Instructors, Yoga Expert, Male Yoga Trainers, Female Yoga Trainers, Yoga Instructors for Men, Yoga Teachers for Women, Yoga Trainers in Mumbai, Yoga Trainers in Delhi, Yoga Trainers in Pune, Yoga Trainers in Bangalore, Yoga Trainers in Noida, Yoga Trainers Near me')
 @section('og_image', $api . '/' . $trainer['profile_image'])
 
 @section('content')
