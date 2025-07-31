@@ -208,9 +208,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/setting/application_setting', [SettingController::class, 'applicationSetting'])->name('setting.application');
     Route::post('/setting/update_application_setting/{type?}', [SettingController::class, 'updateApplicationSetting'])->name('setting.update');
 
-    // Profile & Password (optional, adjust as needed)
-    Route::get('/update_profile/update_profile_details', [App\Http\Controllers\AdminController::class, 'edit'])->name('profile.edit');
-    Route::get('/update_profile/update_profile_password', [App\Http\Controllers\AdminController::class, 'changePassword'])->name('password.change');
+    // Admin Profile Management
+    Route::get('/profile/edit', [App\Http\Controllers\Admin\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [App\Http\Controllers\Admin\ProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile/password', [App\Http\Controllers\Admin\ProfileController::class, 'updatePassword'])->name('profile.password');
 });
 
 

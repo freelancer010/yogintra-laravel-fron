@@ -18,7 +18,7 @@
       <div class="dropdown-menu dropdown-menu-right">
         <a href="{{ route('admin.profile.edit') }}" class="dropdown-item">Update Profile</a>
         <div class="dropdown-divider"></div>
-        <a href="{{ route('admin.password.change') }}" class="dropdown-item">Change Password</a>
+        <a href="{{ route('admin.profile.edit') }}" class="dropdown-item">Change Password</a>
         <div class="dropdown-divider"></div>
         <a href="{{ route('logout') }}" class="dropdown-item"
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>

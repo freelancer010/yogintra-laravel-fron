@@ -10,7 +10,7 @@
         <img src="{{ asset(Auth::user()->user_photo ?? 'uploads/65034cf0e716aimage_2023_09_14T18_10_56_706Z.png') }}" class="img-circle elevation-2" alt="User Image" style="height: 35px; width: 35px; object-fit: cover;">
     </div>
     <div class="info ml-2">
-        <a href="#" class="d-block" style="font-weight: 600; color: #1f2937; font-size: 14px;">
+        <a href="{{ route('admin.profile.edit') }}" class="d-block" style="font-weight: 600; color: #1f2937; font-size: 14px;">
         {{ Auth::user()->name }}
         </a>
         <small style="color:#6b7280; font-size: 12px;">
@@ -119,6 +119,13 @@
           <a href="{{ route('admin.setting.application') }}" class="nav-link {{ request()->is('admin/setting/application_setting') ? 'active' : '' }}">
             <i class="nav-icon fas fa-tools"></i>
             <p>Setting</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="{{ route('admin.profile.edit') }}" class="nav-link {{ request()->is('admin/profile/edit') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-user-cog"></i>
+            <p>Profile Settings</p>
           </a>
         </li>
 
