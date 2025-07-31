@@ -24,6 +24,10 @@ Route::get('/trainers', [HomeController::class, 'allTrainers'])->name('trainers.
 Route::get('/trainer/{id}', [HomeController::class, 'showTrainer'])->name('trainer.show');
 Route::get('/gallery', [HomeController::class, 'gallery']);
 
+// AMP Routes
+Route::get('/amp', [HomeController::class, 'ampHome'])->name('amp.home');
+Route::get('/{path}/amp', [HomeController::class, 'ampPage'])->where('path', '.*')->name('amp.page');
+
 Route::get('/contact', [HomeController::class, 'contact']);
 Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm'])->name('form.submit');
 Route::get('/embed/contact-form/{source?}', [HomeController::class, 'embedForm'])->name('form.embed');

@@ -365,37 +365,79 @@ class HomeController extends Controller
 
     public function submitContactForm(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'number' => 'required|digits_between:8,15', // only digits, length check
-            'email' => 'required|email',
-            'country' => 'required|string',
-            'state' => 'required|string',
-            'city' => 'required|string',
-            'class' => 'required|string',
-            'message' => 'required|string|max:1000',
-        ]);
+        // Handle AMP form submissions with different field names
+        $isAmpForm = $request->header('Content-Type') === 'application/x-www-form-urlencoded' 
+                     && $request->has('phone') // AMP forms use 'phone' instead of 'number'
+                     && $request->input('source') && str_contains($request->input('source'), 'AMP');
 
-        $data = $request->only([
-            'name', 'number', 'email', 'country', 'state', 'city', 'class', 'call-from', 'call-to', 'message', 'source', 'form_type'
-        ]);
+        if ($isAmpForm) {
+            // AMP form validation
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'phone' => 'required|digits_between:8,15',
+                'email' => 'required|email',
+                'message' => 'nullable|string|max:1000',
+            ]);
 
-        // Set lead source based on form type and source
-        $formType = $request->get('form_type');
-        $source = $request->get('source');
-
-        // Determine the lead source based on form type and provided source
-        if ($formType === 'embed' && $source) {
-            $data['lead-source'] = $source;
-        } else if ($formType === 'landing' && $source) {
-            $data['lead-source'] = 'Landing Page: ' . $source;
+            $data = [
+                'name' => $request->input('name'),
+                'number' => $request->input('phone'), // Map phone to number
+                'email' => $request->input('email'),
+                'country' => $request->input('country', 'India'),
+                'state' => $request->input('state', 'Maharashtra'),
+                'city' => $request->input('city', 'Mumbai'),
+                'class' => $request->input('service', 'General Inquiry'),
+                'message' => $request->input('message', ''),
+                'source' => $request->input('source', 'AMP Website'),
+                'form_type' => 'amp',
+                'lead-source' => $request->input('source', 'AMP Website'),
+                'created_date' => date('Y-m-d H:i:s')
+            ];
         } else {
-            $data['lead-source'] = 'Website';
+            // Regular form validation
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'number' => 'required|digits_between:8,15',
+                'email' => 'required|email',
+                'country' => 'required|string',
+                'state' => 'required|string',
+                'city' => 'required|string',
+                'class' => 'required|string',
+                'message' => 'required|string|max:1000',
+            ]);
+
+            $data = $request->only([
+                'name', 'number', 'email', 'country', 'state', 'city', 'class', 'call-from', 'call-to', 'message', 'source', 'form_type'
+            ]);
+
+            // Set lead source based on form type and source
+            $formType = $request->get('form_type');
+            $source = $request->get('source');
+
+            // Determine the lead source based on form type and provided source
+            if ($formType === 'embed' && $source) {
+                $data['lead-source'] = $source;
+            } else if ($formType === 'landing' && $source) {
+                $data['lead-source'] = 'Landing Page: ' . $source;
+            } else {
+                $data['lead-source'] = 'Website';
+            }
+
+            $data['created_date'] = date('Y-m-d H:i:s');
         }
 
-        $data['created_date'] = date('Y-m-d H:i:s');
-
         $response = Http::post($this->api . '/addLeads', $data);
+        
+        // Return appropriate response format for AMP
+        if ($isAmpForm) {
+            return response()->json([
+                'success' => $response->successful(),
+                'message' => $response->successful() 
+                    ? 'Thank you! Your message has been sent successfully.' 
+                    : 'Sorry, there was an error. Please try again.'
+            ], $response->successful() ? 200 : 400);
+        }
+        
         return response()->json($response->json());
     }
 
@@ -490,5 +532,54 @@ class HomeController extends Controller
         $age = now()->year - $birthYear;
 
         return view('front.trainer.profile', compact('trainer', 'age', 'api'));
+    }
+
+    /**
+     * Display the AMP home page.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function ampHome()
+    {
+        $app_setting = Setting::first();
+        
+        return view('amp.home', [
+            'app_setting' => $app_setting
+        ]);
+    }
+
+    /**
+     * Display AMP version of any page.
+     *
+     * @param string $path
+     * @return \Illuminate\View\View
+     */
+    public function ampPage($path)
+    {
+        $app_setting = Setting::first();
+        
+        // Map regular pages to AMP views
+        $ampViews = [
+            'about' => 'amp.about',
+            'contact' => 'amp.contact',
+            'gallery' => 'amp.gallery',
+            'blog' => 'amp.blog',
+            'services' => 'amp.services',
+            'service/home-visit-yoga' => 'amp.service',
+            'privacy-policy' => 'amp.privacy-policy',
+            'terms-and-condition' => 'amp.terms-and-condition',
+        ];
+
+        $viewName = $ampViews[$path] ?? 'amp.home';
+        
+        // Check if the AMP view exists, fallback to home
+        if (!view()->exists($viewName)) {
+            $viewName = 'amp.home';
+        }
+        
+        return view($viewName, [
+            'app_setting' => $app_setting,
+            'path' => $path
+        ]);
     }
 }
