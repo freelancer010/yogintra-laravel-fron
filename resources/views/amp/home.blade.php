@@ -87,7 +87,7 @@
     <div class="container">
         <h2>Get In Touch</h2>
         <form method="post" 
-              action-xhr="{{ route('contact.submit') }}" 
+              action-xhr="{{ route('form.submit') }}" 
               class="amp-form">
             @csrf
             
