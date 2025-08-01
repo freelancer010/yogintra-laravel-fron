@@ -30,7 +30,6 @@ Route::get('/{path}/amp', [HomeController::class, 'ampPage'])->where('path', '.*
 
 Route::get('/contact', [HomeController::class, 'contact']);
 Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm'])->name('form.submit');
-Route::post('/submit-contact-form', [HomeController::class, 'submitContactForm'])->name('contact.submit');
 Route::get('/embed/contact-form/{source?}', [HomeController::class, 'embedForm'])->name('form.embed');
 
 Route::get('/blog', [HomeController::class, 'allBlog']);
