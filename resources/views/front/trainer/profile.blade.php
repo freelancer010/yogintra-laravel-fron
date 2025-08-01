@@ -167,7 +167,7 @@
           
           <div class="cta-buttons">
             <a href="{{ url('/contact') }}" class="btn btn-primary btn-book">
-              <i class="fa fa-calendar-check-o"></i>
+              <i class="fa fa-calendar-check-o"></i> 
               <span>Book a Session</span>
             </a>
             <a href="{{ url('/trainers') }}" class="btn btn-primary btn-browse">
