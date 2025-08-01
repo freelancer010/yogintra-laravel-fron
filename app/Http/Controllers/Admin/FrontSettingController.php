@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Slider;
 use App\Models\OurFeatureHeading;
 use App\Models\OurFeature;
+use App\Models\OurService;
+use App\Models\OurServiceImage;
 
 class FrontSettingController extends Controller
 {
@@ -21,8 +23,8 @@ class FrontSettingController extends Controller
 
     public function section2()
     {
-        $service_heading = DB::table('our_service_image')->where('os_image_id', 1)->first();
-        $our_service = DB::table('our_service')->get();
+        $service_heading = OurServiceImage::where('os_image_id', 1)->first();
+        $our_service = OurService::all();
         return view('admin.front_setting.section_2', compact('service_heading', 'our_service'));
     }
 
@@ -99,7 +101,7 @@ class FrontSettingController extends Controller
 
         $service->save();
 
-        return back()->with('success', 'Service updated successfully');
+        return redirect()->route('admin.front.section2')->with('success', 'Service updated successfully');
     }
 
     public function deleteService($id)
