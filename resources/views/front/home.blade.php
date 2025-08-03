@@ -582,4 +582,167 @@
             });
         }
     </script>
+
+    <!-- Enhanced Structured Data for Home Page -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "YogIntra - Premier Yoga Institute in India",
+        "url": "{{ url('/') }}",
+        "description": "Transform your mind and body with YogIntra, the premier Yoga Institute in India. We offer online classes, personal home visits, teacher training courses, and yoga center services.",
+        "mainEntity": {
+            "@type": "HealthAndBeautyBusiness",
+            "name": "YogIntra",
+            "url": "{{ url('/') }}",
+            "logo": "{{ asset('assets/og-logo.webp') }}",
+            "description": "Premier Yoga Institute offering comprehensive yoga services including personal training, group classes, teacher training courses, and wellness programs.",
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Yoga Services",
+                "itemListElement": [
+                    @foreach($rand_service as $index => $service)
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "{{ $service->service_cat_name }}",
+                            "url": "{{ url('service/' . $service->service_cat_slug) }}",
+                            "image": "{{ asset($service->service_cat_image) }}",
+                            "provider": {
+                                "@type": "Organization",
+                                "name": "YogIntra"
+                            }
+                        }
+                    }{{ $loop->last ? '' : ',' }}
+                    @endforeach
+                ]
+            }
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "{{ url('/') }}"
+                }
+            ]
+        }
+    }
+    </script>
+
+    <!-- Services Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Yoga Services by YogIntra",
+        "description": "Comprehensive yoga services including personal training, group classes, teacher training, and specialized programs",
+        "itemListElement": [
+            @foreach($rand_service as $index => $service)
+            {
+                "@type": "Service",
+                "position": {{ $index + 1 }},
+                "name": "{{ $service->service_cat_name }}",
+                "url": "{{ url('service/' . $service->service_cat_slug) }}",
+                "image": "{{ asset($service->service_cat_image) }}",
+                "provider": {
+                    "@type": "HealthAndBeautyBusiness",
+                    "name": "YogIntra",
+                    "url": "{{ url('/') }}"
+                },
+                "serviceType": "Yoga Training",
+                "areaServed": {
+                    "@type": "Country",
+                    "name": "India"
+                }
+            }{{ $loop->last ? '' : ',' }}
+            @endforeach,
+            {
+                "@type": "Service",
+                "position": {{ count($rand_service) + 1 }},
+                "name": "TTC (Teacher Training Course)",
+                "url": "{{ route('ttc') }}",
+                "image": "{{ asset('assets/icon-thumb3-150x150.jpg') }}",
+                "provider": {
+                    "@type": "HealthAndBeautyBusiness",
+                    "name": "YogIntra",
+                    "url": "{{ url('/') }}"
+                },
+                "serviceType": "Yoga Teacher Training",
+                "areaServed": {
+                    "@type": "Country",
+                    "name": "India"
+                }
+            },
+            {
+                "@type": "Service",
+                "position": {{ count($rand_service) + 2 }},
+                "name": "Yoga Retreat Programs",
+                "url": "{{ route('retreat.all') }}",
+                "image": "{{ asset('assets/icon-thumb4-150x150.jpg') }}",
+                "provider": {
+                    "@type": "HealthAndBeautyBusiness",
+                    "name": "YogIntra",
+                    "url": "{{ url('/') }}"
+                },
+                "serviceType": "Yoga Retreat",
+                "areaServed": {
+                    "@type": "Country",
+                    "name": "India"
+                }
+            },
+            {
+                "@type": "Service",
+                "position": {{ count($rand_service) + 3 }},
+                "name": "Yoga Workshops",
+                "url": "{{ route('workshop') }}",
+                "image": "{{ asset('assets/icon-thumb1-150x150.webp') }}",
+                "provider": {
+                    "@type": "HealthAndBeautyBusiness",
+                    "name": "YogIntra",
+                    "url": "{{ url('/') }}"
+                },
+                "serviceType": "Yoga Workshop",
+                "areaServed": {
+                    "@type": "Country",
+                    "name": "India"
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Organization Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "YogIntra",
+        "url": "{{ url('/') }}",
+        "logo": "{{ asset('assets/og-logo.webp') }}",
+        "description": "Premier Yoga Institute in India offering comprehensive yoga training, personal sessions, teacher training courses, and wellness programs",
+        "foundingDate": "2018",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-9867291573",
+            "contactType": "customer service",
+            "areaServed": "IN",
+            "availableLanguage": ["English", "Hindi"]
+        },
+        "sameAs": [
+            "https://www.facebook.com/yogintra",
+            "https://www.instagram.com/yogintra",
+            "https://www.twitter.com/yogintra"
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Mumbai",
+            "addressRegion": "Maharashtra",
+            "addressCountry": "IN"
+        }
+    }
+    </script>
 @endpush
