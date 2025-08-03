@@ -14,7 +14,7 @@
     <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
 
     <!-- Dynamic Meta Tags -->
-    <link rel="canonical" href="{{ url(strtolower(request()->path())) }}" />
+    <link rel="canonical" href="{{ str_replace('/amp', '', url(strtolower(request()->path()))) }}" />
     <title>@yield('meta_title', $app_setting->app_meta_title ?? 'YogIntra')</title>
     <meta name="description" content="@yield('meta_description', $app_setting->app_meta_description ?? 'Yogintra')">
     <meta name="keywords" content="@yield('meta_keywords', $app_setting->app_keywords ?? 'Yogintra')">
@@ -31,9 +31,6 @@
 
     <meta name="author" content="YogIntra" />
 
-    <!-- AMP HTML Canonical Link -->
-    <link rel="amphtml" href="{{ url()->current() }}/amp">
-    
     <!-- FAVICON -->
     <link href="{{ asset($app_setting->fevicon ?? 'favicon.ico') }}" rel="shortcut icon" type="image/png">
 
