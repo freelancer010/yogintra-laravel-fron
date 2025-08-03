@@ -83,7 +83,7 @@
                 <p>We may update this privacy policy from time to time in order to reflect, for example, changes to our practices or for other operational, legal or regulatory reasons.</p>
 
                 <p><strong>CONTACT US</strong></p>
-                <p>For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at <strong>support@yogintra.com</strong> or by mail:</p>
+                <p>For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at <strong>support&#64;yogintra&#46;com</strong> or by mail:</p>
                 <p><strong>D-408 Shivlila Apt Mumbra devi colony road Diva East Thane-400612, India.</strong></p>
 
               </div>

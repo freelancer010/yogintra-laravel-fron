@@ -156,7 +156,7 @@
         "description": "Yogintra - Your Trusted Source for Yoga Training and Wellness",
         "priceRange": "₹₹",
         "telephone": "+91-9867291573",
-        "email": "support@yogintra.com",
+        "email": "{{ str_replace('@', '&#64;', str_replace('.', '&#46;', 'support@yogintra.com')) }}",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "",

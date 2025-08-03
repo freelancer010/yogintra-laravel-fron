@@ -158,7 +158,7 @@
         
         <div style="text-align: center; margin-top: 30px;">
             <p><strong>Call Us:</strong> <a href="tel:+919867291573">+91-9867291573</a></p>
-            <p><strong>Email:</strong> <a href="mailto:support@yogintra.com">support@yogintra.com</a></p>
+            <p><strong>Email:</strong> <a href="mailto:support&#64;yogintra&#46;com">support&#64;yogintra&#46;com</a></p>
         </div>
     </div>
 </section>

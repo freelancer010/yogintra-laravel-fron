@@ -1,6 +1,12 @@
 @extends('layouts.layout')
 
-@section('meta_title', 'Refund Policy | YogIntra')
+@section('meta_title', 'Refund Policy |                <p>If you've done all of this and you still have not received your refund yet, please contact us at support&#64;yogintra&#46;com.</p>
+
+                <p><strong>Sale items (if applicable)</strong></p>
+                <p>Only regular priced items may be refunded, unfortunately sale items cannot be refunded.</p>
+
+                <p><strong>Exchanges (if applicable)</strong></p>
+                <p>We only replace items if they are defective or damaged. If you need to exchange it for the same item, send us an email at support&#64;yogintra&#46;com and send your item to: D-408 Shivlila Apt Mumbra devi colony road Diva East Thane-400612, India.</p>ra')
 @section('meta_description', 'Transform your mind and body with YogIntra, the leading Yoga Institute in India. At YogIntra, we offer online classes and personalized home visits tailored just for you.')
 @section('meta_keywords', 'Refund Policy, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai, Yoga Teacher Training Courses.')
 @section('meta_author', 'YogIntra')

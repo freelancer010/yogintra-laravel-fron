@@ -63,7 +63,7 @@
                             </li>
                             <li class="m-0 pl-10 pr-10"> 
                                 <i class="fa fa-envelope-o text-theme-colored mr-5"></i> 
-                                <a class="text-gray" href="mailto:support@yogintra.com">support@yogintra.com</a> 
+                                <a class="text-gray" href="mailto:support&#64;yogintra&#46;com">support&#64;yogintra&#46;com</a> 
                             </li>
                         </ul>
                     </div>

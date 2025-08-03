@@ -67,7 +67,7 @@
                 <p><strong>Disclaimer</strong></p>
                 <p>To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to our website and the use of this website.</p>
 
-                <p>For more information, please contact us at <strong>support@yogintra.com</strong> or mail us at:</p>
+                <p>For more information, please contact us at <strong>support&#64;yogintra&#46;com</strong> or mail us at:</p>
                 <p><strong>D-408 Shivlila Apt Mumbra devi colony road Diva East Thane-400612, India.</strong></p>
               </div>
             </div>

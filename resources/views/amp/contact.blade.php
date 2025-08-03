@@ -27,7 +27,7 @@
             
             <div class="amp-card">
                 <h3>✉️ Email Us</h3>
-                <p><strong>Email:</strong> <a href="mailto:support@yogintra.com">support@yogintra.com</a></p>
+                <p><strong>Email:</strong> <a href="mailto:support&#64;yogintra&#46;com">support&#64;yogintra&#46;com</a></p>
                 <p>We respond within 24 hours</p>
             </div>
             
