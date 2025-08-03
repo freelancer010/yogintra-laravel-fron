@@ -336,7 +336,7 @@
         <div class="container">
             <nav class="amp-nav">
                 <div class="amp-logo">
-                    <amp-img src="{{ asset($app_setting->logo ?? 'assets/logo.png') }}" 
+                    <amp-img src="{{ asset($app_setting->logo ?? 'uploads/6501ab36d6f70Rectrangular-logo-2.png') }}" 
                              alt="YogIntra Logo" 
                              width="200" 
                              height="60" 

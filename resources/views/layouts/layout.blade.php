@@ -652,8 +652,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Get form elements
-            const form = document.querySelector('#multi-step-form');
+            // Get form elements - only target the form inside the popup
+            const form = document.querySelector('#messagePopup #multi-step-form');
+            if (!form) return; // Exit if form is not in popup
+            
             const steps = form.querySelectorAll('.form-step');
             const progressBar = form.querySelector('.progress-bar');
             const stepIndicators = form.querySelectorAll('.step-indicators .step');
@@ -679,7 +681,7 @@
                 });
             }
 
-            // Next button handler
+            // Next button handler - only for popup form
             form.querySelectorAll('.next-step').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -691,11 +693,46 @@
                     let isValid = true;
                     
                     inputs.forEach(input => {
-                        if(!input.value) {
+                        // Remove previous validation classes
+                        input.classList.remove('is-invalid');
+                        const feedback = input.parentNode.querySelector('.invalid-feedback');
+                        if(feedback) feedback.remove();
+                        
+                        if(!input.value.trim()) {
                             input.classList.add('is-invalid');
                             isValid = false;
-                        } else {
-                            input.classList.remove('is-invalid');
+                            
+                            // Add error message
+                            const errorDiv = document.createElement('div');
+                            errorDiv.className = 'invalid-feedback';
+                            errorDiv.textContent = 'This field is required.';
+                            input.parentNode.appendChild(errorDiv);
+                        } else if(input.type === 'email') {
+                            // Email validation
+                            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                            if(!emailRegex.test(input.value)) {
+                                input.classList.add('is-invalid');
+                                isValid = false;
+                                
+                                // Add error message
+                                const errorDiv = document.createElement('div');
+                                errorDiv.className = 'invalid-feedback';
+                                errorDiv.textContent = 'Please enter a valid email address.';
+                                input.parentNode.appendChild(errorDiv);
+                            }
+                        } else if(input.type === 'number' && input.name === 'number') {
+                            // Phone validation
+                            const phoneRegex = /^\d{8,15}$/;
+                            if(!phoneRegex.test(input.value)) {
+                                input.classList.add('is-invalid');
+                                isValid = false;
+                                
+                                // Add error message
+                                const errorDiv = document.createElement('div');
+                                errorDiv.className = 'invalid-feedback';
+                                errorDiv.textContent = 'Enter a valid phone number (8–15 digits).';
+                                input.parentNode.appendChild(errorDiv);
+                            }
                         }
                     });
 
@@ -705,7 +742,7 @@
                 });
             });
 
-            // Previous button handler
+            // Previous button handler - only for popup form
             form.querySelectorAll('.prev-step').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -716,6 +753,54 @@
             });
 
             // Note: Form submission is handled in multi-step-form.blade.php
+            
+            // Add real-time email validation - only for popup form
+            const emailInput = form.querySelector('input[type="email"]');
+            if(emailInput) {
+                emailInput.addEventListener('input', function() {
+                    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                    const feedback = this.parentNode.querySelector('.invalid-feedback');
+                    
+                    // Remove previous validation
+                    this.classList.remove('is-invalid');
+                    if(feedback) feedback.remove();
+                    
+                    // Clean the input - remove unwanted characters
+                    let value = this.value.replace(/[^a-zA-Z0-9.@_-]/g, '');
+                    this.value = value;
+                    
+                    // Validate if not empty
+                    if(value && !emailRegex.test(value)) {
+                        this.classList.add('is-invalid');
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback';
+                        errorDiv.textContent = 'Please enter a valid email address.';
+                        this.parentNode.appendChild(errorDiv);
+                    }
+                });
+            }
+            
+            // Add real-time phone validation - only for popup form
+            const phoneInput = form.querySelector('input[name="number"]');
+            if(phoneInput) {
+                phoneInput.addEventListener('input', function() {
+                    const phoneRegex = /^\d{8,15}$/;
+                    const feedback = this.parentNode.querySelector('.invalid-feedback');
+                    
+                    // Remove previous validation
+                    this.classList.remove('is-invalid');
+                    if(feedback) feedback.remove();
+                    
+                    // Validate if not empty
+                    if(this.value && !phoneRegex.test(this.value)) {
+                        this.classList.add('is-invalid');
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback';
+                        errorDiv.textContent = 'Enter a valid phone number (8–15 digits).';
+                        this.parentNode.appendChild(errorDiv);
+                    }
+                });
+            }
         });
         document.addEventListener('DOMContentLoaded', function() {
             // Show tooltip after a short delay

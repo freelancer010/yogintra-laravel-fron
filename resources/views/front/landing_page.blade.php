@@ -474,17 +474,6 @@
     </div>
 </section>
 
-<!-- Section: Enquiry Form -->
-<section class="bg-lighter">
-    <div class="container pt-50 pb-50">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <x-multi-step-form form-type="landing" :source="$page_data->page_slug" />
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Section: About -->
 <section>
     <div class="container" style="padding-top: 30px !important;padding-bottom: 30px!important;">
