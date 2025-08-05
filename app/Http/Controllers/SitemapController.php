@@ -115,7 +115,7 @@ class SitemapController extends Controller
         $xml = view('sitemap.xml', compact('urls'))->render();
         file_put_contents(public_path('sitemap.xml'), $xml);
 
-        return response()->json(['message' => 'Sitemap generated successfully!']);
+        return redirect()->back()->with('success', 'Sitemap generated successfully!');
     }
 
     private function formatUrl($loc, $priority = '0.80', $lastmod = null)

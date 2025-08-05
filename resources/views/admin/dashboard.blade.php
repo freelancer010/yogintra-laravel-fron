@@ -78,9 +78,22 @@
                   </a>
                </div>
             </div>
+         </div>
 
-            <div class="col-lg-3 col-6">
-               <a href="{{ route('sitemap.generate') }}" class="btn btn-success">Generate Sitemap</a>
+         <div class="row mt-3">
+            <div class="col-12">
+               <div class="card">
+                  <div class="card-header">
+                     <h3 class="card-title">Site Management</h3>
+                  </div>
+                  <div class="card-body">
+                     <a href="{{ route('sitemap.generate') }}" class="btn btn-success">
+                        <i class="fas fa-sitemap"></i> Generate Sitemap
+                     </a>
+                     <small class="text-muted ml-2">Click to regenerate the XML sitemap for search engines</small>
+                  </div>
+               </div>
+            </div>
          </div>
       </div>
    </section>
