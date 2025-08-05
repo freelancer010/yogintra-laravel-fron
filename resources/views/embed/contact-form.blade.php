@@ -355,13 +355,30 @@
     }
 </style>
 
+<!-- Section: inner-header -->
+<section class="inner-header divider parallax layer-overlay overlay-dark-7" style="background-image: url('{{ asset('assets/front/images/bg/bg6.jpg') }}'); background-position: 50% 45px; height: 300px;">
+  <div class="container pt-60 pb-60">
+    <div class="section-content">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h1 class="title text-white">Enquire Yogintra</h1>
+          <ol class="breadcrumb text-center mt-10">
+            <li class="text-white"><a class="text-white" href="{{ url('/') }}">Home</a></li>
+            <li class="active text-gray">Contact</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Section: Contact Form -->
 <section class="py-5">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8 col-md-10 col-sm-12">
-        <div class="embedded-form">
-            <h1 class="text-center mb-4" style="color: #6c1c45; font-size: 36px; font-weight: 700;">Enquire Form</h1>
+        <div class="">
+            <h4 class="form-heading" style="color: #6c1c45; font-size: 28px; font-weight: 700; margin-bottom: 20px;">Enquire Now</h4>
             @php
                 // Ensure source is set properly for embedded form
                 $formSource = $source ?? request('source', 'Embedded Form');
