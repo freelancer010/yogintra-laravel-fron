@@ -147,7 +147,7 @@
                                             
                                             @if ($slider->slider_btn_name && $slider->slider_btn_link)
                                                 <a style="background: #e07f00 !important" class="btn btn-theme-colored btn-flat mt-15 high-contrast-btn"
-                                                href="#">
+                                                href="{{ $slider->slider_btn_link }}">
                                                     {{ $slider->slider_btn_name }}
                                                 </a>
                                             @endif
