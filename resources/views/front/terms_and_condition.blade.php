@@ -13,7 +13,7 @@
     <div class="section-content">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h2 class="title text-white">Terms and Conditions</h2>
+          <h1 class="title text-white">Terms and Conditions</h1>
           <ol class="breadcrumb text-center mt-10">
             <li class="text-white"><a class="text-white" href="{{ url('/') }}">Home</a></li>
             <li class="active text-gray">Terms and Conditions</li>
@@ -33,7 +33,7 @@
           <article class="post clearfix mb-30 bg-lighter">
             <div class="entry-content border-1px p-20 pr-10">
               <div class="entry-meta media mt-0 no-bg no-border">
-                <h1 class="text-center">Terms and Conditions</h1>
+                <h2 class="text-center">Terms and Conditions</h2>
 
                 <p>Welcome to YogIntra. These terms and conditions outline the rules and regulations for the use of YogIntra’s Website, located at https://www.yogintra.com.</p>
 
