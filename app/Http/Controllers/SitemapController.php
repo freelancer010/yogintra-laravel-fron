@@ -74,7 +74,7 @@ class SitemapController extends Controller
         // Service URLs (from `service_slug`)
         $services = DB::table('service')->select('service_slug')->get();
         foreach ($services as $service) {
-            $urls[] = $this->formatUrl(url('/service/' . $service->service_slug), '0.80');
+            $urls[] = $this->formatUrl(url('/service-details/' . $service->service_slug), '0.80');
             // Add AMP version of service pages
             $urls[] = $this->formatUrl(url('/amp/service/' . $service->service_slug), '0.80');
         }
