@@ -1,8 +1,8 @@
 @extends('layouts.layout')
 
-@section('meta_title', 'Enquiry Form - YogIntra')
+@section('meta_title', 'Enquiry - YogIntra')
 @section('meta_description', 'Transform your mind and body with YogIntra, the leading Yoga Institute in India. Contact us for online classes and personalized home visits.')
-@section('meta_keywords', 'Contact Form, Enquiry Form, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai, Yoga Teacher Training Courses.')
+@section('meta_keywords', 'Contact Form, Enquiry, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai, Yoga Teacher Training Courses.')
 @section('meta_author', 'YogIntra')
 
 @section('content')
@@ -27,7 +27,7 @@
         position: relative;
     }
     .embedded-form {
-        max-width: 800px;
+        max-width: 600px;
         width: 100%;
         margin: 0 auto;
         background: #fff;
@@ -361,7 +361,7 @@
     <div class="section-content">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h2 class="title text-white">Contact Us</h2>
+          <h1 class="title text-white">Enquire Yogintra</h1>
           <ol class="breadcrumb text-center mt-10">
             <li class="text-white"><a class="text-white" href="{{ url('/') }}">Home</a></li>
             <li class="active text-gray">Contact</li>
@@ -373,10 +373,10 @@
 </section>
 
 <!-- Section: Contact Form -->
-<section>
+<section class="py-5">
   <div class="container">
-    <div class="row">
-      <div class="col-md-12">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10 col-sm-12">
         <div class="embedded-form">
             <h4 class="form-heading" style="color: #6c1c45; font-size: 28px; font-weight: 700; margin-bottom: 20px;">Enquire Now</h4>
             @php
