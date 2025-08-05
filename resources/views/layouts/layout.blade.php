@@ -625,6 +625,32 @@
             background-size: 1em;
             padding-right: 40px;
         }
+
+        /* Success message styling */
+        #messagePopup .success-message {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        #messagePopup .success-icon {
+            font-size: 60px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        #messagePopup .success-message h4 {
+            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        #messagePopup .success-message p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0;
+        }
     </style>
 
     <div id="messageIcon">
@@ -752,7 +778,76 @@
                 });
             });
 
-            // Note: Form submission is handled in multi-step-form.blade.php
+            // Note: Form submission is handled here for popup form
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate final step
+                const finalStep = form.querySelector('.form-step.active');
+                const inputs = finalStep.querySelectorAll('input[required], select[required], textarea[required]');
+                let isValid = true;
+                
+                inputs.forEach(input => {
+                    input.classList.remove('is-invalid');
+                    const feedback = input.parentNode.querySelector('.invalid-feedback');
+                    if(feedback) feedback.remove();
+                    
+                    if(!input.value.trim()) {
+                        input.classList.add('is-invalid');
+                        isValid = false;
+                        
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback';
+                        errorDiv.textContent = 'This field is required.';
+                        input.parentNode.appendChild(errorDiv);
+                    }
+                });
+
+                if(!isValid) return;
+
+                // Get submit button
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Submitting...';
+
+                // Prepare form data
+                const formData = new FormData(form);
+                formData.set('form_type', 'embed');
+
+                // Submit via AJAX
+                fetch('{{ route("form.submit") }}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    showSuccessInPopup(data.message);
+                    
+                    // Reset form and close after 3 seconds
+                    setTimeout(() => {
+                        form.reset();
+                        showStep(1);
+                        toggleMessagePopup();
+                    }, 3000);
+                    // if(data.success) {
+                    //     // Show success message in popup
+                    // } else {
+                    //     alert('Something went wrong. Please try again.');
+                    // }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Network error. Please check your connection and try again.');
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                });
+            });
             
             // Add real-time email validation - only for popup form
             const emailInput = form.querySelector('input[type="email"]');

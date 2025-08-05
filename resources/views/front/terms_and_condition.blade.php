@@ -33,7 +33,7 @@
           <article class="post clearfix mb-30 bg-lighter">
             <div class="entry-content border-1px p-20 pr-10">
               <div class="entry-meta media mt-0 no-bg no-border">
-                <h2 class="text-center">Terms and Conditions</h2>
+                <h1 class="text-center">Terms and Conditions</h1>
 
                 <p>Welcome to YogIntra. These terms and conditions outline the rules and regulations for the use of YogIntra’s Website, located at https://www.yogintra.com.</p>
 
