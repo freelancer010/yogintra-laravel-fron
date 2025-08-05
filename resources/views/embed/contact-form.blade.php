@@ -385,20 +385,6 @@
             @endphp
             <x-multi-step-form :source="$formSource" />
         </div>
-        <div class="success-message-container" style="display: none;">
-            <div class="success-message-box">
-                <div class="success-checkmark">
-                    <div class="check-icon">
-                        <span class="icon-line line-tip"></span>
-                        <span class="icon-line line-long"></span>
-                        <div class="icon-circle"></div>
-                        <div class="icon-fix"></div>
-                    </div>
-                </div>
-                <h4 class="success-title">Thank You!</h4>
-                <p class="success-text">Your enquiry has been submitted successfully. We'll get back to you soon.</p>
-            </div>
-        </div>
       </div>
     </div>
   </div>
