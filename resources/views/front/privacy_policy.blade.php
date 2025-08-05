@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('meta_title', 'Privacy Policy | YogIntra')
-@section('meta_description', 'Transform your mind and body with YogIntra, the premier Yoga Institute in India. YogIntra offer online classes and personal home visits to suit your needs.')
+@section('meta_description', 'Elevate your mind and body with YogIntra the Best Yoga Institute In India, providing Online and personal home visit Yoga.')
 @section('meta_keywords', 'Privacy Policy, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai, Yoga Teacher Training Courses.')
 @section('meta_author', 'YogIntra')
 
@@ -13,7 +13,7 @@
     <div class="section-content">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h2 class="title text-white">Privacy Policy</h2>
+          <h1 class="title text-white">Privacy Policy</h1>
           <ol class="breadcrumb text-center mt-10">
             <li class="text-white"><a class="text-white" href="{{ url('/') }}">Home</a></li>
             <li class="active text-gray">Privacy Policy</li>

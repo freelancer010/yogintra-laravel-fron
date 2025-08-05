@@ -146,7 +146,7 @@
                                             </h3>
                                             
                                             @if ($slider->slider_btn_name && $slider->slider_btn_link)
-                                                <a style="background: #e07f00 !important" class="open-message-popup btn btn-theme-colored btn-flat mt-15 high-contrast-btn"
+                                                <a style="background: #e07f00 !important" class="btn btn-theme-colored btn-flat mt-15 high-contrast-btn"
                                                 href="#">
                                                     {{ $slider->slider_btn_name }}
                                                 </a>

@@ -13,7 +13,7 @@
     <div class="section-content">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h2 class="title text-white">Refund Policy</h2>
+          <h1 class="title text-white">Refund Policy</h1>
           <ol class="breadcrumb text-center mt-10">
             <li class="text-white"><a class="text-white" href="{{ url('/') }}">Home</a></li>
             <li class="active text-gray">Refund Policy</li>
