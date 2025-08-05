@@ -1,9 +1,6 @@
 @extends('layouts.layout')
 
-@section('meta_title', 'Priv                     <p>FACEBOOK – <a href="https://www.facebook.com/settings/?tab=ads" target="_blank" rel="noopener noreferrer">https://www.facebook.com/settings/?tab=ads</a></p>
-                <p>GOOGLE – <a href="https://www.google.com/settings/ads/anonymous" target="_blank" rel="noopener noreferrer">https://www.google.com/settings/ads/anonymous</a></p>
-                <p>BING – <a href="https://advertise.bingads.microsoft.com/en-us/resources/policies/personalized-ads" target="_blank" rel="noopener noreferrer">https://advertise.bingads.microsoft.com/en-us/resources/policies/personalized-ads</a></p>
-                <p>Additionally, you can opt out of some of these services by visiting the Digital Advertising Alliance's opt-out portal at: <a href="http://optout.aboutads.info/" target="_blank" rel="noopener noreferrer">http://optout.aboutads.info/</a>.</p>       <p>As described above, we use your Personal Information to provide you with targeted advertisements or marketing communications we believe may be of interest to you. For more information about how targeted advertising works, you can visit the Network Advertising Initiative's ("NAI") educational page at <a href="http://www.networkadvertising.org/understanding-online-advertising/how-does-it-work" target="_blank" rel="noopener noreferrer">http://www.networkadvertising.org/understanding-online-advertising/how-does-it-work</a>.</p>cy Policy | YogIntra')
+@section('meta_title', 'Privacy Policy | YogIntra')
 @section('meta_description', 'Transform your mind and body with YogIntra, the premier Yoga Institute in India. YogIntra offer online classes and personal home visits to suit your needs.')
 @section('meta_keywords', 'Privacy Policy, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai, Yoga Teacher Training Courses.')
 @section('meta_author', 'YogIntra')
