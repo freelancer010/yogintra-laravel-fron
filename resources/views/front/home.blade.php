@@ -60,6 +60,51 @@
             width: 100%;
             }
         }
+        
+        /* iPad specific fixes */
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+            .section_1 .benefit-icon .icon{
+                background: transparent
+            }
+            #home {
+                min-height: auto !important;
+                height: 39vh !important;
+            }
+            .section-content {
+                padding: 30px 0 !important;
+            }
+            .container {
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+            .pt-70, .pb-70 {
+                padding-top: 40px !important;
+                padding-bottom: 40px !important;
+            }
+            .section-title {
+                margin-bottom: 30px !important;
+            }
+            .mb-50 {
+                margin-bottom: 30px !important;
+            }
+            .mt-30 {
+                margin-top: 20px !important;
+            }
+            .yoga-service-item {
+                margin-bottom: 20px !important;
+            }
+            .types-of-yoga-section {
+                padding: 40px 0 !important;
+            }
+            .py-70 {
+                padding-top: 40px !important;
+                padding-bottom: 40px !important;
+            }
+            .review-section {
+                padding: 30px 0 !important;
+            }
+        }
+        
         .margin-tp{
             margin-top:40px;
         }
@@ -289,7 +334,7 @@
                             <div class="col-lg-3 col-md-4 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <div class="yoga-service-item text-center">
                                     <img class="img-circle img-thumbnail mb-20" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
-                                    <h2 class="mb-15 fs-16">TTC (Teacher Training Course)</h2>
+                                    <h2 class="mb-15 fs-16">TTC</h2>
                                     <a href="{{ route('ttc') }}" class="btn btn-success">Visit Now</a>
                                 </div>
                             </div>

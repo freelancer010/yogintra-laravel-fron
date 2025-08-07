@@ -8,6 +8,7 @@ class OurServiceImage extends Model
 {
     protected $table = 'our_service_image';
     protected $primaryKey = 'os_image_id';
+    public $timestamps = false; // Disable automatic timestamps
     
     protected $fillable = [
         'os_image_heading',
