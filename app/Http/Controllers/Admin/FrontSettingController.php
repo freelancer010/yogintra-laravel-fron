@@ -31,10 +31,10 @@ class FrontSettingController extends Controller
     public function updateServiceImage(Request $request)
     {
         $request->validate([
-            'os_image_heading' => 'required|string',
+            'os_image_heading'     => 'required|string',
             'os_image_sub_heading' => 'nullable|string',
             'os_image_description' => 'nullable|string',
-            'os_image_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5000'
+            'os_image_image'       => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5000'
         ]);
 
         $image = OurServiceImage::first();
