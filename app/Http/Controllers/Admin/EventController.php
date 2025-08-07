@@ -278,7 +278,7 @@ class EventController extends Controller
         $data = [
             "key" => $key_id,
             "amount" => $razorpayOrder['amount'],
-            "name" => $order_id,
+            "name" => "YogIntra",
             "description" => "Event Registration",
             "image" => asset('uploads/logo.png'),
             "prefill" => [
