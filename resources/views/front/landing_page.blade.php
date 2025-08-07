@@ -7,6 +7,70 @@
 
 @push('styles')
 <style>
+    #home {
+        min-height: 100vh;
+        height: 80vh;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+    
+    #home::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1));
+        z-index: 1;
+    }
+    
+    #home .display-table {
+        position: relative;
+        z-index: 2;
+    }
+    
+    @media (max-width: 767px) {
+        #home {
+            min-height: 70vh;
+        }
+        .home-content {
+            text-align: center !important;
+        }
+    }
+    
+    @media (min-width: 768px) {
+        #home {
+            position: relative;
+        }
+        .display-table {
+            height: 100vh;
+        }
+        .display-table-cell {
+            position: relative !important;
+            vertical-align: middle;
+        }
+        .home-content {
+            text-align: right !important;
+            float: right !important;
+            width: 45% !important;
+            margin-right: 8% !important;
+            clear: both;
+        }
+        .home-content h1,
+        .home-content h5 {
+            text-align: right !important;
+            word-wrap: break-word;
+            line-height: 1.2;
+        }
+        .home-content h1 {
+            max-width: 100% !important;
+            white-space: normal !important;
+        }
+    }
+    
     .yoga-section {
         padding: 30px 0;
     }
@@ -447,14 +511,14 @@
 
 @section('content')
 <!-- Section: home -->
-<section id="home" class="divider parallax layer-overlay overlay-white-8est"
+<section id="home" class="divider parallax"
     data-bg-img="{{ asset($page_data->page_image) }}">
     <div class="display-table">
         <div class="display-table-cell">
             <div class="container pt-100 pb-100">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="home-content text-center">
+                        <div class="home-content">
                             {{-- Uncomment if you want to show the logo --}}
                             {{-- <div>
                                 <img src="{{ asset($app_setting->app_sticky_logo) }}" alt="Logo">
@@ -462,11 +526,12 @@
                             <h1 class="text-white text-uppercase font-54">
                                 {{ $page_data->page_image_title }}
                             </h1>
-                            <h5 class="text-white font-weight-400">
+                            <h5 class="text-white font-weight-400" style="margin-top: 20px;">
                                 {{ $page_data->page_image_description }}
                             </h5>
                             {{-- <a class="btn btn-colored btn-theme-colored btn-flat smooth-scroll-to-target mt-15" href="#donate-now">Donate Now</a> --}}
                         </div>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
