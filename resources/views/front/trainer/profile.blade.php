@@ -46,8 +46,8 @@
             <div class="col-md-8">
               <div class="profile-content">
                 <div class="profile-header">
-                  <h1 class="trainer-name">{{ $trainer['name'] }}</h1>
                   <p class="trainer-subtitle">Professional Yoga Instructor</p>
+                  <h1 class="trainer-name">{{ $trainer['name'] }}</h1>
                 </div>
                 
                 <div class="profile-stats">
@@ -58,8 +58,8 @@
                           <i class="fa fa-birthday-cake"></i>
                         </div>
                         <div class="stat-content">
-                          <span class="stat-value">{{ $age }}</span>
                           <span class="stat-label">Years Old</span>
+                          <span class="stat-value">{{ $age }}</span>
                         </div>
                       </div>
                     </div>
@@ -70,8 +70,8 @@
                           <i class="fa fa-briefcase"></i>
                         </div>
                         <div class="stat-content">
-                          <span class="stat-value">{{ $trainer['experience'] }}</span>
                           <span class="stat-label">Experience</span>
+                          <span class="stat-value">{{ $trainer['experience'] }}</span>
                         </div>
                       </div>
                     </div>
@@ -82,8 +82,8 @@
                           <i class="fa fa-graduation-cap"></i>
                         </div>
                         <div class="stat-content">
-                          <span class="stat-value">Certified</span>
                           <span class="stat-label">Education</span>
+                          <span class="stat-value">Certified</span>
                         </div>
                       </div>
                     </div>
@@ -94,8 +94,8 @@
                           <i class="fa fa-map-marker"></i>
                         </div>
                         <div class="stat-content">
-                          <span class="stat-value">{{ $trainer['city'] }}</span>
                           <span class="stat-label">{{ $trainer['state'] }}</span>
+                          <span class="stat-value">{{ $trainer['city'] }}</span>
                         </div>
                       </div>
                     </div>
@@ -244,17 +244,17 @@
   }
 
   .trainer-name {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 10px;
-  }
-
-  .trainer-subtitle {
     font-size: 1.1rem;
     color: #6c757d;
     font-weight: 500;
     margin: 0;
+  }
+
+  .trainer-subtitle {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 10px;
   }
 
   /* Profile Stats */
@@ -294,18 +294,19 @@
 
   .stat-value {
     display: block;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #2c3e50;
-    line-height: 1.2;
-    margin-bottom: 2px;
-  }
-
-  .stat-label {
     font-size: 0.85rem;
     color: #6c757d;
     font-weight: 500;
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+
+  .stat-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
     display: block;
+    margin-bottom: 2px;
   }
 
   /* Detail Cards */
@@ -515,7 +516,7 @@
 
   /* Responsive Design */
   @media (max-width: 768px) {
-    .trainer-name {
+    .trainer-subtitle {
       font-size: 2rem;
       text-align: center;
     }

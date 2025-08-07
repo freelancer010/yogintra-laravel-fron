@@ -42,14 +42,14 @@
         $age = $currentYear - $birthYear;
       @endphp
       <div class="col-xs-12 col-sm-6 col-md-3 sm-text-center mb-30 mb-sm-30">
-        <div class="team-members text-center maxwidth400">
+        <div class="team-members text-center maxwidth400" onclick="window.location.href='{{ route('trainer.show', $trainer['id']) }}'" style="cursor: pointer;">
           <div class="team-thumb">
             <img class="img-fullwidth" id="imageresource_{{ $i }}" style="height: 200px; width: auto" alt="YogIntra" src="{{ $api }}/{{ $trainer['profile_image'] }}">
           </div>
           <div class="team-details">
             <div class="p-10" style="background-color: #01AEB7;">
               <h4 class="team-title text-uppercase mt-0 mb-0">
-                <a href="{{ route('trainer.show', $trainer['id']) }}"> {{ $trainer['name'] }} </a>
+                <span style="color: white;">{{ $trainer['name'] }}</span>
               </h4>
               <p class="team-subtitle mt-0 mb-0">Age - {{ $age }}</p>
             </div>
@@ -94,6 +94,111 @@
 
 @push('styles')
 <style>
+  /* Trainer Card Animations */
+  .team-members {
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+
+  .team-members:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .team-thumb {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .team-thumb img {
+    transition: transform 0.3s ease;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .team-members:hover .team-thumb img {
+    transform: scale(1.1);
+  }
+
+  .team-details {
+    transition: all 0.3s ease;
+  }
+
+  .team-details .p-10 {
+    transition: background-color 0.3s ease;
+  }
+
+  .team-members:hover .team-details .p-10 {
+    background-color: #009aa3 !important;
+  }
+
+  .team-title span {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .team-members:hover .team-title span {
+    color: #f0f0f0;
+  }
+
+  .team-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  /* Add a subtle glow effect */
+  .team-members::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .team-members:hover::before {
+    opacity: 1;
+  }
+
+  /* Animation for the entire card container */
+  .col-xs-12.col-sm-6.col-md-3 {
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .col-xs-12.col-sm-6.col-md-3:nth-child(1) { animation-delay: 0.1s; }
+  .col-xs-12.col-sm-6.col-md-3:nth-child(2) { animation-delay: 0.2s; }
+  .col-xs-12.col-sm-6.col-md-3:nth-child(3) { animation-delay: 0.3s; }
+  .col-xs-12.col-sm-6.col-md-3:nth-child(4) { animation-delay: 0.4s; }
+  .col-xs-12.col-sm-6.col-md-3:nth-child(5) { animation-delay: 0.5s; }
+  .col-xs-12.col-sm-6.col-md-3:nth-child(6) { animation-delay: 0.6s; }
+  .col-xs-12.col-sm-6.col-md-3:nth-child(7) { animation-delay: 0.7s; }
+  .col-xs-12.col-sm-6.col-md-3:nth-child(8) { animation-delay: 0.8s; }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .team-members:hover {
+      transform: translateY(-5px);
+    }
+  }
+
   @media (min-width: 768px) {
     .modal-dialog {
       width: 400px;
