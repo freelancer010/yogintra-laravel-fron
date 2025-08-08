@@ -35,6 +35,12 @@
     @media (max-width: 767px) {
         #home {
             min-height: 70vh;
+            background-position: 30% center !important;
+            background-size: cover !important;
+            background-attachment: scroll !important;
+        }
+        #home::before {
+            background: rgba(0, 0, 0, 0.7) !important;
         }
         .home-content {
             text-align: center !important;
