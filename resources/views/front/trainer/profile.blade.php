@@ -166,7 +166,7 @@
           <p class="cta-subtitle">Book a session with {{ $trainer['name'] }} and transform your wellness routine</p>
           
           <div class="cta-buttons">
-            <a href="{{ url('/contact') }}" class="btn btn-primary btn-book">
+            <a href="{{ url('/embed/contact-form/Website') }}" class="btn btn-primary btn-book">
               <i class="fa fa-calendar-check-o"></i> 
               <span>Book a Session</span>
             </a>
