@@ -322,24 +322,24 @@
                     <div class="section-content">
                         <div class="row justify-content-center">
                             @foreach ($rand_service as $r_service)
-                                <div class="col-lg-3 col-md-4 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <div class="yoga-service-item text-center">
-                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" height="150" width="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
+                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
                                         <h2 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h2>
                                         <a href="{{ url('service/' . $r_service->service_cat_slug) }}" class="btn btn-success">Book Now</a>
                                     </div>
                                 </div>
                             @endforeach
 
-                            <div class="col-lg-3 col-md-4 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                            <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <div class="yoga-service-item text-center">
-                                    <img class="img-circle img-thumbnail mb-20" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
+                                    <img class="img-circle img-thumbnail mb-20" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
                                     <h2 class="mb-15 fs-16">TTC</h2>
                                     <a href="{{ route('ttc') }}" class="btn btn-success">Visit Now</a>
                                 </div>
                             </div>
 
-                            <div class="col-lg-3 col-md-4 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                            <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <div class="yoga-service-item text-center">
                                     <img class="img-circle img-thumbnail mb-20" src="{{ asset('assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs">
                                     <h2 class="mb-15 fs-16">Retreat</h2>
@@ -347,7 +347,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-3 col-md-4 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                            <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <div class="yoga-service-item text-center">
                                     <img class="img-circle img-thumbnail mb-20" src="{{ asset('assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops">
                                     <h2 class="mb-15 fs-16">Workshop</h2>
@@ -355,7 +355,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-3 col-md-4 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                            <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                 <div class="yoga-service-item text-center">
                                     <img class="img-circle img-thumbnail mb-20" src="{{ asset('uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility">
                                     <h2 class="mb-15 fs-16">Yoga Center</h2>
