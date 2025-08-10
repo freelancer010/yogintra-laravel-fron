@@ -8,6 +8,7 @@ class OurService extends Model
 {
     protected $table = 'our_service';
     protected $primaryKey = 'os_id';
+    public $timestamps = false; // Disable automatic timestamps
     
     protected $fillable = [
         'os_heading',
