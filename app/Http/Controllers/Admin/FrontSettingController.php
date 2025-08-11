@@ -59,7 +59,7 @@ class FrontSettingController extends Controller
     {
         $request->validate([
             'os_heading' => 'required|string',
-            'os_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5000'
+            'os_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5000'
         ]);
 
         $service = new OurService();
@@ -85,7 +85,7 @@ class FrontSettingController extends Controller
     {
         $request->validate([
             'os_heading' => 'required|string',
-            'os_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5000'
+            'os_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5000'
         ]);
 
         $service = OurService::findOrFail($id);
