@@ -66,8 +66,10 @@ class FrontSettingController extends Controller
         $service->os_heading = $request->os_heading;
 
         if ($request->hasFile('os_image')) {
-            $path = $request->file('os_image')->store('uploads', 'public');
-            $service->os_image = 'storage/' . $path;
+            $image = $request->file('os_image');
+            $filename = 'uploads/' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads'), basename($filename));
+            $service->os_image = $filename;
         }
 
         $service->save();
@@ -95,8 +97,10 @@ class FrontSettingController extends Controller
             if ($service->os_image && file_exists(public_path($service->os_image))) {
                 unlink(public_path($service->os_image));
             }
-            $path = $request->file('os_image')->store('uploads', 'public');
-            $service->os_image = 'storage/' . $path;
+            $image = $request->file('os_image');
+            $filename = 'uploads/' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads'), basename($filename));
+            $service->os_image = $filename;
         }
 
         $service->save();
