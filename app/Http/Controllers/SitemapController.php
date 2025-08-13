@@ -44,71 +44,40 @@ class SitemapController extends Controller
             $urls[] = $this->formatUrl(url($url));
         }
 
-        // Add AMP versions of static pages
-        $ampStaticUrls = [
-            '/amp',
-            '/amp/about',
-            '/amp/contact',
-            '/amp/gallery',
-            '/amp/trainers',
-            '/amp/blog',
-            '/amp/retreat',
-            '/amp/workshop',
-            '/amp/teacher-training-course',
-            '/amp/yoga-center',
-            '/amp/become-yoga-trainer',
-        ];
-
-        foreach ($ampStaticUrls as $url) {
-            $urls[] = $this->formatUrl(url($url), '0.75');
-        }
-
         // Blog URLs (from `blog_slug`)
         $blogs = DB::table('blog')->where('status', 1)->select('blog_slug', 'created_at')->get();
         foreach ($blogs as $blog) {
             $urls[] = $this->formatUrl(url('/blog/' . $blog->blog_slug), '0.64', $blog->created_at);
-            // Add AMP version of blog posts
-            $urls[] = $this->formatUrl(url('/amp/blog/' . $blog->blog_slug), '0.64', $blog->created_at);
         }
 
         // Service URLs (from `service_slug`)
         $services = DB::table('service')->select('service_slug')->get();
         foreach ($services as $service) {
             $urls[] = $this->formatUrl(url('/service-details/' . $service->service_slug), '0.80');
-            // Add AMP version of service pages
-            $urls[] = $this->formatUrl(url('/amp/service/' . $service->service_slug), '0.80');
         }
 
         // Landing Pages (from `page_slug`)
         $cities = DB::table('new_landing_page')->select('page_slug')->get();
         foreach ($cities as $city) {
             $urls[] = $this->formatUrl(url('/city/' . $city->page_slug), '0.80');
-            // Add AMP version of city pages
-            $urls[] = $this->formatUrl(url('/city/' . $city->page_slug . '/amp'), '0.80');
         }
 
         // Workshop Pages (from `event`)
         $workshops = Event::where('category', 'Workshop')->where('status', 'On')->orderByDesc('id')->get();
         foreach ($workshops as $workshop) {
             $urls[] = $this->formatUrl(url('/workshop/' . $workshop->link), '0.80');
-            // Add AMP version of workshop pages
-            $urls[] = $this->formatUrl(url('/amp/workshop/' . $workshop->link), '0.80');
         }
 
         // TTC Pages (from `event`)
         $ttcEvents = Event::where('category', 'TTC')->where('status', 'On')->orderByDesc('id')->get();
         foreach ($ttcEvents as $ttc) {
             $urls[] = $this->formatUrl(url('/teacher-training-course/' . $ttc->link), '0.80');
-            // Add AMP version of TTC pages
-            $urls[] = $this->formatUrl(url('/amp/teacher-training-course/' . $ttc->link), '0.80');
         }
 
         // Retreat Pages (from `event`)
         $retreats = Event::where('category', 'Retreat')->where('status', 'On')->orderByDesc('id')->get();
         foreach ($retreats as $retreat) {
             $urls[] = $this->formatUrl(url('/Retreat/' . $retreat->link), '0.80');
-            // Add AMP version of retreat pages
-            $urls[] = $this->formatUrl(url('/amp/retreat/' . $retreat->link), '0.80');
         }
 
         // Render and save
