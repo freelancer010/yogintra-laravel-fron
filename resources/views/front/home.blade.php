@@ -191,6 +191,16 @@
             padding: 5px 17px !important;
             height: auto !important;
         }
+
+        @media (max-width: 1124px) {
+            .col-lg-ipad {
+                width: 100% !important;
+            }
+        }
+
+        .sub-heading {
+            font-size: 20px;
+        }
   </style>
 @endpush
 @section('content')
@@ -272,11 +282,11 @@
         <div class="container">
             <div class="section-title text-center">
                 <div class="row">
-                    <div class="col-md-7 col-md-offset-5">
+                    <div class="col-md-8 col-md-offset-5">
                         <h1 class="text-uppercase line-bottom-double-line-centered mt-0 cst-font">
                             {{ $section_1->of_heading }}
                         </h1>
-                        <span>{{ $section_1->of_sub_heading }}</span>
+                        <span class="sub-heading">{{ $section_1->of_sub_heading }}</span>
                     </div>
                 </div>
             </div>
@@ -321,7 +331,7 @@
                         <img src="{{ asset($section_2->os_image_image) }}" width="349" height="348" loading="lazy" decoding="async" alt="YogIntra Services - {{ $section_2->os_image_heading }}">
                     </div>
                     <div class="col-md-6">
-                        <h5 class="section-3 mb-0">{{ $section_2->os_image_sub_heading }}</h5>
+                        <h5 class="section-3 mb-0 sub-heading">{{ $section_2->os_image_sub_heading }}</h5>
                         <div class="fs-50 ssc-ttl m-fs-25">{{ $section_2->os_image_heading }}</div>
                         <div>
                             <p class="text-black">{!! $section_2->os_image_description !!}</p>
@@ -356,7 +366,7 @@
                     </div>
                     <div class="section-content">
                         <div class="row justify-content-center">
-                            <div class="col-md-8">
+                            <div class="col-md-8 col-lg-ipad">
                                 @foreach ($rand_service as $r_service)
                                     <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                         <div class="yoga-service-item text-center">
