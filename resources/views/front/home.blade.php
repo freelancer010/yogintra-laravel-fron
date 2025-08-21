@@ -282,7 +282,7 @@
         <div class="container">
             <div class="section-title text-center">
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-5">
+                    <div class="col-md-7 col-md-offset-5">
                         <h1 class="text-uppercase line-bottom-double-line-centered mt-0 cst-font">
                             {{ $section_1->of_heading }}
                         </h1>
