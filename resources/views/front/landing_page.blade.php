@@ -594,21 +594,21 @@
 
         <div class="col-sm-4 text-center">
           <div class="">
-            <img loading="lazy" src="{{ asset('uploads/6503db8d98529icon-1.png') }}" alt="Alternative Medicines">
+            <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines">
           </div>
           <h2 style="font-size: 16px">Alternative Medicines</h2>
         </div>
 
         <div class="col-sm-4 text-center">
           <div class="">
-            <img loading="lazy" src="{{ asset('uploads/6503dbc7b2fc5icon-2.png') }}" alt="For Good Health">
+            <img loading="lazy" src="{{ asset('assets/front/images/6503dbc7b2fc5icon-2.png') }}" alt="For Good Health">
           </div>
           <h2 style="font-size: 16px">For Good Health</h2>
         </div>
 
         <div class="col-sm-4 text-center">
           <div class="">
-            <img loading="lazy" src="{{ asset('uploads/6503dbe5edf47icon-3.png') }}" alt="Healthy Mind &amp; Body">
+            <img loading="lazy" src="{{ asset('assets/front/images/6503dbe5edf47icon-3.png') }}" alt="Healthy Mind &amp; Body">
           </div>
           <h2 style="font-size: 16px">Healthy Mind &amp; Body</h2>
         </div>
@@ -659,7 +659,7 @@
             <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
                 <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
                     <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
-                        <img loading="lazy" src="{{ asset($content_1->of_image) }}" width="75" height="75" loading="lazy" alt="{{ $content_1->of_heading }}" decoding="async">
+                        <img loading="lazy" src="{{ asset($content_1->of_image) }}" width="75" height="75" alt="{{ $content_1->of_heading }}" decoding="async">
                     </a>
                     <div class="media-body">
                         <h3 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h3>
@@ -775,9 +775,7 @@
                         <span>CEO & Founder of Yogintra</span>
                     </div>
                     <figure class="image-1">
-                        <a href="#" class="lightbox-image" data-fancybox="images">
-                            <img loading="lazy" title="Amit Pandey" src="{{ asset('assets/image0-1-e1652675710448-povumdsa83b7dajv3gfs2377ei7o24wz5y0tn7sz34.webp') }}" alt="CEO & Founder of Yogintra Amit Pandey">
-                        </a>
+                        <img loading="lazy" title="Amit Pandey" src="{{ asset('assets/image0-1-e1652675710448-povumdsa83b7dajv3gfs2377ei7o24wz5y0tn7sz34.webp') }}" alt="CEO & Founder of Yogintra Amit Pandey" class="lightbox-image" data-fancybox="images">
                     </figure>
                 </div>
             </div>
@@ -876,8 +874,8 @@
 <section class="review-section">
     <div class="container">
         <div class="row">
-            <div class='sk-ww-google-reviews' data-embed-id='25389280'></div>
-            <script data-src='https://widgets.sociablekit.com/google-reviews-old/widget.js' async defer></script>
+            <div class="sk-ww-google-reviews" data-embed-id="25389280"></div>
+            <script src="https://widgets.sociablekit.com/google-reviews-old/widget.js" async defer></script>
         </div>
     </div>
 </section>
