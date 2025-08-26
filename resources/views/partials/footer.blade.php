@@ -1,4 +1,4 @@
-<footer id="footer" class="footer bg-black-111" style="background-color:#000!important;">
+<footer id="footer" class="footer bg-black-000">
     <div class="container pt-40 pb-0">
         <div class="row border-bottom-black">
             <div class="col-sm-6 col-md-3">
@@ -95,7 +95,7 @@
     </div>
 
     <!-- Copyright & Policies -->
-    <div class="footer-bottom bg-black-222">
+    <div class="footer-bottom bg-black-000">
         <div class="container pt-12 pb-0">
             <div class="row">
                 <div class="col-md-6">

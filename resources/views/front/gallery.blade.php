@@ -11,6 +11,44 @@
     .styled-icons .fa {
         line-height: 2.5;
     }
+
+    .gallery-item {
+        transition: transform 0.3s ease-in-out;
+        overflow: hidden;
+    }
+
+    .gallery-item:hover {
+        transform: scale(1.03);
+    }
+
+    .gallery-item .thumb {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .gallery-item .thumb img {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .gallery-item:hover .thumb img {
+        transform: scale(1.1);
+    }
+
+    .gallery-item .overlay-shade {
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .gallery-item .icons-holder {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .gallery-item:hover .overlay-shade {
+        opacity: 0.8;
+    }
+
+    .gallery-item:hover .icons-holder {
+        opacity: 1;
+    }
 </style>
 @endpush
 

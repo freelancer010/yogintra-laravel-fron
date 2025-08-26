@@ -9,6 +9,7 @@
 <!-- Start main-content -->
 <div class="main-content">
   <section class="inner-header image-sec divider parallax text-center responsive-image-margin">
+    <h1 class="text-light mb-5">{{ $event->title }}</h1>
     <img class="w-50" src="{{ asset($event->image) }}" />
   </section>
   
@@ -61,7 +62,7 @@
           </div>
         </div>
       </div>      
-            <div class="row">
+      <div class="row">
         <div class="col-md-12">
           <div class="form_booking">
             <form id="booking-form" class="mb-0" name="booking-form" action="#" method="post" enctype="multipart/form-data">

@@ -39,6 +39,10 @@
         .service-heading {
             font-size: 16px;
         }
+
+        .bg-black-000 {
+            background-color: #000 !important;
+        }
         @media screen and (min-width: 1000px) and (max-width: 1200px) {
         .cst-font{
             font-size:28px !important;
@@ -109,7 +113,7 @@
             }
             #home {
                 min-height: auto !important;
-                height: 39vh !important;
+                height: 550px !important;
             }
             .section-content {
                 padding: 30px 0 !important;

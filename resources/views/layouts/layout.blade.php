@@ -651,6 +651,12 @@
             line-height: 1.5;
             margin: 0;
         }
+
+        .btn-warning {
+            color: #fff;
+            background-color: #de8200 !important;
+            border-color: #de8200 !important;
+        }
     </style>
 
     <div id="messageIcon">
