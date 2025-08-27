@@ -9,8 +9,8 @@
 <!-- Start main-content -->
 <div class="main-content">
   <section class="inner-header image-sec divider parallax text-center responsive-image-margin">
-    <h1 class="text-light mb-5">{{ $event->title }}</h1>
     <img class="w-50" src="{{ asset($event->image) }}" />
+    <h1 class="text-light mb-5">{{ $event->title }}</h1>
   </section>
   
   <section>

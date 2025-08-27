@@ -73,7 +73,7 @@
     </div>
 
     <!-- City Locate Section -->
-    <div class="footer-bottom" style="background-color: black;">
+    <div class="footer-bottom">
         <div class="container pt-0 pb-10">
             <div class="row">
                 <div class="col-md-12">
@@ -99,17 +99,17 @@
         <div class="container pt-12 pb-0">
             <div class="row">
                 <div class="col-md-6">
-                    <p class="font-13 text-black-777 m-0 text-center pb-10">
+                    <p class="font-13 text-white m-0 text-center pb-10">
                         Copyright &copy;{{ date('Y') }} YogIntra. All Rights Reserved
                     </p>
                 </div>
                 <div class="col-md-6 text-center text-sm-right">
                     <ul>
-                        <li style="display:inline-block" class="pr-10"><a href="{{ url('terms-and-condition') }}">Terms & Condition</a></li>
+                        <li style="display:inline-block" class="pr-10"><a class="text-white" href="{{ url('terms-and-condition') }}">Terms & Condition</a></li>
                         <li style="display:inline-block" class="pr-10">|</li>
-                        <li style="display:inline-block" class="pr-10"><a href="{{ url('refund-policy') }}">Refund Policy</a></li>
+                        <li style="display:inline-block" class="pr-10"><a class="text-white" href="{{ url('refund-policy') }}">Refund Policy</a></li>
                         <li style="display:inline-block" class="pr-10">|</li>
-                        <li style="display:inline-block" class="pr-10"><a href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
+                        <li style="display:inline-block" class="pr-10"><a class="text-white" href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>

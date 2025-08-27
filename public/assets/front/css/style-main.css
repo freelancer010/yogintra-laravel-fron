@@ -10223,7 +10223,7 @@ blockquote p {
  * -----------------------------------------------
 */
 .footer {
-  background-color: #151515;
+  background-color: #000;
 }
 
 .footer a {
@@ -10252,7 +10252,7 @@ blockquote p {
 }
 
 .footer .footer-bottom {
-  background-color: #121212;
+  background-color: #000;
 }
 
 /* fixed footer */
@@ -10400,7 +10400,7 @@ body {
 a.btn,
 .btn-primary {
   border-radius: 5px !important;
-  background-color: #f5a742 !important;
+  background-color: #f5a742;
   border: none;
 }
 
@@ -10573,4 +10573,12 @@ a.btn,
   font-weight:500; 
   font-size:50px;
   color: #000;
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+.btn-primary-dark {
+  background-color: #f88c00 !important;
 }
