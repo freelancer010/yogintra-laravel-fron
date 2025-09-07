@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\File;
 
 class DiagnoseSitemap extends Command
 {
-    protected $signature = 'sitemap:diagnose';
+    protected $signature = 'sitemap:diagnose {--view : View full sitemap content}';
     protected $description = 'Diagnose sitemap generation issues and test API connection';
 
     public function handle()
@@ -35,6 +35,34 @@ class DiagnoseSitemap extends Command
             
             if ($trainerUrls === 0) {
                 $this->warn('⚠️ No trainer URLs found in the sitemap!');
+            }
+            
+            // Create XML snippet for cache
+            if (preg_match('/<urlset[^>]*>(.*?<\/url>){1,10}/s', $content, $matches)) {
+                $xmlSnippet = $matches[0] . '...';
+                // Add closing tag if we have content
+                if (!empty($xmlSnippet)) {
+                    $xmlSnippet .= "\n</urlset>";
+                }
+                
+                // Store in cache for admin dashboard
+                Cache::put('sitemap_stats', [
+                    'total_urls' => $totalUrls,
+                    'trainer_urls' => $trainerUrls,
+                    'updated_at' => now(),
+                    'file_size' => $size,
+                    'xml_snippet' => $xmlSnippet
+                ], 60 * 24); // Cache for 24 hours
+                
+                $this->line("\nXML Preview (first 10 URLs):");
+                $this->line($xmlSnippet);
+                
+                // Show full sitemap if requested
+                if ($this->option('view')) {
+                    $this->newLine();
+                    $this->info("===== Full Sitemap Content =====");
+                    $this->line($content);
+                }
             }
         } else {
             $this->error('❌ Sitemap file does not exist!');

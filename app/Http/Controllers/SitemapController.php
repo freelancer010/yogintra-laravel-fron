@@ -118,12 +118,23 @@ class SitemapController extends Controller
                 $trainerUrlCount = substr_count($sitemapContent, '/trainer/');
                 $debugMessages[] = 'Sitemap generated with ' . $urlCount . ' total URLs (' . $trainerUrlCount . ' trainer URLs)';
                 
-                // Store sitemap stats in cache for preview section
+                // Store sitemap stats and XML snippet in cache for preview section
+                // Get first 10 URLs for preview (or less if fewer exist)
+                $xmlSnippet = '';
+                if (preg_match('/<urlset[^>]*>(.*?<\/url>){1,10}/s', $sitemapContent, $matches)) {
+                    $xmlSnippet = $matches[0] . '...';
+                    // Add closing tag if we have content
+                    if (!empty($xmlSnippet)) {
+                        $xmlSnippet .= "\n</urlset>";
+                    }
+                }
+                
                 \Cache::put('sitemap_stats', [
                     'total_urls' => $urlCount,
                     'trainer_urls' => $trainerUrlCount,
                     'updated_at' => now(),
-                    'file_size' => round(strlen($sitemapContent) / 1024, 2) . ' KB'
+                    'file_size' => round(strlen($sitemapContent) / 1024, 2) . ' KB',
+                    'xml_snippet' => $xmlSnippet
                 ], 60 * 24); // Cache for 24 hours
             } else {
                 $debugMessages[] = 'ERROR: Sitemap file was not created!';

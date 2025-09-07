@@ -80,12 +80,28 @@ If issues persist in production but work fine in local environment:
    - Check if the production environment has all required PHP extensions
    - Ensure CURL is enabled: `php -m | grep curl`
 
+## Viewing Sitemap Content
+
+You can now view the sitemap content in several ways:
+
+1. **Admin Dashboard**
+   - Go to the admin dashboard
+   - Under the "Generate Sitemap" button, you'll see a new XML Preview section
+   - Click the "XML Preview" button to toggle the collapsible preview
+   - A full XML view is also available below the statistics card
+
+2. **Command Line**
+   - Use `php artisan sitemap:view` to see the sitemap with pretty formatting
+   - Use `php artisan sitemap:view --format=raw` to see the raw XML
+   - Use `php artisan sitemap:diagnose --view` to see both diagnostic info and full sitemap
+
 ## Command Reference
 
 | Command | Description |
 |---------|-------------|
 | `php artisan sitemap:generate` | Generate the sitemap via command line |
 | `php artisan sitemap:diagnose` | Run diagnostic tests on the sitemap and API |
+| `php artisan sitemap:view` | View the sitemap content with pretty formatting |
 | `php scripts/refresh-sitemap.sh` | Clear all caches and generate sitemap |
 | `php scripts/test-api-connection.php` | Test the trainer API connection |
 
