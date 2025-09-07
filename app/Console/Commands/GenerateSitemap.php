@@ -33,11 +33,11 @@ class GenerateSitemap extends Command
         }
 
         // Dynamic blogs
-        $blogs = Blog::where('blog_status', 1)->get();
+        $blogs = Blog::where('status', 1)->get();
         foreach ($blogs as $blog) {
             $sitemap->add(
                 Url::create("/blog/{$blog->blog_slug}")
-                    ->setLastModificationDate(Carbon::parse($blog->updated_at))
+                    ->setLastModificationDate(Carbon::parse($blog->created_at))
             );
         }
 
@@ -67,7 +67,7 @@ class GenerateSitemap extends Command
     {
         try {
             // Use the same API endpoint as HomeController
-            $api = env('API_URL', 'https://api.yogintra.com/api');
+            $api = 'https://crm.yogintra.com/api';
             $data = ['data' => ''];
 
             $ch = curl_init();
@@ -94,6 +94,7 @@ class GenerateSitemap extends Command
                 return $trainers;
             }
             
+            $this->info('No trainers found or invalid response format');
             return [];
         } catch (\Exception $e) {
             $this->error('Error fetching trainers: ' . $e->getMessage());
