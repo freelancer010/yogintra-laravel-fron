@@ -8,12 +8,14 @@
 @push('styles')
 <style>
     #home {
-        min-height: 100vh;
-        height: 80vh;
+        min-height: 50vh;
+        height: auto;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        background-attachment: fixed;
         position: relative;
+        padding: 100px 0;
     }
     
     #home::before {
@@ -34,10 +36,11 @@
     
     @media (max-width: 767px) {
         #home {
-            min-height: 70vh;
+            min-height: 50vh;
             background-position: 30% center !important;
             background-size: cover !important;
             background-attachment: scroll !important;
+            padding: 80px 0 !important;
         }
         #home::before {
             background: rgba(0, 0, 0, 0.7) !important;
@@ -50,13 +53,16 @@
     @media (min-width: 768px) {
         #home {
             position: relative;
+            padding: 120px 0;
         }
         .display-table {
-            height: 100vh;
+            height: auto;
+            display: block;
         }
         .display-table-cell {
             position: relative !important;
             vertical-align: middle;
+            display: block;
         }
         .home-content {
             text-align: right !important;
