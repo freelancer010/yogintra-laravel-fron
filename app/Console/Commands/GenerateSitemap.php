@@ -41,9 +41,63 @@ class GenerateSitemap extends Command
             );
         }
 
+        // Dynamic trainer profiles
+        $trainers = $this->getAllTrainers();
+        foreach ($trainers as $trainer) {
+            if (isset($trainer['id'])) {
+                $sitemap->add(
+                    Url::create("/trainer/{$trainer['id']}")
+                        ->setLastModificationDate(now())
+                );
+            }
+        }
+
         // Save to public path
         $sitemap->writeToFile(public_path('sitemap.xml'));
 
         $this->info('Sitemap generated successfully.');
+    }
+
+    /**
+     * Fetch all trainers from the API
+     *
+     * @return array
+     */
+    private function getAllTrainers()
+    {
+        try {
+            // Use the same API endpoint as HomeController
+            $api = env('API_URL', 'https://api.yogintra.com/api');
+            $data = ['data' => ''];
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $api . '/getTrainerSearchData');
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+
+            $response = curl_exec($ch);
+
+            if (curl_errno($ch)) {
+                $this->error('cURL Error: ' . curl_error($ch));
+                curl_close($ch);
+                return [];
+            }
+
+            curl_close($ch);
+
+            $trainers = json_decode($response, true);
+            
+            if (is_array($trainers)) {
+                $this->info('Found ' . count($trainers) . ' trainers for sitemap');
+                return $trainers;
+            }
+            
+            return [];
+        } catch (\Exception $e) {
+            $this->error('Error fetching trainers: ' . $e->getMessage());
+            return [];
+        }
     }
 }
