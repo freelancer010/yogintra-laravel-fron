@@ -87,10 +87,120 @@
                      <h3 class="card-title">Site Management</h3>
                   </div>
                   <div class="card-body">
-                     <a href="{{ route('sitemap.generate') }}" class="btn btn-success">
-                        <i class="fas fa-sitemap"></i> Generate Sitemap
-                     </a>
-                     <small class="text-muted ml-2">Click to regenerate the XML sitemap for search engines</small>
+                     <div class="row">
+                        <div class="col-md-6">
+                           <a href="{{ route('sitemap.generate') }}" class="btn btn-success">
+                              <i class="fas fa-sitemap"></i> Generate Sitemap
+                           </a>
+                           <small class="text-muted ml-2">Click to regenerate the XML sitemap for search engines</small>
+                           
+                           @php
+                              $sitemapPath = public_path('sitemap.xml');
+                              $sitemapExists = file_exists($sitemapPath);
+                              
+                              // Try to get stats from cache first (updated when sitemap is generated)
+                              $cachedStats = \Cache::get('sitemap_stats');
+                              
+                              $sitemapStats = [
+                                 'exists' => $sitemapExists,
+                                 'size' => $sitemapExists ? round(filesize($sitemapPath) / 1024, 2) . ' KB' : '0 KB',
+                                 'modified' => $sitemapExists ? date('Y-m-d H:i:s', filemtime($sitemapPath)) : 'N/A',
+                                 'url_count' => 0,
+                                 'trainer_url_count' => 0,
+                                 'last_generation' => $cachedStats['updated_at'] ?? null
+                              ];
+                              
+                              // If we have cached stats, use those
+                              if ($cachedStats) {
+                                 $sitemapStats['url_count'] = $cachedStats['total_urls'] ?? 0;
+                                 $sitemapStats['trainer_url_count'] = $cachedStats['trainer_urls'] ?? 0;
+                                 $sitemapStats['size'] = $cachedStats['file_size'] ?? $sitemapStats['size'];
+                              } 
+                              // Otherwise read from file
+                              elseif($sitemapExists) {
+                                 $content = file_get_contents($sitemapPath);
+                                 $sitemapStats['url_count'] = substr_count($content, '<url>');
+                                 $sitemapStats['trainer_url_count'] = substr_count($content, '/trainer/');
+                              }
+                           @endphp
+                        </div>
+                        
+                        <div class="col-md-6">
+                           <div class="card bg-light">
+                              <div class="card-header">
+                                 <h3 class="card-title">Current Sitemap Info</h3>
+                                 @if($sitemapStats['exists'])
+                                    @if($sitemapStats['trainer_url_count'] > 0)
+                                       <span class="badge badge-success float-right">Healthy</span>
+                                    @else
+                                       <span class="badge badge-warning float-right">Missing Trainers</span>
+                                    @endif
+                                 @else
+                                    <span class="badge badge-danger float-right">Missing</span>
+                                 @endif
+                              </div>
+                              <div class="card-body p-0">
+                                 <table class="table table-sm">
+                                    <tr>
+                                       <td>Status:</td>
+                                       <td>
+                                          @if($sitemapStats['exists'])
+                                             <span class="badge badge-success">Available</span>
+                                          @else
+                                             <span class="badge badge-danger">Missing</span>
+                                          @endif
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>Last Updated:</td>
+                                       <td>{{ $sitemapStats['modified'] }}</td>
+                                    </tr>
+                                    <tr>
+                                       <td>Last Generated:</td>
+                                       <td>
+                                          @if($sitemapStats['last_generation'])
+                                             {{ $sitemapStats['last_generation']->diffForHumans() }}
+                                             <small class="text-muted">({{ $sitemapStats['last_generation'] }})</small>
+                                          @else
+                                             <span class="text-muted">Unknown</span>
+                                          @endif
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>Size:</td>
+                                       <td>{{ $sitemapStats['size'] }}</td>
+                                    </tr>
+                                    <tr>
+                                       <td>Total URLs:</td>
+                                       <td>{{ $sitemapStats['url_count'] }}</td>
+                                    </tr>
+                                    <tr>
+                                       <td>Trainer URLs:</td>
+                                       <td>
+                                          {{ $sitemapStats['trainer_url_count'] }}
+                                          @if($sitemapStats['trainer_url_count'] == 0 && $sitemapStats['exists'])
+                                             <span class="badge badge-warning">Missing!</span>
+                                             <small class="d-block text-danger">
+                                                Trainers are missing. Try regenerating the sitemap or check the API connection.
+                                             </small>
+                                          @endif
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                              <div class="card-footer p-2">
+                                 <div class="btn-group">
+                                    <a href="{{ url('sitemap.xml') }}" target="_blank" class="btn btn-sm btn-info">
+                                       <i class="fas fa-external-link-alt"></i> View Sitemap
+                                    </a>
+                                    <a href="{{ route('sitemap.generate') }}" class="btn btn-sm btn-warning">
+                                       <i class="fas fa-sync"></i> Regenerate
+                                    </a>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                </div>
             </div>
