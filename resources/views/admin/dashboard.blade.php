@@ -88,7 +88,7 @@
                   </div>
                   <div class="card-body">
                      <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                            <a href="{{ route('sitemap.generate') }}" class="btn btn-success">
                               <i class="fas fa-sitemap"></i> Generate Sitemap
                            </a>
@@ -137,7 +137,7 @@
                            @endphp
                         </div>
                         
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                            <div class="card bg-light">
                               <div class="card-header">
                                  <h3 class="card-title">Current Sitemap Info</h3>
