@@ -48,24 +48,41 @@ class GenerateSitemap extends Command
 
         // Dynamic trainer profiles
         $trainers = $this->getAllTrainers();
-        $this->info('Processing ' . count($trainers) . ' trainers for sitemap');
         
+        $trainerCount = 0;
         foreach ($trainers as $trainer) {
             if (isset($trainer['id']) && !empty($trainer['id'])) {
-                $trainerUrl = "https://yogintra.com/trainer/{$trainer['id']}";
-                $this->info('Adding trainer URL: ' . $trainerUrl);
-                $sitemap->add(
-                    Url::create("/trainer/{$trainer['id']}")
-                        ->setLastModificationDate(now())
-                        ->setPriority(0.6)
-                );
+                try {
+                    $sitemap->add(
+                        Url::create("/trainer/{$trainer['id']}")
+                            ->setLastModificationDate(now())
+                            ->setPriority(0.6)
+                    );
+                    $trainerCount++;
+                } catch (\Exception $e) {
+                    $this->error('Error adding trainer URL /trainer/' . $trainer['id'] . ': ' . $e->getMessage());
+                }
             }
         }
+        
+        $this->info('Added ' . $trainerCount . ' trainer URLs to sitemap');
 
         // Save to public path
-        $sitemap->writeToFile(public_path('sitemap.xml'));
-
-        $this->info('Sitemap generated successfully.');
+        try {
+            $sitemap->writeToFile(public_path('sitemap.xml'));
+            
+            // Verify the file was created and get statistics
+            if (file_exists(public_path('sitemap.xml'))) {
+                $sitemapContent = file_get_contents(public_path('sitemap.xml'));
+                $urlCount = substr_count($sitemapContent, '<url>');
+                $trainerUrlCount = substr_count($sitemapContent, '/trainer/');
+                $this->info('Sitemap generated successfully with ' . $urlCount . ' total URLs (' . $trainerUrlCount . ' trainer URLs)');
+            } else {
+                $this->error('Sitemap file was not created!');
+            }
+        } catch (\Exception $e) {
+            $this->error('Error writing sitemap: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -79,8 +96,6 @@ class GenerateSitemap extends Command
             // Use the same API endpoint as HomeController
             $api = 'https://crm.yogintra.com/api';
             $data = ['data' => ''];
-
-            $this->info('Fetching trainers from: ' . $api . '/getTrainerSearchData');
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $api . '/getTrainerSearchData');
@@ -97,29 +112,16 @@ class GenerateSitemap extends Command
                 return [];
             }
 
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
-
-            $this->info('API Response HTTP Code: ' . $httpCode);
-            $this->info('API Response Length: ' . strlen($response));
 
             $trainers = json_decode($response, true);
             
             if (is_array($trainers)) {
                 $this->info('Found ' . count($trainers) . ' trainers for sitemap');
-                
-                // Debug: Show first trainer
-                if (count($trainers) > 0) {
-                    $firstTrainer = $trainers[0];
-                    $this->info('First trainer ID: ' . (isset($firstTrainer['id']) ? $firstTrainer['id'] : 'NO ID'));
-                    $this->info('First trainer keys: ' . implode(', ', array_keys($firstTrainer)));
-                }
-                
                 return $trainers;
             }
             
-            $this->error('Invalid response format - not an array');
-            $this->info('Response preview: ' . substr($response, 0, 200));
+            $this->error('Invalid response format from trainer API');
             return [];
         } catch (\Exception $e) {
             $this->error('Error fetching trainers: ' . $e->getMessage());
