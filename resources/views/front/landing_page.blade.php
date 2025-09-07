@@ -10,12 +10,13 @@
     #home {
         min-height: 50vh;
         height: auto;
-        background-size: contain;
+        background-size: cover; /* Changed from contain for better responsive behavior */
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
         position: relative;
-        padding: 100px 0;
+        padding: 80px 0; /* Reduced padding for better responsiveness */
+        overflow: hidden; /* Prevent content overflow */
     }
     
     #home::before {
@@ -25,13 +26,23 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(to left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1));
+        background: linear-gradient(to left, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)); /* Darker overlay for better text readability */
         z-index: 1;
     }
     
     #home .display-table {
         position: relative;
         z-index: 2;
+        width: 100%;
+        height: auto;
+    }
+    
+    /* Added for better text readability */
+    .home-content {
+        padding: 15px;
+        border-radius: 8px;
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(3px);
     }
     
     @media (max-width: 767px) {
@@ -80,6 +91,14 @@
         .home-content h1 {
             max-width: 100% !important;
             white-space: normal !important;
+            font-size: 2.8rem;
+            line-height: 1.2;
+        }
+        
+        .home-content h5 {
+            font-size: 1rem;
+            line-height: 1.4;
+            max-width: 100%;
         }
     }
     
@@ -104,19 +123,60 @@
     }
     
     @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        /* Tablet-specific styles */
         .w-48-desktop {
             width: 48% !important;  
         }
-      .about-section .image-column .inner-column .author-desc
-      {
+        
+        /* Fix for home section in tablet view */
+        #home {
+            min-height: 40vh !important;
+            background-size: cover !important;
+            padding: 60px 0 !important;
+            background-position: 70% center !important;
+            background-attachment: scroll !important;
+        }
+        
+        .display-table {
+            height: auto !important;
+        }
+        
+        .display-table-cell {
+            height: auto !important;
+        }
+        
+        .home-content {
+            text-align: center !important;
+            float: none !important;
+            width: 80% !important;
+            margin: 0 auto !important;
+            clear: both;
+            padding: 20px;
+            background-color: rgba(0,0,0,0.5);
+            border-radius: 10px;
+        }
+        
+        .home-content h1 {
+            font-size: 2.5rem !important;
+            text-align: center !important;
+            line-height: 1.2;
+        }
+        
+        .home-content h5 {
+            text-align: center !important;
+            margin-top: 10px !important;
+        }
+        
+        /* Fix for about section author description in tablet view */
+        .about-section .image-column .inner-column .author-desc {
             position: absolute !important;
-          bottom: 19px !important;
-          z-index: 1 !important;
-          background: orange !important;
-          padding: 5px 5px !important;
-          left: 100px !important;
-          width: 50% !important;
-          border-radius: 1 !important;
+            bottom: 19px !important;
+            z-index: 1 !important;
+            background: orange !important;
+            padding: 5px 5px !important;
+            left: 100px !important;
+            width: 50% !important;
+            border-radius: 1 !important;
         }
       }
  
@@ -539,7 +599,7 @@
                                 {{ $page_data->page_image_title }}
                             </h1>
                             <h5 class="text-white font-weight-400" style="margin-top: 20px;">
-                                {{ $page_data->page_image_description }}
+                                {{ Str::limit($page_data->page_image_description, 120) }}
                             </h5>
                             {{-- <a class="btn btn-colored btn-theme-colored btn-flat smooth-scroll-to-target mt-15" href="#donate-now">Donate Now</a> --}}
                         </div>
