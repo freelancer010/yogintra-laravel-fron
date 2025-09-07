@@ -10,7 +10,7 @@
     #home {
         min-height: 50vh;
         height: auto;
-        background-size: cover;
+        background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
