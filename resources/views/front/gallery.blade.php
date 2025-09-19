@@ -12,9 +12,36 @@
         line-height: 2.5;
     }
 
+    /* Immediate loading styles */
+    .gallery-isotope {
+        opacity: 1;
+        transition: none;
+    }
+
     .gallery-item {
         transition: transform 0.3s ease-in-out;
         overflow: hidden;
+        opacity: 1;
+        visibility: visible;
+        display: block;
+    }
+
+    /* Fast image loading */
+    .gallery-item img {
+        display: block;
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background-color: #f5f5f5;
+        transition: opacity 0.3s ease;
+    }
+
+    .gallery-item img[data-loaded="false"] {
+        opacity: 0.7;
+    }
+
+    .gallery-item img[data-loaded="true"] {
+        opacity: 1;
     }
 
     .gallery-item:hover {
@@ -48,6 +75,53 @@
 
     .gallery-item:hover .icons-holder {
         opacity: 1;
+    /* Loading placeholder for better perceived performance */
+    .gallery-item .thumb::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+        z-index: 0;
+    }
+
+    .gallery-item img[data-loaded="true"] + .thumb::before,
+    .gallery-item .thumb:has(img[data-loaded="true"])::before {
+        display: none;
+    }
+
+    @keyframes loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+
+    /* Ensure grid layout works immediately */
+    .gallery-isotope {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+        .gallery-isotope.grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (max-width: 767px) {
+        .gallery-isotope {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+    }
+
+    /* Override isotope styles when needed */
+    .gallery-isotope.isotope-enabled {
+        display: block;
     }
 </style>
 @endpush
@@ -100,7 +174,13 @@
                             <div class="gallery-item {{ $categoryClass }}">
                                 <div class="thumb">
                                     @if ($isImage)
-                                        <img style="height: 200px;" class="img-fullwidth" src="{{ asset($gallery->gallery_image) }}" alt="{{ $gallery->g_cat_name }}">
+                                        <img loading="lazy" 
+                                             style="height: 200px;" 
+                                             class="img-fullwidth gallery-img" 
+                                             src="{{ asset($gallery->gallery_image) }}" 
+                                             alt="{{ $gallery->g_cat_name }}"
+                                             data-loaded="false"
+                                             onload="this.setAttribute('data-loaded', 'true')">
                                         <div class="overlay-shade"></div>
                                         <div class="icons-holder">
                                             <div class="icons-holder-inner">
@@ -116,7 +196,13 @@
                                             $videoId = explode('?v=', $gallery->gallery_video)[1] ?? '';
                                             $videoThumbnail = "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
                                         @endphp
-                                        <img style="height: 200px;" class="img-fullwidth" src="{{ $videoThumbnail }}" alt="YouTube Video">
+                                        <img loading="lazy" 
+                                             style="height: 200px;" 
+                                             class="img-fullwidth gallery-img" 
+                                             src="{{ $videoThumbnail }}" 
+                                             alt="YouTube Video"
+                                             data-loaded="false"
+                                             onload="this.setAttribute('data-loaded', 'true')">
                                         <div class="overlay-shade"></div>
                                         <div class="icons-holder">
                                             <div class="icons-holder-inner">
@@ -144,17 +230,48 @@
     $(document).ready(function () {
         var $gallery = $(".gallery-isotope");
         var $filterLinks = $(".portfolio-filter a");
-
-        if ($gallery.length > 0) {
-            $gallery.imagesLoaded(function () {
+        
+        // Show gallery immediately without waiting for images
+        $gallery.css('opacity', '1');
+        
+        // Initialize isotope without waiting for all images
+        function initIsotope() {
+            if ($gallery.length > 0) {
                 $gallery.isotope({
                     itemSelector: '.gallery-item',
                     layoutMode: $gallery.hasClass("masonry") ? "masonry" : "fitRows",
-                    filter: "*"
+                    filter: "*",
+                    transitionDuration: '0.3s'
                 });
-            });
+            }
         }
+        
+        // Initialize immediately with CSS Grid fallback
+        initIsotope();
+        
+        // Add isotope-enabled class after initialization
+        setTimeout(function() {
+            $gallery.addClass('isotope-enabled');
+        }, 100);
+        
+        // Reinitialize after images load for better layout
+        $gallery.imagesLoaded(function () {
+            $gallery.isotope('layout');
+        });
+        
+        // Progressive image loading
+        $('.gallery-img').each(function(index) {
+            var $img = $(this);
+            var delay = Math.min(index * 50, 500); // Max 500ms delay
+            
+            setTimeout(function() {
+                if (!$img.attr('data-loaded') || $img.attr('data-loaded') === 'false') {
+                    $img.attr('data-loaded', 'true');
+                }
+            }, delay);
+        });
 
+        // Filter functionality
         $filterLinks.on("click", function (e) {
             e.preventDefault();
             $filterLinks.removeClass("active");
