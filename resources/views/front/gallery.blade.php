@@ -12,19 +12,32 @@
         line-height: 2.5;
     }
 
-    /* Immediate loading styles */
-    .gallery-isotope {
-        opacity: 1;
-        transition: none;
+    /* Gallery item animations similar to blog cards */
+    .gallery-item {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
+        overflow: hidden;
     }
 
-    .gallery-item {
-        transition: transform 0.3s ease-in-out;
-        overflow: hidden;
+    .gallery-item.animate {
         opacity: 1;
-        visibility: visible;
-        display: block;
+        transform: translateY(0);
     }
+
+    /* Stagger delay for gallery items */
+    .gallery-item:nth-child(1) { transition-delay: 0.1s; }
+    .gallery-item:nth-child(2) { transition-delay: 0.2s; }
+    .gallery-item:nth-child(3) { transition-delay: 0.3s; }
+    .gallery-item:nth-child(4) { transition-delay: 0.4s; }
+    .gallery-item:nth-child(5) { transition-delay: 0.5s; }
+    .gallery-item:nth-child(6) { transition-delay: 0.6s; }
+    .gallery-item:nth-child(7) { transition-delay: 0.7s; }
+    .gallery-item:nth-child(8) { transition-delay: 0.8s; }
+    .gallery-item:nth-child(9) { transition-delay: 0.1s; }
+    .gallery-item:nth-child(10) { transition-delay: 0.2s; }
+    .gallery-item:nth-child(11) { transition-delay: 0.3s; }
+    .gallery-item:nth-child(12) { transition-delay: 0.4s; }
 
     /* Fast image loading */
     .gallery-item img {
@@ -32,20 +45,15 @@
         width: 100%;
         height: 200px;
         object-fit: cover;
-        background-color: #f5f5f5;
-        transition: opacity 0.3s ease;
-    }
-
-    .gallery-item img[data-loaded="false"] {
-        opacity: 0.7;
-    }
-
-    .gallery-item img[data-loaded="true"] {
-        opacity: 1;
+        transition: transform 0.3s ease;
     }
 
     .gallery-item:hover {
-        transform: scale(1.03);
+        transform: scale(1.03) translateY(-5px);
+    }
+
+    .gallery-item.animate:hover {
+        transform: scale(1.03) translateY(-5px);
     }
 
     .gallery-item .thumb {
@@ -75,30 +83,6 @@
 
     .gallery-item:hover .icons-holder {
         opacity: 1;
-    /* Loading placeholder for better perceived performance */
-    .gallery-item .thumb::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 200px;
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: loading 1.5s infinite;
-        z-index: 0;
-    }
-
-    .gallery-item img[data-loaded="true"] + .thumb::before,
-    .gallery-item .thumb:has(img[data-loaded="true"])::before {
-        display: none;
-    }
-
-    @keyframes loading {
-        0% { background-position: 200% 0; }
-        100% { background-position: -200% 0; }
-    }
-
     /* Ensure grid layout works immediately */
     .gallery-isotope {
         display: grid;
@@ -174,13 +158,10 @@
                             <div class="gallery-item {{ $categoryClass }}">
                                 <div class="thumb">
                                     @if ($isImage)
-                                        <img loading="lazy" 
-                                             style="height: 200px;" 
-                                             class="img-fullwidth gallery-img" 
+                                        <img style="height: 200px;" 
+                                             class="img-fullwidth" 
                                              src="{{ asset($gallery->gallery_image) }}" 
-                                             alt="{{ $gallery->g_cat_name }}"
-                                             data-loaded="false"
-                                             onload="this.setAttribute('data-loaded', 'true')">
+                                             alt="{{ $gallery->g_cat_name }}">
                                         <div class="overlay-shade"></div>
                                         <div class="icons-holder">
                                             <div class="icons-holder-inner">
@@ -196,13 +177,10 @@
                                             $videoId = explode('?v=', $gallery->gallery_video)[1] ?? '';
                                             $videoThumbnail = "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
                                         @endphp
-                                        <img loading="lazy" 
-                                             style="height: 200px;" 
-                                             class="img-fullwidth gallery-img" 
+                                        <img style="height: 200px;" 
+                                             class="img-fullwidth" 
                                              src="{{ $videoThumbnail }}" 
-                                             alt="YouTube Video"
-                                             data-loaded="false"
-                                             onload="this.setAttribute('data-loaded', 'true')">
+                                             alt="YouTube Video">
                                         <div class="overlay-shade"></div>
                                         <div class="icons-holder">
                                             <div class="icons-holder-inner">
@@ -231,10 +209,7 @@
         var $gallery = $(".gallery-isotope");
         var $filterLinks = $(".portfolio-filter a");
         
-        // Show gallery immediately without waiting for images
-        $gallery.css('opacity', '1');
-        
-        // Initialize isotope without waiting for all images
+        // Initialize isotope
         function initIsotope() {
             if ($gallery.length > 0) {
                 $gallery.isotope({
@@ -246,31 +221,29 @@
             }
         }
         
-        // Initialize immediately with CSS Grid fallback
+        // Initialize isotope
         initIsotope();
         
-        // Add isotope-enabled class after initialization
-        setTimeout(function() {
-            $gallery.addClass('isotope-enabled');
-        }, 100);
+        // Animate gallery items when they come into view (same as blog page)
+        var galleryItems = document.querySelectorAll('.gallery-item');
         
-        // Reinitialize after images load for better layout
-        $gallery.imagesLoaded(function () {
-            $gallery.isotope('layout');
-        });
-        
-        // Progressive image loading
-        $('.gallery-img').each(function(index) {
-            var $img = $(this);
-            var delay = Math.min(index * 50, 500); // Max 500ms delay
-            
-            setTimeout(function() {
-                if (!$img.attr('data-loaded') || $img.attr('data-loaded') === 'false') {
-                    $img.attr('data-loaded', 'true');
+        function checkGalleryItems() {
+            galleryItems.forEach(function(item) {
+                var itemPosition = item.getBoundingClientRect().top;
+                var screenPosition = window.innerHeight - 50;
+                
+                if(itemPosition < screenPosition) {
+                    item.classList.add('animate');
                 }
-            }, delay);
-        });
+            });
+        }
 
+        // Check items on load
+        checkGalleryItems();
+
+        // Check items on scroll
+        window.addEventListener('scroll', checkGalleryItems);
+        
         // Filter functionality
         $filterLinks.on("click", function (e) {
             e.preventDefault();
@@ -278,7 +251,12 @@
             $(this).addClass("active");
 
             var filterValue = $(this).data("filter");
-            $gallery.isotope({ filter: filterValue });
+            $gallery.isotope({ filter: filterValue }, function() {
+                // Re-animate filtered items
+                setTimeout(function() {
+                    checkGalleryItems();
+                }, 100);
+            });
         });
     });
 </script>
