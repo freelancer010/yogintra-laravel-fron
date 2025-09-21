@@ -40,8 +40,11 @@ class GenerateSitemap extends Command
         // Dynamic blogs
         $blogs = Blog::where('status', 1)->get();
         foreach ($blogs as $blog) {
+            // Fix slug format for proper URL generation
+            $correctSlug = $this->fixBlogSlug($blog->blog_slug);
+            
             $sitemap->add(
-                Url::create("/blog/{$blog->blog_slug}")
+                Url::create("/blog/{$correctSlug}")
                     ->setLastModificationDate(Carbon::parse($blog->created_at))
             );
         }
@@ -83,6 +86,25 @@ class GenerateSitemap extends Command
         } catch (\Exception $e) {
             $this->error('Error writing sitemap: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Fix blog slug format to match expected URL pattern
+     * Converts "india-s-metros" to "indias-metros" format
+     *
+     * @param string $slug
+     * @return string
+     */
+    private function fixBlogSlug($slug)
+    {
+        // Fix apostrophe-related slug issues
+        // Convert "india-s-metros" to "indias-metros"
+        $correctedSlug = preg_replace('/([a-z])-s-([a-z])/', '$1s-$2', $slug);
+        
+        // Additional common fixes
+        $correctedSlug = str_replace('-s-', 's-', $correctedSlug);
+        
+        return $correctedSlug;
     }
 
     /**
