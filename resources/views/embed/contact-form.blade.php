@@ -75,14 +75,14 @@
         line-height: 24px;
     }
     .btn-primary {
-        background: #ffce00;
-        border-color: #ffce00;
-        color: #000;
+        background: #d16100;
+        border-color: #d16100;
+        color: #ffffff;
     }
     .btn-primary:hover {
-        background: #f5c400;
-        border-color: #f5c400;
-        color: #000;
+        background: #bf5600;
+        border-color: #bf5600;
+        color: #ffffff;
     }
     .btn-secondary {
         background: #6b7280;
@@ -90,13 +90,14 @@
         color: white;
     }
     .btn-success {
-        background: #059669;
-        border-color: #059669;
-        color: white;
+        background: #1a73e8;
+        border-color: #1a73e8;
+        color: #ffffff;
     }
     .btn-success:hover {
-        background: #047857;
-        border-color: #047857;
+        background: #1557b0;
+        border-color: #1557b0;
+        color: #ffffff;
     }
     .form-heading {
         text-align: center;

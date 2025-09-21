@@ -236,6 +236,102 @@
         .sub-heading {
             font-size: 20px;
         }
+
+        /* Enhanced Button Contrast for Accessibility */
+        .btn-success {
+            background-color: #1a73e8 !important;
+            border-color: #1a73e8 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-success:hover,
+        .btn-success:focus {
+            background-color: #1557b0 !important;
+            border-color: #1557b0 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-primary-dark {
+            background-color: #1a73e8 !important;
+            border-color: #1a73e8 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-primary-dark:hover,
+        .btn-primary-dark:focus {
+            background-color: #1557b0 !important;
+            border-color: #1557b0 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-primary {
+            background-color: #1a73e8 !important;
+            border-color: #1a73e8 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: #1557b0 !important;
+            border-color: #1557b0 !important;
+            color: #ffffff !important;
+        }
+        
+        /* Unified styling for all button-like elements */
+        .btn-theme-colored,
+        .btn-theme-custom,
+        .high-contrast-btn,
+        a.btn,
+        button.btn,
+        .btn {
+            background-color: #1a73e8 !important;
+            border-color: #1a73e8 !important;
+            color: #ffffff !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .btn-theme-colored:hover,
+        .btn-theme-custom:hover,
+        .high-contrast-btn:hover,
+        a.btn:hover,
+        button.btn:hover,
+        .btn:hover,
+        .btn-theme-colored:focus,
+        .btn-theme-custom:focus,
+        .high-contrast-btn:focus,
+        a.btn:focus,
+        button.btn:focus,
+        .btn:focus {
+            background-color: #1557b0 !important;
+            border-color: #1557b0 !important;
+            color: #ffffff !important;
+            text-decoration: none !important;
+        }
+        
+        /* Improved contrast for small buttons */
+        .btn-sm-cs {
+            font-weight: 600 !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+            background-color: #1a73e8 !important;
+            border-color: #1a73e8 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-sm-cs:hover,
+        .btn-sm-cs:focus {
+            background-color: #1557b0 !important;
+            border-color: #1557b0 !important;
+            color: #ffffff !important;
+        }
+        
+        /* Special styling for slider buttons */
+        .btn-flat {
+            border-radius: 4px !important;
+            padding: 12px 24px !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+        }
   </style>
 @endpush
 @section('content')

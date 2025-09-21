@@ -454,14 +454,14 @@
             text-decoration: none;
         }
         .btn-primary {
-            background-color: #ffd700;
-            border-color: #ffd700;
-            color: #000;
+            background-color: #d16100;
+            border-color: #d16100;
+            color: #ffffff;
         }
         .btn-primary:hover {
-            background-color: #e6c200;
-            border-color: #e6c200;
-            color: #000;
+            background-color: #bf5600;
+            border-color: #bf5600;
+            color: #ffffff;
         }
         .btn-light {
             background-color: #f8f9fa;

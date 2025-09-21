@@ -488,6 +488,49 @@
             border-color: #e6c200;
         }
 
+        /* Global Button Accessibility Improvements */
+        .btn-success {
+            background-color: #1a73e8 !important;
+            border-color: #1a73e8 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-success:hover,
+        .btn-success:focus,
+        .btn-success:active {
+            background-color: #1557b0 !important;
+            border-color: #1557b0 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-primary-dark {
+            background-color: #d16100 !important;
+            border-color: #d16100 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-primary-dark:hover,
+        .btn-primary-dark:focus,
+        .btn-primary-dark:active {
+            background-color: #bf5600 !important;
+            border-color: #bf5600 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-primary {
+            background-color: #d16100 !important;
+            border-color: #d16100 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .btn-primary:active {
+            background-color: #bf5600 !important;
+            border-color: #bf5600 !important;
+            color: #ffffff !important;
+        }
+
         @keyframes slideIn {
             from {
                 opacity: 0;
