@@ -288,7 +288,7 @@
         }
 
         .cookie-banner button {
-            background-color: #28a745;
+            background-color: #1a73e8 !important;
             border: none;
             color: white;
             padding: 8px 16px;
@@ -296,6 +296,12 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cookie-banner button:hover,
+        .cookie-banner button:focus {
+            background-color: #1557b0 !important;
         }
 
         @media (min-width: 576px) {
@@ -341,7 +347,7 @@
             position: fixed;
             bottom: 90px;
             right: 20px;
-            background-color: #ffd700;
+            background-color: #1a73e8;
             color: white;
             border-radius: 50%;
             width: 50px;
@@ -353,6 +359,11 @@
             z-index: 9999;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             animation: pulseAnimation 2s infinite;
+            transition: background-color 0.3s ease;
+        }
+
+        #messageIcon:hover {
+            background-color: #1557b0;
         }
 
         .tooltip-popup {
