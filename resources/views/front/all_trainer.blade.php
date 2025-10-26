@@ -51,7 +51,6 @@
               <h4 class="team-title text-uppercase mt-0 mb-0">
                 <span style="color: white;">{{ $trainer['name'] }}</span>
               </h4>
-              <p class="team-subtitle mt-0 mb-0">Age - {{ $age }}</p>
               <p class="team-subtitle mt-0 mb-0"><i class="fa fa-map-marker"></i> {{ $trainer['city'] }}, {{ $trainer['state'] }}</p>
             </div>
             <div class="p-20 bg-white d-none">
