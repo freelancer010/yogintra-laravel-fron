@@ -387,7 +387,7 @@ class HomeController extends Controller
                 'state' => $request->input('state', 'Maharashtra'),
                 'city' => $request->input('city', 'Mumbai'),
                 'class' => $request->input('service', 'General Inquiry'),
-                'message' => $request->input('message', ''),
+                'client-message' => $request->input('message', ''),
                 'source' => $request->input('source', 'AMP Website'),
                 'form_type' => 'amp',
                 'lead-source' => $request->input('source', 'AMP Website'),
@@ -403,11 +403,11 @@ class HomeController extends Controller
                 'state' => 'required|string',
                 'city' => 'required|string',
                 'class' => 'required|string',
-                'message' => 'required|string|max:1000',
+                'client-message' => 'required|string|max:1000',
             ]);
 
             $data = $request->only([
-                'name', 'number', 'email', 'country', 'state', 'city', 'class', 'call-from', 'call-to', 'message', 'source', 'form_type'
+                'name', 'number', 'email', 'country', 'state', 'city', 'class', 'call-from', 'call-to', 'client-message', 'source', 'form_type'
             ]);
 
             // Set lead source based on form type and source
