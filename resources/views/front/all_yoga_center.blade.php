@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
 
-                                <p>{{ \Illuminate\Support\Str::limit(strip_tags($center->center_description), 70, '...') }}</p>
+                                {{-- <p>{{ \Illuminate\Support\Str::limit(strip_tags($center->center_description), 70, '...') }}</p> --}}
                                 <div class="mt-10">
                                     <a href="{{ url('/yoga-center/' . $center->center_slug) }}" class="btn btn-dark btn-sm mt-10">Details</a>
                                 </div>

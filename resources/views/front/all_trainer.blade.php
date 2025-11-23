@@ -43,6 +43,18 @@
       @endphp
       <div class="col-xs-12 col-sm-6 col-md-3 sm-text-center mb-30 mb-sm-30">
         <div class="team-members text-center maxwidth400" onclick="window.location.href='{{ route('trainer.show', $trainer['id']) }}'" style="cursor: pointer;">
+          <!-- Copy link button (stops propagation so card still navigates when clicked elsewhere) -->
+    <button type="button"
+      class="copy-link-btn"
+      data-url="{{ route('trainer.show', $trainer['id']) }}"
+      title="Copy link"
+      aria-label="Copy trainer link"
+      onclick="event.stopPropagation();">
+            <i class="fa fa-copy" aria-hidden="true"></i>
+            <span class="copy-text" aria-hidden="true" style="display:none; margin-left:6px; font-size:13px;">Copied</span>
+            <span class="visually-hidden" aria-live="polite"></span>
+          </button>
+
           <div class="team-thumb">
             <img class="img-fullwidth" id="imageresource_{{ $i }}" style="height: 200px; width: auto" alt="YogIntra" src="{{ $api }}/{{ $trainer['profile_image'] }}">
           </div>
@@ -101,6 +113,7 @@
     overflow: hidden;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    position: relative; /* allow absolute-positioned copy button */
   }
 
   .team-members:hover {
@@ -220,7 +233,116 @@
     background-size: cover;
     background-position: center;
   }
+  /* Copy link button styles */
+  .copy-link-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #1a73e8;
+    border: none;
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 12px rgba(26,115,232,0.15);
+    cursor: pointer;
+    z-index: 6;
+    transition: background-color 0.2s ease, transform 0.12s ease;
+    font-size: 14px;
+  }
+  .copy-link-btn:hover,
+  .copy-link-btn:focus {
+    background: #1557b0;
+    transform: translateY(-2px);
+    outline: none;
+  }
+  .copy-link-btn.copied {
+    background: #34a853 !important; /* green check state */
+    box-shadow: 0 6px 12px rgba(52,168,83,0.15);
+  }
+  .copy-link-btn i { pointer-events: none; }
+  .copy-link-btn .copy-text {
+    color: #fff;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 6px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  /* small utility for screen-reader-only text */
+  .visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap; /* added line */
+  }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+  $(document).ready(function () {
+    // Copy link handler for trainer cards
+    $(document).on('click', '.copy-link-btn', function (e) {
+      e.stopPropagation(); // prevent card click navigation
+      e.preventDefault();
+      var $btn = $(this);
+      var url = $btn.data('url');
+
+      function showCopied($el) {
+        // store original content for restore
+        var origHtml = $el.data('orig') || $el.html();
+        $el.data('orig', origHtml);
+
+        // build the temporary HTML (check + Copied text + aria-live)
+        var tempHtml = '<i class="fa fa-check" aria-hidden="true"></i>' +
+                       '<span class="copy-text">Copied</span>' +
+                       '<span class="visually-hidden" aria-live="polite">Copied</span>';
+
+        // show temporary feedback
+        $el.addClass('copied');
+        $el.html(tempHtml);
+
+        // revert after delay
+        setTimeout(function () {
+          $el.removeClass('copied');
+          // restore original inner HTML
+          var original = $el.data('orig') || origHtml;
+          $el.html(original);
+        }, 1800);
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(url).then(function () {
+          showCopied($btn);
+        }).catch(function () {
+          // fallback
+          fallbackCopy(url, $btn);
+        });
+      } else {
+        fallbackCopy(url, $btn);
+      }
+
+      function fallbackCopy(text, $el) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(text).select();
+        try {
+          document.execCommand("copy");
+          showCopied($el);
+        } catch (err) {
+          // final fallback: open a prompt
+          window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+        }
+        $temp.remove();
+      }
+    });
+  });
+</script>
 @endpush
 
 @push('scripts')
