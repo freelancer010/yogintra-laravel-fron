@@ -906,33 +906,69 @@
                 const formData = new FormData(form);
                 formData.set('form_type', 'embed');
 
-                // Submit via AJAX
+                // Submit via AJAX (robust error handling)
+                // Clear previous form-level errors
+                (function clearFormError(){
+                    const prev = form.querySelector('.form-error');
+                    if(prev) prev.remove();
+                })();
+
                 fetch('{{ route("form.submit") }}', {
                     method: 'POST',
                     body: formData,
+                    credentials: 'same-origin',
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
                     }
                 })
-                .then(response => response.json())
+                .then(async response => {
+                    const text = await response.text().catch(() => '');
+                    // If response not OK, surface status and any returned text
+                    if (!response.ok) {
+                        if (response.status === 419) {
+                            throw new Error('Session expired or CSRF token missing. Please reload the page and try again.');
+                        }
+                        const snippet = text ? (text.length > 500 ? text.substring(0, 500) + '...' : text) : response.statusText;
+                        throw new Error('Server error ' + response.status + ': ' + snippet);
+                    }
+
+                    // Ensure JSON
+                    const contentType = response.headers.get('content-type') || '';
+                    if (!contentType.includes('application/json')) {
+                        const snippet = text ? (text.length > 500 ? text.substring(0, 500) + '...' : text) : contentType;
+                        throw new Error('Expected JSON response but got: ' + snippet);
+                    }
+
+                    // Parse JSON
+                    try {
+                        return JSON.parse(text);
+                    } catch (err) {
+                        throw new Error('Invalid JSON response from server.');
+                    }
+                })
                 .then(data => {
-                    showSuccessInPopup(data.message);
-                    
+                    // Success path
+                    showSuccessInPopup(data.message || 'Submitted successfully.');
                     // Reset form and close after 3 seconds
                     setTimeout(() => {
                         form.reset();
                         showStep(1);
                         toggleMessagePopup();
                     }, 3000);
-                    // if(data.success) {
-                    //     // Show success message in popup
-                    // } else {
-                    //     alert('Something went wrong. Please try again.');
-                    // }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('Network error. Please check your connection and try again.');
+                    console.error('Form submit error:', error);
+                    // Show friendly error message inside the popup near the form
+                    const errMsg = error && error.message ? error.message : 'Submission failed. Please try again.';
+                    let errDiv = form.querySelector('.form-error');
+                    if (!errDiv) {
+                        errDiv = document.createElement('div');
+                        errDiv.className = 'form-error alert alert-danger';
+                        errDiv.style.marginBottom = '15px';
+                        form.insertBefore(errDiv, form.firstChild);
+                    }
+                    errDiv.textContent = errMsg;
                 })
                 .finally(() => {
                     submitBtn.disabled = false;

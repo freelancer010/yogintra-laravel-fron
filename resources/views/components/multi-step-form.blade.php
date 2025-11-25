@@ -79,7 +79,7 @@
         </div>
         <div class="form-group">
             <label for="message">Message:</label>
-            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+            <textarea class="form-control" id="message" name="client-message" rows="4" required></textarea>
         </div>
         <div class="form-buttons d-flex justify-content-end gap-2 mt-3">
             <button type="button" class="btn btn-light prev-step">Back</button>
