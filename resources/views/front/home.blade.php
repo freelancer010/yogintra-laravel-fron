@@ -113,7 +113,7 @@
             }
             #home {
                 min-height: auto !important;
-                height: 550px !important;
+                height: 450px !important;
             }
             .section-content {
                 padding: 30px 0 !important;
