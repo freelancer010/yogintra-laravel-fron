@@ -186,8 +186,8 @@
     color: #dc3545;
   }
 
-  /* Visual uppercase only for name, country, state, city inputs */
-  #name, #country, #state, #city {
+  /* Visual uppercase only for name, country, state, city, and certification inputs */
+  #name, #country, #state, #city, #certification {
     text-transform: uppercase;
   }
   
@@ -298,7 +298,7 @@ $(document).ready(function () {
     eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
     $('#dob').attr('max', eighteenYearsAgo.toISOString().split('T')[0]);
 
-    // Transform to uppercase only for name, country, state, city inputs (on input and keyup)
+    // Transform to uppercase only for name, country, state, city and certification inputs (on input and keyup)
     function transformToUppercaseElement(el) {
       const caret = el.selectionStart;
       const val = $(el).val();
@@ -308,7 +308,7 @@ $(document).ready(function () {
     }
 
     // Apply on both input and keyup so uppercase transformation happens as user types
-    $(document).on('input keyup', '#name, #country, #state, #city', function() {
+    $(document).on('input keyup', '#name, #country, #state, #city, #certification', function() {
       transformToUppercaseElement(this);
     });
 

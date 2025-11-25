@@ -680,6 +680,15 @@
             padding-right: 40px;
         }
 
+        /* Uppercase display for specific popup inputs */
+        #messagePopup #name,
+        #messagePopup #country,
+        #messagePopup #state,
+        #messagePopup #city,
+        #messagePopup #certification {
+            text-transform: uppercase;
+        }
+
         /* Success message styling */
         #messagePopup .success-message {
             text-align: center;
@@ -766,6 +775,28 @@
                     }
                 });
             }
+
+            // Uppercase transform for specific popup inputs
+            function transformToUppercaseElement(el) {
+                try {
+                    const caret = el.selectionStart;
+                    const val = el.value || '';
+                    const newVal = val.toUpperCase();
+                    el.value = newVal;
+                    try { el.setSelectionRange(caret, caret); } catch (e) {}
+                } catch (e) {
+                    // ignore if element doesn't support selectionRange
+                    el.value = (el.value || '').toUpperCase();
+                }
+            }
+
+            ['#name', '#country', '#state', '#city', '#certification'].forEach(function(selector) {
+                const input = form.querySelector(selector);
+                if (input) {
+                    input.addEventListener('input', function() { transformToUppercaseElement(this); });
+                    input.addEventListener('keyup', function() { transformToUppercaseElement(this); });
+                }
+            });
 
             // Next button handler - only for popup form
             form.querySelectorAll('.next-step').forEach(button => {
