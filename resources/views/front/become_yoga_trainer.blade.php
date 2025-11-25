@@ -115,25 +115,19 @@
               <div class="form-step" id="step-3">
                 <h4 class="mb-4">Location Details</h4>
                 <div class="form-group">
-                  <label for="country">Select Country: <span class="text-danger">*</span></label>
-                  <select class="form-control" id="country" name="country" required>
-                    <option value="">Select Country</option>
-                  </select>
-                  <div class="invalid-feedback">Please select your country.</div>
+                  <label for="country">Country: <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="country" name="country" required placeholder="Country">
+                  <div class="invalid-feedback">Please enter your country.</div>
                 </div>
                 <div class="form-group">
-                  <label for="state">Select State: <span class="text-danger">*</span></label>
-                  <select class="form-control" id="state" name="state" required>
-                    <option value="">Select State</option>
-                  </select>
-                  <div class="invalid-feedback">Please select your state.</div>
+                  <label for="state">State: <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="state" name="state" required placeholder="State">
+                  <div class="invalid-feedback">Please enter your state.</div>
                 </div>
                 <div class="form-group">
-                  <label for="city">Select City: <span class="text-danger">*</span></label>
-                  <select class="form-control" id="city" name="city" required>
-                    <option value="">Select City</option>
-                  </select>
-                  <div class="invalid-feedback">Please select your city.</div>
+                  <label for="city">City: <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="city" name="city" required placeholder="City">
+                  <div class="invalid-feedback">Please enter your city.</div>
                 </div>
                 <div class="form-group">
                   <label for="address">Your Address: <span class="text-danger">*</span></label>
@@ -190,6 +184,11 @@
     margin-top: 0.25rem;
     font-size: 0.875em;
     color: #dc3545;
+  }
+
+  /* Visual uppercase only for name, country, state, city inputs */
+  #name, #country, #state, #city {
+    text-transform: uppercase;
   }
   
   .form-control.is-invalid + .invalid-feedback {
@@ -263,7 +262,6 @@
 @endpush
 
 @push('scripts')
-<script src="https://geodata.phplift.net/api/index.js"></script>
 <script>
 $(document).ready(function () {
   let currentStep = 1;
@@ -273,7 +271,7 @@ $(document).ready(function () {
   initializeForm();
 
   // Real-time validation for all inputs
-  $(document).on('input change', 'input, select, textarea', function() {
+  $(document).on('input change', 'input, textarea', function() {
     validateField($(this));
     updateNextButtonState();
   });
@@ -292,7 +290,6 @@ $(document).ready(function () {
 
   // Initialize form setup
   function initializeForm() {
-    loadCountries();
     updateStepIndicators();
     updateNextButtonState();
     
@@ -300,6 +297,26 @@ $(document).ready(function () {
     const eighteenYearsAgo = new Date();
     eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
     $('#dob').attr('max', eighteenYearsAgo.toISOString().split('T')[0]);
+
+    // Transform to uppercase only for name, country, state, city inputs (on input and keyup)
+    function transformToUppercaseElement(el) {
+      const caret = el.selectionStart;
+      const val = $(el).val();
+      const newVal = val.toUpperCase();
+      $(el).val(newVal);
+      try { el.setSelectionRange(caret, caret); } catch (e) {}
+    }
+
+    // Apply on both input and keyup so uppercase transformation happens as user types
+    $(document).on('input keyup', '#name, #country, #state, #city', function() {
+      transformToUppercaseElement(this);
+    });
+
+    // Phone number formatting (keep only digits)
+    $('#phone').on('input', function() {
+      let value = $(this).val().replace(/\D/g, '');
+      $(this).val(value);
+    });
   }
 
   // Validate individual field
@@ -321,7 +338,6 @@ $(document).ready(function () {
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           isValid = emailRegex.test(value);
           break;
-        case 'tel':
         case 'text':
           if (fieldName === 'number') {
             const phoneRegex = /^[0-9]{10,15}$/;
@@ -362,7 +378,7 @@ $(document).ready(function () {
     let isValid = true;
     const currentStepElement = $('#step-' + currentStep);
     
-    currentStepElement.find('input[required], select[required], textarea[required]').each(function() {
+    currentStepElement.find('input[required], textarea[required]').each(function() {
       if (!validateField($(this))) {
         isValid = false;
       }
@@ -376,7 +392,7 @@ $(document).ready(function () {
     const currentStepElement = $('#step-' + currentStep);
     let allValid = true;
 
-    currentStepElement.find('input[required], select[required], textarea[required]').each(function() {
+    currentStepElement.find('input[required], textarea[required]').each(function() {
       const $field = $(this);
       if (!$field.val().trim() || $field.hasClass('is-invalid')) {
         allValid = false;
@@ -434,77 +450,6 @@ $(document).ready(function () {
     const progressPercentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
     $('.progress-bar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
   }
-
-  // Load countries
-  function loadCountries() {
-    $.get('https://geodata.phplift.net/api/index.php?type=getCountries', function (data) {
-      $('#country').html('<option value="">Select Country</option>');
-      $.each(data.result, function (i, val) {
-        $('#country').append(`<option value="${val.name}" data-countryid="${val.id}">${val.name}</option>`);
-      });
-      // Set India as default
-      $('#country').val('India').trigger('change');
-    }).fail(function() {
-      $('#country').html('<option value="">Unable to load countries</option>');
-    });
-  }
-
-  // Country change event
-  $('#country').change(function () {
-    const countryId = $('#country option:selected').data('countryid');
-    if (countryId) {
-      $('#state').html('<option value="">Loading states...</option>');
-      $('#city').html('<option value="">Select City</option>');
-      
-      $.get(`https://geodata.phplift.net/api/index.php?type=getStates&countryId=${countryId}`, function (data) {
-        $('#state').html('<option value="">Select State</option>');
-        $.each(data.result, function (i, val) {
-          $('#state').append(`<option value="${val.name}" data-stateid="${val.id}">${val.name}</option>`);
-        });
-      }).fail(function() {
-        $('#state').html('<option value="">Unable to load states</option>');
-      });
-    }
-    validateField($('#country'));
-    updateNextButtonState();
-  });
-
-  // State change event
-  $('#state').change(function () {
-    const stateId = $('#state option:selected').data('stateid');
-    if (stateId) {
-      $('#city').html('<option value="">Loading cities...</option>');
-      
-      $.get(`https://geodata.phplift.net/api/index.php?type=getCities&stateId=${stateId}`, function (data) {
-        $('#city').html('<option value="">Select City</option>');
-        $.each(data.result, function (i, val) {
-          $('#city').append(`<option value="${val.name}">${val.name}</option>`);
-        });
-      }).fail(function() {
-        $('#city').html('<option value="">Unable to load cities</option>');
-      });
-    }
-    validateField($('#state'));
-    updateNextButtonState();
-  });
-
-  // City change event
-  $('#city').change(function () {
-    validateField($('#city'));
-    updateNextButtonState();
-  });
-
-  // Phone number formatting
-  $('#phone').on('input', function() {
-    let value = $(this).val().replace(/\D/g, '');
-    $(this).val(value);
-  });
-
-  // Name formatting (capitalize)
-  $('#name, #certification').on('input', function() {
-    let value = $(this).val();
-    $(this).val(value.charAt(0).toUpperCase() + value.slice(1));
-  });
 
   // Form submission
   $('#multi-step-form').submit(function (e) {
