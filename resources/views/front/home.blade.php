@@ -473,7 +473,7 @@
                                     <div class="">
                                         <img src="{{ asset($content_sec_2->os_image) }}" width="90" height="95" loading="lazy" decoding="async" alt="YogIntra Service Icon - {{ $content_sec_2->os_heading }}">
                                     </div>
-                                    <h3 class="service-heading">{{ $content_sec_2->os_heading }}</h3>
+                                    <h5 class="service-heading">{{ $content_sec_2->os_heading }}</h5>
                                 </div>
                             @endforeach
                         </div>
@@ -576,7 +576,7 @@
                                     <div class="team-details">
                                         <div class="p-10">
                                             <h4 class="text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name }}</h4>
-                                            <p class="mt-0 mb-0">Age - {{ $age }}</p>
+                                            <p class="mt-0 mb-0 text-dark">Age - {{ $age }}</p>
                                         </div>
                                     </div>
                                 </div>
