@@ -473,7 +473,7 @@
                                     <div class="">
                                         <img src="{{ asset($content_sec_2->os_image) }}" width="90" height="95" loading="lazy" decoding="async" alt="YogIntra Service Icon - {{ $content_sec_2->os_heading }}">
                                     </div>
-                                    <h5 class="service-heading">{{ $content_sec_2->os_heading }}</h5>
+                                    <h3 class="service-heading">{{ $content_sec_2->os_heading }}</h3>
                                 </div>
                             @endforeach
                         </div>
@@ -502,7 +502,7 @@
                                     <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                         <div class="yoga-service-item text-center">
                                             <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
-                                            <h2 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h2>
+                                            <h3 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h3>
                                             <a href="{{ url('service/' . $r_service->service_cat_slug) }}" class="btn-sm-cs btn btn-success btn-primary-dark">Book Now</a>
                                         </div>
                                     </div>
