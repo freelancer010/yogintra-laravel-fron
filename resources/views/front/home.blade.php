@@ -462,7 +462,7 @@
                         <img src="{{ asset($section_2->os_image_image) }}" width="349" height="348" loading="lazy" decoding="async" alt="YogIntra Services - {{ $section_2->os_image_heading }}">
                     </div>
                     <div class="col-md-6">
-                        <h5 class="section-3 mb-0 sub-heading">{{ $section_2->os_image_sub_heading }}</h5>
+                        <h3 class="section-3 mb-0 sub-heading">{{ $section_2->os_image_sub_heading }}</h3>
                         <div class="fs-50 ssc-ttl m-fs-25">{{ $section_2->os_image_heading }}</div>
                         <div>
                             <p class="text-black">{!! $section_2->os_image_description !!}</p>
