@@ -1,5 +1,8 @@
 @extends('layouts.layout')
 @push('styles')
+    @if(count($all_slider) > 0)
+        <link rel="preload" as="image" href="{{ asset($all_slider[0]->slider_image) }}" fetchpriority="high">
+    @endif
     <link rel="preload" as="image" href="{{ asset('uploads/6501ab36d6f70Rectrangular-logo-2.png') }}" type="image/png">
     <style>
         #home {
@@ -354,7 +357,17 @@
                 @endif
 
                 <div class="carousel-item bg-img-cover">
-                    <img src="{{ asset($slider->slider_image) }}" width="1519" height="854" loading="lazy" alt="YogIntra - {{ $slider->slider_heading }}" >
+                    <img
+                        src="{{ asset($slider->slider_image) }}"
+                        srcset="{{ asset($slider->slider_image) }} 1519w"
+                        sizes="(max-width: 767px) 100vw, 1519px"
+                        width="1519"
+                        height="854"
+                        loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
+                        decoding="async"
+                        fetchpriority="{{ $index === 0 ? 'high' : 'auto' }}"
+                        alt="YogIntra - {{ $slider->slider_heading }}"
+                    >
                     <div class="overlay"></div>
                     <div class="display-table display-table-absolute">
                         <div class="display-table-cell">

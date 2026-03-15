@@ -46,8 +46,11 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/stroke-gap-icons.css') }}" media="all"> --}}
     <link rel="stylesheet" href="{{ asset('assets/front/css/utility-classes.min.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://connect.facebook.net">
 
     <!-- MAIN CSS -->
+    <link rel="preload" href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" rel="stylesheet" type="text/css" media="all">
     <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="all">
