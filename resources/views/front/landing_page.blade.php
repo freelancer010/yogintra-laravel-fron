@@ -6,6 +6,7 @@
 
 
 @push('styles')
+    <link rel="preload" as="image" href="{{ asset($page_data->page_image) }}">
 <style>
     #home {
         min-height: 50vh;
@@ -59,6 +60,14 @@
         .home-content {
             text-align: center !important;
         }
+    }
+
+    /* Fix Google Reviews widget image aspect ratio warnings */
+    .sk-ww-google-reviews img,
+    .media_link img {
+        max-width: 100% !important;
+        height: auto !important;
+        width: auto !important;
     }
     
     @media (min-width: 768px) {
@@ -1101,6 +1110,20 @@ $(document).ready(function () {
             });
         };
     }
+
+    // Cleanup invalid width/height attributes from third-party review widgets (fixes Lighthouse aspect-ratio warnings)
+    function normalizeReviewWidgetImages() {
+        document.querySelectorAll('.sk-ww-google-reviews img, .media_link img').forEach(function(img) {
+            img.removeAttribute('width');
+            img.removeAttribute('height');
+            img.style.width = 'auto';
+            img.style.height = 'auto';
+            img.style.maxWidth = '100%';
+        });
+    }
+
+    // Run once after the widget loads (some widgets inject images asynchronously)
+    setTimeout(normalizeReviewWidgetImages, 1500);
 });
 </script>
 
