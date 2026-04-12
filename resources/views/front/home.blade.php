@@ -591,7 +591,7 @@
                                     @endphp
                                     <div class="team-details">
                                         <div class="p-10">
-                                            <h4 class="text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name }}</h4>
+                                            <h3 class="text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name }}</h3>
                                             {{-- <p class="mt-0 mb-0 text-dark">Age - {{ $age }}</p> --}}
                                         </div>
                                     </div>
@@ -614,7 +614,7 @@
         <div class="container">
             <div class="row">
                 <div class='sk-ww-google-reviews' data-embed-id='25389280'></div>
-                <script data-src='https://widgets.sociablekit.com/google-reviews-old/widget.js'></script>
+                <script data-src='https://widgets.sociablekit.com/google-reviews-old/widget.js' defer></script>
             </div>
         </div>
     </section>
