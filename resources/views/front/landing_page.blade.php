@@ -4,14 +4,46 @@
 @section('meta_description', $page_data->page_meta_description ?? '' )
 @section('meta_keywords', $page_data->page_keywords ?? '' )
 
-@push('styles')
-    <!-- Preload hero image for LCP optimization -->
+@push('page_preloads')
+    <!-- Critical preloads for LCP optimization -->
     <link rel="preload" as="image" href="{{ asset($page_data->page_image) }}" fetchpriority="high">
     <link rel="preload" as="image" href="{{ asset('assets/bg-graphic-free-img-1.webp') }}" fetchpriority="low">
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://geodata.phplift.net">
+    <link rel="dns-prefetch" href="https://widgets.sociablekit.com">
+    
+    <!-- Critical inline styles for above-the-fold content -->
+    <style>
+        #home {
+            background-image: url('{{ asset($page_data->page_image) }}') !important;
+            min-height: 50vh;
+            aspect-ratio: 16/9;
+            contain: layout style paint;
+        }
+        
+        .home-content {
+            z-index: 2;
+            position: relative;
+        }
+        
+        /* Prevent layout shift on hero section */
+        #home::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to left, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
+            z-index: 1;
+        }
+    </style>
+@endpush
+
+@push('styles')
 <style>
     #home {
         min-height: 50vh;
         height: auto;
+        aspect-ratio: 16 / 9;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -20,6 +52,8 @@
         padding: 80px 0;
         overflow: hidden;
         background-image: url('{{ asset($page_data->page_image) }}');
+        background-color: #000;
+        contain: layout style paint;
     }
     
     #home::before {
@@ -54,13 +88,16 @@
             background-position: 30% center !important;
             background-size: cover !important;
             background-attachment: scroll !important;
-            padding: 80px 0 !important;
+            padding: 60px 20px !important;
+            aspect-ratio: auto;
         }
         #home::before {
             background: rgba(0, 0, 0, 0.7) !important;
         }
         .home-content {
             text-align: center !important;
+            width: 100% !important;
+            background-color: rgba(0, 0, 0, 0.3) !important;
         }
     }
 
@@ -588,6 +625,23 @@
     .fs-16 {
         font-size: 16px;
     }
+
+    /* LCP Optimizations */
+    section:not(#home) {
+        content-visibility: auto;
+        contain-intrinsic-size: 0 500px;
+    }
+
+    /* Defer below-the-fold rendering */
+    .bg-lighter,
+    .review-section {
+        content-visibility: auto;
+    }
+
+    /* Optimize images */
+    img[loading="lazy"] {
+        content-visibility: auto;
+    }
    </style>
 @endpush
 
@@ -609,9 +663,9 @@
                             <h1 class="text-white text-uppercase font-54">
                                 {{ $page_data->page_image_title }}
                             </h1>
-                            <h5 class="text-white font-weight-400" style="margin-top: 20px;">
+                            <h3 class="text-white font-weight-400" style="margin-top: 20px;">
                                 {{ Str::limit($page_data->page_image_description, 120) }}
-                            </h5>
+                            </h3>
                             {{-- <a class="btn btn-colored btn-theme-colored btn-flat smooth-scroll-to-target mt-15" href="#donate-now">Donate Now</a> --}}
                         </div>
                         <div class="clearfix"></div>

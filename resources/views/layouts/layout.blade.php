@@ -30,6 +30,9 @@
     <link href="{{ asset($app_setting->fevicon) }}" rel="apple-touch-icon" sizes="114x114">
     <link href="{{ asset($app_setting->fevicon) }}" rel="apple-touch-icon" sizes="144x144">
 
+    <!-- Page-specific preloads (e.g., hero images) -->
+    @stack('page_preloads')
+
     <!-- FOR PWA MANIFEST -->
     <link rel="manifest" href="{{ asset('manifest.json')}}">
 
