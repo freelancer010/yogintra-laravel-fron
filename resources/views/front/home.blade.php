@@ -5,6 +5,9 @@
     @endif
     <link rel="preload" as="image" href="{{ asset('uploads/6501ab36d6f70Rectrangular-logo-2.png') }}" type="image/png">
     <style>
+        .img-circle {
+            max-width: 90% !important;
+        }
         #home {
             min-height: 100vh;
         }
@@ -589,7 +592,7 @@
                                     <div class="team-details">
                                         <div class="p-10">
                                             <h4 class="text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name }}</h4>
-                                            <p class="mt-0 mb-0 text-dark">Age - {{ $age }}</p>
+                                            {{-- <p class="mt-0 mb-0 text-dark">Age - {{ $age }}</p> --}}
                                         </div>
                                     </div>
                                 </div>
