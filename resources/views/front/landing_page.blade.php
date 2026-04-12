@@ -693,12 +693,14 @@
     <div class="section-title text-center">
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
-          <p style="text-align: center;">
+          <h3 style="text-align: center;">
             <span style="color: inherit; font-size: 36px; font-family: Philosopher, sans-serif !important;">
               LIFE IN DIVINE YOGA
             </span><br>
+        </h3>
+          <p class="text-theme-colored2" style="text-align: center; font-size: 30px; font-weight: bold;">
+            || योग: कर्मसु कौशलम् ||
           </p>
-          <h2 style="text-align: center;">|| योग: कर्मसु कौशलम् ||</h2>
         </div> 
       </div>
 
