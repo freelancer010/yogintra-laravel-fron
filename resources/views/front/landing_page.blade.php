@@ -4,20 +4,22 @@
 @section('meta_description', $page_data->page_meta_description ?? '' )
 @section('meta_keywords', $page_data->page_keywords ?? '' )
 
-
 @push('styles')
-    <link rel="preload" as="image" href="{{ asset($page_data->page_image) }}">
+    <!-- Preload hero image for LCP optimization -->
+    <link rel="preload" as="image" href="{{ asset($page_data->page_image) }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ asset('assets/bg-graphic-free-img-1.webp') }}" fetchpriority="low">
 <style>
     #home {
         min-height: 50vh;
         height: auto;
-        background-size: cover; /* Changed from contain for better responsive behavior */
+        background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
         position: relative;
-        padding: 80px 0; /* Reduced padding for better responsiveness */
-        overflow: hidden; /* Prevent content overflow */
+        padding: 80px 0;
+        overflow: hidden;
+        background-image: url('{{ asset($page_data->page_image) }}');
     }
     
     #home::before {
@@ -593,7 +595,7 @@
 @section('content')
 <!-- Section: home -->
 <section id="home" class="divider parallax"
-    data-bg-img="{{ asset($page_data->page_image) }}">
+    style="background-image: url('{{ asset($page_data->page_image) }}');">
     <div class="display-table">
         <div class="display-table-cell">
             <div class="container pt-100 pb-100">
@@ -669,21 +671,21 @@
 
         <div class="col-sm-4 text-center">
           <div class="">
-            <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines">
+            <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines" width="100" height="100" decoding="async">
           </div>
           <h2 style="font-size: 16px">Alternative Medicines</h2>
         </div>
 
         <div class="col-sm-4 text-center">
           <div class="">
-            <img loading="lazy" src="{{ asset('assets/front/images/6503dbc7b2fc5icon-2.png') }}" alt="For Good Health">
+            <img loading="lazy" src="{{ asset('assets/front/images/6503dbc7b2fc5icon-2.png') }}" alt="For Good Health" width="100" height="100" decoding="async">
           </div>
           <h2 style="font-size: 16px">For Good Health</h2>
         </div>
 
         <div class="col-sm-4 text-center">
           <div class="">
-            <img loading="lazy" src="{{ asset('assets/front/images/6503dbe5edf47icon-3.png') }}" alt="Healthy Mind &amp; Body">
+            <img loading="lazy" src="{{ asset('assets/front/images/6503dbe5edf47icon-3.png') }}" alt="Healthy Mind &amp; Body" width="100" height="100" decoding="async">
           </div>
           <h2 style="font-size: 16px">Healthy Mind &amp; Body</h2>
         </div>
@@ -698,7 +700,7 @@
     <div class="section-title text-center">
       <div class="row">
         <div class="col-12">
-          <img loading="lazy" src="{{ asset('uploads/download.webp') }}" alt="For Good Health">
+          <img loading="lazy" src="{{ asset('uploads/download.webp') }}" alt="For Good Health" width="800" height="400" decoding="async">
         </div>
       </div>
     </div>
@@ -812,7 +814,7 @@
             <div class="row">
                 @foreach ($yogaServices as $service)
                     <div class="col-xs-12 col-sm-6 col-md-3 mb-4 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
-                        <img loading="lazy" width="160" height="160" class="img-circle img-thumbnail mb-2" src="{{ asset($service['image']) }}" alt="{{ $service['title'] }}">
+                        <img loading="lazy" width="160" height="160" class="img-circle img-thumbnail mb-2" src="{{ asset($service['image']) }}" alt="{{ $service['title'] }}" decoding="async">
                         <h2 class="mb-5 fs-16">{{ $service['title'] }}</h2>
                         <a href="{{ url($service['link']) }}" class="btn btn-success">Visit Now</a>
                     </div>
@@ -822,12 +824,12 @@
     </div>
 </section>
 
-<section class="divider" id="about" data-bg-img="{{ asset('assets/bg-graphic-free-img-1.webp') }}">
+<section class="divider" id="about" style="background-image: url('{{ asset('assets/bg-graphic-free-img-1.webp') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <div class="container py-4">
         <div class="section-title">
             <div class="row align-items-center">
                 <div class="col-md-4">
-                    <img loading="lazy" src="{{ asset('assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp') }}" alt="YogIntra" class="img-fluid">
+                    <img loading="lazy" src="{{ asset('assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp') }}" alt="YogIntra" class="img-fluid" width="250" height="200">
                 </div>
                 <div class="col-md-8 text-start text-md-start">
                     <h2 class="mt-4">About YogIntra:</h2>
@@ -889,7 +891,7 @@
                             <div class="item">
                                 <div class="team-members text-center maxwidth400">
                                     <div class="team-thumb">
-                                        <img class="img-fullwidth" width="200" height="200" loading="lazy" alt="yogintra trainers" src="{{ $api . '/' . $trainer->profile_image }}">
+                                        <img class="img-fullwidth" width="200" height="200" loading="lazy" alt="yogintra trainers" src="{{ $api . '/' . $trainer->profile_image }}" decoding="async">
                                     </div>
                                     @php
                                         $currentYear = now()->year;
@@ -934,7 +936,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-4 sm-text-center mb-30 mb-sm-30">
                     <div class="team-members text-center maxwidth400" onclick="open_modal({{ $i }})">
                         <div class="team-thumb">
-                            <img loading="lazy" class="img-fullwidth" id="imageresource_{{ $i }}" style="height: 200px; width: auto" alt="yogintra" src="{{ asset('uploads/yoga-pose' . $i . '.jpeg') }}">
+                            <img loading="lazy" class="img-fullwidth" id="imageresource_{{ $i }}" style="height: 200px; width: auto" alt="yogintra" width="300" height="200" decoding="async" src="{{ asset('uploads/yoga-pose' . $i . '.jpeg') }}">
                         </div>
                     </div>
                 </div>

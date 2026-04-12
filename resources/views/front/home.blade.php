@@ -433,7 +433,7 @@
                         <h1 class="text-uppercase line-bottom-double-line-centered mt-0 cst-font">
                             {{ $section_1->of_heading }}
                         </h1>
-                        <span class="sub-heading">{{ $section_1->of_sub_heading }}</span>
+                        <span class="sub-heading text-theme-colored2">{{ $section_1->of_sub_heading }}</span>
                     </div>
                 </div>
             </div>
