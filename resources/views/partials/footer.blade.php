@@ -18,28 +18,29 @@
             </div>
         <div class="col-sm-6 col-md-2">
                 <div class="widget dark mb-0">
-                    <h5 class="widget-title line-bottom">Our Events</h5>
+                    <h3 class="widget-title line-bottom">Our Events</h3>
                     <ul class="list-border">
                         <li><a href="{{ url('/teacher-training-course') }}">TTC</a></li>   
                         <li><a href="{{ url('/retreat') }}">Retreat</a></li>
                         <li><a href="{{ url('/workshop') }}">Workshop</a></li>
+                        <li><a href="{{ url('become-yoga-trainer') }}">Hire</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-sm-6 col-md-2">
                 <div class="widget dark mb-0">
-                    <h5 class="widget-title line-bottom">Useful Links</h5>
+                    <h3 class="widget-title line-bottom">Useful Links</h3>
                     <ul class="list-border">
                         <li><a href="{{ url('about') }}">About</a></li>
-                        <li><a href="{{ url('become-yoga-trainer') }}">Hire</a></li>
                         <li><a href="{{ url('blog') }}">Blog</a></li>
+                        <li><a href="{{ url('/locate-us') }}">Locate Us</a></li>
                         <li><a href="{{ url('contact') }}">Contact</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-sm-6 col-md-2">
                 <div class="widget dark mb-0">
-                    <h5 class="widget-title line-bottom">Our Service</h5>
+                    <h3 class="widget-title line-bottom">Our Service</h3>
                     <ul class="list-border">
                         <li><a href="{{ url('service/home-visit-yoga') }}">Home Visit Yoga</a></li>
                         <li><a href="{{ url('service/private-online-yoga') }}">Private Online Yoga</a></li>
@@ -50,7 +51,7 @@
             </div>
             <div class="col-sm-6 col-md-3">
                 <div class="widget dark mb-0">
-                    <h5 class="widget-title line-bottom">Support</h5>
+                    <h3 class="widget-title line-bottom">Support</h3>
                     <div class="opening-hours">
                         <ul class="list-border mt-5">
                             <li class="m-0 pl-10 pr-10"> 
@@ -67,28 +68,6 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- City Locate Section -->
-    <div class="footer-bottom">
-        <div class="container pt-0 pb-10">
-            <div class="row">
-                <div class="col-md-12">
-                    <h5 class="font-18 text-white-777 m-0 text-center pb-10 city_loc line-bottom" style="color: white;font-family: 'Open Sans', sans-serif !important;font-size: 18px;font-weight: 500;">
-                        Locate Us
-                    </h5>
-                </div>
-                <div class="col-md-12 text-center text-md-right city_loc">
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        @foreach ($all_landing_page as $page)
-                            <li style="display: inline-block; margin-right: 10px;">
-                                <a href="{{ url('city/' . $page->page_slug) }}">{{ $page->page_name }}&nbsp;&nbsp;&nbsp;|</a>
-                            </li>
-                        @endforeach
-                    </ul>
                 </div>
             </div>
         </div>

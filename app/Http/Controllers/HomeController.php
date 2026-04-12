@@ -338,6 +338,18 @@ class HomeController extends Controller
         return view('front.all_workshop', $data);
     }
 
+    /**
+     * Display the locate us page with all yoga centers.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function locateUs()
+    {
+        return view('front.locate_us', [
+            'page' => 'locate_us',
+            'all_center' => Yoga::getAll(),
+        ]);
+    }
 
     /**
      * Display the landing page.

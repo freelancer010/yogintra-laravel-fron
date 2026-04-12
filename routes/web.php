@@ -71,6 +71,7 @@ Route::get('/yoga-center/{slug}', [HomeController::class, 'yogaCenterDetails'])-
 Route::get('/become-yoga-trainer', [HomeController::class, 'becomeYogaTrainer']);
 Route::post('/become-yoga-trainer', [HomeController::class, 'submitTrainerForm'])->name('trainer.submit');
 
+Route::get('/locate-us', [HomeController::class, 'locateUs'])->name('locate.us');
 Route::get('/city/{slug}', [HomeController::class, 'landingPage']);
 
 Route::get('/coming-soon', [HomeController::class, 'comingSoon']);
