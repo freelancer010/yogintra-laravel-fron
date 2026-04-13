@@ -1008,16 +1008,45 @@
     <div class="container">
         <div class="row">
             <div class="sk-ww-google-reviews" data-embed-id="25389280"></div>
-            <script src="https://widgets.sociablekit.com/google-reviews-old/widget.js" async defer></script>
         </div>
     </div>
 </section>
 
 @endsection
 
-@push('script')
+@push('scripts')
+<!-- Landing page specific scripts - deferred to after FCP -->
 <script type="text/javascript">
-$(document).ready(function () {
+// Lazy-load Google Reviews widget only when visible
+function lazyLoadGoogleReviews() {
+    const reviewSection = document.querySelector('.review-section');
+    if (reviewSection && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    const script = document.createElement('script');
+                    script.src = 'https://widgets.sociablekit.com/google-reviews-old/widget.js';
+                    script.async = true;
+                    document.body.appendChild(script);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '50px' });
+        observer.observe(reviewSection);
+    } else if (reviewSection) {
+        // Fallback: load on window load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const script = document.createElement('script');
+                script.src = 'https://widgets.sociablekit.com/google-reviews-old/widget.js';
+                document.body.appendChild(script);
+            }, 1000);
+        });
+    }
+}
+
+// Defer non-critical landing page form logic to after page interactive
+function initLandingPageForms() {
     var loc = new locationInfo();
     var currentStep = 1;
 
@@ -1168,21 +1197,28 @@ $(document).ready(function () {
             });
         };
     }
+}
 
-    // Cleanup invalid width/height attributes from third-party review widgets (fixes Lighthouse aspect-ratio warnings)
-    function normalizeReviewWidgetImages() {
-        document.querySelectorAll('.sk-ww-google-reviews img, .media_link img').forEach(function(img) {
-            img.removeAttribute('width');
-            img.removeAttribute('height');
-            img.style.width = 'auto';
-            img.style.height = 'auto';
-            img.style.maxWidth = '100%';
+// Initialize form logic after page is interactive (not blocking FCP)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        // Defer to next frame to ensure jQuery is ready
+        requestAnimationFrame(function() {
+            setTimeout(function() {
+                initLandingPageForms();
+                lazyLoadGoogleReviews();
+            }, 100);
         });
-    }
-
-    // Run once after the widget loads (some widgets inject images asynchronously)
-    setTimeout(normalizeReviewWidgetImages, 1500);
-});
+    });
+} else {
+    // DOM already loaded
+    requestAnimationFrame(function() {
+        setTimeout(function() {
+            initLandingPageForms();
+            lazyLoadGoogleReviews();
+        }, 100);
+    });
+}
 </script>
 
 @endpush
