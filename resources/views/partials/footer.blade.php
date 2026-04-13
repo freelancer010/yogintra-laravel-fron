@@ -74,7 +74,8 @@
     </div>
 
     <!-- Copyright & Policies -->
-    <div class="footer-bottom bg-black-000">
+    <div class="footer-bottom bg-black-000 mt-0 pt-20 pb-20">
+        <hr>
         <div class="container pt-12 pb-0">
             <div class="row">
                 <div class="col-md-6">

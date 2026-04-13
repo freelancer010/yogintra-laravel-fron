@@ -642,6 +642,16 @@
     img[loading="lazy"] {
         content-visibility: auto;
     }
+
+    .sub-text-custom {
+        text-align: center; 
+        font-weight: bold; 
+        font-size: 30px !important;
+    }
+
+    .color-444{
+        color: #444444 !important;
+    }
    </style>
 @endpush
 
@@ -705,26 +715,13 @@
       </div>
 
       <div class="row">
-        <p style="font-size: 14px;">
+        <p style="font-size: 14px; color:#444444">
           A journey of self-discovery, inner peace, and spiritual awakening. Embrace balance, harmony,
           and enlightenment through mindful practice and connection with the divine.
         </p>
       </div>
 
       <div class="row mt-10">
-
-        {{-- Uncomment this section if you want to fetch dynamic content --}}
-        {{-- 
-        @foreach ($section_2_content as $content)
-          <div class="col-sm-4 text-center">
-            <div class="">
-              <img src="{{ asset('uploads/' . $content->os_image) }}" alt="{{ $content->os_heading }}">
-            </div>
-            <h2 style="font-size: 16px">{{ $content->os_heading }}</h2>
-          </div>
-        @endforeach 
-        --}}
-
         <div class="col-sm-4 text-center">
           <div class="">
             <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines" width="100" height="100" decoding="async">
@@ -769,18 +766,18 @@
       
       <div class="row">
         <div class="col-md-12 offset-md-2">
-          <p style="text-align: center;">
+          <h2 style="text-align: center; font-size: 36px; ">
             <span style="color: inherit; font-size: 36px; font-family: Philosopher, sans-serif !important;">
               THE MAIN REASONS TO PRACTICE YOGA
             </span><br>
-          </p>
-          <h2 style="text-align: center;">|| योगश्चित्तवृत्तिनिरोधः ||</h2>
+          </h2>
+          <p class="text-theme-colored2 sub-text-custom">|| योगश्चित्तवृत्तिनिरोधः ||</p>
         </div>
       </div>
 
       <div class="row">
         <div class="col-12">
-          <p style="text-align: center;">
+          <p class="color-444">
             ELEVATE MIND, BODY, AND SPIRIT THROUGH ANCIENT PRACTICES AND MODERN WISDOM.
             EMBRACE BALANCE AND BLISS ON YOUR JOURNEY WITHIN.
           </p>
@@ -796,7 +793,7 @@
                     </a>
                     <div class="media-body">
                         <h3 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h3>
-                        <p>{{ $content_1->of_description }}</p>
+                        <p class="color-444">{{ $content_1->of_description }}</p>
                     </div>
                 </div>
             </div>
@@ -855,12 +852,14 @@
         <div class="section-title text-center">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    <p class="h3" style="color: inherit; font-size: 36px; font-family: Philosopher, sans-serif !important; font-weight:normal;">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</p>
-                    <h2>|| तत्र स्थितौ यत्नोऽभ्यासः ||</h2>
+                    <h2 class="h3" style="color: #000; font-size: 36px; font-weight: bold; font-family: Philosopher, sans-serif !important;">
+                        A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES
+                    </h2>
+                    <p class="text-theme-colored2 sub-text-custom">|| तत्र स्थितौ यत्नोऽभ्यासः ||</p>
                 </div>
             </div>
             <div class="row">
-                <p class="text-center" style="font-size: 14px;">
+                <p class="color-444 text-center" style="font-size: 14px;">
                     Discover inner peace and vitality with our comprehensive yoga services. From beginner-friendly classes to advanced practices, we offer holistic guidance to enhance your mind, body, and spirit. Start your journey today.
                 </p>
             </div>
@@ -889,7 +888,7 @@
                 </div>
                 <div class="col-md-8 text-start text-md-start">
                     <h2 class="mt-4">About YogIntra:</h2>
-                    <p class="text-size">
+                    <p class="text-size color-444">
                         Back In 2011, Started with a thought to make common people experience Yoga in their busy schedule, YogIntra is now nationally and internationally building community to help people stay healthy with a numerous Yoga Experts for all age group and gender. YogIntra comes from two words Yog and Intra, where yog comes from Sanskrit word “Yuj” Which Means connection between “Soul” (Aatma) and “God”(Parmatma) And Intra is an English Word Which Means Within. YogIntra is the connection between the soul and God within oneself.
                     </p>
                 </div>
@@ -918,7 +917,7 @@
                     <div class="sec-title">
                         <h2>About Founder:</h2>
                     </div>
-                    <div class="text">
+                    <div class="text color-444">
                         Mr. Amit Pandey started his journey of yoga back in 2005 as student in Yogic science and then he understood Yoga is the only way he would be able to help people bring smiles back on their faces in this struggling and fast life. He served few years Internationally as a Yoga trainer but coming back to India during his visit a few years back, a thought him hard “Charity begins at home.” And then he never went back thinking about people here need know about Yoga and Yoga Benefits.
                     </div>
                     <div class="btn-box">
@@ -957,7 +956,6 @@
                                     <div class="team-details">
                                         <div class="p-10">
                                             <h4 class="text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name }}</h4>
-                                            <p class="mt-0 mb-0">Age - {{ $age }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -980,12 +978,12 @@
         <div class="row">
             <div class="col-md-12 offset-md-2">
                 <p style="text-align: center;">
-                    <span style="color: inherit; font-size: 36px; font-family: Philosopher, sans-serif !important;">Gallery</span>
+                    <span style="color: #000; font-size: 36px; font-family: Philosopher, sans-serif !important;">Gallery</span>
                 </p>
             </div>
         </div>
         <div class="row">
-            <p class="mb-20" style="font-size: 14px; text-align: center;">Discover tranquility through our yoga gallery: poses and serenity captured in stillness.</p>
+            <p class="mb-20 color-444" style="font-size: 14px; text-align: center;">Discover tranquility through our yoga gallery: poses and serenity captured in stillness.</p>
         </div>
         <div class="row mt-3">
             @for ($i = 1; $i <= 3; $i++)
