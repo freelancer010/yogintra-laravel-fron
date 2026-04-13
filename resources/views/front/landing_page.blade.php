@@ -1,8 +1,8 @@
 @extends('layouts.layout')
 
-@section('meta_title', $page_data->page_meta_title ?? '')
-@section('meta_description', $page_data->page_meta_description ?? '' )
-@section('meta_keywords', $page_data->page_keywords ?? '' )
+@section('meta_title', 'locate YogIntra- Home Yoga and Online Yoga Classes Across India')
+@section('meta_description', 'Find Home Yoga and Corporate Yoga Classes near you across India. Discover all our Yoga Trainer\'s in Mumbai, Delhi, Bangalore, Pune and more cities' )
+@section('meta_keywords', 'Home Yoga, Online Yoga, Corporate Yoga, 1 to 1 Yoga, Private Yoga, Yoga Trainers, Female Yoga Trainers, Yoga near me, YogaIntra Locations, Yoga Classes in India, Best Yoga Centers, Yoga Studios' )
 
 @push('page_preloads')
     <!-- Critical preloads for LCP optimization -->
