@@ -31,7 +31,7 @@
                             <li class="{{ in_array(request()->segment(1), ['about', 'gallery']) ? 'active' : '' }}">
                                 <a href="#">About</a>
                                 <ul class="dropdown">
-                                    <li><a href="{{ url('/about') }}">About</a></li>   
+                                    <li><a href="{{ url('/about-us') }}">About</a></li>   
                                     <li><a href="{{ url('/gallery') }}">Gallery</a></li>
                                 </ul>
                             </li>

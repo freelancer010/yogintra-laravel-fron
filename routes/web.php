@@ -19,7 +19,9 @@ use App\Http\Controllers\Admin\SettingController;
 
 
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/about', [HomeController::class, 'about']);
+Route::get('/about-us', [HomeController::class, 'about'])->name('about');
+// Redirect old /about URL to /about-us for SEO
+Route::redirect('/about', '/about-us', 301);
 Route::get('/trainers', [HomeController::class, 'allTrainers'])->name('trainers.index');
 Route::get('/trainer/{id}', [HomeController::class, 'showTrainer'])->name('trainer.show');
 Route::get('/gallery', [HomeController::class, 'gallery']);
