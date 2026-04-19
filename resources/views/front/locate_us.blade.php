@@ -42,7 +42,7 @@
     }
 
     .city-card span {
-        font-size: 16px;
+        font-size: 22px;
         font-weight: 500;
     }
 
@@ -111,7 +111,7 @@
     }
 
     .location-heading {
-        font-size: 32px;
+        font-size: 36px;
         font-weight: 600;
         color: #222;
         margin-bottom: 40px;
@@ -130,8 +130,11 @@
         background-color: #176a71;
     }
 
+    .container {
+        padding: 30px 0;
+    }
     .section-subtitle {
-        font-size: 14px;
+        font-size: 18px;
         color: #666;
         margin-top: 30px;
         margin-bottom: 40px;
