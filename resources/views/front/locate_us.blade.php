@@ -130,7 +130,7 @@
         background-color: #176a71;
     }
 
-    .container {
+    .locate-us-section.container {
         padding: 30px 0;
     }
     .section-subtitle {
