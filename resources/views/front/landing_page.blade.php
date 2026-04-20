@@ -652,6 +652,106 @@
     .color-444{
         color: #444444 !important;
     }
+
+    /* FAQ Accordion Styles */
+    .faq-section {
+        background-color: #f9f9f9;
+        padding: 60px 0;
+    }
+
+    .accordion-item {
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        margin-bottom: 15px;
+    }
+
+    .accordion-item:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .accordion-button {
+        background-color: #ffffff;
+        color: #333333;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 18px 20px;
+        border: none;
+        text-align: left;
+        transition: all 0.3s ease;
+        width: 100%;
+        cursor: pointer;
+        display: block;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: #f0f7ff;
+        color: #e07f00;
+        box-shadow: none;
+        border-bottom: 2px solid #e07f00;
+    }
+
+    .accordion-button:hover {
+        background-color: #f5f5f5;
+        color: #e07f00;
+    }
+
+    .accordion-button::after {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23e07f00'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        background-size: 1.25rem;
+    }
+
+    .accordion-body {
+        padding: 20px;
+        font-size: 15px;
+        line-height: 1.8;
+        color: #444444;
+    }
+
+    .accordion-body ul li {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .accordion-body ul li i {
+        margin-right: 12px;
+        font-size: 14px;
+    }
+
+    .text-gray {
+        color: #888888;
+    }
+
+    .mr-10 {
+        margin-right: 10px;
+    }
+
+    .border-1px {
+        border: 1px solid #c9c7c7 !important;
+    }
+
+    @media (max-width: 767px) {
+        .faq-section {
+            padding: 30px 0;
+        }
+
+        .accordion-button {
+            padding: 15px 15px;
+            font-size: 14px;
+        }
+
+        .accordion-body {
+            padding: 15px;
+            font-size: 14px;
+        }
+
+        .col-md-8.col-md-offset-2 {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    }
    </style>
 @endpush
 
@@ -1010,9 +1110,136 @@
     </div>
 </section>
 
+<!-- FAQ Section -->
+<section class="faq-section bg-lighter">
+    <div class="container">
+        <div class="section-title text-center">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h2 class="mt-0">Frequently Asked <span class="text-theme-colored2">Questions</span></h2>
+                    <p class="text-theme-colored2">Your questions answered about our yoga services</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-50">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="accordion" id="faqAccordion">
+                    <!-- FAQ Item 1 -->
+                    <div class="accordion-item mb-15 border-1px">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <strong>What is YogIntra and what services do you offer?</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-gray">
+                                <p>YogIntra is India's premier yoga platform offering comprehensive services including:</p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Home visit yoga training</li>
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Online yoga classes (private & group)</li>
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Corporate yoga programs</li>
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Teacher training courses (TTC)</li>
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Yoga retreats and workshops</li>
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Yoga center facilities</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="accordion-item mb-15 border-1px">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <strong>Are your yoga classes suitable for beginners?</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-gray">
+                                <p>Absolutely! YogIntra welcomes all levels, including complete beginners. Our experienced trainers:</p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Customize classes for your flexibility level</li>
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Provide modifications for different fitness levels</li>
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Start with foundational poses and breathing techniques</li>
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Progress gradually at your pace</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="accordion-item mb-15 border-1px">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <strong>How do I book a session or class with YogIntra?</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-gray">
+                                <p>Booking is simple and straightforward:</p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fa fa-phone text-theme-colored2 mr-10"></i>Call us directly at +91-9867291573</li>
+                                    <li><i class="fa fa-envelope text-theme-colored2 mr-10"></i>Fill out our contact form on the website</li>
+                                    <li><i class="fa fa-calendar text-theme-colored2 mr-10"></i>Visit one of our yoga centers</li>
+                                    <li><i class="fa fa-globe text-theme-colored2 mr-10"></i>Register online for online classes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="accordion-item mb-15 border-1px">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                <strong>Do YogIntra Trainers offer personalized programs?</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-gray">
+                                <p>Absolutely. Trainers can design customized plans for:</p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Flexibility and strength goals</li>
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Stress reduction</li>
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Injury recovery (non-medical guidance)</li>
+                                    <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Lifestyle and mindfulness routines</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 5 -->
+                    <div class="accordion-item mb-15 border-1px">
+                        <h2 class="accordion-header" id="headingFive">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                <strong>How can I contact YogIntra?</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-gray">
+                                <p>You can reach the team via:</p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fa fa-envelope text-theme-colored2 mr-10"></i>Website contact form</li>
+                                    <li><i class="fa fa-envelope text-theme-colored2 mr-10"></i>Email</li>
+                                    <li><i class="fa fa-phone text-theme-colored2 mr-10"></i>Phone: +91-9867291573</li>
+                                    <li><i class="fa fa-share-alt text-theme-colored2 mr-10"></i>Social media channels</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- FAQ Section End -->
+
 @endsection
 
 @push('scripts')
+<!-- Bootstrap 5 Popper and JS for Accordion -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
 <!-- Landing page specific scripts - deferred to after FCP -->
 <script type="text/javascript">
 // Lazy-load Google Reviews widget only when visible
