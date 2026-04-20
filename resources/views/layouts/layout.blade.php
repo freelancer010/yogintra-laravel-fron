@@ -20,6 +20,16 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ url()->current() }}" />
 
+    <!-- Twitter Card Tags -->
+    {{-- <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@YogIntra">
+    <meta name="twitter:title" content="@yield('meta_title', $app_setting->app_meta_title ?? 'YogIntra')">
+    <meta name="twitter:description" content="@yield('meta_description', $app_setting->app_meta_description ?? 'Yogintra')">
+    <meta name="twitter:image" content="@yield('og_image', asset('assets/og-logo.webp'))"> --}}
+
+    <!-- Page-specific meta tags -->
+    @stack('page_meta_tags')
+
     <meta name="author" content="YogIntra" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
