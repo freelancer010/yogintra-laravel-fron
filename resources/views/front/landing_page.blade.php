@@ -753,7 +753,7 @@
     <div class="section-title text-center">
       <div class="row">
         <div class="col-12">
-          <img loading="lazy" src="{{ asset('uploads/download.webp') }}" alt="For Good Health" width="800" height="400" decoding="async">
+          <img style="width: auto; height: auto;" loading="lazy" src="{{ asset('uploads/download.webp') }}" alt="For Good Health" width="800" height="400" decoding="async">
         </div>
       </div>
     </div>
