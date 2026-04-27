@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
@@ -91,6 +92,15 @@ Route::post('/admin/ckeditor/upload', [App\Http\Controllers\Admin\CKEditorContro
 
 ///////---------------------- |ADMIN ROUTES| -----------------------------/////////
 
+// Debug: Quick login route - logs in test user directly
+Route::get('/quick-login', function () {
+    $user = \App\Models\User::where('email', 'test@example.com')->first();
+    if ($user) {
+        Auth::login($user);
+        return redirect()->route('admin.dashboard');
+    }
+    return redirect('/login')->with('error', 'Test user not found');
+})->name('quick.login');
 
 // Route::middleware(['auth'])->prefix('admin')->group(function () {
 //     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
