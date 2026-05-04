@@ -687,14 +687,14 @@
 
     .accordion-button:not(.collapsed) {
         background-color: #f0f7ff;
-        color: #e07f00;
+        color: #000000;
         box-shadow: none;
-        border-bottom: 2px solid #e07f00;
+        border-bottom: 2px solid #000000;
     }
 
     .accordion-button:hover {
         background-color: #f5f5f5;
-        color: #e07f00;
+        color: #000000;
     }
 
     .accordion-button::after {
@@ -1133,7 +1133,7 @@
                             </button>
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-gray">
+                            <div class="accordion-body">
                                 <p>YogIntra is India's premier yoga platform offering comprehensive services including:</p>
                                 <ul class="list-unstyled">
                                     <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Home visit yoga training</li>
@@ -1155,7 +1155,7 @@
                             </button>
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-gray">
+                            <div class="accordion-body">
                                 <p>Absolutely! YogIntra welcomes all levels, including complete beginners. Our experienced trainers:</p>
                                 <ul class="list-unstyled">
                                     <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Customize classes for your flexibility level</li>
@@ -1175,7 +1175,7 @@
                             </button>
                         </h2>
                         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-gray">
+                            <div class="accordion-body">
                                 <p>Booking is simple and straightforward:</p>
                                 <ul class="list-unstyled">
                                     <li><i class="fa fa-phone text-theme-colored2 mr-10"></i>Call us directly at +91-9867291573</li>
@@ -1195,7 +1195,7 @@
                             </button>
                         </h2>
                         <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-gray">
+                            <div class="accordion-body">
                                 <p>Absolutely. Trainers can design customized plans for:</p>
                                 <ul class="list-unstyled">
                                     <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Flexibility and strength goals</li>
@@ -1215,7 +1215,7 @@
                             </button>
                         </h2>
                         <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-gray">
+                            <div class="accordion-body">
                                 <p>You can reach the team via:</p>
                                 <ul class="list-unstyled">
                                     <li><i class="fa fa-envelope text-theme-colored2 mr-10"></i>Website contact form</li>
