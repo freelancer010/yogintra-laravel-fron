@@ -426,10 +426,6 @@
             margin-right: 10px;
         }
 
-        .text-theme-colored2 {
-            color: #e07f00 !important;
-        }
-
         @media (max-width: 767px) {
             .accordion-button {
                 padding: 15px 15px;
