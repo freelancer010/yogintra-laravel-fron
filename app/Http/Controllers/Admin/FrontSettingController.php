@@ -11,6 +11,7 @@ use App\Models\OurFeatureHeading;
 use App\Models\OurFeature;
 use App\Models\OurService;
 use App\Models\OurServiceImage;
+use App\Models\Testimonial;
 
 class FrontSettingController extends Controller
 {
@@ -214,6 +215,90 @@ class FrontSettingController extends Controller
         $heading->save();
 
         return redirect()->back()->with('success', 'Heading section updated successfully.');
+    }
+
+    // ==================== Testimonials Section ====================
+    
+    public function testimonial()
+    {
+        $testimonials = Testimonial::orderByDesc('test_id')->get();
+        return view('admin.front_setting.testimonial', compact('testimonials'));
+    }
+
+    public function storeTestimonial(Request $request)
+    {
+        $request->validate([
+            'test_name' => 'required|string|max:255',
+            'test_position' => 'nullable|string|max:255',
+            'test_review' => 'required|integer|min:1|max:5',
+            'test_description' => 'required|string',
+            'test_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+        ]);
+
+        $testimonial = new Testimonial();
+        $testimonial->test_name = $request->test_name;
+        $testimonial->test_position = $request->test_position ?? '';
+        $testimonial->test_review = $request->test_review;
+        $testimonial->test_description = $request->test_description;
+
+        if ($request->hasFile('test_image')) {
+            $photo = $request->file('test_image');
+            $filename = time() . '_' . $photo->getClientOriginalName();
+            $photo->move(public_path('uploads'), $filename);
+            $testimonial->test_image = 'uploads/' . $filename;
+        }
+
+        $testimonial->save();
+
+        return back()->with('success', 'Testimonial added successfully');
+    }
+
+    public function editTestimonial($id)
+    {
+        $testimonial = Testimonial::findOrFail($id);
+        return view('admin.front_setting.edit_testimonial', compact('testimonial'));
+    }
+
+    public function updateTestimonial(Request $request, $id)
+    {
+        $request->validate([
+            'test_name' => 'required|string|max:255',
+            'test_position' => 'nullable|string|max:255',
+            'test_review' => 'required|integer|min:1|max:5',
+            'test_description' => 'required|string',
+            'test_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+        ]);
+
+        $testimonial = Testimonial::findOrFail($id);
+        $testimonial->test_name = $request->test_name;
+        $testimonial->test_position = $request->test_position ?? '';
+        $testimonial->test_review = $request->test_review;
+        $testimonial->test_description = $request->test_description;
+
+        if ($request->hasFile('test_image')) {
+            if ($testimonial->test_image && file_exists(public_path($testimonial->test_image))) {
+                unlink(public_path($testimonial->test_image));
+            }
+            $photo = $request->file('test_image');
+            $filename = time() . '_' . $photo->getClientOriginalName();
+            $photo->move(public_path('uploads'), $filename);
+            $testimonial->test_image = 'uploads/' . $filename;
+        }
+
+        $testimonial->save();
+
+        return redirect()->route('admin.front.testimonial')->with('success', 'Testimonial updated successfully');
+    }
+
+    public function deleteTestimonial($id)
+    {
+        $testimonial = Testimonial::findOrFail($id);
+        if ($testimonial->test_image && file_exists(public_path($testimonial->test_image))) {
+            unlink(public_path($testimonial->test_image));
+        }
+        $testimonial->delete();
+
+        return back()->with('success', 'Testimonial deleted successfully');
     }
 
 

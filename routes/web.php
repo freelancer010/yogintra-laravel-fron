@@ -214,6 +214,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::delete('/section-2/service/delete/{id}', [FrontSettingController::class, 'deleteService'])->name('section2.service.delete');
 
         Route::get('/testimonial', [FrontSettingController::class, 'testimonial'])->name('testimonial');
+        Route::post('/testimonial/store', [FrontSettingController::class, 'storeTestimonial'])->name('testimonial.store');
+        Route::get('/testimonial/edit/{id}', [FrontSettingController::class, 'editTestimonial'])->name('testimonial.edit');
+        Route::put('/testimonial/update/{id}', [FrontSettingController::class, 'updateTestimonial'])->name('testimonial.update');
+        Route::get('/testimonial/delete/{id}', [FrontSettingController::class, 'deleteTestimonial'])->name('testimonial.delete');
     });
     // --------| Front Setting |-------------------
 

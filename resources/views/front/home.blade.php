@@ -426,7 +426,56 @@
             margin-right: 10px;
         }
 
-        @media (max-width: 767px) {
+        /* Testimonial Card Styles */
+        .testimonial-card {
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15) !important;
+        }
+
+        .testimonial-author {
+            font-size: 14px;
+        }
+
+        .ml-10 {
+            margin-left: 10px;
+        }
+
+        .p-30 {
+            padding: 30px;
+        }
+
+        .pt-70 {
+            padding-top: 70px;
+        }
+
+        .pb-70 {
+            padding-bottom: 70px;
+        }
+
+        .flex-grow-1 {
+            flex: 1;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .pt-20 {
+            padding-top: 20px;
+        }
+
+        .mt-auto {
+            margin-top: auto;
+        }
             .accordion-button {
                 padding: 15px 15px;
                 font-size: 14px;
@@ -714,11 +763,70 @@
         </div>
     </section>
 
-    <section class="review-section">
-        <div class="container">
-            <div class="row">
-                <div class='sk-ww-google-reviews' data-embed-id='25389280'></div>
-                <script data-src='https://widgets.sociablekit.com/google-reviews-old/widget.js' defer></script>
+    <section class="review-section bg-lighter">
+        <div class="container pt-70 pb-70">
+            <div class="section-title text-center">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h2 class="mt-0 line-height-1">What Our <span class="text-theme-colored2">Clients Say</span></h2>
+                        <p class="text-gray">Real testimonials from our dedicated yoga practitioners and students</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mtli-row-clearfix">
+                <div class="col-md-12">
+                    <div class="owl-carousel-3col" data-nav="true" data-dots="true">
+                        @forelse($testimonials as $testimonial)
+                            <div class="item">
+                                <div class="testimonial-card bg-white p-30 rounded" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-height: 350px; display: flex; flex-direction: column;">
+                                    <!-- Star Rating -->
+                                    <div class="mb-20">
+                                        @for($i = 0; $i < $testimonial->test_review; $i++)
+                                            <span style="color: #FFD700; font-size: 18px;">★</span>
+                                        @endfor
+                                        <small class="text-gray ml-10">({{ $testimonial->test_review }}/5)</small>
+                                    </div>
+
+                                    <!-- Review Text -->
+                                    <div class="flex-grow-1">
+                                        <p class="text-black" style="line-height: 1.6; margin-bottom: 20px;">
+                                            <em>"{{ $testimonial->test_description }}"</em>
+                                        </p>
+                                    </div>
+
+                                    <!-- Reviewer Info -->
+                                    <div class="testimonial-author mt-auto pt-20" style="border-top: 1px solid #e0e0e0;">
+                                        <div class="d-flex align-items-center">
+                                            @if($testimonial->test_image)
+                                                <img src="{{ asset($testimonial->test_image) }}" 
+                                                     width="50" height="50" 
+                                                     alt="{{ $testimonial->test_name }}" 
+                                                     style="border-radius: 50%; object-fit: cover; margin-right: 15px;">
+                                            @else
+                                                <div style="width: 50px; height: 50px; background-color: #e07f00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 15px;">
+                                                    {{ strtoupper(substr($testimonial->test_name, 0, 1)) }}
+                                                </div>
+                                            @endif
+                                            <div>
+                                                <h5 class="mb-0 text-dark">{{ $testimonial->test_name }}</h5>
+                                                @if($testimonial->test_position)
+                                                    <small class="text-gray">{{ $testimonial->test_position }}</small>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-md-12">
+                                <div class="alert alert-info text-center">
+                                    <p>No testimonials available yet. Check back soon!</p>
+                                </div>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
             </div>
         </div>
     </section>

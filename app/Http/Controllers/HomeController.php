@@ -16,6 +16,7 @@ use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\Yoga;
 use App\Models\Event;
+use App\Models\Testimonial;
 
 class HomeController extends Controller
 {
@@ -64,6 +65,9 @@ class HomeController extends Controller
         $api = $this->api_main;
     
         $rand_service = Service::getSixCategoryForHomePage();
+        
+        // Fetch testimonials for review section
+        $testimonials = Testimonial::orderByDesc('test_id')->limit(6)->get();
 
         return view('front.home', compact(
             'app_setting',
@@ -78,6 +82,7 @@ class HomeController extends Controller
             'section_2',  // ✅ Pass Section 2
             'section_2_content',  // ✅ Pass Section 2 Content
             'rand_service',
+            'testimonials'
         ));
     }   
     
