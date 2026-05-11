@@ -376,6 +376,7 @@ class HomeController extends Controller
         });
         $data['api'] = $this->api_main;;
         $data['page_data'] = Front::getLandingPageBySlug($slug);
+        $data['testimonials'] = Testimonial::orderByDesc('test_id')->get();
 
         return view('front.landing_page', $data);
     }
