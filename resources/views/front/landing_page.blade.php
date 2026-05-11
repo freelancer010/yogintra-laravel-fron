@@ -7,11 +7,13 @@
 @push('page_preloads')
     <!-- Critical preloads for LCP optimization -->
     <link rel="preload" as="image" href="{{ asset($page_data->page_image) }}" fetchpriority="high">
-    <link rel="preload" as="image" href="{{ asset('assets/bg-graphic-free-img-1.webp') }}" fetchpriority="low">
     
     <!-- DNS prefetch for external resources -->
     <link rel="dns-prefetch" href="https://geodata.phplift.net">
     <link rel="dns-prefetch" href="https://widgets.sociablekit.com">
+    
+    <!-- Optimize hero image rendering -->
+    <link rel="preconnect" href="{{ asset('') }}" crossorigin>
     
     <!-- Critical inline styles for above-the-fold content -->
     <style>
@@ -47,13 +49,13 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background-attachment: fixed;
         position: relative;
         padding: 80px 0;
         overflow: hidden;
         background-image: url('{{ asset($page_data->page_image) }}');
         background-color: #000;
         contain: layout style paint;
+        will-change: background-image;
     }
     
     #home::before {
@@ -629,18 +631,29 @@
     /* LCP Optimizations */
     section:not(#home) {
         content-visibility: auto;
-        contain-intrinsic-size: 0 500px;
+        contain-intrinsic-size: 0 600px;
     }
 
     /* Defer below-the-fold rendering */
-    .bg-lighter,
+    .bg-lighter {
+        content-visibility: auto;
+        contain-intrinsic-size: 0 800px;
+    }
+    
     .review-section {
         content-visibility: auto;
+        contain-intrinsic-size: 0 900px;
     }
 
     /* Optimize images */
     img[loading="lazy"] {
         content-visibility: auto;
+    }
+    
+    /* Reduce repaints on scroll */
+    #home .display-table {
+        will-change: auto;
+        transform: translateZ(0);
     }
 
     .sub-text-custom {
@@ -750,6 +763,29 @@
             padding-left: 10px;
             padding-right: 10px;
         }
+    }
+    
+    /* Additional LCP optimizations */
+    * {
+        box-sizing: border-box;
+    }
+    
+    /* Ensure hero content doesn't cause layout shift */
+    .home-content h1 {
+        font-size: 2.8rem;
+        line-height: 1.2;
+        font-weight: 700;
+    }
+    
+    .home-content h3 {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    /* Optimize font loading */
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        font-display: swap;
     }
    </style>
 @endpush
@@ -1295,12 +1331,19 @@
 @endsection
 
 @push('scripts')
-<!-- Bootstrap 5 Popper and JS for Accordion -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<!-- Bootstrap 5 Popper and JS for Accordion - Deferred loading -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" defer></script>
 
 <!-- Landing page specific scripts - deferred to after FCP -->
-<script type="text/javascript">
+<script type="text/javascript" defer>
+// Optimize initial hero section rendering
+window.addEventListener('load', function() {
+    // Initialize forms and interactions after page load
+    initLandingPageForms();
+    lazyLoadGoogleReviews();
+}, { once: true });
+
 // Lazy-load Google Reviews widget only when visible
 function lazyLoadGoogleReviews() {
     const reviewSection = document.querySelector('.review-section');
@@ -1483,26 +1526,10 @@ function initLandingPageForms() {
     }
 }
 
+
 // Initialize form logic after page is interactive (not blocking FCP)
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-        // Defer to next frame to ensure jQuery is ready
-        requestAnimationFrame(function() {
-            setTimeout(function() {
-                initLandingPageForms();
-                lazyLoadGoogleReviews();
-            }, 100);
-        });
-    });
-} else {
-    // DOM already loaded
-    requestAnimationFrame(function() {
-        setTimeout(function() {
-            initLandingPageForms();
-            lazyLoadGoogleReviews();
-        }, 100);
-    });
-}
+// Already handled by window load event above
+
 </script>
 
 @endpush
