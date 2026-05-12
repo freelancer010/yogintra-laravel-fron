@@ -18,7 +18,7 @@
             </div>
         <div class="col-sm-6 col-md-2">
                 <div class="widget dark mb-0">
-                    <h3 class="widget-title line-bottom">Our Events</h3>
+                    <h6 class="widget-title line-bottom">Our Events</h6>
                     <ul class="list-border">
                         <li><a href="{{ url('/teacher-training-course') }}">TTC</a></li>   
                         <li><a href="{{ url('/retreat') }}">Retreat</a></li>
@@ -29,7 +29,7 @@
             </div>
             <div class="col-sm-6 col-md-2">
                 <div class="widget dark mb-0">
-                    <h3 class="widget-title line-bottom">Useful Links</h3>
+                    <h6 class="widget-title line-bottom">Useful Links</h6>
                     <ul class="list-border">
                         <li><a href="{{ url('about') }}">About</a></li>
                         <li><a href="{{ url('blog') }}">Blog</a></li>
@@ -40,7 +40,7 @@
             </div>
             <div class="col-sm-6 col-md-2">
                 <div class="widget dark mb-0">
-                    <h3 class="widget-title line-bottom">Our Service</h3>
+                    <h6 class="widget-title line-bottom">Our Service</h6>
                     <ul class="list-border">
                         <li><a href="{{ url('service/home-visit-yoga') }}">Home Visit Yoga</a></li>
                         <li><a href="{{ url('service/private-online-yoga') }}">Private Online Yoga</a></li>
@@ -51,7 +51,7 @@
             </div>
             <div class="col-sm-6 col-md-3">
                 <div class="widget dark mb-0">
-                    <h3 class="widget-title line-bottom">Support</h3>
+                    <h6 class="widget-title line-bottom">Support</h6>
                     <div class="opening-hours">
                         <ul class="list-border mt-5">
                             <li class="m-0 pl-10 pr-10"> 

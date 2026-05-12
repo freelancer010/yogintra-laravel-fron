@@ -787,6 +787,10 @@
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
         font-display: swap;
     }
+
+    .text-dark {
+        color: #444444 !important;
+    }
    </style>
 @endpush
 
@@ -1069,7 +1073,7 @@
             <div class="section-title text-center">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h2 class="mt-0 line-height-1">Meet Our <span class="text-theme-colored2">Instructors</span></h2>
+                        <h3 style="font-size: 30px;" class="mt-0 line-height-1">Meet Our <span class="text-theme-colored2">Instructors</span></h3 style="font-size: 30px;">
                     </div>
                 </div>
             </div>
@@ -1142,7 +1146,7 @@
         <div class="section-title text-center">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <h2 class="mt-0 line-height-1">What Our <span class="text-theme-colored2">Clients Say</span></h2>
+                    <h3 style="font-size: 30px;" class="mt-0 line-height-1">What Our <span class="text-theme-colored2">Clients Say</span></h3>
                     <p class="text-gray">Real testimonials from our dedicated yoga practitioners and students</p>
                 </div>
             </div>
@@ -1183,9 +1187,9 @@
                                             </div>
                                         @endif
                                         <div>
-                                            <h5 class="mb-0 text-dark">{{ $testimonial->test_name }}</h5>
+                                            <h4 class="mb-0 text-dark">{{ $testimonial->test_name }}</h4>
                                             @if($testimonial->test_position)
-                                                <small class="text-gray">{{ $testimonial->test_position }}</small>
+                                                <small class="text-dark">{{ $testimonial->test_position }}</small>
                                             @endif
                                         </div>
                                     </div>
@@ -1211,7 +1215,7 @@
         <div class="section-title text-center">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <h2 class="mt-0">Frequently Asked <span class="text-theme-colored2">Questions</span></h2>
+                    <h5 class="mt-0" style="font-size: 30px;">Frequently Asked <span class="text-theme-colored2">Questions</span></h5>
                     <p class="text-theme-colored2">Your questions answered about our yoga services</p>
                 </div>
             </div>
@@ -1222,11 +1226,11 @@
                 <div class="accordion" id="faqAccordion">
                     <!-- FAQ Item 1 -->
                     <div class="accordion-item mb-15 border-1px">
-                        <h2 class="accordion-header" id="headingOne">
+                        <h5 class="accordion-header" id="headingOne">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 <strong>What is YogIntra and what services do you offer?</strong>
                             </button>
-                        </h2>
+                        </h5>
                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 <p>YogIntra is India's premier yoga platform offering comprehensive services including:</p>
@@ -1244,11 +1248,11 @@
 
                     <!-- FAQ Item 2 -->
                     <div class="accordion-item mb-15 border-1px">
-                        <h2 class="accordion-header" id="headingTwo">
+                        <h5 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 <strong>Are your yoga classes suitable for beginners?</strong>
                             </button>
-                        </h2>
+                        </h5>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 <p>Absolutely! YogIntra welcomes all levels, including complete beginners. Our experienced trainers:</p>
@@ -1264,11 +1268,11 @@
 
                     <!-- FAQ Item 3 -->
                     <div class="accordion-item mb-15 border-1px">
-                        <h2 class="accordion-header" id="headingThree">
+                        <h5 class="accordion-header" id="headingThree">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 <strong>How do I book a session or class with YogIntra?</strong>
                             </button>
-                        </h2>
+                        </h5>
                         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 <p>Booking is simple and straightforward:</p>
@@ -1284,11 +1288,11 @@
 
                     <!-- FAQ Item 4 -->
                     <div class="accordion-item mb-15 border-1px">
-                        <h2 class="accordion-header" id="headingFour">
+                        <h5 class="accordion-header" id="headingFour">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                 <strong>Do YogIntra Trainers offer personalized programs?</strong>
                             </button>
-                        </h2>
+                        </h5>
                         <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 <p>Absolutely. Trainers can design customized plans for:</p>
@@ -1304,11 +1308,11 @@
 
                     <!-- FAQ Item 5 -->
                     <div class="accordion-item mb-15 border-1px">
-                        <h2 class="accordion-header" id="headingFive">
+                        <h5 class="accordion-header" id="headingFive">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                 <strong>How can I contact YogIntra?</strong>
                             </button>
-                        </h2>
+                        </h5>
                         <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 <p>You can reach the team via:</p>

@@ -476,20 +476,22 @@
         .mt-auto {
             margin-top: auto;
         }
-            .accordion-button {
-                padding: 15px 15px;
-                font-size: 14px;
-            }
+        .accordion-button {
+            padding: 15px 15px;
+            font-size: 14px;
+        }
 
-            .accordion-body {
-                padding: 15px;
-                font-size: 14px;
-            }
+        .accordion-body {
+            padding: 15px;
+            font-size: 14px;
+        }
 
-            .col-md-8.col-md-offset-2 {
-                padding-left: 10px;
-                padding-right: 10px;
-            }
+        .col-md-8.col-md-offset-2 {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .text-dark {
+            color: #444444 !important;
         }
   </style>
 @endpush
@@ -785,7 +787,7 @@
                                         @for($i = 0; $i < $testimonial->test_review; $i++)
                                             <span style="color: #FFD700; font-size: 18px;">★</span>
                                         @endfor
-                                        <small class="text-gray ml-10">({{ $testimonial->test_review }}/5)</small>
+                                        <small class="text-dark ml-10">({{ $testimonial->test_review }}/5)</small>
                                     </div>
 
                                     <!-- Review Text -->
@@ -811,7 +813,7 @@
                                             <div>
                                                 <h5 class="mb-0 text-dark">{{ $testimonial->test_name }}</h5>
                                                 @if($testimonial->test_position)
-                                                    <small class="text-gray">{{ $testimonial->test_position }}</small>
+                                                    <small class="text-dark">{{ $testimonial->test_position }}</small>
                                                 @endif
                                             </div>
                                         </div>
