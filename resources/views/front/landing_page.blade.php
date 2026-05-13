@@ -418,7 +418,7 @@
          border-radius: 50px;
       }
 
-      .about-section .image-column .inner-column .author-desc h2 {
+      .about-section .image-column .inner-column .author-desc h4 {
          font-size: 21px;
          letter-spacing: 1px;
          text-align: center;
@@ -428,7 +428,7 @@
 
       .about-section .image-column .inner-column .author-desc span {
          font-size: 16px;
-         /*letter-spacing: 6px;*/
+         letter-spacing: 1px;
          text-align: center;
          color: #fff;
          display: block;
@@ -1026,7 +1026,7 @@
                     <img loading="lazy" src="{{ asset('assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp') }}" alt="YogIntra" class="img-fluid" width="250" height="200">
                 </div>
                 <div class="col-md-8 text-start text-md-start">
-                    <h2 class="mt-4">About YogIntra:</h2>
+                    <h4 style="font-size: 30px;" class="mt-4">About YogIntra:</h4>
                     <p class="text-size color-444">
                         Back In 2011, Started with a thought to make common people experience Yoga in their busy schedule, YogIntra is now nationally and internationally building community to help people stay healthy with a numerous Yoga Experts for all age group and gender. YogIntra comes from two words Yog and Intra, where yog comes from Sanskrit word “Yuj” Which Means connection between “Soul” (Aatma) and “God”(Parmatma) And Intra is an English Word Which Means Within. YogIntra is the connection between the soul and God within oneself.
                     </p>
@@ -1042,7 +1042,7 @@
             <div class="image-column col-lg-6 col-md-12 col-sm-12">
                 <div class="inner-column wow fadeInLeft">
                     <div class="author-desc">
-                        <h2>Amit Pandey</h2>
+                        <h4>Amit Pandey</h4>
                         <span>CEO & Founder of Yogintra</span>
                     </div>
                     <figure class="image-1">
@@ -1054,7 +1054,7 @@
             <div class="content-column col-lg-6 col-md-12 col-sm-12 order-2 padding-top-media">
                 <div class="inner-column">
                     <div class="sec-title">
-                        <h2>About Founder:</h2>
+                        <h4 style="font-size: 40px; margin-bottom: 15px;">About Founder:</h4>
                     </div>
                     <div class="text color-444">
                         Mr. Amit Pandey started his journey of yoga back in 2005 as student in Yogic science and then he understood Yoga is the only way he would be able to help people bring smiles back on their faces in this struggling and fast life. He served few years Internationally as a Yoga trainer but coming back to India during his visit a few years back, a thought him hard “Charity begins at home.” And then he never went back thinking about people here need know about Yoga and Yoga Benefits.
@@ -1073,7 +1073,7 @@
             <div class="section-title text-center">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h3 style="font-size: 30px;" class="mt-0 line-height-1">Meet Our <span class="text-theme-colored2">Instructors</span></h3 style="font-size: 30px;">
+                        <h4 style="font-size: 30px;" class="mt-0 line-height-1">Meet Our <span class="text-theme-colored2">Instructors</span></h4 style="font-size: 30px;">
                     </div>
                 </div>
             </div>
