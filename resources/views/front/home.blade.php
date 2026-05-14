@@ -781,9 +781,9 @@
                     <div class="owl-carousel-3col" data-nav="true" data-dots="true">
                         @forelse($testimonials as $testimonial)
                             <div class="item">
-                                <div class="testimonial-card bg-white p-30 rounded" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: 350px; display: flex; flex-direction: column; overflow: hidden;">
+                                <div class="testimonial-card bg-white rounded" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: 350px; display: flex; flex-direction: column; overflow: hidden; padding: 25px;">
                                     <!-- Star Rating -->
-                                    <div class="mb-20">
+                                    <div style="margin-bottom: 15px; flex-shrink: 0;">
                                         @for($i = 0; $i < $testimonial->test_review; $i++)
                                             <span style="color: #FFD700; font-size: 18px;">★</span>
                                         @endfor
@@ -791,29 +791,29 @@
                                     </div>
 
                                     <!-- Review Text -->
-                                    <div class="flex-grow-1">
-                                        <p class="text-black" style="line-height: 1.6; margin-bottom: 20px;">
+                                    <div style="flex: 1; overflow-y: auto; margin-bottom: 15px;">
+                                        <p class="text-black" style="line-height: 1.6; margin: 0; font-size: 14px;">
                                             <em>"{{ $testimonial->test_description }}"</em>
                                         </p>
                                     </div>
 
                                     <!-- Reviewer Info -->
-                                    <div class="testimonial-author mt-auto pt-20" style="border-top: 1px solid #e0e0e0;">
-                                        <div class="d-flex align-items-center">
+                                    <div class="testimonial-author" style="border-top: 1px solid #e0e0e0; padding-top: 12px; flex-shrink: 0;">
+                                        <div style="display: flex; align-items: center; gap: 12px;">
                                             @if($testimonial->test_image)
                                                 <img src="{{ asset($testimonial->test_image) }}" 
-                                                     width="50" height="50" 
+                                                     width="45" height="45" 
                                                      alt="{{ $testimonial->test_name }}" 
-                                                     style="border-radius: 50%; object-fit: cover; margin-right: 15px;">
+                                                     style="border-radius: 50%; object-fit: cover; flex-shrink: 0;">
                                             @else
-                                                <div style="width: 50px; height: 50px; background-color: #e07f00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 15px;">
+                                                <div style="width: 45px; height: 45px; background-color: #e07f00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; flex-shrink: 0;">
                                                     {{ strtoupper(substr($testimonial->test_name, 0, 1)) }}
                                                 </div>
                                             @endif
-                                            <div>
-                                                <h5 class="mb-0 text-dark">{{ $testimonial->test_name }}</h5>
+                                            <div style="min-width: 0;">
+                                                <h5 class="mb-0 text-dark" style="font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $testimonial->test_name }}</h5>
                                                 @if($testimonial->test_position)
-                                                    <small class="text-dark">{{ $testimonial->test_position }}</small>
+                                                    <small class="text-dark" style="font-size: 12px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $testimonial->test_position }}</small>
                                                 @endif
                                             </div>
                                         </div>
