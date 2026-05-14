@@ -799,14 +799,14 @@
 
                                     <!-- Reviewer Info -->
                                     <div class="testimonial-author" style="border-top: 1px solid #e0e0e0; padding-top: 12px; flex-shrink: 0;">
-                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                        <div style="display: flex; align-items: center; gap: 10px;">
                                             @if($testimonial->test_image)
                                                 <img src="{{ asset($testimonial->test_image) }}" 
-                                                     width="45" height="45" 
+                                                     width="38" height="38" 
                                                      alt="{{ $testimonial->test_name }}" 
                                                      style="border-radius: 50%; object-fit: cover; flex-shrink: 0;">
                                             @else
-                                                <div style="width: 45px; height: 45px; background-color: #e07f00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; flex-shrink: 0;">
+                                                <div style="width: 38px; height: 38px; background-color: #e07f00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; flex-shrink: 0; font-size: 16px;">
                                                     {{ strtoupper(substr($testimonial->test_name, 0, 1)) }}
                                                 </div>
                                             @endif
