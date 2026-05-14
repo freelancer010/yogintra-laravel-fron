@@ -781,7 +781,7 @@
                     <div class="owl-carousel-3col" data-nav="true" data-dots="true">
                         @forelse($testimonials as $testimonial)
                             <div class="item">
-                                <div class="testimonial-card bg-white p-30 rounded" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-height: 350px; display: flex; flex-direction: column;">
+                                <div class="testimonial-card bg-white p-30 rounded" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: 350px; display: flex; flex-direction: column; overflow: hidden;">
                                     <!-- Star Rating -->
                                     <div class="mb-20">
                                         @for($i = 0; $i < $testimonial->test_review; $i++)
