@@ -493,6 +493,11 @@
         .text-dark {
             color: #444444 !important;
         }
+
+        .fs-14 {
+            font-size: 14px !important;
+            font-weight: normal;
+        }
   </style>
 @endpush
 @section('content')
@@ -608,7 +613,7 @@
                                         </a>
                                         <div class="media-body">
                                             <h3 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h3>
-                                            <p class="text-black">{{ $content_1->of_description }}</p>
+                                            <h3 class="fs-14 text-black">{{ $content_1->of_description }}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -661,7 +666,7 @@
                     <div class="section-title text-center mb-50">
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-md-10">
-                                <h3 class="ssc-ttl brief-dec-title m-fs-25 mb-20">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</h3>
+                                <h2 class="ssc-ttl brief-dec-title m-fs-25 mb-20">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</h2>
                                 <p class="text-center">We at YogIntra provide various services to the nature of the clients. Wish how you would like to spend your time here we can talk and come to a conclusion.</p>
                             </div>
                         </div>
@@ -725,7 +730,7 @@
             <div class="section-title text-center">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h2 class="mt-0 line-height-1">Meet Our <span class="text-theme-colored2">Instructors</span></h2>
+                        <h3 class="h2 mt-0 line-height-1">Meet Our <span class="text-theme-colored2">Instructors</span></h3>
                     </div>
                 </div>
             </div>
@@ -746,7 +751,7 @@
                                     @endphp
                                     <div class="team-details">
                                         <div class="p-10">
-                                            <h3 class="text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name }}</h3>
+                                            <h4 class="text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name }}</h4>
                                             {{-- <p class="mt-0 mb-0 text-dark">Age - {{ $age }}</p> --}}
                                         </div>
                                     </div>
@@ -770,7 +775,7 @@
             <div class="section-title text-center">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h2 class="mt-0 line-height-1">What Our <span class="text-theme-colored2">Clients Say</span></h2>
+                        <h3 class="h2 mt-0 line-height-1">What Our <span class="text-theme-colored2">Clients Say</span></h3>
                         <p class="text-gray">Real testimonials from our dedicated yoga practitioners and students</p>
                     </div>
                 </div>
@@ -811,7 +816,7 @@
                                                 </div>
                                             @endif
                                             <div style="min-width: 0;">
-                                                <h5 class="mb-0 text-dark" style="font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $testimonial->test_name }}</h5>
+                                                <h4 class="mb-0 text-dark" style="font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $testimonial->test_name }}</h4>
                                                 @if($testimonial->test_position)
                                                     <small class="text-dark" style="font-size: 12px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $testimonial->test_position }}</small>
                                                 @endif
@@ -841,7 +846,7 @@
             <div class="section-title text-center">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h2 class="mt-0 line-height-1">Frequently Asked <span class="text-theme-colored2">Questions</span></h2>
+                        <h5 class="h2 mt-0 line-height-1">Frequently Asked <span class="text-theme-colored2">Questions</span></h5>
                         <p class="text-gray">Find answers to common questions about YogIntra services and programs</p>
                     </div>
                 </div>
@@ -852,11 +857,11 @@
                     <div class="accordion" id="faqAccordion">
                         <!-- FAQ Item 1 -->
                         <div class="accordion-item mb-15 border-1px">
-                            <h2 class="accordion-header" id="headingOne">
+                            <h5 class="h2 accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     <strong>What is YogIntra?</strong>
                                 </button>
-                            </h2>
+                            </h5>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     Yogintra is a wellness platform offering yoga classes, holistic programs, and community events designed to support physical, mental, and spiritual well-being.
