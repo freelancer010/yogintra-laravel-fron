@@ -6,7 +6,8 @@
 
 @push('page_preloads')
     <!-- Critical preloads for LCP optimization -->
-    <link rel="preload" as="image" href="{{ asset($page_data->page_image) }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ asset($page_data->page_image) }}" fetchpriority="high" media="(min-width: 768px)">
+    <link rel="preload" as="image" href="{{ asset($page_data->page_image) }}" fetchpriority="high" media="(max-width: 767px)">
     
     <!-- DNS prefetch for external resources -->
     <link rel="dns-prefetch" href="https://geodata.phplift.net">
@@ -19,9 +20,27 @@
     <style>
         #home {
             background-image: url('{{ asset($page_data->page_image) }}') !important;
-            min-height: 50vh;
-            aspect-ratio: 16/9;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
             contain: layout style paint;
+            will-change: background-image;
+        }
+        
+        @media (min-width: 768px) {
+            #home {
+                min-height: 50vh;
+                aspect-ratio: 16/9;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            #home {
+                min-height: 35vh;
+                aspect-ratio: auto;
+                padding: 40px 20px !important;
+            }
         }
         
         .home-content {
@@ -86,11 +105,11 @@
     
     @media (max-width: 767px) {
         #home {
-            min-height: 50vh;
+            min-height: 40vh;
             background-position: 30% center !important;
             background-size: cover !important;
             background-attachment: scroll !important;
-            padding: 60px 20px !important;
+            padding: 30px 15px !important;
             aspect-ratio: auto;
         }
         #home::before {
@@ -100,6 +119,17 @@
             text-align: center !important;
             width: 100% !important;
             background-color: rgba(0, 0, 0, 0.3) !important;
+            padding: 10px !important;
+        }
+        .home-content h1 {
+            font-size: 1.5rem !important;
+            line-height: 1.3 !important;
+            margin: 0 !important;
+        }
+        .home-content h3,
+        .home-content h5 {
+            font-size: 0.9rem !important;
+            margin-top: 10px !important;
         }
     }
 
@@ -172,6 +202,104 @@
         color: #fff;
     }
     
+    @media (min-width: 768px) {
+        /* Desktop/Tablet - restore original layout */
+        .col-sm-4 {
+            display: block !important;
+            width: calc(33.333% - 20px) !important;
+            margin: 0 10px !important;
+            float: left !important;
+        }
+
+        .col-sm-4 h2 {
+            font-size: 16px !important;
+        }
+
+        .col-sm-4 img {
+            width: 100px !important;
+            height: 100px !important;
+            image-rendering: crisp-edges !important;
+            image-rendering: -webkit-optimize-contrast !important;
+            -ms-interpolation-mode: nearest-neighbor !important;
+            backface-visibility: hidden !important;
+            -webkit-backface-visibility: hidden !important;
+            transform: translateZ(0) !important;
+            -webkit-transform: translateZ(0) !important;
+            will-change: transform !important;
+        }
+
+        /* Restore desktop icon box alignment */
+        .icon-box.media {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: flex-start !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+        }
+
+        .icon-box .icon {
+            float: left !important;
+            margin-bottom: 0 !important;
+            margin-right: 25px !important;
+            margin-left: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: auto !important;
+            flex-shrink: 0;
+        }
+
+        .icon-box .icon img {
+            width: 90px !important;
+            height: 90px !important;
+            image-rendering: crisp-edges !important;
+            image-rendering: -webkit-optimize-contrast !important;
+            -ms-interpolation-mode: nearest-neighbor !important;
+            backface-visibility: hidden !important;
+            -webkit-backface-visibility: hidden !important;
+            transform: translateZ(0) !important;
+            -webkit-transform: translateZ(0) !important;
+            will-change: transform !important;
+            filter: drop-shadow(0 0 0px rgba(0,0,0,0)) !important;
+        }
+
+        .icon-box .media-body {
+            width: auto !important;
+            text-align: left !important;
+            flex-grow: 1;
+        }
+
+        .icon-box.left {
+            text-align: left !important;
+        }
+
+        /* Desktop col-lg-6 layout */
+        .col-lg-6.col-md-12.col-sm-12.w-48-desktop {
+            display: inline-block !important;
+            width: calc(50% - 10px) !important;
+            margin-bottom: 25px !important;
+            padding: 5px !important;
+            vertical-align: top;
+            box-sizing: border-box;
+        }
+
+        .col-lg-6 .icon-box {
+            margin: 0 !important;
+            text-align: left !important;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: flex-start;
+            padding: 10px !important;
+        }
+
+        .pull-left.flip {
+            float: left !important;
+            margin-right: 20px !important;
+            margin-bottom: 0 !important;
+            margin-left: 0 !important;
+        }
+    }
+
     @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
         /* Tablet-specific styles */
         .w-48-desktop {
@@ -666,6 +794,340 @@
         color: #444444 !important;
     }
 
+    /* Mobile Layout Fixes */
+    @media (max-width: 767px) {
+        /* General spacing fixes */
+        .container {
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+        }
+
+        /* Section spacing */
+        section {
+            padding: 20px 0 !important;
+        }
+
+        section .container {
+            padding-top: 20px !important;
+            padding-bottom: 20px !important;
+        }
+
+        /* Icon boxes responsive */
+        .icon-box {
+            margin-bottom: 20px !important;
+            padding: 15px 10px !important;
+        }
+
+        .icon-box .media-body {
+            padding-left: 15px !important;
+        }
+
+        .icon-box h3 {
+            font-size: 16px !important;
+            margin: 10px 0 !important;
+        }
+
+        .icon-box p {
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+            margin: 0 !important;
+        }
+
+        /* Icon responsive */
+        .icon img {
+            width: 60px !important;
+            height: 60px !important;
+            image-rendering: crisp-edges !important;
+            image-rendering: -webkit-optimize-contrast !important;
+            -ms-interpolation-mode: nearest-neighbor !important;
+            backface-visibility: hidden !important;
+            -webkit-backface-visibility: hidden !important;
+            transform: translateZ(0) !important;
+            -webkit-transform: translateZ(0) !important;
+            will-change: transform !important;
+        }
+
+        /* Section title fixes */
+        .section-title {
+            margin-bottom: 20px !important;
+        }
+
+        .section-title h2,
+        .section-title h3 {
+            font-size: 24px !important;
+            margin: 15px 0 !important;
+            line-height: 1.3 !important;
+        }
+
+        .section-title p {
+            font-size: 13px !important;
+            line-height: 1.6 !important;
+            margin: 10px 0 !important;
+        }
+
+        /* Row and column spacing */
+        .row {
+            margin-left: -10px !important;
+            margin-right: -10px !important;
+        }
+
+        .row > [class^="col-"],
+        .row > [class*=" col-"] {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+            margin-bottom: 15px !important;
+        }
+
+        /* Service cards */
+        .col-xs-12.col-sm-6.col-md-3 {
+            padding: 10px !important;
+        }
+
+        .col-xs-12.col-sm-6.col-md-3 img {
+            max-width: 120px !important;
+            height: auto !important;
+            margin-bottom: 10px !important;
+        }
+
+        .col-xs-12.col-sm-6.col-md-3 h2 {
+            font-size: 14px !important;
+            margin: 10px 0 !important;
+        }
+
+        .col-xs-12.col-sm-6.col-md-3 .btn {
+            padding: 8px 15px !important;
+            font-size: 12px !important;
+        }
+
+        /* About section stacking */
+        .image-column {
+            margin-bottom: 30px !important;
+            text-align: center !important;
+        }
+
+        .image-column img {
+            max-width: 100% !important;
+            height: auto !important;
+            border-radius: 10px !important;
+        }
+
+        .content-column {
+            padding: 0 !important;
+        }
+
+        .content-column .sec-title h4 {
+            font-size: 24px !important;
+            text-align: center !important;
+        }
+
+        .content-column .text {
+            text-align: center !important;
+            font-size: 13px !important;
+        }
+
+        .content-column .btn-box {
+            text-align: center !important;
+        }
+
+        /* Divider section responsive */
+        .divider.parallax {
+            min-height: auto !important;
+            padding: 20px 0 !important;
+        }
+
+        .divider .container {
+            padding-top: 15px !important;
+            padding-bottom: 15px !important;
+        }
+
+        /* Media boxes alignment */
+        .media {
+            display: flex !important;
+            flex-direction: column;
+            text-align: center !important;
+            align-items: center !important;
+        }
+
+        .media .icon {
+            margin-right: 0 !important;
+            margin-bottom: 15px !important;
+        }
+
+        /* Text alignment */
+        .text-center {
+            text-align: center !important;
+        }
+
+        .text-start,
+        .text-md-start {
+            text-align: center !important;
+        }
+
+        /* Button responsive */
+        .btn {
+            display: inline-block !important;
+            padding: 10px 20px !important;
+            font-size: 13px !important;
+            width: auto !important;
+        }
+
+        /* Heading responsive sizing */
+        h1, .h1 {
+            font-size: 24px !important;
+        }
+
+        h2, .h2 {
+            font-size: 20px !important;
+        }
+
+        h3, .h3 {
+            font-size: 18px !important;
+        }
+
+        h4, .h4 {
+            font-size: 16px !important;
+        }
+
+        h5, .h5 {
+            font-size: 14px !important;
+        }
+
+        /* Image circle responsive */
+        .img-circle {
+            max-width: 120px !important;
+            max-height: 120px !important;
+        }
+
+        /* Offset removal on mobile */
+        .col-md-offset-2,
+        .offset-md-2 {
+            margin-left: 0 !important;
+        }
+
+        /* Fix large images on mobile */
+        img[src*="download.webp"],
+        img[src*="Square-Logo"] {
+            max-width: 100% !important;
+            height: auto !important;
+            width: 100% !important;
+        }
+
+        /* Pull left/right handling on mobile */
+        .pull-left,
+        .pull-right {
+            float: none !important;
+            margin: 0 auto 15px !important;
+        }
+
+        /* Flip handling */
+        .flip {
+            float: none !important;
+        }
+
+        /* Prevent horizontal scrollbar */
+        table {
+            width: 100% !important;
+            overflow-x: auto !important;
+        }
+
+        /* Icon section fixes for mobile */
+        .col-sm-4 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100% !important;
+            text-align: center !important;
+        }
+
+        .col-sm-4 img {
+            width: 80px !important;
+            height: 80px !important;
+            margin: 0 auto 15px !important;
+            display: block !important;
+            image-rendering: crisp-edges !important;
+            image-rendering: -webkit-optimize-contrast !important;
+            -ms-interpolation-mode: nearest-neighbor !important;
+            backface-visibility: hidden !important;
+            -webkit-backface-visibility: hidden !important;
+            transform: translateZ(0) !important;
+            -webkit-transform: translateZ(0) !important;
+            will-change: transform !important;
+        }
+
+        .col-sm-4 h2 {
+            font-size: 15px !important;
+            font-weight: 600 !important;
+            margin: 10px 0 !important;
+            line-height: 1.3 !important;
+            word-wrap: break-word !important;
+        }
+
+        /* Icon box media alignment fixes */
+        .icon-box.media {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+        }
+
+        .icon-box .icon {
+            float: none !important;
+            margin-bottom: 15px !important;
+            margin-right: 0 !important;
+            margin-left: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+        }
+
+        .icon-box .icon img {
+            width: 75px !important;
+            height: 75px !important;
+            display: block !important;
+            margin: 0 auto !important;
+            image-rendering: crisp-edges !important;
+            image-rendering: -webkit-optimize-contrast !important;
+            -ms-interpolation-mode: nearest-neighbor !important;
+            backface-visibility: hidden !important;
+            -webkit-backface-visibility: hidden !important;
+            transform: translateZ(0) !important;
+            -webkit-transform: translateZ(0) !important;
+            will-change: transform !important;
+        }
+
+        .icon-box .media-body {
+            width: 100% !important;
+            text-align: center !important;
+            padding: 0 !important;
+        }
+
+        .icon-box.left {
+            text-align: center !important;
+        }
+
+        /* Yoga reasons section mobile alignment */
+        .col-lg-6.col-md-12.col-sm-12.w-48-desktop {
+            display: block !important;
+            width: 100% !important;
+            margin-bottom: 30px !important;
+            padding: 15px !important;
+        }
+
+        .col-lg-6 .icon-box {
+            margin: 0 auto !important;
+            text-align: center !important;
+        }
+
+        .pull-left.flip {
+            float: none !important;
+            display: block !important;
+            margin: 0 auto 15px !important;
+        }
+    }
+
     /* FAQ Accordion Styles */
     .faq-section {
         padding: 60px 0;
@@ -826,7 +1288,7 @@
 </section>
 
 <!-- Section: About -->
-<section>
+{{-- <section>
     <div class="container" style="padding-top: 30px !important;padding-bottom: 30px!important;">
         <div class="row">
             <div class="col-sm-8" style="text-align: justify;">
@@ -834,7 +1296,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 
 
 <section class="">

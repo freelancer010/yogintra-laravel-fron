@@ -46,29 +46,90 @@
     <!-- FOR PWA MANIFEST -->
     <link rel="manifest" href="{{ asset('manifest.json')}}">
 
-    <link href="{{ asset('assets/front/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet" media="all">    
-    <link href="{{ asset('assets/front/css/menuzord-megamenu.min.css')}}" rel="stylesheet">
-    <link id="menuzord-menu-skins" href="{{ asset('assets/front/css/menuzord-skins/menuzord-bottom-trace.min.css')}}" rel="stylesheet">
+    <!-- Critical CSS for FCP -->
+    <link rel="preload" href="{{ asset('assets/front/css/bootstrap.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="{{ asset('assets/front/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
+    <noscript><link href="{{ asset('assets/front/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"></noscript>
+    
+    <!-- Defer non-critical CSS -->
+    <link rel="preload" href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet" media="all"></noscript>
+
+    <link rel="preload" href="{{ asset('assets/front/css/menuzord-megamenu.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="{{ asset('assets/front/css/menuzord-megamenu.min.css')}}" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="{{ asset('assets/front/css/menuzord-megamenu.min.css')}}" rel="stylesheet"></noscript>
+
+    <link id="menuzord-menu-skins" rel="preload" href="{{ asset('assets/front/css/menuzord-skins/menuzord-bottom-trace.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link id="menuzord-menu-skins" href="{{ asset('assets/front/css/menuzord-skins/menuzord-bottom-trace.min.css')}}" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link id="menuzord-menu-skins" href="{{ asset('assets/front/css/menuzord-skins/menuzord-bottom-trace.min.css')}}" rel="stylesheet"></noscript>
 
     <!-- FONTS -->
-    <link rel="stylesheet" href="{{ asset('assets/front/css/font-awesome.min.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('assets/front/css/elegant-icons.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/front/css/icomoon.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/front/css/ionicons.min.css') }}" media="all">
-    <link rel="stylesheet" href="{{ asset('assets/front/css/stroke-gap-icons.css') }}" media="all"> --}}
-    <link rel="stylesheet" href="{{ asset('assets/front/css/utility-classes.min.css') }}">
+    <link rel="preload" href="{{ asset('assets/front/css/font-awesome.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/font-awesome.min.css') }}" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/font-awesome.min.css') }}"></noscript>
+
+    <link rel="preload" href="{{ asset('assets/front/css/utility-classes.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/utility-classes.min.css') }}" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/utility-classes.min.css') }}"></noscript>
+
     <link rel="preconnect" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap">
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://connect.facebook.net">
 
-    <!-- MAIN CSS -->
+    <!-- MAIN CSS - Deferred for better FCP -->
     <link rel="preload" href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" rel="stylesheet" type="text/css" media="all">
-    <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="all">
-    <link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
+    <noscript><link href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" rel="stylesheet" type="text/css" media="all"></noscript>
+
+    <link rel="preload" href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
+    <noscript><link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css"></noscript>
+
+    <link rel="preload" href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
+    <noscript><link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="all"></noscript>
+
+    <link rel="preload" href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
+    <noscript><link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css"></noscript>
     
+    <!-- Critical CSS for FCP on Mobile -->
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        
+        /* Mobile-first critical styles */
+        @media (max-width: 767px) {
+            html, body { width: 100%; height: 100%; }
+            #home { min-height: 40vh; padding: 30px 15px !important; }
+            .container { width: 100%; padding: 0 15px; max-width: 100%; }
+            .row { display: flex; flex-wrap: wrap; margin: 0; }
+            .col-md-12, .col-sm-12, .col-xs-12, [class^="col-"] { width: 100%; padding: 10px; }
+            h1, h3, h5 { word-wrap: break-word; overflow-wrap: break-word; }
+            img { max-width: 100%; height: auto; display: block; }
+            
+            /* Prevent overflow on mobile */
+            body, html {
+                overflow-x: hidden;
+            }
+            
+            /* Remove horizontal scrolling */
+            .row {
+                margin-left: -10px;
+                margin-right: -10px;
+            }
+            
+            /* Ensure all images are responsive */
+            img[width]:not([width="100%"]),
+            img[height] {
+                max-width: 100% !important;
+                height: auto !important;
+                width: auto !important;
+            }
+        }
+    </style>
+
     <!-- Footer -->
     <style>
         .horizontal-list {
@@ -121,20 +182,27 @@
 
     @stack('styles') {{-- For additional CSS in child views --}}
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8QW4B6YQ9G"></script>
+    <!-- Google tag (gtag.js) - Deferred for better FCP -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-8QW4B6YQ9G');
+        window.addEventListener('load', function() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-8QW4B6YQ9G';
+            document.head.appendChild(script);
+            
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-8QW4B6YQ9G');
+        });
     </script>
 
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel Code - Deferred for better FCP -->
     <script>
         window.addEventListener('load', function () {
             setTimeout(function () {
+                var script = document.createElement('script');
+                script.innerHTML = `
                 !function(f,b,e,v,n,t,s)
                 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
                 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -145,7 +213,9 @@
                 'https://connect.facebook.net/en_US/fbevents.js');
                 fbq('init', '399354049700557');
                 fbq('track', 'PageView');
-            }, 3000);
+                `;
+                document.body.appendChild(script);
+            }, 4000);
         });
     </script>
 
