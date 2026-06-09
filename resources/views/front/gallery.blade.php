@@ -208,6 +208,7 @@
     $(document).ready(function () {
         var $gallery = $(".gallery-isotope");
         var $filterLinks = $(".portfolio-filter a");
+        var isMobile = window.innerWidth <= 767;
         
         // Initialize isotope
         function initIsotope() {
@@ -224,7 +225,7 @@
         // Initialize isotope
         initIsotope();
         
-        // Animate gallery items when they come into view (same as blog page)
+        // Animate gallery items
         var galleryItems = document.querySelectorAll('.gallery-item');
         
         function checkGalleryItems() {
@@ -238,11 +239,16 @@
             });
         }
 
-        // Check items on load
-        checkGalleryItems();
-
-        // Check items on scroll
-        window.addEventListener('scroll', checkGalleryItems);
+        // On mobile, show all items immediately (disable animation)
+        if(isMobile) {
+            galleryItems.forEach(function(item) {
+                item.classList.add('animate');
+            });
+        } else {
+            // On desktop, use scroll animation
+            checkGalleryItems();
+            window.addEventListener('scroll', checkGalleryItems);
+        }
         
         // Filter functionality
         $filterLinks.on("click", function (e) {
@@ -253,9 +259,16 @@
             var filterValue = $(this).data("filter");
             $gallery.isotope({ filter: filterValue }, function() {
                 // Re-animate filtered items
-                setTimeout(function() {
-                    checkGalleryItems();
-                }, 100);
+                if(isMobile) {
+                    // On mobile, show filtered items immediately
+                    galleryItems.forEach(function(item) {
+                        item.classList.add('animate');
+                    });
+                } else {
+                    setTimeout(function() {
+                        checkGalleryItems();
+                    }, 100);
+                }
             });
         });
     });

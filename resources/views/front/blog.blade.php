@@ -176,23 +176,32 @@
         // Animate blog cards when they come into view
         document.addEventListener('DOMContentLoaded', function() {
             var cards = document.querySelectorAll('.blog-card');
+            var isMobile = window.innerWidth <= 767;
             
-            function checkCards() {
+            // On mobile, show all cards immediately (disable animation)
+            if(isMobile) {
                 cards.forEach(function(card) {
-                    var cardPosition = card.getBoundingClientRect().top;
-                    var screenPosition = window.innerHeight - 50;
-                    
-                    if(cardPosition < screenPosition) {
-                        card.classList.add('animate');
-                    }
+                    card.classList.add('animate');
                 });
+            } else {
+                // On desktop, use scroll animation
+                function checkCards() {
+                    cards.forEach(function(card) {
+                        var cardPosition = card.getBoundingClientRect().top;
+                        var screenPosition = window.innerHeight - 50;
+                        
+                        if(cardPosition < screenPosition) {
+                            card.classList.add('animate');
+                        }
+                    });
+                }
+
+                // Check cards on load
+                checkCards();
+
+                // Check cards on scroll
+                window.addEventListener('scroll', checkCards);
             }
-
-            // Check cards on load
-            checkCards();
-
-            // Check cards on scroll
-            window.addEventListener('scroll', checkCards);
         });
     </script>
 @endpush
