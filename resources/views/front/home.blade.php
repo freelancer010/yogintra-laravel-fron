@@ -498,6 +498,10 @@
             font-size: 14px !important;
             font-weight: normal;
         }
+
+        .life-divin-section img{
+            margin:auto;
+        }
   </style>
 @endpush
 @section('content')
@@ -646,7 +650,7 @@
                         <div class="row mt-10">
                             @foreach ($section_2_content as $content_sec_2)
                                 <div class="col-sm-4 text-center">
-                                    <div class="">
+                                    <div class="life-divin-section">
                                         <img src="{{ asset($content_sec_2->os_image) }}" width="90" height="95" loading="lazy" decoding="async" alt="YogIntra Service Icon - {{ $content_sec_2->os_heading }}">
                                     </div>
                                     <h3 class="service-heading">{{ $content_sec_2->os_heading }}</h3>
@@ -776,7 +780,7 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <h3 class="h2 mt-0 line-height-1">What Our <span class="text-theme-colored2">Clients Say</span></h3>
-                        <p class="text-gray">Real testimonials from our dedicated yoga practitioners and students</p>
+                        <p class="text-black">Real testimonials from our dedicated yoga practitioners and students</p>
                     </div>
                 </div>
             </div>
@@ -797,7 +801,7 @@
 
                                     <!-- Review Text -->
                                     <div style="flex: 1; overflow-y: auto; margin-bottom: 15px;">
-                                        <p class="text-black" style="line-height: 1.6; margin: 0; font-size: 14px;">
+                                        <p class="text-black" style="line-height: 1.6; margin: 0; font-size: 17px;">
                                             <em>"{{ $testimonial->test_description }}"</em>
                                         </p>
                                     </div>
@@ -816,7 +820,7 @@
                                                 </div>
                                             @endif
                                             <div style="min-width: 0;">
-                                                <h4 class="mb-0 text-dark" style="font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $testimonial->test_name }}</h4>
+                                                <h4 class="mb-0 text-dark" style="font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $testimonial->test_name }}</h4>
                                                 @if($testimonial->test_position)
                                                     <small class="text-dark" style="font-size: 12px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $testimonial->test_position }}</small>
                                                 @endif
@@ -847,7 +851,7 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <h5 class="h2 mt-0 line-height-1">Frequently Asked <span class="text-theme-colored2">Questions</span></h5>
-                        <p class="text-gray">Find answers to common questions about YogIntra services and programs</p>
+                        <p class="text-black">Find answers to common questions about YogIntra services and programs</p>
                     </div>
                 </div>
             </div>
