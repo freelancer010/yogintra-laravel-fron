@@ -184,16 +184,20 @@
 
     <!-- Google tag (gtag.js) - Deferred for better FCP -->
     <script>
+        // Initialize dataLayer and create a stub gtag function to queue calls before the script loads
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){window.dataLayer.push(arguments);}
+        window.gtag.l = new Date().getTime();
+        
         window.addEventListener('load', function() {
             var script = document.createElement('script');
             script.async = true;
             script.src = 'https://www.googletagmanager.com/gtag/js?id=G-8QW4B6YQ9G';
             document.head.appendChild(script);
             
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-8QW4B6YQ9G');
+            // gtag function already defined above, just add config
+            window.gtag('js', new Date());
+            window.gtag('config', 'G-8QW4B6YQ9G');
         });
     </script>
 
