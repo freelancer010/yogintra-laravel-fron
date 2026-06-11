@@ -670,7 +670,7 @@
                     <div class="section-title text-center mb-50">
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-md-10">
-                                <h2 class="ssc-ttl brief-dec-title m-fs-25 mb-20">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</h2>
+                                <h5 class="ssc-ttl brief-dec-title m-fs-25 mb-20">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</h5>
                                 <p class="text-center">We at YogIntra provide various services to the nature of the clients. Wish how you would like to spend your time here we can talk and come to a conclusion.</p>
                             </div>
                         </div>
@@ -875,11 +875,11 @@
 
                         <!-- FAQ Item 2 -->
                         <div class="accordion-item mb-15 border-1px">
-                            <h2 class="accordion-header" id="headingTwo">
+                            <h5 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     <strong>What services does YogIntra provide?</strong>
                                 </button>
-                            </h2>
+                            </h5>
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     <p>Yogintra offers:</p>
@@ -897,11 +897,11 @@
 
                         <!-- FAQ Item 3 -->
                         <div class="accordion-item mb-15 border-1px">
-                            <h2 class="accordion-header" id="headingThree">
+                            <h5 class="accordion-header" id="headingThree">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                     <strong>Do YogIntra offer trial classes?</strong>
                                 </button>
-                            </h2>
+                            </h5>
                             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     Many Yogintra locations offer trial or introductory packages. Check the pricing section for current offers.
@@ -911,11 +911,11 @@
 
                         <!-- FAQ Item 4 -->
                         <div class="accordion-item mb-15 border-1px">
-                            <h2 class="accordion-header" id="headingFour">
+                            <h5 class="accordion-header" id="headingFour">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                     <strong>Do YogIntra Trainers offer personalized programs?</strong>
                                 </button>
-                            </h2>
+                            </h5>
                             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     <p>Absolutely. Trainers can design customized plans for:</p>
@@ -931,11 +931,11 @@
 
                         <!-- FAQ Item 5 -->
                         <div class="accordion-item mb-15 border-1px">
-                            <h2 class="accordion-header" id="headingFive">
+                            <h5 class="accordion-header" id="headingFive">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                     <strong>How can I contact YogIntra?</strong>
                                 </button>
-                            </h2>
+                            </h5>
                             <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     <p>You can reach the team via:</p>

@@ -31,14 +31,12 @@
         @media (min-width: 768px) {
             #home {
                 min-height: 50vh;
-                aspect-ratio: 16/9;
             }
         }
         
         @media (max-width: 767px) {
             #home {
                 min-height: 35vh;
-                aspect-ratio: auto;
                 padding: 40px 20px !important;
             }
         }
@@ -64,12 +62,12 @@
     #home {
         min-height: 50vh;
         height: auto;
-        aspect-ratio: 16 / 9;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        background-attachment: scroll !important;
         position: relative;
-        padding: 80px 0;
+        padding: 40px 0 !important;
         overflow: hidden;
         background-image: url('{{ asset($page_data->page_image) }}');
         background-color: #000;
@@ -93,6 +91,13 @@
         z-index: 2;
         width: 100%;
         height: auto;
+        display: table;
+    }
+    
+    #home .display-table-cell {
+        height: auto;
+        display: table-cell;
+        vertical-align: middle;
     }
     
     /* Added for better text readability */
@@ -110,7 +115,6 @@
             background-size: cover !important;
             background-attachment: scroll !important;
             padding: 30px 15px !important;
-            aspect-ratio: auto;
         }
         #home::before {
             background: rgba(0, 0, 0, 0.7) !important;
@@ -144,16 +148,18 @@
     @media (min-width: 768px) {
         #home {
             position: relative;
-            padding: 120px 0;
+            padding: 40px 0 !important;
         }
         .display-table {
             height: auto;
-            display: block;
+            display: table;
+            width: 100%;
         }
         .display-table-cell {
             position: relative !important;
             vertical-align: middle;
-            display: block;
+            display: table-cell;
+            height: auto;
         }
         .home-content {
             text-align: right !important;
@@ -792,6 +798,12 @@
 
     .color-444{
         color: #444444 !important;
+    }
+
+    /* Hide empty sections that create gap after banner */
+    section:has(> .container > .section-title:empty),
+    section:has(> .container:only-child > .section-title:empty) {
+        display: none !important;
     }
 
     /* Mobile Layout Fixes */
