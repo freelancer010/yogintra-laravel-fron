@@ -1334,7 +1334,7 @@
         </p>
       </div>
 
-      <div class="row mt-10">
+      <div class="row mt-30">
         <div class="col-sm-4 text-center">
           <div class="">
             <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines" width="100" height="100" decoding="async">
