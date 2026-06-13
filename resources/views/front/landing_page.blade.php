@@ -1608,7 +1608,9 @@
                     </div>
                 </div>
             @endfor
-            <div class="text-center">
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
                 <a href="{{ url('gallery') }}" class="btn btn-success mt-15">View More Gallery <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
             </div>
         </div>
