@@ -1339,21 +1339,21 @@
           <div class="">
             <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines" width="100" height="100" decoding="async">
           </div>
-          <h2 style="font-size: 16px">Alternative Medicines</h2>
+          <h5 style="font-size: 16px">Alternative Medicines</h5>
         </div>
 
         <div class="col-sm-4 text-center">
           <div class="">
             <img loading="lazy" src="{{ asset('assets/front/images/6503dbc7b2fc5icon-2.png') }}" alt="For Good Health" width="100" height="100" decoding="async">
           </div>
-          <h2 style="font-size: 16px">For Good Health</h2>
+          <h5 style="font-size: 16px">For Good Health</h5>
         </div>
 
         <div class="col-sm-4 text-center">
           <div class="">
             <img loading="lazy" src="{{ asset('assets/front/images/6503dbe5edf47icon-3.png') }}" alt="Healthy Mind &amp; Body" width="100" height="100" decoding="async">
           </div>
-          <h2 style="font-size: 16px">Healthy Mind &amp; Body</h2>
+          <h5 style="font-size: 16px">Healthy Mind &amp; Body</h5>
         </div>
 
       </div>
