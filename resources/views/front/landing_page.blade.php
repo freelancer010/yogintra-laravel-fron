@@ -1335,27 +1335,35 @@
       </div>
 
       <div class="row mt-30">
-        <div class="col-sm-4 text-center">
-          <div class="">
-            <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines" width="100" height="100" decoding="async">
+        @forelse($section_2_content as $content_sec_2)
+          <div class="col-sm-4 text-center">
+            <div class="life-divin-section">
+              <img loading="lazy" src="{{ asset($content_sec_2->os_image) }}" alt="YogIntra Service Icon - {{ $content_sec_2->os_heading }}" width="90" height="95" decoding="async">
+            </div>
+            <h5 style="font-size: 16px">{{ $content_sec_2->os_heading }}</h5>
           </div>
-          <h5 style="font-size: 16px">Alternative Medicines</h5>
-        </div>
-
-        <div class="col-sm-4 text-center">
-          <div class="">
-            <img loading="lazy" src="{{ asset('assets/front/images/6503dbc7b2fc5icon-2.png') }}" alt="For Good Health" width="100" height="100" decoding="async">
+        @empty
+          <div class="col-sm-4 text-center">
+            <div class="">
+              <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines" width="100" height="100" decoding="async">
+            </div>
+            <h5 style="font-size: 16px">Alternative Medicines</h5>
           </div>
-          <h5 style="font-size: 16px">For Good Health</h5>
-        </div>
 
-        <div class="col-sm-4 text-center">
-          <div class="">
-            <img loading="lazy" src="{{ asset('assets/front/images/6503dbe5edf47icon-3.png') }}" alt="Healthy Mind &amp; Body" width="100" height="100" decoding="async">
+          <div class="col-sm-4 text-center">
+            <div class="">
+              <img loading="lazy" src="{{ asset('assets/front/images/6503dbc7b2fc5icon-2.png') }}" alt="For Good Health" width="100" height="100" decoding="async">
+            </div>
+            <h5 style="font-size: 16px">For Good Health</h5>
           </div>
-          <h5 style="font-size: 16px">Healthy Mind &amp; Body</h5>
-        </div>
 
+          <div class="col-sm-4 text-center">
+            <div class="">
+              <img loading="lazy" src="{{ asset('assets/front/images/6503dbe5edf47icon-3.png') }}" alt="Healthy Mind &amp; Body" width="100" height="100" decoding="async">
+            </div>
+            <h5 style="font-size: 16px">Healthy Mind &amp; Body</h5>
+          </div>
+        @endforelse
       </div>
     </div>
   </div>
