@@ -12,7 +12,12 @@
     @endif
 
     <!-- Header -->
-    <header id="header" class="header header-floating">
+    @php
+        $videoHeroNavigation = request()->segment(1) === null
+            && ($app_setting->hero_media_type ?? 'slider') === 'video'
+            && filled($app_setting->hero_video);
+    @endphp
+    <header id="header" class="header header-floating {{ $videoHeroNavigation ? 'video-hero-navigation' : '' }}">
         <div class="header-top sm-text-center style-bordered">
             <div class="container">
                 <div class="row"></div>
@@ -102,6 +107,29 @@
         .menuzord-menu > li > a {
             padding: 22px 10px;
         }
+        .video-hero-navigation .menuzord-menu > li > a,
+        .video-hero-navigation .menuzord-menu > li > a > i,
+        .video-hero-navigation .menuzord-responsive .showhide em {
+            color: #fff !important;
+        }
+        .video-hero-navigation .menuzord-menu > li.active > a,
+        .video-hero-navigation .menuzord-menu > li:hover > a {
+            color: #2ed0da !important;
+        }
+        .video-hero-navigation .menuzord-menu > li.active > a::after {
+            background-color: #2ed0da !important;
+        }
+        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-menu > li > a,
+        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-menu > li > a > i,
+        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-responsive .showhide em {
+            color: #222 !important;
+        }
+        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-menu > li.active > a,
+        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-menu > li:hover > a {
+            color: #00aab7 !important;
+        }
+        .video-hero-navigation .menuzord-menu ul.dropdown { background: #fff; }
+        .video-hero-navigation .menuzord-menu ul.dropdown li a { color: #183c45 !important; }
     </style>
 
     <style>

@@ -4,22 +4,7 @@
     <img src="{{ asset($app_setting->app_sticky_logo ?? 'logo.png') }}" alt="{{ $app_setting->app_name ?? 'Yogintra' }}" style="height:40px">
   </a>
 
-  <div class="sidebar">
-    <div class="user-panel mt-3 mb-2 d-flex align-items-center" style="border: none; padding-left: 0.5rem;">
-    <div class="image">
-        @php($profilePhoto = filled(Auth::user()->user_photo) ? Auth::user()->user_photo : 'uploads/1681071409default-profile.png')
-        <img src="{{ asset($profilePhoto) }}" class="img-circle elevation-2" alt="User profile photo" style="height: 35px; width: 35px; object-fit: cover;">
-    </div>
-    <div class="info ml-2">
-        <a href="{{ route('admin.profile.edit') }}" class="d-block" style="font-weight: 600; color: #1f2937; font-size: 14px;">
-        {{ Auth::user()->name }}
-        </a>
-        <small style="color:#6b7280; font-size: 12px;">
-        ({{ Auth::user()->user_role ?? 'Admin' }})
-        </small>
-    </div>
-    </div>
-
+  <div class="sidebar pt-2">
     <nav class="mt-2 navbar-white">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">

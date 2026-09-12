@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Models\Slider;
+use App\Models\Setting;
 use App\Models\OurFeatureHeading;
 use App\Models\OurFeature;
 use App\Models\OurService;
@@ -19,7 +20,36 @@ class FrontSettingController extends Controller
     public function slider()
     {
         $sliders = Slider::orderByDesc('slider_id')->get();
-        return view('admin.front_setting.slider', compact('sliders'));
+        $heroSetting = Setting::first();
+        return view('admin.front_setting.slider', compact('sliders', 'heroSetting'));
+    }
+
+    public function updateHeroMedia(Request $request)
+    {
+        $request->validate([
+            'hero_media_type' => 'required|in:slider,video',
+            'hero_video' => 'nullable|file|mimes:mp4,webm,ogg,mov|max:51200',
+        ]);
+
+        $setting = Setting::firstOrFail();
+        if ($request->hero_media_type === 'video' && !$request->hasFile('hero_video') && !$setting->hero_video) {
+            return back()->withErrors(['hero_video' => 'Please choose a hero video before enabling video mode.'])->withInput();
+        }
+
+        if ($request->hasFile('hero_video')) {
+            if ($setting->hero_video && file_exists(public_path($setting->hero_video))) {
+                unlink(public_path($setting->hero_video));
+            }
+            $video = $request->file('hero_video');
+            $videoName = 'hero_' . time() . '.' . $video->getClientOriginalExtension();
+            $video->move(public_path('uploads'), $videoName);
+            $setting->hero_video = 'uploads/' . $videoName;
+        }
+
+        $setting->hero_media_type = $request->hero_media_type;
+        $setting->save();
+
+        return back()->with('success', $request->hero_media_type === 'video' ? 'Hero video enabled successfully.' : 'Image slider enabled successfully.');
     }
 
     public function section2()

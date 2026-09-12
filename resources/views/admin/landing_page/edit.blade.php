@@ -158,16 +158,6 @@
     document.body.classList.add('landing-builder-focus');
     const builderMenuButton = document.getElementById('sidebar-toggle');
     builderMenuButton.addEventListener('click', function () { document.body.classList.toggle('landing-builder-focus'); this.textContent = document.body.classList.contains('landing-builder-focus') ? 'Show menu' : 'Focus editor'; });
-    // The visual builder hides the sidebar in focus mode. Let the global hamburger
-    // reveal it first instead of allowing AdminLTE to toggle an already-hidden menu.
-    const globalMenuButton = document.querySelector('[data-widget="pushmenu"]');
-    globalMenuButton?.addEventListener('click', function (event) {
-      if (!document.body.classList.contains('landing-builder-focus')) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      document.body.classList.remove('landing-builder-focus', 'sidebar-collapse', 'sidebar-open');
-      builderMenuButton.textContent = 'Focus editor';
-    }, true);
     const formBody = document.querySelector('.landing-builder-shell form .card-body');
     const workspace = document.createElement('div');
     workspace.className = 'builder-workspace';

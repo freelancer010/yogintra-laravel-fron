@@ -181,6 +181,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // --------| Front Setting |-------------------
     Route::prefix('front-setting')->name('front.')->group(function () {
         Route::get('/all-slider', [FrontSettingController::class, 'slider'])->name('slider');
+        Route::put('/hero-media', [FrontSettingController::class, 'updateHeroMedia'])->name('hero-media.update');
         Route::get('/edit-slider/{id}', [FrontSettingController::class, 'editSlider'])->name('slider.edit');
         Route::put('/update-slider/{id}', [FrontSettingController::class, 'updateSlider'])->name('slider.update');
         Route::post('/store-slider', [FrontSettingController::class, 'storeSlider'])->name('slider.store');

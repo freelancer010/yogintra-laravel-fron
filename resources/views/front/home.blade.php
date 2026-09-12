@@ -14,7 +14,7 @@
     <meta name="twitter:app:id:ipad" content="">
 @endpush
 @push('styles')
-    @if(count($all_slider) > 0)
+    @if(($app_setting->hero_media_type ?? 'slider') === 'slider' && count($all_slider) > 0)
         <link rel="preload" as="image" href="{{ asset($all_slider[0]->slider_image) }}" fetchpriority="high">
     @endif
     <link rel="preload" as="image" href="{{ asset('uploads/6501ab36d6f70Rectrangular-logo-2.png') }}" type="image/png">
@@ -25,6 +25,10 @@
         #home {
             min-height: 100vh;
         }
+        .hero-video-wrap { position: relative; min-height: 100vh; overflow: hidden; background: #111; }
+        .hero-video-wrap video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+        .hero-video-wrap::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,.38); }
+        .hero-video-copy { position:relative; z-index:1; min-height:100vh; display:flex; align-items:center; }
         .yg-txt-right{
             text-align:right;
         }
@@ -509,6 +513,28 @@
     <link rel="preload" as="image" href="{{ asset('assets/Mobile-Banner-new.webp') }}" fetchpriority="high" />
 
     <section id="home" class="divider">
+        @if(($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video))
+            @php
+                $heroCopy = $all_slider->first();
+            @endphp
+            <div class="hero-video-wrap">
+                <video autoplay muted loop playsinline preload="metadata">
+                    <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
+                </video>
+                @if($heroCopy)
+                    <div class="hero-video-copy">
+                        <div class="container position-ab"><div class="row"><div class="col-md-6">
+                            <div class="bg-white-transparent pt-20 pb-50 outline-border">
+                                <h3 class="text-black-555 font-54 heading-bold">{{ $heroCopy->slider_heading }}</h3>
+                                @if($heroCopy->slider_btn_name && $heroCopy->slider_btn_link)
+                                    <a class="btn btn-theme-colored btn-flat mt-15 high-contrast-btn btn-theme-custom" href="{{ $heroCopy->slider_btn_link }}">{{ $heroCopy->slider_btn_name }}</a>
+                                @endif
+                            </div>
+                        </div></div></div>
+                    </div>
+                @endif
+            </div>
+        @else
         <div class="fullwidth-carousel" data-nav="true">
             @php
                 $mob_heading = '';
@@ -586,7 +612,7 @@
                 </div>
             </div>
         </div>
-
+        @endif
     </section>
 
     <section class="section-content-image section-content-bg" style="background-image: url('{{ asset($section_1->of_image) }}');">

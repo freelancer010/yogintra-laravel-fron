@@ -2,6 +2,20 @@
 
 @section('title', 'Profile Settings')
 
+@push('styles')
+<style>
+  .profile-photo-upload { display:flex; align-items:center; gap:18px; padding:16px; border:1px dashed #9dcfd3; border-radius:12px; background:#f7fcfc; }
+  .profile-photo-preview { width:82px; height:82px; flex:0 0 82px; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#0f7c87; color:#fff; font-size:27px; font-weight:700; border:4px solid #d9f0f1; }
+  .profile-photo-preview img { width:100%; height:100%; object-fit:cover; }
+  .profile-photo-copy { min-width:0; }
+  .profile-photo-copy strong { color:#183c45; display:block; font-size:14px; }
+  .profile-photo-copy small { color:#6b7f86; display:block; margin:4px 0 10px; }
+  .profile-photo-select { position:relative; overflow:hidden; display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+  .profile-photo-select input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+  @media (max-width: 480px) { .profile-photo-upload { align-items:flex-start; } }
+</style>
+@endpush
+
 @section('content')
 <div class="content-header">
     <div class="container-fluid">
@@ -57,28 +71,30 @@
 
                             <div class="form-group">
                                 <label for="user_photo">Profile Photo</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" 
-                                               class="custom-file-input @error('user_photo') is-invalid @enderror" 
-                                               id="user_photo" 
-                                               name="user_photo" 
-                                               accept="image/*">
-                                        <label class="custom-file-label" for="user_photo">Choose file</label>
+                                <div class="profile-photo-upload">
+                                    <div class="profile-photo-preview" id="profile-photo-preview">
+                                        @if($user->user_photo)
+                                            <img src="{{ asset($user->user_photo) }}" alt="Current profile photo">
+                                        @else
+                                            {{ \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($user->name ?? 'A', 0, 1)) }}
+                                        @endif
+                                    </div>
+                                    <div class="profile-photo-copy">
+                                        <strong>Profile picture</strong>
+                                        <small id="profile-photo-name">Upload a square JPG, PNG, or WebP image.</small>
+                                        <label class="btn btn-outline-primary btn-sm profile-photo-select mb-0">
+                                            <i class="fas fa-camera"></i> Choose photo
+                                            <input type="file"
+                                                   class="@error('user_photo') is-invalid @enderror"
+                                                   id="user_photo"
+                                                   name="user_photo"
+                                                   accept="image/png,image/jpeg,image/webp">
+                                        </label>
                                     </div>
                                 </div>
                                 @error('user_photo')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
-                                
-                                @if($user->user_photo)
-                                    <div class="mt-2">
-                                        <img src="{{ asset($user->user_photo) }}" 
-                                             alt="Current Profile Photo" 
-                                             class="img-thumbnail" 
-                                             style="max-width: 150px;">
-                                    </div>
-                                @endif
                             </div>
 
                             <div class="form-group">
@@ -173,12 +189,16 @@
 </section>
 
 <script>
-// Show selected file name
+// Show a local preview before the profile form is saved.
 document.getElementById('user_photo').addEventListener('change', function(e) {
     if(e.target.files[0]) {
         var fileName = e.target.files[0].name;
-        var nextSibling = e.target.nextElementSibling;
-        nextSibling.innerText = fileName;
+        document.getElementById('profile-photo-name').innerText = fileName;
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            document.getElementById('profile-photo-preview').innerHTML = '<img src="' + event.target.result + '" alt="New profile photo preview">';
+        };
+        reader.readAsDataURL(e.target.files[0]);
     }
 });
 
