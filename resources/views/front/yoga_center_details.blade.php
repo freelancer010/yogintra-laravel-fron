@@ -119,7 +119,7 @@
 
                 <!-- Description -->
                 <div class="col-sm-12 mt-30">
-                    <p style="text-align:justify">{!! $center->center_description !!}</p>
+                    <div style="text-align:justify">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($center->center_description) !!}</div>
                 </div>
             </div>
         </div>

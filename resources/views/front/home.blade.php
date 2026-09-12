@@ -645,7 +645,7 @@
                         <h3 class="section-3 mb-0 sub-heading">{{ $section_2->os_image_sub_heading }}</h3>
                         <div class="fs-50 ssc-ttl m-fs-25">{{ $section_2->os_image_heading }}</div>
                         <div>
-                            <p class="text-black">{!! $section_2->os_image_description !!}</p>
+                            <div class="text-black">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section_2->os_image_description) !!}</div>
                         </div>
                         <div class="row mt-10">
                             @foreach ($section_2_content as $content_sec_2)

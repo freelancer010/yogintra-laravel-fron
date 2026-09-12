@@ -65,7 +65,7 @@
         @include('components.multi-step-form')
       </div>
       <div class="col-md-5">
-        {!! $app_setting->map_iframe !!}
+        {!! app(\App\Support\HtmlSanitizer::class)->sanitize($app_setting->map_iframe) !!}
       </div>
     </div>
   </div>

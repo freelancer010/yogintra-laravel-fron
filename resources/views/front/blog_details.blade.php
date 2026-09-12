@@ -79,7 +79,7 @@
                     </div>
                   </div>
                 </div>
-                <p>{!! $blog->blog_content !!}</p>
+                <div>{!! app(\App\Support\HtmlSanitizer::class)->sanitize($blog->blog_content) !!}</div>
               </div>
             </article>
             <div id="share"></div>

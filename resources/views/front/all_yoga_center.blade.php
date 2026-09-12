@@ -63,7 +63,7 @@
 
                                 <div class="thumb">
                                     <div class="overlay1">
-                                        {!! $center->map_link !!}
+                                        {!! app(\App\Support\HtmlSanitizer::class)->sanitize($center->map_link) !!}
                                     </div>
                                 </div>
 

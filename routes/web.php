@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
@@ -88,19 +87,7 @@ Route::post('/rezorpay-payment-for-event', [EventController::class, 'rezorpayPay
 Route::get('/event-thank-you', [EventController::class, 'eventThankYou'])->name('event.thankyou');
 
 
-Route::post('/admin/ckeditor/upload', [App\Http\Controllers\Admin\CKEditorController::class, 'upload'])->name('ckeditor.upload');
-
 ///////---------------------- |ADMIN ROUTES| -----------------------------/////////
-
-// Debug: Quick login route - logs in test user directly
-Route::get('/quick-login', function () {
-    $user = \App\Models\User::where('email', 'test@example.com')->first();
-    if ($user) {
-        Auth::login($user);
-        return redirect()->route('admin.dashboard');
-    }
-    return redirect('/login')->with('error', 'Test user not found');
-})->name('quick.login');
 
 // Route::middleware(['auth'])->prefix('admin')->group(function () {
 //     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -109,9 +96,10 @@ Route::get('/admin', function () {
     return redirect()->route('admin.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     
+    Route::post('/ckeditor/upload', [App\Http\Controllers\Admin\CKEditorController::class, 'upload'])->name('ckeditor.upload');
     Route::post('/tinymce/upload', [App\Http\Controllers\Admin\CKEditorController::class, 'tinymceUpload'])->name('tinymce.upload');
     // Event Routes
     Route::get('/event/view_all_event', [EventController::class, 'index'])->name('event.index');
@@ -182,6 +170,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // --------------- Landing Page -------------------
     Route::get('landing-pages', [LandingPageController::class, 'index'])->name('landing-pages.index');
     Route::get('landing-pages/create', [LandingPageController::class, 'create'])->name('landing-pages.create');
+    Route::post('landing-pages/start', [LandingPageController::class, 'start'])->name('landing-pages.start');
     Route::post('landing-pages/store', [LandingPageController::class, 'store'])->name('landing-pages.store');
     Route::get('landing-pages/edit/{id}', [LandingPageController::class, 'edit'])->name('landing-pages.edit');
     Route::post('landing-pages/update/{id}', [LandingPageController::class, 'update'])->name('landing-pages.update');

@@ -15,7 +15,7 @@
   </form>
 
   <script>
-    var options = {!! json_encode($data) !!};
+    var options = {{ Illuminate\Support\Js::from($data) }};
 
     options.handler = function (response){
       document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;

@@ -29,9 +29,9 @@
         <div class="card-header">
         <h3 class="card-title">View All Landing Pages</h3>
         <div class="card-tools">
-            <a href="{{ route('admin.landing-pages.create') }}" class="btn btn-success btn-sm">
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#newPageModal">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Page
-            </a>
+            </button>
         </div>
         <div class="card-tools">
             <!-- Uncomment below to enable add button -->
@@ -106,4 +106,25 @@
     </div>
     </div>
 </section>
+
+<div class="modal fade" id="newPageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content" method="POST" action="{{ route('admin.landing-pages.start') }}">
+      @csrf
+      <div class="modal-header"><h5 class="modal-title">Create landing page</h5><button type="button" class="close" data-dismiss="modal"><span>&times;</span></button></div>
+      <div class="modal-body">
+        <p class="text-muted small">Start with the page essentials. You can add and edit sections in the visual builder next.</p>
+        <div class="form-group"><label>Page name <span class="text-danger">*</span></label><input class="form-control" id="draft-page-name" name="page_name" required autofocus></div>
+        <div class="form-group"><label>Page slug</label><input class="form-control" id="draft-page-slug" name="page_slug" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="online-yoga-mumbai"><small class="form-text text-muted">/city/your-slug</small></div>
+        <div class="form-group mb-0"><label>SEO title</label><input class="form-control" name="page_meta_title" placeholder="Optional; defaults to page name"></div>
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button><button class="btn btn-success" type="submit">Create &amp; open builder</button></div>
+    </form>
+  </div>
+</div>
+<script>
+document.getElementById('draft-page-name')?.addEventListener('input', function () {
+  document.getElementById('draft-page-slug').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+});
+</script>
 @endsection

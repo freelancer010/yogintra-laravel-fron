@@ -174,7 +174,7 @@
           </ul>
           <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade in active" id="small">
-              {!! $event->content !!}
+              {!! app(\App\Support\HtmlSanitizer::class)->sanitize($event->content) !!}
             </div>
             <div class="tab-pane fade" id="medium">
               @include('partials.price-table')

@@ -1299,12 +1299,54 @@
     </div>
 </section>
 
+@if($page_sections->isNotEmpty())
+  <style>
+    .landing-builder-section { overflow: hidden; }
+    .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; }
+    .landing-builder-content { color: #53636a; font-size: 16px; line-height: 1.8; }
+    .landing-builder-section .btn { border-radius: 999px; padding: 12px 24px; transition: transform .2s ease, box-shadow .2s ease; }
+    .landing-builder-section .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.18); }
+    .landing-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
+    .landing-reveal.is-visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .landing-reveal { opacity: 1; transform: none; transition: none; } }
+  </style>
+  @foreach($page_sections as $section)
+    <section class="landing-builder-section landing-reveal" style="background-color: {{ $section->background_color ?: 'transparent' }}; padding-top: {{ $section->padding_y ?? 48 }}px; padding-bottom: {{ $section->padding_y ?? 48 }}px; margin-top: {{ $section->margin_y ?? 0 }}px; margin-bottom: {{ $section->margin_y ?? 0 }}px;">
+      <div class="container">
+        <div class="row align-items-center {{ $section->section_type === 'image_text' ? '' : 'justify-content-center' }} {{ $section->image_position === 'right' ? 'flex-md-row-reverse' : '' }}">
+          @if($section->section_type === 'image_text' && $section->image)
+            <div class="col-md-6 mb-4 mb-md-0">
+              <img src="{{ asset($section->image) }}" alt="{{ $section->image_alt ?: $section->heading }}" class="img-fluid rounded" loading="lazy">
+            </div>
+          @endif
+          <div class="{{ $section->section_type === 'image_text' && $section->image ? 'col-md-6' : 'col-md-10 text-center' }}">
+            @if($section->heading)<h2 class="mb-3">{{ $section->heading }}</h2>@endif
+            @if($section->content)<div class="landing-builder-content">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif
+            @if($section->button_text && $section->button_url)
+              <a href="{{ $section->button_url }}" class="btn btn-theme-colored btn-flat mt-3">{{ $section->button_text }}</a>
+            @endif
+          </div>
+        </div>
+      </div>
+    </section>
+  @endforeach
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const sections = document.querySelectorAll('.landing-reveal');
+      if (!('IntersectionObserver' in window)) { sections.forEach(section => section.classList.add('is-visible')); return; }
+      const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
+      }), { threshold: .12 });
+      sections.forEach(section => observer.observe(section));
+    });
+  </script>
+@else
 <!-- Section: About -->
 {{-- <section>
     <div class="container" style="padding-top: 30px !important;padding-bottom: 30px!important;">
         <div class="row">
             <div class="col-sm-8" style="text-align: justify;">
-                {!! $page_data->page_content !!}
+                {!! app(\App\Support\HtmlSanitizer::class)->sanitize($page_data->page_content) !!}
             </div>
         </div>
     </div>
@@ -1338,6 +1380,7 @@
         @forelse($section_2_content as $content_sec_2)
           <div class="col-sm-4 text-center">
             <div class="life-divin-section">
+              <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines" width="100" height="100" decoding="async">
               <img loading="lazy" src="{{ asset($content_sec_2->os_image) }}" alt="YogIntra Service Icon - {{ $content_sec_2->os_heading }}" width="90" height="95" decoding="async">
             </div>
             <h5 style="font-size: 16px">{{ $content_sec_2->os_heading }}</h5>
@@ -1816,6 +1859,7 @@
 </section>
 <!-- FAQ Section End -->
 
+@endif
 @endsection
 
 @push('scripts')

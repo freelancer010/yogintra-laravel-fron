@@ -7,7 +7,8 @@
   <div class="sidebar">
     <div class="user-panel mt-3 mb-2 d-flex align-items-center" style="border: none; padding-left: 0.5rem;">
     <div class="image">
-        <img src="{{ asset(Auth::user()->user_photo ?? 'uploads/65034cf0e716aimage_2023_09_14T18_10_56_706Z.png') }}" class="img-circle elevation-2" alt="User Image" style="height: 35px; width: 35px; object-fit: cover;">
+        @php($profilePhoto = filled(Auth::user()->user_photo) ? Auth::user()->user_photo : 'uploads/1681071409default-profile.png')
+        <img src="{{ asset($profilePhoto) }}" class="img-circle elevation-2" alt="User profile photo" style="height: 35px; width: 35px; object-fit: cover;">
     </div>
     <div class="info ml-2">
         <a href="{{ route('admin.profile.edit') }}" class="d-block" style="font-weight: 600; color: #1f2937; font-size: 14px;">
@@ -28,7 +29,7 @@
           </a>
         </li>
 
-        @php
+        <?php
           $menu = [
             'event' => [
                 'title' => 'Event',
@@ -95,7 +96,7 @@
             //   ]
             // ]
           ];
-        @endphp
+        ?>
 
         @foreach($menu as $prefix => $section)
           <li class="nav-item has-treeview {{ request()->is("admin/$prefix*") ? 'menu-open' : '' }}">

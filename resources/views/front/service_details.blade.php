@@ -220,7 +220,7 @@
                     </div>
 
                     <div class="text-center mb-50">
-                        {!! $service->service_description !!}
+                        {!! app(\App\Support\HtmlSanitizer::class)->sanitize($service->service_description) !!}
                     </div>                    
                     <div class="col-md-12 mt-10 text-center mb-15">
                         <button class="btn btn-lg btn-warning" onclick="booking_modal()" style="border-radius: 30px;">Book Your Class</button>
