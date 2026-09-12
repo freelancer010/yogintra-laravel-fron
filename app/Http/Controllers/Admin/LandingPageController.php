@@ -84,6 +84,12 @@ class LandingPageController extends Controller
             'sections.*.text_align' => 'nullable|in:left,center,right',
             'sections.*.element_styles' => 'nullable|json',
             'sections.*.blocks' => 'nullable|json',
+            'sections.*.elements' => 'nullable|json',
+            'sections.*.grid_columns' => 'nullable|integer|min:2|max:4',
+            'sections.*.card_layout' => 'nullable|in:stacked,icon_left',
+            'sections.*.card_alignment' => 'nullable|in:left,center,right',
+            'sections.*.grid_gap' => 'nullable|integer|min:0|max:100',
+            'sections.*.block_images.*' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
         ]);
 
         $data = $request->only([
@@ -154,6 +160,12 @@ class LandingPageController extends Controller
             'sections.*.text_align' => 'nullable|in:left,center,right',
             'sections.*.element_styles' => 'nullable|json',
             'sections.*.blocks' => 'nullable|json',
+            'sections.*.elements' => 'nullable|json',
+            'sections.*.grid_columns' => 'nullable|integer|min:2|max:4',
+            'sections.*.card_layout' => 'nullable|in:stacked,icon_left',
+            'sections.*.card_alignment' => 'nullable|in:left,center,right',
+            'sections.*.grid_gap' => 'nullable|integer|min:0|max:100',
+            'sections.*.block_images.*' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
         ]);
 
         $page = DB::table('new_landing_page')->where('page_id', $id)->first();
@@ -224,6 +236,16 @@ class LandingPageController extends Controller
                 $imagePath = 'uploads/landing-pages/'.$filename;
             }
 
+            $blocks = json_decode($section['blocks'] ?? '[]', true);
+            $blocks = is_array($blocks) ? $blocks : [];
+            foreach ($request->file("sections.$order.block_images", []) as $blockIndex => $blockImage) {
+                File::ensureDirectoryExists(public_path('uploads/landing-pages'));
+                $filename = uniqid().'_'.$blockImage->getClientOriginalName();
+                $blockImage->move(public_path('uploads/landing-pages'), $filename);
+                $blocks[$blockIndex] = $blocks[$blockIndex] ?? [];
+                $blocks[$blockIndex]['image'] = 'uploads/landing-pages/'.$filename;
+            }
+
             LandingPageSection::create([
                 'landing_page_id' => $pageId,
                 'section_type' => $section['section_type'],
@@ -246,7 +268,12 @@ class LandingPageController extends Controller
                 'description_size' => $section['description_size'] ?? 16,
                 'text_align' => $section['text_align'] ?? 'left',
                 'element_styles' => $section['element_styles'] ?? null,
-                'blocks' => $section['blocks'] ?? null,
+                'blocks' => $blocks ? json_encode(array_values($blocks)) : ($section['blocks'] ?? null),
+                'elements' => $section['elements'] ?? null,
+                'grid_columns' => $section['grid_columns'] ?? 3,
+                'card_layout' => $section['card_layout'] ?? 'stacked',
+                'card_alignment' => $section['card_alignment'] ?? 'center',
+                'grid_gap' => $section['grid_gap'] ?? 24,
                 'sort_order' => $order,
             ]);
         }

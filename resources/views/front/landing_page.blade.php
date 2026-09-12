@@ -1306,6 +1306,17 @@
     .landing-builder-section .landing-image-right > [class*="col-"] { float: none; }
     .landing-builder-section .landing-image-text-row { display:flex; flex-wrap:wrap; align-items:center; }
     .landing-builder-section .landing-image-text-row > [class*="col-"] { float:none; }
+    .landing-builder-section .landing-feature-grid {
+      display:grid;
+      grid-template-columns:repeat(var(--feature-columns, 3), minmax(0, 1fr));
+      width:100%;
+    }
+    .landing-builder-section .landing-feature-card { box-sizing:border-box; min-width:0; padding:12px; text-align:center; }
+    .landing-builder-section .landing-feature-card.stacked img { width:82px; height:82px; object-fit:contain; margin:0 auto 10px; }
+    .landing-builder-section .landing-feature-icon { font-size:44px; line-height:1; margin-bottom:10px; }
+    .landing-builder-section .landing-feature-card.icon-left { display:flex; align-items:flex-start; gap:14px; text-align:left; }
+    .landing-builder-section .landing-feature-card.icon-left img { width:64px; height:64px; flex:0 0 64px; object-fit:contain; }
+    .landing-builder-section .landing-feature-card.icon-left .landing-feature-icon { flex:0 0 64px; margin:0; }
     .landing-builder-section .landing-full-image { display:block; width:100%; height:auto; max-width:none; }
     @media (max-width: 767px) { .landing-builder-section .landing-image-right { flex-direction: column; } }
     .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; }
@@ -1316,6 +1327,7 @@
     .landing-reveal.is-visible { opacity: 1; transform: translateY(0); }
     @media (prefers-reduced-motion: reduce) { .landing-reveal { opacity: 1; transform: none; transition: none; } }
     @media (max-width: 767px) { .landing-builder-section .landing-image-text-row { flex-direction:column; } .landing-builder-section .landing-image-text-row > [class*="col-"] { flex:0 0 100% !important; max-width:100% !important; width:100%; } }
+    @media (max-width: 767px) { .landing-builder-section .landing-feature-grid { grid-template-columns:1fr !important; } }
   </style>
   @foreach($page_sections as $section)
     @php
@@ -1330,14 +1342,22 @@
         @if($section->section_type === 'feature_grid')
           @php
             $blocks = json_decode($section->blocks ?: '[]', true) ?: [];
+            $extraElements = json_decode($section->elements ?: '[]', true) ?: [];
+            $gridColumns = max(2, min(4, (int) ($section->grid_columns ?? 3)));
+            $cardLayout = $section->card_layout === 'icon_left' ? 'icon-left' : 'stacked';
+            $cardAlignment = in_array($section->card_alignment, ['left', 'center', 'right'], true) ? $section->card_alignment : 'center';
+            $gridGap = max(0, min(100, (int) ($section->grid_gap ?? 24)));
           @endphp
           <div class="mb-4" style="text-align: {{ $section->text_align ?? 'left' }};">
             @if($section->heading)<h2 class="mb-3" style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{{ $section->heading }}</h2>@endif
+            @foreach($extraElements as $element)
+              @if(($element['type'] ?? '') === 'heading')<h3 style="color: {{ $element['color'] ?? $section->text_color ?? '#183c45' }}; font-size: {{ $element['size'] ?? $section->heading_size ?? 32 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{{ $element['text'] ?? '' }}</h3>@else<p style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{{ $element['text'] ?? '' }}</p>@endif
+            @endforeach
             @if($section->content)<div class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }}; font-size: {{ $section->description_size ?? 16 }}px; {{ $contentSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif
           </div>
-          <div class="row">
+          <div class="landing-feature-grid" style="--feature-columns: {{ $gridColumns }}; gap: {{ $gridGap }}px;">
             @foreach($blocks as $block)
-              <div class="col-md-6 mb-4"><div class="d-flex align-items-start"><div class="mr-3" style="font-size:44px;line-height:1">{{ $block['icon'] ?? '✦' }}</div><div><h4 style="color: {{ $section->text_color ?? '#183c45' }}">{{ $block['title'] ?? 'Feature title' }}</h4><p style="color: {{ $section->description_color ?? '#647b82' }}">{{ $block['text'] ?? 'Describe this feature.' }}</p></div></div></div>
+              <div class="landing-feature-card {{ $cardLayout }}" style="text-align: {{ $cardAlignment }};">@if(!empty($block['image']))<img src="{{ asset($block['image']) }}" alt="{{ $block['title'] ?? 'Feature image' }}">@else<div class="landing-feature-icon" style="color: {{ $section->text_color ?? '#183c45' }}">{{ $block['icon'] ?? '✦' }}</div>@endif<div><h4 style="color: {{ $section->text_color ?? '#183c45' }}">{{ $block['title'] ?? 'Feature title' }}</h4>@if(!empty($block['text']))<p style="color: {{ $section->description_color ?? '#647b82' }}">{{ $block['text'] }}</p>@endif</div></div>
             @endforeach
           </div>
         @else

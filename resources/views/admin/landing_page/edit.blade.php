@@ -16,7 +16,7 @@
     <div class="col-sm-12">
         <div class="card card-default">
         <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center"><h3 class="card-title mb-0">Edit landing page</h3><div><button class="focus-toggle mr-2" type="button" id="sidebar-toggle">Show menu</button><button type="submit" form="landing-page-form" formnovalidate class="btn btn-success builder-submit">Update page</button></div></div>
+            <div class="d-flex justify-content-between align-items-center"><h3 class="card-title mb-0">Edit landing page</h3><div><button class="focus-toggle mr-2" type="button" id="sidebar-toggle">Show menu</button><button type="submit" form="landing-page-form" formnovalidate class="btn btn-success builder-submit floating-update-button">Update page</button></div></div>
         </div>
 
         <form id="landing-page-form" action="{{ route('admin.landing-pages.update', $page->page_id) }}" method="POST" enctype="multipart/form-data">
@@ -93,6 +93,11 @@
                                 <input type="hidden" name="sections[{{ $index }}][text_align]" value="{{ $section->text_align ?? 'left' }}">
                                 <input type="hidden" name="sections[{{ $index }}][element_styles]" value="{{ $section->element_styles ?? '{}' }}">
                                 <input type="hidden" name="sections[{{ $index }}][blocks]" value="{{ $section->blocks ?? '' }}">
+                                <input type="hidden" name="sections[{{ $index }}][elements]" value="{{ $section->elements ?? '' }}">
+                                <input type="hidden" name="sections[{{ $index }}][grid_columns]" value="{{ $section->grid_columns ?? 3 }}">
+                                <input type="hidden" name="sections[{{ $index }}][card_layout]" value="{{ $section->card_layout ?? 'stacked' }}">
+                                <input type="hidden" name="sections[{{ $index }}][card_alignment]" value="{{ $section->card_alignment ?? 'center' }}">
+                                <input type="hidden" name="sections[{{ $index }}][grid_gap]" value="{{ $section->grid_gap ?? 24 }}">
                                 <input type="hidden" name="sections[{{ $index }}][image_size]" value="{{ $section->image_size ?? 42 }}">
                                 <div class="row">
                                 <div class="col-md-4 form-group"><label>Layout</label><select name="sections[{{ $index }}][section_type]" class="form-control"><option value="text" @selected($section->section_type === 'text')>Text</option><option value="image_text" @selected($section->section_type === 'image_text')>Image + Text</option><option value="feature_grid" @selected($section->section_type === 'feature_grid')>Feature grid</option><option value="image" @selected($section->section_type === 'image')>Image / Hero</option><option value="cta" @selected($section->section_type === 'cta')>Call to Action</option></select></div>
@@ -151,7 +156,18 @@
       if (event.target.closest('.move-down') && card.nextElementSibling) sections.insertBefore(card.nextElementSibling, card);
     });
     document.body.classList.add('landing-builder-focus');
-    document.getElementById('sidebar-toggle').addEventListener('click', function () { document.body.classList.toggle('landing-builder-focus'); this.textContent = document.body.classList.contains('landing-builder-focus') ? 'Show menu' : 'Focus editor'; });
+    const builderMenuButton = document.getElementById('sidebar-toggle');
+    builderMenuButton.addEventListener('click', function () { document.body.classList.toggle('landing-builder-focus'); this.textContent = document.body.classList.contains('landing-builder-focus') ? 'Show menu' : 'Focus editor'; });
+    // The visual builder hides the sidebar in focus mode. Let the global hamburger
+    // reveal it first instead of allowing AdminLTE to toggle an already-hidden menu.
+    const globalMenuButton = document.querySelector('[data-widget="pushmenu"]');
+    globalMenuButton?.addEventListener('click', function (event) {
+      if (!document.body.classList.contains('landing-builder-focus')) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      document.body.classList.remove('landing-builder-focus', 'sidebar-collapse', 'sidebar-open');
+      builderMenuButton.textContent = 'Focus editor';
+    }, true);
     const formBody = document.querySelector('.landing-builder-shell form .card-body');
     const workspace = document.createElement('div');
     workspace.className = 'builder-workspace';
