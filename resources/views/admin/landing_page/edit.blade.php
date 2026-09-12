@@ -3,17 +3,23 @@
 
 @section('content')
 
+@if(session('success'))
+  <div class="builder-toast" role="status">✓ {{ session('success') }}</div>
+@endif
+@if($errors->any())
+  <div class="builder-toast builder-toast-error" role="alert">{{ $errors->first() }}</div>
+@endif
+
 <section class="content landing-builder-shell">
 <div class="container-fluid">
     <div class="row">
     <div class="col-sm-12">
         <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title mb-1">Edit landing page</h3>
-            <div class="d-flex justify-content-between align-items-center"><div class="small opacity-75">Refine content, rearrange sections, and republish confidently.</div><button class="focus-toggle" type="button" id="sidebar-toggle">Show menu</button></div>
+            <div class="d-flex justify-content-between align-items-center"><h3 class="card-title mb-0">Edit landing page</h3><div><button class="focus-toggle mr-2" type="button" id="sidebar-toggle">Show menu</button><button type="submit" form="landing-page-form" formnovalidate class="btn btn-success builder-submit">Update page</button></div></div>
         </div>
 
-        <form action="{{ route('admin.landing-pages.update', $page->page_id) }}" method="POST" enctype="multipart/form-data">
+        <form id="landing-page-form" action="{{ route('admin.landing-pages.update', $page->page_id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
                 <div class="row">
@@ -76,8 +82,20 @@
                           @foreach($sections as $index => $section)
                             <div class="card border mb-3 page-builder-section">
                               <div class="card-header d-flex justify-content-between"><strong>Section</strong><div><button type="button" class="btn btn-outline-secondary btn-sm move-up">↑</button> <button type="button" class="btn btn-outline-secondary btn-sm move-down">↓</button> <button type="button" class="btn btn-outline-danger btn-sm remove-section">Remove</button></div></div>
-                              <div class="card-body"><div class="row">
-                                <div class="col-md-4 form-group"><label>Layout</label><select name="sections[{{ $index }}][section_type]" class="form-control"><option value="text" @selected($section->section_type === 'text')>Text</option><option value="image_text" @selected($section->section_type === 'image_text')>Image + Text</option><option value="cta" @selected($section->section_type === 'cta')>Call to Action</option></select></div>
+                              <div class="card-body">
+                                {{-- Hidden persistence fields hydrate the visual canvas on reload. --}}
+                                <input type="hidden" name="sections[{{ $index }}][padding_x]" value="{{ $section->padding_x ?? 0 }}">
+                                <input type="hidden" name="sections[{{ $index }}][margin_x]" value="{{ $section->margin_x ?? 0 }}">
+                                <input type="hidden" name="sections[{{ $index }}][text_color]" value="{{ $section->text_color ?? '#183c45' }}">
+                                <input type="hidden" name="sections[{{ $index }}][heading_size]" value="{{ $section->heading_size ?? 32 }}">
+                                <input type="hidden" name="sections[{{ $index }}][description_color]" value="{{ $section->description_color ?? '#647b82' }}">
+                                <input type="hidden" name="sections[{{ $index }}][description_size]" value="{{ $section->description_size ?? 16 }}">
+                                <input type="hidden" name="sections[{{ $index }}][text_align]" value="{{ $section->text_align ?? 'left' }}">
+                                <input type="hidden" name="sections[{{ $index }}][element_styles]" value="{{ $section->element_styles ?? '{}' }}">
+                                <input type="hidden" name="sections[{{ $index }}][blocks]" value="{{ $section->blocks ?? '' }}">
+                                <input type="hidden" name="sections[{{ $index }}][image_size]" value="{{ $section->image_size ?? 42 }}">
+                                <div class="row">
+                                <div class="col-md-4 form-group"><label>Layout</label><select name="sections[{{ $index }}][section_type]" class="form-control"><option value="text" @selected($section->section_type === 'text')>Text</option><option value="image_text" @selected($section->section_type === 'image_text')>Image + Text</option><option value="feature_grid" @selected($section->section_type === 'feature_grid')>Feature grid</option><option value="image" @selected($section->section_type === 'image')>Image / Hero</option><option value="cta" @selected($section->section_type === 'cta')>Call to Action</option></select></div>
                                 <div class="col-md-4 form-group"><label>Background</label><input name="sections[{{ $index }}][background_color]" class="form-control" value="{{ $section->background_color }}" placeholder="#ffffff"></div>
                                 <div class="col-md-4 form-group"><label>Image</label><input type="file" name="sections[{{ $index }}][image]" class="form-control" accept="image/*">@if($section->image)<input type="hidden" name="sections[{{ $index }}][existing_image]" value="{{ $section->image }}"><small class="d-block mt-1">Current: {{ basename($section->image) }}</small>@endif</div>
                                 <div class="col-md-12"><div class="layout-tools"><div><label>Image side</label><select name="sections[{{ $index }}][image_position]" class="form-control"><option value="left" @selected(($section->image_position ?? 'left') === 'left')>Left</option><option value="right" @selected(($section->image_position ?? 'left') === 'right')>Right</option></select></div><div class="range-control"><label>Section padding <span class="range-value">{{ $section->padding_y ?? 48 }}px</span></label><input type="range" name="sections[{{ $index }}][padding_y]" min="0" max="160" value="{{ $section->padding_y ?? 48 }}" oninput="this.previousElementSibling.querySelector('.range-value').textContent=this.value+'px'"></div><div class="range-control"><label>Section margin <span class="range-value">{{ $section->margin_y ?? 0 }}px</span></label><input type="range" name="sections[{{ $index }}][margin_y]" min="0" max="120" value="{{ $section->margin_y ?? 0 }}" oninput="this.previousElementSibling.querySelector('.range-value').textContent=this.value+'px'"></div></div></div>
@@ -93,9 +111,6 @@
                       </div>
                     </div>
 
-                    <div class="col-md-12">
-                    <button type="submit" class="btn btn-success builder-submit float-right">Save &amp; Publish</button>
-                    </div>
                 </div>
             </div>
         </form>
@@ -107,9 +122,11 @@
 </section>
 <script>
     function previewImage(event) {
+        if (!event.target.files?.[0]) return;
         const reader = new FileReader();
         reader.onload = function () {
-        const output = document.getElementById('preview-image');
+        let output = document.getElementById('preview-image');
+        if (!output) { output = document.createElement('img'); output.id = 'preview-image'; event.target.parentElement.prepend(output); }
         output.src = reader.result;
         };
         reader.readAsDataURL(event.target.files[0]);
@@ -141,16 +158,37 @@
     workspace.innerHTML = '<main class="builder-canvas"><div class="builder-canvas-header"><div><h4>Page canvas</h4><small class="text-muted">Click preview text to edit it inline</small></div><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#page-settings-modal">Manage page settings</button></div></main><aside class="builder-inspector"><div class="builder-inspector-title"><span>Section editor</span><span>✦</span></div></aside>';
     formBody.prepend(workspace);
     const inspector = workspace.querySelector('.builder-inspector');
+    const heroEditor = document.createElement('section');
+    heroEditor.className = 'hero-editor';
+    heroEditor.innerHTML = '<div class="hero-editor-heading"><div><strong>Hero section</strong><small>Edit the page image and its overlay content here.</small></div><span>Hero</span></div><div class="hero-editor-fields"></div>';
+    workspace.querySelector('.builder-canvas').appendChild(heroEditor);
+    const heroFields = [...formBody.querySelectorAll('.form-group')].filter(group => group.querySelector('[name="page_image"], [name="page_image_title"], [name="page_image_description"]'));
+    heroFields.forEach(group => heroEditor.querySelector('.hero-editor-fields').appendChild(group));
+    const heroImageInput = heroEditor.querySelector('[name="page_image"]');
+    const heroTitleInput = heroEditor.querySelector('[name="page_image_title"]');
+    const heroDescriptionInput = heroEditor.querySelector('[name="page_image_description"]');
+    const currentHeroImage = heroEditor.querySelector('#preview-image')?.src || '';
+    const heroStage = document.createElement('div');
+    heroStage.className = 'hero-canvas-stage';
+    heroStage.innerHTML = '<button type="button" class="hero-image-action"><span>' + (currentHeroImage ? 'Change hero image' : 'Add hero image') + '</span></button><div class="hero-canvas-copy"><small>Hero content · click text to edit</small><h2 contenteditable="true">' + (heroTitleInput.value || 'Hero heading') + '</h2><p contenteditable="true">' + (heroDescriptionInput.value || 'Add a supporting hero message.') + '</p></div>';
+    if (currentHeroImage) heroStage.style.backgroundImage = 'linear-gradient(90deg, rgba(25,19,15,.43), rgba(25,19,15,.68)), url("' + currentHeroImage + '")';
+    heroEditor.querySelector('.hero-editor-fields').before(heroStage);
+    heroEditor.querySelector('.hero-editor-fields').classList.add('hero-persistence-fields');
+    heroStage.querySelector('.hero-image-action').addEventListener('click', () => heroImageInput.click());
+    heroStage.querySelector('h2').addEventListener('input', event => { heroTitleInput.value = event.target.innerText; });
+    heroStage.querySelector('p').addEventListener('input', event => { heroDescriptionInput.value = event.target.innerText; });
+    heroImageInput.addEventListener('change', event => { if (!event.target.files?.[0]) return; const reader = new FileReader(); reader.onload = () => { heroStage.style.backgroundImage = 'linear-gradient(90deg, rgba(25,19,15,.43), rgba(25,19,15,.68)), url("' + reader.result + '")'; heroStage.querySelector('.hero-image-action span').textContent = 'Change hero image'; }; reader.readAsDataURL(event.target.files[0]); });
     const settingsModal = document.createElement('div');
     settingsModal.className = 'modal fade'; settingsModal.id = 'page-settings-modal'; settingsModal.tabIndex = -1;
     settingsModal.innerHTML = '<div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Manage page settings</h5><button type="button" class="close" data-dismiss="modal"><span>&times;</span></button></div><div class="modal-body row" id="page-settings-fields"></div><div class="modal-footer"><a class="btn btn-outline-danger mr-auto" href="{{ route('admin.landing-pages.destroy', $page->page_id) }}" onclick="return confirm(\'Delete this landing page?\')">Delete page</a><button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button></div></div></div>';
     formBody.appendChild(settingsModal);
     const settingsFields = settingsModal.querySelector('#page-settings-fields');
-    formBody.querySelectorAll('.form-group').forEach(group => { if (!group.closest('.builder-section-panel')) settingsFields.appendChild(group); });
+    formBody.querySelectorAll('.form-group').forEach(group => { if (!group.closest('.builder-section-panel') && !group.closest('.hero-editor')) settingsFields.appendChild(group); });
     const panel = formBody.querySelector('.builder-section-panel');
     if (panel) workspace.querySelector('.builder-inspector').appendChild(panel.closest('.col-md-12'));
     const submit = formBody.querySelector('.builder-submit');
     if (submit) inspector.appendChild(submit.closest('.col-md-12'));
 </script>
 @include('admin.landing_page.partials.live-preview')
+<script>setTimeout(() => document.querySelector('.builder-toast')?.classList.add('is-hidden'), 3500);</script>
 @endsection

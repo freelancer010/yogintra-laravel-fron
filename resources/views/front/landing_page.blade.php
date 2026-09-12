@@ -1302,6 +1302,12 @@
 @if($page_sections->isNotEmpty())
   <style>
     .landing-builder-section { overflow: hidden; }
+    .landing-builder-section .landing-image-right { display: flex; flex-wrap: wrap; flex-direction: row-reverse; }
+    .landing-builder-section .landing-image-right > [class*="col-"] { float: none; }
+    .landing-builder-section .landing-image-text-row { display:flex; flex-wrap:wrap; align-items:center; }
+    .landing-builder-section .landing-image-text-row > [class*="col-"] { float:none; }
+    .landing-builder-section .landing-full-image { display:block; width:100%; height:auto; max-width:none; }
+    @media (max-width: 767px) { .landing-builder-section .landing-image-right { flex-direction: column; } }
     .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; }
     .landing-builder-content { color: #53636a; font-size: 16px; line-height: 1.8; }
     .landing-builder-section .btn { border-radius: 999px; padding: 12px 24px; transition: transform .2s ease, box-shadow .2s ease; }
@@ -1309,24 +1315,49 @@
     .landing-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
     .landing-reveal.is-visible { opacity: 1; transform: translateY(0); }
     @media (prefers-reduced-motion: reduce) { .landing-reveal { opacity: 1; transform: none; transition: none; } }
+    @media (max-width: 767px) { .landing-builder-section .landing-image-text-row { flex-direction:column; } .landing-builder-section .landing-image-text-row > [class*="col-"] { flex:0 0 100% !important; max-width:100% !important; width:100%; } }
   </style>
   @foreach($page_sections as $section)
-    <section class="landing-builder-section landing-reveal" style="background-color: {{ $section->background_color ?: 'transparent' }}; padding-top: {{ $section->padding_y ?? 48 }}px; padding-bottom: {{ $section->padding_y ?? 48 }}px; margin-top: {{ $section->margin_y ?? 0 }}px; margin-bottom: {{ $section->margin_y ?? 0 }}px;">
-      <div class="container">
-        <div class="row align-items-center {{ $section->section_type === 'image_text' ? '' : 'justify-content-center' }} {{ $section->image_position === 'right' ? 'flex-md-row-reverse' : '' }}">
-          @if($section->section_type === 'image_text' && $section->image)
-            <div class="col-md-6 mb-4 mb-md-0">
-              <img src="{{ asset($section->image) }}" alt="{{ $section->image_alt ?: $section->heading }}" class="img-fluid rounded" loading="lazy">
+    @php
+      $elementStyles = json_decode($section->element_styles ?: '{}', true) ?: [];
+      $headingStyle = $elementStyles['heading'] ?? [];
+      $contentStyle = $elementStyles['content'] ?? [];
+      $headingSpacing = 'padding: '.(int)($headingStyle['padding_y'] ?? 0).'px '.(int)($headingStyle['padding_x'] ?? 0).'px; margin: '.(int)($headingStyle['margin_y'] ?? 0).'px '.(int)($headingStyle['margin_x'] ?? 0).'px; font-weight: '.($headingStyle['font_weight'] ?? 'bold').'; font-style: '.($headingStyle['font_style'] ?? 'normal').'; text-decoration: '.($headingStyle['text_decoration'] ?? 'none').';';
+      $contentSpacing = 'padding: '.(int)($contentStyle['padding_y'] ?? 0).'px '.(int)($contentStyle['padding_x'] ?? 0).'px; margin: '.(int)($contentStyle['margin_y'] ?? 0).'px '.(int)($contentStyle['margin_x'] ?? 0).'px; font-weight: '.($contentStyle['font_weight'] ?? 'normal').'; font-style: '.($contentStyle['font_style'] ?? 'normal').'; text-decoration: '.($contentStyle['text_decoration'] ?? 'none').';';
+    @endphp
+    <section class="landing-builder-section landing-reveal" style="background-color: {{ $section->background_color ?: 'transparent' }}; padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+      <div class="{{ $section->section_type === 'image' ? 'container-fluid' : 'container' }}" style="{{ $section->section_type === 'image' ? 'padding-left:0; padding-right:0;' : '' }}">
+        @if($section->section_type === 'feature_grid')
+          @php
+            $blocks = json_decode($section->blocks ?: '[]', true) ?: [];
+          @endphp
+          <div class="mb-4" style="text-align: {{ $section->text_align ?? 'left' }};">
+            @if($section->heading)<h2 class="mb-3" style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{{ $section->heading }}</h2>@endif
+            @if($section->content)<div class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }}; font-size: {{ $section->description_size ?? 16 }}px; {{ $contentSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif
+          </div>
+          <div class="row">
+            @foreach($blocks as $block)
+              <div class="col-md-6 mb-4"><div class="d-flex align-items-start"><div class="mr-3" style="font-size:44px;line-height:1">{{ $block['icon'] ?? '✦' }}</div><div><h4 style="color: {{ $section->text_color ?? '#183c45' }}">{{ $block['title'] ?? 'Feature title' }}</h4><p style="color: {{ $section->description_color ?? '#647b82' }}">{{ $block['text'] ?? 'Describe this feature.' }}</p></div></div></div>
+            @endforeach
+          </div>
+        @else
+        <div class="row align-items-center {{ $section->section_type === 'image_text' ? 'landing-image-text-row' : '' }} {{ in_array($section->section_type, ['image_text', 'image']) ? '' : 'justify-content-center' }} {{ $section->image_position === 'right' ? 'landing-image-right' : '' }}">
+          @if(in_array($section->section_type, ['image_text', 'image']) && $section->image)
+            <div class="{{ $section->section_type === 'image' ? 'col-12' : 'col-md-6 mb-4 mb-md-0' }}" style="{{ $section->section_type === 'image_text' ? 'flex: 0 0 '.(int)($section->image_size ?? 42).'%; max-width: '.(int)($section->image_size ?? 42).'%;' : ($section->section_type === 'image' ? 'width: '.(int)($section->image_size ?? 100).'%; max-width: 100%; margin-left: auto; margin-right: auto;' : '') }}">
+              <img src="{{ asset($section->image) }}" alt="{{ $section->image_alt ?: $section->heading }}" class="{{ $section->section_type === 'image' ? 'landing-full-image' : 'img-fluid rounded' }}" loading="lazy">
             </div>
           @endif
-          <div class="{{ $section->section_type === 'image_text' && $section->image ? 'col-md-6' : 'col-md-10 text-center' }}">
-            @if($section->heading)<h2 class="mb-3">{{ $section->heading }}</h2>@endif
-            @if($section->content)<div class="landing-builder-content">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif
+          @if($section->section_type !== 'image')
+          <div class="{{ $section->section_type === 'image_text' && $section->image ? 'col-md-6' : 'col-md-10' }}" style="{{ $section->section_type === 'image_text' && $section->image ? 'flex: 1 1 0; max-width: none;' : '' }} text-align: {{ $section->text_align ?? 'left' }};">
+            @if($section->heading)<h2 class="mb-3" style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{{ $section->heading }}</h2>@endif
+            @if($section->content)<div class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }}; font-size: {{ $section->description_size ?? 16 }}px; {{ $contentSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif
             @if($section->button_text && $section->button_url)
               <a href="{{ $section->button_url }}" class="btn btn-theme-colored btn-flat mt-3">{{ $section->button_text }}</a>
             @endif
           </div>
+          @endif
         </div>
+        @endif
       </div>
     </section>
   @endforeach

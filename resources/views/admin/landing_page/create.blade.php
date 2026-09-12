@@ -9,11 +9,10 @@
         <div class="col-sm-12">
           <div class="card card-default">
             <div class="card-header">
-              <h3 class="card-title mb-1">Create a landing page</h3>
-              <div class="d-flex justify-content-between align-items-center"><div class="small opacity-75">Build a custom page from reusable, ordered content sections.</div><button class="focus-toggle" type="button" id="sidebar-toggle">Show menu</button></div>
+              <div class="d-flex justify-content-between align-items-center"><h3 class="card-title mb-0">Create a landing page</h3><div><button class="focus-toggle mr-2" type="button" id="sidebar-toggle">Show menu</button><button type="submit" form="landing-page-form" class="btn btn-success builder-submit">Save &amp; Publish</button></div></div>
             </div>
 
-            <form action="{{ route('admin.landing-pages.store') }}" method="POST" enctype="multipart/form-data">
+            <form id="landing-page-form" action="{{ route('admin.landing-pages.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="card-body">
                 @if(session('success'))
@@ -78,10 +77,7 @@
                   </div>
                   <div class="col-md-6 form-group">
                     <label>Page Image <span class="text-danger">*</span></label>
-                    <input type="file" name="page_image" class="form-control" required>
-                  </div>
-                  <div class="col-md-12">
-                    <button type="submit" class="btn btn-success builder-submit float-right">Publish Landing Page</button>
+                    <input type="file" name="page_image" class="form-control" onchange="previewImage(event)">
                   </div>
                 </div>
               </div>
@@ -94,6 +90,16 @@
   </section>
 
 <script>
+  function previewImage(event) {
+    if (!event.target.files?.[0]) return;
+    const reader = new FileReader();
+    reader.onload = function () {
+      let output = document.getElementById('preview-image');
+      if (!output) { output = document.createElement('img'); output.id = 'preview-image'; event.target.parentElement.prepend(output); }
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
   document.getElementById("page_name").addEventListener("keyup", function () {
     const name = this.value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     document.getElementById("page_slug").value = name;
@@ -137,12 +143,30 @@
   workspace.innerHTML = '<main class="builder-canvas"><div class="builder-canvas-header"><div><h4>Page canvas</h4><small class="text-muted">Click preview text to edit it inline</small></div><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#page-settings-modal">Manage page settings</button></div></main><aside class="builder-inspector"><div class="builder-inspector-title"><span>Section editor</span><span>✦</span></div></aside>';
   formBody.prepend(workspace);
   const inspector = workspace.querySelector('.builder-inspector');
+  const heroEditor = document.createElement('section');
+  heroEditor.className = 'hero-editor';
+  heroEditor.innerHTML = '<div class="hero-editor-heading"><div><strong>Hero section</strong><small>Edit the page image and its overlay content here.</small></div><span>Hero</span></div><div class="hero-editor-fields"></div>';
+  workspace.querySelector('.builder-canvas').appendChild(heroEditor);
+  const heroFields = [...formBody.querySelectorAll('.form-group')].filter(group => group.querySelector('[name="page_image"], [name="page_image_title"], [name="page_image_description"]'));
+  heroFields.forEach(group => heroEditor.querySelector('.hero-editor-fields').appendChild(group));
+  const heroImageInput = heroEditor.querySelector('[name="page_image"]');
+  const heroTitleInput = heroEditor.querySelector('[name="page_image_title"]');
+  const heroDescriptionInput = heroEditor.querySelector('[name="page_image_description"]');
+  const heroStage = document.createElement('div');
+  heroStage.className = 'hero-canvas-stage';
+  heroStage.innerHTML = '<button type="button" class="hero-image-action"><span>Add hero image</span></button><div class="hero-canvas-copy"><small>Hero content · click text to edit</small><h2 contenteditable="true">Hero heading</h2><p contenteditable="true">Add a supporting hero message.</p></div>';
+  heroEditor.querySelector('.hero-editor-fields').before(heroStage);
+  heroEditor.querySelector('.hero-editor-fields').classList.add('hero-persistence-fields');
+  heroStage.querySelector('.hero-image-action').addEventListener('click', () => heroImageInput.click());
+  heroStage.querySelector('h2').addEventListener('input', event => { heroTitleInput.value = event.target.innerText; });
+  heroStage.querySelector('p').addEventListener('input', event => { heroDescriptionInput.value = event.target.innerText; });
+  heroImageInput.addEventListener('change', event => { if (!event.target.files?.[0]) return; const reader = new FileReader(); reader.onload = () => { heroStage.style.backgroundImage = 'linear-gradient(90deg, rgba(25,19,15,.43), rgba(25,19,15,.68)), url("' + reader.result + '")'; heroStage.querySelector('.hero-image-action span').textContent = 'Change hero image'; }; reader.readAsDataURL(event.target.files[0]); });
   const settingsModal = document.createElement('div');
   settingsModal.className = 'modal fade'; settingsModal.id = 'page-settings-modal'; settingsModal.tabIndex = -1;
   settingsModal.innerHTML = '<div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Manage page settings</h5><button type="button" class="close" data-dismiss="modal"><span>&times;</span></button></div><div class="modal-body row" id="page-settings-fields"></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button></div></div></div>';
   formBody.appendChild(settingsModal);
   const settingsFields = settingsModal.querySelector('#page-settings-fields');
-  formBody.querySelectorAll('.form-group').forEach(group => { if (!group.closest('.builder-section-panel')) settingsFields.appendChild(group); });
+  formBody.querySelectorAll('.form-group').forEach(group => { if (!group.closest('.builder-section-panel') && !group.closest('.hero-editor')) settingsFields.appendChild(group); });
   const panel = formBody.querySelector('.builder-section-panel');
   if (panel) workspace.querySelector('.builder-inspector').appendChild(panel.closest('.col-md-12'));
   const submit = formBody.querySelector('.builder-submit');

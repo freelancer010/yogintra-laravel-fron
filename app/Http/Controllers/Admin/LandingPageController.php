@@ -64,7 +64,7 @@ class LandingPageController extends Controller
             'page_image_description' => 'nullable|string',
             'page_image' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:5000',
             'sections' => 'nullable|array',
-            'sections.*.section_type' => 'required|in:text,image_text,cta',
+            'sections.*.section_type' => 'required|in:text,image,image_text,feature_grid,cta',
             'sections.*.heading' => 'nullable|string|max:255',
             'sections.*.content' => 'nullable|string',
             'sections.*.image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
@@ -72,8 +72,18 @@ class LandingPageController extends Controller
             'sections.*.button_url' => 'nullable|url|max:500',
             'sections.*.background_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
             'sections.*.image_position' => 'nullable|in:left,right',
+            'sections.*.image_size' => 'nullable|integer|min:20|max:100',
+            'sections.*.padding_x' => 'nullable|integer|min:0|max:160',
             'sections.*.padding_y' => 'nullable|integer|min:0|max:160',
+            'sections.*.margin_x' => 'nullable|integer|min:0|max:120',
             'sections.*.margin_y' => 'nullable|integer|min:0|max:120',
+            'sections.*.text_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
+            'sections.*.heading_size' => 'nullable|integer|min:16|max:72',
+            'sections.*.description_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
+            'sections.*.description_size' => 'nullable|integer|min:12|max:36',
+            'sections.*.text_align' => 'nullable|in:left,center,right',
+            'sections.*.element_styles' => 'nullable|json',
+            'sections.*.blocks' => 'nullable|json',
         ]);
 
         $data = $request->only([
@@ -86,6 +96,9 @@ class LandingPageController extends Controller
 
         $data['page_slug'] = $request->page_slug ?: Str::slug($request->page_name);
         $data['page_title'] = $request->page_name;
+        // The legacy table requires an image even when a builder page starts as
+        // text-only. A real hero image can still be added later in settings.
+        $data['page_image'] = 'uploads/1681071409default-profile.png';
 
         if ($request->hasFile('page_image')) {
             $image = $request->file('page_image');
@@ -97,7 +110,7 @@ class LandingPageController extends Controller
         $pageId = DB::table('new_landing_page')->insertGetId($data);
         $this->saveSections($request, $pageId);
 
-        return redirect()->route('admin.landing-pages.index')->with('success', 'Page added successfully.');
+        return redirect()->route('admin.landing-pages.edit', $pageId)->with('success', 'Page published successfully.');
     }
 
     public function edit($id)
@@ -121,7 +134,7 @@ class LandingPageController extends Controller
             'page_head_code' => 'nullable|string',
             'page_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5000',
             'sections' => 'nullable|array',
-            'sections.*.section_type' => 'required|in:text,image_text,cta',
+            'sections.*.section_type' => 'required|in:text,image,image_text,feature_grid,cta',
             'sections.*.heading' => 'nullable|string|max:255',
             'sections.*.content' => 'nullable|string',
             'sections.*.image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
@@ -129,8 +142,18 @@ class LandingPageController extends Controller
             'sections.*.button_url' => 'nullable|url|max:500',
             'sections.*.background_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
             'sections.*.image_position' => 'nullable|in:left,right',
+            'sections.*.image_size' => 'nullable|integer|min:20|max:100',
+            'sections.*.padding_x' => 'nullable|integer|min:0|max:160',
             'sections.*.padding_y' => 'nullable|integer|min:0|max:160',
+            'sections.*.margin_x' => 'nullable|integer|min:0|max:120',
             'sections.*.margin_y' => 'nullable|integer|min:0|max:120',
+            'sections.*.text_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
+            'sections.*.heading_size' => 'nullable|integer|min:16|max:72',
+            'sections.*.description_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
+            'sections.*.description_size' => 'nullable|integer|min:12|max:36',
+            'sections.*.text_align' => 'nullable|in:left,center,right',
+            'sections.*.element_styles' => 'nullable|json',
+            'sections.*.blocks' => 'nullable|json',
         ]);
 
         $page = DB::table('new_landing_page')->where('page_id', $id)->first();
@@ -142,8 +165,10 @@ class LandingPageController extends Controller
             'page_meta_description' => $request->page_meta_description ?? '',
             'page_meta_title' => $request->page_meta_title ?? '',
             'page_keywords' => $request->page_keywords ?? '',
-            'page_image_title' => $request->page_image_title,
-            'page_image_description' => $request->page_image_description,
+            // These legacy fields are NOT NULL, but are optional in the visual
+            // builder settings modal.
+            'page_image_title' => $request->page_image_title ?? '',
+            'page_image_description' => $request->page_image_description ?? '',
             'page_head_code' => $request->page_head_code ?? '',
         ];
 
@@ -168,7 +193,7 @@ class LandingPageController extends Controller
         LandingPageSection::where('landing_page_id', $id)->delete();
         $this->saveSections($request, $id);
 
-        return redirect()->route('admin.landing-pages.index')->with('success', 'Landing page updated successfully.');
+        return redirect()->route('admin.landing-pages.edit', $id)->with('success', 'Page updated successfully.');
     }
 
 
@@ -210,8 +235,18 @@ class LandingPageController extends Controller
                 'button_url' => $section['button_url'] ?? null,
                 'background_color' => $section['background_color'] ?? null,
                 'image_position' => $section['image_position'] ?? 'left',
+                'image_size' => $section['image_size'] ?? ($section['section_type'] === 'image' ? 100 : 42),
+                'padding_x' => $section['padding_x'] ?? 0,
                 'padding_y' => $section['padding_y'] ?? 48,
+                'margin_x' => $section['margin_x'] ?? 0,
                 'margin_y' => $section['margin_y'] ?? 0,
+                'text_color' => $section['text_color'] ?? '#183c45',
+                'heading_size' => $section['heading_size'] ?? 32,
+                'description_color' => $section['description_color'] ?? '#647b82',
+                'description_size' => $section['description_size'] ?? 16,
+                'text_align' => $section['text_align'] ?? 'left',
+                'element_styles' => $section['element_styles'] ?? null,
+                'blocks' => $section['blocks'] ?? null,
                 'sort_order' => $order,
             ]);
         }
