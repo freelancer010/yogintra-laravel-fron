@@ -1,4 +1,7 @@
 @extends('layouts.layout')
+@php
+    $heroPoster = $all_slider->first()?->slider_image;
+@endphp
 @section('meta_title', 'Yoga Classes, Home Yoga & Online Wellness | YogIntra')
 @section('meta_description', 'Discover online yoga classes, home yoga sessions, yoga centres, wellness programs and teacher training with YogIntra. Start your healthier journey today.')
 @section('meta_keywords', 'yoga classes, online yoga classes, home yoga, yoga centre, yoga teacher training, wellness programs, YogIntra')
@@ -9,6 +12,9 @@
 @push('styles')
     @if(($app_setting->hero_media_type ?? 'slider') === 'slider' && count($all_slider) > 0)
         <link rel="preload" as="image" href="{{ asset($all_slider[0]->slider_image) }}" fetchpriority="high">
+    @endif
+    @if(($app_setting->hero_media_type ?? 'slider') === 'video' && $heroPoster)
+        <link rel="preload" as="image" href="{{ asset($heroPoster) }}" fetchpriority="high">
     @endif
     <link rel="preload" as="image" href="{{ asset('uploads/6501ab36d6f70Rectrangular-logo-2.png') }}" type="image/png">
     <style>
@@ -511,9 +517,20 @@
                 $heroCopy = $all_slider->first();
             @endphp
             <div class="hero-video-wrap">
-                <video autoplay muted loop playsinline preload="metadata" @if($heroCopy?->slider_image) poster="{{ asset($heroCopy->slider_image) }}" @endif>
-                    <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
+                <video class="hero-background-video" muted loop playsinline preload="none" @if($heroCopy?->slider_image) poster="{{ asset($heroCopy->slider_image) }}" @endif>
+                    <source data-src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
                 </video>
+                <script>
+                    (function () {
+                        var video = document.querySelector('.hero-background-video');
+                        var source = video && video.querySelector('source[data-src]');
+                        if (!video || !source || window.matchMedia('(max-width: 767px)').matches) return;
+                        source.src = source.dataset.src;
+                        video.autoplay = true;
+                        video.load();
+                        video.play().catch(function () {});
+                    }());
+                </script>
                 @if($heroCopy)
                     <div class="hero-video-copy">
                         <div class="container position-ab"><div class="row"><div class="col-md-6">

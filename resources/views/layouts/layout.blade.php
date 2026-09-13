@@ -232,7 +232,9 @@
     <!-- End Meta Pixel Code -->
 
     <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    @if (request()->is('service-details/*', 'service_details/*'))
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    @endif
     <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}"></script>
 
