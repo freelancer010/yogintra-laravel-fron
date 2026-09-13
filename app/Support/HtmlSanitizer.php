@@ -34,7 +34,10 @@ class HtmlSanitizer
 
         $document = new DOMDocument('1.0', 'UTF-8');
         libxml_use_internal_errors(true);
-        $document->loadHTML('<div>'.$html.'</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        // DOMDocument otherwise assumes a legacy single-byte encoding and
+        // corrupts Devanagari and other non-Latin text when rich content is
+        // saved through the landing-page builder.
+        $document->loadHTML('<?xml encoding="UTF-8"?><div>'.$html.'</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         libxml_clear_errors();
 
         $root = $document->documentElement;

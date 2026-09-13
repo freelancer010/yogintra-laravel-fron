@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class ProfileUpdateRequest extends FormRequest
 {
@@ -22,7 +23,8 @@ class ProfileUpdateRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($this->user()->id),
+                Rule::unique('users', User::emailColumn())
+                    ->ignore($this->user()->getKey(), $this->user()->getKeyName()),
             ],
         ];
     }

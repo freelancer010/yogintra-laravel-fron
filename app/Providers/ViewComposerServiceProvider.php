@@ -31,7 +31,7 @@ class viewcomposerserviceprovider extends serviceprovider
         $app_setting = setting::first();
         $visual_setting = db::table('visual_setting')->first();
         $all_service = db::table('service_category')->get();
-        $all_landing_page = LandingPage::whereNotNull('page_slug')->get();
+        $all_landing_page = LandingPage::whereNotNull('page_slug')->where('is_published', true)->get();
 
         $view->with(compact(
             'app_setting', 

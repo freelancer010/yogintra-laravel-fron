@@ -123,7 +123,64 @@ class LandingPageController extends Controller
     {
         $page = DB::table('new_landing_page')->where('page_id', $id)->first();
         $sections = LandingPageSection::where('landing_page_id', $id)->orderBy('sort_order')->get();
+        abort_unless($page, 404);
+
         return view('admin.landing_page.edit', compact('page', 'sections'));
+    }
+
+    /** Toggle whether this city page is accessible on the public site. */
+    public function togglePublished(Request $request, $id)
+    {
+        $request->validate(['is_published' => 'required|boolean']);
+        abort_unless(DB::table('new_landing_page')->where('page_id', $id)->exists(), 404);
+
+        $isPublished = $request->boolean('is_published');
+        DB::table('new_landing_page')->where('page_id', $id)->update(['is_published' => $isPublished]);
+
+        return back()->with('success', $isPublished ? 'Landing page is now visible on the public site.' : 'Landing page is now hidden from the public site.');
+    }
+
+    /**
+     * Convert the previously shared city-page fallback into independent builder
+     * sections. The generated copy uses the current page name so editors begin
+     * with a city-relevant page instead of the same generic text everywhere.
+     */
+    public function convertClassic($id)
+    {
+        $page = DB::table('new_landing_page')->where('page_id', $id)->first();
+        abort_unless($page, 404);
+
+        if (LandingPageSection::where('landing_page_id', $id)->exists()) {
+            return redirect()->route('admin.landing-pages.edit', $id)
+                ->with('success', 'This page already has editable sections.');
+        }
+
+        $city = trim((string) ($page->page_name ?: $page->page_slug));
+        $city = $city !== '' ? $city : 'your city';
+
+        // Do not overwrite an editor's existing SEO work. For old pages that
+        // had empty metadata, start with location-specific defaults rather
+        // than the same title and description used by every city URL.
+        $seoDefaults = [];
+        if (blank($page->page_meta_title ?? null)) {
+            $seoDefaults['page_meta_title'] = "Yoga Classes in {$city} | YogIntra";
+        }
+        if (blank($page->page_meta_description ?? null)) {
+            $seoDefaults['page_meta_description'] = "Explore personalised yoga classes in {$city} with YogIntra. Find home, online and wellness-focused yoga options for your goals.";
+        }
+        if (blank($page->page_keywords ?? null)) {
+            $seoDefaults['page_keywords'] = "yoga classes {$city}, yoga in {$city}, home yoga {$city}, online yoga {$city}";
+        }
+        if ($seoDefaults) {
+            DB::table('new_landing_page')->where('page_id', $id)->update($seoDefaults);
+        }
+
+        $this->createClassicSections($id, $city, (string) ($page->page_content ?? ''));
+
+        return redirect()->route('admin.landing-pages.edit', $id)->with(
+            'success',
+            'Classic page converted to editable sections. Review the city-specific copy before publishing.'
+        );
     }
 
 
@@ -276,6 +333,88 @@ class LandingPageController extends Controller
                 'grid_gap' => $section['grid_gap'] ?? 24,
                 'sort_order' => $order,
             ]);
+        }
+    }
+
+    private function createClassicSections(int $pageId, string $city, string $legacyContent = ''): void
+    {
+        $serviceBlocks = DB::table('our_service')->get()->map(fn ($item) => [
+            'image' => $item->os_image ?? null,
+            'title' => $item->os_heading ?? 'Yoga service',
+            'text' => '',
+        ])->filter(fn ($item) => filled($item['title']))->values()->all();
+
+        if (empty($serviceBlocks)) {
+            $serviceBlocks = [
+                ['image' => 'assets/front/images/6503db8d98529icon-1.png', 'title' => 'Alternative Medicines', 'text' => 'Holistic support for your wellbeing.'],
+                ['image' => 'assets/front/images/6503dbc7b2fc5icon-2.png', 'title' => 'For Good Health', 'text' => 'Build sustainable healthy habits.'],
+                ['image' => 'assets/front/images/6503dbe5edf47icon-3.png', 'title' => 'Healthy Mind & Body', 'text' => 'Balance movement, breath and mindfulness.'],
+            ];
+        }
+
+        $benefitBlocks = DB::table('our_feature')->get()->map(fn ($item) => [
+            'image' => $item->of_image ?? null,
+            'title' => $item->of_heading ?? 'Yoga benefit',
+            'text' => $item->of_description ?? '',
+        ])->filter(fn ($item) => filled($item['title']))->values()->all();
+
+        $yogaServiceBlocks = [
+            ['image' => 'uploads/home_visit_yoga.webp', 'title' => 'Home Visit Yoga', 'text' => "Personal yoga sessions in {$city}.", 'url' => url('service/home-visit-yoga')],
+            ['image' => 'uploads/private_online_yoga.webp', 'title' => 'Private Online Yoga', 'text' => 'One-to-one online guidance from home.', 'url' => url('service/private-online-yoga')],
+            ['image' => 'uploads/group_online_yoga.webp', 'title' => 'Group Online Yoga', 'text' => 'Practice together from anywhere.', 'url' => url('service/group-online-yoga')],
+            ['image' => 'uploads/65057356cad36images-150x150.webp', 'title' => 'Corporate Yoga', 'text' => "Wellbeing programmes for teams in {$city}.", 'url' => url('service/corporate-yoga')],
+            ['image' => 'uploads/yog_center.webp', 'title' => 'Yoga Center', 'text' => 'Explore guided classes and programmes.', 'url' => url('yoga-center')],
+            ['image' => 'uploads/ttc.webp', 'title' => 'Teacher Training', 'text' => 'Deepen your yoga knowledge and practice.', 'url' => url('teacher-training-course')],
+        ];
+
+        $intro = $legacyContent !== ''
+            ? $legacyContent
+            : "<p class=\"landing-sanskrit\">|| योग: कर्मसु कौशलम् ||</p><p>Looking for yoga classes in <strong>{$city}</strong>? YogIntra offers personalised practice for mobility, strength, stress relief and everyday wellbeing.</p><p>Choose from flexible formats and guidance that can fit naturally into your routine.</p>";
+
+        $galleryBlocks = [
+            ['image' => 'uploads/yoga-pose1.jpeg', 'title' => 'Yoga practice', 'text' => 'A moment of movement and balance.', 'url' => url('gallery')],
+            ['image' => 'uploads/yoga-pose2.jpeg', 'title' => 'Mindful practice', 'text' => 'Find calm through consistent practice.', 'url' => url('gallery')],
+            ['image' => 'uploads/yoga-pose3.jpeg', 'title' => 'Strength and serenity', 'text' => 'Explore more moments from YogIntra.', 'url' => url('gallery')],
+        ];
+
+        $sections = [
+            ['section_type' => 'text', 'heading' => "Yoga Classes in {$city}", 'content' => $intro, 'text_align' => 'center', 'padding_y' => 42],
+            ['section_type' => 'feature_grid', 'heading' => 'Life in Divine Yoga', 'content' => "<p>Choose a practice that suits your goals and routine in {$city}.</p>", 'elements' => [['type' => 'subheading', 'text' => '|| योग: कर्मसु कौशलम् ||', 'color' => '#0f7a84', 'size' => 26, 'padding' => 0, 'margin' => 0]], 'blocks' => $serviceBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'padding_y' => 42],
+            ['section_type' => 'image', 'heading' => null, 'content' => null, 'image' => 'uploads/download.webp', 'image_alt' => "Yoga and wellbeing in {$city}", 'image_size' => 80, 'padding_y' => 28],
+            ['section_type' => 'feature_grid', 'heading' => 'The main reasons to practise yoga', 'content' => "<p>Build a calmer, stronger and more balanced daily routine with guidance tailored to you in {$city}.</p>", 'elements' => [['type' => 'subheading', 'text' => '|| योगश्चित्तवृत्तिनिरोधः ||', 'color' => '#0f7a84', 'size' => 26, 'padding' => 0, 'margin' => 0]], 'blocks' => $benefitBlocks, 'grid_columns' => 2, 'card_layout' => 'icon_left', 'card_alignment' => 'left', 'text_align' => 'center', 'padding_y' => 42],
+            ['section_type' => 'feature_grid', 'heading' => 'A brief description of the types of yoga services', 'content' => "<p>Explore flexible ways to practise, from private sessions to group and workplace programmes in {$city}.</p>", 'elements' => [['type' => 'subheading', 'text' => '|| तत्र स्थितौ यत्नोऽभ्यासः ||', 'color' => '#0f7a84', 'size' => 26, 'padding' => 0, 'margin' => 0]], 'blocks' => $yogaServiceBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'padding_y' => 42],
+            ['section_type' => 'image_text', 'heading' => 'About YogIntra', 'content' => "<p>YogIntra brings experienced yoga professionals and practical wellness support together for people in {$city} and beyond. Our focus is making yoga approachable, consistent and relevant to your goals.</p>", 'image' => 'assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp', 'image_alt' => 'YogIntra', 'image_position' => 'left', 'image_size' => 35, 'padding_y' => 42],
+            ['section_type' => 'image_text', 'heading' => 'About our founder', 'content' => '<p>YogIntra was founded to make yoga easier to include in everyday life. Add founder information, local instructor experience and credentials here so visitors can understand who will guide their practice.</p>', 'image' => 'assets/image0-1-e1652675710448-povumdsa83b7dajv3gfs2377ei7o24wz5y0tn7sz34.webp', 'image_alt' => 'YogIntra founder', 'image_position' => 'right', 'image_size' => 42, 'padding_y' => 42],
+            ['section_type' => 'cta', 'heading' => 'Meet our instructors', 'content' => "<p>Discover the experienced YogIntra instructors available to guide your practice in {$city}.</p>", 'button_text' => 'View instructors', 'button_url' => url('trainers'), 'text_align' => 'center', 'padding_y' => 42],
+            ['section_type' => 'feature_grid', 'heading' => 'Gallery', 'content' => '<p>Discover tranquility through moments of yoga, movement and stillness.</p>', 'blocks' => $galleryBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'padding_y' => 42],
+            ['section_type' => 'text', 'heading' => "Yoga classes in {$city}: frequently asked questions", 'content' => "<h3>Are classes suitable for beginners?</h3><p>Yes. Sessions can be adapted to your current flexibility, fitness and confidence.</p><h3>Can I book a class in {$city}?</h3><p>Use the enquiry form to share your preferred area, timing and goals. The team will help you choose a suitable option.</p><h3>What should I bring to my first session?</h3><p>Wear comfortable clothing and bring water. Your instructor will guide you on everything else.</p>", 'text_align' => 'left', 'padding_y' => 42],
+            ['section_type' => 'cta', 'heading' => "Begin your yoga journey in {$city}", 'content' => "<p>Tell us what you are looking for and we will help you find the right yoga option.</p>", 'button_text' => 'Enquire now', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#eef8f7', 'padding_y' => 48],
+        ];
+
+        foreach ($sections as $order => $section) {
+            LandingPageSection::create(array_merge([
+                'landing_page_id' => $pageId,
+                'background_color' => '#ffffff',
+                'image_position' => 'left',
+                'image_size' => 42,
+                'padding_x' => 0,
+                'padding_y' => 48,
+                'margin_x' => 0,
+                'margin_y' => 0,
+                'text_color' => '#183c45',
+                'heading_size' => 32,
+                'description_color' => '#647b82',
+                'description_size' => 16,
+                'text_align' => 'left',
+                'grid_columns' => 3,
+                'card_layout' => 'stacked',
+                'card_alignment' => 'center',
+                'grid_gap' => 24,
+                'sort_order' => $order,
+            ], $section, [
+                'blocks' => isset($section['blocks']) ? json_encode($section['blocks']) : null,
+                'elements' => isset($section['elements']) ? json_encode($section['elements']) : null,
+            ]));
         }
     }
 }

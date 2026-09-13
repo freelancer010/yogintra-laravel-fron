@@ -173,6 +173,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('landing-pages/start', [LandingPageController::class, 'start'])->name('landing-pages.start');
     Route::post('landing-pages/store', [LandingPageController::class, 'store'])->name('landing-pages.store');
     Route::get('landing-pages/edit/{id}', [LandingPageController::class, 'edit'])->name('landing-pages.edit');
+    Route::post('landing-pages/{id}/toggle-published', [LandingPageController::class, 'togglePublished'])->name('landing-pages.toggle-published');
+    Route::post('landing-pages/{id}/convert-classic', [LandingPageController::class, 'convertClassic'])->name('landing-pages.convert-classic');
     Route::post('landing-pages/update/{id}', [LandingPageController::class, 'update'])->name('landing-pages.update');
     Route::get('landing-pages/delete/{id}', [LandingPageController::class, 'destroy'])->name('landing-pages.destroy');
     //---------------- END LANDING PAGE -------------------

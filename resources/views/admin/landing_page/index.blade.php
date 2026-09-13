@@ -57,10 +57,10 @@
                         </ul>
                     </div>
                 @endif
-        <table id="example1" class="table table-bordered table-striped">
+        <table id="example1" class="table table-bordered table-striped landing-page-table">
             <thead>
             <tr>
-                <th>ID</th>
+                <th class="landing-page-id">ID</th>
                 <th>Image</th>
                 <th>Page Name</th>
                 <th>Page Slug</th>
@@ -70,7 +70,7 @@
             <tbody>
             @foreach ($pages as $index => $page)
             <tr>
-                <td>{{ $index + 1 }}</td>
+                <td class="landing-page-id">{{ $index + 1 }}</td>
                 <td>
                 @if($page->page_image)
                     <img src="{{ asset($page->page_image) }}" width="70px">
@@ -78,25 +78,22 @@
                 </td>
                 <td><strong>{{ $page->page_name }}</strong></td>
                 <td>
-                <a href="{{ url('/city/' . $page->page_slug) }}" target="_blank">Go To Page</a>
+                @php($publicUrl = url('/city/' . $page->page_slug))
+                <a class="landing-page-url" href="{{ $publicUrl }}" target="_blank" rel="noopener">{{ $publicUrl }}</a>
                 </td>
-                <td>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        Action
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ route('admin.landing-pages.edit', $page->page_id) }}">
-                        <i class="fas fa-edit"></i> Edit
-                        </a>
-                        <div class="dropdown-divider d-none"></div>
-                        <a class="dropdown-item d-none" href="{{ route('admin.landing-pages.destroy', $page->page_id) }}" onclick="return confirm('Are you sure?')">
-                        <i class="fas fa-trash"></i> Delete
-                        </a>
-                    </div>
-                    </div>
-                </div>
+                <td class="landing-page-actions">
+                  <a class="btn btn-outline-primary btn-sm" href="{{ route('admin.landing-pages.edit', $page->page_id) }}" title="Edit {{ $page->page_name }}">
+                    <i class="fas fa-edit" aria-hidden="true"></i><span class="sr-only">Edit</span>
+                  </a>
+                  <form method="POST" action="{{ route('admin.landing-pages.toggle-published', $page->page_id) }}" class="landing-page-publish-form">
+                    @csrf
+                    <input type="hidden" name="is_published" value="0">
+                    <label class="landing-page-switch" title="{{ ($page->is_published ?? true) ? 'Hide from the public site' : 'Show on the public site' }}">
+                      <input type="checkbox" name="is_published" value="1" {{ ($page->is_published ?? true) ? 'checked' : '' }} onchange="this.form.submit()">
+                      <span aria-hidden="true"></span>
+                      <span class="sr-only">{{ ($page->is_published ?? true) ? 'Published' : 'Hidden' }}</span>
+                    </label>
+                  </form>
                 </td>
             </tr>
             @endforeach
@@ -127,4 +124,18 @@ document.getElementById('draft-page-name')?.addEventListener('input', function (
   document.getElementById('draft-page-slug').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 });
 </script>
+<style>
+  .landing-page-table .landing-page-id { width: 54px; text-align: center; }
+  .landing-page-table .landing-page-url { display: inline-block; max-width: 100%; overflow-wrap: anywhere; }
+  .landing-page-actions { display: flex; align-items: center; gap: 8px; }
+  .landing-page-actions .btn { min-width: 32px; min-height: 30px; padding: .34rem .48rem; margin: 0; }
+  .landing-page-publish-form { margin: 0 !important; }
+  .landing-page-switch { display: inline-flex; align-items: center; cursor: pointer; margin: 0; }
+  .landing-page-switch input { position: absolute; opacity: 0; pointer-events: none; }
+  .landing-page-switch span[aria-hidden] { position: relative; display: block; width: 34px; height: 19px; border-radius: 999px; background: #b7c3c8; transition: background .18s ease; }
+  .landing-page-switch span[aria-hidden]::after { content: ''; position: absolute; top: 3px; left: 3px; width: 13px; height: 13px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.18); transition: transform .18s ease; }
+  .landing-page-switch input:checked + span[aria-hidden] { background: var(--admin-accent); }
+  .landing-page-switch input:checked + span[aria-hidden]::after { transform: translateX(15px); }
+  .landing-page-switch input:focus-visible + span[aria-hidden] { outline: 3px solid rgba(15, 124, 135, .22); outline-offset: 2px; }
+</style>
 @endsection

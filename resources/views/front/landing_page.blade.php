@@ -1302,6 +1302,24 @@
 @if($page_sections->isNotEmpty())
   <style>
     .landing-builder-section { overflow: hidden; }
+    /* The legacy theme offsets its generic .container on some breakpoints.
+       Builder content must always be centered relative to the viewport. */
+    .landing-builder-section .container {
+      width: min(1140px, calc(100% - 32px));
+      max-width: 1140px;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    /* The legacy theme adds 60px above and below every section container.
+       Builder sections already save their own padding, so that rule doubled
+       the live gaps while the editor preview showed the correct value. */
+    .landing-builder-section > .container,
+    .landing-builder-section > .container-fluid {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
     .landing-builder-section .landing-image-right { display: flex; flex-wrap: wrap; flex-direction: row-reverse; }
     .landing-builder-section .landing-image-right > [class*="col-"] { float: none; }
     .landing-builder-section .landing-image-text-row { display:flex; flex-wrap:wrap; align-items:center; }
@@ -1311,22 +1329,28 @@
       grid-template-columns:repeat(var(--feature-columns, 3), minmax(0, 1fr));
       width:100%;
     }
-    .landing-builder-section .landing-feature-card { box-sizing:border-box; min-width:0; padding:12px; text-align:center; }
-    .landing-builder-section .landing-feature-card.stacked img { width:82px; height:82px; object-fit:contain; margin:0 auto 10px; }
+    .landing-builder-section .landing-feature-card { box-sizing:border-box; min-width:0; padding:18px 14px; text-align:center; }
+    .landing-builder-section .landing-feature-card h4 { margin:10px 0 6px; font-size:19px; font-weight:700; line-height:1.3; }
+    .landing-builder-section .landing-feature-card p { margin:0; line-height:1.65; }
+    .landing-builder-section .landing-feature-card.stacked img { width:100px; height:100px; object-fit:contain; margin:0 auto 12px; }
     .landing-builder-section .landing-feature-icon { font-size:44px; line-height:1; margin-bottom:10px; }
-    .landing-builder-section .landing-feature-card.icon-left { display:flex; align-items:flex-start; gap:14px; text-align:left; }
-    .landing-builder-section .landing-feature-card.icon-left img { width:64px; height:64px; flex:0 0 64px; object-fit:contain; }
-    .landing-builder-section .landing-feature-card.icon-left .landing-feature-icon { flex:0 0 64px; margin:0; }
-    .landing-builder-section .landing-full-image { display:block; width:100%; height:auto; max-width:none; }
+    .landing-builder-section .landing-feature-card.icon-left { display:flex; align-items:flex-start; gap:16px; text-align:left; }
+    .landing-builder-section .landing-feature-card.icon-left img { width:76px; height:76px; flex:0 0 76px; object-fit:contain; }
+    .landing-builder-section .landing-feature-card.icon-left .landing-feature-icon { flex:0 0 76px; margin:0; }
+    .landing-builder-section .landing-full-image { display:block; width:100%; height:auto; max-width:800px; max-height:400px; object-fit:contain; margin:0 auto; }
+    .landing-builder-section .landing-image-text-row img { display:block; width:100%; max-height:390px; object-fit:contain; margin:0 auto; }
     @media (max-width: 767px) { .landing-builder-section .landing-image-right { flex-direction: column; } }
     .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; }
     .landing-builder-content { color: #53636a; font-size: 16px; line-height: 1.8; }
+    .landing-builder-content .landing-sanskrit { color:#0f7a84; font-family:Philosopher, serif; font-size:28px; font-weight:700; margin:0 0 18px; }
     .landing-builder-section .btn { border-radius: 999px; padding: 12px 24px; transition: transform .2s ease, box-shadow .2s ease; }
     .landing-builder-section .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.18); }
     .landing-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
     .landing-reveal.is-visible { opacity: 1; transform: translateY(0); }
     @media (prefers-reduced-motion: reduce) { .landing-reveal { opacity: 1; transform: none; transition: none; } }
     @media (max-width: 767px) { .landing-builder-section .landing-image-text-row { flex-direction:column; } .landing-builder-section .landing-image-text-row > [class*="col-"] { flex:0 0 100% !important; max-width:100% !important; width:100%; } }
+    .landing-builder-section .landing-feature-card a { color:inherit; text-decoration:none; }
+    .landing-builder-section .landing-feature-card .landing-card-link { display:inline-flex; align-items:center; margin-top:14px; color:#0d7c88; font-weight:700; font-size:14px; }
     @media (max-width: 767px) { .landing-builder-section .landing-feature-grid { grid-template-columns:1fr !important; } }
   </style>
   @foreach($page_sections as $section)
@@ -1334,6 +1358,7 @@
       $elementStyles = json_decode($section->element_styles ?: '{}', true) ?: [];
       $headingStyle = $elementStyles['heading'] ?? [];
       $contentStyle = $elementStyles['content'] ?? [];
+      $extraElements = json_decode($section->elements ?: '[]', true) ?: [];
       $headingSpacing = 'padding: '.(int)($headingStyle['padding_y'] ?? 0).'px '.(int)($headingStyle['padding_x'] ?? 0).'px; margin: '.(int)($headingStyle['margin_y'] ?? 0).'px '.(int)($headingStyle['margin_x'] ?? 0).'px; font-weight: '.($headingStyle['font_weight'] ?? 'bold').'; font-style: '.($headingStyle['font_style'] ?? 'normal').'; text-decoration: '.($headingStyle['text_decoration'] ?? 'none').';';
       $contentSpacing = 'padding: '.(int)($contentStyle['padding_y'] ?? 0).'px '.(int)($contentStyle['padding_x'] ?? 0).'px; margin: '.(int)($contentStyle['margin_y'] ?? 0).'px '.(int)($contentStyle['margin_x'] ?? 0).'px; font-weight: '.($contentStyle['font_weight'] ?? 'normal').'; font-style: '.($contentStyle['font_style'] ?? 'normal').'; text-decoration: '.($contentStyle['text_decoration'] ?? 'none').';';
     @endphp
@@ -1342,7 +1367,6 @@
         @if($section->section_type === 'feature_grid')
           @php
             $blocks = json_decode($section->blocks ?: '[]', true) ?: [];
-            $extraElements = json_decode($section->elements ?: '[]', true) ?: [];
             $gridColumns = max(2, min(4, (int) ($section->grid_columns ?? 3)));
             $cardLayout = $section->card_layout === 'icon_left' ? 'icon-left' : 'stacked';
             $cardAlignment = in_array($section->card_alignment, ['left', 'center', 'right'], true) ? $section->card_alignment : 'center';
@@ -1357,7 +1381,22 @@
           </div>
           <div class="landing-feature-grid" style="--feature-columns: {{ $gridColumns }}; gap: {{ $gridGap }}px;">
             @foreach($blocks as $block)
-              <div class="landing-feature-card {{ $cardLayout }}" style="text-align: {{ $cardAlignment }};">@if(!empty($block['image']))<img src="{{ asset($block['image']) }}" alt="{{ $block['title'] ?? 'Feature image' }}">@else<div class="landing-feature-icon" style="color: {{ $section->text_color ?? '#183c45' }}">{{ $block['icon'] ?? '✦' }}</div>@endif<div><h4 style="color: {{ $section->text_color ?? '#183c45' }}">{{ $block['title'] ?? 'Feature title' }}</h4>@if(!empty($block['text']))<p style="color: {{ $section->description_color ?? '#647b82' }}">{{ $block['text'] }}</p>@endif</div></div>
+              <div class="landing-feature-card {{ $cardLayout }}" style="text-align: {{ $cardAlignment }};">
+                @if(!empty($block['image']))
+                  <img src="{{ asset($block['image']) }}" alt="{{ $block['title'] ?? 'Feature image' }}">
+                @else
+                  <div class="landing-feature-icon" style="color: {{ $section->text_color ?? '#183c45' }}">{{ $block['icon'] ?? '✦' }}</div>
+                @endif
+                <div>
+                  <h4 style="color: {{ $section->text_color ?? '#183c45' }}">{{ $block['title'] ?? 'Feature title' }}</h4>
+                  @if(!empty($block['text']))
+                    <p style="color: {{ $section->description_color ?? '#647b82' }}">{{ $block['text'] }}</p>
+                  @endif
+                  @if(!empty($block['url']))
+                    <a class="landing-card-link" href="{{ $block['url'] }}">Explore service <span aria-hidden="true">→</span></a>
+                  @endif
+                </div>
+              </div>
             @endforeach
           </div>
         @else
@@ -1368,8 +1407,13 @@
             </div>
           @endif
           @if($section->section_type !== 'image')
-          <div class="{{ $section->section_type === 'image_text' && $section->image ? 'col-md-6' : 'col-md-10' }}" style="{{ $section->section_type === 'image_text' && $section->image ? 'flex: 1 1 0; max-width: none;' : '' }} text-align: {{ $section->text_align ?? 'left' }};">
+          <div class="{{ $section->section_type === 'image_text' && $section->image ? 'col-md-6' : 'col-md-10 col-md-offset-1' }}" style="{{ $section->section_type === 'image_text' && $section->image ? 'flex: 1 1 0; max-width: none;' : '' }} text-align: {{ $section->text_align ?? 'left' }};">
             @if($section->heading)<h2 class="mb-3" style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{{ $section->heading }}</h2>@endif
+            @if($section->section_type === 'text')
+              @foreach($extraElements as $element)
+                @if(($element['type'] ?? '') === 'heading')<h3 style="color: {{ $element['color'] ?? $section->text_color ?? '#183c45' }}; font-size: {{ $element['size'] ?? $section->heading_size ?? 32 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{{ $element['text'] ?? '' }}</h3>@else<p style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{{ $element['text'] ?? '' }}</p>@endif
+              @endforeach
+            @endif
             @if($section->content)<div class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }}; font-size: {{ $section->description_size ?? 16 }}px; {{ $contentSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif
             @if($section->button_text && $section->button_url)
               <a href="{{ $section->button_url }}" class="btn btn-theme-colored btn-flat mt-3">{{ $section->button_text }}</a>
@@ -1431,7 +1475,6 @@
         @forelse($section_2_content as $content_sec_2)
           <div class="col-sm-4 text-center">
             <div class="life-divin-section">
-              <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines" width="100" height="100" decoding="async">
               <img loading="lazy" src="{{ asset($content_sec_2->os_image) }}" alt="YogIntra Service Icon - {{ $content_sec_2->os_heading }}" width="90" height="95" decoding="async">
             </div>
             <h5 style="font-size: 16px">{{ $content_sec_2->os_heading }}</h5>

@@ -191,15 +191,40 @@
     .form-group { margin-bottom: .85rem; }
     label, .col-form-label { color: #44646c; font-weight: 600; font-size: 12px; margin-bottom: .35rem; }
     .form-text, .invalid-feedback { font-size: 11.5px; }
-    .table { border-collapse: separate; border-spacing: 0; margin: 0; background: #fff; }
-    .table thead th { background: #edf7f7; border-top: 0; border-bottom: 1px solid #cde4e6; color: #31565e; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: .92rem 1rem; white-space: nowrap; }
-    .table thead th:first-child { border-top-left-radius: 10px; }
-    .table thead th:last-child { border-top-right-radius: 10px; }
-    .table td { border-color: #edf3f4; padding: .92rem 1rem; color: #385b63; }
+    /* Data tables: compact, borderless records in a clean white data card. */
+    .card-body:has(> table.table), .card-body:has(> .dataTables_wrapper) {
+      background: transparent;
+      padding: 1.25rem;
+    }
+    .table, .dataTables_wrapper > .table {
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0;
+      background: #fff;
+      border: 0 !important;
+      border: 1px solid var(--admin-border) !important;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(24, 60, 69, .045);
+    }
+    .table.table-bordered th, .table.table-bordered td { border: 0 !important; }
+    .table thead th {
+      background: #f7f9fd;
+      border: 0;
+      color: #687586;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .035em;
+      text-transform: uppercase;
+      padding: .85rem 1rem;
+      white-space: nowrap;
+    }
+    .table td { border: 0; padding: .82rem 1rem; color: #596779; font-size: 12px; }
     .table tbody tr { transition: background .16s ease; }
-    .table tbody tr:hover { background: #f4fbfb; }
-    .table-striped tbody tr:nth-of-type(odd) { background: #fbfdfd; }
-    .table-responsive { border: 1px solid var(--admin-border); border-radius: 11px; box-shadow: 0 4px 14px rgba(24, 60, 69, .035); }
+    .table tbody tr + tr td { border-top: 1px solid #f0f3f8; }
+    .table tbody tr:hover { background: #f7faff; }
+    .table-striped tbody tr:nth-of-type(odd) { background: #fff; }
+    .table-responsive { border: 0; border-radius: 5px; box-shadow: none; background: transparent; }
     .table td:last-child { white-space: nowrap; }
     .table td > .btn, .table td > form, .table td > .btn-group, .table td > .btn-group-sm { display: inline-flex; vertical-align: middle; margin: 2px 7px 2px 0; }
     .table td > form .btn { margin: 0; }

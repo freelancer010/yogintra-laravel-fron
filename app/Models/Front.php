@@ -39,7 +39,7 @@ class Front extends Model
     // 👇 Add these for Landing Page
     public static function getLandingPageBySlug($slug)
     {
-        return DB::table('new_landing_page')->where('page_slug', $slug)->first();
+        return DB::table('new_landing_page')->where('page_slug', $slug)->where('is_published', true)->first();
     }
 
     public static function getAllServiceCategories()

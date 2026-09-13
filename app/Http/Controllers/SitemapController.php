@@ -55,7 +55,7 @@ class SitemapController extends Controller
             }
 
             // Landing Pages (from `page_slug`)
-            $cities = DB::table('new_landing_page')->select('page_slug')->get();
+            $cities = DB::table('new_landing_page')->where('is_published', true)->select('page_slug')->get();
             $debugMessages[] = 'Found ' . count($cities) . ' city pages for sitemap';
             foreach ($cities as $city) {
                 $urls[] = $this->formatUrl(url('/city/' . $city->page_slug), '0.80');

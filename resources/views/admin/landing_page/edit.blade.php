@@ -78,6 +78,14 @@
                           <strong>Page Builder</strong>
                           <div class="section-palette"><button type="button" class="add-section" data-section-type="text">✦ Text</button><button type="button" class="add-section" data-section-type="image_text">▧ Image + Text</button><button type="button" class="add-section" data-section-type="cta">↗ CTA</button></div>
                         </div>
+                        @if($sections->isEmpty())
+                          <div class="alert alert-info m-3 mb-0">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between" style="gap: 12px;">
+                              <div><strong>Convert the classic page layout.</strong><br><small>This creates editable, city-aware sections from the old shared landing-page content. Review and personalise the generated copy before publishing.</small></div>
+                              <button type="submit" form="landing-page-form" formaction="{{ route('admin.landing-pages.convert-classic', $page->page_id) }}" formmethod="POST" class="btn btn-primary">Convert classic layout</button>
+                            </div>
+                          </div>
+                        @endif
                         <div class="card-body" id="sections">
                           @foreach($sections as $index => $section)
                             <div class="card border mb-3 page-builder-section">
@@ -163,6 +171,15 @@
     workspace.className = 'builder-workspace';
     workspace.innerHTML = '<main class="builder-canvas"><div class="builder-canvas-header"><div><h4>Page canvas</h4><small class="text-muted">Click preview text to edit it inline</small></div><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#page-settings-modal">Manage page settings</button></div></main><aside class="builder-inspector"><div class="builder-inspector-title"><span>Section editor</span><span>✦</span></div></aside>';
     formBody.prepend(workspace);
+    @if($sections->isEmpty())
+    const classicConversionNotice = document.createElement('div');
+    classicConversionNotice.className = 'alert alert-info mt-3 mb-0';
+    classicConversionNotice.innerHTML = '<div class="d-flex flex-wrap align-items-center justify-content-between" style="gap:12px"><div><strong>Convert the classic page layout</strong><br><small>Create editable, city-aware sections from the old shared landing-page content.</small></div><button type="submit" class="btn btn-primary">Convert classic layout</button></div>';
+    const classicConversionButton = classicConversionNotice.querySelector('button');
+    classicConversionButton.formAction = '{{ route('admin.landing-pages.convert-classic', $page->page_id) }}';
+    classicConversionButton.formMethod = 'post';
+    workspace.querySelector('.builder-canvas').appendChild(classicConversionNotice);
+    @endif
     const inspector = workspace.querySelector('.builder-inspector');
     const heroEditor = document.createElement('section');
     heroEditor.className = 'hero-editor';
