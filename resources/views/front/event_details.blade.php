@@ -9,7 +9,7 @@
 <!-- Start main-content -->
 <div class="main-content">
   <section class="inner-header image-sec divider parallax text-center responsive-image-margin">
-    <img class="w-50" src="{{ asset($event->image) }}" />
+    <img class="w-50" src="{{ asset($event->image) }}" alt="{{ $event->title }}" />
     <h1 class="text-light mb-5 mt-15">{{ $event->title }}</h1>
   </section>
   

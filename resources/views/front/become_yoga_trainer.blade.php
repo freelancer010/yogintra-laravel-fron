@@ -38,7 +38,7 @@
       <div class="section-content">
         <div class="row">
           <div class="col-md-5">
-            <img src="{{ asset('assets/coming_soon.webp') }}">
+            <img src="{{ asset('assets/coming_soon.webp') }}" alt="Yoga trainer programme coming soon">
           </div>
           <div class="col-md-7">
             <!-- Step Progress Indicators -->

@@ -1,4 +1,5 @@
 User-agent: *
+Allow: /
 Disallow: /login
 Disallow: /forgot-password
 Disallow: /admin

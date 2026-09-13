@@ -61,7 +61,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-5">
-        <img src="{{ asset('assets/coming_soon.webp') }}">
+        <img src="{{ asset('assets/coming_soon.webp') }}" alt="Upcoming yoga workshops">
       </div>
       <div class="col-md-7">
         <div class="mb-40">

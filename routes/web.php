@@ -111,7 +111,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
     Route::delete('/event/delete_event/{id}', [EventController::class, 'destroy'])->name('event.destroy');
     // Route::post('/tinymce/upload', [TinymceController::class, 'upload']);
-    Route::get('/event/event_booking', [EventController::class, 'booking'])->name('event.booking');
 
     // Service categories
     Route::get('/service/service_category', [ServiceController::class, 'serviceCategory'])->name('service.category');
@@ -163,7 +162,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/blog/edit/{blog}', [BlogController::class, 'edit'])->name('blog.edit');
     Route::get('/blog/delete/{blog}', [BlogController::class, 'destroy'])->name('blog.delete');
     Route::post('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
-    Route::post('/upload-image', [BlogController::class, 'uploadImage'])->name('ckeditor.upload');
+    Route::post('/upload-image', [BlogController::class, 'uploadImage'])->name('blog.upload-image');
     // ------------- END Blog ----------------------
 
     
@@ -233,4 +232,5 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::get('/generate-sitemap', [\App\Http\Controllers\SitemapController::class, 'generate'])
+    ->middleware(['auth', 'admin'])
     ->name('sitemap.generate');
