@@ -60,6 +60,7 @@ class LandingPageController extends Controller
             'page_meta_title' => 'nullable|string',
             'page_keywords' => 'nullable|string',
             'page_head_code' => 'nullable|string',
+            'use_classic_layout' => 'nullable|boolean',
             'page_image_title' => 'nullable|string',
             'page_image_description' => 'nullable|string',
             'page_image' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:5000',
@@ -195,6 +196,7 @@ class LandingPageController extends Controller
             'page_image_title' => 'nullable|string|max:255',
             'page_image_description' => 'nullable|string',
             'page_head_code' => 'nullable|string',
+            'use_classic_layout' => 'nullable|boolean',
             'page_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5000',
             'sections' => 'nullable|array',
             'sections.*.section_type' => 'required|in:text,image,image_text,feature_grid,cta',
@@ -239,6 +241,7 @@ class LandingPageController extends Controller
             'page_image_title' => $request->page_image_title ?? '',
             'page_image_description' => $request->page_image_description ?? '',
             'page_head_code' => $request->page_head_code ?? '',
+            'use_classic_layout' => $request->boolean('use_classic_layout'),
         ];
 
         // Do not erase content created with the legacy editor when editing an old page.

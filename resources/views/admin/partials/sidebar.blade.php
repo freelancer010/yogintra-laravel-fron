@@ -4,8 +4,8 @@
     <img src="{{ asset($app_setting->app_sticky_logo ?? 'logo.png') }}" alt="{{ $app_setting->app_name ?? 'Yogintra' }}" style="height:40px">
   </a>
 
-  <div class="sidebar pt-2">
-    <nav class="mt-2 navbar-white">
+  <div class="sidebar">
+    <nav class="navbar-white">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
           <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">

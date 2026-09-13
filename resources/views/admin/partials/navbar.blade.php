@@ -16,8 +16,13 @@
     </li>
     @if($isLandingBuilder)
     <li class="nav-item">
+      <span class="nav-link">
+        <button class="btn btn-outline-secondary btn-sm" type="button" id="sidebar-toggle">Show menu</button>
+      </span>
+    </li>
+    <li class="nav-item">
       <a class="nav-link" href="{{ route('admin.landing-pages.index') }}">
-        <button class="btn btn-outline-primary btn-sm"><i class="fa fa-file-text-o"></i>&nbsp;Landing pages</button>
+        <button class="btn btn-outline-primary btn-sm">Landing pages</button>
       </a>
     </li>
     @endif

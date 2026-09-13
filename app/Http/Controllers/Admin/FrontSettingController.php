@@ -29,6 +29,11 @@ class FrontSettingController extends Controller
         $request->validate([
             'hero_media_type' => 'required|in:slider,video',
             'hero_video' => 'nullable|file|mimes:mp4,webm,ogg,mov|max:51200',
+            'hero_video_heading' => 'required_if:hero_media_type,video|nullable|string|max:255',
+            'hero_video_sub_heading' => 'nullable|string|max:255',
+            'hero_video_btn_name' => 'nullable|string|max:100',
+            'hero_video_btn_link' => 'nullable|url',
+            'hero_video_text_direction' => 'required_if:hero_media_type,video|nullable|in:left,right,center',
         ]);
 
         $setting = Setting::firstOrFail();
@@ -47,6 +52,13 @@ class FrontSettingController extends Controller
         }
 
         $setting->hero_media_type = $request->hero_media_type;
+        $setting->hero_video_title = $request->filled('hero_video_heading') ? $request->hero_video_heading : null;
+        $setting->hero_video_description = $request->filled('hero_video_sub_heading') ? $request->hero_video_sub_heading : null;
+        $setting->hero_video_heading = $request->filled('hero_video_heading') ? $request->hero_video_heading : null;
+        $setting->hero_video_sub_heading = $request->filled('hero_video_sub_heading') ? $request->hero_video_sub_heading : null;
+        $setting->hero_video_btn_name = $request->filled('hero_video_btn_name') ? $request->hero_video_btn_name : null;
+        $setting->hero_video_btn_link = $request->filled('hero_video_btn_link') ? $request->hero_video_btn_link : null;
+        $setting->hero_video_text_direction = $request->hero_video_text_direction ?: 'left';
         $setting->save();
 
         return back()->with('success', $request->hero_media_type === 'video' ? 'Hero video enabled successfully.' : 'Image slider enabled successfully.');

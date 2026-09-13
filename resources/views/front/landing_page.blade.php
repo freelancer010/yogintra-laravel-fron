@@ -1299,7 +1299,7 @@
     </div>
 </section>
 
-@if($page_sections->isNotEmpty())
+@if($page_sections->isNotEmpty() && !($page_data->use_classic_layout ?? false))
   <style>
     .landing-builder-section { overflow: hidden; }
     /* The legacy theme offsets its generic .container on some breakpoints.

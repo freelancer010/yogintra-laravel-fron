@@ -119,14 +119,17 @@
         .video-hero-navigation .menuzord-menu > li.active > a::after {
             background-color: #2ed0da !important;
         }
+        .video-hero-navigation .header-nav.scroll-to-fixed-fixed .header-nav-wrapper,
+        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed {
+            background: #fff !important;
+        }
+        .video-hero-navigation .header-nav.scroll-to-fixed-fixed .menuzord-menu > li > a,
+        .video-hero-navigation .header-nav.scroll-to-fixed-fixed .menuzord-menu > li > a > i,
+        .video-hero-navigation .header-nav.scroll-to-fixed-fixed .menuzord-responsive .showhide em,
         .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-menu > li > a,
         .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-menu > li > a > i,
         .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-responsive .showhide em {
             color: #222 !important;
-        }
-        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-menu > li.active > a,
-        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-menu > li:hover > a {
-            color: #00aab7 !important;
         }
         .video-hero-navigation .menuzord-menu ul.dropdown { background: #fff; }
         .video-hero-navigation .menuzord-menu ul.dropdown li a { color: #183c45 !important; }

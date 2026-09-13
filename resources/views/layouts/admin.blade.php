@@ -44,6 +44,8 @@
     }
 
     .content-header h1, .content-header .m-0 { color: var(--admin-ink); font-weight: 700; letter-spacing: -.025em; }
+    .admin-listing-heading { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; }
+    .admin-listing-heading .admin-listing-action { margin: 0; }
 
     /* Sidebar */
     .main-sidebar {
@@ -68,6 +70,8 @@
     }
 
     .main-sidebar .brand-link img { display: block; width: auto; max-height: 44px; max-width: 180px; object-fit: contain; }
+    .main-sidebar .sidebar { margin-top: 0 !important; padding-top: 0 !important; }
+    .main-sidebar .sidebar > nav { margin-top: 0 !important; padding-top: 4px; }
     .user-panel { margin: 14px 12px !important; padding: 12px !important; border: 1px solid var(--admin-border) !important; border-radius: 12px; background: #f9fcfc; }
     .user-panel .image img { border: 2px solid #d5eeee; box-shadow: none !important; }
     .sidebar-user-avatar { display:inline-flex; align-items:center; justify-content:center; width:35px; height:35px; border-radius:50%; background:var(--admin-accent); color:#fff; font-size:13px; font-weight:700; }
@@ -75,6 +79,9 @@
     .nav-sidebar .nav-link {
       color: #537078 !important;
       margin: 3px 10px;
+      width: calc(100% - 20px);
+      max-width: calc(100% - 20px);
+      box-sizing: border-box;
       padding: .72rem .85rem;
       border-radius: 9px;
       transition: background .18s ease, color .18s ease, transform .18s ease;
@@ -90,6 +97,8 @@
     }
 
     .nav-sidebar .nav-treeview .nav-link { font-size: 12.5px; font-weight: 500; padding-left: 1.25rem; }
+    .main-sidebar .nav-sidebar { padding-right: 10px; box-sizing: border-box; }
+    .main-sidebar .nav-sidebar .nav-link { width: calc(100% - 20px); max-width: calc(100% - 20px); }
     .nav-sidebar .nav-icon { color: var(--admin-accent); }
 
     /* Navbar */
@@ -298,6 +307,31 @@
     .dataTables_wrapper .dataTables_filter input, .dataTables_wrapper .dataTables_length select { border: 1px solid #cbdde1; border-radius: 8px; padding: 6px 9px; margin-left: 7px; background: #fff; }
     .dataTables_wrapper .dataTables_info { color: var(--admin-muted); font-size: 13px; padding-top: 1rem; }
     .dataTables_wrapper .dataTables_paginate { padding-top: .65rem; }
+    .admin-success-toast {
+      position: fixed;
+      z-index: 1085;
+      top: 20px;
+      right: 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: min(390px, calc(100vw - 32px));
+      padding: 14px 14px 14px 16px;
+      color: #fff;
+      background: linear-gradient(135deg, #0b606a, #118b96);
+      border-radius: 12px;
+      box-shadow: 0 14px 32px rgba(11, 96, 106, .28);
+      animation: adminToastIn .42s cubic-bezier(.2,.9,.25,1) both;
+    }
+    .admin-success-toast.is-leaving { animation: adminToastOut .3s ease forwards; }
+    .admin-success-toast__icon { display: inline-flex; flex: 0 0 30px; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,.18); font-size: 16px; font-weight: 800; }
+    .admin-success-toast__message { flex: 1; font-size: 13px; font-weight: 600; line-height: 1.35; }
+    .admin-success-toast__close { appearance: none; border: 0; background: transparent; color: #fff; opacity: .85; font-size: 22px; line-height: 1; cursor: pointer; padding: 0 2px; }
+    .admin-success-toast__close:hover { opacity: 1; }
+    .admin-success-toast::after { content: ''; position: absolute; left: 16px; right: 16px; bottom: 7px; height: 2px; border-radius: 2px; background: rgba(255,255,255,.85); transform-origin: left; animation: adminToastProgress 4.5s linear forwards; }
+    @keyframes adminToastIn { from { opacity: 0; transform: translateY(-12px) translateX(18px); } to { opacity: 1; transform: translateY(0) translateX(0); } }
+    @keyframes adminToastOut { to { opacity: 0; transform: translateY(-8px) translateX(18px); } }
+    @keyframes adminToastProgress { to { transform: scaleX(0); } }
 
     /* Two-colour dashboard and utility palette: navy + teal. */
     .small-box {
@@ -371,7 +405,14 @@
     }
 
     @media (max-width: 991px) { .main-header { border-radius: 0; } }
-    @media (max-width: 767px) { .content-wrapper { padding: 16px !important; } .card-body { padding: .9rem; } .main-header { padding: .35rem .5rem; } }
+    @media (max-width: 767px) {
+      .content-wrapper { padding: 16px !important; }
+      .card-body { padding: .9rem; }
+      .main-header { padding: .35rem .5rem; }
+      .admin-listing-heading { align-items: flex-start; }
+      .content-wrapper .card-body:has(> table.table), .content-wrapper .card-body:has(> .dataTables_wrapper) { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .content-wrapper .table, .content-wrapper .dataTables_wrapper { min-width: 680px; }
+    }
   </style>
 
   @stack('styles')
@@ -386,6 +427,14 @@
       @yield('content')
     </div>
   </div>
+
+  @if(session('success'))
+    <div class="admin-success-toast" role="status" aria-live="polite">
+      <span class="admin-success-toast__icon" aria-hidden="true">✓</span>
+      <span class="admin-success-toast__message">{{ session('success') }}</span>
+      <button type="button" class="admin-success-toast__close" aria-label="Dismiss notification">×</button>
+    </div>
+  @endif
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -411,7 +460,43 @@
         if (!button.attr('title')) button.attr('title', isEdit ? 'Edit item' : 'Delete item');
         if (!button.attr('aria-label')) button.attr('aria-label', isEdit ? 'Edit item' : 'Delete item');
       });
+
+      // Normalise legacy index pages: place each Add action beside the page
+      // heading and remove the now-redundant card heading.
+      const pageHeading = $('.content-header h1, section.content-header h1').first();
+      const addAction = $('.card-header .card-tools').filter(function () {
+        return /\b(add|new)\b/i.test($(this).text());
+      }).first();
+
+      if (!addAction.length) return;
+      const actionSourceHeader = addAction.closest('.card-header');
+
+      let heading = pageHeading;
+      if (!heading.length) {
+        const sourceTitle = actionSourceHeader.find('.card-title').first().text().replace(/^\s*(view\s+all|all)\s+/i, '').trim() || 'Manage items';
+        const generatedHeader = $('<div class="content-header admin-generated-listing-header"><div class="container-fluid"><div class="row mb-2"><div class="col-sm-12 admin-listing-heading"></div></div></div></div>');
+        heading = $('<h1 class="m-0 text-dark"></h1>').text(sourceTitle);
+        generatedHeader.find('.admin-listing-heading').append(heading);
+        $('.content').first().before(generatedHeader);
+      }
+
+      const headingRow = heading.parent();
+      headingRow.addClass('admin-listing-heading');
+      addAction.addClass('admin-listing-action').appendTo(headingRow);
+
+      actionSourceHeader.find('.card-title').first().remove();
+      if (!actionSourceHeader.children().length) actionSourceHeader.remove();
     });
+
+    const successToast = document.querySelector('.admin-success-toast');
+    if (successToast) {
+      const dismissToast = () => {
+        successToast.classList.add('is-leaving');
+        window.setTimeout(() => successToast.remove(), 300);
+      };
+      successToast.querySelector('.admin-success-toast__close')?.addEventListener('click', dismissToast);
+      window.setTimeout(dismissToast, 4500);
+    }
   </script>
   @stack('scripts')
 </body>

@@ -1,6 +1,10 @@
 @extends('layouts.layout')
 @php
     $heroPoster = $all_slider->first()?->slider_image;
+    $heroVideoHeading = $app_setting->hero_video_heading ?: ($app_setting->hero_video_title ?: ($all_slider->first()?->slider_heading ?: 'Yoga classes with YogIntra'));
+    $heroVideoSubHeading = $app_setting->hero_video_sub_heading ?: ($app_setting->hero_video_description ?: ($all_slider->first()?->slider_sub_heading ?: 'Discover yoga classes and wellness support with YogIntra.'));
+    $heroVideoTitle = $heroVideoHeading;
+    $heroVideoDescription = $heroVideoSubHeading;
 @endphp
 @section('meta_title', 'Yoga Classes, Home Yoga & Online Wellness | YogIntra')
 @section('meta_description', 'Discover online yoga classes, home yoga sessions, yoga centres, wellness programs and teacher training with YogIntra. Start your healthier journey today.')
@@ -8,6 +12,19 @@
 @section('og_image', asset('assets/og-logo.webp'))
 @push('page_meta_tags')
     <meta name="theme-color" content="#0f7c87">
+    @if(($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video))
+        @php
+            $heroVideoSchema = [
+                '@' . 'context' => 'https://schema.org',
+                '@' . 'type' => 'VideoObject',
+                'name' => $heroVideoTitle,
+                'description' => $heroVideoDescription,
+                'thumbnailUrl' => $heroPoster ? [asset($heroPoster)] : [],
+                'contentUrl' => asset($app_setting->hero_video),
+            ];
+        @endphp
+        <script type="application/ld+json">{!! json_encode($heroVideoSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @endif
 @endpush
 @push('styles')
     @if(($app_setting->hero_media_type ?? 'slider') === 'slider' && count($all_slider) > 0)
@@ -514,10 +531,15 @@
     <section id="home" class="divider">
         @if(($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video))
             @php
-                $heroCopy = $all_slider->first();
+                $heroVideoTextDirection = $app_setting->hero_video_text_direction ?? 'left';
+                $heroVideoColumnClass = match ($heroVideoTextDirection) {
+                    'right' => 'col-md-6 ml-md-auto text-right',
+                    'center' => 'col-md-8 offset-md-2 text-center',
+                    default => 'col-md-6',
+                };
             @endphp
             <div class="hero-video-wrap">
-                <video class="hero-background-video" muted loop playsinline preload="none" @if($heroCopy?->slider_image) poster="{{ asset($heroCopy->slider_image) }}" @endif>
+                <video class="hero-background-video" muted loop playsinline preload="none" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}" @if($heroPoster) poster="{{ asset($heroPoster) }}" @endif>
                     <source data-src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
                 </video>
                 <script>
@@ -531,13 +553,16 @@
                         video.play().catch(function () {});
                     }());
                 </script>
-                @if($heroCopy)
+                @if($heroVideoHeading)
                     <div class="hero-video-copy">
-                        <div class="container position-ab"><div class="row"><div class="col-md-6">
+                        <div class="container position-ab"><div class="row"><div class="{{ $heroVideoColumnClass }}">
                             <div class="bg-white-transparent pt-20 pb-50 outline-border">
-                                <h1 class="text-black-555 font-54 heading-bold">{{ $heroCopy->slider_heading }}</h1>
-                                @if($heroCopy->slider_btn_name && $heroCopy->slider_btn_link)
-                                    <a class="btn btn-theme-colored btn-flat mt-15 high-contrast-btn btn-theme-custom" href="{{ $heroCopy->slider_btn_link }}">{{ $heroCopy->slider_btn_name }}</a>
+                                <h1 class="text-black-555 font-54 heading-bold">{{ $heroVideoHeading }}</h1>
+                                @if($heroVideoSubHeading)
+                                    <p class="text-black-555 font-18 mt-10">{{ $heroVideoSubHeading }}</p>
+                                @endif
+                                @if($app_setting->hero_video_btn_name && $app_setting->hero_video_btn_link)
+                                    <a class="btn btn-theme-colored btn-flat mt-15 high-contrast-btn btn-theme-custom" href="{{ $app_setting->hero_video_btn_link }}">{{ $app_setting->hero_video_btn_name }}</a>
                                 @endif
                             </div>
                         </div></div></div>

@@ -8,14 +8,17 @@
 <div class="content-header">
     <div class="container-fluid">
     <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1 class="m-0 text-dark">All Landing Pages</h1>
+        <div class="col-sm-6 d-flex align-items-center">
+            <h1 class="m-0 text-dark">Landing pages</h1>
+            <button type="button" class="btn btn-success btn-sm ml-3" data-toggle="modal" data-target="#newPageModal">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add Page
+            </button>
         </div>
         <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
             <li class="breadcrumb-item"><a href="#">Frontend Setting</a></li>
-            <li class="breadcrumb-item active">All Landing Pages</li>
+            <li class="breadcrumb-item active">Landing pages</li>
         </ol>
         </div>
     </div>
@@ -26,21 +29,6 @@
 <section class="content">
     <div class="container-fluid">
     <div class="card card-default">
-        <div class="card-header">
-        <h3 class="card-title">View All Landing Pages</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#newPageModal">
-                <i class="fa fa-plus" aria-hidden="true"></i> Add Page
-            </button>
-        </div>
-        <div class="card-tools">
-            <!-- Uncomment below to enable add button -->
-            {{-- <a href="{{ route('admin.landing-pages.create') }}" class="btn btn-success btn-sm">
-            <i class="fa fa-plus"></i> Add Landing Page
-            </a> --}}
-        </div>
-        </div>
-
         <div class="card-body">
                 @if(session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
@@ -57,6 +45,7 @@
                         </ul>
                     </div>
                 @endif
+        <div class="table-responsive landing-page-table-scroll">
         <table id="example1" class="table table-bordered table-striped landing-page-table">
             <thead>
             <tr>
@@ -100,6 +89,7 @@
             </tbody>
         </table>
         </div>
+        </div>
     </div>
     </div>
 </section>
@@ -137,5 +127,9 @@ document.getElementById('draft-page-name')?.addEventListener('input', function (
   .landing-page-switch input:checked + span[aria-hidden] { background: var(--admin-accent); }
   .landing-page-switch input:checked + span[aria-hidden]::after { transform: translateX(15px); }
   .landing-page-switch input:focus-visible + span[aria-hidden] { outline: 3px solid rgba(15, 124, 135, .22); outline-offset: 2px; }
+  @media (max-width: 767.98px) {
+    .landing-page-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .landing-page-table { min-width: 760px; }
+  }
 </style>
 @endsection

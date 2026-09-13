@@ -3,9 +3,6 @@
 
 @section('content')
 
-@if(session('success'))
-  <div class="builder-toast" role="status">✓ {{ session('success') }}</div>
-@endif
 @if($errors->any())
   <div class="builder-toast builder-toast-error" role="alert">{{ $errors->first() }}</div>
 @endif
@@ -16,7 +13,14 @@
     <div class="col-sm-12">
         <div class="card card-default">
         <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center"><h3 class="card-title mb-0">Edit landing page</h3><div><button class="focus-toggle mr-2" type="button" id="sidebar-toggle">Show menu</button><button type="submit" form="landing-page-form" formnovalidate class="btn btn-success builder-submit floating-update-button">Update page</button></div></div>
+            <div class="d-flex align-items-center w-100 landing-page-header">
+                <h3 class="card-title mb-0">Edit landing page</h3>
+                <div class="landing-page-header-actions ml-auto d-flex align-items-center justify-content-end">
+                    <a href="{{ url('/city/' . $page->page_slug) }}" target="_blank" rel="noopener" class="btn btn-outline-light btn-sm mr-2"><i class="fas fa-external-link-alt" aria-hidden="true"></i> View live page</a>
+                    <button type="button" class="btn btn-outline-warning btn-sm mr-2" id="classic-layout-toggle"><i class="fas fa-history" aria-hidden="true"></i> Classic layout: <span>{{ ($page->use_classic_layout ?? false) ? 'On' : 'Off' }}</span></button>
+                    <button type="submit" form="landing-page-form" formnovalidate class="btn btn-success builder-submit floating-update-button">Update page</button>
+                </div>
+            </div>
         </div>
 
         <form id="landing-page-form" action="{{ route('admin.landing-pages.update', $page->page_id) }}" method="POST" enctype="multipart/form-data">
@@ -60,6 +64,17 @@
                     <div class="col-md-6 form-group">
                     <label>Head Code</label>
                     <textarea name="page_head_code" class="form-control">{{ $page->page_head_code }}</textarea>
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                      <div class="builder-field d-flex align-items-center justify-content-between" style="gap:16px;">
+                        <div><label class="mb-1">Page rendering</label><p class="mb-0 text-muted small">Use the original classic page design instead of the visual builder sections. Your builder content is retained and can be re-enabled at any time.</p></div>
+                        <div class="custom-control custom-switch flex-shrink-0">
+                          <input type="hidden" name="use_classic_layout" value="0">
+                          <input type="checkbox" class="custom-control-input" id="use-classic-layout" name="use_classic_layout" value="1" {{ ($page->use_classic_layout ?? false) ? 'checked' : '' }}>
+                          <label class="custom-control-label" for="use-classic-layout">Use classic layout</label>
+                        </div>
+                      </div>
                     </div>
 
                     <div class="col-md-12 form-group">
@@ -207,10 +222,28 @@
     formBody.appendChild(settingsModal);
     const settingsFields = settingsModal.querySelector('#page-settings-fields');
     formBody.querySelectorAll('.form-group').forEach(group => { if (!group.closest('.builder-section-panel') && !group.closest('.hero-editor')) settingsFields.appendChild(group); });
+    const classicLayoutInput = formBody.querySelector('#use-classic-layout');
+    const classicLayoutToggle = document.getElementById('classic-layout-toggle');
+    const syncClassicLayoutToggle = () => {
+      const enabled = classicLayoutInput?.checked;
+      classicLayoutToggle?.classList.toggle('btn-warning', enabled);
+      classicLayoutToggle?.classList.toggle('btn-outline-warning', !enabled);
+      const label = classicLayoutToggle?.querySelector('span');
+      if (label) label.textContent = enabled ? 'On' : 'Off';
+      if (classicLayoutToggle) classicLayoutToggle.title = enabled ? 'Classic layout will be shown after you update the page.' : 'Builder layout will be shown after you update the page.';
+    };
+    classicLayoutToggle?.addEventListener('click', () => { if (classicLayoutInput) { classicLayoutInput.checked = !classicLayoutInput.checked; syncClassicLayoutToggle(); } });
+    classicLayoutInput?.addEventListener('change', syncClassicLayoutToggle);
+    syncClassicLayoutToggle();
     const panel = formBody.querySelector('.builder-section-panel');
     if (panel) workspace.querySelector('.builder-inspector').appendChild(panel.closest('.col-md-12'));
     const submit = formBody.querySelector('.builder-submit');
-    if (submit) inspector.appendChild(submit.closest('.col-md-12'));
+    if (submit) {
+      const submitWrapper = submit.closest('.col-md-12');
+      workspace.querySelector('.builder-inspector-title').appendChild(submit);
+      submit.classList.add('builder-inspector-submit');
+      submitWrapper?.remove();
+    }
 </script>
 @include('admin.landing_page.partials.live-preview')
 <script>setTimeout(() => document.querySelector('.builder-toast')?.classList.add('is-hidden'), 3500);</script>
