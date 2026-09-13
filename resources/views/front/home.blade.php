@@ -45,6 +45,19 @@
         .hero-video-wrap video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
         .hero-video-wrap::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,.38); }
         .hero-video-copy { position:relative; z-index:1; min-height:100vh; display:flex; align-items:center; }
+        @media (max-width: 767px) {
+            #home.hero-video-home { height:calc(100svh - 70px) !important; min-height:calc(100svh - 70px) !important; margin:0 !important; padding:0 !important; }
+            #home.hero-video-home .hero-video-wrap,
+            #home.hero-video-home .hero-video-copy { height:calc(100svh - 70px); min-height:calc(100svh - 70px); }
+            #home.hero-video-home .hero-video-copy .container { position:static !important; top:auto !important; padding-left:20px; padding-right:20px; }
+            #home.hero-video-home .hero-video-copy .row > [class*="col-"] { width:100%; margin-left:0; text-align:center !important; }
+            #home.hero-video-home .hero-video-copy .bg-white-transparent { text-align:center !important; }
+            #home.hero-video-home .hero-video-copy h1,
+            #home.hero-video-home .hero-video-copy p { color:#fff !important; }
+            #home.hero-video-home .hero-video-copy .btn { display:inline-block; background-color:var(--theme-color-1) !important; border-color:var(--theme-color-1) !important; color:#fff !important; }
+            #home.hero-video-home .hero-video-copy .btn:hover,
+            #home.hero-video-home .hero-video-copy .btn:focus { background-color:var(--theme-color-2) !important; border-color:var(--theme-color-2) !important; }
+        }
         .yg-txt-right{
             text-align:right;
         }
@@ -528,7 +541,7 @@
     {{-- Preload the mobile banner image for faster paint --}}
     <link rel="preload" as="image" href="{{ asset('assets/Mobile-Banner-new.webp') }}" fetchpriority="high" />
 
-    <section id="home" class="divider">
+    <section id="home" class="divider {{ (($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video)) ? 'hero-video-home' : '' }}">
         @if(($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video))
             @php
                 $heroVideoTextDirection = $app_setting->hero_video_text_direction ?? 'left';
@@ -546,7 +559,7 @@
                     (function () {
                         var video = document.querySelector('.hero-background-video');
                         var source = video && video.querySelector('source[data-src]');
-                        if (!video || !source || window.matchMedia('(max-width: 767px)').matches) return;
+                        if (!video || !source) return;
                         source.src = source.dataset.src;
                         video.autoplay = true;
                         video.load();
