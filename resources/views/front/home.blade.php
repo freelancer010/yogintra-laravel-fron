@@ -41,7 +41,7 @@
         #home {
             min-height: 100vh;
         }
-        .hero-video-wrap { position: relative; min-height: 100vh; overflow: hidden; background: #111; }
+        .hero-video-wrap { position: relative; min-height: 100vh; overflow: hidden; background: #111 center / cover no-repeat; }
         .hero-video-wrap video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
         .hero-video-wrap::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,.38); }
         .hero-video-copy { position:relative; z-index:1; min-height:100vh; display:flex; align-items:center; }
@@ -576,7 +576,7 @@
                     default => 'col-md-6',
                 };
             @endphp
-            <div class="hero-video-wrap">
+            <div class="hero-video-wrap" @if($heroPoster) style="background-image: url('{{ asset($heroPoster) }}');" @endif>
                 <video class="hero-background-video" muted loop playsinline preload="none" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}" @if($heroPoster) poster="{{ asset($heroPoster) }}" @endif>
                     <source data-src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
                 </video>
@@ -589,6 +589,12 @@
                         video.autoplay = true;
                         video.load();
                         video.play().catch(function () {});
+
+                        var showPosterFallback = function () {
+                            video.style.display = 'none';
+                        };
+                        video.addEventListener('error', showPosterFallback);
+                        source.addEventListener('error', showPosterFallback);
                     }());
                 </script>
                 @if($heroVideoHeading)
@@ -1059,10 +1065,36 @@
 
 @endsection
 @push('scripts')
-    <!-- Bootstrap 5 Popper and JS for Accordion -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    
+    {{-- FAQ accordion uses the site's existing Bootstrap 4 collapse styles; no second Bootstrap runtime is needed. --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var accordion = document.getElementById('faqAccordion');
+            if (!accordion) return;
+
+            accordion.querySelectorAll('.accordion-button').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var panel = document.querySelector(button.getAttribute('data-bs-target'));
+                    if (!panel) return;
+
+                    var shouldOpen = !panel.classList.contains('show');
+                    accordion.querySelectorAll('.accordion-collapse').forEach(function (item) {
+                        item.classList.remove('show');
+                    });
+                    accordion.querySelectorAll('.accordion-button').forEach(function (item) {
+                        item.classList.add('collapsed');
+                        item.setAttribute('aria-expanded', 'false');
+                    });
+
+                    if (shouldOpen) {
+                        panel.classList.add('show');
+                        button.classList.remove('collapsed');
+                        button.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            });
+        });
+    </script>
+
     <script type="text/javascript">  
         function ajaxCall() {
             this.send = function(data, url, method, success, type) {

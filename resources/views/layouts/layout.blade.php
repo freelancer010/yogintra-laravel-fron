@@ -77,8 +77,6 @@
     <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/utility-classes.min.css') }}"></noscript>
 
     <link rel="preconnect" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap">
-    <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://connect.facebook.net">
 
     <!-- MAIN CSS - Deferred for better FCP -->
     <link rel="preload" href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -185,51 +183,48 @@
 
     @stack('styles') {{-- For additional CSS in child views --}}
 
-    <!-- Google tag (gtag.js) - Deferred for better FCP -->
+    <!-- Optional services are loaded only after the visitor grants consent. -->
     <script>
-        // Initialize dataLayer and create a stub gtag function to queue calls before the script loads
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function(){window.dataLayer.push(arguments);}
-        window.gtag.l = new Date().getTime();
-        
-        window.addEventListener('load', function() {
+        window.loadGoogleAnalytics = function () {
+            if (window.googleAnalyticsLoaded) return;
+            window.googleAnalyticsLoaded = true;
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function () { window.dataLayer.push(arguments); };
+            window.gtag('js', new Date());
+            window.gtag('config', 'G-8QW4B6YQ9G');
+
             var script = document.createElement('script');
             script.async = true;
             script.src = 'https://www.googletagmanager.com/gtag/js?id=G-8QW4B6YQ9G';
             document.head.appendChild(script);
-            
-            // gtag function already defined above, just add config
-            window.gtag('js', new Date());
-            window.gtag('config', 'G-8QW4B6YQ9G');
-        });
-    </script>
+        };
 
-    <!-- Meta Pixel Code - Deferred for better FCP -->
-    <script>
-        window.addEventListener('load', function () {
-            setTimeout(function () {
-                var script = document.createElement('script');
-                script.innerHTML = `
-                !function(f,b,e,v,n,t,s)
-                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-                n.queue=[];t=b.createElement(e);t.async=!0;
-                t.src=v;s=b.getElementsByTagName(e)[0];
-                s.parentNode.insertBefore(t,s)}(window, document,'script',
-                'https://connect.facebook.net/en_US/fbevents.js');
-                fbq('init', '399354049700557');
-                fbq('track', 'PageView');
-                `;
-                document.body.appendChild(script);
-            }, 4000);
-        });
-    </script>
+        window.loadMetaPixel = function () {
+            if (window.metaPixelLoaded) return;
+            window.metaPixelLoaded = true;
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            window.fbq('init', '399354049700557');
+            window.fbq('track', 'PageView');
+        };
 
-    <noscript>
-      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=399354049700557&ev=PageView&noscript=1" />
-    </noscript>
-    <!-- End Meta Pixel Code -->
+        window.loadWhatsAppWidget = function () {
+            if (window.whatsAppWidgetLoaded) return;
+            window.whatsAppWidgetLoaded = true;
+            window.wa_btnSetting = {"btnColor":"#16BE45","ctaText":"","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"right","whatsAppNumber":"919867291573","welcomeMessage":"Hello","zIndex":999999,"btnColorScheme":"light"};
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://d2mpatx37cqexb.cloudfront.net/delightchat-whatsapp-widget/embeds/embed.min.js';
+            script.onload = function () { window._waEmbed(window.wa_btnSetting); };
+            document.body.appendChild(script);
+        };
+    </script>
 
     <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"></script>
     @if (request()->is('service-details/*', 'service_details/*'))
@@ -320,7 +315,7 @@
 
     <script>
         window.addEventListener('load', function() {
-            if (window.location.pathname === "/") {
+            if (window.location.pathname === "/" && typeof window.gtag === 'function') {
                 gtag('event', 'conversion', {
                     'send_to': 'AW-11419284283/kVoECMPr76YaELvmkcUq'
                 });
@@ -328,7 +323,7 @@
         });
 
         window.addEventListener('load', function() {
-            if (window.location.pathname.includes('/thank_you')) {
+            if (window.location.pathname.includes('/thank_you') && typeof window.gtag === 'function') {
                 gtag('event', 'conversion', {
                     'send_to': 'AW-11419284283/ZXcKCMDr76YaELvmkcUq'
                 });
@@ -336,7 +331,7 @@
         });
 
         document.addEventListener('click', function(e) {
-            if (e.target.closest('#wa-btn-wrapper')) {
+            if (e.target.closest('#wa-btn-wrapper') && typeof window.gtag === 'function') {
                 gtag('event', 'conversion', {'send_to': 'AW-11419284283/TdtYCMbr76YaELvmkcUq'});
             }
         });
@@ -346,13 +341,6 @@
         // Remove the general form submit handler as we're handling the multi-step form separately
     </script>
 
-    <script async src='https://d2mpatx37cqexb.cloudfront.net/delightchat-whatsapp-widget/embeds/embed.min.js'></script>
-    <script>
-        var wa_btnSetting = {"btnColor":"#16BE45","ctaText":"","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"right","whatsAppNumber":"919867291573","welcomeMessage":"Hello","zIndex":999999,"btnColorScheme":"light"};
-        window.onload = () => {
-            _waEmbed(wa_btnSetting);
-        };
-    </script>
     <script src="{{ asset('assets/front/js/custom.min.js') }}"></script>
     @stack('scripts')
 
@@ -364,76 +352,116 @@
             right: 20px;
             max-width: 480px;
             margin: auto;
-            background: #2f2f2f;
+            background: #153f49;
             color: #fff;
-            padding: 15px 20px;
-            border-radius: 8px;
-            z-index: 9999;
+            padding: 20px;
+            border-radius: 12px;
+            z-index: 1000000;
             display: none;
-            justify-content: space-between;
-            align-items: center;
             font-size: 14px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            flex-wrap: wrap;
         }
 
         .cookie-banner a {
-            color: #ffd700;
+            color: #fff;
             text-decoration: underline;
         }
 
+        .cookie-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
         .cookie-banner button {
-            background-color: #1a73e8 !important;
-            border: none;
+            background-color: #148795 !important;
+            border: 1px solid #148795;
             color: white;
-            padding: 8px 16px;
-            margin-top: 10px;
-            border-radius: 5px;
+            padding: 9px 14px;
+            margin: 0;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 14px;
             transition: background-color 0.3s ease;
         }
 
+        .cookie-banner button.cookie-secondary { background: transparent !important; border-color: rgba(255,255,255,.75); }
         .cookie-banner button:hover,
         .cookie-banner button:focus {
-            background-color: #1557b0 !important;
+            background-color: #0e6e79 !important;
         }
-
-        @media (min-width: 576px) {
-            .cookie-banner {
-                flex-wrap: nowrap;
-            }
-
-            .cookie-banner button {
-                margin-top: 0;
-                margin-left: 20px;
-            }
-        }
+        .cookie-preferences { display: none; margin-top: 14px; border-top: 1px solid rgba(255,255,255,.25); padding-top: 12px; }
+        .cookie-preferences.is-open { display: block; }
+        .cookie-option { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 10px 0; }
+        .cookie-option small { display: block; color: rgba(255,255,255,.8); }
+        .cookie-option input { width: 18px; height: 18px; accent-color: #148795; }
     </style>
 
-    <div class="cookie-banner" id="cookieBanner">
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-modal="true" aria-labelledby="cookieBannerTitle">
         <div class="cookie-text">
-            This website uses cookies to ensure you get the best experience. 
-            <a href="{{ url('/privacy-policy') }}" target="_blank"> Read our privacy policy</a>
+            <strong id="cookieBannerTitle">Your privacy choices</strong><br>
+            We use essential cookies to run this site. With your permission, we also use analytics, marketing, and WhatsApp support tools. <a href="{{ url('/privacy-policy') }}" target="_blank" rel="noopener noreferrer">Read our privacy policy</a>.
         </div>
-        <button onclick="acceptCookies()">Accept</button>
+        <div class="cookie-actions">
+            <button type="button" id="cookieAcceptAll">Accept all</button>
+            <button type="button" class="cookie-secondary" id="cookieReject">Reject non-essential</button>
+            <button type="button" class="cookie-secondary" id="cookieManage">Manage preferences</button>
+        </div>
+        <div class="cookie-preferences" id="cookiePreferences">
+            <label class="cookie-option"><span><strong>Essential</strong><small>Required for security and core site functions.</small></span><input type="checkbox" checked disabled></label>
+            <label class="cookie-option"><span><strong>Analytics</strong><small>Helps us understand site usage.</small></span><input type="checkbox" id="cookieAnalytics"></label>
+            <label class="cookie-option"><span><strong>Marketing</strong><small>Allows Meta advertising measurement.</small></span><input type="checkbox" id="cookieMarketing"></label>
+            <label class="cookie-option"><span><strong>Functional</strong><small>Enables the WhatsApp chat widget.</small></span><input type="checkbox" id="cookieFunctional"></label>
+            <div class="cookie-actions"><button type="button" id="cookieSave">Save preferences</button></div>
+        </div>
     </div>
 
     <script>
-        function acceptCookies() {
-            document.cookie = "cookie_consent=1; path=/; max-age=" + (60 * 60 * 24 * 365);
-            document.getElementById('cookieBanner').style.display = 'none';
-        }
+        (function () {
+            var consentCookie = 'yogintra_cookie_preferences';
+            var maxAge = 60 * 60 * 24 * 365;
+            var banner = document.getElementById('cookieBanner');
+            var preferences = document.getElementById('cookiePreferences');
 
-        function checkCookieConsent() {
-            const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-            const consent = cookies.find(cookie => cookie.startsWith('cookie_consent='));
-            if (!consent) {
-                document.getElementById('cookieBanner').style.display = 'flex';
+            function readConsent() {
+                var match = document.cookie.match(new RegExp('(?:^|; )' + consentCookie + '=([^;]*)'));
+                if (!match) return null;
+                try { return JSON.parse(decodeURIComponent(match[1])); } catch (error) { return null; }
             }
-        }
 
-        document.addEventListener('DOMContentLoaded', checkCookieConsent);
+            function applyConsent(consent) {
+                if (consent.analytics) window.loadGoogleAnalytics();
+                if (consent.marketing) window.loadMetaPixel();
+                if (consent.functional) window.loadWhatsAppWidget();
+            }
+
+            function saveConsent(consent) {
+                var secure = window.location.protocol === 'https:' ? '; Secure' : '';
+                document.cookie = consentCookie + '=' + encodeURIComponent(JSON.stringify(consent)) + '; path=/; max-age=' + maxAge + '; SameSite=Lax' + secure;
+                applyConsent(consent);
+                banner.style.display = 'none';
+            }
+
+            var savedConsent = readConsent();
+            if (savedConsent) {
+                applyConsent(savedConsent);
+            } else {
+                banner.style.display = 'block';
+            }
+
+            document.getElementById('cookieAcceptAll').addEventListener('click', function () {
+                saveConsent({ version: 1, analytics: true, marketing: true, functional: true });
+            });
+            document.getElementById('cookieReject').addEventListener('click', function () {
+                saveConsent({ version: 1, analytics: false, marketing: false, functional: false });
+            });
+            document.getElementById('cookieManage').addEventListener('click', function () {
+                preferences.classList.toggle('is-open');
+            });
+            document.getElementById('cookieSave').addEventListener('click', function () {
+                saveConsent({
+                    version: 1,
+                    analytics: document.getElementById('cookieAnalytics').checked,
+                    marketing: document.getElementById('cookieMarketing').checked,
+                    functional: document.getElementById('cookieFunctional').checked
+                });
+            });
+        }());
     </script>
 
     <!-- Message Box Trigger Button -->

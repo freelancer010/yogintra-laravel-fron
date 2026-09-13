@@ -6,7 +6,8 @@ use Illuminate\Console\Command;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\Blog; // adjust based on your Blog model location
-use App\Models\Workshop; // if needed
+use App\Models\Event;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class GenerateSitemap extends Command
@@ -21,7 +22,7 @@ class GenerateSitemap extends Command
         // Static pages
         $staticUrls = [
             '/',
-            '/about',
+            '/about-us',
             '/gallery',
             '/trainers',
             '/contact',
@@ -47,6 +48,29 @@ class GenerateSitemap extends Command
                 Url::create("/blog/{$correctSlug}")
                     ->setLastModificationDate(Carbon::parse($blog->created_at))
             );
+        }
+
+        // Keep the CLI-generated sitemap aligned with the admin generator.
+        $services = DB::table('service')->whereNotNull('service_slug')->select('service_slug')->get();
+        foreach ($services as $service) {
+            $sitemap->add(Url::create('/service-details/' . $service->service_slug)->setPriority(0.8));
+        }
+
+        $cities = DB::table('new_landing_page')->where('is_published', true)->whereNotNull('page_slug')->select('page_slug')->get();
+        foreach ($cities as $city) {
+            $sitemap->add(Url::create('/city/' . $city->page_slug)->setPriority(0.8));
+        }
+
+        foreach (['Workshop' => '/workshop/', 'TTC' => '/teacher-training-course/', 'Retreat' => '/retreat/'] as $category => $path) {
+            $events = Event::where('category', $category)->where('status', 'On')->get();
+            foreach ($events as $event) {
+                $sitemap->add(Url::create($path . $event->link)->setPriority(0.8));
+            }
+        }
+
+        $yogaCenters = DB::table('yoga_center')->whereNotNull('center_slug')->select('center_slug')->get();
+        foreach ($yogaCenters as $center) {
+            $sitemap->add(Url::create('/yoga-center/' . $center->center_slug)->setPriority(0.7));
         }
 
         // Dynamic trainer profiles

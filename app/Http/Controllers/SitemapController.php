@@ -20,7 +20,7 @@ class SitemapController extends Controller
         try {
             $staticUrls = [
                 '/',
-                '/about',
+                '/about-us',
                 '/gallery',
                 '/trainers',
                 '/contact',
@@ -79,7 +79,14 @@ class SitemapController extends Controller
             $retreats = Event::where('category', 'Retreat')->where('status', 'On')->orderByDesc('id')->get();
             $debugMessages[] = 'Found ' . count($retreats) . ' retreats for sitemap';
             foreach ($retreats as $retreat) {
-                $urls[] = $this->formatUrl(url('/Retreat/' . $retreat->link), '0.80');
+                $urls[] = $this->formatUrl(url('/retreat/' . $retreat->link), '0.80');
+            }
+
+            // Yoga centre detail pages
+            $yogaCenters = DB::table('yoga_center')->whereNotNull('center_slug')->select('center_slug')->get();
+            $debugMessages[] = 'Found ' . count($yogaCenters) . ' yoga centres for sitemap';
+            foreach ($yogaCenters as $center) {
+                $urls[] = $this->formatUrl(url('/yoga-center/' . $center->center_slug), '0.70');
             }
 
             // Trainer URLs (from API)
