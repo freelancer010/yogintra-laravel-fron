@@ -10,6 +10,7 @@
     <title>@yield('meta_title', $app_setting->app_meta_title ?? 'YogIntra')</title>
     <meta name="description" content="@yield('meta_description', $app_setting->app_meta_description ?? 'Yogintra')">
     <meta name="keywords" content="@yield('meta_keywords', $app_setting->app_keywords ?? 'Yogintra')">
+    <meta name="robots" content="@yield('meta_robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')">
 
     <meta property="og:title" content="@yield('meta_title', $app_setting->app_meta_title ?? 'YogIntra')" />
     <meta property="og:description" content="@yield('meta_description', $app_setting->app_meta_description ?? 'Yogintra')" />
@@ -19,13 +20,15 @@
     <meta property="og:image:height" content="630">
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:site_name" content="YogIntra" />
+    <meta property="og:locale" content="en_IN" />
 
     <!-- Twitter Card Tags -->
-    {{-- <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@YogIntra">
     <meta name="twitter:title" content="@yield('meta_title', $app_setting->app_meta_title ?? 'YogIntra')">
     <meta name="twitter:description" content="@yield('meta_description', $app_setting->app_meta_description ?? 'Yogintra')">
-    <meta name="twitter:image" content="@yield('og_image', asset('assets/og-logo.webp'))"> --}}
+    <meta name="twitter:image" content="@yield('og_image', asset('assets/og-logo.webp'))">
 
     <!-- Page-specific meta tags -->
     @stack('page_meta_tags')

@@ -1,17 +1,10 @@
 @extends('layouts.layout')
+@section('meta_title', 'Yoga Classes, Home Yoga & Online Wellness | YogIntra')
+@section('meta_description', 'Discover online yoga classes, home yoga sessions, yoga centres, wellness programs and teacher training with YogIntra. Start your healthier journey today.')
+@section('meta_keywords', 'yoga classes, online yoga classes, home yoga, yoga centre, yoga teacher training, wellness programs, YogIntra')
+@section('og_image', asset('assets/og-logo.webp'))
 @push('page_meta_tags')
-    <meta name="twitter:card" content="app">
-    <meta name="twitter:site" content="@YogIntra">
-    <meta name="twitter:description" content="YogIntra is the worlds largest Online and Home Yoga Platform, Which helps people to maintain a healthy and energetic lifestyle.">
-    <meta name="twitter:app:name:googleplay" content="">
-    <meta name="twitter:app:url:googleplay" content="">
-    <meta name="twitter:app:id:googleplay" content="">
-    <meta name="twitter:app:name:iphone" content="">
-    <meta name="twitter:app:url:iphone" content="">
-    <meta name="twitter:app:id:iphone" content="">
-    <meta name="twitter:app:name:ipad" content="">
-    <meta name="twitter:app:url:ipad" content="">
-    <meta name="twitter:app:id:ipad" content="">
+    <meta name="theme-color" content="#0f7c87">
 @endpush
 @push('styles')
     @if(($app_setting->hero_media_type ?? 'slider') === 'slider' && count($all_slider) > 0)
@@ -518,14 +511,14 @@
                 $heroCopy = $all_slider->first();
             @endphp
             <div class="hero-video-wrap">
-                <video autoplay muted loop playsinline preload="metadata">
+                <video autoplay muted loop playsinline preload="metadata" @if($heroCopy?->slider_image) poster="{{ asset($heroCopy->slider_image) }}" @endif>
                     <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
                 </video>
                 @if($heroCopy)
                     <div class="hero-video-copy">
                         <div class="container position-ab"><div class="row"><div class="col-md-6">
                             <div class="bg-white-transparent pt-20 pb-50 outline-border">
-                                <h3 class="text-black-555 font-54 heading-bold">{{ $heroCopy->slider_heading }}</h3>
+                                <h1 class="text-black-555 font-54 heading-bold">{{ $heroCopy->slider_heading }}</h1>
                                 @if($heroCopy->slider_btn_name && $heroCopy->slider_btn_link)
                                     <a class="btn btn-theme-colored btn-flat mt-15 high-contrast-btn btn-theme-custom" href="{{ $heroCopy->slider_btn_link }}">{{ $heroCopy->slider_btn_name }}</a>
                                 @endif
@@ -568,9 +561,11 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="bg-white-transparent pt-20 pb-50 outline-border">
-                                            <h3 class="text-black-555 font-54 heading-bold">
-                                                {{ $slider->slider_heading }}
-                                            </h3>
+                                            @if ($index === 0)
+                                                <h1 class="text-black-555 font-54 heading-bold">{{ $slider->slider_heading }}</h1>
+                                            @else
+                                                <h2 class="text-black-555 font-54 heading-bold">{{ $slider->slider_heading }}</h2>
+                                            @endif
                                             
                                             @if ($slider->slider_btn_name && $slider->slider_btn_link)
                                                 <a class="btn btn-theme-colored btn-flat mt-15 high-contrast-btn btn-theme-custom"
@@ -604,7 +599,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="bg-white-transparent pt-20 pb-50 outline-border">
-                                <h3 class="text-black-555 mob-font-54">{{ $mob_heading }}</h3>
+                                <p class="text-black-555 mob-font-54">{{ $mob_heading }}</p>
                                 <h3 class="font-weight-400 margin-tp sub_heading mob-sub_heading">{{ $mob_sub_heading }}</h3>
                             </div>
                         </div>
@@ -620,9 +615,9 @@
             <div class="section-title text-center">
                 <div class="row">
                     <div class="col-md-7 col-md-offset-5">
-                        <h1 class="text-uppercase line-bottom-double-line-centered mt-0 cst-font">
+                        <h2 class="text-uppercase line-bottom-double-line-centered mt-0 cst-font">
                             {{ $section_1->of_heading }}
-                        </h1>
+                        </h2>
                         <span class="sub-heading text-theme-colored2">{{ $section_1->of_sub_heading }}</span>
                     </div>
                 </div>
