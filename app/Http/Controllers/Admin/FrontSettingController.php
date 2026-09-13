@@ -13,6 +13,7 @@ use App\Models\OurFeature;
 use App\Models\OurService;
 use App\Models\OurServiceImage;
 use App\Models\Testimonial;
+use App\Services\OptimizedImageUpload;
 
 class FrontSettingController extends Controller
 {
@@ -109,10 +110,7 @@ class FrontSettingController extends Controller
         $service->os_heading = $request->os_heading;
 
         if ($request->hasFile('os_image')) {
-            $image = $request->file('os_image');
-            $filename = 'uploads/' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads'), basename($filename));
-            $service->os_image = $filename;
+            $service->os_image = app(OptimizedImageUpload::class)->store($request->file('os_image'));
         }
 
         $service->save();
@@ -140,10 +138,7 @@ class FrontSettingController extends Controller
             if ($service->os_image && file_exists(public_path($service->os_image))) {
                 unlink(public_path($service->os_image));
             }
-            $image = $request->file('os_image');
-            $filename = 'uploads/' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads'), basename($filename));
-            $service->os_image = $filename;
+            $service->os_image = app(OptimizedImageUpload::class)->store($request->file('os_image'));
         }
 
         $service->save();
@@ -185,10 +180,7 @@ class FrontSettingController extends Controller
                 unlink(public_path($slider->slider_image));
             }
 
-            $image = $request->file('slider_image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads'), $imageName);
-            $slider->slider_image = 'uploads/' . $imageName;
+            $slider->slider_image = app(OptimizedImageUpload::class)->store($request->file('slider_image'));
         }
 
         $slider->save();
@@ -230,10 +222,7 @@ class FrontSettingController extends Controller
         $feature->of_description = $request->of_description;
 
         if ($request->hasFile('of_image')) {
-            $image = $request->file('of_image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads'), $imageName);
-            $feature->of_image = 'uploads/' . $imageName;
+            $feature->of_image = app(OptimizedImageUpload::class)->store($request->file('of_image'));
         }
 
         $feature->save();
@@ -248,10 +237,7 @@ class FrontSettingController extends Controller
         $heading->of_sub_heading = $request->of_sub_heading;
 
         if ($request->hasFile('of_image')) {
-            $file = $request->file('of_image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/our-features'), $filename);
-            $heading->of_image = 'uploads/our-features/' . $filename;
+            $heading->of_image = app(OptimizedImageUpload::class)->store($request->file('of_image'), 'uploads/our-features');
         }
 
         $heading->save();
@@ -284,10 +270,7 @@ class FrontSettingController extends Controller
         $testimonial->test_description = $request->test_description;
 
         if ($request->hasFile('test_image')) {
-            $photo = $request->file('test_image');
-            $filename = time() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path('uploads'), $filename);
-            $testimonial->test_image = 'uploads/' . $filename;
+            $testimonial->test_image = app(OptimizedImageUpload::class)->store($request->file('test_image'));
         }
 
         $testimonial->save();
@@ -321,10 +304,7 @@ class FrontSettingController extends Controller
             if ($testimonial->test_image && file_exists(public_path($testimonial->test_image))) {
                 unlink(public_path($testimonial->test_image));
             }
-            $photo = $request->file('test_image');
-            $filename = time() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path('uploads'), $filename);
-            $testimonial->test_image = 'uploads/' . $filename;
+            $testimonial->test_image = app(OptimizedImageUpload::class)->store($request->file('test_image'));
         }
 
         $testimonial->save();

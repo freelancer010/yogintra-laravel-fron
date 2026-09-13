@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use App\Models\LandingPageSection;
+use App\Services\OptimizedImageUpload;
 use Illuminate\Validation\Rule;
 
 class LandingPageController extends Controller
@@ -108,10 +109,7 @@ class LandingPageController extends Controller
         $data['page_image'] = 'uploads/1681071409default-profile.png';
 
         if ($request->hasFile('page_image')) {
-            $image = $request->file('page_image');
-            $filename = 'uploads/' . uniqid() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads'), basename($filename));
-            $data['page_image'] = $filename;
+            $data['page_image'] = app(OptimizedImageUpload::class)->store($request->file('page_image'));
         }
 
         $pageId = DB::table('new_landing_page')->insertGetId($data);
@@ -255,10 +253,7 @@ class LandingPageController extends Controller
                 unlink(public_path($page->page_image));
             }
 
-            $image = $request->file('page_image');
-            $filename = 'uploads/' . uniqid() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads'), basename($filename));
-            $data['page_image'] = $filename;
+            $data['page_image'] = app(OptimizedImageUpload::class)->store($request->file('page_image'));
         }
 
         DB::table('new_landing_page')->where('page_id', $id)->update($data);
@@ -289,21 +284,14 @@ class LandingPageController extends Controller
             $imagePath = $section['existing_image'] ?? null;
 
             if ($request->hasFile("sections.$order.image")) {
-                $image = $request->file("sections.$order.image");
-                File::ensureDirectoryExists(public_path('uploads/landing-pages'));
-                $filename = uniqid().'_'.$image->getClientOriginalName();
-                $image->move(public_path('uploads/landing-pages'), $filename);
-                $imagePath = 'uploads/landing-pages/'.$filename;
+                $imagePath = app(OptimizedImageUpload::class)->store($request->file("sections.$order.image"), 'uploads/landing-pages');
             }
 
             $blocks = json_decode($section['blocks'] ?? '[]', true);
             $blocks = is_array($blocks) ? $blocks : [];
             foreach ($request->file("sections.$order.block_images", []) as $blockIndex => $blockImage) {
-                File::ensureDirectoryExists(public_path('uploads/landing-pages'));
-                $filename = uniqid().'_'.$blockImage->getClientOriginalName();
-                $blockImage->move(public_path('uploads/landing-pages'), $filename);
                 $blocks[$blockIndex] = $blocks[$blockIndex] ?? [];
-                $blocks[$blockIndex]['image'] = 'uploads/landing-pages/'.$filename;
+                $blocks[$blockIndex]['image'] = app(OptimizedImageUpload::class)->store($blockImage, 'uploads/landing-pages');
             }
 
             LandingPageSection::create([

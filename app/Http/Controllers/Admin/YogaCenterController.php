@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Services\OptimizedImageUpload;
 
 class YogaCenterController extends Controller
 {
@@ -53,10 +54,7 @@ class YogaCenterController extends Controller
         ];
 
         if ($request->hasFile('center_image')) {
-            $image = $request->file('center_image');
-            $filename = 'uploads/' . uniqid() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads'), basename($filename));
-            $data['center_image'] = $filename;
+            $data['center_image'] = app(OptimizedImageUpload::class)->store($request->file('center_image'));
         }
         
         $data['center_sec_pdf'] = '';
@@ -111,10 +109,7 @@ class YogaCenterController extends Controller
 
         // Handle optional new image
         if ($request->hasFile('center_image')) {
-            $image = $request->file('center_image');
-            $filename = 'uploads/' . uniqid() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads'), basename($filename));
-            $data['center_image'] = $filename;
+            $data['center_image'] = app(OptimizedImageUpload::class)->store($request->file('center_image'));
         }
 
         DB::table('yoga_center')->where('center_id', $id)->update($data);

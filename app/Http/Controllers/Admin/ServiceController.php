@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Services\OptimizedImageUpload;
 
 class ServiceController extends Controller
 {
@@ -37,9 +38,7 @@ class ServiceController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('service_cat_image')) {
-            $file = $request->file('service_cat_image');
-            $imagePath = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), basename($imagePath));
+            $imagePath = app(OptimizedImageUpload::class)->store($request->file('service_cat_image'));
         }
 
         DB::table('service_category')->insert([
@@ -104,9 +103,7 @@ class ServiceController extends Controller
 
         // Handle image upload
         if ($request->hasFile('service_image')) {
-            $image = $request->file('service_image');
-            $filename = 'uploads/' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads'), basename($filename));
+            $filename = app(OptimizedImageUpload::class)->store($request->file('service_image'));
 
             // Remove old image
             if (!empty($service->service_image) && file_exists(public_path($service->service_image))) {
@@ -153,10 +150,7 @@ class ServiceController extends Controller
 
         // Handle file upload
         if ($request->hasFile('service_image')) {
-            $image = $request->file('service_image');
-            $filename = 'uploads/' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads'), basename($filename));
-            $data['service_image'] = $filename;
+            $data['service_image'] = app(OptimizedImageUpload::class)->store($request->file('service_image'));
         }
 
         DB::table('service')->insert($data);
@@ -194,10 +188,7 @@ class ServiceController extends Controller
 
         // Handle image upload
         if ($request->hasFile('service_cat_image')) {
-            $file = $request->file('service_cat_image');
-            $imagePath = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), basename($imagePath));
-            $data['service_cat_image'] = $imagePath;
+            $data['service_cat_image'] = app(OptimizedImageUpload::class)->store($request->file('service_cat_image'));
         }
 
         DB::table('service_category')->where('service_cat_id', $id)->update($data);

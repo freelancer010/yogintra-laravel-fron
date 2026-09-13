@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\OptimizedImageUpload;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
@@ -107,10 +108,7 @@ class BlogController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('blog_image')) {
-            $image = $request->file('blog_image');
-            $filename = uniqid() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads/blogs'), $filename);
-            $imagePath = 'uploads/blogs/' . $filename;
+            $imagePath = app(OptimizedImageUpload::class)->store($request->file('blog_image'), 'uploads/blogs');
         }
 
         Blog::create([
@@ -182,10 +180,7 @@ class BlogController extends Controller
                 @unlink(public_path($blog->blog_image));
             }
 
-            $image = $request->file('blog_image');
-            $filename = uniqid() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads/blogs'), $filename);
-            $blog->blog_image = 'uploads/blogs/' . $filename;
+            $blog->blog_image = app(OptimizedImageUpload::class)->store($request->file('blog_image'), 'uploads/blogs');
         }
 
         $blog->blog_title = $request->blog_title;

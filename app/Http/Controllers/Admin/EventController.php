@@ -14,6 +14,7 @@ use Razorpay\Api\Api;
 
 use App\Models\Event;
 use App\Mail\EventBookingConfirmation;
+use App\Services\OptimizedImageUpload;
 use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
@@ -48,10 +49,7 @@ class EventController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/events'), $filename);
-            $imagePath = 'uploads/events/' . $filename;
+            $imagePath = app(OptimizedImageUpload::class)->store($request->file('image'), 'uploads/events');
         }
 
         $data = [
@@ -182,10 +180,7 @@ class EventController extends Controller
             if ($event->image && file_exists(public_path($event->image))) {
                 @unlink(public_path($event->image));
             }
-            $image = $request->file('image');
-            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/events'), $filename);
-            $data['image'] = 'uploads/events/' . $filename;
+            $data['image'] = app(OptimizedImageUpload::class)->store($request->file('image'), 'uploads/events');
         }
 
         DB::table('event')->where('id', $id)->update($data);

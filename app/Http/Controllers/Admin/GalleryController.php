@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Services\OptimizedImageUpload;
 
 class GalleryController extends Controller
 {
@@ -75,10 +76,7 @@ class GalleryController extends Controller
 
         if ($request->gallery_is_video_or_image == '1') { // Image
             if ($request->hasFile('gallery_image')) {
-                $file = $request->file('gallery_image');
-                $filename = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('uploads'), $filename);
-                $data['gallery_image'] = $filename;
+                $data['gallery_image'] = app(OptimizedImageUpload::class)->store($request->file('gallery_image'));
             }
         } else if ($request->gallery_is_video_or_image == '2') { // Video
             $data['gallery_video'] = $request->gallery_video;
@@ -109,10 +107,7 @@ class GalleryController extends Controller
             $data['gallery_video'] = '';
             // handle image upload...
             if ($request->hasFile('gallery_image')) {
-                $file = $request->file('gallery_image');
-                $imagePath = 'uploads/' . uniqid() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('uploads'), basename($imagePath));
-                $data['gallery_image'] = $imagePath;
+                $data['gallery_image'] = app(OptimizedImageUpload::class)->store($request->file('gallery_image'));
             }
         } else { // Video mode
             $data['gallery_video'] = $request->gallery_video;
