@@ -157,6 +157,31 @@
             .types-of-yoga-section .container {
                 padding-left: 15px !important;
             }
+            .types-of-yoga-section .section-content .col-md-8 {
+                display:flex;
+                flex-wrap:wrap;
+                width:100% !important;
+            }
+            .types-of-yoga-section .section-content .col-md-8 > [class*="col-"] {
+                display:block;
+                flex:0 0 50%;
+                width:50% !important;
+                max-width:50%;
+                padding:0 8px;
+            }
+            .types-of-yoga-section .yoga-service-item img {
+                display:block;
+                width:108px !important;
+                min-width:108px;
+                max-width:108px !important;
+                height:108px !important;
+                min-height:108px;
+                max-height:108px;
+                margin-left:auto;
+                margin-right:auto;
+                object-fit:cover;
+            }
+            .types-of-yoga-section .yoga-service-item h2 { min-height:38px; font-size:15px; }
         }
         
         /* iPad specific fixes */
