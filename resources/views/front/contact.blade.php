@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('meta_title', 'Contact Us - YogIntra')
+@section('meta_title', 'Contact Us - Yoga, Wellness and Meditation | YogIntra')
 @section('meta_description', 'Contact us directly or get a phone number and email address for a Yoga Class in India. Our YogIntra team is available for guidance to answer any questions!')
 @section('meta_keywords', 'Contact Us, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Yoga Teacher Training Courses, Best Yoga Classes in Mumbai.')
 
