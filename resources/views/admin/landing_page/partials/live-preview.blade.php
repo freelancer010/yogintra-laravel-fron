@@ -461,7 +461,7 @@
         sectionActions.innerHTML = '<button type="button" class="preview-section-add" data-quick-add-feature>＋ Add feature card</button>';
       } else if (type === 'custom_columns' && gridColumns < 3) {
         sectionActions.innerHTML = '<button type="button" class="preview-section-add" data-quick-add-trigger>＋ Add column</button><div class="preview-section-add-menu"><small>Add a new column</small><button type="button" data-quick-add-column="text">Text</button><button type="button" data-quick-add-column="image">Image</button><button type="button" data-quick-add-column="button">Button</button></div>';
-      } else if (!['image', 'testimonial', 'faq'].includes(type)) {
+      } else if (!['image', 'testimonial', 'faq', 'custom_columns'].includes(type)) {
         sectionActions.innerHTML = '<button type="button" class="preview-section-add" data-quick-add-trigger>＋ Add element</button><div class="preview-section-add-menu"><button type="button" data-quick-add-extra="heading">Heading</button><button type="button" data-quick-add-extra="subheading">Subheading</button><button type="button" data-quick-add-extra="bullet_list">Bulleted list</button><button type="button" data-quick-add-extra="numbered_list">Numbered list</button></div>';
       }
       if (sectionActions.innerHTML) {
