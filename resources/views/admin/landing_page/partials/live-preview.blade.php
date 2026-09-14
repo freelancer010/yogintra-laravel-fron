@@ -222,10 +222,10 @@
     if (action === 'align') { const field = ensureField(card, 'text_align', 'left'); field.value = field.value === 'left' ? 'center' : field.value === 'center' ? 'right' : 'left'; render(); queueSnapshot(); return; }
     if (action === 'duplicate') { const copy = card.cloneNode(true); copy.dataset.builderId = ''; sections.insertBefore(copy, card.nextSibling); normalizeSectionIndexes(); render(); queueSnapshot(); return; }
     if (action === 'delete') {
-      if (target === 'heading' || target === 'content') { const field = getField(card, target); if (field && confirm('Clear this ' + (target === 'heading' ? 'heading' : 'paragraph') + '?')) { field.value = ''; render(); queueSnapshot(); } return; }
+      if (target === 'heading' || target === 'content') { const field = getField(card, target); if (field) { field.value = ''; render(); queueSnapshot(); } return; }
       const extraMatch = /^extra-(\d+)$/.exec(target);
-      if (extraMatch) { const field = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(field.value || '[]'); } catch (_) {} if (confirm('Remove this element?')) { elements.splice(Number(extraMatch[1]), 1); field.value = JSON.stringify(elements); render(); queueSnapshot(); } return; }
-      if (confirm('Delete this section?')) { card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); }
+      if (extraMatch) { const field = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(field.value || '[]'); } catch (_) {} elements.splice(Number(extraMatch[1]), 1); field.value = JSON.stringify(elements); render(); queueSnapshot(); return; }
+      card.remove(); normalizeSectionIndexes(); render(); queueSnapshot();
     }
   });
 
@@ -365,7 +365,7 @@
     stylePanel.querySelectorAll('[data-block-image]').forEach(button => button.addEventListener('click', () => { const index = button.dataset.blockImage; let input = card.querySelector('[data-block-upload="' + index + '"]'); if (!input) { input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*'; input.hidden = true; input.dataset.blockUpload = index; input.name = blocksField.name.replace('[blocks]', '[block_images][' + index + ']'); card.appendChild(input); input.addEventListener('change', () => { const file = input.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = event => { let previews = {}; try { previews = JSON.parse(card.dataset.blockPreviews || '{}'); } catch (_) {} previews[index] = event.target.result; card.dataset.blockPreviews = JSON.stringify(previews); render(); renderStyles(card, target); }; reader.readAsDataURL(file); }); } input.click(); }));
     stylePanel.querySelector('.add-feature-block')?.addEventListener('click', () => { blocks.push({ icon: '✦', title: 'New feature', text: 'Describe the benefit.' }); blocksField.value = JSON.stringify(blocks); renderStyles(card); render(); });
     stylePanel.querySelectorAll('[data-remove-block]').forEach(button => button.addEventListener('click', () => { blocks.splice(button.dataset.removeBlock, 1); blocksField.value = JSON.stringify(blocks); renderStyles(card); render(); }));
-    stylePanel.querySelector('.delete-selected-section')?.addEventListener('click', () => { if (!confirm('Delete this section?')) return; card.remove(); stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Design</span><span>◐</span></div><div class="section-empty">Select a section on the canvas</div>'; render(); });
+    stylePanel.querySelector('.delete-selected-section')?.addEventListener('click', () => { card.remove(); stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Design</span><span>◐</span></div><div class="section-empty">Select a section on the canvas</div>'; render(); });
   }
 
   function render() {
@@ -510,7 +510,7 @@
       root.dataset.treeTarget = 'section';
       root.addEventListener('click', () => focusCard(card, 'section'));
       layer.querySelector('.section-tree-duplicate').addEventListener('click', event => { event.stopPropagation(); const copy = card.cloneNode(true); copy.dataset.builderId = ''; sections.insertBefore(copy, card.nextSibling); normalizeSectionIndexes(); render(); });
-      layer.querySelector('.section-tree-delete').addEventListener('click', event => { event.stopPropagation(); if (confirm('Delete this section?')) { card.remove(); normalizeSectionIndexes(); render(); } });
+      layer.querySelector('.section-tree-delete').addEventListener('click', event => { event.stopPropagation(); card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); });
       layer.querySelector('.section-tree-toggle').addEventListener('click', event => { event.stopPropagation(); const collapsed = layer.classList.toggle('is-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!collapsed)); event.currentTarget.setAttribute('aria-label', collapsed ? 'Expand section' : 'Collapse section'); event.currentTarget.textContent = collapsed ? '⌄' : '⌃'; });
       root.addEventListener('dragstart', event => { layer.classList.add('is-dragging'); event.dataTransfer.effectAllowed = 'move'; event.dataTransfer.setData('text/plain', card.dataset.builderId); });
       root.addEventListener('dragend', () => layer.classList.remove('is-dragging'));
