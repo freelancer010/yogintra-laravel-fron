@@ -1473,7 +1473,7 @@
           @if($section->section_type !== 'image')
           <div class="{{ $section->section_type === 'image_text' && $section->image ? 'col-md-6' : 'col-md-10 col-md-offset-1' }}" style="{{ $section->section_type === 'image_text' && $section->image ? 'flex: 1 1 0; max-width: none;' : '' }} text-align: {{ $section->text_align ?? 'left' }};">
             @if($section->heading)<h2 class="mb-3" style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{{ $section->heading }}</h2>@endif
-            @if($section->section_type === 'text')
+            @if(in_array($section->section_type, ['text', 'image_text', 'cta'], true))
               @foreach($extraElements as $element)
                 @if(($element['type'] ?? '') === 'heading')<h3 style="color: {{ $element['color'] ?? $section->text_color ?? '#183c45' }}; font-size: {{ $element['size'] ?? $section->heading_size ?? 32 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{{ $element['text'] ?? '' }}</h3>
                 @elseif(in_array(($element['type'] ?? ''), ['bullet_list', 'numbered_list'], true))
