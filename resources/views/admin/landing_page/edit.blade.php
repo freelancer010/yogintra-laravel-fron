@@ -124,6 +124,7 @@
                                 <input type="hidden" name="sections[{{ $index }}][image_size]" value="{{ $section->image_size ?? 42 }}">
                                 <input type="hidden" name="sections[{{ $index }}][background_mode]" value="{{ $section->background_mode ?? ($section->background_image ? 'image' : 'color') }}">
                                 <input type="hidden" name="sections[{{ $index }}][background_position]" value="{{ $section->background_position ?? 'center' }}">
+                                <input type="hidden" name="sections[{{ $index }}][background_parallax]" value="{{ $section->background_parallax ? '1' : '0' }}">
                                 <input type="hidden" name="sections[{{ $index }}][background_overlay_color]" value="{{ $section->background_overlay_color ?? '#000000' }}">
                                 <input type="hidden" name="sections[{{ $index }}][background_overlay_opacity]" value="{{ $section->background_overlay_opacity ?? 0 }}">
                                 @if($section->background_image)<input type="hidden" name="sections[{{ $index }}][existing_background_image]" value="{{ $section->background_image }}">@endif
