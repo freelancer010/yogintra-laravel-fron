@@ -125,7 +125,8 @@
   .preview-image-frame:hover::after { opacity:1; }
   .preview-image-frame.is-selected-target { outline:3px solid #16717a; outline-offset:4px; border-radius:8px; }
   .preview-section-image, .preview-image-empty { width:100%; height:100%; min-height:150px; object-fit:cover; border-radius:8px; background:#e9eff1; }
-  .preview-image-empty { display:flex; align-items:center; justify-content:center; color:#88a0a7; font-size:13px; }
+  .preview-image-empty { display:flex; align-items:center; justify-content:center; border:0; color:#88a0a7; font-size:13px; cursor:pointer; }
+  .preview-image-empty:hover { background:#dcecee; color:#16717a; }
   .preview-image-action { position:absolute; z-index:1; left:50%; top:50%; opacity:0; transform:translate(-50%,-45%); border:0; border-radius:999px; padding:8px 12px; background:rgba(12,47,55,.9); color:#fff; font-size:12px; font-weight:800; transition:.18s ease; white-space:nowrap; }
   .preview-image-frame:hover .preview-image-action { opacity:1; transform:translate(-50%,-50%); }
   .preview-section-copy { flex:1; min-width:0; }
