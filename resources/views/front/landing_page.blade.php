@@ -1329,6 +1329,9 @@
       grid-template-columns:repeat(var(--feature-columns, 3), minmax(0, 1fr));
       width:100%;
     }
+    .landing-builder-section .landing-custom-columns { display:grid; grid-template-columns:repeat(var(--column-count, 1), minmax(0, 1fr)); gap:24px; }
+    .landing-builder-section .landing-custom-column { min-height:72px; }
+    .landing-builder-section .landing-custom-column img { display:block; width:100%; height:auto; object-fit:cover; border-radius:10px; }
     .landing-builder-section .landing-feature-card { box-sizing:border-box; min-width:0; padding:18px 14px; text-align:center; }
     .landing-builder-section .landing-feature-card h4 { margin:10px 0 6px; font-size:19px; font-weight:700; line-height:1.3; }
     .landing-builder-section .landing-feature-card p { margin:0; line-height:1.65; }
@@ -1373,7 +1376,7 @@
     .landing-builder-section .landing-faq-item + .landing-faq-item { margin-top:12px; }
     .landing-builder-section .landing-faq-item summary { padding:18px 20px; color:#183c45; font-weight:700; cursor:pointer; }
     .landing-builder-section .landing-faq-answer { padding:0 20px 18px; color:#53636a; line-height:1.7; }
-    @media (max-width: 767px) { .landing-builder-section .landing-feature-grid { grid-template-columns:1fr !important; } }
+    @media (max-width: 767px) { .landing-builder-section .landing-feature-grid, .landing-builder-section .landing-custom-columns { grid-template-columns:1fr !important; } }
     @media (max-width: 767px) { .landing-builder-section .landing-testimonial-grid { grid-template-columns:1fr; } }
   </style>
   @foreach($page_sections as $section)
@@ -1423,6 +1426,25 @@
                 <summary>{{ $faq['title'] ?? 'Question' }}</summary>
                 <div class="landing-faq-answer">{{ $faq['text'] ?? '' }}</div>
               </details>
+            @endforeach
+          </div>
+        @elseif($section->section_type === 'custom_columns')
+          @php
+            $columns = json_decode($section->blocks ?: '[]', true) ?: [];
+            $columnCount = max(1, min(3, (int) ($section->grid_columns ?? 1)));
+          @endphp
+          <div class="landing-custom-columns" style="--column-count: {{ $columnCount }}; text-align: {{ $section->text_align ?? 'left' }};">
+            @foreach(array_slice($columns, 0, $columnCount) as $column)
+              <div class="landing-custom-column">
+                @if(($column['type'] ?? 'text') === 'image')
+                  @if(!empty($column['image']))<img src="{{ asset($column['image']) }}" alt="{{ $column['alt'] ?? 'Section image' }}" loading="lazy">@endif
+                @elseif(($column['type'] ?? 'text') === 'button')
+                  @if(!empty($column['button_text']) && !empty($column['button_url']))<a href="{{ $column['button_url'] }}" class="btn btn-theme-colored btn-flat">{{ $column['button_text'] }}</a>@endif
+                @else
+                  @if(!empty($column['title']))<h3 style="color: {{ $section->text_color ?? '#183c45' }};">{{ $column['title'] }}</h3>@endif
+                  @if(!empty($column['text']))<p class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }};">{{ $column['text'] }}</p>@endif
+                @endif
+              </div>
             @endforeach
           </div>
         @elseif($section->section_type === 'feature_grid')
