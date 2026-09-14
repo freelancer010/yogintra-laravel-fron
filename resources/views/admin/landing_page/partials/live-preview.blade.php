@@ -218,9 +218,15 @@
     const card = [...sections.querySelectorAll('.page-builder-section')].find(item => item.dataset.builderId === elementToolbar.dataset.builderId); if (!card) return;
     const target = elementToolbar.dataset.target || 'section';
     if (action === 'edit') { document.querySelector('.preview-section[data-builder-id="' + card.dataset.builderId + '"] [data-preview-field="' + target + '"], .preview-section[data-builder-id="' + card.dataset.builderId + '"] [data-preview-column-target="' + target + '"]')?.focus(); return; }
+    if (action === 'link') { if (selectedLinkRange) { linkPopup.classList.add('is-open'); linkPopup.elements.url.focus(); } else { alert('Select the text you want to link first, then choose Link.'); } return; }
     if (action === 'align') { const field = ensureField(card, 'text_align', 'left'); field.value = field.value === 'left' ? 'center' : field.value === 'center' ? 'right' : 'left'; render(); queueSnapshot(); return; }
     if (action === 'duplicate') { const copy = card.cloneNode(true); copy.dataset.builderId = ''; sections.insertBefore(copy, card.nextSibling); normalizeSectionIndexes(); render(); queueSnapshot(); return; }
-    if (action === 'delete' && confirm('Delete this section?')) { card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); }
+    if (action === 'delete') {
+      if (target === 'heading' || target === 'content') { const field = getField(card, target); if (field && confirm('Clear this ' + (target === 'heading' ? 'heading' : 'paragraph') + '?')) { field.value = ''; render(); queueSnapshot(); } return; }
+      const extraMatch = /^extra-(\d+)$/.exec(target);
+      if (extraMatch) { const field = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(field.value || '[]'); } catch (_) {} if (confirm('Remove this element?')) { elements.splice(Number(extraMatch[1]), 1); field.value = JSON.stringify(elements); render(); queueSnapshot(); } return; }
+      if (confirm('Delete this section?')) { card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); }
+    }
   });
 
   function renderStyles(card, target = card.dataset.selectedTarget || 'section') {
@@ -490,7 +496,7 @@
       if (imageFrame && (type === 'image_text' || type === 'image')) { imageFrame.style.width = (getValue(card, 'image_size') || (type === 'image' ? '100' : '42')) + '%'; }
       if (imageFrame) { imageFrame.addEventListener('click', event => { event.stopPropagation(); const action = event.target.closest('.preview-image-action'); if (action) { imageInput?.click(); return; } focusCard(card, 'image'); }); }
       [['heading', '[data-preview-field="heading"]'], ['content', '[data-preview-field="content"]']].forEach(([key, selector]) => previewSection.querySelectorAll(selector).forEach(element => { const style = selectedStyles[key]; element.style.padding = style.padding_y + 'px ' + style.padding_x + 'px'; element.style.margin = style.margin_y + 'px ' + style.margin_x + 'px'; element.style.fontWeight = style.font_weight; element.style.fontStyle = style.font_style; element.style.textDecoration = style.text_decoration; }));
-      previewSection.addEventListener('click', event => { const selectedColumnElement = event.target.closest('[data-preview-column-target]'); const editable = event.target.closest('[contenteditable]'); const extraList = event.target.closest('[data-preview-extra-list]'); const target = selectedColumnElement?.dataset.previewColumnTarget || editable?.dataset.previewField || (extraList ? 'section' : (editable?.hasAttribute('data-preview-extra') ? 'section' : 'section')); focusCard(card, target); if (editable) editable.classList.add('is-editing'); }, true);
+      previewSection.addEventListener('click', event => { const selectedColumnElement = event.target.closest('[data-preview-column-target]'); const editable = event.target.closest('[contenteditable]'); const extraList = event.target.closest('[data-preview-extra-list]'); const target = selectedColumnElement?.dataset.previewColumnTarget || editable?.dataset.previewField || (editable?.dataset.previewExtra !== undefined ? 'extra-' + editable.dataset.previewExtra : (extraList ? 'section' : 'section')); focusCard(card, target); if (editable) editable.classList.add('is-editing'); }, true);
       content.appendChild(previewSection);
       const layer = document.createElement('div');
       layer.className = 'section-tree'; layer.dataset.builderId = card.dataset.builderId;
@@ -524,6 +530,8 @@
 
   snapshot();
   sections.addEventListener('input', () => { render(); queueSnapshot(); });
+  sections.addEventListener('change', queueSnapshot);
+  preview.addEventListener('click', event => { if (event.target.closest('button')) window.setTimeout(queueSnapshot, 0); });
   document.getElementById('landing-page-form')?.addEventListener('submit', () => setSaveState('Saving…'));
   document.addEventListener('keydown', event => {
     if (!(event.ctrlKey || event.metaKey)) return;
