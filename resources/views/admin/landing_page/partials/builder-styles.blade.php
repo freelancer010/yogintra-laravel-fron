@@ -231,6 +231,16 @@
   .preview-section-add-menu button { border:0; border-radius:5px; padding:7px 8px; background:transparent; color:#244b54; text-align:left; font-size:12px; cursor:pointer; }
   .preview-section-add-menu button:hover { background:#eaf6f7; color:#12626c; }
   .preview-column-stack { position:relative; min-height:100px; }
+  .preview-column-stack .preview-image-empty { min-height:170px; display:flex; flex-direction:column; gap:6px; border:1px dashed #73aab0; background:#f3fafb; color:#16717a; }
+  .preview-column-stack .preview-image-empty span { display:grid; place-items:center; width:38px; height:38px; border-radius:50%; background:#dceff1; font-size:22px; line-height:1; }
+  .preview-column-stack .preview-image-empty strong { font-size:14px; }
+  .preview-column-stack .preview-image-empty small { color:#6e8990; font-size:11px; font-weight:500; }
+  .preview-column-image-frame { position:relative; display:flex; justify-content:center; overflow:hidden; border-radius:8px; }
+  .preview-column-image-frame::after { content:""; position:absolute; inset:0; background:rgba(7,37,43,.42); opacity:0; transition:opacity .18s ease; pointer-events:none; }
+  .preview-column-image-frame:hover::after { opacity:1; }
+  .preview-column-image-frame img { display:block; object-fit:cover; }
+  .preview-column-image-replace { position:absolute; z-index:1; top:50%; left:50%; border:0; border-radius:999px; padding:8px 12px; background:#16717a; color:#fff; font-size:12px; font-weight:800; white-space:nowrap; opacity:0; transform:translate(-50%, -42%); transition:.18s ease; cursor:pointer; }
+  .preview-column-image-frame:hover .preview-column-image-replace, .preview-column-image-frame:focus-within .preview-column-image-replace { opacity:1; transform:translate(-50%, -50%); }
   .preview-column-add { align-self:flex-start; border:1px dashed #91bbc0; border-radius:6px; padding:5px 7px; background:#fff; color:#16717a; font-size:11px; opacity:0; cursor:pointer; transition:.16s ease; }
   .preview-column-stack:hover .preview-column-add, .preview-column-stack:focus-within .preview-column-add { opacity:1; }
   .preview-column-remove { position:absolute; top:7px; right:7px; width:24px; height:24px; border:1px solid #e3aeb4; border-radius:50%; background:#fff; color:#bc3744; font-size:17px; line-height:1; opacity:0; cursor:pointer; transition:.16s ease; }
