@@ -1330,7 +1330,7 @@
       width:100%;
     }
     .landing-builder-section .landing-custom-columns { display:grid; grid-template-columns:repeat(var(--column-count, 1), minmax(0, 1fr)); gap:24px; }
-    .landing-builder-section.landing-section-parallax { background-attachment:fixed; }
+    .landing-builder-section.landing-section-parallax { background-attachment:scroll; will-change:background-position; }
     .landing-builder-section .landing-custom-column { min-height:72px; }
     .landing-builder-section .landing-custom-column img { display:block; width:100%; height:auto; object-fit:cover; border-radius:10px; }
     .landing-builder-section .landing-custom-column .landing-builder-content { white-space:pre-line; }
@@ -1423,7 +1423,7 @@
         ? "background-image: linear-gradient(rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity}), rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity})), url('".asset($section->background_image)."'); background-size: cover; background-repeat: no-repeat; background-position: ".($section->background_position ?? 'center')." center;"
         : '';
     @endphp
-    <section class="landing-builder-section landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $section->background_parallax && $backgroundMode === 'image' ? 'landing-section-parallax' : '' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+    <section class="landing-builder-section landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $section->background_parallax && $backgroundMode === 'image' ? 'landing-section-parallax' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
       <div class="{{ $section->section_type === 'image' ? 'container-fluid' : 'container' }}" style="{{ $section->section_type === 'image' ? 'padding-left:0; padding-right:0;' : '' }}">
         @if($section->section_type === 'testimonial')
           <div class="mb-4" style="text-align: {{ $section->text_align ?? 'center' }};">
@@ -1585,6 +1585,25 @@
         if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
       }), { threshold: .12 });
       sections.forEach(section => observer.observe(section));
+
+      const parallaxSections = Array.from(document.querySelectorAll('.landing-section-parallax'));
+      if (parallaxSections.length && window.matchMedia('(min-width: 768px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        let pending = false;
+        const updateParallax = () => {
+          pending = false;
+          const viewportCenter = window.innerHeight / 2;
+          parallaxSections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            const offset = Math.round((viewportCenter - (rect.top + rect.height / 2)) * .18);
+            const horizontal = ['left', 'right'].includes(section.dataset.backgroundPosition) ? section.dataset.backgroundPosition : 'center';
+            section.style.backgroundPosition = horizontal + ' calc(50% + ' + offset + 'px)';
+          });
+        };
+        const requestParallax = () => { if (!pending) { pending = true; window.requestAnimationFrame(updateParallax); } };
+        window.addEventListener('scroll', requestParallax, { passive: true });
+        window.addEventListener('resize', requestParallax);
+        requestParallax();
+      }
 
       if (window.jQuery && typeof window.jQuery.fn.owlCarousel === 'function') {
         window.jQuery('.landing-testimonial-slider').each(function () {
