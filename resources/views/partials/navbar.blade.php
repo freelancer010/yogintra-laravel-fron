@@ -53,9 +53,11 @@
                                             <a href="{{ url('/service/' . $service_menu->service_cat_slug) }}">
                                                 {{ $service_menu->service_cat_name }}
                                             </a>
-                                            <a href="{{ url('/yoga-center') }}">Yoga Center</a>
                                         </li>
-                                    @endforeach
+                                        @endforeach
+                                    <li>
+                                        <a href="{{ url('/yoga-center') }}">Yoga Center</a>
+                                    </li>
                                 </ul>
                             </li>
                             {{-- <li class="{{ request()->segment(1) == 'yoga-center' ? 'active' : '' }}">
