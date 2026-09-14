@@ -1478,7 +1478,7 @@
                 };
                 $imageStyle = $columnStyles['image'] ?? [];
               @endphp
-              <div class="landing-custom-column" style="padding: {{ (int) ($column['padding_y'] ?? 0) }}px {{ (int) ($column['padding_x'] ?? 0) }}px; margin: {{ (int) ($column['margin_y'] ?? 0) }}px {{ (int) ($column['margin_x'] ?? 0) }}px;">
+              <div class="landing-custom-column" style="display: flex; flex-direction: column; justify-content: {{ ['start' => 'flex-start', 'center' => 'center', 'end' => 'flex-end'][$column['vertical_align'] ?? 'start'] }}; padding: {{ (int) ($column['padding_y'] ?? 0) }}px {{ (int) ($column['padding_x'] ?? 0) }}px; margin: {{ (int) ($column['margin_y'] ?? 0) }}px {{ (int) ($column['margin_x'] ?? 0) }}px;">
                 @if(($column['type'] ?? 'text') === 'image')
                   @if(!empty($column['image']))<img src="{{ asset($column['image']) }}" alt="{{ $column['alt'] ?? 'Section image' }}" loading="lazy" style="width: {{ max(20, min(100, (int) ($column['image_size'] ?? 100))) }}%; margin: {{ (int) ($imageStyle['margin'] ?? 0) }}px auto; padding: {{ (int) ($imageStyle['padding'] ?? 0) }}px;">@endif
                 @elseif(($column['type'] ?? 'text') === 'button')
