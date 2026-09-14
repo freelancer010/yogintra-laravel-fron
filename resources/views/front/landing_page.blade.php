@@ -1482,7 +1482,8 @@
                 @if(($column['type'] ?? 'text') === 'image')
                   @if(!empty($column['image']))<img src="{{ asset($column['image']) }}" alt="{{ $column['alt'] ?? 'Section image' }}" loading="lazy" style="width: {{ max(20, min(100, (int) ($column['image_size'] ?? 100))) }}%; margin: {{ (int) ($imageStyle['margin'] ?? 0) }}px auto; padding: {{ (int) ($imageStyle['padding'] ?? 0) }}px;">@endif
                 @elseif(($column['type'] ?? 'text') === 'button')
-                  @if(!empty($column['button_text']) && !empty($column['button_url']))<a href="{{ $column['button_url'] }}" class="btn btn-theme-colored btn-flat">{{ $column['button_text'] }}</a>@endif
+                  @php($buttonStyle = $columnStyles['button'] ?? [])
+                  @if(!empty($column['button_text']) && !empty($column['button_url']))<a href="{{ $column['button_url'] }}" class="btn btn-theme-colored btn-flat" style="padding: {{ (int) ($buttonStyle['padding'] ?? 0) }}px; margin: {{ (int) ($buttonStyle['margin'] ?? 0) }}px;">{{ $column['button_text'] }}</a>@endif
                 @else
                   @if(!empty($column['title']))<h3 style="{{ $columnStyle('title', $section->text_color ?? '#183c45', 24) }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($column['title']) !!}</h3>@endif
                   @if(!empty($column['text']))<p class="landing-builder-content" style="{{ $columnStyle('text', $section->description_color ?? '#647b82', 16) }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($column['text']) !!}</p>@endif
