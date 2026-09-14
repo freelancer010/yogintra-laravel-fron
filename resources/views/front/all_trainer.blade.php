@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('meta_title', 'Best Yoga Trainers in India')
+@section('meta_title', 'Experienced & Certified Yoga Teachers in India - Yogintra')
 @section('meta_description', "Amit Pandey is an amazing yoga teacher! The classes are very diverse, each session is a unique experience. he is the Best Yoga Trainer in India.")
 @section('meta_keywords', 'Best Yoga Trainer in India, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai.')
 
