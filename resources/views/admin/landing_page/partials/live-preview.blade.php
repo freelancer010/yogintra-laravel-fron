@@ -85,7 +85,41 @@
   linkPopup.className = 'builder-link-popup';
   linkPopup.innerHTML = '<label>Link URL<input type="url" name="url" placeholder="https://example.com or /contact" required></label><label class="builder-link-new-tab"><input type="checkbox" name="new_tab"> Open in new tab</label><button type="submit">Add link</button><button type="button" class="builder-link-cancel">Cancel</button>';
   document.body.appendChild(linkPopup);
+  const linkActions = document.createElement('div');
+  linkActions.className = 'builder-link-actions';
+  linkActions.innerHTML = '<button type="button" title="Remove hyperlink">↗ <span>Remove link</span></button>';
+  document.body.appendChild(linkActions);
   let selectedLinkRange = null;
+  let selectionHighlight = null;
+  let activePreviewLink = null;
+  let linkActionsTimer = null;
+  const showSelectedLinkRange = range => {
+    if (!window.Highlight || !window.CSS?.highlights) return;
+    selectionHighlight = new window.Highlight(range);
+    window.CSS.highlights.set('builder-link-selection', selectionHighlight);
+  };
+  const clearSelectedLinkRange = () => {
+    if (window.CSS?.highlights) window.CSS.highlights.delete('builder-link-selection');
+    selectionHighlight = null;
+  };
+  const saveEditableMarkup = editable => {
+    const previewSection = editable?.closest('.preview-section');
+    const card = previewSection && [...sections.querySelectorAll('.page-builder-section')].find(item => item.dataset.builderId === previewSection.dataset.builderId);
+    if (!card || !editable) return;
+    if (editable.dataset.previewField) { const field = getField(card, editable.dataset.previewField); if (field) field.value = editable.innerHTML; }
+    if (editable.dataset.previewColumn !== undefined) { const blocksField = getField(card, 'blocks'); let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {} if (blocks[Number(editable.dataset.previewColumn)]) { blocks[Number(editable.dataset.previewColumn)][editable.dataset.previewColumnKey] = editable.innerHTML; blocksField.value = JSON.stringify(blocks); } }
+    if (editable.dataset.previewExtra !== undefined) { const elementsField = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(elementsField.value || '[]'); } catch (_) {} if (elements[Number(editable.dataset.previewExtra)]) { elements[Number(editable.dataset.previewExtra)].text = editable.innerHTML; elementsField.value = JSON.stringify(elements); } }
+  };
+  const hideLinkActions = () => { linkActions.classList.remove('is-open'); activePreviewLink = null; };
+  const showLinkActions = anchor => {
+    if (!anchor?.closest('.live-preview-content [contenteditable]')) return;
+    window.clearTimeout(linkActionsTimer);
+    activePreviewLink = anchor;
+    const rect = anchor.getBoundingClientRect();
+    linkActions.style.left = Math.min(window.innerWidth - 150, Math.max(8, rect.left)) + 'px';
+    linkActions.style.top = Math.max(8, rect.top - 38) + 'px';
+    linkActions.classList.add('is-open');
+  };
 
   const getValue = (card, suffix) => {
     const field = [...card.querySelectorAll('input, textarea, select')].find(item => item.name && item.name.endsWith('[' + suffix + ']'));
@@ -442,13 +476,42 @@
     const selection = window.getSelection();
     if (!editable || !selection || selection.isCollapsed || !selection.toString().trim() || !editable.contains(selection.anchorNode)) return;
     selectedLinkRange = { range: selection.getRangeAt(0).cloneRange(), editable };
+    showSelectedLinkRange(selectedLinkRange.range);
     const rect = selectedLinkRange.range.getBoundingClientRect();
     linkPopup.style.left = Math.min(window.innerWidth - 310, Math.max(12, rect.left)) + 'px';
     linkPopup.style.top = (rect.bottom + window.scrollY + 8) + 'px';
     linkPopup.classList.add('is-open');
     linkPopup.elements.url.focus();
   });
-  linkPopup.querySelector('.builder-link-cancel').addEventListener('click', () => { selectedLinkRange = null; linkPopup.classList.remove('is-open'); });
+  preview.querySelector('.live-preview-content').addEventListener('click', event => {
+    const anchor = event.target.closest('[contenteditable] a');
+    if (anchor) event.preventDefault();
+  }, true);
+  preview.querySelector('.live-preview-content').addEventListener('pointerover', event => {
+    const anchor = event.target.closest('[contenteditable] a');
+    if (anchor) showLinkActions(anchor);
+  });
+  preview.querySelector('.live-preview-content').addEventListener('pointerout', event => {
+    const anchor = event.target.closest('[contenteditable] a');
+    if (!anchor || anchor.contains(event.relatedTarget)) return;
+    linkActionsTimer = window.setTimeout(() => { if (!linkActions.matches(':hover')) hideLinkActions(); }, 140);
+  });
+  linkActions.addEventListener('pointerenter', () => window.clearTimeout(linkActionsTimer));
+  linkActions.addEventListener('pointerleave', () => hideLinkActions());
+  linkActions.querySelector('button').addEventListener('click', () => {
+    const anchor = activePreviewLink;
+    const editable = anchor?.closest('[contenteditable]');
+    if (!anchor || !editable) return;
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(anchor);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    document.execCommand('unlink', false, null);
+    saveEditableMarkup(editable);
+    hideLinkActions();
+  });
+  linkPopup.querySelector('.builder-link-cancel').addEventListener('click', () => { clearSelectedLinkRange(); selectedLinkRange = null; linkPopup.classList.remove('is-open'); });
   linkPopup.addEventListener('submit', event => {
     event.preventDefault();
     const url = linkPopup.elements.url.value.trim();
@@ -457,13 +520,8 @@
     document.execCommand('createLink', false, url);
     const anchor = selection.anchorNode?.parentElement?.closest('a');
     if (anchor && linkPopup.elements.new_tab.checked) { anchor.target = '_blank'; anchor.rel = 'noopener noreferrer'; }
-    const editable = selectedLinkRange.editable;
-    const previewSection = editable.closest('.preview-section');
-    const card = previewSection && [...sections.querySelectorAll('.page-builder-section')].find(item => item.dataset.builderId === previewSection.dataset.builderId);
-    if (card && editable.dataset.previewField) { const field = getField(card, editable.dataset.previewField); if (field) field.value = editable.innerHTML; }
-    if (card && editable.dataset.previewColumn !== undefined) { const blocksField = getField(card, 'blocks'); let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {} if (blocks[Number(editable.dataset.previewColumn)]) { blocks[Number(editable.dataset.previewColumn)][editable.dataset.previewColumnKey] = editable.innerHTML; blocksField.value = JSON.stringify(blocks); } }
-    if (card && editable.dataset.previewExtra !== undefined) { const elementsField = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(elementsField.value || '[]'); } catch (_) {} if (elements[Number(editable.dataset.previewExtra)]) { elements[Number(editable.dataset.previewExtra)].text = editable.innerHTML; elementsField.value = JSON.stringify(elements); } }
-    linkPopup.reset(); selectedLinkRange = null; linkPopup.classList.remove('is-open');
+    saveEditableMarkup(selectedLinkRange.editable);
+    linkPopup.reset(); clearSelectedLinkRange(); selectedLinkRange = null; linkPopup.classList.remove('is-open');
   });
   sections.addEventListener('change', (event) => {
     if (event.target.matches('input[type=file]')) {
