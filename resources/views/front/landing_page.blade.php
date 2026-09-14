@@ -1355,6 +1355,7 @@
     .landing-builder-list li { display:list-item !important; }
     .landing-builder-list li::marker { color:currentColor; }
     .landing-builder-list li + li { margin-top: var(--list-item-gap, 8px); }
+    .landing-builder-section.landing-align-center .landing-builder-list, .landing-builder-section.landing-align-center .landing-column-bullets { display:table; margin-left:auto; margin-right:auto; text-align:left; }
     .landing-builder-content .landing-sanskrit { color:#0f7a84; font-family:Philosopher, serif; font-size:28px; font-weight:700; margin:0 0 18px; }
     .landing-builder-section .btn { border-radius: 999px; padding: 12px 24px; transition: transform .2s ease, box-shadow .2s ease; }
     .landing-builder-section .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.18); }
@@ -1391,8 +1392,15 @@
       $extraElements = json_decode($section->elements ?: '[]', true) ?: [];
       $headingSpacing = 'padding: '.(int)($headingStyle['padding_y'] ?? 0).'px '.(int)($headingStyle['padding_x'] ?? 0).'px; margin: '.(int)($headingStyle['margin_y'] ?? 0).'px '.(int)($headingStyle['margin_x'] ?? 0).'px; font-weight: '.($headingStyle['font_weight'] ?? 'bold').'; font-style: '.($headingStyle['font_style'] ?? 'normal').'; text-decoration: '.($headingStyle['text_decoration'] ?? 'none').';';
       $contentSpacing = 'padding: '.(int)($contentStyle['padding_y'] ?? 0).'px '.(int)($contentStyle['padding_x'] ?? 0).'px; margin: '.(int)($contentStyle['margin_y'] ?? 0).'px '.(int)($contentStyle['margin_x'] ?? 0).'px; font-weight: '.($contentStyle['font_weight'] ?? 'normal').'; font-style: '.($contentStyle['font_style'] ?? 'normal').'; text-decoration: '.($contentStyle['text_decoration'] ?? 'none').';';
+      $backgroundMode = $section->background_mode ?? 'color';
+      $overlayHex = ltrim($section->background_overlay_color ?? '#000000', '#');
+      $overlayRgb = preg_match('/^[0-9a-fA-F]{6}$/', $overlayHex) ? sscanf($overlayHex, '%02x%02x%02x') : [0, 0, 0];
+      $overlayOpacity = max(0, min(90, (int) ($section->background_overlay_opacity ?? 0))) / 100;
+      $backgroundImageStyle = $backgroundMode === 'image' && $section->background_image
+        ? "background-image: linear-gradient(rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity}), rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity})), url('".asset($section->background_image)."'); background-size: cover; background-repeat: no-repeat; background-position: ".($section->background_position ?? 'center')." center;"
+        : '';
     @endphp
-    <section class="landing-builder-section landing-reveal {{ $section->background_parallax ? 'landing-section-parallax' : '' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; @if($section->background_image) background-image: url('{{ asset($section->background_image) }}'); background-size: cover; background-repeat: no-repeat; background-position: {{ $section->background_position ?? 'center' }} center; @endif padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+    <section class="landing-builder-section landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $section->background_parallax && $backgroundMode === 'image' ? 'landing-section-parallax' : '' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
       <div class="{{ $section->section_type === 'image' ? 'container-fluid' : 'container' }}" style="{{ $section->section_type === 'image' ? 'padding-left:0; padding-right:0;' : '' }}">
         @if($section->section_type === 'testimonial')
           <div class="mb-4" style="text-align: {{ $section->text_align ?? 'center' }};">
