@@ -19,7 +19,7 @@
         .blog-index-breadcrumb li { display: inline; }
         .blog-index-breadcrumb li + li::before { content: '/'; margin: 0 9px; opacity: .75; }
         .blog-index-breadcrumb a { color: #fff; }
-        .blog-index-content { padding: 70px 0 80px; }
+        .blog-index-content { padding: 38px 0 80px; }
         .blog-index-heading { max-width: 700px; margin: 0 auto 40px; text-align: center; }
         .blog-index-heading h2 { margin: 0 0 10px; color: #153f49; font-size: clamp(27px, 3vw, 38px); font-weight: 700; }
         .blog-index-heading p { margin: 0; color: #647b82; font-size: 17px; line-height: 1.6; }
@@ -45,7 +45,7 @@
         .blog-index-empty { max-width: 620px; margin: 0 auto; padding: 52px 30px; border: 1px dashed #b9d1d1; border-radius: 18px; background: #fff; color: #647b82; text-align: center; }
         .blog-index-empty h2 { margin: 0 0 8px; color: #153f49; font-size: 25px; }
         @media (max-width: 991px) { .blog-posts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-        @media (max-width: 767px) { .blog-index-hero { min-height: 285px; } .blog-index-content { padding: 48px 0 58px; } .blog-posts { grid-template-columns: 1fr; gap: 20px; } .blog-card .entry-content { padding: 21px; } }
+        @media (max-width: 767px) { .blog-index-hero { min-height: 285px; } .blog-index-content { padding: 32px 0 58px; } .blog-posts { grid-template-columns: 1fr; gap: 20px; } .blog-card .entry-content { padding: 21px; } }
         @media (prefers-reduced-motion: reduce) { .blog-card .post, .blog-card .post-thumb img { transition: none; } }
     </style>
 @endpush
@@ -54,9 +54,9 @@
 <main class="blog-index">
     <section class="blog-index-hero" aria-labelledby="blog-page-title">
         <div class="container">
-            <span class="blog-index-kicker">YogIntra journal</span>
-            <h1 class="blog-index-title" id="blog-page-title">Yoga, wellness &amp; mindful living</h1>
-            <p class="blog-index-intro">Practical ideas, gentle guidance and useful inspiration for a healthier everyday practice.</p>
+            <span class="blog-index-kicker">YogIntra blog</span>
+            <h1 class="blog-index-title" id="blog-page-title">Yoga insights for everyday wellbeing</h1>
+            <p class="blog-index-intro">Explore practical yoga guidance, wellness tips and mindful habits to support a healthier, more balanced life.</p>
             <ol class="blog-index-breadcrumb" aria-label="Breadcrumb">
                 <li><a href="{{ url('/') }}">Home</a></li>
                 <li aria-current="page">Blog</li>
