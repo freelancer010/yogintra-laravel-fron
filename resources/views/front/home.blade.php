@@ -6,8 +6,8 @@
     $heroVideoTitle = $heroVideoHeading;
     $heroVideoDescription = $heroVideoSubHeading;
 @endphp
-@section('meta_title', 'Yoga Classes, Home Yoga & Online Wellness | YogIntra')
-@section('meta_description', 'Discover online yoga classes, home yoga sessions, yoga centres, wellness programs and teacher training with YogIntra. Start your healthier journey today.')
+@section('meta_title', $app_setting->app_meta_title ?: 'Yoga Classes, Home Yoga & Online Wellness | YogIntra')
+@section('meta_description', $app_setting->app_meta_description ?: 'Discover online yoga classes, home yoga sessions, yoga centres, wellness programs and teacher training with YogIntra. Start your healthier journey today.')
 @section('meta_keywords', 'yoga classes, online yoga classes, home yoga, yoga centre, yoga teacher training, wellness programs, YogIntra')
 @section('og_image', asset('assets/og-logo.webp'))
 @push('page_meta_tags')
