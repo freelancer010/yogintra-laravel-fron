@@ -1354,6 +1354,8 @@
     .landing-builder-section .landing-feature-card a { color:inherit; text-decoration:none; }
     .landing-builder-section .landing-feature-card .landing-card-link { display:inline-flex; align-items:center; margin-top:14px; color:#0d7c88; font-weight:700; font-size:14px; }
     .landing-builder-section .landing-testimonial-grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px; }
+    .landing-builder-section .landing-testimonial-slider.owl-carousel { display:block; }
+    .landing-builder-section .landing-testimonial-slider .item { height:100%; padding:2px 10px 14px; }
     .landing-builder-section .landing-testimonial-card { height:100%; padding:24px; border:1px solid #e4ecee; border-radius:14px; background:#fff; box-shadow:0 6px 18px rgba(19,60,68,.07); }
     .landing-builder-section .landing-testimonial-stars { color:#e8a326; font-size:17px; letter-spacing:2px; }
     .landing-builder-section .landing-testimonial-card blockquote { margin:16px 0; color:#42575e; line-height:1.7; font-style:italic; }
@@ -1384,17 +1386,19 @@
             @if($section->heading)<h2 class="mb-3" style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{{ $section->heading }}</h2>@endif
             @if($section->content)<div class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }}; font-size: {{ $section->description_size ?? 16 }}px; {{ $contentSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif
           </div>
-          <div class="landing-testimonial-grid">
+          <div class="landing-testimonial-grid landing-testimonial-slider" data-nav="true" data-dots="true">
             @forelse($testimonials as $testimonial)
-              <article class="landing-testimonial-card">
-                <div class="landing-testimonial-stars" aria-label="{{ $testimonial->test_review }} out of 5 stars">{{ str_repeat('★', max(0, min(5, (int) $testimonial->test_review))) }}</div>
-                <blockquote>“{{ $testimonial->test_description }}”</blockquote>
-                <div class="landing-testimonial-person">
-                  @if($testimonial->test_image)<img src="{{ asset($testimonial->test_image) }}" alt="{{ $testimonial->test_name }}" loading="lazy">
-                  @else<div class="landing-testimonial-avatar">{{ strtoupper(substr($testimonial->test_name ?: 'Y', 0, 1)) }}</div>@endif
-                  <div><strong>{{ $testimonial->test_name }}</strong>@if($testimonial->test_position)<small style="display:block;color:#647b82;">{{ $testimonial->test_position }}</small>@endif</div>
+              <div class="item">
+                <article class="landing-testimonial-card">
+                  <div class="landing-testimonial-stars" aria-label="{{ $testimonial->test_review }} out of 5 stars">{{ str_repeat('★', max(0, min(5, (int) $testimonial->test_review))) }}</div>
+                  <blockquote>“{{ $testimonial->test_description }}”</blockquote>
+                  <div class="landing-testimonial-person">
+                    @if($testimonial->test_image)<img src="{{ asset($testimonial->test_image) }}" alt="{{ $testimonial->test_name }}" loading="lazy">
+                    @else<div class="landing-testimonial-avatar">{{ strtoupper(substr($testimonial->test_name ?: 'Y', 0, 1)) }}</div>@endif
+                    <div><strong>{{ $testimonial->test_name }}</strong>@if($testimonial->test_position)<small style="display:block;color:#647b82;">{{ $testimonial->test_position }}</small>@endif</div>
+                  </div>
+                </article>
                 </div>
-              </article>
             @empty
               <p style="grid-column:1/-1;text-align:center;color:#647b82;">No testimonials have been added yet.</p>
             @endforelse
@@ -1498,6 +1502,23 @@
         if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
       }), { threshold: .12 });
       sections.forEach(section => observer.observe(section));
+
+      if (window.jQuery && typeof window.jQuery.fn.owlCarousel === 'function') {
+        window.jQuery('.landing-testimonial-slider').each(function () {
+          var slider = window.jQuery(this);
+          if (slider.hasClass('owl-loaded')) return;
+          slider.addClass('owl-carousel owl-theme').owlCarousel({
+            loop: slider.children('.item').length > 3,
+            margin: 12,
+            nav: slider.data('nav') !== false,
+            dots: slider.data('dots') !== false,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+            responsive: { 0: { items: 1 }, 768: { items: 2 }, 1100: { items: 3 } }
+          });
+        });
+      }
     });
   </script>
 @else
