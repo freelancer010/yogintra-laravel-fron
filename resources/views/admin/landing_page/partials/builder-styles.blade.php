@@ -166,6 +166,12 @@
   .background-image-options { display:grid; gap:7px; }
   .background-image-options.is-hidden { display:none; }
   .builder-toggle { display:flex !important; align-items:center; gap:7px; font-size:12px !important; }
+  .builder-switch { display:flex !important; align-items:center; gap:8px; margin:4px 0 0 !important; color:#31545c; font-size:12px !important; cursor:pointer; }
+  .builder-switch input { position:absolute; opacity:0; pointer-events:none; }
+  .builder-switch-track { position:relative; width:38px; height:22px; border-radius:999px; background:#b7c8cc; box-shadow:inset 0 0 0 1px rgba(15,76,86,.12); transition:.18s ease; }
+  .builder-switch-track::after { content:''; position:absolute; top:3px; left:3px; width:16px; height:16px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.22); transition:.18s ease; }
+  .builder-switch input:checked + .builder-switch-track { background:#16717a; }
+  .builder-switch input:checked + .builder-switch-track::after { transform:translateX(16px); }
   .preview-image-hero .preview-section-image { display:block; width:100%; height:auto; min-height:0; object-fit:contain; }
   .preview-image-hero .preview-image-empty { width:100%; min-height:260px; }
   .preview-image-hero { display:flex; justify-content:center; }
