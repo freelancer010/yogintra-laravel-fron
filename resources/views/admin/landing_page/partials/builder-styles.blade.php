@@ -203,6 +203,9 @@
   .preview-section-add-menu small { padding:4px 6px; color:#71868c; font-size:11px; }
   .preview-section-add-menu button { border:0; border-radius:5px; padding:7px 8px; background:transparent; color:#244b54; text-align:left; font-size:12px; cursor:pointer; }
   .preview-section-add-menu button:hover { background:#eaf6f7; color:#12626c; }
+  .preview-column-stack { position:relative; min-height:100px; }
+  .preview-column-add { align-self:flex-start; border:1px dashed #91bbc0; border-radius:6px; padding:5px 7px; background:#fff; color:#16717a; font-size:11px; opacity:0; cursor:pointer; transition:.16s ease; }
+  .preview-column-stack:hover .preview-column-add, .preview-column-stack:focus-within .preview-column-add { opacity:1; }
   .preview-feature:hover { background:rgba(22,113,122,.06); }
   .preview-feature b { font-size:38px; line-height:1; color:#16717a; }
   .preview-feature img { width:82px; height:82px; object-fit:contain; border-radius:8px; }
@@ -221,6 +224,9 @@
   .section-tree-header { display:flex; align-items:stretch; gap:5px; }
   .section-tree-header .section-layer { flex:1; }
   .section-tree-toggle { width:32px; border:1px solid #e0eaed; border-radius:8px; background:#fff; color:#41656d; font-size:15px; }
+  .section-tree-duplicate, .section-tree-delete { width:28px; border:1px solid #e0eaed; border-radius:8px; background:#fff; color:#41656d; font-size:14px; }
+  .section-tree-duplicate:hover { color:#16717a; border-color:#16717a; }
+  .section-tree-delete:hover { color:#c63842; border-color:#c63842; }
   .section-tree-toggle:hover { border-color:#16717a; color:#16717a; }
   .section-tree.is-collapsed .section-tree-children { display:none; }
   .section-tree .section-layer { margin:0; }
