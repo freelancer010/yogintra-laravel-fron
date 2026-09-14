@@ -140,7 +140,7 @@
   .builder-link-actions.is-open { display:block; }
   .builder-link-actions button { display:inline-flex; align-items:center; gap:5px; border:0; border-radius:6px; padding:6px 9px; background:#b83d4c; color:#fff; box-shadow:0 6px 14px rgba(94,24,34,.24); font-size:11px; font-weight:800; white-space:nowrap; }
   .builder-link-actions button:hover { background:#982c3a; }
-  .live-preview-content [contenteditable] a { color:#0b7b86; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:2px; }
+  .live-preview-content [contenteditable] a { color:#147bd1; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:2px; }
   .section-background-media { display:grid; gap:7px; margin:10px 0; padding:10px; border:1px solid #d8e7e9; border-radius:8px; background:#f7fbfc; }
   .section-background-media small { color:#668087; font-size:11px; }
   .background-mode-toggle { display:grid; grid-template-columns:1fr 1fr; gap:4px; padding:3px; border-radius:8px; background:#deecee; }

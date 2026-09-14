@@ -1349,6 +1349,29 @@
     @media (max-width: 767px) { .landing-builder-section .landing-image-right { flex-direction: column; } }
     .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; }
     .landing-builder-content { color: #53636a; font-size: 16px; line-height: 1.8; }
+    /* Rich links added through the page builder must stay visibly identifiable,
+       regardless of their parent text colour or the legacy theme defaults. */
+    .landing-builder-section .landing-builder-content a,
+    .landing-builder-section .landing-column-support a,
+    .landing-builder-section .landing-builder-list a,
+    .landing-builder-section h2 a,
+    .landing-builder-section h3 a,
+    .landing-builder-section h4 a,
+    .landing-builder-section p a,
+    .landing-builder-section small a {
+      color:#147bd1 !important;
+      text-decoration:underline;
+      text-decoration-thickness:1px;
+      text-underline-offset:2px;
+    }
+    .landing-builder-section .landing-builder-content a:hover,
+    .landing-builder-section .landing-column-support a:hover,
+    .landing-builder-section .landing-builder-list a:hover,
+    .landing-builder-section h2 a:hover,
+    .landing-builder-section h3 a:hover,
+    .landing-builder-section h4 a:hover,
+    .landing-builder-section p a:hover,
+    .landing-builder-section small a:hover { color:#0d5fa8 !important; }
     .landing-builder-list { padding-left: 1.35em; margin-bottom: 1rem; line-height: 1.65; }
     .landing-builder-section ul.landing-builder-list { list-style: disc outside !important; }
     .landing-builder-section ol.landing-builder-list { list-style: decimal outside !important; }
