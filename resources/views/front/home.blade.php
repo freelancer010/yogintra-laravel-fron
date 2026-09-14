@@ -788,7 +788,7 @@
                                 @foreach ($rand_service as $r_service)
                                     <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                         <div class="yoga-service-item text-center">
-                                            <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
+                                            <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
                                             <h2 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h2>
                                             <a href="{{ url('service/' . $r_service->service_cat_slug) }}" class="btn-sm-cs btn btn-success btn-primary-dark">Book Now</a>
                                         </div>
@@ -797,7 +797,7 @@
 
                                 <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <div class="yoga-service-item text-center">
-                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
+                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" width="150" height="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
                                         <h2 class="mb-15 fs-16">TTC</h2>
                                         <a href="{{ route('ttc') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
                                     </div>
@@ -919,6 +919,7 @@
                                             @if($testimonial->test_image)
                                                 <img src="{{ asset($testimonial->test_image) }}" 
                                                      width="38" height="38" 
+                                                     loading="lazy" decoding="async"
                                                      alt="{{ $testimonial->test_name }}" 
                                                      style="border-radius: 50%; object-fit: cover; flex-shrink: 0;">
                                             @else

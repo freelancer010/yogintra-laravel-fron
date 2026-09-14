@@ -1414,7 +1414,7 @@
                   <div class="landing-testimonial-stars" aria-label="{{ $testimonial->test_review }} out of 5 stars">{{ str_repeat('★', max(0, min(5, (int) $testimonial->test_review))) }}</div>
                   <blockquote>“{{ $testimonial->test_description }}”</blockquote>
                   <div class="landing-testimonial-person">
-                    @if($testimonial->test_image)<img src="{{ asset($testimonial->test_image) }}" alt="{{ $testimonial->test_name }}" loading="lazy">
+                    @if($testimonial->test_image)<img src="{{ asset($testimonial->test_image) }}" alt="{{ $testimonial->test_name }}" width="48" height="48" loading="lazy" decoding="async">
                     @else<div class="landing-testimonial-avatar">{{ strtoupper(substr($testimonial->test_name ?: 'Y', 0, 1)) }}</div>@endif
                     <div><strong>{{ $testimonial->test_name }}</strong>@if($testimonial->test_position)<small style="display:block;color:#647b82;">{{ $testimonial->test_position }}</small>@endif</div>
                   </div>
@@ -1498,7 +1498,7 @@
             @foreach($blocks as $block)
               <div class="landing-feature-card {{ $cardLayout }}" style="text-align: {{ $cardAlignment }};">
                 @if(!empty($block['image']))
-                  <img src="{{ asset($block['image']) }}" alt="{{ $block['title'] ?? 'Feature image' }}">
+                  <img src="{{ asset($block['image']) }}" alt="{{ $block['title'] ?? 'Feature image' }}" width="120" height="120" loading="lazy" decoding="async">
                 @else
                   <div class="landing-feature-icon" style="color: {{ $section->text_color ?? '#183c45' }}">{{ $block['icon'] ?? '✦' }}</div>
                 @endif
@@ -1937,7 +1937,7 @@
                                 <div class="testimonial-author" style="border-top: 1px solid #e0e0e0; padding-top: 12px; flex-shrink: 0;">
                                     <div style="display: flex; align-items: center; gap: 10px;">
                                         @if($testimonial->test_image)
-                                            <img src="{{ asset($testimonial->test_image) }}" 
+                                            <img src="{{ asset($testimonial->test_image) }}" width="38" height="38" loading="lazy" decoding="async"
                                                  width="38" height="38" 
                                                  alt="{{ $testimonial->test_name }}" 
                                                  style="border-radius: 50%; object-fit: cover; flex-shrink: 0;">
