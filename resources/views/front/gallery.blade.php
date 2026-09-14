@@ -2,7 +2,7 @@
 
 @extends('layouts.layout')
 
-@section('meta_title', 'Gallery | YogIntra')
+@section('meta_title', 'Unique Yoga & Wellness Gallery - YogIntra')
 @section('meta_description', 'We are constantly raising awareness of detoxifying the mind and body from within. We guide you to improve your inner beauty and personality through yoga.')
 @section('meta_keywords', 'Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai, Yoga Teacher Training Courses.')
 
