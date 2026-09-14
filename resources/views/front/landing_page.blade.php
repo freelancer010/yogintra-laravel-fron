@@ -1437,7 +1437,7 @@
             @foreach(array_slice($columns, 0, $columnCount) as $column)
               <div class="landing-custom-column">
                 @if(($column['type'] ?? 'text') === 'image')
-                  @if(!empty($column['image']))<img src="{{ asset($column['image']) }}" alt="{{ $column['alt'] ?? 'Section image' }}" loading="lazy">@endif
+                  @if(!empty($column['image']))<img src="{{ asset($column['image']) }}" alt="{{ $column['alt'] ?? 'Section image' }}" loading="lazy" style="width: {{ max(20, min(100, (int) ($column['image_size'] ?? 100))) }}%; margin:0 auto;">@endif
                 @elseif(($column['type'] ?? 'text') === 'button')
                   @if(!empty($column['button_text']) && !empty($column['button_url']))<a href="{{ $column['button_url'] }}" class="btn btn-theme-colored btn-flat">{{ $column['button_text'] }}</a>@endif
                 @else
