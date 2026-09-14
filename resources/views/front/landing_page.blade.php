@@ -1332,6 +1332,9 @@
     .landing-builder-section .landing-custom-columns { display:grid; grid-template-columns:repeat(var(--column-count, 1), minmax(0, 1fr)); gap:24px; }
     .landing-builder-section .landing-custom-column { min-height:72px; }
     .landing-builder-section .landing-custom-column img { display:block; width:100%; height:auto; object-fit:cover; border-radius:10px; }
+    .landing-builder-section .landing-custom-column .landing-builder-content { white-space:pre-line; }
+    .landing-builder-section .landing-column-support { display:block; margin-top:12px; color:#647b82; line-height:1.6; }
+    .landing-builder-section .landing-column-bullets { margin:12px 0 0; padding-left:1.35em; line-height:1.65; list-style:disc outside; }
     .landing-builder-section .landing-feature-card { box-sizing:border-box; min-width:0; padding:18px 14px; text-align:center; }
     .landing-builder-section .landing-feature-card h4 { margin:10px 0 6px; font-size:19px; font-weight:700; line-height:1.3; }
     .landing-builder-section .landing-feature-card p { margin:0; line-height:1.65; }
@@ -1444,6 +1447,11 @@
                   @if(!empty($column['title']))<h3 style="color: {{ $section->text_color ?? '#183c45' }};">{{ $column['title'] }}</h3>@endif
                   @if(!empty($column['text']))<p class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }};">{{ $column['text'] }}</p>@endif
                 @endif
+                @if(!empty($column['small_text']))<small class="landing-column-support">{{ $column['small_text'] }}</small>@endif
+                @php
+                  $columnBullets = array_filter(array_map('trim', preg_split('/\r?\n/', $column['bullets'] ?? '')));
+                @endphp
+                @if($columnBullets)<ul class="landing-column-bullets">@foreach($columnBullets as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>@endif
               </div>
             @endforeach
           </div>

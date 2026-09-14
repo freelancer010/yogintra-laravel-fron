@@ -144,6 +144,11 @@
   .feature-block-image button { width:auto; padding:5px 8px; }
   .feature-block-control input, .feature-block-control textarea { width:100%; border:1px solid #cfdfe3; border-radius:5px; padding:6px; font-size:12px; }
   .feature-block-control textarea, .feature-block-control button { grid-column:span 2; }
+  .column-control { grid-template-columns:1fr; }
+  .column-control > * { grid-column:1 !important; min-width:0; }
+  .column-control input, .column-control textarea, .column-control select { width:100%; }
+  .column-support-controls { display:grid; gap:5px; margin-top:4px; }
+  .column-support-controls label { margin:3px 0 0; color:#58757d; font-size:10px; font-weight:800; text-transform:uppercase; }
   .extra-element-control label { margin:3px 0 -3px; color:#58757d; font-size:10px; font-weight:800; text-transform:uppercase; }
   .extra-element-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
   .extra-element-actions button { flex:1 1 120px; border:1px solid #16717a; border-radius:7px; padding:8px; background:#fff; color:#14616b; font-size:12px; font-weight:800; }
