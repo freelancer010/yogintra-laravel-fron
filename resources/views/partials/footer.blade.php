@@ -8,11 +8,11 @@
                 </div>
                 <div class="widget dark mb-0">
                     <ul class="styled-icons icon-dark icon-circled icon-sm">
-                        <li><a href="https://www.facebook.com/yogintra" aria-label="Visit us on Facebook"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="https://www.instagram.com/yogintra" aria-label="Visit us on Instagram"><i class="fa fa-instagram"></i></a></li>
-                        <li><a href="https://www.linkedin.com/in/yog-intra-410a09240" aria-label="Visit us on LinkedIn"><i class="fa fa-linkedin"></i></a></li>
-                        <li><a href="https://twitter.com/yogintra" aria-label="Visit us on Twitter"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="https://www.youtube.com/channel/UC04qAXsiUicHix2WChFPFvA" aria-label="Visit us on YouTube"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="https://www.facebook.com/yogintra" aria-label="Visit us on Facebook"><i class="fa fa-facebook"></i><span class="sr-only">Visit YogIntra on Facebook</span></a></li>
+                        <li><a href="https://www.instagram.com/yogintra" aria-label="Visit us on Instagram"><i class="fa fa-instagram"></i><span class="sr-only">Visit YogIntra on Instagram</span></a></li>
+                        <li><a href="https://www.linkedin.com/in/yog-intra-410a09240" aria-label="Visit us on LinkedIn"><i class="fa fa-linkedin"></i><span class="sr-only">Visit YogIntra on LinkedIn</span></a></li>
+                        <li><a href="https://twitter.com/yogintra" aria-label="Visit us on Twitter"><i class="fa fa-twitter"></i><span class="sr-only">Visit YogIntra on Twitter</span></a></li>
+                        <li><a href="https://www.youtube.com/channel/UC04qAXsiUicHix2WChFPFvA" aria-label="Visit us on YouTube"><i class="fa fa-youtube"></i><span class="sr-only">Visit YogIntra on YouTube</span></a></li>
                     </ul>
                 </div>
             </div>
@@ -56,11 +56,11 @@
                         <ul class="list-border mt-5">
                             <li class="m-0 pl-10 pr-10"> 
                                 <i class="fa fa-map-marker text-theme-colored mr-5"></i> 
-                                <a class="text-gray" href="#">D-408 Shivlila Apt, Mumbra Devi Colony Road, Diva East, Thane-400612</a> 
+                                <a class="text-gray" href="https://www.google.com/maps/search/?api=1&amp;query=D-408+Shivlila+Apt%2C+Mumbra+Devi+Colony+Road%2C+Diva+East%2C+Thane-400612">D-408 Shivlila Apt, Mumbra Devi Colony Road, Diva East, Thane-400612</a>
                             </li>
                             <li class="m-0 pl-10 pr-10"> 
                                 <i class="fa fa-phone text-theme-colored mr-5"></i> 
-                                <a class="text-gray" href="#">+91-9867291573</a> 
+                                <a class="text-gray" href="tel:+919867291573">+91-9867291573</a>
                             </li>
                             <li class="m-0 pl-10 pr-10"> 
                                 <i class="fa fa-envelope-o text-theme-colored mr-5"></i> 

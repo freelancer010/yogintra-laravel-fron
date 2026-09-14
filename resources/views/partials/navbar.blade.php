@@ -34,7 +34,7 @@
                         <ul class="menuzord-menu menuzord-right menuzord-indented scrollable" style="max-height: 400px;">
                             <li class="{{ request()->segment(1) == '' ? 'active' : '' }}"><a href="{{ url('/') }}">Home</a></li>
                             <li class="{{ in_array(request()->segment(1), ['about', 'gallery']) ? 'active' : '' }}">
-                                <a href="#">About</a>
+                                <a href="{{ url('/about-us') }}">About</a>
                                 <ul class="dropdown">
                                     <li><a href="{{ url('/about-us') }}">About</a></li>   
                                     <li><a href="{{ url('/gallery') }}">Gallery</a></li>
@@ -46,7 +46,7 @@
                             </li>
 
                             <li class="{{ request()->segment(1) == 'service' ? 'active' : '' }}">
-                                <a href="#">Yoga Services</a>
+                                <a href="{{ url('/yoga-center') }}">Yoga Services</a>
                                 <ul class="dropdown">
                                     @foreach ($all_service as $service_menu)
                                         <li>
@@ -64,7 +64,7 @@
                                 <a href="{{ url('/yoga-center') }}">Yoga Center</a>
                             </li> --}}
                             <li class="{{ in_array(request()->segment(1), ['teacher-training-course', 'retreat', 'workshop']) ? 'active' : '' }}">
-                                <a href="#">Events</a>
+                                <a href="{{ url('/workshop') }}">Events</a>
                                 <ul class="dropdown">
                                     <li><a href="{{ url('/teacher-training-course') }}">TTC</a></li>   
                                     <li><a href="{{ url('/retreat') }}">Retreat</a></li>

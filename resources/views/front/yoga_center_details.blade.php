@@ -105,10 +105,10 @@
                                     <li>
                                         <h5>Share:</h5>
                                         <div class="styled-icons icon-sm icon-gray icon-circled">
-                                            <a href="https://www.facebook.com/yogintra" aria-label="Visit us on Facebook"><i class="fa fa-facebook"></i></a>
-                                            <a href="https://twitter.com/yogintra" aria-label="Visit us on Twitter"><i class="fa fa-twitter"></i></a>
-                                            <a href="https://www.instagram.com/yogintra" aria-label="Visit us on Instagram"><i class="fa fa-instagram"></i></a>
-                                            <a href="https://www.linkedin.com/in/yogintra/" aria-label="Visit us on LinkedIn"><i class="fa fa-linkedin"></i></a>
+                                            <a href="https://www.facebook.com/yogintra" aria-label="Visit us on Facebook"><i class="fa fa-facebook"></i><span class="sr-only">Visit YogIntra on Facebook</span></a>
+                                            <a href="https://twitter.com/yogintra" aria-label="Visit us on Twitter"><i class="fa fa-twitter"></i><span class="sr-only">Visit YogIntra on Twitter</span></a>
+                                            <a href="https://www.instagram.com/yogintra" aria-label="Visit us on Instagram"><i class="fa fa-instagram"></i><span class="sr-only">Visit YogIntra on Instagram</span></a>
+                                            <a href="https://www.linkedin.com/in/yogintra/" aria-label="Visit us on LinkedIn"><i class="fa fa-linkedin"></i><span class="sr-only">Visit YogIntra on LinkedIn</span></a>
                                         </div>
                                     </li>
                                 </ul>
