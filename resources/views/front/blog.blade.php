@@ -2,7 +2,7 @@
 
 @extends('layouts.layout')
 
-@section('meta_title', 'Yoga & Wellness Blog | Expert Tips, Poses & Mindfulness | YogIntra')
+@section('meta_title', 'Blogs for Yoga & Wellness | YogIntra')
 @section('meta_description', 'This blog is about my yoga journey. It started decades ago and has no end.')
 @section('meta_keywords', 'Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai.')
 
