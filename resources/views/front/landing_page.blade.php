@@ -1353,7 +1353,20 @@
     @media (max-width: 767px) { .landing-builder-section .landing-image-text-row { flex-direction:column; } .landing-builder-section .landing-image-text-row > [class*="col-"] { flex:0 0 100% !important; max-width:100% !important; width:100%; } }
     .landing-builder-section .landing-feature-card a { color:inherit; text-decoration:none; }
     .landing-builder-section .landing-feature-card .landing-card-link { display:inline-flex; align-items:center; margin-top:14px; color:#0d7c88; font-weight:700; font-size:14px; }
+    .landing-builder-section .landing-testimonial-grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px; }
+    .landing-builder-section .landing-testimonial-card { height:100%; padding:24px; border:1px solid #e4ecee; border-radius:14px; background:#fff; box-shadow:0 6px 18px rgba(19,60,68,.07); }
+    .landing-builder-section .landing-testimonial-stars { color:#e8a326; font-size:17px; letter-spacing:2px; }
+    .landing-builder-section .landing-testimonial-card blockquote { margin:16px 0; color:#42575e; line-height:1.7; font-style:italic; }
+    .landing-builder-section .landing-testimonial-person { display:flex; align-items:center; gap:10px; padding-top:14px; border-top:1px solid #edf1f2; }
+    .landing-builder-section .landing-testimonial-person img, .landing-builder-section .landing-testimonial-avatar { width:42px; height:42px; border-radius:50%; object-fit:cover; flex:0 0 42px; }
+    .landing-builder-section .landing-testimonial-avatar { display:grid; place-items:center; background:#0f7a84; color:#fff; font-weight:700; }
+    .landing-builder-section .landing-faq-list { max-width:860px; margin:0 auto; }
+    .landing-builder-section .landing-faq-item { border:1px solid #dfe8ea; border-radius:10px; background:#fff; overflow:hidden; }
+    .landing-builder-section .landing-faq-item + .landing-faq-item { margin-top:12px; }
+    .landing-builder-section .landing-faq-item summary { padding:18px 20px; color:#183c45; font-weight:700; cursor:pointer; }
+    .landing-builder-section .landing-faq-answer { padding:0 20px 18px; color:#53636a; line-height:1.7; }
     @media (max-width: 767px) { .landing-builder-section .landing-feature-grid { grid-template-columns:1fr !important; } }
+    @media (max-width: 767px) { .landing-builder-section .landing-testimonial-grid { grid-template-columns:1fr; } }
   </style>
   @foreach($page_sections as $section)
     @php
@@ -1366,7 +1379,43 @@
     @endphp
     <section class="landing-builder-section landing-reveal" style="background-color: {{ $section->background_color ?: 'transparent' }}; padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
       <div class="{{ $section->section_type === 'image' ? 'container-fluid' : 'container' }}" style="{{ $section->section_type === 'image' ? 'padding-left:0; padding-right:0;' : '' }}">
-        @if($section->section_type === 'feature_grid')
+        @if($section->section_type === 'testimonial')
+          <div class="mb-4" style="text-align: {{ $section->text_align ?? 'center' }};">
+            @if($section->heading)<h2 class="mb-3" style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{{ $section->heading }}</h2>@endif
+            @if($section->content)<div class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }}; font-size: {{ $section->description_size ?? 16 }}px; {{ $contentSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif
+          </div>
+          <div class="landing-testimonial-grid">
+            @forelse($testimonials as $testimonial)
+              <article class="landing-testimonial-card">
+                <div class="landing-testimonial-stars" aria-label="{{ $testimonial->test_review }} out of 5 stars">{{ str_repeat('★', max(0, min(5, (int) $testimonial->test_review))) }}</div>
+                <blockquote>“{{ $testimonial->test_description }}”</blockquote>
+                <div class="landing-testimonial-person">
+                  @if($testimonial->test_image)<img src="{{ asset($testimonial->test_image) }}" alt="{{ $testimonial->test_name }}" loading="lazy">
+                  @else<div class="landing-testimonial-avatar">{{ strtoupper(substr($testimonial->test_name ?: 'Y', 0, 1)) }}</div>@endif
+                  <div><strong>{{ $testimonial->test_name }}</strong>@if($testimonial->test_position)<small style="display:block;color:#647b82;">{{ $testimonial->test_position }}</small>@endif</div>
+                </div>
+              </article>
+            @empty
+              <p style="grid-column:1/-1;text-align:center;color:#647b82;">No testimonials have been added yet.</p>
+            @endforelse
+          </div>
+        @elseif($section->section_type === 'faq')
+          @php
+            $faqItems = json_decode($section->blocks ?: '[]', true) ?: [];
+          @endphp
+          <div class="mb-4" style="text-align: {{ $section->text_align ?? 'left' }};">
+            @if($section->heading)<h2 class="mb-3" style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{{ $section->heading }}</h2>@endif
+            @if($section->content)<div class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }}; font-size: {{ $section->description_size ?? 16 }}px; {{ $contentSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif
+          </div>
+          <div class="landing-faq-list">
+            @foreach($faqItems as $index => $faq)
+              <details class="landing-faq-item" {{ $index === 0 ? 'open' : '' }}>
+                <summary>{{ $faq['title'] ?? 'Question' }}</summary>
+                <div class="landing-faq-answer">{{ $faq['text'] ?? '' }}</div>
+              </details>
+            @endforeach
+          </div>
+        @elseif($section->section_type === 'feature_grid')
           @php
             $blocks = json_decode($section->blocks ?: '[]', true) ?: [];
             $gridColumns = max(2, min(4, (int) ($section->grid_columns ?? 3)));
@@ -1379,7 +1428,9 @@
             @foreach($extraElements as $element)
               @if(($element['type'] ?? '') === 'heading')<h3 style="color: {{ $element['color'] ?? $section->text_color ?? '#183c45' }}; font-size: {{ $element['size'] ?? $section->heading_size ?? 32 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{{ $element['text'] ?? '' }}</h3>
               @elseif(in_array(($element['type'] ?? ''), ['bullet_list', 'numbered_list'], true))
-                @php($items = array_filter(array_map('trim', preg_split('/\r?\n/', $element['items'] ?? ''))))
+                @php
+                  $items = array_filter(array_map('trim', preg_split('/\r?\n/', $element['items'] ?? '')));
+                @endphp
                 @if(($element['type'] ?? '') === 'numbered_list')<ol class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding-top: {{ $element['padding'] ?? 0 }}px; padding-bottom: {{ $element['padding'] ?? 0 }}px; margin-top: {{ $element['margin'] ?? 0 }}px; margin-bottom: {{ $element['margin'] ?? 0 }}px; --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ol>
                 @else<ul class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding-top: {{ $element['padding'] ?? 0 }}px; padding-bottom: {{ $element['padding'] ?? 0 }}px; margin-top: {{ $element['margin'] ?? 0 }}px; margin-bottom: {{ $element['margin'] ?? 0 }}px; --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ul>@endif
               @else<p style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{{ $element['text'] ?? '' }}</p>@endif
@@ -1420,7 +1471,9 @@
               @foreach($extraElements as $element)
                 @if(($element['type'] ?? '') === 'heading')<h3 style="color: {{ $element['color'] ?? $section->text_color ?? '#183c45' }}; font-size: {{ $element['size'] ?? $section->heading_size ?? 32 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{{ $element['text'] ?? '' }}</h3>
                 @elseif(in_array(($element['type'] ?? ''), ['bullet_list', 'numbered_list'], true))
-                  @php($items = array_filter(array_map('trim', preg_split('/\r?\n/', $element['items'] ?? ''))))
+                  @php
+                    $items = array_filter(array_map('trim', preg_split('/\r?\n/', $element['items'] ?? '')));
+                  @endphp
                   @if(($element['type'] ?? '') === 'numbered_list')<ol class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding-top: {{ $element['padding'] ?? 0 }}px; padding-bottom: {{ $element['padding'] ?? 0 }}px; margin-top: {{ $element['margin'] ?? 0 }}px; margin-bottom: {{ $element['margin'] ?? 0 }}px; --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ol>
                   @else<ul class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding-top: {{ $element['padding'] ?? 0 }}px; padding-bottom: {{ $element['padding'] ?? 0 }}px; margin-top: {{ $element['margin'] ?? 0 }}px; margin-bottom: {{ $element['margin'] ?? 0 }}px; --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ul>@endif
                 @else<p style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{{ $element['text'] ?? '' }}</p>@endif

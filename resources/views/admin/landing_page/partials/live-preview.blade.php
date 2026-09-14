@@ -23,7 +23,7 @@
   canvas.appendChild(addBar);
   const picker = document.createElement('div');
   picker.className = 'template-picker';
-  picker.innerHTML = '<div class="template-picker-backdrop"></div><div class="template-picker-dialog" role="dialog" aria-modal="true"><button type="button" class="template-picker-close" aria-label="Close">×</button><h3>Add a section</h3><p>Choose a ready-to-edit starting layout.</p><div class="template-picker-grid"><button data-template="text"><b>¶</b><strong>Text</strong><small>Heading and description</small></button><button data-template="image_text"><b>▣</b><strong>Image + text</strong><small>Two-column story</small></button><button data-template="feature_grid"><b>▦</b><strong>Cards / features</strong><small>Repeatable benefit cards</small></button><button data-template="image"><b>▤</b><strong>Full image</strong><small>Image or visual break</small></button><button data-template="cta"><b>↗</b><strong>Button / CTA</strong><small>Prompt people to act</small></button></div></div>';
+  picker.innerHTML = '<div class="template-picker-backdrop"></div><div class="template-picker-dialog" role="dialog" aria-modal="true"><button type="button" class="template-picker-close" aria-label="Close">×</button><h3>Add a section</h3><p>Choose a ready-to-edit starting layout.</p><div class="template-picker-grid"><button data-template="text"><b>¶</b><strong>Text</strong><small>Heading and description</small></button><button data-template="image_text"><b>▣</b><strong>Image + text</strong><small>Two-column story</small></button><button data-template="feature_grid"><b>▦</b><strong>Cards / features</strong><small>Repeatable benefit cards</small></button><button data-template="testimonial"><b>★</b><strong>Testimonials</strong><small>Use existing client reviews</small></button><button data-template="faq"><b>?</b><strong>Homepage FAQ</strong><small>Common questions and answers</small></button><button data-template="image"><b>▤</b><strong>Full image</strong><small>Image or visual break</small></button><button data-template="cta"><b>↗</b><strong>Button / CTA</strong><small>Prompt people to act</small></button></div></div>';
   document.body.appendChild(picker);
   const openPicker = () => picker.classList.add('is-open');
   const closePicker = () => picker.classList.remove('is-open');
@@ -33,19 +33,30 @@
     const template = event.target.closest('[data-template]');
     if (!template) return;
     const type = template.dataset.template;
-    const sourceType = ['image', 'feature_grid'].includes(type) ? 'image_text' : type;
+    const sourceType = ['image', 'feature_grid', 'testimonial', 'faq'].includes(type) ? 'image_text' : type;
     document.querySelector('.add-section[data-section-type="' + sourceType + '"]')?.click();
     setTimeout(() => {
       const card = [...sections.querySelectorAll('.page-builder-section')].at(-1);
       const field = card?.querySelector('select[name$="[section_type]"]');
-      if (field && ['image', 'feature_grid'].includes(type)) {
-        if (!field.querySelector('option[value="' + type + '"]')) field.add(new Option(type === 'feature_grid' ? 'Feature grid' : 'Image / Hero', type));
+      if (field && ['image', 'feature_grid', 'testimonial', 'faq'].includes(type)) {
+        if (!field.querySelector('option[value="' + type + '"]')) field.add(new Option(({ image: 'Image / Hero', feature_grid: 'Feature grid', testimonial: 'Testimonials', faq: 'Homepage FAQ' })[type], type));
         field.value = type;
         if (type === 'image') ensureField(card, 'image_size', '100').value = '100';
         if (type === 'feature_grid') {
           const blocks = ensureField(card, 'blocks', '');
           blocks.value = JSON.stringify([{ icon: '✚', title: 'Traditional Healing', text: '' }, { icon: '♨', title: 'Improve Health', text: '' }, { icon: '☯', title: 'Holistic Wellness', text: '' }]);
           ensureField(card, 'grid_columns', '3').value = '3';
+        }
+        if (type === 'testimonial') {
+          ensureField(card, 'heading', 'What our clients say').value = 'What our clients say';
+          ensureField(card, 'content', 'Real feedback from YogIntra students and practitioners.').value = 'Real feedback from YogIntra students and practitioners.';
+          ensureField(card, 'text_align', 'center').value = 'center';
+        }
+        if (type === 'faq') {
+          ensureField(card, 'heading', 'Frequently asked questions').value = 'Frequently asked questions';
+          ensureField(card, 'content', 'Answers to common questions about YogIntra services and programmes.').value = 'Answers to common questions about YogIntra services and programmes.';
+          ensureField(card, 'blocks', '[]').value = JSON.stringify([{ title: 'What is YogIntra?', text: 'YogIntra is a wellness platform offering yoga classes, holistic programmes and community events.' }, { title: 'What services does YogIntra provide?', text: 'We offer group, online, home-visit and private yoga classes, meditation, breathwork and corporate wellness programmes.' }, { title: 'Do YogIntra trainers offer personalised programmes?', text: 'Yes. Trainers can tailor sessions around flexibility, strength, stress-reduction and mindfulness goals.' }, { title: 'How can I contact YogIntra?', text: 'Contact us using the website enquiry form, email, phone or social media.' }]);
+          ensureField(card, 'text_align', 'left').value = 'left';
         }
         field.dispatchEvent(new Event('change', { bubbles: true }));
       }
