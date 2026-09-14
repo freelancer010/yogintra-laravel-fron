@@ -345,6 +345,10 @@
       const updateBlock = () => {
         blocks[control.dataset.block][control.dataset.blockKey] = control.value;
         blocksField.value = JSON.stringify(blocks);
+        const pairedControl = control.closest('.builder-range-number')?.querySelector('input[type="' + (control.type === 'range' ? 'number' : 'range') + '"]');
+        if (pairedControl) pairedControl.value = control.value;
+        const spacingLabel = control.closest('.builder-range-number')?.previousElementSibling?.querySelector('span');
+        if (spacingLabel) spacingLabel.textContent = control.value + 'px';
         if (control.tagName === 'SELECT') { renderStyles(card, target); render(); return; }
         if (control.type === 'range') { control.previousElementSibling?.querySelector('span') && (control.previousElementSibling.querySelector('span').textContent = control.value + '%'); document.querySelectorAll('[data-preview-column-image="' + control.dataset.block + '"]').forEach(image => image.style.width = control.value + '%'); }
         if (control.type === 'range' && ['padding_x', 'padding_y', 'margin_x', 'margin_y'].includes(control.dataset.blockKey)) render();
