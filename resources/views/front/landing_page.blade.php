@@ -1355,11 +1355,13 @@
     .landing-builder-section .landing-feature-card .landing-card-link { display:inline-flex; align-items:center; margin-top:14px; color:#0d7c88; font-weight:700; font-size:14px; }
     .landing-builder-section .landing-testimonial-grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px; }
     .landing-builder-section .landing-testimonial-slider.owl-carousel { display:block; }
-    .landing-builder-section .landing-testimonial-slider .item { height:100%; padding:2px 10px 14px; }
-    .landing-builder-section .landing-testimonial-card { height:100%; padding:24px; border:1px solid #e4ecee; border-radius:14px; background:#fff; box-shadow:0 6px 18px rgba(19,60,68,.07); }
+    .landing-builder-section .landing-testimonial-slider .owl-stage { display:flex; }
+    .landing-builder-section .landing-testimonial-slider .owl-item { display:flex; }
+    .landing-builder-section .landing-testimonial-slider .item { display:flex; width:100%; height:100%; padding:2px 10px 14px; }
+    .landing-builder-section .landing-testimonial-card { display:flex; flex:1 1 auto; flex-direction:column; height:100%; padding:24px; border:1px solid #e4ecee; border-radius:14px; background:#fff; box-shadow:0 6px 18px rgba(19,60,68,.07); }
     .landing-builder-section .landing-testimonial-stars { color:#e8a326; font-size:17px; letter-spacing:2px; }
     .landing-builder-section .landing-testimonial-card blockquote { margin:16px 0; color:#42575e; line-height:1.7; font-style:italic; }
-    .landing-builder-section .landing-testimonial-person { display:flex; align-items:center; gap:10px; padding-top:14px; border-top:1px solid #edf1f2; }
+    .landing-builder-section .landing-testimonial-person { display:flex; align-items:center; gap:10px; margin-top:auto; padding-top:14px; border-top:1px solid #edf1f2; }
     .landing-builder-section .landing-testimonial-person img, .landing-builder-section .landing-testimonial-avatar { width:42px; height:42px; border-radius:50%; object-fit:cover; flex:0 0 42px; }
     .landing-builder-section .landing-testimonial-avatar { display:grid; place-items:center; background:#0f7a84; color:#fff; font-weight:700; }
     .landing-builder-section .landing-faq-list { max-width:860px; margin:0 auto; }
