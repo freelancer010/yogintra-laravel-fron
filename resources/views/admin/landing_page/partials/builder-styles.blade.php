@@ -218,6 +218,10 @@
   .preview-column-stack { position:relative; min-height:100px; }
   .preview-column-add { align-self:flex-start; border:1px dashed #91bbc0; border-radius:6px; padding:5px 7px; background:#fff; color:#16717a; font-size:11px; opacity:0; cursor:pointer; transition:.16s ease; }
   .preview-column-stack:hover .preview-column-add, .preview-column-stack:focus-within .preview-column-add { opacity:1; }
+  .column-spacing-controls { display:grid; gap:6px; margin-top:12px; padding-top:10px; border-top:1px solid #dce8ea; }
+  .column-spacing-controls strong { color:#42636b; font-size:12px; }
+  .builder-range-number { display:grid; grid-template-columns:minmax(0,1fr) 58px; gap:7px; align-items:center; }
+  .builder-range-number input[type="number"] { min-width:0; padding:5px; text-align:center; }
   .preview-feature:hover { background:rgba(22,113,122,.06); }
   .preview-feature b { font-size:38px; line-height:1; color:#16717a; }
   .preview-feature img { width:82px; height:82px; object-fit:contain; border-radius:8px; }
