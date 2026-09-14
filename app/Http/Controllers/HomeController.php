@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Models\Setting;
 use App\Models\Slider;
@@ -105,12 +106,24 @@ class HomeController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function allTrainers()
+    public function allTrainers(Request $request)
     {
         $response = Http::get($this->api.'/get_all_trainer');
+        $trainers = collect($response->json());
+
+        $perPage = 12;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        $paginatedTrainers = new LengthAwarePaginator(
+            $trainers->slice(($currentPage - 1) * $perPage, $perPage)->values(),
+            $trainers->count(),
+            $perPage,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
 
         return view('front.all_trainer', [
-            'all_trainer' => $response->json(),
+            'all_trainer' => $paginatedTrainers,
             'api' => $this->api_main
         ]);
     }

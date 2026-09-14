@@ -66,6 +66,14 @@
       </div>
       @endforeach
     </div>
+
+    @if ($all_trainer instanceof \Illuminate\Contracts\Pagination\Paginator && $all_trainer->hasPages())
+    <div class="row">
+      <div class="col-md-12 text-center mt-30 mb-30">
+        {{ $all_trainer->links('pagination::bootstrap-4') }}
+      </div>
+    </div>
+    @endif
   </div>
 </section>
 
