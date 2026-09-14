@@ -209,7 +209,7 @@
   .preview-custom-columns .preview-feature.is-stacked { align-items:stretch; }
   .preview-custom-columns .preview-builder-list,
   .preview-custom-columns .preview-column-support { align-self:stretch; }
-  .preview-custom-columns .preview-cta { align-self:center; width:auto; cursor:pointer; }
+  .preview-custom-columns .preview-cta { align-self:center; width:auto; border:0; border-radius:6px; padding:16px 29px; background:#f5a12b; color:#fff; cursor:pointer; font-size:15px; font-weight:700; box-shadow:0 5px 12px rgba(167,97,7,.22); }
   .preview-custom-columns-wrap { position:relative; }
   .preview-column-divider { position:absolute; z-index:3; top:50%; right:8px; width:30px; height:30px; transform:translateY(-50%); border:1px solid #16717a; border-radius:50%; background:#fff; color:#16717a; font-size:21px; line-height:1; box-shadow:0 3px 11px rgba(22,113,122,.18); opacity:0; cursor:pointer; transition:.16s ease; }
   .preview-custom-columns-wrap:hover .preview-column-divider, .preview-section:focus-within .preview-column-divider { opacity:1; }
