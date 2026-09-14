@@ -1467,9 +1467,10 @@
           @php
             $columns = json_decode($section->blocks ?: '[]', true) ?: [];
             $columnCount = max(1, min(3, (int) ($section->grid_columns ?? 1)));
+            $visibleColumns = array_merge(array_slice($columns, 0, $columnCount), array_values(array_filter(array_slice($columns, $columnCount), fn ($column) => !empty($column['column_span']))));
           @endphp
           <div class="landing-custom-columns" style="--column-count: {{ $columnCount }}; text-align: {{ $section->text_align ?? 'left' }};">
-            @foreach(array_slice($columns, 0, $columnCount) as $column)
+            @foreach($visibleColumns as $column)
               @php
                 $columnStyles = $column['styles'] ?? [];
                 $columnStyle = function ($key, $defaultColor, $defaultSize) use ($columnStyles, $section) {
@@ -1478,7 +1479,7 @@
                 };
                 $imageStyle = $columnStyles['image'] ?? [];
               @endphp
-              <div class="landing-custom-column" style="display: flex; flex-direction: column; justify-content: {{ ['start' => 'flex-start', 'center' => 'center', 'end' => 'flex-end'][$column['vertical_align'] ?? 'start'] }}; padding: {{ (int) ($column['padding_y'] ?? 0) }}px {{ (int) ($column['padding_x'] ?? 0) }}px; margin: {{ (int) ($column['margin_y'] ?? 0) }}px {{ (int) ($column['margin_x'] ?? 0) }}px;">
+              <div class="landing-custom-column" style="grid-column: span {{ min($columnCount, max(1, (int) ($column['column_span'] ?? 1))) }}; display: flex; flex-direction: column; justify-content: {{ ['start' => 'flex-start', 'center' => 'center', 'end' => 'flex-end'][$column['vertical_align'] ?? 'start'] }}; padding: {{ (int) ($column['padding_y'] ?? 0) }}px {{ (int) ($column['padding_x'] ?? 0) }}px; margin: {{ (int) ($column['margin_y'] ?? 0) }}px {{ (int) ($column['margin_x'] ?? 0) }}px;">
                 @if(($column['type'] ?? 'text') === 'image')
                   @if(!empty($column['image']))<img src="{{ asset($column['image']) }}" alt="{{ $column['alt'] ?? 'Section image' }}" loading="lazy" style="width: {{ max(20, min(100, (int) ($column['image_size'] ?? 100))) }}%; margin: {{ (int) ($imageStyle['margin'] ?? 0) }}px auto; padding: {{ (int) ($imageStyle['padding'] ?? 0) }}px;">@endif
                 @elseif(($column['type'] ?? 'text') === 'button')
