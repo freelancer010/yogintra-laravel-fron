@@ -2,214 +2,113 @@
 
 @extends('layouts.layout')
 
-@section('meta_title', 'Informative Yoga & Wellness Blogs | YogIntra')
-@section('meta_description', 'This blog is about my yoga journey. It started decades ago and has no end.')
-@section('meta_keywords', 'Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai.')
+@section('meta_title', 'Yoga, Wellness & Mindful Living Journal | YogIntra')
+@section('meta_description', 'Practical yoga, wellness, mindfulness and healthy-living guidance from the YogIntra team.')
+@section('meta_keywords', 'yoga blog, wellness blog, mindfulness, yoga tips, online yoga classes India, yoga classes Mumbai')
 
 @push('styles')
     <style>
-        .blog-card {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
-        }
-
-        .blog-card.animate {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .blog-card article.post {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .blog-card:hover article.post {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
-
-        /* Default state for missing images */
-        .post-thumb {
-            position: relative;
-            background: #f8f8f8;
-            min-height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .post-thumb:empty::before {
-            content: 'BLOG';
-            font-size: 24px;
-            font-weight: bold;
-            color: #ddd;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Stagger delay for cards */
-        .blog-card:nth-child(1) { transition-delay: 0.1s; }
-        .blog-card:nth-child(2) { transition-delay: 0.2s; }
-        .blog-card:nth-child(3) { transition-delay: 0.3s; }
-        .blog-card:nth-child(4) { transition-delay: 0.4s; }
-        .blog-card:nth-child(5) { transition-delay: 0.5s; }
-        .blog-card:nth-child(6) { transition-delay: 0.6s; }
-
-        /* Smooth transition for all hover effects */
-        article.post {
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        article.post:hover .post-thumb img {
-            transform: scale(1.05);
-        }
-
-        .post-thumb {
-            overflow: hidden;
-        }
-
-        .post-thumb img {
-            transition: transform 0.5s ease;
-        }
-
-        .btn-read-more {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-read-more:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: currentColor;
-            transition: width 0.3s ease;
-        }
-
-        .btn-read-more:hover:after {
-            width: 100%;
-        }
+        .blog-index { background: #f6faf9; }
+        .blog-index-hero { position: relative; min-height: 330px; display: flex; align-items: center; overflow: hidden; background: #123f49 url('{{ asset('assets/front/images/bg/bg6.jpg') }}') center/cover no-repeat; }
+        .blog-index-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, rgba(9,45,54,.92), rgba(12,82,91,.7)); }
+        .blog-index-hero .container { position: relative; z-index: 1; }
+        .blog-index-kicker { display: inline-flex; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,.14); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+        .blog-index-title { color: #fff; font-size: clamp(34px, 5vw, 56px); line-height: 1.1; font-weight: 700; margin: 16px 0 12px; }
+        .blog-index-intro { max-width: 640px; color: rgba(255,255,255,.9); font-size: 18px; line-height: 1.65; margin: 0; }
+        .blog-index-breadcrumb { margin: 20px 0 0; padding: 0; list-style: none; color: rgba(255,255,255,.72); }
+        .blog-index-breadcrumb li { display: inline; }
+        .blog-index-breadcrumb li + li::before { content: '/'; margin: 0 9px; opacity: .75; }
+        .blog-index-breadcrumb a { color: #fff; }
+        .blog-index-content { padding: 70px 0 80px; }
+        .blog-index-heading { max-width: 700px; margin: 0 auto 40px; text-align: center; }
+        .blog-index-heading h2 { margin: 0 0 10px; color: #153f49; font-size: clamp(27px, 3vw, 38px); font-weight: 700; }
+        .blog-index-heading p { margin: 0; color: #647b82; font-size: 17px; line-height: 1.6; }
+        .blog-posts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+        .blog-posts .blog-card { float: none; width: auto; min-width: 0; padding: 0; margin: 0; }
+        .blog-card .post { display: flex; flex-direction: column; height: 100%; margin: 0; overflow: hidden; border: 1px solid #dce8e8; border-radius: 18px; background: #fff; box-shadow: 0 8px 22px rgba(20,63,73,.07); transition: transform .25s ease, box-shadow .25s ease; }
+        .blog-card .post:hover { transform: translateY(-7px); box-shadow: 0 18px 38px rgba(20,63,73,.14); }
+        .blog-card .post-thumb { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: linear-gradient(135deg, #dbeeed, #b9d8d2); }
+        .blog-card .post-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+        .blog-card .post:hover .post-thumb img { transform: scale(1.06); }
+        .blog-card .post-thumb-fallback { display: flex; align-items: center; justify-content: center; height: 100%; padding: 24px; color: #153f49; font-size: 19px; font-weight: 700; line-height: 1.35; text-align: center; }
+        .blog-card .entry-content { display: flex; flex: 1; flex-direction: column; padding: 24px; border: 0; }
+        .blog-card .entry-meta { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; color: #65808a; font-size: 13px; }
+        .blog-card .entry-date { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: 7px; background: #e8f5f3; color: #107c87; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+        .blog-card .entry-category { color: #647b82; font-size: 13px; font-weight: 600; }
+        .blog-card .entry-title { margin: 0 0 13px; color: #153f49; font-size: 21px; font-weight: 700; line-height: 1.34; }
+        .blog-card .entry-title a { color: inherit; }
+        .blog-card .entry-title a:hover { color: #10828d; }
+        .blog-card .entry-excerpt { margin: 0 0 22px; color: #62767d; font-size: 15px; line-height: 1.65; }
+        .blog-card .btn-read-more { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; margin-top: auto; color: #10828d; font-size: 14px; font-weight: 700; }
+        .blog-card .btn-read-more::after { content: '→'; font-size: 19px; line-height: 1; transition: transform .2s ease; }
+        .blog-card .btn-read-more:hover::after { transform: translateX(4px); }
+        .blog-index-empty { max-width: 620px; margin: 0 auto; padding: 52px 30px; border: 1px dashed #b9d1d1; border-radius: 18px; background: #fff; color: #647b82; text-align: center; }
+        .blog-index-empty h2 { margin: 0 0 8px; color: #153f49; font-size: 25px; }
+        @media (max-width: 991px) { .blog-posts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 767px) { .blog-index-hero { min-height: 285px; } .blog-index-content { padding: 48px 0 58px; } .blog-posts { grid-template-columns: 1fr; gap: 20px; } .blog-card .entry-content { padding: 21px; } }
+        @media (prefers-reduced-motion: reduce) { .blog-card .post, .blog-card .post-thumb img { transition: none; } }
     </style>
 @endpush
 
 @section('content')
-
-<section class="inner-header divider parallax layer-overlay overlay-dark-7"
-    style="background-image: url('{{ asset('assets/front/images/bg/bg6.jpg') }}'); background-position: 50% 45px; height: 300px;">
-    <div class="container pt-60 pb-60">
-        <div class="section-content">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h1 class="title text-white">Blog</h1>
-                    <ol class="breadcrumb text-center mt-10">
-                        <li><a class="text-white" href="{{ url('/') }}">Home</a></li>
-                        <li class="active text-gray">All Blog</li>
-                    </ol>
-                </div>
-            </div>
+<main class="blog-index">
+    <section class="blog-index-hero" aria-labelledby="blog-page-title">
+        <div class="container">
+            <span class="blog-index-kicker">YogIntra journal</span>
+            <h1 class="blog-index-title" id="blog-page-title">Yoga, wellness &amp; mindful living</h1>
+            <p class="blog-index-intro">Practical ideas, gentle guidance and useful inspiration for a healthier everyday practice.</p>
+            <ol class="blog-index-breadcrumb" aria-label="Breadcrumb">
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li aria-current="page">Blog</li>
+            </ol>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Section: Blog Grid -->
-<section>
-    <div class="container">
-        <div class="row multi-row-clearfix">
-            <div class="blog-posts">
-                @foreach ($get_all_blog as $all_blog)
-                    <div class="col-md-4 blog-card">
-                        <article class="post clearfix mb-30 bg-lighter">
-                            <a href="{{ url('/blog/' . $all_blog->blog_slug) }}">
-                                <div class="entry-header">
-                                    <div class="post-thumb thumb">
-                                        @if($all_blog->blog_image)
-                                            <img style="height:150px;object-fit: cover;object-position: top center;" class="img-responsive img-fullwidth"
-                                                src="{{ asset($all_blog->blog_image) }}"
-                                                alt="{{ $all_blog->blog_title }}"
-                                                onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\'default-blog-text\' style=\'height:150px;display:flex;align-items:center;justify-content:center;background:#f8f8f8;padding:15px;text-align:center;\'><span style=\'font-size:18px;font-weight:500;color:#666;line-height:1.4;\'>' + this.alt + '</span></div>'">
-                                        @else
-                                            <div class="default-blog-text" style="height:150px;display:flex;align-items:center;justify-content:center;background:#f8f8f8;padding:15px;text-align:center;">
-                                                <span style="font-size:18px;font-weight:500;color:#666;line-height:1.4;">{{ $all_blog->blog_title }}</span>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="entry-content border-1px p-20 pr-10">
-                                <div class="entry-meta media mt-0 no-bg no-border">
-                                    <div class="entry-date media-left text-center flip pt-5 pr-15 pb-5 pl-15">
-                                        <ul>
-                                            <li class="font-16 font-weight-600 text-primary">{{ \Carbon\Carbon::parse($all_blog->created_at)->format('d') }}</li>
-                                            <li class="font-12 text-uppercase text-primary">{{ \Carbon\Carbon::parse($all_blog->created_at)->format('M') }}</li>
-                                        </ul>
-                                    </div>
-                                    <div class="media-body pl-15">
-                                        <div class="event-content pull-left flip">
-                                            <h4 class="entry-title text-white text-uppercase m-0 mt-5">
-                                                <a class="elipse-text" href="{{ url('/blog/' . $all_blog->blog_slug) }}">
-                                                    {{ \Illuminate\Support\Str::limit($all_blog->blog_title, 50, '...') }}
-                                                </a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="mt-10 elipse-text">{{ $all_blog->blog_short_description }}</p>
-                                <a href="{{ url('/blog/' . $all_blog->blog_slug) }}" class="btn-read-more">Read more</a>
-                                <div class="clearfix"></div>
+    <section class="blog-index-content" aria-labelledby="latest-stories-title">
+        <div class="container">
+            <header class="blog-index-heading">
+                <h2 id="latest-stories-title">Latest stories</h2>
+                <p>Explore yoga practices, wellbeing advice and simple ways to feel more balanced.</p>
+            </header>
+
+            @forelse ($get_all_blog as $all_blog)
+                @if ($loop->first)<div class="blog-posts">@endif
+                <div class="blog-card">
+                    <article class="post">
+                        <a href="{{ url('/blog/' . $all_blog->blog_slug) }}" aria-label="Read {{ $all_blog->blog_title }}">
+                            <div class="post-thumb">
+                                @if ($all_blog->blog_image)
+                                    <img src="{{ asset($all_blog->blog_image) }}" alt="{{ $all_blog->blog_title }}" loading="lazy" decoding="async">
+                                @else
+                                    <div class="post-thumb-fallback">{{ Str::limit($all_blog->blog_title, 72) }}</div>
+                                @endif
                             </div>
-                        </article>
-                    </div>
-                @endforeach
-            </div>
-        </div>
+                        </a>
+                        <div class="entry-content">
+                            <div class="entry-meta">
+                                <time class="entry-date" datetime="{{ optional($all_blog->created_at)->toDateString() }}">{{ \Carbon\Carbon::parse($all_blog->created_at)->format('d M Y') }}</time>
+                                @if ($all_blog->category)
+                                    <span class="entry-category">{{ $all_blog->category->category_name }}</span>
+                                @endif
+                            </div>
+                            <h2 class="entry-title"><a href="{{ url('/blog/' . $all_blog->blog_slug) }}">{{ Str::limit($all_blog->blog_title, 72) }}</a></h2>
+                            <p class="entry-excerpt">{{ Str::limit(trim(strip_tags($all_blog->blog_short_description ?: $all_blog->blog_content)), 155) }}</p>
+                            <a href="{{ url('/blog/' . $all_blog->blog_slug) }}" class="btn-read-more">Read article</a>
+                        </div>
+                    </article>
+                </div>
+                @if ($loop->last)</div>@endif
+            @empty
+                <div class="blog-index-empty">
+                    <h2>New articles are on their way</h2>
+                    <p>Please check back soon for practical yoga and wellness guidance.</p>
+                </div>
+            @endforelse
 
-        @if ($get_all_blog instanceof \Illuminate\Contracts\Pagination\Paginator && $get_all_blog->hasPages())
-        <div class="row">
-            <div class="col-md-12 text-center mt-30 mb-30">
-                {{ $get_all_blog->links('pagination::bootstrap-4') }}
-            </div>
+            @if ($get_all_blog instanceof \Illuminate\Contracts\Pagination\Paginator && $get_all_blog->hasPages())
+                <div class="row"><div class="col-md-12 text-center mt-40">{{ $get_all_blog->links('pagination::bootstrap-4') }}</div></div>
+            @endif
         </div>
-        @endif
-    </div>
-</section>
+    </section>
+</main>
 @endsection
-
-@push('scripts')
-    <script>
-        // Animate blog cards when they come into view
-        document.addEventListener('DOMContentLoaded', function() {
-            var cards = document.querySelectorAll('.blog-card');
-            var isMobile = window.innerWidth <= 767;
-            
-            // On mobile, show all cards immediately (disable animation)
-            if(isMobile) {
-                cards.forEach(function(card) {
-                    card.classList.add('animate');
-                });
-            } else {
-                // On desktop, use scroll animation
-                function checkCards() {
-                    cards.forEach(function(card) {
-                        var cardPosition = card.getBoundingClientRect().top;
-                        var screenPosition = window.innerHeight - 50;
-                        
-                        if(cardPosition < screenPosition) {
-                            card.classList.add('animate');
-                        }
-                    });
-                }
-
-                // Check cards on load
-                checkCards();
-
-                // Check cards on scroll
-                window.addEventListener('scroll', checkCards);
-            }
-        });
-    </script>
-@endpush

@@ -23,7 +23,7 @@ class Blog extends Model
 
     public static function getAllBlogsForHomePage($perPage = 12)
     {
-        return self::orderBy('blog_id', 'desc')->paginate($perPage);
+        return self::with('category')->orderBy('blog_id', 'desc')->paginate($perPage);
     }
 
     public static function getAllBlogCategory()
