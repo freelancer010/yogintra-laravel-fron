@@ -499,7 +499,9 @@
       }
       const deleteSectionButton = document.createElement('button');
       deleteSectionButton.type = 'button'; deleteSectionButton.className = 'preview-section-delete'; deleteSectionButton.title = 'Delete section'; deleteSectionButton.setAttribute('aria-label', 'Delete section'); deleteSectionButton.textContent = '×';
-      deleteSectionButton.addEventListener('click', event => { event.stopPropagation(); card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); });
+      const deleteSection = event => { event.preventDefault(); event.stopImmediatePropagation(); if (!card.isConnected) return; card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); };
+      deleteSectionButton.addEventListener('pointerdown', deleteSection, true);
+      deleteSectionButton.addEventListener('click', deleteSection, true);
       previewSection.appendChild(deleteSectionButton);
       previewSection.querySelectorAll('[data-column-extra]').forEach(button => button.addEventListener('click', event => {
         event.stopPropagation();
