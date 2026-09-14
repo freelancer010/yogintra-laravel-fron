@@ -49,51 +49,21 @@
     <!-- FOR PWA MANIFEST -->
     <link rel="manifest" href="{{ asset('manifest.json')}}">
 
-    <!-- Critical CSS for FCP -->
-    <link rel="preload" href="{{ asset('assets/front/css/bootstrap.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link href="{{ asset('assets/front/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
-    <noscript><link href="{{ asset('assets/front/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"></noscript>
-    
-    <!-- Defer non-critical CSS -->
-    <link rel="preload" href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet" media="all"></noscript>
-
-    <link rel="preload" href="{{ asset('assets/front/css/menuzord-megamenu.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link href="{{ asset('assets/front/css/menuzord-megamenu.min.css')}}" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="{{ asset('assets/front/css/menuzord-megamenu.min.css')}}" rel="stylesheet"></noscript>
-
-    <link id="menuzord-menu-skins" rel="preload" href="{{ asset('assets/front/css/menuzord-skins/menuzord-bottom-trace.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link id="menuzord-menu-skins" href="{{ asset('assets/front/css/menuzord-skins/menuzord-bottom-trace.min.css')}}" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link id="menuzord-menu-skins" href="{{ asset('assets/front/css/menuzord-skins/menuzord-bottom-trace.min.css')}}" rel="stylesheet"></noscript>
-
-    <!-- FONTS -->
-    <link rel="preload" href="{{ asset('assets/front/css/font-awesome.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="{{ asset('assets/front/css/font-awesome.min.css') }}" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/font-awesome.min.css') }}"></noscript>
-
-    <link rel="preload" href="{{ asset('assets/front/css/utility-classes.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="{{ asset('assets/front/css/utility-classes.min.css') }}" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/utility-classes.min.css') }}"></noscript>
+    {{-- These styles are render-critical. Loading them as print media caused a visible
+       unstyled first paint and a very large cumulative layout shift. --}}
+    <link href="{{ asset('assets/front/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/css/menuzord-megamenu.min.css')}}" rel="stylesheet" type="text/css">
+    <link id="menuzord-menu-skins" href="{{ asset('assets/front/css/menuzord-skins/menuzord-bottom-trace.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/css/utility-classes.min.css') }}" rel="stylesheet" type="text/css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap">
 
-    <!-- MAIN CSS - Deferred for better FCP -->
-    <link rel="preload" href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
-    <noscript><link href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" rel="stylesheet" type="text/css" media="all"></noscript>
-
-    <link rel="preload" href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
-    <noscript><link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css"></noscript>
-
-    <link rel="preload" href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
-    <noscript><link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css" media="all"></noscript>
-
-    <link rel="preload" href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
-    <noscript><link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css"></noscript>
+    <link href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css">
     
     <!-- Critical CSS for FCP on Mobile -->
     <style>
