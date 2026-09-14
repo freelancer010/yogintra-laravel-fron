@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
-@section('meta_title', 'Terms and Conditions | YogIntra')
-@section('meta_description', 'Read the terms and conditions of using YogIntra, the Best Yoga Institute In India, for online and personal home yoga training.')
+@section('meta_title', 'Terms & Conditions | Yoga Services, Booking & Policies')
+@section('meta_description', 'Read YogIntra’s Terms & Conditions covering yoga classes, bookings, payments, cancellations, refunds, user responsibilities, online sessions and website usage.')
 @section('meta_keywords', 'Terms and Conditions, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Personal Yoga Trainer at Home')
 @section('meta_author', 'YogIntra')
 
@@ -34,6 +34,7 @@
             <div class="entry-content border-1px p-20 pr-10">
               <div class="entry-meta media mt-0 no-bg no-border">
                 <h2 class="text-center">Terms and Conditions</h2>
+                <p class="text-center"><strong>Last Updated: September 14, 2026</strong></p>
 
                 <p>Welcome to YogIntra. These terms and conditions outline the rules and regulations for the use of YogIntra’s Website, located at https://www.yogintra.com.</p>
 

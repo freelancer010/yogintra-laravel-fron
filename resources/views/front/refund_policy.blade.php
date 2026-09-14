@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
-@section('meta_title', 'Refund Policy | YogIntra')
-@section('meta_description', 'Elevate your mind and body with YogIntra the Best Yoga Institute In India, providing Online and personal home visit Yoga.')
+@section('meta_title', 'Refund Policy | Yoga Classes & Services Refunds – YogIntra')
+@section('meta_description', 'Read YogIntra’s Refund Policy for yoga services, workshops, retreats, TTC, cancellations, rescheduling, payment refunds, eligibility and refund processing.')
 @section('meta_keywords', 'Refund Policy, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai, Yoga Teacher Training Courses.')
 @section('meta_author', 'YogIntra')
 
@@ -34,6 +34,7 @@
             <div class="entry-content border-1px p-20 pr-10">
               <div class="entry-meta media mt-0 no-bg no-border">
                 <h2 class="text-center">Refund Policy</h2>
+                <p class="text-center"><strong>Last Updated: September 14, 2026</strong></p>
 
                 <p>Personal Training sessions paid for in advance will not be refunded. Our refund policy for physical products sold through our website lasts 30 days. If 30 days have gone by since your purchase, unfortunately we can’t offer you a refund or exchange.</p>
 

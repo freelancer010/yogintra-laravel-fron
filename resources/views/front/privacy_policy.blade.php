@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
-@section('meta_title', 'Privacy Policy | YogIntra')
-@section('meta_description', 'Elevate your mind and body with YogIntra the Best Yoga Institute In India, providing Online and personal home visit Yoga.')
+@section('meta_title', 'Privacy Policy | Data Protection & User Privacy - YogIntra')
+@section('meta_description', 'Read YogIntra’s Privacy Policy to learn how we collect, use, protect and manage personal information from bookings, enquiries, payments and website visitors.')
 @section('meta_keywords', 'Privacy Policy, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai, Yoga Teacher Training Courses.')
 @section('meta_author', 'YogIntra')
 
@@ -34,6 +34,7 @@
             <div class="entry-content border-1px p-20 pr-10">
               <div class="entry-meta media mt-0 no-bg no-border">
                 <h2 class="text-center">Privacy Policy</h2>
+                <p class="text-center"><strong>Last Updated: September 14, 2026</strong></p>
 
                 <p>This Privacy Policy describes how your personal information is collected, used, and shared when you visit or make a purchase from https://www.yogintra.com/ (the “Site”).</p>
                 <p><strong>PERSONAL INFORMATION WE COLLECT</strong></p>

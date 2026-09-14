@@ -520,7 +520,7 @@
                         <h2>About Founder:</h2>
                     </div>
                     <div class="text">
-                        Mr. Amit Pandey started his journey of yoga back in 2005 as student in Yogic science and then he understood Yoga is the only way he would be able to help people bring smiles back on their faces in this struggling and fast life. He served few years Internationally as a Yoga trainer but coming back to India during his visit a few years back, a thought him hard “Charity begins at home.” And then he never went back thinking about people here need know about Yoga and Yoga Benefits.
+                        Mr. Amit Pandey embarked on his yoga journey in 2009 as a student of Yogic science. It was during this time that he realized yoga was the key to helping people rediscover their smiles in this hectic and challenging world. After spending a few years abroad as a yoga trainer, he returned to India during a visit a few years ago and was struck by a powerful thought: “Charity begins at home.” From that moment on, he dedicated himself to sharing the knowledge of yoga and its benefits with those in his own community.
                     </div>
                     <div class="btn-box">
                         <a href="{{ url('/contact') }}" class="theme-btn btn-style-one">Contact Us</a>
@@ -542,7 +542,10 @@
                 <div class="col-md-8 text-xs-center">
                     <h2 class="mt-40 text-xs-center">About YogIntra:</h2>
                     <p class="text-size">
-                     Back In 2011, Started with a thought to make common people experience Yoga in their busy schedule, YogIntra is now nationally and internationally building community to help people stay healthy with a numerous Yoga Experts for all age group and gender. YogIntra comes from two words Yog and Intra, where yog comes from Sanskrit word “Yuj” Which Means connection between “Soul” (Aatma) and “God”(Parmatma) And Intra is an English Word Which Means Within. YogIntra is the connection between the soul and God within oneself.
+                     Back in 2011, YogIntra started with a simple thought: to make yoga accessible to everyday people, even with their busy schedules. Today, YogIntra is building a community nationally and internationally, helping people of all ages and genders stay healthy, active, and connected through yoga.
+                  </p>
+                  <p class="text-size">
+                     The name YogIntra comes from two words: “Yog” and “Intra.” The word “Yog” comes from the Sanskrit word “Yuj,” which means connection or union between the soul (Aatma) and God (Parmatma). “Intra” is an English word that refers to something within. Together, YogIntra represents the connection between the soul and the divine within oneself. At its heart, YogIntra is about bringing yoga into everyday life and helping people discover greater balance, wellness, and inner connection.
                   </p>
                 </div>
             </div>
@@ -557,8 +560,10 @@
         <div class="section-title">
             <div class="row">
                 <div class="col-md-5">
-                    <h2 class="mt-0 text-white">Why YogIntra?</h2>
-                    <p class="text-white">We at YogIntra look at our customers as our assets, hence we believe in serving them with utmost comfort and care. Within Mumbai we have more than 400 trainers teaching personally, online, workshops and Quick sessions. More than 200+ happy Customers, more than 50+ workshops in different cities and countries, Different online and offline sessions regarding Yoga and health awareness.</p>
+                    <h2 class="mt-0 text-white">Our Vision And Mission</h2>
+                    <p class="text-white">Our vision at YogIntra is to make yoga a natural and meaningful part of everyday life. We aim to build a global community where people of every age, gender, and background can experience the physical, mental, and emotional benefits of yoga.</p>
+                    <p class="text-white">We envision a healthier and more balanced world where yoga is accessible to everyone—whether at home, online, at the workplace, or in a yoga studio. Through trusted yoga experts, personalized guidance, and a welcoming community, we strive to help people build healthier habits, find inner balance, and connect with themselves.</p>
+                    <p class="text-white">YogIntra’s vision is simple: to connect people with yoga, connect the body with the mind, and ultimately help individuals discover the inner connection within themselves.</p>
                 </div>
             </div>
         </div>
