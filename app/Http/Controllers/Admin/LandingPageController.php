@@ -309,7 +309,11 @@ class LandingPageController extends Controller
 
             $blocks = json_decode($section['blocks'] ?? '[]', true);
             $blocks = is_array($blocks) ? $blocks : [];
-            foreach ($request->file("sections.$order.block_images", []) as $blockIndex => $blockImage) {
+            $blockUploads = data_get($request->allFiles(), "sections.$order.block_images", []);
+            foreach (is_array($blockUploads) ? $blockUploads : [] as $blockIndex => $blockImage) {
+                if (!$blockImage || !$blockImage->isValid()) {
+                    continue;
+                }
                 $blocks[$blockIndex] = $blocks[$blockIndex] ?? [];
                 $blocks[$blockIndex]['image'] = app(OptimizedImageUpload::class)->store($blockImage, 'uploads/landing-pages');
             }
