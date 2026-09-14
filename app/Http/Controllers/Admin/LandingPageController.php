@@ -98,6 +98,8 @@ class LandingPageController extends Controller
             'sections.*.card_alignment' => 'nullable|in:left,center,right',
             'sections.*.grid_gap' => 'nullable|integer|min:0|max:100',
             'sections.*.block_images.*' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
+        ], [
+            'sections.*.background_image.max' => 'Background image size limit exceeded. Please choose an image smaller than 5 MB, then upload again.',
         ]);
 
         $data = $request->only([
@@ -235,6 +237,8 @@ class LandingPageController extends Controller
             'sections.*.card_alignment' => 'nullable|in:left,center,right',
             'sections.*.grid_gap' => 'nullable|integer|min:0|max:100',
             'sections.*.block_images.*' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
+        ], [
+            'sections.*.background_image.max' => 'Background image size limit exceeded. Please choose an image smaller than 5 MB, then upload again.',
         ]);
 
         $page = DB::table('new_landing_page')->where('page_id', $id)->first();
