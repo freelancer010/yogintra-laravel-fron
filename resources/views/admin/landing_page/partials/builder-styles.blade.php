@@ -180,6 +180,12 @@
   .preview-feature-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:20px 34px; }
   .preview-feature { display:flex; gap:13px; align-items:flex-start; padding:12px; border-radius:8px; }
   .preview-feature.is-stacked { flex-direction:column; align-items:center; text-align:center; }
+  /* Empty-column sections inherit the selected section alignment. Unlike feature
+     cards, their list and supporting text must stretch across the column so the
+     editor matches the public page's normal left-aligned flow. */
+  .preview-custom-columns .preview-feature.is-stacked { align-items:stretch; }
+  .preview-custom-columns .preview-builder-list,
+  .preview-custom-columns .preview-column-support { align-self:stretch; }
   .preview-feature:hover { background:rgba(22,113,122,.06); }
   .preview-feature b { font-size:38px; line-height:1; color:#16717a; }
   .preview-feature img { width:82px; height:82px; object-fit:contain; border-radius:8px; }
