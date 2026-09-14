@@ -231,7 +231,13 @@
       render(); queueSnapshot(); return;
     }
     if (action === 'duplicate') { const copy = card.cloneNode(true); copy.dataset.builderId = ''; sections.insertBefore(copy, card.nextSibling); normalizeSectionIndexes(); render(); queueSnapshot(); return; }
-    if (action === 'delete') { card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); }
+    if (action === 'delete') {
+      if (target === 'heading' || target === 'content') { const field = getField(card, target); if (field) field.value = ''; render(); queueSnapshot(); return; }
+      const extraMatch = /^extra-(\d+)$/.exec(target);
+      const columnMatch = /^column-(\d+)-(title|text|small_text|bullets|image|button)$/.exec(target);
+      if (extraMatch) { const field = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(field.value || '[]'); } catch (_) {} elements.splice(Number(extraMatch[1]), 1); field.value = JSON.stringify(elements); render(); queueSnapshot(); return; }
+      if (columnMatch) { const field = getField(card, 'blocks'); let blocks = []; try { blocks = JSON.parse(field.value || '[]'); } catch (_) {} const block = blocks[Number(columnMatch[1])]; if (block) { if (['image', 'button'].includes(columnMatch[2])) blocks[Number(columnMatch[1])] = { type: 'empty', title: '', text: '' }; else block[columnMatch[2]] = ''; field.value = JSON.stringify(blocks); render(); queueSnapshot(); } return; }
+    }
   });
 
   function renderStyles(card, target = card.dataset.selectedTarget || 'section') {
@@ -491,6 +497,10 @@
         });
         previewSection.appendChild(sectionActions);
       }
+      const deleteSectionButton = document.createElement('button');
+      deleteSectionButton.type = 'button'; deleteSectionButton.className = 'preview-section-delete'; deleteSectionButton.title = 'Delete section'; deleteSectionButton.setAttribute('aria-label', 'Delete section'); deleteSectionButton.textContent = '×';
+      deleteSectionButton.addEventListener('click', event => { event.stopPropagation(); card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); });
+      previewSection.appendChild(deleteSectionButton);
       previewSection.querySelectorAll('[data-column-extra]').forEach(button => button.addEventListener('click', event => {
         event.stopPropagation();
         const column = blocks[Number(button.dataset.columnExtra)];
