@@ -72,7 +72,7 @@
                                 <a href="{{ url('/trainers') }}">Trainer</a>
                             </li>
                             <li class="{{ request()->segment(1) == 'become-yoga-trainer' ? 'active' : '' }}">
-                                <a href="{{ url('/become-yoga-trainer') }}">Hire</a>
+                                <a href="{{ url('/become-yoga-trainer') }}">Yoga Job</a>
                             </li>
                             <li class="{{ request()->segment(1) == 'contact' ? 'active' : '' }}">
                                 <a href="{{ url('/contact') }}">Contact</a>
