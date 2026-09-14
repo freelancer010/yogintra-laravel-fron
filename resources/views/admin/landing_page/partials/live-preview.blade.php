@@ -231,12 +231,7 @@
       render(); queueSnapshot(); return;
     }
     if (action === 'duplicate') { const copy = card.cloneNode(true); copy.dataset.builderId = ''; sections.insertBefore(copy, card.nextSibling); normalizeSectionIndexes(); render(); queueSnapshot(); return; }
-    if (action === 'delete') {
-      if (target === 'heading' || target === 'content') { const field = getField(card, target); if (field) { field.value = ''; render(); queueSnapshot(); } return; }
-      const extraMatch = /^extra-(\d+)$/.exec(target);
-      if (extraMatch) { const field = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(field.value || '[]'); } catch (_) {} elements.splice(Number(extraMatch[1]), 1); field.value = JSON.stringify(elements); render(); queueSnapshot(); return; }
-      card.remove(); normalizeSectionIndexes(); render(); queueSnapshot();
-    }
+    if (action === 'delete') { card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); }
   });
 
   function renderStyles(card, target = card.dataset.selectedTarget || 'section') {
