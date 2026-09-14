@@ -205,7 +205,7 @@
   .preview-custom-columns .preview-builder-list,
   .preview-custom-columns .preview-column-support { align-self:stretch; }
   .preview-custom-columns-wrap { position:relative; }
-  .preview-column-divider { position:absolute; z-index:3; top:50%; right:-19px; width:30px; height:30px; transform:translateY(-50%); border:1px solid #16717a; border-radius:50%; background:#fff; color:#16717a; font-size:21px; line-height:1; box-shadow:0 3px 11px rgba(22,113,122,.18); opacity:0; cursor:pointer; transition:.16s ease; }
+  .preview-column-divider { position:absolute; z-index:3; top:50%; right:8px; width:30px; height:30px; transform:translateY(-50%); border:1px solid #16717a; border-radius:50%; background:#fff; color:#16717a; font-size:21px; line-height:1; box-shadow:0 3px 11px rgba(22,113,122,.18); opacity:0; cursor:pointer; transition:.16s ease; }
   .preview-custom-columns-wrap:hover .preview-column-divider, .preview-section:focus-within .preview-column-divider { opacity:1; }
   .preview-section-actions { position:absolute; z-index:5; right:14px; bottom:12px; opacity:0; transform:translateY(5px); transition:.16s ease; }
   .preview-section:hover .preview-section-actions, .preview-section:focus-within .preview-section-actions, .preview-section-actions.is-open { opacity:1; transform:translateY(0); }
