@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Models\Setting;
@@ -50,9 +51,36 @@ class HomeController extends Controller
         $app_setting = Setting::first();
         $all_slider = Slider::all();
         
-        $all_trainer = collect(Http::get($this->api . '/get_all_trainer_limit')->json())->map(function ($trainer) {
-            return (object) $trainer;
-        });
+        // The trainer list comes from a separate CRM. Do not make every homepage
+        // visitor wait on that remote service; retain the last successful list if it
+        // is temporarily unavailable.
+        $all_trainer = Cache::get('homepage.trainers.current');
+
+        if ($all_trainer === null) {
+            try {
+                $response = Http::acceptJson()
+                    ->connectTimeout(2)
+                    ->timeout(5)
+                    ->get($this->api . '/get_all_trainer_limit');
+
+                $trainerPayload = $response->json();
+                $trainers = $response->successful() && is_array($trainerPayload)
+                    ? collect($trainerPayload)->map(fn ($trainer) => (object) $trainer)
+                    : null;
+
+                if ($trainers === null) {
+                    throw new \RuntimeException('The trainer API returned an invalid response.');
+                }
+
+                Cache::put('homepage.trainers.current', $trainers, now()->addMinutes(10));
+                Cache::put('homepage.trainers.last_successful', $trainers, now()->addDay());
+                $all_trainer = $trainers;
+            } catch (\Throwable $exception) {
+                report($exception);
+                $all_trainer = Cache::get('homepage.trainers.last_successful', collect());
+                Cache::put('homepage.trainers.current', $all_trainer, now()->addMinute());
+            }
+        }
     
         $section_1 = Front::getOurFeaturesHeading();
         $section_1_content = Front::getAllOurFeatures();

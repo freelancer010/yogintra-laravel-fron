@@ -28,12 +28,12 @@
 @endpush
 @push('styles')
     @if(($app_setting->hero_media_type ?? 'slider') === 'slider' && count($all_slider) > 0)
-        <link rel="preload" as="image" href="{{ asset($all_slider[0]->slider_image) }}" fetchpriority="high">
+        <link rel="preload" as="image" href="{{ asset($all_slider[0]->slider_image) }}" media="(min-width: 768px)" fetchpriority="high">
+        <link rel="preload" as="image" href="{{ asset('assets/Mobile-Banner-new.webp') }}" media="(max-width: 767px)" fetchpriority="high">
     @endif
     @if(($app_setting->hero_media_type ?? 'slider') === 'video' && $heroPoster)
         <link rel="preload" as="image" href="{{ asset($heroPoster) }}" fetchpriority="high">
     @endif
-    <link rel="preload" as="image" href="{{ asset('uploads/6501ab36d6f70Rectrangular-logo-2.png') }}" type="image/png">
     <style>
         .img-circle {
             max-width: 90% !important;
@@ -563,9 +563,6 @@
   </style>
 @endpush
 @section('content')
-    {{-- Preload the mobile banner image for faster paint --}}
-    <link rel="preload" as="image" href="{{ asset('assets/Mobile-Banner-new.webp') }}" fetchpriority="high" />
-
     <section id="home" class="divider {{ (($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video)) ? 'hero-video-home' : '' }}">
         @if(($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video))
             @php
@@ -585,10 +582,23 @@
                         var video = document.querySelector('.hero-background-video');
                         var source = video && video.querySelector('source[data-src]');
                         if (!video || !source) return;
-                        source.src = source.dataset.src;
-                        video.autoplay = true;
-                        video.load();
-                        video.play().catch(function () {});
+                        var startVideo = function () {
+                            var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                            if (connection && (connection.saveData || /(^|-)2g/.test(connection.effectiveType || ''))) return;
+
+                            source.src = source.dataset.src;
+                            video.autoplay = true;
+                            video.load();
+                            video.play().catch(function () {});
+                        };
+
+                        // Keep the lightweight poster as the first visual paint, then
+                        // begin the large background video once the browser is idle.
+                        if ('requestIdleCallback' in window) {
+                            window.requestIdleCallback(startVideo, { timeout: 2500 });
+                        } else {
+                            window.setTimeout(startVideo, 1500);
+                        }
 
                         var showPosterFallback = function () {
                             video.style.display = 'none';
@@ -629,17 +639,31 @@
                 @endif
 
                 <div class="carousel-item bg-img-cover">
-                    <img
-                        src="{{ asset($slider->slider_image) }}"
-                        srcset="{{ asset($slider->slider_image) }} 1519w"
-                        sizes="(max-width: 767px) 100vw, 1519px"
-                        width="1519"
-                        height="854"
-                        loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
-                        decoding="async"
-                        fetchpriority="{{ $index === 0 ? 'high' : 'auto' }}"
-                        alt="YogIntra - {{ $slider->slider_heading }}"
-                    >
+                    @if ($index === 0)
+                        <picture>
+                            <source media="(max-width: 767px)" srcset="{{ asset('assets/Mobile-Banner-new.webp') }}">
+                            <img
+                                src="{{ asset($slider->slider_image) }}"
+                                srcset="{{ asset($slider->slider_image) }} 1519w"
+                                sizes="(max-width: 767px) 100vw, 1519px"
+                                width="1519"
+                                height="854"
+                                loading="eager"
+                                decoding="async"
+                                fetchpriority="high"
+                                alt="YogIntra - {{ $slider->slider_heading }}"
+                            >
+                        </picture>
+                    @else
+                        <img
+                            src="{{ asset($slider->slider_image) }}"
+                            width="1519"
+                            height="854"
+                            loading="lazy"
+                            decoding="async"
+                            alt="YogIntra - {{ $slider->slider_heading }}"
+                        >
+                    @endif
                     <div class="overlay"></div>
                     <div class="display-table display-table-absolute">
                         <div class="display-table-cell">
