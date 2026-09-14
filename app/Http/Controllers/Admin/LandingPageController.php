@@ -73,6 +73,9 @@ class LandingPageController extends Controller
             'sections.*.button_text' => 'nullable|string|max:100',
             'sections.*.button_url' => 'nullable|url|max:500',
             'sections.*.background_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
+            'sections.*.background_image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
+            'sections.*.background_position' => 'nullable|in:left,center,right,top,bottom',
+            'sections.*.background_parallax' => 'nullable|boolean',
             'sections.*.image_position' => 'nullable|in:left,right',
             'sections.*.image_size' => 'nullable|integer|min:20|max:100',
             'sections.*.padding_x' => 'nullable|integer|min:0|max:160',
@@ -204,6 +207,9 @@ class LandingPageController extends Controller
             'sections.*.button_text' => 'nullable|string|max:100',
             'sections.*.button_url' => 'nullable|url|max:500',
             'sections.*.background_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
+            'sections.*.background_image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
+            'sections.*.background_position' => 'nullable|in:left,center,right,top,bottom',
+            'sections.*.background_parallax' => 'nullable|boolean',
             'sections.*.image_position' => 'nullable|in:left,right',
             'sections.*.image_size' => 'nullable|integer|min:20|max:100',
             'sections.*.padding_x' => 'nullable|integer|min:0|max:160',
@@ -282,9 +288,13 @@ class LandingPageController extends Controller
     {
         foreach ($request->input('sections', []) as $order => $section) {
             $imagePath = $section['existing_image'] ?? null;
+            $backgroundImagePath = $section['existing_background_image'] ?? null;
 
             if ($request->hasFile("sections.$order.image")) {
                 $imagePath = app(OptimizedImageUpload::class)->store($request->file("sections.$order.image"), 'uploads/landing-pages');
+            }
+            if ($request->hasFile("sections.$order.background_image")) {
+                $backgroundImagePath = app(OptimizedImageUpload::class)->store($request->file("sections.$order.background_image"), 'uploads/landing-pages');
             }
 
             $blocks = json_decode($section['blocks'] ?? '[]', true);
@@ -304,6 +314,9 @@ class LandingPageController extends Controller
                 'button_text' => $section['button_text'] ?? null,
                 'button_url' => $section['button_url'] ?? null,
                 'background_color' => $section['background_color'] ?? null,
+                'background_image' => $backgroundImagePath,
+                'background_position' => $section['background_position'] ?? 'center',
+                'background_parallax' => !empty($section['background_parallax']),
                 'image_position' => $section['image_position'] ?? 'left',
                 'image_size' => $section['image_size'] ?? ($section['section_type'] === 'image' ? 100 : 42),
                 'padding_x' => $section['padding_x'] ?? 0,

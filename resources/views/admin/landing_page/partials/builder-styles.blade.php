@@ -125,6 +125,16 @@
   .preview-section-copy p { white-space:pre-line; margin:0; line-height:1.6; }
   .preview-section [contenteditable]:focus, .preview-section [contenteditable].is-editing { outline:2px solid #35a5b0; outline-offset:4px; border-radius:4px; }
   .preview-section [contenteditable]:hover { outline:1px dashed #35a5b0; outline-offset:4px; border-radius:4px; }
+  .builder-link-popup { display:none; position:absolute; z-index:1100; width:290px; padding:12px; border:1px solid #b9dfe0; border-radius:10px; background:#fff; box-shadow:0 14px 32px rgba(14,60,68,.22); }
+  .builder-link-popup.is-open { display:grid; gap:8px; }
+  .builder-link-popup label { display:grid; gap:4px; font-size:12px; font-weight:800; color:#355861; }
+  .builder-link-popup input[type=url] { width:100%; border:1px solid #c9dde1; border-radius:6px; padding:7px 8px; font-size:12px; }
+  .builder-link-popup .builder-link-new-tab { display:block; font-weight:600; }
+  .builder-link-popup button { border:0; border-radius:6px; padding:7px 9px; font-size:12px; font-weight:800; background:#16717a; color:#fff; }
+  .builder-link-popup .builder-link-cancel { background:#e8f0f2; color:#355861; }
+  .section-background-media { display:grid; gap:7px; margin:10px 0; padding:10px; border:1px solid #d8e7e9; border-radius:8px; background:#f7fbfc; }
+  .section-background-media small { color:#668087; font-size:11px; }
+  .builder-toggle { display:flex !important; align-items:center; gap:7px; font-size:12px !important; }
   .preview-image-hero .preview-section-image { display:block; width:100%; height:auto; min-height:0; object-fit:contain; }
   .preview-image-hero .preview-image-empty { width:100%; min-height:260px; }
   .preview-image-hero { display:flex; justify-content:center; }
