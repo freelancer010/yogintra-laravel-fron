@@ -231,6 +231,9 @@
   .column-spacing-controls strong { color:#42636b; font-size:12px; }
   .builder-range-number { display:grid; grid-template-columns:minmax(0,1fr) 58px; gap:7px; align-items:center; }
   .builder-range-number input[type="number"] { min-width:0; padding:5px; text-align:center; }
+  /* Column content is edited directly on the canvas. The inspector only keeps
+     the structural Section division control to avoid duplicating every column. */
+  .visual-style-panel .column-control { display:none; }
   .preview-feature:hover { background:rgba(22,113,122,.06); }
   .preview-feature b { font-size:38px; line-height:1; color:#16717a; }
   .preview-feature img { width:82px; height:82px; object-fit:contain; border-radius:8px; }
