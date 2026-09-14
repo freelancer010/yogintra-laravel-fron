@@ -55,8 +55,8 @@
     <section class="blog-index-hero" aria-labelledby="blog-page-title">
         <div class="container">
             <span class="blog-index-kicker">YogIntra blog</span>
-            <h1 class="blog-index-title" id="blog-page-title">Yoga insights for everyday wellbeing</h1>
-            <p class="blog-index-intro">Explore practical yoga guidance, wellness tips and mindful habits to support a healthier, more balanced life.</p>
+            <h1 class="blog-index-title" id="blog-page-title">Blog</h1>
+            <p class="blog-index-intro">Explore all blog</p>
             <ol class="blog-index-breadcrumb" aria-label="Breadcrumb">
                 <li><a href="{{ url('/') }}">Home</a></li>
                 <li aria-current="page">Blog</li>
