@@ -136,13 +136,17 @@
       : '<p contenteditable="true" data-preview-extra="' + index + '" style="color:' + color + ';font-size:' + size + 'px;' + spacing + '">' + escape(element.text) + '</p>';
   };
   const focusCard = (card, target = 'section') => {
-    document.querySelectorAll('.page-builder-section, .preview-section, .section-layer, .section-tree-child, .preview-image-frame').forEach(element => element.classList.remove('is-selected', 'is-selected-target'));
+    document.querySelectorAll('.page-builder-section, .preview-section, .section-layer, .section-tree-child, .preview-image-frame, .preview-section [data-preview-field], .preview-section [data-preview-column-target]').forEach(element => element.classList.remove('is-selected', 'is-selected-target'));
     card.classList.add('is-selected');
     card.dataset.selectedTarget = target;
     document.querySelectorAll('[data-builder-id="' + card.dataset.builderId + '"]').forEach(element => element.classList.add('is-selected'));
     const previewSection = document.querySelector('.preview-section[data-builder-id="' + card.dataset.builderId + '"]');
     const tree = document.querySelector('.section-tree[data-builder-id="' + card.dataset.builderId + '"]');
     if (target === 'image') previewSection?.querySelector('.preview-image-frame')?.classList.add('is-selected-target');
+    if (target !== 'section' && target !== 'image') {
+      const previewTarget = previewSection?.querySelector('[data-preview-column-target="' + target + '"], [data-preview-field="' + target + '"]');
+      previewTarget?.classList.add('is-selected-target');
+    }
     const treeTarget = tree?.querySelector('[data-tree-target="' + target + '"]');
     (treeTarget || tree?.querySelector('.section-layer'))?.classList.add('is-selected');
     inspector.scrollTo({ top: 0, behavior: 'smooth' });
@@ -366,7 +370,7 @@
       if (imageFrame && (type === 'image_text' || type === 'image')) { imageFrame.style.width = (getValue(card, 'image_size') || (type === 'image' ? '100' : '42')) + '%'; }
       if (imageFrame) { imageFrame.addEventListener('click', event => { event.stopPropagation(); const action = event.target.closest('.preview-image-action'); if (action) { imageInput?.click(); return; } focusCard(card, 'image'); }); }
       [['heading', '[data-preview-field="heading"]'], ['content', '[data-preview-field="content"]']].forEach(([key, selector]) => previewSection.querySelectorAll(selector).forEach(element => { const style = selectedStyles[key]; element.style.padding = style.padding_y + 'px ' + style.padding_x + 'px'; element.style.margin = style.margin_y + 'px ' + style.margin_x + 'px'; element.style.fontWeight = style.font_weight; element.style.fontStyle = style.font_style; element.style.textDecoration = style.text_decoration; }));
-      previewSection.addEventListener('click', event => { const selectedColumnElement = event.target.closest('[data-preview-column-target]'); const editable = event.target.closest('[contenteditable]'); const target = selectedColumnElement?.dataset.previewColumnTarget || (editable?.hasAttribute('data-preview-extra') ? 'section' : (editable?.dataset.previewField || 'section')); focusCard(card, target); if (editable) editable.classList.add('is-editing'); });
+      previewSection.addEventListener('click', event => { const selectedColumnElement = event.target.closest('[data-preview-column-target]'); const editable = event.target.closest('[contenteditable]'); const extraList = event.target.closest('[data-preview-extra-list]'); const target = selectedColumnElement?.dataset.previewColumnTarget || editable?.dataset.previewField || (extraList ? 'section' : (editable?.hasAttribute('data-preview-extra') ? 'section' : 'section')); focusCard(card, target); if (editable) editable.classList.add('is-editing'); }, true);
       content.appendChild(previewSection);
       const layer = document.createElement('div');
       layer.className = 'section-tree'; layer.dataset.builderId = card.dataset.builderId;

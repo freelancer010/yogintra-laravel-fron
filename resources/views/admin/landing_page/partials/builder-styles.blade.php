@@ -125,6 +125,9 @@
   .preview-section-copy p { white-space:pre-line; margin:0; line-height:1.6; }
   .preview-section [contenteditable]:focus, .preview-section [contenteditable].is-editing { outline:2px solid #35a5b0; outline-offset:4px; border-radius:4px; }
   .preview-section [contenteditable]:hover { outline:1px dashed #35a5b0; outline-offset:4px; border-radius:4px; }
+  .preview-section [data-preview-field], .preview-section [data-preview-extra], .preview-section [data-preview-extra-list], .preview-section [data-preview-column-target] { cursor:pointer; transition:outline-color .15s ease, background .15s ease; }
+  .preview-section [data-preview-field]:hover, .preview-section [data-preview-extra]:hover, .preview-section [data-preview-extra-list]:hover, .preview-section [data-preview-column-target]:hover { outline:1px dashed #16717a; outline-offset:5px; border-radius:5px; background:rgba(22,113,122,.06); }
+  .preview-section .is-selected-target { outline:2px solid #16717a !important; outline-offset:5px; border-radius:5px; background:rgba(22,113,122,.09); }
   .builder-link-popup { display:none; position:absolute; z-index:1100; width:290px; padding:12px; border:1px solid #b9dfe0; border-radius:10px; background:#fff; box-shadow:0 14px 32px rgba(14,60,68,.22); }
   .builder-link-popup.is-open { display:grid; gap:8px; }
   .builder-link-popup label { display:grid; gap:4px; font-size:12px; font-weight:800; color:#355861; }
