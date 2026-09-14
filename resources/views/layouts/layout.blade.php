@@ -226,13 +226,6 @@
         };
     </script>
 
-    <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"></script>
-    @if (request()->is('service-details/*', 'service_details/*'))
-        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    @endif
-    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}"></script>
-
     <!-- SCHEMA -->
     <script type="application/ld+json">
     {
@@ -341,6 +334,13 @@
         // Remove the general form submit handler as we're handling the multi-step form separately
     </script>
 
+    {{-- Keep dependent scripts together at the end of the document so they do not block first paint. --}}
+    <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"></script>
+    @if (request()->is('service-details/*', 'service_details/*'))
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    @endif
+    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/custom.min.js') }}"></script>
     @stack('scripts')
 
