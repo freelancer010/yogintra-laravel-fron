@@ -102,6 +102,18 @@
   .live-preview { background:#fff; border:1px solid #d9e6e9; border-radius:14px; overflow:hidden; margin-bottom:18px; box-shadow:0 10px 26px rgba(22,64,72,.07); }
   .live-preview-toolbar { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:#f5f9fa; border-bottom:1px solid #e2ecee; color:#527079; font-size:12px; font-weight:700; }
   .live-preview-toolbar .preview-dot { width:8px; height:8px; border-radius:50%; background:#30a46c; display:inline-block; margin-right:6px; }
+  .live-preview-toolbar .is-dirty .preview-dot { background:#e59b28; }
+  .builder-device-controls { display:flex; gap:4px; }
+  .builder-device-controls button { border:1px solid #d6e5e8; border-radius:5px; background:#fff; color:#587178; padding:4px 7px; font-size:11px; }
+  .builder-device-controls button.is-active { border-color:#16717a; background:#eaf6f7; color:#12626c; font-weight:700; }
+  .live-preview[data-device="tablet"] { max-width:820px; margin:0 auto; }
+  .live-preview[data-device="mobile"] { max-width:430px; margin:0 auto; }
+  .live-preview[data-device="mobile"] .preview-section-row, .live-preview[data-device="tablet"] .preview-section-row { flex-direction:column; }
+  .live-preview[data-device="mobile"] .preview-feature-grid { grid-template-columns:1fr !important; }
+  .builder-element-toolbar { display:none; position:fixed; z-index:2100; gap:2px; padding:4px; border:1px solid #cfe0e3; border-radius:8px; background:#173e47; box-shadow:0 6px 18px rgba(16,47,54,.25); }
+  .builder-element-toolbar.is-open { display:flex; }
+  .builder-element-toolbar button { border:0; border-radius:5px; padding:5px 7px; background:transparent; color:#fff; font-size:11px; cursor:pointer; }
+  .builder-element-toolbar button:hover { background:#286773; }
   .live-preview-content { min-height:280px; display:flex; flex-direction:column; gap:0; padding:0; background:#fff; overflow:hidden; }
   .preview-section { cursor:pointer; position:relative; border:1px dashed transparent; border-radius:10px; padding:26px; transition:.2s ease; min-height:72px; }
   .preview-section:hover, .preview-section.is-selected { border-color:#16717a; background:#effafa; box-shadow:0 0 0 3px rgba(22,113,122,.18); }

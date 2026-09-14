@@ -14,8 +14,18 @@
 
   const preview = document.createElement('div');
   preview.className = 'live-preview';
-  preview.innerHTML = '<div class="live-preview-toolbar"><span><i class="preview-dot"></i>Live page preview</span><span>Desktop canvas</span></div><div class="live-preview-content"></div>';
+  preview.innerHTML = '<div class="live-preview-toolbar"><span><i class="preview-dot"></i><span class="builder-save-state">Saved</span></span><span class="builder-device-controls"><button type="button" data-device="desktop" class="is-active">Desktop</button><button type="button" data-device="tablet">Tablet</button><button type="button" data-device="mobile">Mobile</button></span></div><div class="live-preview-content"></div>';
   canvas.appendChild(preview);
+  const saveState = preview.querySelector('.builder-save-state');
+  const setSaveState = value => { saveState.textContent = value; saveState.parentElement.classList.toggle('is-dirty', value !== 'Saved'); };
+  preview.querySelectorAll('[data-device]').forEach(control => control.addEventListener('click', () => {
+    preview.dataset.device = control.dataset.device;
+    preview.querySelectorAll('[data-device]').forEach(button => button.classList.toggle('is-active', button === control));
+  }));
+  const elementToolbar = document.createElement('div');
+  elementToolbar.className = 'builder-element-toolbar';
+  elementToolbar.innerHTML = '<button type="button" data-toolbar-action="edit">Edit</button><button type="button" data-toolbar-action="link">Link</button><button type="button" data-toolbar-action="align">Align</button><button type="button" data-toolbar-action="duplicate">Duplicate</button><button type="button" data-toolbar-action="delete">Delete</button>';
+  document.body.appendChild(elementToolbar);
 
   const addBar = document.createElement('div');
   addBar.className = 'canvas-add-bar';
@@ -133,6 +143,20 @@
       });
     });
   };
+  const history = []; let historyIndex = -1; let restoringHistory = false; let historyTimer = null;
+  const snapshot = () => {
+    if (restoringHistory) return;
+    const markup = sections.innerHTML;
+    if (history[historyIndex] === markup) return;
+    history.splice(historyIndex + 1); history.push(markup);
+    if (history.length > 40) history.shift();
+    historyIndex = history.length - 1;
+  };
+  const restoreHistory = nextIndex => {
+    if (nextIndex < 0 || nextIndex >= history.length) return;
+    restoringHistory = true; sections.innerHTML = history[nextIndex]; historyIndex = nextIndex; normalizeSectionIndexes(); render(); restoringHistory = false; setSaveState('Unsaved changes');
+  };
+  const queueSnapshot = () => { window.clearTimeout(historyTimer); historyTimer = window.setTimeout(snapshot, 350); setSaveState('Unsaved changes'); };
   const ensureField = (card, suffix, value) => {
     let field = getField(card, suffix);
     if (!field) { field = document.createElement('input'); field.type = 'hidden'; const source = getField(card, 'heading') || getField(card, 'section_type'); field.name = source.name.replace(/\[[^\]]+\]$/, '[' + suffix + ']'); field.value = value; card.appendChild(field); }
@@ -186,7 +210,18 @@
     inspector.scrollTo({ top: 0, behavior: 'smooth' });
     card.scrollIntoView({ behavior: 'smooth', block: 'center' });
     renderStyles(card, target);
+    const selected = previewSection?.querySelector('[data-preview-column-target="' + target + '"], [data-preview-field="' + target + '"], .preview-image-frame.is-selected-target') || previewSection;
+    if (selected) { const rect = selected.getBoundingClientRect(); elementToolbar.style.left = Math.max(8, rect.left) + 'px'; elementToolbar.style.top = Math.max(8, rect.top - 38) + 'px'; elementToolbar.dataset.builderId = card.dataset.builderId; elementToolbar.dataset.target = target; elementToolbar.classList.add('is-open'); }
   };
+  elementToolbar.addEventListener('click', event => {
+    const action = event.target.dataset.toolbarAction; if (!action) return;
+    const card = [...sections.querySelectorAll('.page-builder-section')].find(item => item.dataset.builderId === elementToolbar.dataset.builderId); if (!card) return;
+    const target = elementToolbar.dataset.target || 'section';
+    if (action === 'edit') { document.querySelector('.preview-section[data-builder-id="' + card.dataset.builderId + '"] [data-preview-field="' + target + '"], .preview-section[data-builder-id="' + card.dataset.builderId + '"] [data-preview-column-target="' + target + '"]')?.focus(); return; }
+    if (action === 'align') { const field = ensureField(card, 'text_align', 'left'); field.value = field.value === 'left' ? 'center' : field.value === 'center' ? 'right' : 'left'; render(); queueSnapshot(); return; }
+    if (action === 'duplicate') { const copy = card.cloneNode(true); copy.dataset.builderId = ''; sections.insertBefore(copy, card.nextSibling); normalizeSectionIndexes(); render(); queueSnapshot(); return; }
+    if (action === 'delete' && confirm('Delete this section?')) { card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); }
+  });
 
   function renderStyles(card, target = card.dataset.selectedTarget || 'section') {
     const type = getValue(card, 'section_type');
@@ -487,7 +522,14 @@
     });
   }
 
-  sections.addEventListener('input', render);
+  snapshot();
+  sections.addEventListener('input', () => { render(); queueSnapshot(); });
+  document.getElementById('landing-page-form')?.addEventListener('submit', () => setSaveState('Saving…'));
+  document.addEventListener('keydown', event => {
+    if (!(event.ctrlKey || event.metaKey)) return;
+    if (event.key.toLowerCase() === 'z') { event.preventDefault(); restoreHistory(event.shiftKey ? historyIndex + 1 : historyIndex - 1); }
+    if (event.key.toLowerCase() === 'y') { event.preventDefault(); restoreHistory(historyIndex + 1); }
+  });
   preview.querySelector('.live-preview-content').addEventListener('input', (event) => {
     const columnIndex = event.target.dataset.previewColumn;
     if (columnIndex !== undefined) {
