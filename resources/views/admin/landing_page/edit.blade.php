@@ -184,7 +184,7 @@
     const formBody = document.querySelector('.landing-builder-shell form .card-body');
     const workspace = document.createElement('div');
     workspace.className = 'builder-workspace';
-    workspace.innerHTML = '<main class="builder-canvas"><div class="builder-canvas-header"><div><h4>Page canvas</h4><small class="text-muted">Click preview text to edit it inline</small></div><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#page-settings-modal">Manage page settings</button></div></main><aside class="builder-inspector"><div class="builder-inspector-title"><span>Section editor</span><span>✦</span></div></aside>';
+    workspace.innerHTML = '<main class="builder-canvas"><div class="builder-canvas-header"><div><h4>Page canvas</h4><small class="text-muted">Click preview text to edit it inline</small></div><button type="button" class="builder-settings-button" data-toggle="modal" data-target="#page-settings-modal"><i class="fa fa-cog" aria-hidden="true"></i><span>Manage page settings</span></button></div></main><aside class="builder-inspector"><div class="builder-inspector-title"><span>Section editor</span><span>✦</span></div></aside>';
     formBody.prepend(workspace);
     @if($sections->isEmpty())
     const classicConversionNotice = document.createElement('div');
