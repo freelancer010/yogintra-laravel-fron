@@ -1331,8 +1331,7 @@
     }
     .landing-builder-section .landing-custom-columns { display:grid; grid-template-columns:repeat(var(--column-count, 1), minmax(0, 1fr)); gap:24px; }
     .landing-builder-section.landing-section-parallax { background-attachment:fixed; }
-    .landing-builder-section .landing-custom-column { min-height:72px; display:flex; flex-direction:column; align-items:center; }
-    .landing-builder-section .landing-custom-column > h3, .landing-builder-section .landing-custom-column > .landing-builder-content { align-self:stretch; }
+    .landing-builder-section .landing-custom-column { min-height:72px; }
     .landing-builder-section .landing-custom-column img { display:block; width:100%; height:auto; object-fit:cover; border-radius:10px; }
     .landing-builder-section .landing-custom-column .landing-builder-content { white-space:pre-line; }
     .landing-builder-section .landing-column-support { display:block; margin-top:12px; color:#647b82; line-height:1.6; }
