@@ -777,7 +777,7 @@
                     <div class="section-title text-center mb-50">
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-md-10">
-                                <h5 class="ssc-ttl brief-dec-title m-fs-25 mb-20">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</h5>
+                                <h2 class="ssc-ttl brief-dec-title m-fs-25 mb-20">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</h2>
                                 <p class="text-center">We at YogIntra provide various services to the nature of the clients. Wish how you would like to spend your time here we can talk and come to a conclusion.</p>
                             </div>
                         </div>
