@@ -160,6 +160,7 @@
   .background-image-options input[data-background-image] { width:100%; padding:4px; border:1px dashed #7bb1b7; border-radius:8px; background:#fff; color:#496b73; font-size:12px; cursor:pointer; }
   .background-image-options input[data-background-image]::file-selector-button { margin-right:9px; border:0; border-radius:6px; padding:8px 11px; background:#16717a; color:#fff; font-weight:800; font-size:12px; cursor:pointer; transition:.16s ease; }
   .background-image-options input[data-background-image]::file-selector-button:hover { background:#0f5962; }
+  .background-upload-error { display:block; margin-top:5px; color:#b63845 !important; font-size:11px; font-weight:700; }
   .background-mode-toggle button { border:0; border-radius:6px; padding:7px; background:transparent; color:#47666d; font-size:12px; font-weight:800; }
   .background-mode-toggle button.is-active { background:#16717a; color:#fff; box-shadow:0 3px 8px rgba(15,89,98,.2); }
   .background-image-options { display:grid; gap:7px; }

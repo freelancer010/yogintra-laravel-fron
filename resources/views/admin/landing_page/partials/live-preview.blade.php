@@ -336,6 +336,10 @@
     stylePanel.querySelectorAll('[data-background-mode]').forEach(button => button.addEventListener('click', () => { backgroundMode.value = button.dataset.backgroundMode; renderStyles(card, target); render(); }));
     stylePanel.querySelector('[data-background-image]')?.addEventListener('change', event => {
       const file = event.target.files?.[0]; if (!file) return;
+      const uploadError = event.target.parentElement.querySelector('.background-upload-error') || document.createElement('small');
+      uploadError.className = 'background-upload-error';
+      if (file.size > 5 * 1024 * 1024) { uploadError.textContent = 'Size limit exceeded: choose an image smaller than 5 MB.'; event.target.insertAdjacentElement('afterend', uploadError); event.target.value = ''; return; }
+      uploadError.remove();
       let input = getField(card, 'background_image');
       if (!input) { input = document.createElement('input'); input.type = 'file'; input.hidden = true; input.name = getField(card, 'heading').name.replace('[heading]', '[background_image]'); card.appendChild(input); }
       input.files = event.target.files; backgroundMode.value = 'image';
