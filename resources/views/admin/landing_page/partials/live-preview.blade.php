@@ -576,7 +576,12 @@
   sections.addEventListener('input', () => { render(); queueSnapshot(); });
   sections.addEventListener('change', queueSnapshot);
   preview.addEventListener('click', event => { if (event.target.closest('button')) window.setTimeout(queueSnapshot, 0); });
-  document.getElementById('landing-page-form')?.addEventListener('submit', () => setSaveState('Saving…'));
+  document.getElementById('landing-page-form')?.addEventListener('submit', () => {
+    // Contenteditable nodes are outside the form cards, so synchronise them
+    // explicitly before the browser serialises the hidden section fields.
+    preview.querySelectorAll('.live-preview-content [contenteditable]').forEach(saveEditableMarkup);
+    setSaveState('Saving…');
+  });
   document.addEventListener('keydown', event => {
     if (!(event.ctrlKey || event.metaKey)) return;
     if (event.key.toLowerCase() === 'z') { event.preventDefault(); restoreHistory(event.shiftKey ? historyIndex + 1 : historyIndex - 1); }
@@ -616,7 +621,7 @@
   });
   preview.querySelector('.live-preview-content').addEventListener('blur', (event) => {
     if (linkPopup.classList.contains('is-open')) return;
-    if (event.target.dataset.previewField || event.target.dataset.previewExtra !== undefined || event.target.dataset.previewColumn !== undefined) render();
+    if (event.target.dataset.previewField || event.target.dataset.previewExtra !== undefined || event.target.dataset.previewColumn !== undefined) { saveEditableMarkup(event.target); render(); }
   }, true);
   preview.querySelector('.live-preview-content').addEventListener('mouseup', event => {
     const editable = event.target.closest('[contenteditable]');
