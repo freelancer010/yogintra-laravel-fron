@@ -53,13 +53,14 @@
                                             <a href="{{ url('/service/' . $service_menu->service_cat_slug) }}">
                                                 {{ $service_menu->service_cat_name }}
                                             </a>
+                                            <a href="{{ url('/yoga-center') }}">Yoga Center</a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </li>
-                            <li class="{{ request()->segment(1) == 'yoga-center' ? 'active' : '' }}">
+                            {{-- <li class="{{ request()->segment(1) == 'yoga-center' ? 'active' : '' }}">
                                 <a href="{{ url('/yoga-center') }}">Yoga Center</a>
-                            </li>
+                            </li> --}}
                             <li class="{{ in_array(request()->segment(1), ['teacher-training-course', 'retreat', 'workshop']) ? 'active' : '' }}">
                                 <a href="#">Events</a>
                                 <ul class="dropdown">
@@ -69,7 +70,7 @@
                                 </ul>
                             </li>
                             <li class="{{ request()->segment(1) == 'trainers' ? 'active' : '' }}">
-                                <a href="{{ url('/trainers') }}">Trainer</a>
+                                <a href="{{ url('/trainers') }}">Our Instructors</a>
                             </li>
                             <li class="{{ request()->segment(1) == 'become-yoga-trainer' ? 'active' : '' }}">
                                 <a href="{{ url('/become-yoga-trainer') }}">Yoga Job</a>
