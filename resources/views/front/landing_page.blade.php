@@ -1343,6 +1343,10 @@
     .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; }
     .landing-builder-content { color: #53636a; font-size: 16px; line-height: 1.8; }
     .landing-builder-list { padding-left: 1.35em; margin-bottom: 1rem; line-height: 1.65; }
+    .landing-builder-section ul.landing-builder-list { list-style: disc outside !important; }
+    .landing-builder-section ol.landing-builder-list { list-style: decimal outside !important; }
+    .landing-builder-list li { display:list-item !important; }
+    .landing-builder-list li::marker { color:currentColor; }
     .landing-builder-list li + li { margin-top: var(--list-item-gap, 8px); }
     .landing-builder-content .landing-sanskrit { color:#0f7a84; font-family:Philosopher, serif; font-size:28px; font-weight:700; margin:0 0 18px; }
     .landing-builder-section .btn { border-radius: 999px; padding: 12px 24px; transition: transform .2s ease, box-shadow .2s ease; }
