@@ -178,7 +178,7 @@ class HomeController extends Controller
     {
         return view('front.blog', [
             'page' => 'all_blog',
-            'get_all_blog' => Blog::getAllBlogsForHomePage(),
+            'get_all_blog' => Blog::getAllBlogsForHomePage(12),
             'get_all_blog_category' => Blog::getAllBlogCategory()
         ]);
     }

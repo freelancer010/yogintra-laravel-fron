@@ -167,6 +167,14 @@
                 @endforeach
             </div>
         </div>
+
+        @if ($get_all_blog instanceof \Illuminate\Contracts\Pagination\Paginator && $get_all_blog->hasPages())
+        <div class="row">
+            <div class="col-md-12 text-center mt-30 mb-30">
+                {{ $get_all_blog->links('pagination::bootstrap-4') }}
+            </div>
+        </div>
+        @endif
     </div>
 </section>
 @endsection
