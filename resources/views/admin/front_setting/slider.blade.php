@@ -95,6 +95,12 @@
                     <label for="hero_video" class="btn btn-outline-primary btn-sm mb-0"><i class="fas fa-upload"></i> Choose video</label>
                     <span class="text-muted small ml-2" id="hero-video-name">{{ $heroSetting->hero_video ? basename($heroSetting->hero_video) : 'MP4, WebM, OGG, or MOV · max 50 MB' }}</span>
                   </div>
+                  <div class="hero-video-control mb-3">
+                    <label class="d-block">Video thumbnail <small class="text-muted">Generated automatically from the selected video. You can also replace it.</small></label>
+                    <input type="file" name="hero_video_thumbnail" id="hero_video_thumbnail" accept="image/jpeg,image/png,image/webp" class="d-none">
+                    <label for="hero_video_thumbnail" class="btn btn-outline-secondary btn-sm mb-0"><i class="fas fa-image"></i> Choose thumbnail</label>
+                    <img id="hero-video-thumbnail-preview" src="{{ $heroSetting->hero_video_thumbnail ? asset($heroSetting->hero_video_thumbnail) : '' }}" alt="Hero video thumbnail" class="{{ $heroSetting->hero_video_thumbnail ? '' : 'd-none' }} ml-2" style="width:96px;height:54px;object-fit:cover;border-radius:5px;border:1px solid #d7e4e7;">
+                  </div>
                   <div class="row">
                   <div class="col-md-12 form-group">
                     <label for="hero_video_heading">Slider Heading <span class="text-danger">*</span></label>
@@ -208,6 +214,28 @@
         preview.classList.remove('d-none');
         document.getElementById('hero-video-preview-empty').classList.add('d-none');
         preview.load();
+        const thumbnailInput = document.getElementById('hero_video_thumbnail');
+        const thumbnailPreview = document.getElementById('hero-video-thumbnail-preview');
+        const captureFrame = () => {
+          const canvas = document.createElement('canvas');
+          const scale = Math.min(1280 / preview.videoWidth, 1);
+          canvas.width = Math.max(1, Math.round(preview.videoWidth * scale));
+          canvas.height = Math.max(1, Math.round(preview.videoHeight * scale));
+          canvas.getContext('2d').drawImage(preview, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob(blob => {
+            if (!blob) return;
+            const generatedThumbnail = new File([blob], 'hero-video-thumbnail.jpg', { type: 'image/jpeg' });
+            const transfer = new DataTransfer(); transfer.items.add(generatedThumbnail); thumbnailInput.files = transfer.files;
+            thumbnailPreview.src = URL.createObjectURL(generatedThumbnail); thumbnailPreview.classList.remove('d-none');
+          }, 'image/jpeg', .85);
+        };
+        preview.addEventListener('loadedmetadata', () => { preview.currentTime = Math.min(1, Math.max(0, preview.duration / 2)); }, { once:true });
+        preview.addEventListener('seeked', captureFrame, { once:true });
+      });
+      document.getElementById('hero_video_thumbnail').addEventListener('change', function () {
+        const file = this.files[0]; if (!file) return;
+        const thumbnailPreview = document.getElementById('hero-video-thumbnail-preview');
+        thumbnailPreview.src = URL.createObjectURL(file); thumbnailPreview.classList.remove('d-none');
       });
       updateHeroMediaControl();
     })();

@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 @php
-    $heroPoster = $all_slider->first()?->slider_image;
+    $heroPoster = $app_setting->hero_video_thumbnail ?: null;
     $heroVideoHeading = $app_setting->hero_video_heading ?: ($app_setting->hero_video_title ?: ($all_slider->first()?->slider_heading ?: 'Yoga classes with YogIntra'));
     $heroVideoSubHeading = $app_setting->hero_video_sub_heading ?: ($app_setting->hero_video_description ?: ($all_slider->first()?->slider_sub_heading ?: 'Discover yoga classes and wellness support with YogIntra.'));
     $heroVideoTitle = $heroVideoHeading;

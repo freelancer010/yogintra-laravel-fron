@@ -30,6 +30,7 @@ class FrontSettingController extends Controller
         $request->validate([
             'hero_media_type' => 'required|in:slider,video',
             'hero_video' => 'nullable|file|mimes:mp4,webm,ogg,mov|max:51200',
+            'hero_video_thumbnail' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5000',
             'hero_video_heading' => 'required_if:hero_media_type,video|nullable|string|max:255',
             'hero_video_sub_heading' => 'nullable|string|max:255',
             'hero_video_btn_name' => 'nullable|string|max:100',
@@ -50,6 +51,12 @@ class FrontSettingController extends Controller
             $videoName = 'hero_' . time() . '.' . $video->getClientOriginalExtension();
             $video->move(public_path('uploads'), $videoName);
             $setting->hero_video = 'uploads/' . $videoName;
+        }
+        if ($request->hasFile('hero_video_thumbnail')) {
+            if ($setting->hero_video_thumbnail && file_exists(public_path($setting->hero_video_thumbnail))) {
+                unlink(public_path($setting->hero_video_thumbnail));
+            }
+            $setting->hero_video_thumbnail = app(OptimizedImageUpload::class)->store($request->file('hero_video_thumbnail'));
         }
 
         $setting->hero_media_type = $request->hero_media_type;
