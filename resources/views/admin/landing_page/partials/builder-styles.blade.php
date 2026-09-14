@@ -222,6 +222,11 @@
   .preview-column-remove { position:absolute; top:7px; right:7px; width:24px; height:24px; border:1px solid #e3aeb4; border-radius:50%; background:#fff; color:#bc3744; font-size:17px; line-height:1; opacity:0; cursor:pointer; transition:.16s ease; }
   .preview-column-stack:hover .preview-column-remove, .preview-column-stack:focus-within .preview-column-remove { opacity:1; }
   .preview-column-remove:hover { background:#bc3744; color:#fff; }
+  .preview-empty-column-wrap { position:relative; min-height:94px; display:grid; place-items:center; }
+  .preview-empty-column { border:1px dashed #5a9fa8; border-radius:7px; padding:9px 12px; background:#fff; color:#16717a; font-size:12px; font-weight:700; cursor:pointer; }
+  .preview-empty-column-menu { display:none; position:absolute; top:calc(50% + 28px); z-index:6; grid-template-columns:repeat(3,auto); gap:4px; padding:5px; border:1px solid #d4e4e6; border-radius:8px; background:#fff; box-shadow:0 8px 18px rgba(22,60,69,.16); }
+  .preview-empty-column-wrap.is-open .preview-empty-column-menu { display:grid; }
+  .preview-empty-column-menu button { border:0; border-radius:5px; padding:6px 8px; background:#edf7f8; color:#17636d; font-size:11px; cursor:pointer; }
   .column-spacing-controls { display:grid; gap:6px; margin-top:12px; padding-top:10px; border-top:1px solid #dce8ea; }
   .column-spacing-controls strong { color:#42636b; font-size:12px; }
   .builder-range-number { display:grid; grid-template-columns:minmax(0,1fr) 58px; gap:7px; align-items:center; }
