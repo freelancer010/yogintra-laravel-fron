@@ -219,7 +219,17 @@
     const target = elementToolbar.dataset.target || 'section';
     if (action === 'edit') { document.querySelector('.preview-section[data-builder-id="' + card.dataset.builderId + '"] [data-preview-field="' + target + '"], .preview-section[data-builder-id="' + card.dataset.builderId + '"] [data-preview-column-target="' + target + '"]')?.focus(); return; }
     if (action === 'link') { if (selectedLinkRange) { linkPopup.classList.add('is-open'); linkPopup.elements.url.focus(); } else { alert('Select the text you want to link first, then choose Link.'); } return; }
-    if (action === 'align') { const field = ensureField(card, 'text_align', 'left'); field.value = field.value === 'left' ? 'center' : field.value === 'center' ? 'right' : 'left'; render(); queueSnapshot(); return; }
+    if (action === 'align') {
+      const columnTarget = /^column-(\d+)-(title|text|small_text|bullets)$/.exec(target);
+      if (columnTarget) {
+        const blocksField = getField(card, 'blocks'); let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {}
+        const block = blocks[Number(columnTarget[1])] || {}; block.styles ||= {}; block.styles[columnTarget[2]] ||= {};
+        const current = block.styles[columnTarget[2]].align || getValue(card, 'text_align') || 'left';
+        block.styles[columnTarget[2]].align = current === 'left' ? 'center' : current === 'center' ? 'right' : 'left';
+        blocks[Number(columnTarget[1])] = block; blocksField.value = JSON.stringify(blocks);
+      } else { const field = ensureField(card, 'text_align', 'left'); field.value = field.value === 'left' ? 'center' : field.value === 'center' ? 'right' : 'left'; }
+      render(); queueSnapshot(); return;
+    }
     if (action === 'duplicate') { const copy = card.cloneNode(true); copy.dataset.builderId = ''; sections.insertBefore(copy, card.nextSibling); normalizeSectionIndexes(); render(); queueSnapshot(); return; }
     if (action === 'delete') {
       if (target === 'heading' || target === 'content') { const field = getField(card, target); if (field) { field.value = ''; render(); queueSnapshot(); } return; }
