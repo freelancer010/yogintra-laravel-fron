@@ -494,10 +494,16 @@
       .about-page .about-mission .mission-copy { padding:34px; border-left:4px solid #e8a72b; background:rgba(9,39,45,.62); border-radius:0 14px 14px 0; }
       .about-page .about-mission h2 { font-size:38px; font-weight:800; }
       .about-page .about-mission p { font-size:17px; line-height:1.78; }
-      .about-page .about-values { padding:88px 0; background:#fff6e7; }
-      .about-page .about-values-statement { max-width:1000px; margin:0 auto 52px; padding:0 0 20px; border-bottom:1px solid #d9cbb6; color:#153f49; font-size:21px; font-weight:700; line-height:1.55; }
-      .about-page .about-values-title { max-width:880px; margin:0 auto 34px; padding:8px 18px; background:#fff0d8; color:#dc5d3f; font-size:19px; font-weight:700; letter-spacing:.08em; text-align:center; text-transform:uppercase; }
-      .about-page .about-values-list { display:flex; flex-direction:column; align-items:center; gap:15px; max-width:880px; margin:0 auto; padding:36px 24px; background:#fff0d8; color:#61767d; font-size:18px; font-weight:500; text-align:center; text-transform:uppercase; }
+      .about-page .about-values { padding:96px 0; background:linear-gradient(135deg,#fbf3e5 0%,#f4faf6 100%); }
+      .about-page .about-values-statement { position:relative; max-width:940px; margin:0 auto 54px; padding:34px 48px 34px 78px; border-radius:16px; background:#153f49; box-shadow:0 18px 42px rgba(21,63,73,.2); color:#fff; font-size:22px; font-weight:700; line-height:1.55; }
+      .about-page .about-values-mark { position:absolute; top:9px; left:25px; color:#e7ad42; font-family:Georgia,serif; font-size:76px; line-height:1; }
+      .about-page .about-values-title { display:flex; align-items:center; justify-content:center; gap:15px; max-width:880px; margin:0 auto 28px; color:#153f49; font-size:14px; font-weight:800; letter-spacing:.16em; text-align:center; text-transform:uppercase; }
+      .about-page .about-values-title::before, .about-page .about-values-title::after { content:""; width:58px; height:1px; background:#d8a344; }
+      .about-page .about-values-title span { padding:0 4px; }
+      .about-page .about-values-list { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; max-width:1080px; margin:0 auto; color:#153f49; }
+      .about-page .about-values-list span { display:flex; flex-direction:column; min-height:130px; justify-content:flex-end; padding:20px; border:1px solid #e0e9e4; border-radius:14px; background:#fff; box-shadow:0 10px 22px rgba(21,63,73,.06); font-size:14px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; transition:transform .2s ease, box-shadow .2s ease; }
+      .about-page .about-values-list span:hover { transform:translateY(-5px); box-shadow:0 16px 28px rgba(21,63,73,.13); }
+      .about-page .about-values-list b { display:block; margin-bottom:auto; color:#e09a28; font-size:12px; letter-spacing:.1em; }
       .about-page .about-values-intro { height:100%; min-height:345px; padding:42px 38px; border-radius:18px; background-color:#78b947; background-size:cover; background-position:center; color:#fff; box-shadow:0 18px 38px rgba(77,122,42,.2); }
       .about-page .about-values-intro span, .about-page .about-values-label { display:block; margin-bottom:15px; color:#e3a72d; font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
       .about-page .about-values-intro span { color:rgba(255,255,255,.8); }
@@ -508,7 +514,7 @@
       .about-page .about-values-copy > p:not(.about-values-label) { color:#60757b; font-size:17px; line-height:1.78; }
       .about-page .about-values-points { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
       .about-page .about-values-points span { padding:8px 13px; border-radius:999px; background:#eaf5f2; color:#16717a; font-size:13px; font-weight:700; }
-      @media (max-width:767px) { .about-page .about-section .container { padding-top:54px; padding-bottom:54px; } .about-page .about-story, .about-page .about-mission { padding:54px 0; } .about-page .about-mission .mission-copy { padding:24px; } .about-page .about-mission h2 { font-size:30px; } .about-page .about-values { padding:56px 0; } .about-page .about-values-statement { font-size:18px; } }
+      @media (max-width:767px) { .about-page .about-section .container { padding-top:54px; padding-bottom:54px; } .about-page .about-story, .about-page .about-mission { padding:54px 0; } .about-page .about-mission .mission-copy { padding:24px; } .about-page .about-mission h2 { font-size:30px; } .about-page .about-values { padding:56px 0; } .about-page .about-values-statement { padding:28px 25px 28px 58px; font-size:18px; } .about-page .about-values-mark { left:17px; font-size:58px; } .about-page .about-values-list { grid-template-columns:repeat(2,1fr); } .about-page .about-values-list span { min-height:105px; } }
   </style>
 @endpush
 @section('content')
@@ -608,10 +614,10 @@
 <!-- Section: Vision and Mission -->
 <section class="about-values">
     <div class="container">
-        <div class="about-values-statement">YogIntra’s vision is simple: to connect people with yoga, connect the body with the mind, and ultimately help individuals discover the inner connection within themselves.</div>
-        <div class="about-values-title">Our Vision</div>
+        <div class="about-values-statement"><span class="about-values-mark">“</span>YogIntra’s vision is simple: to connect people with yoga, connect the body with the mind, and ultimately help individuals discover the inner connection within themselves.</div>
+        <div class="about-values-title"><span>Our Vision</span></div>
         <div class="about-values-list">
-            <span>History</span><span>Facilities</span><span>Inner Peace</span><span>Wellness</span><span>Peace Mind</span>
+            <span><b>01</b>History</span><span><b>02</b>Facilities</span><span><b>03</b>Inner Peace</span><span><b>04</b>Wellness</span><span><b>05</b>Peace Mind</span>
         </div>
     </div>
 </section>
