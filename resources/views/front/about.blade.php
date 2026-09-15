@@ -475,9 +475,30 @@
             margin: 20px!important;
          }
       }
-   </style>
+      .about-page { background:#f7fbfa; overflow:hidden; }
+      .about-page .inner-header { margin-bottom:0; }
+      .about-page .about-section { background:#fff; }
+      .about-page .about-section .container { padding-top:86px; padding-bottom:86px; }
+      .about-page .about-section .inner-column { height:100%; }
+      .about-page .about-section .image-1 { margin:0; overflow:hidden; border-radius:18px; box-shadow:0 20px 48px rgba(19,65,73,.18); }
+      .about-page .about-section .image-1 img { transition:transform .45s ease; }
+      .about-page .about-section .image-1:hover img { transform:scale(1.035); }
+      .about-page .about-section .author-desc { border-radius:10px; box-shadow:0 10px 28px rgba(16,85,94,.18); }
+      .about-page .about-section .sec-title h2, .about-page .section-title h2 { color:#153f49; font-weight:800; letter-spacing:-.02em; }
+      .about-page .about-section .text, .about-page .text-size { color:#58727a; font-size:17px; line-height:1.82; }
+      .about-page .about-section .btn-box a { border-radius:999px; box-shadow:0 10px 22px rgba(15,124,135,.24); }
+      .about-page .about-story { position:relative; padding:76px 0; background-color:#edf7f5; background-size:cover; }
+      .about-page .about-story .about-logo-panel { display:grid; min-height:100%; place-items:center; padding:34px; border-radius:18px; background:#fff; box-shadow:0 14px 36px rgba(20,63,73,.1); }
+      .about-page .about-story .about-logo-panel img { max-width:230px; width:100%; }
+      .about-page .about-mission { position:relative; padding:110px 0; }
+      .about-page .about-mission .mission-copy { padding:34px; border-left:4px solid #e8a72b; background:rgba(9,39,45,.62); border-radius:0 14px 14px 0; }
+      .about-page .about-mission h2 { font-size:38px; font-weight:800; }
+      .about-page .about-mission p { font-size:17px; line-height:1.78; }
+      @media (max-width:767px) { .about-page .about-section .container { padding-top:54px; padding-bottom:54px; } .about-page .about-story, .about-page .about-mission { padding:54px 0; } .about-page .about-mission .mission-copy { padding:24px; } .about-page .about-mission h2 { font-size:30px; } }
+  </style>
 @endpush
 @section('content')
+<main class="about-page">
 
 <!-- Section: inner-header -->
 <section class="inner-header divider parallax layer-overlay overlay-dark-7"
@@ -532,13 +553,13 @@
 </section>
 
 <!-- Section: About YogIntra -->
-<section class="divider" data-bg-img="{{ asset('assets/bg-graphic-free-img-1.webp') }}">
+<section class="divider about-story" data-bg-img="{{ asset('assets/bg-graphic-free-img-1.webp') }}">
     <div class="container pt-45 pb-20 section-padding-2">
         <div class="section-title">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4"><div class="about-logo-panel">
                     <img src="{{ asset('assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.png') }}" alt="YogIntra logo" />
-                </div>
+                </div></div>
                 <div class="col-md-8 text-xs-center">
                     <h2 class="mt-40 text-xs-center">About YogIntra:</h2>
                     <p class="text-size">
@@ -554,17 +575,17 @@
 </section>
 
 <!-- Section: Why YogIntra -->
-<section class="divider parallax layer-overlay overlay-theme-colored2-9"
+<section class="divider parallax layer-overlay overlay-theme-colored2-9 about-mission"
     data-bg-img="{{ asset('assets/about-women.webp') }}">
     <div class="container pt-125 pb-125">
         <div class="section-title">
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-6"><div class="mission-copy">
                     <h2 class="mt-0 text-white">Our Vision And Mission</h2>
                     <p class="text-white">Our vision at YogIntra is to make yoga a natural and meaningful part of everyday life. We aim to build a global community where people of every age, gender, and background can experience the physical, mental, and emotional benefits of yoga.</p>
                     <p class="text-white">We envision a healthier and more balanced world where yoga is accessible to everyone—whether at home, online, at the workplace, or in a yoga studio. Through trusted yoga experts, personalized guidance, and a welcoming community, we strive to help people build healthier habits, find inner balance, and connect with themselves.</p>
                     <p class="text-white">YogIntra’s vision is simple: to connect people with yoga, connect the body with the mind, and ultimately help individuals discover the inner connection within themselves.</p>
-                </div>
+                </div></div>
             </div>
         </div>
     </div>
@@ -602,6 +623,7 @@
         </div>
     </div>
 </section>
+</main>
 @endsection
 
 @push('scripts')   
