@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 use App\Models\LandingPageSection;
 use App\Services\OptimizedImageUpload;
 use Illuminate\Validation\Rule;
@@ -318,7 +319,7 @@ class LandingPageController extends Controller
                 $blocks[$blockIndex]['image'] = app(OptimizedImageUpload::class)->store($blockImage, 'uploads/landing-pages');
             }
 
-            LandingPageSection::create([
+            $sectionPayload = [
                 'landing_page_id' => $pageId,
                 'section_type' => $section['section_type'],
                 'heading' => $section['heading'] ?? null,
@@ -353,7 +354,13 @@ class LandingPageController extends Controller
                 'card_alignment' => $section['card_alignment'] ?? 'center',
                 'grid_gap' => $section['grid_gap'] ?? 24,
                 'sort_order' => $order,
-            ]);
+            ];
+
+            // Deployments can briefly run newer application code before all
+            // database migrations have been applied. Keep existing page edits
+            // saveable while ignoring only fields absent from that older schema.
+            $availableColumns = array_flip(Schema::getColumnListing('landing_page_sections'));
+            LandingPageSection::create(array_intersect_key($sectionPayload, $availableColumns));
         }
     }
 

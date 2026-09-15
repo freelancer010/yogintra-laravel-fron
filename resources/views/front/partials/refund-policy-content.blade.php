@@ -1,4 +1,3 @@
-+Refund Policy
 Last Updated: September 14, 2026
 At YogIntra, we aim to provide reliable and high-quality yoga and wellness services. This Refund Policy explains the circumstances under which payments made for YogIntra services may be cancelled, refunded, or rescheduled.
 By booking or purchasing any YogIntra service, you acknowledge that you have read and understood this Refund Policy along with our Terms & Conditions.
