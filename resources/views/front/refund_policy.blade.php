@@ -116,6 +116,7 @@
 
 <style>
   .entry-meta > p:not(.text-center), .entry-meta > ul, .updated-policy { display:none; }
+  .entry-meta > p.text-center { margin-bottom: 28px; }
   .updated-policy-full { color:#566f76; font-size:16px; line-height:1.8; }
   .updated-policy-full h3 { margin:34px 0 13px; color:#153f49; font-size:21px; font-weight:700; line-height:1.35; }
   .updated-policy-full p { margin:0 0 13px; }
