@@ -495,6 +495,9 @@
       .about-page .about-mission h2 { font-size:38px; font-weight:800; }
       .about-page .about-mission p { font-size:17px; line-height:1.78; }
       .about-page .about-values { padding:88px 0; background:#fff6e7; }
+      .about-page .about-values-statement { max-width:1000px; margin:0 auto 52px; padding:0 0 20px; border-bottom:1px solid #d9cbb6; color:#153f49; font-size:21px; font-weight:700; line-height:1.55; }
+      .about-page .about-values-title { max-width:880px; margin:0 auto 34px; padding:8px 18px; background:#fff0d8; color:#dc5d3f; font-size:19px; font-weight:700; letter-spacing:.08em; text-align:center; text-transform:uppercase; }
+      .about-page .about-values-list { display:flex; flex-direction:column; align-items:center; gap:15px; max-width:880px; margin:0 auto; padding:36px 24px; background:#fff0d8; color:#61767d; font-size:18px; font-weight:500; text-align:center; text-transform:uppercase; }
       .about-page .about-values-intro { height:100%; min-height:345px; padding:42px 38px; border-radius:18px; background-color:#78b947; background-size:cover; background-position:center; color:#fff; box-shadow:0 18px 38px rgba(77,122,42,.2); }
       .about-page .about-values-intro span, .about-page .about-values-label { display:block; margin-bottom:15px; color:#e3a72d; font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
       .about-page .about-values-intro span { color:rgba(255,255,255,.8); }
@@ -505,7 +508,7 @@
       .about-page .about-values-copy > p:not(.about-values-label) { color:#60757b; font-size:17px; line-height:1.78; }
       .about-page .about-values-points { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
       .about-page .about-values-points span { padding:8px 13px; border-radius:999px; background:#eaf5f2; color:#16717a; font-size:13px; font-weight:700; }
-      @media (max-width:767px) { .about-page .about-section .container { padding-top:54px; padding-bottom:54px; } .about-page .about-story, .about-page .about-mission { padding:54px 0; } .about-page .about-mission .mission-copy { padding:24px; } .about-page .about-mission h2 { font-size:30px; } }
+      @media (max-width:767px) { .about-page .about-section .container { padding-top:54px; padding-bottom:54px; } .about-page .about-story, .about-page .about-mission { padding:54px 0; } .about-page .about-mission .mission-copy { padding:24px; } .about-page .about-mission h2 { font-size:30px; } .about-page .about-values { padding:56px 0; } .about-page .about-values-statement { font-size:18px; } }
   </style>
 @endpush
 @section('content')
@@ -605,23 +608,10 @@
 <!-- Section: Vision and Mission -->
 <section class="about-values">
     <div class="container">
-        <div class="row align-items-stretch">
-            <div class="col-lg-4 mb-4 mb-lg-0">
-                <div class="about-values-intro" data-bg-img="{{ asset('assets/greenfloralbg-image1.webp') }}">
-                    <span>YogIntra purpose</span>
-                    <h2>Wellness that fits real life.</h2>
-                    <p>Yoga for balance, strength, connection and a healthier everyday rhythm.</p>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="about-values-copy">
-                    <p class="about-values-label">Our vision and mission</p>
-                    <h2>Making yoga accessible, meaningful and lasting.</h2>
-                    <p>We aim to build a global community where people of every age, gender, and background can experience the physical, mental, and emotional benefits of yoga.</p>
-                    <p>Through trusted experts, personalised guidance, and a welcoming community, we help people build healthier habits, find inner balance, and connect with themselves.</p>
-                    <div class="about-values-points"><span>Accessible practice</span><span>Trusted guidance</span><span>Inner connection</span></div>
-                </div>
-            </div>
+        <div class="about-values-statement">YogIntra’s vision is simple: to connect people with yoga, connect the body with the mind, and ultimately help individuals discover the inner connection within themselves.</div>
+        <div class="about-values-title">Our Vision</div>
+        <div class="about-values-list">
+            <span>History</span><span>Facilities</span><span>Inner Peace</span><span>Wellness</span><span>Peace Mind</span>
         </div>
     </div>
 </section>
