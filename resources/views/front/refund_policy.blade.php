@@ -35,6 +35,14 @@
               <div class="entry-meta media mt-0 no-bg no-border">
                 <h2 class="text-center">Refund Policy</h2>
                 <p class="text-center"><strong>Last Updated: September 14, 2026</strong></p>
+                <div class="updated-policy"><p>At YogIntra, we aim to provide reliable yoga and wellness services. This policy explains when payments may be cancelled, refunded, or rescheduled. By booking or purchasing a service, you accept this policy and our Terms &amp; Conditions.</p>
+                  <h3>1. Scope and General Conditions</h3><p>This policy applies to home visits, online and corporate yoga, centre sessions, TTC, retreats, workshops, and related programs. Eligibility depends on cancellation timing, whether service has started or been completed, service type, applicable charges, and terms communicated for a booking.</p>
+                  <h3>2. Cancellation, Rescheduling and No-Shows</h3><p>Contact us promptly to cancel or reschedule. Late cancellations, missed sessions, and customer-side online technical issues may not qualify for a refund. Rescheduling depends on availability and may be limited.</p>
+                  <h3>3. Service-Specific Refunds</h3><p>Online, home-visit, workshop, retreat, TTC, and corporate services may have separate conditions. Where YogIntra cannot conduct a service for reasons attributable to us, we may offer a replacement, rescheduling, credit, or eligible full or partial refund.</p>
+                  <h3>4. Non-Refundable Payments</h3><p>Unless stated otherwise, completed sessions, no-shows, late cancellations, certain promotions, communicated administrative fees, customised programs after preparation begins, and certain retreat, workshop, or TTC payments may be non-refundable.</p>
+                  <h3>5. Refund Requests and Review</h3><p>Requests should include the customer name, registered phone and email, service, booking or transaction details, payment date, reason, and relevant supporting information. Submission does not guarantee approval; YogIntra will review the applicable terms and circumstances.</p>
+                  <h3>6. Processing, Charges and Disputed Payments</h3><p>Approved refunds are initiated through the original payment method where reasonably possible. Bank, card, gateway, or administrative charges may be deducted where communicated and legally permitted. Report duplicate, incorrect, fraudulent, or unauthorised payments promptly for verification.</p>
+                  <h3>7. Changes, Contact and Agreement</h3><p>We may update this policy with a revised Last Updated date. Contact YogIntra at D-408 Shivlila Apt, Mumbra Devi Colony Road, Diva East, Thane – 400612, India; +91-9867291573; <a href="mailto:support@yogintra.com">support@yogintra.com</a>. By making payment, you accept this policy and applicable Terms &amp; Conditions.</p></div>
 
                 <p>Personal Training sessions paid for in advance will not be refunded. Our refund policy for physical products sold through our website lasts 30 days. If 30 days have gone by since your purchase, unfortunately we can’t offer you a refund or exchange.</p>
 
@@ -95,7 +103,9 @@
 </section>
 
 <style>
-  p {
+  .entry-meta > p:not(.text-center), .entry-meta > ul { display:none; }
+  .updated-policy h3 { margin-top:30px; color:#153f49; font-size:20px; }
+  .updated-policy p {
     margin-top: 20px;
   }
 </style>
