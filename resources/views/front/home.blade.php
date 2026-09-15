@@ -574,37 +574,22 @@
                 };
             @endphp
             <div class="hero-video-wrap" @if($heroPoster) style="background-image: url('{{ asset($heroPoster) }}');" @endif>
-                <video class="hero-background-video" muted loop playsinline preload="none" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}" @if($heroPoster) poster="{{ asset($heroPoster) }}" @endif>
-                    <source data-src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
+                <video class="hero-background-video" autoplay muted loop playsinline preload="metadata" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}" @if($heroPoster) poster="{{ asset($heroPoster) }}" @endif>
+                    <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
                 </video>
                 <script>
                     (function () {
                         var video = document.querySelector('.hero-background-video');
-                        var source = video && video.querySelector('source[data-src]');
-                        if (!video || !source) return;
-                        var startVideo = function () {
-                            var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-                            if (connection && (connection.saveData || /(^|-)2g/.test(connection.effectiveType || ''))) return;
-
-                            source.src = source.dataset.src;
-                            video.autoplay = true;
-                            video.load();
-                            video.play().catch(function () {});
-                        };
-
-                        // Keep the lightweight poster as the first visual paint, then
-                        // begin the large background video once the browser is idle.
-                        if ('requestIdleCallback' in window) {
-                            window.requestIdleCallback(startVideo, { timeout: 2500 });
-                        } else {
-                            window.setTimeout(startVideo, 1500);
-                        }
+                        if (!video) return;
+                        video.muted = true;
+                        var startVideo = function () { video.play().catch(function () {}); };
+                        video.addEventListener('canplay', startVideo, { once: true });
+                        startVideo();
 
                         var showPosterFallback = function () {
                             video.style.display = 'none';
                         };
                         video.addEventListener('error', showPosterFallback);
-                        source.addEventListener('error', showPosterFallback);
                     }());
                 </script>
                 @if($heroVideoHeading)
