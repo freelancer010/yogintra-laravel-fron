@@ -43,6 +43,7 @@
                   <h3>5. Refund Requests and Review</h3><p>Requests should include the customer name, registered phone and email, service, booking or transaction details, payment date, reason, and relevant supporting information. Submission does not guarantee approval; YogIntra will review the applicable terms and circumstances.</p>
                   <h3>6. Processing, Charges and Disputed Payments</h3><p>Approved refunds are initiated through the original payment method where reasonably possible. Bank, card, gateway, or administrative charges may be deducted where communicated and legally permitted. Report duplicate, incorrect, fraudulent, or unauthorised payments promptly for verification.</p>
                   <h3>7. Changes, Contact and Agreement</h3><p>We may update this policy with a revised Last Updated date. Contact YogIntra at D-408 Shivlila Apt, Mumbra Devi Colony Road, Diva East, Thane – 400612, India; +91-9867291573; <a href="mailto:support@yogintra.com">support@yogintra.com</a>. By making payment, you accept this policy and applicable Terms &amp; Conditions.</p></div>
+                <div class="updated-policy-full">{!! nl2br(e(view('front.partials.refund-policy-content')->render())) !!}</div>
 
                 <p>Personal Training sessions paid for in advance will not be refunded. Our refund policy for physical products sold through our website lasts 30 days. If 30 days have gone by since your purchase, unfortunately we can’t offer you a refund or exchange.</p>
 
@@ -103,7 +104,8 @@
 </section>
 
 <style>
-  .entry-meta > p:not(.text-center), .entry-meta > ul { display:none; }
+  .entry-meta > p:not(.text-center), .entry-meta > ul, .updated-policy { display:none; }
+  .updated-policy-full { color:#566f76; font-size:16px; line-height:1.8; }
   .updated-policy h3 { margin-top:30px; color:#153f49; font-size:20px; }
   .updated-policy p {
     margin-top: 20px;
