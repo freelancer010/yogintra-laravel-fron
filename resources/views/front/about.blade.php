@@ -494,6 +494,17 @@
       .about-page .about-mission .mission-copy { padding:34px; border-left:4px solid #e8a72b; background:rgba(9,39,45,.62); border-radius:0 14px 14px 0; }
       .about-page .about-mission h2 { font-size:38px; font-weight:800; }
       .about-page .about-mission p { font-size:17px; line-height:1.78; }
+      .about-page .about-values { padding:88px 0; background:#fff6e7; }
+      .about-page .about-values-intro { height:100%; min-height:345px; padding:42px 38px; border-radius:18px; background-color:#78b947; background-size:cover; background-position:center; color:#fff; box-shadow:0 18px 38px rgba(77,122,42,.2); }
+      .about-page .about-values-intro span, .about-page .about-values-label { display:block; margin-bottom:15px; color:#e3a72d; font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+      .about-page .about-values-intro span { color:rgba(255,255,255,.8); }
+      .about-page .about-values-intro h2 { margin:0 0 18px; color:#fff; font-size:34px; font-weight:800; line-height:1.18; }
+      .about-page .about-values-intro p { color:#fff; font-size:17px; line-height:1.7; }
+      .about-page .about-values-copy { height:100%; padding:48px 52px; border-radius:18px; background:#fff; box-shadow:0 14px 34px rgba(76,75,44,.08); }
+      .about-page .about-values-copy h2 { margin:0 0 22px; color:#153f49; font-size:32px; font-weight:800; line-height:1.22; }
+      .about-page .about-values-copy > p:not(.about-values-label) { color:#60757b; font-size:17px; line-height:1.78; }
+      .about-page .about-values-points { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
+      .about-page .about-values-points span { padding:8px 13px; border-radius:999px; background:#eaf5f2; color:#16717a; font-size:13px; font-weight:700; }
       @media (max-width:767px) { .about-page .about-section .container { padding-top:54px; padding-bottom:54px; } .about-page .about-story, .about-page .about-mission { padding:54px 0; } .about-page .about-mission .mission-copy { padding:24px; } .about-page .about-mission h2 { font-size:30px; } }
   </style>
 @endpush
@@ -592,32 +603,23 @@
 </section>
 
 <!-- Section: Vision and Mission -->
-<section style="background-color: #fff4e0;">
+<section class="about-values">
     <div class="container">
-        <div class="section-content">
-            <div class="row">
-                <div class="article">
-                    <div class="box1" data-bg-img="{{ asset('assets/greenfloralbg-image1.webp') }}">
-                        <div class="text-box1">
-                            <h3 class="yog-ttl wht">OUR VISION</h3>
-                            <p class="yog-cont">HISTORY</p>
-                            <p class="yog-cont">FACILITIES</p>
-                            <p class="yog-cont">INNER PEACE</p>
-                            <p class="yog-cont">TREATMENTS</p>
-                            <p class="yog-cont">PEACE MIND</p>
-                        </div>
-                    </div>
-                    <div class="box2">
-                        <div class="text-box2">
-                            <h3 class="yog-ttl">Our Vision And Mission:</h3>
-                            <p class="yog-cont">Making the best version of a human form in Yoga</p>
-                            <p class="yog-cont"><br>
-                              With a vision of YogIntra building a community helping people stay healthy, YogIntra have a mission of creating a strong and healthy youth. We are aiming to add yoga in every individuals schedule despite of today’s fast life that people can stay smiling in the toughest situation.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="title1"></div>
-                    <div class="title2"></div>
+        <div class="row align-items-stretch">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <div class="about-values-intro" data-bg-img="{{ asset('assets/greenfloralbg-image1.webp') }}">
+                    <span>YogIntra purpose</span>
+                    <h2>Wellness that fits real life.</h2>
+                    <p>Yoga for balance, strength, connection and a healthier everyday rhythm.</p>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="about-values-copy">
+                    <p class="about-values-label">Our vision and mission</p>
+                    <h2>Making yoga accessible, meaningful and lasting.</h2>
+                    <p>We aim to build a global community where people of every age, gender, and background can experience the physical, mental, and emotional benefits of yoga.</p>
+                    <p>Through trusted experts, personalised guidance, and a welcoming community, we help people build healthier habits, find inner balance, and connect with themselves.</p>
+                    <div class="about-values-points"><span>Accessible practice</span><span>Trusted guidance</span><span>Inner connection</span></div>
                 </div>
             </div>
         </div>
