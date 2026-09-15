@@ -197,6 +197,11 @@
   .column-support-controls { display:grid; gap:5px; margin-top:4px; }
   .column-support-controls label { margin:3px 0 0; color:#58757d; font-size:10px; font-weight:800; text-transform:uppercase; }
   .extra-element-control label { margin:3px 0 -3px; color:#58757d; font-size:10px; font-weight:800; text-transform:uppercase; }
+  .visual-style-panel .extra-element-control { display:block; min-width:0; }
+  .visual-style-panel .extra-element-control label { display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%; min-width:0; margin:12px 0 6px; line-height:1.25; }
+  .visual-style-panel .extra-element-control label small { margin-left:auto; color:#6d8790; font-size:10px; font-weight:700; letter-spacing:0; white-space:nowrap; }
+  .visual-style-panel .extra-element-control label span { float:none; flex:0 0 auto; white-space:nowrap; }
+  .visual-style-panel .extra-element-control input[type=range], .visual-style-panel .extra-element-control textarea, .visual-style-panel .extra-element-control select { display:block; width:100%; min-width:0; }
   .extra-element-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
   .extra-element-actions button { flex:1 1 120px; border:1px solid #16717a; border-radius:7px; padding:8px; background:#fff; color:#14616b; font-size:12px; font-weight:800; }
   .extra-element-actions button:hover { background:#16717a; color:#fff; }
