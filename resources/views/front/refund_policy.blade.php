@@ -43,7 +43,18 @@
                   <h3>5. Refund Requests and Review</h3><p>Requests should include the customer name, registered phone and email, service, booking or transaction details, payment date, reason, and relevant supporting information. Submission does not guarantee approval; YogIntra will review the applicable terms and circumstances.</p>
                   <h3>6. Processing, Charges and Disputed Payments</h3><p>Approved refunds are initiated through the original payment method where reasonably possible. Bank, card, gateway, or administrative charges may be deducted where communicated and legally permitted. Report duplicate, incorrect, fraudulent, or unauthorised payments promptly for verification.</p>
                   <h3>7. Changes, Contact and Agreement</h3><p>We may update this policy with a revised Last Updated date. Contact YogIntra at D-408 Shivlila Apt, Mumbra Devi Colony Road, Diva East, Thane – 400612, India; +91-9867291573; <a href="mailto:support@yogintra.com">support@yogintra.com</a>. By making payment, you accept this policy and applicable Terms &amp; Conditions.</p></div>
-                <div class="updated-policy-full">{!! nl2br(e(view('front.partials.refund-policy-content')->render())) !!}</div>
+                <div class="updated-policy-full">
+                  @foreach(preg_split('/\R/', trim(view('front.partials.refund-policy-content')->render())) as $line)
+                    @continue(in_array(trim($line), ['Refund Policy', 'Last Updated: September 14, 2026']))
+                    @if(preg_match('/^\d+\.\s+/', trim($line)))
+                      <h3>{{ trim($line) }}</h3>
+                    @elseif(str_starts_with(trim($line), ''))
+                      <ul><li>{{ ltrim(trim($line), '') }}</li></ul>
+                    @elseif(trim($line))
+                      <p>{{ trim($line) }}</p>
+                    @endif
+                  @endforeach
+                </div>
 
                 <p>Personal Training sessions paid for in advance will not be refunded. Our refund policy for physical products sold through our website lasts 30 days. If 30 days have gone by since your purchase, unfortunately we can’t offer you a refund or exchange.</p>
 
@@ -106,6 +117,10 @@
 <style>
   .entry-meta > p:not(.text-center), .entry-meta > ul, .updated-policy { display:none; }
   .updated-policy-full { color:#566f76; font-size:16px; line-height:1.8; }
+  .updated-policy-full h3 { margin:34px 0 13px; color:#153f49; font-size:21px; font-weight:700; line-height:1.35; }
+  .updated-policy-full p { margin:0 0 13px; }
+  .updated-policy-full ul { margin:2px 0 7px; padding-left:23px; }
+  .updated-policy-full li { margin:4px 0; }
   .updated-policy h3 { margin-top:30px; color:#153f49; font-size:20px; }
   .updated-policy p {
     margin-top: 20px;
