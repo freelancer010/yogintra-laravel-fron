@@ -93,6 +93,11 @@
   .visual-style-panel input[type=color] { width:100%; height:34px; border:1px solid #d9e6e9; border-radius:7px; padding:3px; background:#fff; }
   .visual-style-panel select { width:100%; min-height:34px; border:1px solid #d9e6e9; border-radius:7px; padding:5px 7px; background:#fff; font-size:12px; }
   .visual-style-panel input[type=range] { width:100%; accent-color:#16717a; }
+  .visual-style-panel .back-to-column { display:inline-flex; align-items:center; gap:5px; margin:0 0 5px; border:1px solid #b8d7db; border-radius:7px; padding:7px 10px; background:#f5fbfb; color:#175660; font-size:12px; font-weight:800; cursor:pointer; transition:.16s ease; }
+  .visual-style-panel .back-to-column:hover { border-color:#16717a; background:#16717a; color:#fff; }
+  .visual-style-panel textarea[data-text-editor], .visual-style-panel textarea[data-column-text-editor] { display:block; width:100%; min-height:108px; resize:vertical; border:1px solid #b9d9dd; border-radius:9px; padding:10px 11px; background:linear-gradient(180deg,#fff,#f8fcfc); color:#264b54; font-family:inherit; font-size:13px; line-height:1.55; box-shadow:inset 0 1px 2px rgba(22,76,86,.04); transition:border-color .16s ease, box-shadow .16s ease; }
+  .visual-style-panel textarea[data-text-editor]::placeholder, .visual-style-panel textarea[data-column-text-editor]::placeholder { color:#8ba0a5; }
+  .visual-style-panel textarea[data-text-editor]:focus, .visual-style-panel textarea[data-column-text-editor]:focus { outline:0; border-color:#16717a; box-shadow:0 0 0 3px rgba(22,113,122,.14); background:#fff; }
   .builder-canvas-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
   .builder-canvas-header h4 { color:#153f48; font-weight:800; margin:0; }
   .builder-settings-button { display:inline-flex; align-items:center; gap:8px; border:0; border-radius:9px; padding:10px 14px; background:linear-gradient(135deg,#0f7a84,#14616c); color:#fff; font-weight:800; box-shadow:0 7px 16px rgba(15,122,132,.24); transition:transform .18s ease, box-shadow .18s ease, background .18s ease; }
