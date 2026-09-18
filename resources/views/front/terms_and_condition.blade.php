@@ -1,109 +1,36 @@
 @extends('layouts.layout')
-
 @section('meta_title', 'Terms & Conditions | Yoga Services, Booking & Policies')
 @section('meta_description', 'Read YogIntra’s Terms & Conditions covering yoga classes, bookings, payments, cancellations, refunds, user responsibilities, online sessions and website usage.')
-@section('meta_keywords', 'Terms and Conditions, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Personal Yoga Trainer at Home')
+@section('meta_keywords', 'Terms and Conditions, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home')
 @section('meta_author', 'YogIntra')
 
 @section('content')
-
-<!-- Section: inner-header -->
-<section class="inner-header divider parallax layer-overlay overlay-dark-7" style="background-image: url('{{ asset('assets/front/images/bg/bg6.jpg') }}'); background-position: 50% 45px; height: 300px;">
-  <div class="container pt-60 pb-60">
-    <div class="section-content">
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <h1 class="title text-white">Terms and Conditions</h1>
-          <ol class="breadcrumb text-center mt-10">
-            <li class="text-white"><a class="text-white" href="{{ url('/') }}">Home</a></li>
-            <li class="active text-gray">Terms and Conditions</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Section: Terms and Conditions Content -->
-<section>
-  <div class="container">
-    <div class="row multi-row-clearfix">
-      <div class="blog-posts">
-        <div class="col-md-12">
-          <article class="post clearfix mb-30 bg-lighter">
-            <div class="entry-content border-1px p-20 pr-10">
-              <div class="entry-meta media mt-0 no-bg no-border">
-                <h2 class="text-center">Terms and Conditions</h2>
-                <p class="text-center"><strong>Last Updated: September 14, 2026</strong></p>
-                <div class="updated-policy">
-                  <p>Welcome to YogIntra. These Terms &amp; Conditions govern your use of our website, services, classes, programs, workshops, retreats, and other offerings. By using YogIntra, you agree to these terms; if you do not agree, please do not use our website or services.</p>
-                  <h3>1. About YogIntra</h3><p>YogIntra offers home-visit, private and group online, corporate, centre-based, teacher-training, retreat, workshop, and related wellness services. Services may change, be suspended, or be discontinued where reasonably necessary.</p>
-                  <h3>2. Eligibility</h3><p>You confirm that information you provide is accurate and complete. Anyone booking for another person confirms authority to do so; parents and guardians are responsible for minors.</p>
-                  <h3>3. Yoga and Wellness Disclaimer</h3><p>Yoga and related activities involve physical movement and are not medical diagnosis, treatment, or advice. Consider your condition, seek qualified medical advice where appropriate, disclose relevant limitations, and stop immediately if you experience pain, dizziness, breathing difficulty, or concerning symptoms.</p>
-                  <h3>4. Booking and Registration</h3><p>Bookings may require advance registration and accurate contact, location, and service details. A booking is confirmed only after YogIntra confirmation or successful completion of the applicable booking or payment process.</p>
-                  <h3>5. Fees and Payments</h3><p>Fees and payment requirements are communicated through official booking channels. Prices, packages, offers, and payment requirements may change for future bookings.</p>
-                  <h3>6. Cancellation and Rescheduling</h3><p>Conditions vary by service and are communicated at booking. Contact us as early as possible. We may reschedule or cancel due to availability, technical issues, emergencies, weather, or circumstances beyond reasonable control.</p>
-                  <h3>7. Refunds</h3><p>Refund eligibility is governed by the applicable cancellation or refund policy. Approved refunds are generally processed by the original payment method. Completed services, special programs, and promotional offers may be non-refundable where communicated before purchase.</p>
-                  <h3>8. Online Yoga Sessions</h3><p>You are responsible for a suitable internet connection, device, space, and equipment. You may not record, reproduce, distribute, sell, publish, or commercially exploit sessions without written permission.</p>
-                  <h3>9. Home-Visit Yoga Services</h3><p>You must provide a reasonably safe, suitable, and hazard-free practice environment. YogIntra may refuse or discontinue an unsafe session.</p>
-                  <h3>10. Instructor and Service Availability</h3><p>Availability may change due to illness, emergencies, or scheduling conflicts. We may assign another instructor or propose an alternative schedule where reasonably necessary.</p>
-                  <h3>11. User Responsibilities</h3><p>Provide accurate information; follow reasonable instructor directions; behave respectfully; avoid endangering others; do not misuse the website; do not interfere with its security or operation; and do not copy or commercially exploit YogIntra content without permission.</p>
-                  <h3>12. Website Use and Intellectual Property</h3><p>Website content is for personal and lawful use. Text, graphics, logos, photographs, videos, designs, branding, and materials belong to YogIntra or licensors unless stated otherwise and may not be reproduced or distributed without permission.</p>
-                  <h3>13. User Content and Third-Party Services</h3><p>You confirm you have rights to submitted reviews, feedback, photographs, or other content and grant YogIntra permission to use it lawfully. Third-party links and services operate independently; review their terms and privacy policies.</p>
-                  <h3>14. Liability, Indemnity and Privacy</h3><p>To the extent permitted by law, YogIntra is not responsible for consequences beyond reasonable control or from a failure to follow safety instructions or disclose relevant health information. You agree to indemnify YogIntra for misuse, violations of these terms, or infringement of others’ rights. Information is handled under our Privacy Policy.</p>
-                  <h3>15. Changes, Force Majeure and Governing Law</h3><p>We may update these terms with a revised Last Updated date. We are not responsible for delays caused by events beyond reasonable control. These terms are governed by applicable laws of India, with disputes subject to the appropriate Indian courts.</p>
-                  <h3>16. Contact and Acceptance</h3><p>Contact YogIntra at D-408 Shivlila Apt, Mumbra Devi Colony Road, Diva East, Thane – 400612, India; +91-9867291573; <a href="mailto:support@yogintra.com">support@yogintra.com</a>. By accessing the website, booking, purchasing, or participating, you accept these Terms &amp; Conditions.</p>
-                </div>
-
-                <p>Welcome to YogIntra. These terms and conditions outline the rules and regulations for the use of YogIntra’s Website, located at https://www.yogintra.com.</p>
-
-                <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use YogIntra if you do not agree to take all of the terms and conditions stated on this page.</p>
-
-                <p><strong>License</strong></p>
-                <p>Unless otherwise stated, YogIntra and/or its licensors own the intellectual property rights for all material on YogIntra. All intellectual property rights are reserved. You may access this from YogIntra for your own personal use subjected to restrictions set in these terms and conditions.</p>
-
-                <p>You must not:</p>
-                <ul>
-                  <li>Republish material from YogIntra</li>
-                  <li>Sell, rent or sub-license material from YogIntra</li>
-                  <li>Reproduce, duplicate or copy material from YogIntra</li>
-                  <li>Redistribute content from YogIntra</li>
-                </ul>
-
-                <p><strong>User Comments</strong></p>
-                <p>Parts of this website offer an opportunity for users to post and exchange opinions and information. YogIntra does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of YogIntra, its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions.</p>
-
-                <p>YogIntra reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.</p>
-
-                <p><strong>Your Privacy</strong></p>
-                <p>Please read our Privacy Policy.</p>
-
-                <p><strong>Reservation of Rights</strong></p>
-                <p>We reserve the right to request that you remove all links or any particular link to our Website. You approve to immediately remove all links to our Website upon request.</p>
-
-                <p><strong>Removal of links from our website</strong></p>
-                <p>If you find any link on our Website that is offensive for any reason, you are free to contact and inform us. We will consider requests to remove links but we are not obligated to or so or to respond to you directly.</p>
-
-                <p><strong>Disclaimer</strong></p>
-                <p>To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to our website and the use of this website.</p>
-
-                <p>For more information, please contact us at <strong>support&#64;yogintra&#46;com</strong> or mail us at:</p>
-                <p><strong>D-408 Shivlila Apt Mumbra devi colony road Diva East Thane-400612, India.</strong></p>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-  .entry-meta > p:not(.text-center), .entry-meta > ul { display:none; }
-  .updated-policy h3 { margin-top:30px; color:#153f49; font-size:20px; }
-  .updated-policy p {
-    margin-top: 20px;
-  }
-</style>
-
+<section class="inner-header divider parallax layer-overlay overlay-dark-7" style="background-image:url('{{ asset('assets/front/images/bg/bg6.jpg') }}');background-position:50% 45px;height:300px"><div class="container pt-60 pb-60"><div class="section-content"><div class="row"><div class="col-md-12 text-center"><h1 class="title text-white">Terms and Conditions</h1><ol class="breadcrumb text-center mt-10"><li class="text-white"><a class="text-white" href="{{ url('/') }}">Home</a></li><li class="active text-gray">Terms and Conditions</li></ol></div></div></div></div></section>
+<section><div class="container"><div class="row multi-row-clearfix"><div class="blog-posts"><div class="col-md-12"><article class="post clearfix mb-30 bg-lighter"><div class="entry-content border-1px p-20 pr-10"><div class="entry-meta media mt-0 no-bg no-border terms-policy"><h2 class="text-center">Terms &amp; Conditions</h2><p class="text-center terms-policy-updated"><strong>Last Updated: September 14, 2026</strong></p><div class="updated-policy">
+<p>Welcome to YogIntra. These Terms &amp; Conditions govern your access to and use of the YogIntra website, services, classes, programs, workshops, retreats, and other offerings provided through YogIntra.</p><p>By accessing our website or booking, purchasing, or participating in any YogIntra service, you acknowledge that you have read, understood, and agreed to these Terms &amp; Conditions. If you do not agree with any part of these terms, please do not use our website or services.</p>
+<h3>1. About YogIntra</h3><p>YogIntra provides yoga and wellness-related services designed to support physical, mental, and overall well-being. Our services may include home-visit yoga, private online yoga, group online yoga, corporate yoga, yoga-center sessions, teacher training programs, retreats, workshops, and related wellness activities.</p><p>Information about our services may change from time to time, and YogIntra reserves the right to modify, suspend, or discontinue any service without prior notice where reasonably necessary.</p>
+<h3>2. Eligibility</h3><p>By using YogIntra's website or services, you confirm that the information provided by you is accurate and complete.</p><p>If you are booking a service for another person, you confirm that you are authorized to make the booking on their behalf and that they agree to these Terms &amp; Conditions.</p><p>Parents or legal guardians are responsible for bookings and participation involving minors.</p>
+<h3>3. Yoga and Wellness Disclaimer</h3><p>Yoga, meditation, breathing exercises, and related wellness activities involve physical movement and may not be suitable for everyone.</p><p>YogIntra's services are intended for general wellness and educational purposes and are not a substitute for medical diagnosis, treatment, or professional medical advice.</p><p>Before participating in a yoga session, you should consider your individual physical condition and consult a qualified healthcare professional where appropriate, particularly if you have an existing medical condition, injury, pregnancy-related concern, or other health consideration.</p><p>You are responsible for informing your instructor about relevant physical limitations, injuries, medical conditions, or other circumstances that may affect your participation.</p><p>You should immediately stop an activity if you experience pain, dizziness, breathing difficulties, or any unusual or concerning symptoms and seek appropriate professional assistance.</p>
+<h3>4. Booking and Registration</h3><p>Certain YogIntra services may require advance booking or registration.</p><p>When making a booking, you agree to provide accurate information, including your name, contact details, preferred service, location, and other information reasonably required to arrange the session.</p><p>YogIntra reserves the right to decline, modify, or cancel a booking where circumstances require it, including instructor availability, operational issues, incorrect information, or other legitimate reasons.</p><p>A booking should be considered confirmed only after confirmation from YogIntra or successful completion of the applicable booking/payment process.</p>
+<h3>5. Fees and Payments</h3><p>Fees for YogIntra services are communicated through the applicable booking process, website, or other official communication channels.</p><p>Where payment is required in advance, you agree to pay the applicable amount using the available payment method.</p><p>You are responsible for providing accurate payment information and completing payments within the required timeframe.</p><p>YogIntra reserves the right to change service prices, packages, offers, or payment requirements. Changes generally apply to future bookings and do not affect payments already confirmed unless otherwise communicated.</p>
+<h3>6. Cancellation and Rescheduling</h3><p>Cancellation and rescheduling policies may vary depending on the service, package, program, workshop, retreat, or booking.</p><p>If you need to cancel or reschedule a session, please contact YogIntra as early as possible.</p><p>Where applicable, cancellation charges, refund eligibility, or rescheduling conditions will be communicated at the time of booking or through the relevant service policy.</p><p>YogIntra may also reschedule or cancel a session because of instructor availability, technical problems, operational circumstances, emergencies, weather conditions, or other events beyond reasonable control.</p>
+<h3>7. Refunds</h3><p>Refund eligibility depends on the applicable service and its cancellation or refund policy.</p><p>Where a refund is approved, it will generally be processed through the original payment method or another appropriate method determined by YogIntra.</p><p>Certain services, packages, workshops, retreats, promotional offers, or completed sessions may be non-refundable where this has been communicated before purchase.</p><p>Users should review the applicable refund terms before completing a payment.</p>
+<h3>8. Online Yoga Sessions</h3><p>For online sessions, you are responsible for maintaining a suitable internet connection, compatible device, appropriate space, and necessary equipment.</p><p>YogIntra is not responsible for interruptions caused by your internet connection, device, software, electricity, or other circumstances outside our reasonable control.</p><p>You agree not to record, reproduce, distribute, sell, publish, or commercially exploit an online session or its content without prior written permission from YogIntra.</p>
+<h3>9. Home-Visit Yoga Services</h3><p>For home-visit services, you are responsible for providing the instructor with a reasonably safe and suitable environment for conducting the session.</p><p>You should ensure that the practice area is free from avoidable hazards and has sufficient space for the planned activities.</p><p>YogIntra may refuse or discontinue a session if the environment presents a reasonable safety concern.</p>
+<h3>10. Instructor and Service Availability</h3><p>YogIntra makes reasonable efforts to provide qualified instructors and maintain scheduled services. However, instructor availability may change due to illness, emergencies, scheduling conflicts, or other circumstances.</p><p>YogIntra may assign a different instructor or propose an alternative schedule when reasonably necessary.</p><p>Any instructor profiles, qualifications, descriptions, photographs, schedules, or service information displayed on the website are provided for general informational purposes and may change.</p>
+<h3>11. User Responsibilities</h3><p>When using YogIntra services, you agree to:</p><ul><li>Provide accurate and up-to-date information.</li><li>Follow reasonable instructions provided by your yoga instructor.</li><li>Behave respectfully toward instructors, staff, and other participants.</li><li>Maintain appropriate conduct during online and offline sessions.</li><li>Avoid activities that may endanger yourself or others.</li><li>Not misuse the YogIntra website, booking system, or services.</li><li>Not attempt to interfere with the security or operation of the website.</li><li>Not copy, reproduce, distribute, or commercially exploit YogIntra content without permission.</li></ul>
+<h3>12. Website Use</h3><p>The YogIntra website is provided to give users information about our organization, services, yoga programs, instructors, and related offerings.</p><p>You agree not to use the website for unlawful purposes or in a way that could damage, disable, overload, or impair the website or interfere with another user's access.</p><p>We may update, modify, suspend, or discontinue portions of the website or its content at any time.</p>
+<h3>13. Intellectual Property</h3><p>Unless otherwise stated, the content available on the YogIntra website, including text, graphics, logos, photographs, videos, designs, branding, and other materials, belongs to YogIntra or its respective licensors.</p><p>You may access and use website content for personal and lawful purposes only.</p><p>You may not reproduce, modify, distribute, republish, sell, transmit, or commercially exploit YogIntra's copyrighted or proprietary content without prior written permission.</p>
+<h3>14. User-Submitted Information and Content</h3><p>If you voluntarily submit reviews, testimonials, feedback, photographs, comments, or other content to YogIntra, you confirm that you have the necessary rights to provide that content.</p><p>You grant YogIntra permission to use such content for legitimate business, promotional, informational, or marketing purposes, subject to applicable law and our Privacy Policy.</p><p>You should not submit confidential, unlawful, defamatory, or third-party copyrighted material without the appropriate authorization.</p>
+<h3>15. Third-Party Links and Services</h3><p>The YogIntra website or communications may contain links to third-party websites, platforms, payment services, or other resources.</p><p>Such third-party services are operated independently from YogIntra. We are not responsible for their content, availability, security, privacy practices, terms, or policies.</p><p>You should review the applicable terms and privacy policies of third-party services before using them.</p>
+<h3>16. Limitation of Liability</h3><p>To the maximum extent permitted by applicable law, YogIntra shall not be responsible for losses, injuries, damages, interruptions, or other consequences arising from circumstances beyond its reasonable control or from a user's failure to follow safety instructions or disclose relevant health information.</p><p>Nothing in these Terms &amp; Conditions is intended to exclude or limit liability where such exclusion or limitation is prohibited by applicable law.</p>
+<h3>17. Indemnification</h3><p>To the extent permitted by applicable law, you agree to indemnify and hold YogIntra, its instructors, representatives, employees, and service providers harmless from claims, losses, liabilities, damages, costs, or expenses arising from your misuse of the website or services, violation of these Terms &amp; Conditions, or violation of applicable laws or third-party rights.</p>
+<h3>18. Privacy</h3><p>Your use of YogIntra's website and services may involve the collection and processing of personal information.</p><p>Such information will be handled in accordance with YogIntra's applicable Privacy Policy.</p><p>You should review the Privacy Policy to understand how your information may be collected, used, stored, and protected.</p>
+<h3>19. Changes to These Terms</h3><p>YogIntra may update these Terms &amp; Conditions from time to time to reflect changes in our services, business practices, legal requirements, or website functionality.</p><p>Updated terms will be published on this page with a revised "Last Updated" date.</p><p>Your continued use of the website or services after an update indicates your acceptance of the revised Terms &amp; Conditions, to the extent permitted by applicable law.</p>
+<h3>20. Force Majeure</h3><p>YogIntra will not be responsible for failure or delay in performing its obligations when such failure or delay results from circumstances beyond reasonable control, including natural disasters, epidemics, government restrictions, technical failures, internet disruptions, strikes, emergencies, or other unforeseen events.</p>
+<h3>21. Governing Law and Jurisdiction</h3><p>These Terms &amp; Conditions shall be interpreted in accordance with the applicable laws of India.</p><p>Subject to applicable law, disputes relating to YogIntra's website or services shall be subject to the jurisdiction of the appropriate courts in India.</p>
+<h3>22. Contact Us</h3><p>If you have questions regarding these Terms &amp; Conditions, bookings, services, cancellations, or other YogIntra policies, please contact us through the official YogIntra contact channels.</p><p>YogIntra<br>D-408 Shivlila Apt, Mumbra Devi Colony Road,<br>Diva East, Thane – 400612, India<br>Phone: +91-9867291573<br>Email: <a href="mailto:support@yogintra.com">support@yogintra.com</a></p>
+<h3>23. Acceptance of Terms</h3><p>By accessing the YogIntra website, booking a session, purchasing a service, or participating in a YogIntra program, you acknowledge that you have read and agreed to these Terms &amp; Conditions.</p><p>If you do not agree with these terms, please discontinue use of the website and YogIntra services.</p>
+</div></div></div></article></div></div></div></div></section>
+<style>.terms-policy .terms-policy-updated{margin:0 0 30px}.terms-policy .updated-policy{color:#566f76;font-size:16px;line-height:1.8}.terms-policy .updated-policy h3{margin:34px 0 13px;color:#153f49;font-size:21px;font-weight:700;line-height:1.35}.terms-policy .updated-policy p{margin:0 0 13px}.terms-policy .updated-policy ul{margin:2px 0 16px;padding-left:23px}.terms-policy .updated-policy li{margin-bottom:6px}.terms-policy .updated-policy a{color:#0f7c87;font-weight:700}@media(max-width:767px){.terms-policy .updated-policy{font-size:15px;line-height:1.7}.terms-policy .updated-policy h3{font-size:19px}}</style>
 @endsection
