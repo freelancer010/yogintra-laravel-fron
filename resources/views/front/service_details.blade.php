@@ -146,17 +146,21 @@
         font-size: 25px;
     }
     .service-intro { max-width:760px; margin:0 auto; color:#567078; font-size:17px; }
-    .service-fact { padding:18px 12px; border-radius:12px; transition:transform .18s ease, box-shadow .18s ease; }
+    .service-fact { padding:17px 10px; border:1px solid #e0edef; border-radius:12px; background:#fbfefe; transition:transform .18s ease, box-shadow .18s ease; }
     .service-fact:hover { transform:translateY(-3px); box-shadow:0 10px 20px rgba(19,78,86,.1); }
     .service-fact small { display:block; margin:10px 0 3px; color:#698087; font-weight:700; letter-spacing:.03em; }
     .service-fact strong { color:#17434c; font-size:16px; }
-    .service-description { max-width:780px; margin:0 auto 28px; color:#506b72; font-size:16px; line-height:1.8; text-align:left; }
+    .service-description { max-width:none; margin:0; padding:21px 22px; border-left:4px solid #0f7c87; border-radius:0 12px 12px 0; background:#f4fafb; color:#506b72; font-size:16px; line-height:1.8; text-align:left; }
     .service-description p { margin-bottom:14px; }
+    .service-description p:last-child { margin-bottom:0; }
+    .service-description-label { display:block; margin-bottom:8px; color:#0f6570; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
     .service-book-button { min-width:174px; padding:13px 25px; border:0; border-radius:999px !important; background:#e88c05 !important; color:#fff !important; font-weight:800; box-shadow:0 9px 18px rgba(204,116,0,.23); transition:transform .18s ease, box-shadow .18s ease; }
     .service-book-button:hover { transform:translateY(-2px); box-shadow:0 12px 22px rgba(204,116,0,.3); }
-    .service-purchase-layout { display:grid; grid-template-columns:minmax(0,1fr) 310px; gap:36px; align-items:start; }
-    .service-purchase-details { min-width:0; }
-    .service-order-summary { padding:25px; border:1px solid #dcebed; border-radius:16px; background:linear-gradient(155deg,#f7fcfc,#fff); box-shadow:0 14px 28px rgba(16,76,85,.12); }
+    .service-purchase-layout { display:grid; grid-template-columns:minmax(0,1fr) 310px; gap:28px; align-items:start; }
+    .service-purchase-details { display:grid; gap:24px; min-width:0; }
+    .service-purchase-details .am-service-data { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:0; }
+    .service-purchase-details .am-service-data > [class*="col-"] { width:auto; max-width:none; margin:0 !important; padding:0; }
+    .service-order-summary { padding:24px; border:1px solid #cfe3e6; border-radius:16px; background:linear-gradient(155deg,#f6fcfc,#fff); box-shadow:0 14px 28px rgba(16,76,85,.12); }
     .service-order-summary > small { display:block; margin-bottom:8px; color:#5b777e; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
     .service-order-summary h3 { margin:0 0 18px; color:#153f49; font-size:19px; line-height:1.35; }
     .service-order-summary .am-service-price { display:block; margin:0 -25px 20px; border-radius:0; text-align:left; }
@@ -165,6 +169,8 @@
     .service-order-summary hr { margin:18px 0; border:0; border-top:1px solid #dce8ea; }
     .service-order-summary .service-book-button { width:100%; margin-top:12px; }
     .service-secure-note { display:block; margin-top:14px; color:#698087; font-size:11px; line-height:1.5; text-align:center; }
+    .service-trust-row { display:flex; flex-wrap:wrap; justify-content:center; gap:7px; margin-top:15px; }
+    .service-trust-row span { padding:5px 8px; border-radius:999px; background:#e7f4f4; color:#17636d; font-size:10px; font-weight:800; }
 
     @media (max-width: 768px) {
         .am-service {
@@ -175,6 +181,11 @@
         .am-service-gallery { min-height:310px; }
         .am-service-price { position:static; display:inline-block; margin:-3px 0 20px; border-radius:999px; }
         .service-purchase-layout { grid-template-columns:1fr; gap:20px; }
+        .service-purchase-details .am-service-data { grid-template-columns:1fr; gap:9px; }
+        .service-fact { display:grid; grid-template-columns:58px 1fr; align-items:center; gap:0 13px; padding:11px 14px; text-align:left; }
+        .am-data i { grid-row:span 2; width:52px; height:52px; font-size:19px; }
+        .service-fact small { margin:0; }
+        .service-fact strong { grid-column:2; }
         .service-order-summary .am-service-price { margin:0 -25px 20px; border-radius:0; }
     }
 
@@ -256,6 +267,7 @@
                         </div>
                     </div>
                     <div class="service-description">
+                        <span class="service-description-label">About this service</span>
                         {!! app(\App\Support\HtmlSanitizer::class)->sanitize($service->service_description) !!}
                     </div>
                     </div>
@@ -269,6 +281,7 @@
                         <div class="service-order-line"><span>Total payable</span><strong>INR {{ number_format($service->service_price) }}.00</strong></div>
                         <button class="btn btn-lg btn-warning service-book-button" onclick="booking_modal()">Continue to booking</button>
                         <small class="service-secure-note"><i class="fa fa-lock" aria-hidden="true"></i> Secure booking. You will confirm your details before payment.</small>
+                        <div class="service-trust-row"><span>Flexible scheduling</span><span>Booking support</span></div>
                     </aside>
                     </div>
                 </div>
