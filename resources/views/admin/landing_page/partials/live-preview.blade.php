@@ -159,6 +159,7 @@
     restoringHistory = true; sections.innerHTML = history[nextIndex]; historyIndex = nextIndex; normalizeSectionIndexes(); render(); restoringHistory = false; setSaveState('Unsaved changes');
   };
   const queueSnapshot = () => { window.clearTimeout(historyTimer); historyTimer = window.setTimeout(snapshot, 350); setSaveState('Unsaved changes'); };
+  const flushSnapshot = () => { window.clearTimeout(historyTimer); snapshot(); };
   const ensureField = (card, suffix, value) => {
     let field = getField(card, suffix);
     if (!field) { field = document.createElement('input'); field.type = 'hidden'; const source = getField(card, 'heading') || getField(card, 'section_type'); field.name = source.name.replace(/\[[^\]]+\]$/, '[' + suffix + ']'); field.value = value; card.appendChild(field); }
@@ -603,8 +604,10 @@
   });
   document.addEventListener('keydown', event => {
     if (!(event.ctrlKey || event.metaKey)) return;
-    if (event.key.toLowerCase() === 'z') { event.preventDefault(); restoreHistory(event.shiftKey ? historyIndex + 1 : historyIndex - 1); }
-    if (event.key.toLowerCase() === 'y') { event.preventDefault(); restoreHistory(historyIndex + 1); }
+    if (!event.target.closest('.live-preview-content [contenteditable]')) return;
+    const key = event.key.toLowerCase();
+    if (key === 'z') { event.preventDefault(); flushSnapshot(); restoreHistory(event.shiftKey ? historyIndex + 1 : historyIndex - 1); }
+    if (key === 'y') { event.preventDefault(); flushSnapshot(); restoreHistory(historyIndex + 1); }
   });
   preview.querySelector('.live-preview-content').addEventListener('paste', (event) => {
     const editable = event.target.closest('[contenteditable]');
@@ -645,6 +648,7 @@
     const field = card && [...card.querySelectorAll('input, textarea, select')].find(item => item.name && item.name.endsWith('[' + fieldName + ']'));
     if (field) field.value = event.target.innerText;
   });
+  preview.querySelector('.live-preview-content').addEventListener('input', queueSnapshot);
   preview.querySelector('.live-preview-content').addEventListener('blur', (event) => {
     if (linkPopup.classList.contains('is-open')) return;
     if (event.target.dataset.previewField || event.target.dataset.previewExtra !== undefined || event.target.dataset.previewColumn !== undefined) { saveEditableMarkup(event.target); render(); }
