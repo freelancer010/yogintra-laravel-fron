@@ -193,6 +193,46 @@
                 min-height: auto !important;
                 height: 450px !important;
             }
+            /* Keep slider copy balanced inside the shorter tablet hero. */
+            #home:not(.hero-video-home) .fullwidth-carousel,
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item {
+                height: 450px !important;
+                min-height: 450px !important;
+            }
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item > img,
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item picture,
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item picture img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            #home:not(.hero-video-home) .display-table-absolute {
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                display: table !important;
+            }
+            #home:not(.hero-video-home) .display-table-cell {
+                vertical-align: middle !important;
+            }
+            #home:not(.hero-video-home) .position-ab {
+                position: relative !important;
+                top: auto !important;
+                width: 100%;
+            }
+            #home:not(.hero-video-home) .bg-white-transparent {
+                max-width: 680px;
+                padding-top: 20px !important;
+                padding-bottom: 20px !important;
+            }
+            #home:not(.hero-video-home) .font-54 {
+                font-size: 48px !important;
+                line-height: 1.14 !important;
+                margin-bottom: 0;
+            }
+            #home:not(.hero-video-home) .bg-white-transparent .btn {
+                margin-top: 18px !important;
+            }
             .section-content {
                 padding: 30px 0 !important;
             }
