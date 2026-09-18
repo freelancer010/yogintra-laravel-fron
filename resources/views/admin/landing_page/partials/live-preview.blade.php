@@ -244,7 +244,18 @@
       } else { const field = ensureField(card, 'text_align', 'left'); field.value = field.value === 'left' ? 'center' : field.value === 'center' ? 'right' : 'left'; }
       render(); queueSnapshot(); return;
     }
-    if (action === 'duplicate') { const copy = card.cloneNode(true); copy.dataset.builderId = ''; sections.insertBefore(copy, card.nextSibling); normalizeSectionIndexes(); render(); queueSnapshot(); return; }
+    if (action === 'duplicate') {
+      if (target === 'section') { const copy = card.cloneNode(true); copy.dataset.builderId = ''; sections.insertBefore(copy, card.nextSibling); normalizeSectionIndexes(); render(); queueSnapshot(); return; }
+      const elementsField = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(elementsField?.value || '[]'); } catch (_) {}
+      const extraTarget = /^extra-(\d+)$/.exec(target);
+      if (extraTarget && elements[Number(extraTarget[1])]) {
+        elements.splice(Number(extraTarget[1]) + 1, 0, JSON.parse(JSON.stringify(elements[Number(extraTarget[1])])));
+      } else if (target === 'heading' || target === 'content') {
+        elements.push({ type: target === 'heading' ? 'heading' : 'subheading', text: getValue(card, target), items: '', item_gap: 8, color: target === 'heading' ? getValue(card, 'text_color') : getValue(card, 'description_color'), size: Number(target === 'heading' ? getValue(card, 'heading_size') : getValue(card, 'description_size')), padding: 0, margin: 0 });
+      } else { return; }
+      if (elementsField) elementsField.value = JSON.stringify(elements);
+      render(); queueSnapshot(); return;
+    }
   });
 
   function renderStyles(card, target = card.dataset.selectedTarget || 'section') {
@@ -562,7 +573,7 @@
       if (imageFrame && (type === 'image_text' || type === 'image')) { imageFrame.style.width = (getValue(card, 'image_size') || (type === 'image' ? '100' : '42')) + '%'; }
       if (imageFrame) { imageFrame.addEventListener('click', event => { event.stopPropagation(); const action = event.target.closest('.preview-image-action'); if (action) { imageInput?.click(); return; } focusCard(card, 'image'); }); }
       [['heading', '[data-preview-field="heading"]'], ['content', '[data-preview-field="content"]']].forEach(([key, selector]) => previewSection.querySelectorAll(selector).forEach(element => { const style = selectedStyles[key]; element.style.padding = style.padding_y + 'px ' + style.padding_x + 'px'; element.style.margin = style.margin_y + 'px ' + style.margin_x + 'px'; element.style.fontWeight = style.font_weight; element.style.fontStyle = style.font_style; element.style.textDecoration = style.text_decoration; }));
-      previewSection.addEventListener('click', event => { const selectedColumnElement = event.target.closest('[data-preview-column-target]'); const editable = event.target.closest('[contenteditable]'); const extraList = event.target.closest('[data-preview-extra-list]'); const target = selectedColumnElement?.dataset.previewColumnTarget || editable?.dataset.previewField || (editable?.dataset.previewExtra !== undefined ? 'extra-' + editable.dataset.previewExtra : (extraList ? 'section' : 'section')); focusCard(card, target); if (editable) editable.classList.add('is-editing'); }, true);
+      previewSection.addEventListener('click', event => { const selectedColumnElement = event.target.closest('[data-preview-column-target]'); const editable = event.target.closest('[contenteditable]'); const extraList = event.target.closest('[data-preview-extra-list]'); const extraTarget = extraList ? 'extra-' + extraList.dataset.previewExtraList : null; const target = selectedColumnElement?.dataset.previewColumnTarget || editable?.dataset.previewField || (editable?.dataset.previewExtra !== undefined ? 'extra-' + editable.dataset.previewExtra : 'section'); const elementTarget = extraTarget || target; focusCard(card, /^extra-\d+$/.test(elementTarget) ? 'section' : elementTarget); if (/^extra-\d+$/.test(elementTarget)) elementToolbar.dataset.target = elementTarget; if (editable) editable.classList.add('is-editing'); }, true);
       content.appendChild(previewSection);
       const layer = document.createElement('div');
       layer.className = 'section-tree is-collapsed'; layer.dataset.builderId = card.dataset.builderId;
