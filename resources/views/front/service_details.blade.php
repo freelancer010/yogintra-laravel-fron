@@ -158,8 +158,8 @@
     .service-book-button:hover { background:#0b6570 !important; transform:translateY(-2px); box-shadow:0 12px 22px rgba(15,124,135,.3); }
     .service-purchase-layout { display:grid; grid-template-columns:minmax(0,1fr) 310px; gap:28px; align-items:start; }
     .service-purchase-details { display:grid; gap:24px; min-width:0; }
-    .service-purchase-details .am-service-data { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:0; }
-    .service-purchase-details .am-service-data > [class*="col-"] { width:auto; max-width:none; margin:0 !important; padding:0; }
+    .service-purchase-details .am-service-data { margin:0 -7px; }
+    .service-purchase-details .am-service-data > [class*="col-"] { margin:0 !important; padding:7px; }
     .service-order-summary { padding:24px; border:1px solid #cfe3e6; border-radius:16px; background:linear-gradient(155deg,#f6fcfc,#fff); box-shadow:0 14px 28px rgba(16,76,85,.12); }
     .service-order-summary > small { display:block; margin-bottom:8px; color:#5b777e; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
     .service-order-summary h3 { margin:0 0 18px; color:#153f49; font-size:19px; line-height:1.35; }
@@ -191,11 +191,8 @@
         .am-service-title h2 { font-size:26px; line-height:1.2; }
         .am-service-price { position:static; display:inline-block; margin:-3px 0 20px; border-radius:999px; }
         .service-purchase-layout { grid-template-columns:1fr; gap:20px; }
-        .service-purchase-details .am-service-data { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:14px; }
-        .service-purchase-details .am-service-data > [class*="col-"] { float:none !important; width:100% !important; max-width:100% !important; }
-        .service-purchase-details .am-service-data > :nth-child(1) { grid-column:1; }
-        .service-purchase-details .am-service-data > :nth-child(2) { grid-column:2; }
-        .service-purchase-details .am-service-data > :nth-child(3) { grid-column:1 / -1; }
+        .service-purchase-details .service-facts-row { display:block; margin-right:-7px; margin-left:-7px; }
+        .service-purchase-details .service-facts-row > [class*="col-"] { float:left !important; padding:7px !important; }
         .service-fact { display:flex; min-height:170px; flex-direction:column; align-items:center; justify-content:center; padding:20px 12px; border-color:#d9e9eb; background:#fff; box-shadow:0 10px 20px rgba(20, 81, 90, .09); text-align:center; }
         .am-data i { width:58px; height:58px; font-size:20px; }
         .service-fact small { margin:9px 0 2px; }
@@ -267,16 +264,16 @@
                     </div>
                     <div class="service-purchase-layout">
                     <div class="service-purchase-details">
-                    <div class="row text-center mt-5 am-service-data">
-                        <div class="col-lg-4 mb-5 col-sm-6 col-xsm-12 am-data service-fact">
+                    <div class="row text-center mt-5 am-service-data service-facts-row">
+                        <div class="col-md-4 col-xs-6 am-data service-fact">
                             <i class="fa fa-users"></i><br>
                             <small>Capacity</small><br><strong>{{ $service->service_capacity }}</strong>
                         </div>
-                        <div class="col-lg-4 mb-5 col-sm-6 col-xsm-12 am-data service-fact">
+                        <div class="col-md-4 col-xs-6 am-data service-fact">
                             <i class="fa fa-clock-o"></i><br>
                             <small>Duration</small><br><strong>{{ $service->service_duration }} hr</strong>
                         </div>
-                        <div class="col-lg-4 mb-5 col-sm-12 col-xsm-12 am-data service-fact">
+                        <div class="col-md-4 col-xs-12 am-data service-fact">
                             <i class="fa fa-list"></i><br>
                             <small>Category</small><br><strong>{{ $service->service_cat_name }}</strong>
                         </div>
