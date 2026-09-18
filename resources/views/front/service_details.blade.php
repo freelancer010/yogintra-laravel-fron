@@ -192,6 +192,9 @@
         .am-service-price { position:static; display:inline-block; margin:-3px 0 20px; border-radius:999px; }
         .service-purchase-layout { grid-template-columns:1fr; gap:20px; }
         .service-purchase-details .am-service-data { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:14px; }
+        .service-purchase-details .am-service-data > [class*="col-"] { float:none !important; width:100% !important; max-width:100% !important; }
+        .service-purchase-details .am-service-data > :nth-child(1) { grid-column:1; }
+        .service-purchase-details .am-service-data > :nth-child(2) { grid-column:2; }
         .service-purchase-details .am-service-data > :nth-child(3) { grid-column:1 / -1; }
         .service-fact { display:flex; min-height:170px; flex-direction:column; align-items:center; justify-content:center; padding:20px 12px; border-color:#d9e9eb; background:#fff; box-shadow:0 10px 20px rgba(20, 81, 90, .09); text-align:center; }
         .am-data i { width:58px; height:58px; font-size:20px; }
