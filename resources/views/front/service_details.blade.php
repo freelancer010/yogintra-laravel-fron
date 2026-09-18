@@ -128,9 +128,7 @@
         font-weight: bold;
         font-family: sans-serif;
         letter-spacing: 1px;
-        position: absolute;
-        top: 0;
-        right: 0;
+        position: static;
         text-align: center;
     }
 
@@ -156,6 +154,17 @@
     .service-description p { margin-bottom:14px; }
     .service-book-button { min-width:174px; padding:13px 25px; border:0; border-radius:999px !important; background:#e88c05 !important; color:#fff !important; font-weight:800; box-shadow:0 9px 18px rgba(204,116,0,.23); transition:transform .18s ease, box-shadow .18s ease; }
     .service-book-button:hover { transform:translateY(-2px); box-shadow:0 12px 22px rgba(204,116,0,.3); }
+    .service-purchase-layout { display:grid; grid-template-columns:minmax(0,1fr) 310px; gap:36px; align-items:start; }
+    .service-purchase-details { min-width:0; }
+    .service-order-summary { padding:25px; border:1px solid #dcebed; border-radius:16px; background:linear-gradient(155deg,#f7fcfc,#fff); box-shadow:0 14px 28px rgba(16,76,85,.12); }
+    .service-order-summary > small { display:block; margin-bottom:8px; color:#5b777e; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .service-order-summary h3 { margin:0 0 18px; color:#153f49; font-size:19px; line-height:1.35; }
+    .service-order-summary .am-service-price { display:block; margin:0 -25px 20px; border-radius:0; text-align:left; }
+    .service-order-line { display:flex; justify-content:space-between; gap:12px; margin:10px 0; color:#58727a; font-size:13px; }
+    .service-order-line strong { color:#183f48; text-align:right; }
+    .service-order-summary hr { margin:18px 0; border:0; border-top:1px solid #dce8ea; }
+    .service-order-summary .service-book-button { width:100%; margin-top:12px; }
+    .service-secure-note { display:block; margin-top:14px; color:#698087; font-size:11px; line-height:1.5; text-align:center; }
 
     @media (max-width: 768px) {
         .am-service {
@@ -165,6 +174,8 @@
         }
         .am-service-gallery { min-height:310px; }
         .am-service-price { position:static; display:inline-block; margin:-3px 0 20px; border-radius:999px; }
+        .service-purchase-layout { grid-template-columns:1fr; gap:20px; }
+        .service-order-summary .am-service-price { margin:0 -25px 20px; border-radius:0; }
     }
 
     @media only screen and (max-width: 600px) {
@@ -228,6 +239,8 @@
                             <h2 class="text-theme-colored line-bottom text-theme-colored mb-5 p-0">{{ $service->service_name }}</h2>
                         </div>
                     </div>
+                    <div class="service-purchase-layout">
+                    <div class="service-purchase-details">
                     <div class="row text-center mt-5 am-service-data">
                         <div class="col-lg-4 mb-5 col-sm-6 col-xsm-12 am-data service-fact">
                             <i class="fa fa-users"></i><br>
@@ -242,15 +255,21 @@
                             <small>Category</small><br><strong>{{ $service->service_cat_name }}</strong>
                         </div>
                     </div>
-                    <div class="am-service-price">
-                        INR {{ number_format($service->service_price) }}.00
-                    </div>
-
                     <div class="service-description">
                         {!! app(\App\Support\HtmlSanitizer::class)->sanitize($service->service_description) !!}
-                    </div>                    
-                    <div class="col-md-12 mt-10 text-center mb-15">
-                        <button class="btn btn-lg btn-warning service-book-button" onclick="booking_modal()">Book Your Class</button>
+                    </div>
+                    </div>
+                    <aside class="service-order-summary" aria-label="Booking summary">
+                        <small>Your booking</small>
+                        <h3>{{ $service->service_name }}</h3>
+                        <div class="am-service-price">INR {{ number_format($service->service_price) }}.00</div>
+                        <div class="service-order-line"><span>Duration</span><strong>{{ $service->service_duration }} hr</strong></div>
+                        <div class="service-order-line"><span>Category</span><strong>{{ $service->service_cat_name }}</strong></div>
+                        <hr>
+                        <div class="service-order-line"><span>Total payable</span><strong>INR {{ number_format($service->service_price) }}.00</strong></div>
+                        <button class="btn btn-lg btn-warning service-book-button" onclick="booking_modal()">Continue to booking</button>
+                        <small class="service-secure-note"><i class="fa fa-lock" aria-hidden="true"></i> Secure booking. You will confirm your details before payment.</small>
+                    </aside>
                     </div>
                 </div>
             </div>
