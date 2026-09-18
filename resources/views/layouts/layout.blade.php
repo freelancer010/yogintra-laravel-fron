@@ -350,11 +350,19 @@
             transition: background-color 0.3s ease;
         }
 
+        .cookie-banner #cookieAcceptAll {
+            background-color: #fff !important;
+            border-color: #fff;
+            color: #148795;
+        }
+
         .cookie-banner button.cookie-secondary { background: transparent !important; border-color: rgba(255,255,255,.75); }
         .cookie-banner button:hover,
         .cookie-banner button:focus {
             background-color: #0e6e79 !important;
         }
+        .cookie-banner #cookieAcceptAll:hover,
+        .cookie-banner #cookieAcceptAll:focus { background-color: #eef7f8 !important; }
         .cookie-preferences { display: none; margin-top: 14px; border-top: 1px solid rgba(255,255,255,.25); padding-top: 12px; }
         .cookie-preferences.is-open { display: block; }
         .cookie-option { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 10px 0; }
