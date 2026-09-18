@@ -173,12 +173,22 @@
     .service-trust-row span { padding:5px 8px; border-radius:999px; background:#e7f4f4; color:#17636d; font-size:10px; font-weight:800; }
 
     @media (max-width: 768px) {
+        .inner-header { height:180px !important; background-position:center !important; }
+        .inner-header .container { padding-top:35px !important; padding-bottom:25px !important; }
+        .inner-header .title { margin:0; font-size:26px; line-height:1.2; }
+        .service-page-intro { padding:24px 18px 4px; }
+        .service-page-intro .section-title { padding-top:0 !important; }
+        .service-intro { margin:0; font-size:15px; line-height:1.7; }
         .am-service {
             padding: 16px;
             width: calc(100% - 24px);
-            margin-top:-115px;
+            margin:20px auto 32px;
         }
-        .am-service-gallery { min-height:310px; }
+        .am-service-gallery { display:none; min-height:0; }
+        .am-service-header { align-items:flex-start; gap:13px; margin-bottom:22px; padding-bottom:18px; }
+        .am-service-image { flex:0 0 78px; width:78px; height:78px; }
+        .am-service-title { margin-left:0; padding-top:7px; text-align:left; }
+        .am-service-title h2 { font-size:26px; line-height:1.2; }
         .am-service-price { position:static; display:inline-block; margin:-3px 0 20px; border-radius:999px; }
         .service-purchase-layout { grid-template-columns:1fr; gap:20px; }
         .service-purchase-details .am-service-data { grid-template-columns:1fr; gap:9px; }
@@ -221,7 +231,7 @@
 </section>
 
 <!-- Service Description Intro -->
-<div class="container">
+<div class="container service-page-intro">
     <div class="section-title text-center pb-0 pt-50">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
