@@ -44,9 +44,9 @@
   .builder-inspector-title .builder-inspector-submit { position:static; margin-left:auto; padding:7px 10px; border-radius:7px; font-size:12px; box-shadow:none; }
   .builder-inspector-heading { margin-bottom:9px; color:#6a858c; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
   .builder-inspector-heading > span:last-child { color:#16717a; font-size:13px; }
-  .builder-selected-element { display:flex; align-items:center; justify-content:space-between; gap:8px; margin:0 0 14px; padding:9px 10px; border:1px solid #d7e8ea; border-radius:8px; background:#f6fbfb; }
-  .builder-selected-element > span { color:#688087; font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
-  .builder-selected-element strong { color:#145b65; font-size:12px; font-weight:800; }
+  .builder-selected-element { display:flex; align-items:center; justify-content:space-between; gap:8px; margin:0 0 14px; padding:10px 11px; border:1px solid #16717a; border-radius:8px; background:linear-gradient(135deg,#16717a,#0f5962); box-shadow:0 6px 14px rgba(15,89,98,.18); }
+  .builder-selected-element > span { color:rgba(255,255,255,.78); font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
+  .builder-selected-element strong { color:#fff; font-size:13px; font-weight:800; }
   .builder-inspector .form-group { margin-bottom: 12px; }
   .builder-inspector .form-group[class*="col-"] { width: 100%; max-width: 100%; flex: 0 0 100%; padding-left: 0; padding-right: 0; }
   .builder-inspector .builder-field { margin-bottom: 0; }
