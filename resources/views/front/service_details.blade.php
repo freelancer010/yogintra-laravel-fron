@@ -63,7 +63,7 @@
         display: none;
     }
     .am-service-gallery{
-        min-height: 500px;
+        min-height: 420px;
         background-position: center top;
         background-repeat: no-repeat;
         background-size: cover;
@@ -72,20 +72,23 @@
         margin-left:20px;
     }
     .am-service-header {
-        margin-bottom: 48px;
+        margin-bottom: 34px;
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        padding: 10px 30px;
-        border-bottom: 2px solid #ccc;
+        padding: 4px 4px 25px;
+        border-bottom: 1px solid #dbe7e8;
     }
     .am-service-image {
         display: inline-block;
         vertical-align: middle;
         border-radius: 50%;
         width: 100%;
-        max-width: 136px;
-        height: 135px;
+        max-width: 112px;
+        height: 112px;
+        padding: 5px;
+        background: #e7f5f5;
+        box-shadow: 0 8px 18px rgba(15,124,135,.16);
     }
     .am-service-data
     {
@@ -94,7 +97,7 @@
         padding: 0 16px;
         flex: 1;
         width: 100%;
-        margin-bottom:50px;
+        margin-bottom:26px;
     }
     .am-service-image img
     {
@@ -111,16 +114,17 @@
         z-index: 3;
         box-shadow: 0 10px 10px #99680750;
         border-radius: 20px;
-        width: 60%;
+        width: min(920px, calc(100% - 32px));
+        border: 1px solid #e4eeee;
     }
     
     .am-service-price {
-        font-size: 26px;
-        padding: 10px 20px;
-        background: linear-gradient(135deg, #f9c347, #ffb347);
+        font-size: 21px;
+        padding: 13px 22px;
+        background: linear-gradient(135deg, #f2a12b, #db8506);
         color: #ffffff;
         box-shadow: 0 4px 6px #00000090;
-        border-radius: 0 20px 0 31px;
+        border-radius: 0 19px 0 18px;
         font-weight: bold;
         font-family: sans-serif;
         letter-spacing: 1px;
@@ -132,24 +136,42 @@
 
     .am-data i {
         text-align: center;
-        padding: 30px;
+        display: inline-flex;
+        width: 76px;
+        height: 76px;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
         background: var(--theme-color-2) !important;
         color: #ffffff;
         border-radius: 50%;
         font-size: 25px;
     }
+    .service-intro { max-width:760px; margin:0 auto; color:#567078; font-size:17px; }
+    .service-fact { padding:18px 12px; border-radius:12px; transition:transform .18s ease, box-shadow .18s ease; }
+    .service-fact:hover { transform:translateY(-3px); box-shadow:0 10px 20px rgba(19,78,86,.1); }
+    .service-fact small { display:block; margin:10px 0 3px; color:#698087; font-weight:700; letter-spacing:.03em; }
+    .service-fact strong { color:#17434c; font-size:16px; }
+    .service-description { max-width:780px; margin:0 auto 28px; color:#506b72; font-size:16px; line-height:1.8; text-align:left; }
+    .service-description p { margin-bottom:14px; }
+    .service-book-button { min-width:174px; padding:13px 25px; border:0; border-radius:999px !important; background:#e88c05 !important; color:#fff !important; font-weight:800; box-shadow:0 9px 18px rgba(204,116,0,.23); transition:transform .18s ease, box-shadow .18s ease; }
+    .service-book-button:hover { transform:translateY(-2px); box-shadow:0 12px 22px rgba(204,116,0,.3); }
 
     @media (max-width: 768px) {
         .am-service {
             padding: 16px;
-            width: 90%;
+            width: calc(100% - 24px);
+            margin-top:-115px;
         }
+        .am-service-gallery { min-height:310px; }
+        .am-service-price { position:static; display:inline-block; margin:-3px 0 20px; border-radius:999px; }
     }
 
     @media only screen and (max-width: 600px) {
         .am-service-header
         {
             flex-direction: column;
+            text-align:center;
         }
     }
 </style>
@@ -181,7 +203,7 @@
     <div class="section-title text-center pb-0 pt-50">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <p class="mt-0 line-height-3 text-center">
+                <p class="mt-0 line-height-3 text-center service-intro">
                     YogIntra provides One of the Best 
                     <span class="text-theme-colored2">{{ $service->service_cat_name }}</span> 
                     in India with our expertise, professional and experienced team of Trainers.
@@ -207,15 +229,15 @@
                         </div>
                     </div>
                     <div class="row text-center mt-5 am-service-data">
-                        <div class="col-lg-4 mb-5 col-sm-6 col-xsm-12 am-data">
+                        <div class="col-lg-4 mb-5 col-sm-6 col-xsm-12 am-data service-fact">
                             <i class="fa fa-users"></i><br>
                             <small>Capacity</small><br><strong>{{ $service->service_capacity }}</strong>
                         </div>
-                        <div class="col-lg-4 mb-5 col-sm-6 col-xsm-12 am-data">
+                        <div class="col-lg-4 mb-5 col-sm-6 col-xsm-12 am-data service-fact">
                             <i class="fa fa-clock-o"></i><br>
                             <small>Duration</small><br><strong>{{ $service->service_duration }} hr</strong>
                         </div>
-                        <div class="col-lg-4 mb-5 col-sm-12 col-xsm-12 am-data">
+                        <div class="col-lg-4 mb-5 col-sm-12 col-xsm-12 am-data service-fact">
                             <i class="fa fa-list"></i><br>
                             <small>Category</small><br><strong>{{ $service->service_cat_name }}</strong>
                         </div>
@@ -224,11 +246,11 @@
                         INR {{ number_format($service->service_price) }}.00
                     </div>
 
-                    <div class="text-center mb-50">
+                    <div class="service-description">
                         {!! app(\App\Support\HtmlSanitizer::class)->sanitize($service->service_description) !!}
                     </div>                    
                     <div class="col-md-12 mt-10 text-center mb-15">
-                        <button class="btn btn-lg btn-warning" onclick="booking_modal()" style="border-radius: 30px;">Book Your Class</button>
+                        <button class="btn btn-lg btn-warning service-book-button" onclick="booking_modal()">Book Your Class</button>
                     </div>
                 </div>
             </div>
