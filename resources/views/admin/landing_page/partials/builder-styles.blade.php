@@ -47,6 +47,9 @@
   .builder-selected-element { display:flex; align-items:center; justify-content:space-between; gap:8px; margin:0 0 14px; padding:10px 11px; border:1px solid #16717a; border-radius:8px; background:linear-gradient(135deg,#16717a,#0f5962); box-shadow:0 6px 14px rgba(15,89,98,.18); }
   .builder-selected-element > span { color:rgba(255,255,255,.78); font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
   .builder-selected-element strong { color:#fff; font-size:13px; font-weight:800; }
+  .builder-selected-element.is-empty { border-color:#d7e8ea; background:#f3f8f9; box-shadow:none; }
+  .builder-selected-element.is-empty > span { color:#8aa1a7; }
+  .builder-selected-element.is-empty strong { display:none; }
   .builder-inspector .form-group { margin-bottom: 12px; }
   .builder-inspector .form-group[class*="col-"] { width: 100%; max-width: 100%; flex: 0 0 100%; padding-left: 0; padding-right: 0; }
   .builder-inspector .builder-field { margin-bottom: 0; }

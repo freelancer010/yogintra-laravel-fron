@@ -200,6 +200,7 @@
     card.classList.add('is-selected');
     card.dataset.selectedTarget = target;
     const selectedElement = inspector.querySelector('[data-selected-element]');
+    selectedElement?.closest('.builder-selected-element')?.classList.remove('is-empty');
     const columnTarget = /^column-\d+-(title|text|small_text|bullets|image|button|container)$/.exec(target);
     const selectedLabel = columnTarget
       ? ({ title: 'Heading', text: 'Text', small_text: 'Supporting text', bullets: 'Bullet list', image: 'Image', button: 'Button', container: 'Column' })[columnTarget[1]]
@@ -403,7 +404,7 @@
     stylePanel.querySelectorAll('[data-block-image]').forEach(button => button.addEventListener('click', () => { const index = button.dataset.blockImage; let input = card.querySelector('[data-block-upload="' + index + '"]'); if (!input) { input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*'; input.hidden = true; input.dataset.blockUpload = index; input.name = blocksField.name.replace('[blocks]', '[block_images][' + index + ']'); card.appendChild(input); input.addEventListener('change', () => { const file = input.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = event => { let previews = {}; try { previews = JSON.parse(card.dataset.blockPreviews || '{}'); } catch (_) {} previews[index] = event.target.result; card.dataset.blockPreviews = JSON.stringify(previews); render(); renderStyles(card, target); }; reader.readAsDataURL(file); }); } input.click(); }));
     stylePanel.querySelector('.add-feature-block')?.addEventListener('click', () => { blocks.push({ icon: '✦', title: 'New feature', text: 'Describe the benefit.' }); blocksField.value = JSON.stringify(blocks); renderStyles(card); render(); });
     stylePanel.querySelectorAll('[data-remove-block]').forEach(button => button.addEventListener('click', () => { blocks.splice(button.dataset.removeBlock, 1); blocksField.value = JSON.stringify(blocks); renderStyles(card); render(); }));
-    stylePanel.querySelector('.delete-selected-section')?.addEventListener('click', () => { card.remove(); stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Design</span><span>◐</span></div><div class="section-empty">Select a section on the canvas</div>'; render(); });
+    stylePanel.querySelector('.delete-selected-section')?.addEventListener('click', () => { card.remove(); const selectedElement = inspector.querySelector('[data-selected-element]'); if (selectedElement) { selectedElement.textContent = ''; selectedElement.closest('.builder-selected-element')?.classList.add('is-empty'); } stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Design</span><span>◐</span></div><div class="section-empty">Select a section on the canvas</div>'; render(); });
   }
 
   function render() {
