@@ -199,6 +199,12 @@
     document.querySelectorAll('.page-builder-section, .preview-section, .section-layer, .section-tree-child, .preview-image-frame, .preview-section [data-preview-field], .preview-section [data-preview-column-target]').forEach(element => element.classList.remove('is-selected', 'is-selected-target'));
     card.classList.add('is-selected');
     card.dataset.selectedTarget = target;
+    const selectedElement = inspector.querySelector('[data-selected-element]');
+    const columnTarget = /^column-\d+-(title|text|small_text|bullets|image|button|container)$/.exec(target);
+    const selectedLabel = columnTarget
+      ? ({ title: 'Heading', text: 'Text', small_text: 'Supporting text', bullets: 'Bullet list', image: 'Image', button: 'Button', container: 'Column' })[columnTarget[1]]
+      : ({ section: 'Section', heading: 'Heading', content: 'Text', image: 'Image' })[target] || 'Section';
+    if (selectedElement) selectedElement.textContent = selectedLabel;
     document.querySelectorAll('[data-builder-id="' + card.dataset.builderId + '"]').forEach(element => element.classList.add('is-selected'));
     const previewSection = document.querySelector('.preview-section[data-builder-id="' + card.dataset.builderId + '"]');
     const tree = document.querySelector('.section-tree[data-builder-id="' + card.dataset.builderId + '"]');
