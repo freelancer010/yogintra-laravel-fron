@@ -70,6 +70,7 @@
                 ['name' => 'All Slider', 'route' => 'admin.front.slider'],
                 ['name' => 'Section 1', 'route' => 'admin.front.section1'],
                 ['name' => 'Section 2', 'route' => 'admin.front.section2'],
+                ['name' => 'Section 3', 'route' => 'admin.front.section3'],
                 ['name' => 'Review Section', 'route' => 'admin.front.testimonial']
               ]
             ],

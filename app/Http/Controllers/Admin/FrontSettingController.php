@@ -79,6 +79,30 @@ class FrontSettingController extends Controller
         return view('admin.front_setting.section_2', compact('service_heading', 'our_service'));
     }
 
+    public function section3()
+    {
+        return view('admin.front_setting.section_3', ['setting' => Setting::firstOrFail()]);
+    }
+
+    public function updateSection3(Request $request)
+    {
+        $request->validate([
+            'section3_heading' => 'required|string|max:255',
+            'section3_description' => 'required|string|max:1000',
+            'section3_background_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5000',
+            'section3_padding_y' => 'required|integer|min:20|max:180',
+        ]);
+        $setting = Setting::firstOrFail();
+        if ($request->hasFile('section3_background_image')) {
+            $setting->section3_background_image = app(OptimizedImageUpload::class)->store($request->file('section3_background_image'));
+        }
+        $setting->section3_heading = $request->section3_heading;
+        $setting->section3_description = $request->section3_description;
+        $setting->section3_padding_y = $request->section3_padding_y;
+        $setting->save();
+        return back()->with('success', 'Section 3 updated successfully.');
+    }
+
     public function updateServiceImage(Request $request)
     {
         $request->validate([

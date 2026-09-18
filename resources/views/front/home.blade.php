@@ -819,15 +819,15 @@
         </div>
     </section>
 
-    <section class="divider types-of-yoga-section py-70 section-parallax-bg" style="background-image: url('{{ asset('assets/parallax-decor2.png') }}');">
+    <section class="divider types-of-yoga-section section-parallax-bg" style="background-image: url('{{ asset($app_setting->section3_background_image ?: 'assets/parallax-decor2.png') }}'); padding-top:{{ $app_setting->section3_padding_y ?: 70 }}px; padding-bottom:{{ $app_setting->section3_padding_y ?: 70 }}px;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="section-title text-center mb-50">
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-md-10">
-                                <h2 class="ssc-ttl brief-dec-title m-fs-25 mb-20">A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES</h2>
-                                <p class="text-center">We at YogIntra provide various services to the nature of the clients. Wish how you would like to spend your time here we can talk and come to a conclusion.</p>
+                                <h2 class="ssc-ttl brief-dec-title m-fs-25 mb-20">{{ $app_setting->section3_heading ?: 'A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES' }}</h2>
+                                <p class="text-center">{{ $app_setting->section3_description ?: 'We at YogIntra provide various services to the nature of the clients. Wish how you would like to spend your time here we can talk and come to a conclusion.' }}</p>
                             </div>
                         </div>
                     </div>

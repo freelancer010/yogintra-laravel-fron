@@ -196,6 +196,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
         Route::get('/section-1', [FrontSettingController::class, 'section1'])->name('section1');
         Route::get('/section-2', [FrontSettingController::class, 'section2'])->name('section2');
+        Route::get('/section-3', [FrontSettingController::class, 'section3'])->name('section3');
+        Route::put('/section-3', [FrontSettingController::class, 'updateSection3'])->name('section3.update');
         
         Route::post('/section-2/image/update', [FrontSettingController::class, 'updateServiceImage'])->name('section2.image.update');
         Route::post('/section-2/service/store', [FrontSettingController::class, 'storeService'])->name('section2.service.store');
