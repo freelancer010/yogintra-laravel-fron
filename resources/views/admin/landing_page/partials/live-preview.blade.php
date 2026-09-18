@@ -116,9 +116,10 @@
     const previewSection = editable?.closest('.preview-section');
     const card = previewSection && [...sections.querySelectorAll('.page-builder-section')].find(item => item.dataset.builderId === previewSection.dataset.builderId);
     if (!card || !editable) return;
-    if (editable.dataset.previewField) { const field = getField(card, editable.dataset.previewField); if (field) field.value = editable.innerHTML; }
-    if (editable.dataset.previewColumn !== undefined) { const blocksField = getField(card, 'blocks'); let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {} if (blocks[Number(editable.dataset.previewColumn)]) { blocks[Number(editable.dataset.previewColumn)][editable.dataset.previewColumnKey] = editable.innerHTML; blocksField.value = JSON.stringify(blocks); } }
-    if (editable.dataset.previewExtra !== undefined) { const elementsField = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(elementsField.value || '[]'); } catch (_) {} if (elements[Number(editable.dataset.previewExtra)]) { elements[Number(editable.dataset.previewExtra)].text = editable.innerHTML; elementsField.value = JSON.stringify(elements); } }
+    const text = editable.innerText;
+    if (editable.dataset.previewField) { const field = getField(card, editable.dataset.previewField); if (field) field.value = text; }
+    if (editable.dataset.previewColumn !== undefined) { const blocksField = getField(card, 'blocks'); let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {} if (blocks[Number(editable.dataset.previewColumn)]) { blocks[Number(editable.dataset.previewColumn)][editable.dataset.previewColumnKey] = text; blocksField.value = JSON.stringify(blocks); } }
+    if (editable.dataset.previewExtra !== undefined) { const elementsField = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(elementsField.value || '[]'); } catch (_) {} if (elements[Number(editable.dataset.previewExtra)]) { elements[Number(editable.dataset.previewExtra)].text = text; elementsField.value = JSON.stringify(elements); } }
   };
   const hideLinkActions = () => { linkActions.classList.remove('is-open'); activePreviewLink = null; };
   const showLinkActions = anchor => {
@@ -586,6 +587,13 @@
     if (!(event.ctrlKey || event.metaKey)) return;
     if (event.key.toLowerCase() === 'z') { event.preventDefault(); restoreHistory(event.shiftKey ? historyIndex + 1 : historyIndex - 1); }
     if (event.key.toLowerCase() === 'y') { event.preventDefault(); restoreHistory(historyIndex + 1); }
+  });
+  preview.querySelector('.live-preview-content').addEventListener('paste', (event) => {
+    const editable = event.target.closest('[contenteditable]');
+    const text = event.clipboardData?.getData('text/plain');
+    if (!editable || text === undefined) return;
+    event.preventDefault();
+    document.execCommand('insertText', false, text);
   });
   preview.querySelector('.live-preview-content').addEventListener('input', (event) => {
     const columnIndex = event.target.dataset.previewColumn;
