@@ -154,8 +154,8 @@
     .service-description p { margin-bottom:14px; }
     .service-description p:last-child { margin-bottom:0; }
     .service-description-label { display:block; margin-bottom:8px; color:#0f6570; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
-    .service-book-button { min-width:174px; padding:13px 25px; border:0; border-radius:999px !important; background:#e88c05 !important; color:#fff !important; font-weight:800; box-shadow:0 9px 18px rgba(204,116,0,.23); transition:transform .18s ease, box-shadow .18s ease; }
-    .service-book-button:hover { transform:translateY(-2px); box-shadow:0 12px 22px rgba(204,116,0,.3); }
+    .service-book-button { min-width:174px; padding:13px 25px; border:0; border-radius:999px !important; background:#0f7c87 !important; color:#fff !important; font-weight:800; box-shadow:0 9px 18px rgba(15,124,135,.23); transition:transform .18s ease, box-shadow .18s ease; }
+    .service-book-button:hover { background:#0b6570 !important; transform:translateY(-2px); box-shadow:0 12px 22px rgba(15,124,135,.3); }
     .service-purchase-layout { display:grid; grid-template-columns:minmax(0,1fr) 310px; gap:28px; align-items:start; }
     .service-purchase-details { display:grid; gap:24px; min-width:0; }
     .service-purchase-details .am-service-data { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:0; }
@@ -192,10 +192,10 @@
         .am-service-price { position:static; display:inline-block; margin:-3px 0 20px; border-radius:999px; }
         .service-purchase-layout { grid-template-columns:1fr; gap:20px; }
         .service-purchase-details .am-service-data { grid-template-columns:1fr; gap:9px; }
-        .service-fact { display:grid; grid-template-columns:58px 1fr; align-items:center; gap:0 13px; padding:11px 14px; text-align:left; }
-        .am-data i { grid-row:span 2; width:52px; height:52px; font-size:19px; }
-        .service-fact small { margin:0; }
-        .service-fact strong { grid-column:2; margin-top:2px; font-size:18px; }
+        .service-fact { display:flex; min-height:136px; flex-direction:column; align-items:center; justify-content:center; padding:15px; text-align:center; }
+        .am-data i { width:58px; height:58px; font-size:20px; }
+        .service-fact small { margin:9px 0 2px; }
+        .service-fact strong { margin-top:0; font-size:18px; }
         .service-order-summary .am-service-price { margin:0 -25px 20px; border-radius:0; }
     }
 
