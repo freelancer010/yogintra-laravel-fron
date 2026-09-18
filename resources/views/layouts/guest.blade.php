@@ -23,7 +23,7 @@
     </head>
     <body class="font-sans text-slate-800 antialiased bg-[#f5f7f8]">
         <div class="min-h-screen flex items-center justify-center px-4 py-10">
-            <div class="w-full sm:max-w-md overflow-hidden rounded-xl border border-slate-200 bg-white px-7 py-8 shadow-xl shadow-slate-300/40 sm:px-8" style="border-top: 4px solid #1a73e8;">
+            <div class="w-full sm:max-w-md overflow-hidden rounded-xl border border-slate-200 bg-white px-7 py-8 shadow-xl shadow-slate-300/40 sm:px-8" style="border-top: 4px solid #1a73e8; padding: 34px 40px 38px;">
                 <div class="mb-7 border-b border-slate-200 pb-6 text-center">
                     <x-application-logo class="mx-auto" style="height: 68px; width: auto; max-width: 260px;" />
                     <h1 class="mt-5 text-xl font-semibold text-slate-800">Sign in to your account</h1>
