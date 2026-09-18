@@ -38,9 +38,9 @@ Route::get('/blog', [HomeController::class, 'allBlog']);
 Route::get('/blog/{slug}', [HomeController::class, 'blogDetails'])->name('blog.details');
 Route::get('/blog-category/{slug}', [HomeController::class, 'blogCategory'])->name('blog.category');
 
-Route::get('/service-details/{slug}', fn (string $slug) => redirect('/' . $slug, 301));
+Route::get('/service-details/{slug}', [HomeController::class, 'serviceDetails']);
 Route::get('/service/{slug}', fn (string $slug) => redirect('/' . $slug, 301));
-Route::get('/service_details/{slug}', fn (string $slug) => redirect('/' . $slug, 301));
+Route::get('/service_details/{slug}', [HomeController::class, 'serviceDetails']);
 Route::get('/service', function () {
     return redirect('/home-visit-yoga', 301);
 })->name('service.home');
