@@ -21,13 +21,19 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">    
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg text" style="border-top:4px solid #007bff">
-                <div class="flex justify-center mb-5">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+    <body class="font-sans text-slate-800 antialiased bg-[#f4f8f8]">
+        <div class="relative min-h-screen flex flex-col sm:justify-center items-center px-4 py-10 overflow-hidden">
+            <div class="absolute inset-x-0 top-0 h-72 bg-gradient-to-br from-[#123e49] via-[#176f79] to-[#39a6a0]"></div>
+            <div class="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-2xl"></div>
+            <div class="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[#9ed9ce]/35 blur-3xl"></div>
+            <div class="relative w-full sm:max-w-md overflow-hidden rounded-2xl border border-white/80 bg-white/95 px-7 py-8 shadow-2xl shadow-[#123e49]/20 backdrop-blur sm:px-9">
+                <div class="mb-7 text-center">
+                    <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-[#f0faf9] ring-1 ring-[#cbe9e6]">
+                        <x-application-logo class="h-16 w-16" />
+                    </div>
+                    <h1 class="text-2xl font-bold tracking-tight text-[#174650]">Welcome back</h1>
+                    <p class="mt-2 text-sm text-slate-500">Sign in to manage your YogIntra account.</p>
                 </div>
-                <hr class="mb-5">
                 {{ $slot }}
             </div>
         </div>
