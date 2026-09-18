@@ -102,7 +102,7 @@
       <div class="modal-body">
         <p class="text-muted small">Start with the page essentials. You can add and edit sections in the visual builder next.</p>
         <div class="form-group"><label>Page name <span class="text-danger">*</span></label><input class="form-control" id="draft-page-name" name="page_name" required autofocus></div>
-        <div class="form-group"><label>Page slug</label><input class="form-control" id="draft-page-slug" name="page_slug" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="online-yoga-mumbai"><small class="form-text text-muted">/city/your-slug</small></div>
+        <div class="form-group"><label>Page slug</label><input class="form-control" id="draft-page-slug" name="page_slug" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="online-yoga-mumbai"><small class="form-text text-muted">Live URL: <strong id="draft-page-url" aria-live="polite">{{ url('/city/your-slug') }}</strong></small></div>
         <div class="form-group mb-0"><label>SEO title</label><input class="form-control" name="page_meta_title" placeholder="Optional; defaults to page name"></div>
       </div>
       <div class="modal-footer"><button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button><button class="btn btn-success" type="submit">Create &amp; open builder</button></div>
@@ -110,9 +110,19 @@
   </div>
 </div>
 <script>
-document.getElementById('draft-page-name')?.addEventListener('input', function () {
-  document.getElementById('draft-page-slug').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const draftPageName = document.getElementById('draft-page-name');
+const draftPageSlug = document.getElementById('draft-page-slug');
+const draftPageUrl = document.getElementById('draft-page-url');
+const updateDraftPageUrl = () => {
+  if (!draftPageSlug || !draftPageUrl) return;
+  const slug = draftPageSlug.value.trim() || 'your-slug';
+  draftPageUrl.textContent = @json(url('/city')) + '/' + slug;
+};
+draftPageName?.addEventListener('input', function () {
+  draftPageSlug.value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  updateDraftPageUrl();
 });
+draftPageSlug?.addEventListener('input', updateDraftPageUrl);
 </script>
 <style>
   .landing-page-table .landing-page-id { width: 54px; text-align: center; }
