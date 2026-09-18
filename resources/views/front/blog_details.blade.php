@@ -64,7 +64,7 @@
     text-transform: none !important;
   }
   .blog-detail-byline { display: flex; flex-wrap: wrap; gap: 9px 12px; align-items: center; }
-  .blog-detail-author, .blog-detail-published {
+  .blog-detail-author {
     display: inline-flex;
     align-items: center;
     gap: 7px;
@@ -74,13 +74,54 @@
     font-weight: 700;
   }
   .blog-detail-author { background: #e5f4f4; color: #0e6570; }
-  .blog-detail-published { background: #f5f0e6; color: #725824; }
-  .blog-detail-author i, .blog-detail-published i { font-size: 12px; }
+  .blog-detail-author i { font-size: 12px; }
+  .blog-article-body {
+    max-width: 920px;
+    margin: 0 auto;
+    color: #49636a;
+    font-size: 17px;
+    line-height: 1.85;
+  }
+  .blog-article-body > :first-child { margin-top: 0; }
+  .blog-article-body p { margin: 0 0 20px; }
+  .blog-article-body h2,
+  .blog-article-body h3,
+  .blog-article-body h4 {
+    margin: 36px 0 13px;
+    color: #163f48;
+    font-weight: 800;
+    line-height: 1.35;
+  }
+  .blog-article-body h2 { font-size: 28px; }
+  .blog-article-body h3 { font-size: 23px; }
+  .blog-article-body h4 { font-size: 19px; }
+  .entry-content .blog-article-body a { color: #087985 !important; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .blog-article-body ul,
+  .blog-article-body ol { margin: 0 0 23px; padding-left: 25px; }
+  .blog-article-body li { margin-bottom: 8px; padding-left: 4px; }
+  .blog-article-body blockquote {
+    margin: 28px 0;
+    padding: 18px 22px;
+    border-left: 4px solid #0f7c87;
+    border-radius: 0 10px 10px 0;
+    background: #eef8f8;
+    color: #245660;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .blog-article-body img { display: block; max-width: 100%; height: auto; margin: 28px auto; border-radius: 12px; }
+  .blog-article-body table { display: block; width: 100%; margin: 24px 0; overflow-x: auto; border-collapse: collapse; }
+  .blog-article-body th,
+  .blog-article-body td { padding: 10px 13px; border: 1px solid #dbe7e8; text-align: left; }
+  .blog-article-body th { background: #edf7f7; color: #173f49; }
   @media (max-width: 575px) {
     .blog-detail-meta { grid-template-columns: 62px minmax(0, 1fr); gap: 14px; padding: 15px !important; }
     .blog-detail-date { min-height: 62px; border-radius: 10px; }
     .blog-detail-date-day { font-size: 23px; }
     .blog-detail-title { font-size: 18px !important; }
+    .blog-article-body { font-size: 16px; line-height: 1.75; }
+    .blog-article-body h2 { font-size: 24px; }
+    .blog-article-body h3 { font-size: 21px; }
   }
   .image-sec img {
     width: auto;
@@ -126,11 +167,10 @@
                       @if($blog->blog_author)
                         <span class="blog-detail-author"><i class="fa fa-user" aria-hidden="true"></i> By {{ $blog->blog_author }}</span>
                       @endif
-                      <span class="blog-detail-published"><i class="fa fa-calendar" aria-hidden="true"></i> Published {{ $publishedAt->format('F j, Y') }}</span>
                     </div>
                   </div>
                 </div>
-                <div>{!! app(\App\Support\HtmlSanitizer::class)->sanitize($blog->blog_content) !!}</div>
+                <div class="blog-article-body">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($blog->blog_content) !!}</div>
               </div>
             </article>
             <div id="share"></div>
