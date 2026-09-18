@@ -38,12 +38,11 @@ Route::get('/blog', [HomeController::class, 'allBlog']);
 Route::get('/blog/{slug}', [HomeController::class, 'blogDetails'])->name('blog.details');
 Route::get('/blog-category/{slug}', [HomeController::class, 'blogCategory'])->name('blog.category');
 
-Route::get('/service-details/{slug}', [HomeController::class, 'serviceDetails']);
-Route::get('/service/{slug}', [HomeController::class, 'allService'])->name('all-service');
-
-Route::get('/service_details/{slug}', [HomeController::class, 'serviceDetails']);
+Route::get('/service-details/{slug}', fn (string $slug) => redirect('/' . $slug, 301));
+Route::get('/service/{slug}', fn (string $slug) => redirect('/' . $slug, 301));
+Route::get('/service_details/{slug}', fn (string $slug) => redirect('/' . $slug, 301));
 Route::get('/service', function () {
-    return redirect('/service/home-visit-yoga', 301);
+    return redirect('/home-visit-yoga', 301);
 })->name('service.home');
 Route::get('/padmasana-lotus-pose', function () {
     return redirect('/blog/padmasana-lotus-pose', 301);
@@ -230,6 +229,10 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Public service pages use concise root-level URLs, e.g. /home-visit-yoga.
+// This remains last so named public routes and authentication routes take priority.
+Route::get('/{slug}', [HomeController::class, 'allService'])->name('all-service');
 
 Route::get('/generate-sitemap', [\App\Http\Controllers\SitemapController::class, 'generate'])
     ->middleware(['auth', 'admin'])

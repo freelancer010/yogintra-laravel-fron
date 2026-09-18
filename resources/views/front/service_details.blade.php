@@ -167,7 +167,7 @@
                     <h1 class="title text-white">{{ \Illuminate\Support\Str::limit($service->service_name, 50) }}</h1>
                     <ol class="breadcrumb text-center mt-10">
                         <li><a class="text-white" href="{{ url('/') }}">Home</a></li>
-                        <li><a class="text-white" href="{{ url('/service/' . $service->service_cat_slug) }}">{{ $service->service_cat_name }}</a></li>
+                        <li><a class="text-white" href="{{ url($service->service_cat_slug) }}">{{ $service->service_cat_name }}</a></li>
                         <li class="active text-gray">{{ $service->service_name }}</li>
                     </ol>
                 </div>

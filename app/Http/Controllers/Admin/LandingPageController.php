@@ -387,10 +387,10 @@ class LandingPageController extends Controller
         ])->filter(fn ($item) => filled($item['title']))->values()->all();
 
         $yogaServiceBlocks = [
-            ['image' => 'uploads/home_visit_yoga.webp', 'title' => 'Home Visit Yoga', 'text' => "Personal yoga sessions in {$city}.", 'url' => url('service/home-visit-yoga')],
-            ['image' => 'uploads/private_online_yoga.webp', 'title' => 'Private Online Yoga', 'text' => 'One-to-one online guidance from home.', 'url' => url('service/private-online-yoga')],
-            ['image' => 'uploads/group_online_yoga.webp', 'title' => 'Group Online Yoga', 'text' => 'Practice together from anywhere.', 'url' => url('service/group-online-yoga')],
-            ['image' => 'uploads/65057356cad36images-150x150.webp', 'title' => 'Corporate Yoga', 'text' => "Wellbeing programmes for teams in {$city}.", 'url' => url('service/corporate-yoga')],
+            ['image' => 'uploads/home_visit_yoga.webp', 'title' => 'Home Visit Yoga', 'text' => "Personal yoga sessions in {$city}.", 'url' => url('home-visit-yoga')],
+            ['image' => 'uploads/private_online_yoga.webp', 'title' => 'Private Online Yoga', 'text' => 'One-to-one online guidance from home.', 'url' => url('private-online-yoga')],
+            ['image' => 'uploads/group_online_yoga.webp', 'title' => 'Group Online Yoga', 'text' => 'Practice together from anywhere.', 'url' => url('group-online-yoga')],
+            ['image' => 'uploads/65057356cad36images-150x150.webp', 'title' => 'Corporate Yoga', 'text' => "Wellbeing programmes for teams in {$city}.", 'url' => url('corporate-yoga')],
             ['image' => 'uploads/yog_center.webp', 'title' => 'Yoga Center', 'text' => 'Explore guided classes and programmes.', 'url' => url('yoga-center')],
             ['image' => 'uploads/ttc.webp', 'title' => 'Teacher Training', 'text' => 'Deepen your yoga knowledge and practice.', 'url' => url('teacher-training-course')],
         ];

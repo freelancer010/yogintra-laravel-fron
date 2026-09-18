@@ -628,7 +628,7 @@ class HomeController extends Controller
             'gallery' => 'amp.gallery',
             'blog' => 'amp.blog',
             'services' => 'amp.services',
-            'service/home-visit-yoga' => 'amp.service',
+            'home-visit-yoga' => 'amp.service',
             'privacy-policy' => 'amp.privacy-policy',
             'terms-and-condition' => 'amp.terms-and-condition',
         ];

@@ -1753,22 +1753,22 @@
         [
             'title' => 'Home Visit Yoga',
             'image' => 'uploads/home_visit_yoga.webp',
-            'link' => 'service/home-visit-yoga',
+            'link' => 'home-visit-yoga',
         ],
         [
             'title' => 'Private Online Yoga',
             'image' => 'uploads/private_online_yoga.webp',
-            'link' => 'service/private-online-yoga',
+            'link' => 'private-online-yoga',
         ],
         [
             'title' => 'Group Online Yoga',
             'image' => 'uploads/group_online_yoga.webp',
-            'link' => 'service/group-online-yoga',
+            'link' => 'group-online-yoga',
         ],
         [
             'title' => 'Corporate Yoga',
             'image' => 'uploads/65057356cad36images-150x150.webp',
-            'link' => 'service/corporate-yoga',
+            'link' => 'corporate-yoga',
         ],
         [
             'title' => 'Yoga Center',

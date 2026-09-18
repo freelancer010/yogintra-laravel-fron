@@ -50,7 +50,7 @@
                                 <ul class="dropdown">
                                     @foreach ($all_service as $service_menu)
                                         <li>
-                                            <a href="{{ url('/service/' . $service_menu->service_cat_slug) }}">
+                                            <a href="{{ url($service_menu->service_cat_slug) }}">
                                                 {{ $service_menu->service_cat_name }}
                                             </a>
                                         </li>

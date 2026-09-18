@@ -42,10 +42,10 @@
                 <div class="widget dark mb-0">
                     <h6 class="widget-title line-bottom">Our Service</h6>
                     <ul class="list-border">
-                        <li><a href="{{ url('service/home-visit-yoga') }}">Home Visit Yoga</a></li>
-                        <li><a href="{{ url('service/private-online-yoga') }}">Private Online Yoga</a></li>
-                        <li><a href="{{ url('service/group-online-yoga') }}">Group Online Yoga</a></li>
-                        <li><a href="{{ url('service/corporate-yoga') }}">Corporate Yoga</a></li>
+                        <li><a href="{{ url('home-visit-yoga') }}">Home Visit Yoga</a></li>
+                        <li><a href="{{ url('private-online-yoga') }}">Private Online Yoga</a></li>
+                        <li><a href="{{ url('group-online-yoga') }}">Group Online Yoga</a></li>
+                        <li><a href="{{ url('corporate-yoga') }}">Corporate Yoga</a></li>
                     </ul>
                 </div>
             </div>

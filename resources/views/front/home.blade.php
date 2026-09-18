@@ -839,7 +839,7 @@
                                         <div class="yoga-service-item text-center">
                                             <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
                                             <h2 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h2>
-                                            <a href="{{ url('service/' . $r_service->service_cat_slug) }}" class="btn-sm-cs btn btn-success btn-primary-dark">Book Now</a>
+                                            <a href="{{ url($r_service->service_cat_slug) }}" class="btn-sm-cs btn btn-success btn-primary-dark">Book Now</a>
                                         </div>
                                     </div>
                                 @endforeach
@@ -1368,7 +1368,7 @@
                         "itemOffered": {
                             "@type": "Service",
                             "name": "{{ $service->service_cat_name }}",
-                            "url": "{{ url('service/' . $service->service_cat_slug) }}",
+                            "url": "{{ url($service->service_cat_slug) }}",
                             "image": "{{ asset($service->service_cat_image) }}",
                             "provider": {
                                 "@type": "Organization",
@@ -1407,7 +1407,7 @@
                 "@type": "Service",
                 "position": {{ $index + 1 }},
                 "name": "{{ $service->service_cat_name }}",
-                "url": "{{ url('service/' . $service->service_cat_slug) }}",
+                "url": "{{ url($service->service_cat_slug) }}",
                 "image": "{{ asset($service->service_cat_image) }}",
                 "provider": {
                     "@type": "HealthAndBeautyBusiness",
