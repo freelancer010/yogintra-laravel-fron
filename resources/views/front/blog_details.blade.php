@@ -29,6 +29,59 @@
     font-size: 16px;
     text-align: left
   }
+  .blog-detail-meta {
+    display: grid !important;
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 22px;
+    align-items: center;
+    margin: 12px 0 30px !important;
+    padding: 22px !important;
+    border: 1px solid #dcebed !important;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #f8fcfc 0%, #fff 72%);
+    box-shadow: 0 8px 22px rgba(20, 79, 88, .07);
+  }
+  .blog-detail-date {
+    display: flex;
+    min-height: 78px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #0f7c87;
+    color: #fff;
+    line-height: 1;
+    box-shadow: 0 7px 14px rgba(15, 124, 135, .2);
+  }
+  .blog-detail-date-day { font-size: 28px; font-weight: 800; }
+  .blog-detail-date-month { margin-top: 6px; font-size: 11px; font-weight: 800; letter-spacing: .12em; }
+  .blog-detail-title {
+    margin: 0 0 12px !important;
+    color: #123b44 !important;
+    font-size: clamp(19px, 2.1vw, 27px) !important;
+    font-weight: 800;
+    line-height: 1.3;
+    text-transform: none !important;
+  }
+  .blog-detail-byline { display: flex; flex-wrap: wrap; gap: 9px 12px; align-items: center; }
+  .blog-detail-author, .blog-detail-published {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border-radius: 999px;
+    padding: 7px 11px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .blog-detail-author { background: #e5f4f4; color: #0e6570; }
+  .blog-detail-published { background: #f5f0e6; color: #725824; }
+  .blog-detail-author i, .blog-detail-published i { font-size: 12px; }
+  @media (max-width: 575px) {
+    .blog-detail-meta { grid-template-columns: 62px minmax(0, 1fr); gap: 14px; padding: 15px !important; }
+    .blog-detail-date { min-height: 62px; border-radius: 10px; }
+    .blog-detail-date-day { font-size: 23px; }
+    .blog-detail-title { font-size: 18px !important; }
+  }
   .image-sec img {
     width: auto;
     height: auto;
@@ -61,21 +114,19 @@
                 </div>
               </div>
               <div class="entry-content p-15">
-                <div class="entry-meta media no-bg no-border mt-15 pb-20">
-                  <div class="entry-date media-left text-center flip pt-5 pr-15 pb-5 pl-15">
-                    <ul>
-                      <li class="font-16 font-weight-600 text-primary">{{ \Carbon\Carbon::parse($blog->created_at)->format('d') }}</li>
-                      <li class="font-12 text-uppercase text-primary">{{ \Carbon\Carbon::parse($blog->created_at)->format('M') }}</li>
-                    </ul>
-                  </div>
-                  <div class="media-body pl-15">
-                    <div class="event-content pull-left flip">
-                      <h1 class="entry-title text-dark text-uppercase pt-0 mt-0 fs-16">{{ $blog->blog_title }}</h3>
+                @php($publishedAt = \Carbon\Carbon::parse($blog->created_at))
+                <div class="entry-meta blog-detail-meta no-bg no-border">
+                  <time class="blog-detail-date" datetime="{{ $publishedAt->toDateString() }}" aria-label="Published {{ $publishedAt->format('F j, Y') }}">
+                    <span class="blog-detail-date-day">{{ $publishedAt->format('d') }}</span>
+                    <span class="blog-detail-date-month">{{ $publishedAt->format('M') }}</span>
+                  </time>
+                  <div>
+                    <h1 class="entry-title blog-detail-title">{{ $blog->blog_title }}</h1>
+                    <div class="blog-detail-byline">
                       @if($blog->blog_author)
-                        <span class="mb-10 text-gray-darkgray mr-10 mt-15 font-13">
-                          <i class="fa fa-user mr-5"></i> Author : {{ $blog->blog_author }}
-                        </span>
+                        <span class="blog-detail-author"><i class="fa fa-user" aria-hidden="true"></i> By {{ $blog->blog_author }}</span>
                       @endif
+                      <span class="blog-detail-published"><i class="fa fa-calendar" aria-hidden="true"></i> Published {{ $publishedAt->format('F j, Y') }}</span>
                     </div>
                   </div>
                 </div>
