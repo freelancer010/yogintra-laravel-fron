@@ -63,8 +63,9 @@
   .blog-detail-published { background: #f5f0e6; color: #725824; }
   .blog-detail-author i, .blog-detail-published i { font-size: 12px; }
   .blog-article-body {
-    max-width: 920px;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
+    padding: 0 22px;
     color: #49636a;
     font-size: 17px;
     line-height: 1.85;
@@ -104,7 +105,7 @@
   @media (max-width: 575px) {
     .blog-detail-meta { padding: 15px !important; }
     .blog-detail-title { font-size: 18px !important; }
-    .blog-article-body { font-size: 16px; line-height: 1.75; }
+    .blog-article-body { padding: 0 15px; font-size: 16px; line-height: 1.75; }
     .blog-article-body h2 { font-size: 24px; }
     .blog-article-body h3 { font-size: 21px; }
   }
