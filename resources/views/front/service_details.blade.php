@@ -195,15 +195,16 @@
         .service-fact { display:grid; grid-template-columns:58px 1fr; align-items:center; gap:0 13px; padding:11px 14px; text-align:left; }
         .am-data i { grid-row:span 2; width:52px; height:52px; font-size:19px; }
         .service-fact small { margin:0; }
-        .service-fact strong { grid-column:2; }
+        .service-fact strong { grid-column:2; margin-top:2px; font-size:18px; }
         .service-order-summary .am-service-price { margin:0 -25px 20px; border-radius:0; }
     }
 
     @media only screen and (max-width: 600px) {
         .am-service-header
         {
-            flex-direction: column;
-            text-align:center;
+            flex-direction: row;
+            align-items: center;
+            text-align:left;
         }
     }
 </style>
