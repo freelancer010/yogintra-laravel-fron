@@ -87,9 +87,10 @@
   inspector.appendChild(stylePanel);
 
   const layers = document.createElement('div');
-  layers.className = 'section-layers';
-  layers.innerHTML = '<div class="builder-inspector-title"><span>Page structure</span><span id="layer-count">0</span></div><div id="section-layers-list"></div>';
+  layers.className = 'section-layers is-collapsed';
+  layers.innerHTML = '<button type="button" class="section-layers-toggle" aria-expanded="false"><span>Page structure</span><b id="layer-count">0 sections</b><i aria-hidden="true">⌄</i></button><div id="section-layers-list"></div>';
   inspector.appendChild(layers);
+  layers.querySelector('.section-layers-toggle').addEventListener('click', event => { const expanded = layers.classList.toggle('is-collapsed') === false; event.currentTarget.setAttribute('aria-expanded', String(expanded)); event.currentTarget.querySelector('i').textContent = expanded ? '⌃' : '⌄'; });
 
   const linkPopup = document.createElement('form');
   linkPopup.className = 'builder-link-popup';
@@ -201,6 +202,8 @@
     document.querySelectorAll('[data-builder-id="' + card.dataset.builderId + '"]').forEach(element => element.classList.add('is-selected'));
     const previewSection = document.querySelector('.preview-section[data-builder-id="' + card.dataset.builderId + '"]');
     const tree = document.querySelector('.section-tree[data-builder-id="' + card.dataset.builderId + '"]');
+    tree?.classList.remove('is-collapsed');
+    if (tree) { const toggle = tree.querySelector('.section-tree-toggle'); toggle?.setAttribute('aria-expanded', 'true'); if (toggle) toggle.textContent = '⌃'; }
     if (target === 'image') previewSection?.querySelector('.preview-image-frame')?.classList.add('is-selected-target');
     if (target !== 'section' && target !== 'image') {
       const previewTarget = previewSection?.querySelector('[data-preview-column-target="' + target + '"], [data-preview-field="' + target + '"]');
@@ -552,9 +555,9 @@
       previewSection.addEventListener('click', event => { const selectedColumnElement = event.target.closest('[data-preview-column-target]'); const editable = event.target.closest('[contenteditable]'); const extraList = event.target.closest('[data-preview-extra-list]'); const target = selectedColumnElement?.dataset.previewColumnTarget || editable?.dataset.previewField || (editable?.dataset.previewExtra !== undefined ? 'extra-' + editable.dataset.previewExtra : (extraList ? 'section' : 'section')); focusCard(card, target); if (editable) editable.classList.add('is-editing'); }, true);
       content.appendChild(previewSection);
       const layer = document.createElement('div');
-      layer.className = 'section-tree'; layer.dataset.builderId = card.dataset.builderId;
+      layer.className = 'section-tree is-collapsed'; layer.dataset.builderId = card.dataset.builderId;
       const treeLabel = type === 'image' ? 'Full-width image' : heading;
-      layer.innerHTML = '<div class="section-tree-header"><button type="button" class="section-layer"><span>☷ ' + escape(treeLabel) + '</span><small>' + escape(type.replace('_', ' + ')) + '</small></button><button type="button" class="section-tree-duplicate" title="Duplicate section" aria-label="Duplicate section">⧉</button><button type="button" class="section-tree-delete" title="Delete section" aria-label="Delete section">×</button><button type="button" class="section-tree-toggle" aria-label="Collapse section" aria-expanded="true">⌃</button></div><div class="section-tree-children"></div>';
+      layer.innerHTML = '<div class="section-tree-header"><button type="button" class="section-layer"><span>☷ ' + escape(treeLabel) + '</span><small>' + escape(type.replace('_', ' + ')) + '</small></button><button type="button" class="section-tree-duplicate" title="Duplicate section" aria-label="Duplicate section">⧉</button><button type="button" class="section-tree-delete" title="Delete section" aria-label="Delete section">×</button><button type="button" class="section-tree-toggle" aria-label="Expand section" aria-expanded="false">⌄</button></div><div class="section-tree-children"></div>';
       const root = layer.querySelector('.section-layer');
       root.draggable = true;
       root.dataset.treeTarget = 'section';
