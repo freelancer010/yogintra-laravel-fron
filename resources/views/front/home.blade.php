@@ -819,6 +819,9 @@
         </div>
     </section>
 
+    @php
+        $section3FixedImages = json_decode($app_setting->section3_fixed_card_images ?: '{}', true) ?: [];
+    @endphp
     <section class="divider types-of-yoga-section section-parallax-bg" style="background-image: url('{{ asset($app_setting->section3_background_image ?: 'assets/parallax-decor2.png') }}'); padding-top:{{ $app_setting->section3_padding_y ?: 70 }}px; padding-bottom:{{ $app_setting->section3_padding_y ?: 70 }}px;">
         <div class="container">
             <div class="row justify-content-center">
@@ -846,7 +849,7 @@
 
                                 <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <div class="yoga-service-item text-center">
-                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset('assets/icon-thumb3-150x150.jpg') }}" width="150" height="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
+                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['ttc'] ?? 'assets/icon-thumb3-150x150.jpg') }}" width="150" height="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
                                         <h2 class="mb-15 fs-16">TTC</h2>
                                         <a href="{{ route('ttc') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
                                     </div>
@@ -854,7 +857,7 @@
 
                                 <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <div class="yoga-service-item text-center">
-                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset('assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs">
+                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['retreat'] ?? 'assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs">
                                         <h2 class="mb-15 fs-16">Retreat</h2>
                                         <a href="{{ route('retreat.all') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
                                     </div>
@@ -862,7 +865,7 @@
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <div class="yoga-service-item text-center">
-                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset('assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops">
+                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['workshop'] ?? 'assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops">
                                         <h2 class="mb-15 fs-16">Workshop</h2>
                                         <a href="{{ route('workshop') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
                                     </div>
@@ -870,7 +873,7 @@
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <div class="yoga-service-item text-center">
-                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset('uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility">
+                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['yoga_center'] ?? 'uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility">
                                         <h2 class="mb-15 fs-16">Yoga Center</h2>
                                         <a href="{{ route('yoga.center') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
                                     </div>

@@ -12,6 +12,7 @@ use App\Models\OurFeatureHeading;
 use App\Models\OurFeature;
 use App\Models\OurService;
 use App\Models\OurServiceImage;
+use App\Models\Service;
 use App\Models\Testimonial;
 use App\Services\OptimizedImageUpload;
 
@@ -81,7 +82,10 @@ class FrontSettingController extends Controller
 
     public function section3()
     {
-        return view('admin.front_setting.section_3', ['setting' => Setting::firstOrFail()]);
+        return view('admin.front_setting.section_3', [
+            'setting' => Setting::firstOrFail(),
+            'serviceCategories' => Service::getSixCategoryForHomePage()->take(4),
+        ]);
     }
 
     public function updateSection3(Request $request)
@@ -91,11 +95,17 @@ class FrontSettingController extends Controller
             'section3_description' => 'required|string|max:1000',
             'section3_background_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5000',
             'section3_padding_y' => 'required|integer|min:20|max:180',
+            'section3_fixed_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5000',
         ]);
         $setting = Setting::firstOrFail();
         if ($request->hasFile('section3_background_image')) {
             $setting->section3_background_image = app(OptimizedImageUpload::class)->store($request->file('section3_background_image'));
         }
+        $fixedImages = json_decode($setting->section3_fixed_card_images ?: '{}', true) ?: [];
+        foreach (['ttc', 'retreat', 'workshop', 'yoga_center'] as $key) {
+            if ($request->hasFile('section3_fixed_images.' . $key)) $fixedImages[$key] = app(OptimizedImageUpload::class)->store($request->file('section3_fixed_images.' . $key));
+        }
+        $setting->section3_fixed_card_images = json_encode($fixedImages);
         $setting->section3_heading = $request->section3_heading;
         $setting->section3_description = $request->section3_description;
         $setting->section3_padding_y = $request->section3_padding_y;
