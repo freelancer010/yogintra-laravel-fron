@@ -59,9 +59,7 @@
             'landing-page' => [
               'title' => 'Landing Pages',
               'icon' => 'far fa-id-card',
-              'items' => [
-                ['name' => 'Landing Pages', 'route' => 'admin.landing-pages.index']
-              ]
+              'route' => 'admin.landing-pages.index'
             ],
             'front-setting' => [
               'title' => 'Front Setting',
@@ -85,6 +83,14 @@
         ?>
 
         @foreach($menu as $prefix => $section)
+          @if(isset($section['route']))
+            <li class="nav-item">
+              <a href="{{ route($section['route']) }}" class="nav-link {{ request()->routeIs($section['route']) ? 'active' : '' }}">
+                <i class="nav-icon {{ $section['icon'] }}"></i>
+                <p>{{ $section['title'] }}</p>
+              </a>
+            </li>
+          @else
           <li class="nav-item has-treeview {{ request()->is("admin/$prefix*") ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ request()->is("admin/$prefix*") ? 'active' : '' }}">
               <i class="nav-icon {{ $section['icon'] }}"></i>
@@ -101,6 +107,7 @@
               @endforeach
             </ul>
           </li>
+          @endif
         @endforeach
 
         <li class="nav-item">

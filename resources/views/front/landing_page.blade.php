@@ -1405,6 +1405,8 @@
     .landing-builder-section .landing-faq-item + .landing-faq-item { margin-top:12px; }
     .landing-builder-section .landing-faq-item summary { padding:18px 20px; color:#183c45; font-weight:700; cursor:pointer; }
     .landing-builder-section .landing-faq-answer { padding:0 20px 18px; color:#53636a; line-height:1.7; }
+    .landing-builder-section .landing-builder-faq-list { max-width:860px; margin:28px auto 0; }
+    .landing-builder-section .landing-builder-faq-list .landing-faq-item { box-shadow:0 5px 15px rgba(19,60,68,.05); }
     @media (max-width: 767px) { .landing-builder-section .landing-feature-grid, .landing-builder-section .landing-custom-columns { grid-template-columns:1fr !important; } .landing-builder-section.landing-section-parallax { background-attachment:scroll; } }
     @media (max-width: 767px) { .landing-builder-section .landing-testimonial-grid { grid-template-columns:1fr; } }
   </style>
@@ -1471,6 +1473,9 @@
           @endphp
           <div class="landing-custom-columns" style="--column-count: {{ $columnCount }}; text-align: {{ $section->text_align ?? 'left' }};">
             @foreach(array_slice($columns, 0, $columnCount) as $column)
+              @if(($column['type'] ?? '') === 'empty')
+                @continue
+              @endif
               @php
                 $columnStyles = $column['styles'] ?? [];
                 $columnStyle = function ($key, $defaultColor, $defaultSize) use ($columnStyles, $section) {
@@ -1507,6 +1512,7 @@
             $customTestimonials = array_values(array_filter($columns, fn ($column) => ($column['type'] ?? '') === 'testimonial'));
           @endphp
           @if($customTestimonials)
+            @if($section->heading)<div class="mb-4 text-center"><h2 style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->heading) !!}</h2></div>@endif
             <div class="landing-builder-testimonial-slider landing-testimonial-slider" data-nav="true" data-dots="true">
               @foreach($customTestimonials as $testimonial)
                 @php
@@ -1526,6 +1532,20 @@
                     </div>
                   </article>
                 </div>
+              @endforeach
+            </div>
+          @endif
+          @php
+            $customFaqItems = array_values(array_filter($columns, fn ($column) => ($column['type'] ?? '') === 'faq'));
+          @endphp
+          @if($customFaqItems)
+            @if($section->heading)<div class="mb-4 text-center"><h2 style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->heading) !!}</h2></div>@endif
+            <div class="landing-builder-faq-list">
+              @foreach($customFaqItems as $index => $faq)
+                <details class="landing-faq-item" {{ $index === 0 ? 'open' : '' }}>
+                  <summary>{{ $faq['question'] ?? 'Question' }}</summary>
+                  <div class="landing-faq-answer">{{ $faq['answer'] ?? '' }}</div>
+                </details>
               @endforeach
             </div>
           @endif
