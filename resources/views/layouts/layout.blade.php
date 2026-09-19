@@ -590,14 +590,14 @@
         }
 
         #messagePopup .btn-primary {
-            background: #ffd700;
-            border-color: #ffd700;
-            color: #000;
+            background: #1a73e8;
+            border-color: #1a73e8;
+            color: #fff;
         }
 
         #messagePopup .btn-primary:hover {
-            background: #e6c200;
-            border-color: #e6c200;
+            background: #1557b0;
+            border-color: #1557b0;
         }
 
         /* Global Button Accessibility Improvements */
@@ -640,6 +640,29 @@
         .btn-primary:active {
             background-color: #bf5600 !important;
             border-color: #bf5600 !important;
+            color: #ffffff !important;
+        }
+
+        /* Keep every visitor-facing action on the same primary-blue system. */
+        body .btn,
+        body .btn-dark,
+        body .btn-theme-colored,
+        body .btn-colored {
+            background-color: #1a73e8 !important;
+            border-color: #1a73e8 !important;
+            color: #ffffff !important;
+        }
+
+        body .btn:hover,
+        body .btn:focus,
+        body .btn-dark:hover,
+        body .btn-dark:focus,
+        body .btn-theme-colored:hover,
+        body .btn-theme-colored:focus,
+        body .btn-colored:hover,
+        body .btn-colored:focus {
+            background-color: #1557b0 !important;
+            border-color: #1557b0 !important;
             color: #ffffff !important;
         }
 
