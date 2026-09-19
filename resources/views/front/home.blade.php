@@ -821,7 +821,16 @@
 
     @php
         $section3FixedImages = json_decode($app_setting->section3_fixed_card_images ?: '{}', true) ?: [];
+        $section3CardBullets = json_decode($app_setting->section3_card_bullets ?: '{}', true) ?: [];
+        $section3DefaultBullets = ['Expert-led sessions', 'Flexible booking', 'Personalised guidance', 'Suitable for all levels', 'Wellness-focused practice'];
+        $section3BulletItems = function ($key) use ($section3CardBullets, $section3DefaultBullets) {
+            $items = array_values(array_filter(array_map('trim', preg_split('/\r?\n/', $section3CardBullets[$key] ?? ''))));
+            return array_slice($items ?: $section3DefaultBullets, 0, 5);
+        };
     @endphp
+    <style>
+        .types-of-yoga-section .section3-card-bullets{min-height:104px;margin:0 0 16px;padding-left:22px;text-align:left;color:#3d5c64;font-size:13px;line-height:1.55;list-style:disc outside !important}.types-of-yoga-section .section3-card-bullets li{display:list-item !important;margin:3px 0;list-style-type:disc !important}.types-of-yoga-section .section3-card-bullets li::marker{color:#14757d;font-size:1.05em}.types-of-yoga-section .yoga-service-item{height:100%;display:flex;flex-direction:column}.types-of-yoga-section .yoga-service-item .btn{margin-top:auto;align-self:center}@media(max-width:767px){.types-of-yoga-section .section3-card-bullets{max-width:230px;margin-left:auto;margin-right:auto}}
+    </style>
     <section class="divider types-of-yoga-section section-parallax-bg" style="background-image: url('{{ asset($app_setting->section3_background_image ?: 'assets/parallax-decor2.png') }}'); padding-top:{{ $app_setting->section3_padding_y ?: 70 }}px; padding-bottom:{{ $app_setting->section3_padding_y ?: 70 }}px;">
         <div class="container">
             <div class="row justify-content-center">
@@ -840,42 +849,47 @@
                                 @foreach ($rand_service as $r_service)
                                     <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                         <div class="yoga-service-item text-center">
-                                            <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
-                                            <h2 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h2>
-                                            <a href="{{ url($r_service->service_cat_slug) }}" class="btn-sm-cs btn btn-success btn-primary-dark">Book Now</a>
+                                             <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
+                                             <h2 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h2>
+                                             <ul class="section3-card-bullets">@foreach($section3BulletItems('category_'.$r_service->service_cat_id) as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
+                                             <a href="{{ url($r_service->service_cat_slug) }}" class="btn-sm-cs btn btn-success btn-primary-dark">Book Now</a>
                                         </div>
                                     </div>
                                 @endforeach
 
                                 <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <div class="yoga-service-item text-center">
-                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['ttc'] ?? 'assets/icon-thumb3-150x150.jpg') }}" width="150" height="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
-                                        <h2 class="mb-15 fs-16">TTC</h2>
-                                        <a href="{{ route('ttc') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['ttc'] ?? 'assets/icon-thumb3-150x150.jpg') }}" width="150" height="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
+                                         <h2 class="mb-15 fs-16">TTC</h2>
+                                         <ul class="section3-card-bullets">@foreach($section3BulletItems('ttc') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
+                                         <a href="{{ route('ttc') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <div class="yoga-service-item text-center">
-                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['retreat'] ?? 'assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs">
-                                        <h2 class="mb-15 fs-16">Retreat</h2>
-                                        <a href="{{ route('retreat.all') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['retreat'] ?? 'assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs">
+                                         <h2 class="mb-15 fs-16">Retreat</h2>
+                                         <ul class="section3-card-bullets">@foreach($section3BulletItems('retreat') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
+                                         <a href="{{ route('retreat.all') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <div class="yoga-service-item text-center">
-                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['workshop'] ?? 'assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops">
-                                        <h2 class="mb-15 fs-16">Workshop</h2>
-                                        <a href="{{ route('workshop') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['workshop'] ?? 'assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops">
+                                         <h2 class="mb-15 fs-16">Workshop</h2>
+                                         <ul class="section3-card-bullets">@foreach($section3BulletItems('workshop') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
+                                         <a href="{{ route('workshop') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                     <div class="yoga-service-item text-center">
-                                        <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['yoga_center'] ?? 'uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility">
-                                        <h2 class="mb-15 fs-16">Yoga Center</h2>
-                                        <a href="{{ route('yoga.center') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['yoga_center'] ?? 'uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility">
+                                         <h2 class="mb-15 fs-16">Yoga Center</h2>
+                                         <ul class="section3-card-bullets">@foreach($section3BulletItems('yoga_center') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
+                                         <a href="{{ route('yoga.center') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
                                     </div>
                                 </div>
                                 </div>

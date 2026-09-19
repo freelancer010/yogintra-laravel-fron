@@ -1389,6 +1389,7 @@
     .landing-builder-section .landing-feature-card a { color:inherit; text-decoration:none; }
     .landing-builder-section .landing-feature-card .landing-card-link { display:inline-flex; align-items:center; margin-top:14px; color:#0d7c88; font-weight:700; font-size:14px; }
     .landing-builder-section .landing-testimonial-grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px; }
+    .landing-builder-section .landing-builder-testimonial-slider { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px; width:100%; margin-top:28px; }
     .landing-builder-section .landing-testimonial-slider.owl-carousel { display:block; }
     .landing-builder-section .landing-testimonial-slider .owl-stage { display:flex; }
     .landing-builder-section .landing-testimonial-slider .owl-item { display:flex; }
@@ -1502,6 +1503,32 @@
               </div>
             @endforeach
           </div>
+          @php
+            $customTestimonials = array_values(array_filter($columns, fn ($column) => ($column['type'] ?? '') === 'testimonial'));
+          @endphp
+          @if($customTestimonials)
+            <div class="landing-builder-testimonial-slider landing-testimonial-slider" data-nav="true" data-dots="true">
+              @foreach($customTestimonials as $testimonial)
+                @php
+                  $rating = max(1, min(5, (int) ($testimonial['rating'] ?? 5)));
+                @endphp
+                <div class="item">
+                  <article class="landing-testimonial-card">
+                    <div class="landing-testimonial-stars" aria-label="{{ $rating }} out of 5 stars">{{ str_repeat('★', $rating) }}{{ str_repeat('☆', 5 - $rating) }}</div>
+                    <blockquote>“{{ $testimonial['review'] ?? '' }}”</blockquote>
+                    <div class="landing-testimonial-person">
+                      @if(!empty($testimonial['image']))
+                        <img src="{{ asset($testimonial['image']) }}" alt="Client testimonial" width="48" height="48" loading="lazy" decoding="async">
+                      @else
+                        <div class="landing-testimonial-avatar">Y</div>
+                      @endif
+                      <strong>YogIntra client</strong>
+                    </div>
+                  </article>
+                </div>
+              @endforeach
+            </div>
+          @endif
         @elseif($section->section_type === 'feature_grid')
           @php
             $blocks = json_decode($section->blocks ?: '[]', true) ?: [];

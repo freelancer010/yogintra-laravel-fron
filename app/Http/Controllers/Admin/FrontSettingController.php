@@ -96,6 +96,8 @@ class FrontSettingController extends Controller
             'section3_background_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5000',
             'section3_padding_y' => 'required|integer|min:20|max:180',
             'section3_fixed_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5000',
+            'section3_card_bullets' => 'nullable|array',
+            'section3_card_bullets.*' => 'nullable|string|max:1000',
         ]);
         $setting = Setting::firstOrFail();
         if ($request->hasFile('section3_background_image')) {
@@ -106,6 +108,7 @@ class FrontSettingController extends Controller
             if ($request->hasFile('section3_fixed_images.' . $key)) $fixedImages[$key] = app(OptimizedImageUpload::class)->store($request->file('section3_fixed_images.' . $key));
         }
         $setting->section3_fixed_card_images = json_encode($fixedImages);
+        $setting->section3_card_bullets = json_encode($request->input('section3_card_bullets', []));
         $setting->section3_heading = $request->section3_heading;
         $setting->section3_description = $request->section3_description;
         $setting->section3_padding_y = $request->section3_padding_y;

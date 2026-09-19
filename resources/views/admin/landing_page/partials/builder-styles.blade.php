@@ -235,6 +235,23 @@
   .preview-custom-columns .preview-column-support { align-self:stretch; }
   .preview-custom-columns .preview-cta { align-self:center; width:auto; border:0; border-radius:6px; padding:16px 29px; background:#f5a12b; color:#fff; cursor:pointer; font-size:15px; font-weight:700; box-shadow:0 5px 12px rgba(167,97,7,.22); }
   .preview-custom-columns-wrap { position:relative; }
+  .preview-testimonial-rows { display:grid; gap:16px; margin-top:24px; }
+  .preview-testimonial-row { display:flex; align-items:center; gap:18px; width:100%; padding:22px; border:1px solid #b9dcdf; border-left:5px solid #16717a; border-radius:12px; background:#f9ffff; box-shadow:0 8px 20px rgba(19,68,76,.07); cursor:pointer; text-align:left; }
+  .preview-testimonial-row:hover, .preview-testimonial-row.is-selected-target { border-color:#16717a; background:#effafa; }
+  .preview-testimonial-avatar { width:72px; height:72px; display:grid; place-items:center; flex:0 0 72px; overflow:hidden; border-radius:50%; background:#16717a; color:#fff; font-size:26px; }
+  .preview-testimonial-avatar img { width:100%; height:100%; object-fit:cover; }
+  .preview-testimonial-stars, .testimonial-editor-preview b { color:#e6a21a; font-size:17px; letter-spacing:2px; }
+  .preview-testimonial-stars i, .testimonial-editor-preview i { color:#d3dce0; font-style:normal; }
+  .preview-testimonial-row blockquote { margin:7px 0; color:#355861; font-size:15px; line-height:1.55; }
+  .preview-testimonial-row small { color:#19818a; font-size:11px; font-weight:700; }
+  .testimonial-editor-preview { display:flex; gap:12px; margin:3px 0 16px; padding:12px; border-radius:10px; background:#f1f8f9; }
+  .testimonial-slider-status { display:grid; gap:4px; margin:11px 0 16px; padding:11px 12px; border-left:3px solid #16717a; border-radius:7px; background:#eef8f9; color:#245963; }
+  .testimonial-slider-status strong { font-size:12px; }.testimonial-slider-status span { font-size:11px; line-height:1.45; }
+  .testimonial-editor-preview > img, .testimonial-editor-preview > span { width:48px; height:48px; display:grid; place-items:center; flex:0 0 48px; overflow:hidden; border-radius:50%; background:#16717a; color:#fff; object-fit:cover; }
+  .testimonial-editor-preview p { margin:6px 0 0; color:#58737a; font-size:12px; line-height:1.45; }
+  .testimonial-image-button { width:100%; margin-bottom:8px; padding:9px 12px; border:1px dashed #73b5bc; border-radius:8px; background:#f6fbfb; color:#126772; font-weight:700; }
+  .add-testimonial-card { width:100%; margin-top:14px; padding:10px; border:0; border-radius:8px; background:#16717a; color:#fff; font-weight:800; }
+  .remove-testimonial-row { width:100%; margin-top:14px; padding:9px; border:1px solid #e8b9be; border-radius:8px; background:#fff8f8; color:#b4404b; font-weight:700; }
   .preview-column-divider { position:absolute; z-index:3; top:50%; right:8px; width:30px; height:30px; transform:translateY(-50%); border:1px solid #16717a; border-radius:50%; background:#fff; color:#16717a; font-size:21px; line-height:1; box-shadow:0 3px 11px rgba(22,113,122,.18); opacity:0; cursor:pointer; transition:.16s ease; }
   .preview-custom-columns-wrap:hover .preview-column-divider, .preview-section:focus-within .preview-column-divider { opacity:1; }
   .preview-section-actions { position:absolute; z-index:5; right:14px; bottom:12px; opacity:0; transform:translateY(5px); transition:.16s ease; }
@@ -312,7 +329,7 @@
   .section-tree-children { margin:5px 0 0 19px; padding-left:10px; border-left:1px solid #d7e5e8; }
   .section-tree-child { display:block; width:100%; border:0; padding:5px 2px; background:transparent; color:#668087; text-align:left; font-size:12px; }
   .section-tree-child:hover, .section-tree-child.is-selected { color:#14616b; font-weight:700; }
-  @media (max-width: 640px) { .preview-section-row, .preview-section-row.is-right { flex-direction:column; } .preview-section-image, .preview-image-empty { width:100%; } .preview-feature-grid { grid-template-columns:1fr; } }
+  @media (max-width: 640px) { .preview-section-row, .preview-section-row.is-right { flex-direction:column; } .preview-section-image, .preview-image-empty { width:100%; } .preview-feature-grid { grid-template-columns:1fr; } .preview-testimonial-row { align-items:flex-start; padding:16px; } }
   .layout-tools { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; background:#f7fafb; border-radius:10px; padding:12px; margin-top:6px; }
   .layout-tools label { font-size:11px !important; }
   .range-control { grid-column: span 2; }
