@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('meta_title', 'Yoga Teacher Jobs and Vacancies')
+@section('meta_title', 'Yoga Job - Yoga Teacher Jobs and Vacancies | YogIntra')
 @section('meta_description', 'As YogIntra is one of the best Yoga Platforms, we are offering an opportunity to be a part of our organization.')
 @section('meta_keywords', 'Yoga Teacher Training Jobs and Vacancies, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai, Yoga Teacher Training Courses.')
 

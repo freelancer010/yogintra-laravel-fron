@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('meta_title', 'Experienced & Certified Yoga Teachers in India - Yogintra')
+@section('meta_title', 'Experienced & Certified Yoga Teachers in India - YogIntra')
 @section('meta_description', "Book the best yoga trainers in India, all highly experienced and qualified. Enjoy diverse, engaging classes where every session offers a unique experience.")
 @section('meta_keywords', 'Best Yoga Trainer in India, Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai.')
 

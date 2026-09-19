@@ -1,6 +1,6 @@
 @extends('layouts.layout')
-@section('meta_title', 'About us | YogIntra - Best Yoga Center in India')
-@section('meta_description', 'YogIntra is the Best Yoga Center in India for a transformative journey. Immerse yourself in the ancient practice of yoga with experienced instructors./')
+@section('meta_title', 'About us - Best Yoga & Wellness Institute | YogIntra')
+@section('meta_description', 'YogIntra is the Best Yoga and wellness Institute in India for a transformative journey. Immerse yourself in the ancient practice of yoga with experienced instructors.')
 @section('meta_keywords', 'Online Yoga Classes India, Yoga Class in India, Best Yoga Institute In India, Best Yoga Center in India, Personal Yoga Trainer at Home, Best Yoga Classes in Mumbai, Yoga Teacher Training Courses.')
 
 @push('styles')
