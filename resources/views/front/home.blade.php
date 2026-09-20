@@ -1003,16 +1003,16 @@
     <style>
         .yogintra-guidance-section { background: #f4f9f8; }
         .yogintra-guidance-section .section-title { margin-bottom: 28px; }
-        .yogintra-guidance-copy { max-width: 760px; margin: 0 auto; color: #45666d; font-size: 16px; line-height: 1.7; }
+        .yogintra-guidance-copy { max-width: 840px; margin: 0 auto; color: #45666d; font-size: 18px; line-height: 1.7; }
         .yogintra-guidance-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 30px; max-width: 760px; margin: 0 auto; padding: 0; list-style: none; text-align: left; }
-        .yogintra-guidance-list li { position: relative; padding-left: 22px; color: #365b63; font-size: 14px; line-height: 1.45; }
+        .yogintra-guidance-list li { position: relative; padding-left: 22px; color: #365b63; font-size: 16px; line-height: 1.55; }
         .yogintra-guidance-list li::before { position: absolute; top: 1px; left: 0; content: '•'; color: #14757d; font-size: 22px; line-height: .75; }
-        .yogintra-guidance-footer { max-width: 760px; margin: 28px auto 0; color: #45666d; font-size: 15px; line-height: 1.65; }
-        .yogintra-guidance-note { max-width: 760px; margin: 12px auto 0; color: #71878b; font-size: 12px; line-height: 1.6; }
+        .yogintra-guidance-footer { max-width: 840px; margin: 28px auto 0; color: #45666d; font-size: 17px; line-height: 1.65; }
+        .yogintra-guidance-note { max-width: 840px; margin: 14px auto 0; color: #71878b; font-size: 14px; line-height: 1.65; }
         .yogintra-guidance-policy { margin-top: 16px; }
         .yogintra-guidance-policy .btn { min-width: 178px; border-radius: 6px; background: #1f73e8; border-color: #1f73e8; color: #fff; font-weight: 700; }
         .yogintra-guidance-policy .btn:hover, .yogintra-guidance-policy .btn:focus { background: #155fc7; border-color: #155fc7; color: #fff; }
-        @media (max-width: 767px) { .yogintra-guidance-list { grid-template-columns: 1fr; gap: 9px; max-width: 320px; }.yogintra-guidance-copy, .yogintra-guidance-footer, .yogintra-guidance-note { padding: 0 14px; } }
+        @media (max-width: 767px) { .yogintra-guidance-list { grid-template-columns: 1fr; gap: 9px; max-width: 340px; }.yogintra-guidance-copy { font-size: 17px; }.yogintra-guidance-list li { font-size: 15px; }.yogintra-guidance-footer { font-size: 16px; }.yogintra-guidance-note { font-size: 13px; }.yogintra-guidance-copy, .yogintra-guidance-footer, .yogintra-guidance-note { padding: 0 14px; } }
     </style>
     <section class="yogintra-guidance-section">
         <div class="container pt-50 pb-50 text-center">
