@@ -1009,6 +1009,9 @@
         .yogintra-guidance-list li::before { position: absolute; top: 1px; left: 0; content: '•'; color: #14757d; font-size: 22px; line-height: .75; }
         .yogintra-guidance-footer { max-width: 760px; margin: 28px auto 0; color: #45666d; font-size: 15px; line-height: 1.65; }
         .yogintra-guidance-note { max-width: 760px; margin: 12px auto 0; color: #71878b; font-size: 12px; line-height: 1.6; }
+        .yogintra-guidance-policy { margin-top: 16px; }
+        .yogintra-guidance-policy .btn { min-width: 178px; border-radius: 6px; background: #1f73e8; border-color: #1f73e8; color: #fff; font-weight: 700; }
+        .yogintra-guidance-policy .btn:hover, .yogintra-guidance-policy .btn:focus { background: #155fc7; border-color: #155fc7; color: #fff; }
         @media (max-width: 767px) { .yogintra-guidance-list { grid-template-columns: 1fr; gap: 9px; max-width: 320px; }.yogintra-guidance-copy, .yogintra-guidance-footer, .yogintra-guidance-note { padding: 0 14px; } }
     </style>
     <section class="yogintra-guidance-section">
@@ -1033,7 +1036,8 @@
                 <li>Building consistent yoga habits</li>
             </ul>
             <p class="yogintra-guidance-footer">Whether you are beginning yoga or continuing an established practice, the right guidance can make each session more structured, purposeful, and personal.</p>
-            <p class="yogintra-guidance-note"><time datetime="2026-09-20">Last reviewed: September 20, 2026</time> · Yoga and wellness information is for general education only and is not a substitute for medical advice. Please consult a qualified healthcare professional before starting a new exercise practice, especially if you have an injury, health condition, or are pregnant. Read our <a href="{{ url('editorial-policy') }}">Editorial Policy</a>.</p>
+            <p class="yogintra-guidance-note"><time datetime="2026-09-20">Last reviewed: September 20, 2026</time> · Yoga and wellness information is for general education only and is not a substitute for medical advice. Please consult a qualified healthcare professional before starting a new exercise practice, especially if you have an injury, health condition, or are pregnant.</p>
+            <p class="yogintra-guidance-policy"><a class="btn btn-theme-colored btn-flat" href="{{ url('editorial-policy') }}">Read Editorial Policy</a></p>
         </div>
     </section>
 
