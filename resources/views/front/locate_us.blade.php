@@ -218,12 +218,13 @@
     .section-subtitle { max-width: 650px; margin: 0 auto; color: #55737a; font-size: 16px; line-height: 1.7; }
     .cities-grid { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; margin: 0; }
     .city-card { min-height: 142px; padding: 24px; align-items: flex-start; justify-content: flex-start; flex-direction: column; border: 1px solid #d8e9e8; border-radius: 0; background: #fff; color: #084451; box-shadow: 0 8px 22px rgba(8, 68, 81, .07); }
-    .city-card::before { content: '\f041'; font-family: FontAwesome; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; margin-bottom: 16px; color: #fff; background: #14757d; font-size: 18px; }
-    .city-card span { color: #084451; font-size: 19px; font-weight: 800; line-height: 1.25; }
+    .city-card-icon { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; margin-bottom: 15px; color: #fff; background: #14757d; font-size: 19px; }
+    .city-card-title { color: #084451; font-size: 19px; font-weight: 800; line-height: 1.25; }
+    .city-card-landmark { display: block; margin-top: 5px; color: #6d858b; font-size: 12px; line-height: 1.35; }
     .city-card .city-card-action { display: block; margin-top: auto; color: #14757d; font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
     .city-card .city-card-action::after { content: ' \f178'; font-family: FontAwesome; }
     .city-card:hover, .city-card:focus { color: #084451; transform: translateY(-4px); border-color: #14757d; box-shadow: 0 14px 28px rgba(8, 68, 81, .14); }
-    .city-card:hover span, .city-card:focus span { color: #084451; }
+    .city-card:hover .city-card-title, .city-card:focus .city-card-title { color: #084451; }
     .no-locations { max-width: 680px; margin: 0 auto; padding: 30px; border: 1px dashed #adcfd0; color: #55737a; text-align: center; }
     @media (max-width: 768px) { .locate-us-section { padding: 52px 0 62px; }.location-heading { font-size: 29px; }.cities-grid { grid-template-columns: 1fr; gap: 14px; }.city-card { min-height: 128px; }.city-card span { font-size: 18px; } }
 </style>
@@ -260,10 +261,37 @@
             </div>
 
             @if($all_landing_page && count($all_landing_page) > 0)
+                @php
+                    $cityLandmarks = [
+                        'mumbai' => ['Gateway of India', 'fa-ship'],
+                        'delhi' => ['India Gate', 'fa-university'],
+                        'new-delhi' => ['India Gate', 'fa-university'],
+                        'bangalore' => ['Bengaluru Palace', 'fa-building-o'],
+                        'bengaluru' => ['Bengaluru Palace', 'fa-building-o'],
+                        'pune' => ['Shaniwar Wada', 'fa-university'],
+                        'chennai' => ['Marina Beach', 'fa-ship'],
+                        'hyderabad' => ['Charminar', 'fa-university'],
+                        'kolkata' => ['Victoria Memorial', 'fa-university'],
+                        'jaipur' => ['Hawa Mahal', 'fa-building-o'],
+                        'ahmedabad' => ['Sabarmati Ashram', 'fa-home'],
+                        'noida' => ['Okhla Bird Sanctuary', 'fa-tree'],
+                        'gurgaon' => ['Kingdom of Dreams', 'fa-building-o'],
+                        'gurugram' => ['Kingdom of Dreams', 'fa-building-o'],
+                        'lucknow' => ['Bara Imambara', 'fa-university'],
+                        'indore' => ['Rajwada Palace', 'fa-building-o'],
+                        'kochi' => ['Fort Kochi', 'fa-ship'],
+                    ];
+                @endphp
                 <div class="cities-grid">
                     @foreach ($all_landing_page as $city)
+                        @php
+                            $cityKey = Str::slug($city->page_name);
+                            $landmark = $cityLandmarks[$cityKey] ?? ['YogIntra local services', 'fa-map-marker'];
+                        @endphp
                         <a href="{{ url('city/' . $city->page_slug) }}" class="city-card" aria-label="Explore YogIntra services in {{ $city->page_name }}">
-                            <span>{{ $city->page_name }}</span>
+                            <span class="city-card-icon" aria-hidden="true"><i class="fa {{ $landmark[1] }}"></i></span>
+                            <span class="city-card-title">{{ $city->page_name }}</span>
+                            <small class="city-card-landmark">{{ $landmark[0] }}</small>
                             <small class="city-card-action">Explore services</small>
                         </a>
                     @endforeach
