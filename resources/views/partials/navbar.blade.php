@@ -95,6 +95,19 @@
             .header-nav-centered-logo nav.menuzord .menuzord-brand img {
                 width: 190px !important;
             }
+            .home-mobile-hero-navigation .menuzord-responsive .menuzord-brand {
+                display:flex;
+                align-items:center;
+                height:64px;
+                margin:0 0 0 22px !important;
+            }
+            .home-mobile-hero-navigation .menuzord-responsive .menuzord-brand img {
+                width:185px !important;
+                max-width:none !important;
+                height:48px !important;
+                object-fit:contain;
+                object-position:left center;
+            }
             .menuzord-responsive .showhide {
                 width:64px;
                 height:64px;
@@ -174,6 +187,13 @@
             .home-mobile-hero-navigation .menuzord {
                 background:transparent !important;
                 box-shadow:none !important;
+            }
+            .home-mobile-hero-navigation .header-nav {
+                position:fixed !important;
+                top:0 !important;
+                left:0 !important;
+                width:100% !important;
+                z-index:1101 !important;
             }
             .home-mobile-hero-navigation .menuzord-responsive .showhide em {
                 background:#084451 !important;
@@ -262,7 +282,11 @@
                         });
                         return;
                     }
-                    const scrolled = (window.pageYOffset || document.documentElement.scrollTop || 0) > 12;
+                    const scrolled = Math.max(
+                        window.pageYOffset || 0,
+                        document.documentElement.scrollTop || 0,
+                        document.body.scrollTop || 0
+                    ) > 12;
                     header.classList.toggle('mobile-hero-scrolled', scrolled);
                     if (scrolled) {
                         header.style.setProperty('position', 'fixed', 'important');
@@ -299,7 +323,12 @@
                 };
                 updateMobileHeroNavigation();
                 window.addEventListener('scroll', updateMobileHeroNavigation, { passive: true });
+                document.addEventListener('scroll', updateMobileHeroNavigation, { passive: true, capture: true });
                 window.addEventListener('resize', updateMobileHeroNavigation);
+                (function watchMobileHeroNavigation() {
+                    updateMobileHeroNavigation();
+                    window.requestAnimationFrame(watchMobileHeroNavigation);
+                }());
                 document.addEventListener('click', function (event) {
                     if (!event.target.closest('.home-mobile-hero-navigation .showhide')) return;
                     header.classList.toggle('mobile-menu-open');
