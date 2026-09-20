@@ -208,6 +208,24 @@
             font-size: 14px;
         }
     }
+
+    .locate-us-section { padding: 78px 0 88px; background: linear-gradient(180deg, #f6fbfa 0%, #fff 100%); }
+    .location-intro { max-width: 760px; margin: 0 auto 42px; }
+    .location-eyebrow { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 13px; color: #14757d; font-size: 12px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+    .location-eyebrow i { font-size: 15px; }
+    .location-heading { margin-bottom: 16px; color: #084451; font-size: 38px; font-weight: 800; line-height: 1.22; }
+    .location-heading::after { display: none; }
+    .section-subtitle { max-width: 650px; margin: 0 auto; color: #55737a; font-size: 16px; line-height: 1.7; }
+    .cities-grid { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; margin: 0; }
+    .city-card { min-height: 142px; padding: 24px; align-items: flex-start; justify-content: flex-start; flex-direction: column; border: 1px solid #d8e9e8; border-radius: 0; background: #fff; color: #084451; box-shadow: 0 8px 22px rgba(8, 68, 81, .07); }
+    .city-card::before { content: '\f041'; font-family: FontAwesome; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; margin-bottom: 16px; color: #fff; background: #14757d; font-size: 18px; }
+    .city-card span { color: #084451; font-size: 19px; font-weight: 800; line-height: 1.25; }
+    .city-card .city-card-action { display: block; margin-top: auto; color: #14757d; font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+    .city-card .city-card-action::after { content: ' \f178'; font-family: FontAwesome; }
+    .city-card:hover, .city-card:focus { color: #084451; transform: translateY(-4px); border-color: #14757d; box-shadow: 0 14px 28px rgba(8, 68, 81, .14); }
+    .city-card:hover span, .city-card:focus span { color: #084451; }
+    .no-locations { max-width: 680px; margin: 0 auto; padding: 30px; border: 1px dashed #adcfd0; color: #55737a; text-align: center; }
+    @media (max-width: 768px) { .locate-us-section { padding: 52px 0 62px; }.location-heading { font-size: 29px; }.cities-grid { grid-template-columns: 1fr; gap: 14px; }.city-card { min-height: 128px; }.city-card span { font-size: 18px; } }
 </style>
 @endpush
 
@@ -235,23 +253,23 @@
 <section class="locate-us-section">
     <div class="container">
         <div class="section-content">
-            <div class="row mb-40">
-                <div class="col-md-12">
-                    <h2 class="location-heading">Our Service Locations</h2>
-                    <p class="section-subtitle">
-                        Discover YogIntra's presence across multiple cities in India. Click on any city to explore our services and offerings in that location.
-                    </p>
-                </div>
+            <div class="location-intro text-center">
+                <p class="location-eyebrow"><i class="fa fa-map-marker" aria-hidden="true"></i> Find YogIntra near you</p>
+                <h2 class="location-heading">Yoga Guidance, Wherever You Are</h2>
+                <p class="section-subtitle">Explore YogIntra’s city pages to discover home yoga, online classes, corporate programmes, and local wellness support available near you.</p>
             </div>
 
             @if($all_landing_page && count($all_landing_page) > 0)
                 <div class="cities-grid">
                     @foreach ($all_landing_page as $city)
-                        <a href="{{ url('city/' . $city->page_slug) }}" class="city-card">
+                        <a href="{{ url('city/' . $city->page_slug) }}" class="city-card" aria-label="Explore YogIntra services in {{ $city->page_name }}">
                             <span>{{ $city->page_name }}</span>
+                            <small class="city-card-action">Explore services</small>
                         </a>
                     @endforeach
                 </div>
+            @else
+                <p class="no-locations">New YogIntra locations are being added. Please contact us to find the best class or instructor for you.</p>
             @endif
         </div>
     </div>
@@ -288,4 +306,3 @@
     }
 </style>
 @endpush
-
