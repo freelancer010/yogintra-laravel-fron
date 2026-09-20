@@ -643,7 +643,7 @@
             <div class="hero-video-wrap" @if($heroPoster) style="background-image: url('{{ asset($heroPoster) }}');" @endif>
                 <video class="hero-background-video" autoplay muted loop playsinline preload="metadata" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}" @if($heroPoster) poster="{{ asset($heroPoster) }}" @endif>
                     <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
-                    <track kind="captions" srclang="en" label="English" src="{{ asset('assets/front/captions/yogintra-hero-en.vtt') }}" default>
+                    <track kind="captions" srclang="en" label="English" src="{{ asset('assets/front/captions/yogintra-hero-en.vtt') }}">
                 </video>
                 <script>
                     (function () {
@@ -865,6 +865,7 @@
     <style>
         /* Square-corner service cards keep this row visually consistent. */
         .types-of-yoga-section .yoga-service-item { border-radius: 0 !important; }
+        .types-of-yoga-section .yoga-service-item img.img-circle { border-radius: 0 !important; }
         .types-of-yoga-section .section-title .row{display:flex;justify-content:center}.types-of-yoga-section .section-title .row>[class*="col-"]{flex:0 0 100%;max-width:920px;margin:0 auto}.types-of-yoga-section .section-title,.types-of-yoga-section .section-title h2,.types-of-yoga-section .section-title p{text-align:center!important}.types-of-yoga-section .section-content>.row{justify-content:center}.types-of-yoga-section .section-content>.row>.col-md-8{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;width:100%;max-width:1180px;flex:0 0 100%}.types-of-yoga-section .section-content>.row>.col-md-8>.col-lg-3{width:auto;max-width:none;min-width:0;margin:0 !important;padding:0 5px}.types-of-yoga-section .section-content>.row>.col-md-8>.col-md-4:empty{display:none}.types-of-yoga-section .yoga-service-item{height:100%;min-height:300px;display:flex;flex-direction:column;align-items:center;padding:25px 22px 22px;border:1px solid rgba(255,255,255,.88);border-radius:20px;background:rgba(255,255,255,.88);box-shadow:0 12px 28px rgba(25,65,70,.14);backdrop-filter:blur(5px);transition:transform .22s ease,box-shadow .22s ease}.types-of-yoga-section .yoga-service-item:hover{transform:translateY(-5px);box-shadow:0 18px 34px rgba(25,65,70,.22)}.types-of-yoga-section .yoga-service-item img.img-circle{width:128px!important;height:128px!important;object-fit:cover;margin-bottom:20px!important;border:3px solid #fff;box-shadow:0 8px 20px rgba(18,63,70,.2)}.types-of-yoga-section .yoga-service-item h2{min-height:44px;margin:0 0 10px!important;color:#084451;font-size:19px!important;font-weight:800;line-height:1.35}.types-of-yoga-section .section3-card-bullets{width:100%;min-height:82px;margin:0 0 16px;padding-left:20px;text-align:left;color:#496b73;font-size:13px;line-height:1.55;list-style:disc outside !important}.types-of-yoga-section .section3-card-bullets li{display:list-item !important;margin:3px 0;list-style-type:disc !important}.types-of-yoga-section .section3-card-bullets li::marker{color:#14757d;font-size:1.05em}.types-of-yoga-section .yoga-service-item .btn{width:100%;margin-top:auto;align-self:stretch;border-radius:7px;padding:9px 18px;font-weight:700}@media(max-width:991px){.types-of-yoga-section .section-content>.row>.col-md-8{grid-template-columns:repeat(2,minmax(0,1fr));max-width:680px}}@media(max-width:767px){.types-of-yoga-section{padding-left:14px!important;padding-right:14px!important}.types-of-yoga-section .section-title{margin-bottom:32px!important}.types-of-yoga-section .section-title h2{font-size:29px!important;line-height:1.28}.types-of-yoga-section .section-title p{font-size:17px;line-height:1.65}.types-of-yoga-section .section-content>.row>.col-md-8{grid-template-columns:1fr;max-width:360px;gap:16px}.types-of-yoga-section .section-content>.row>.col-md-8>.col-lg-3{padding:0}.types-of-yoga-section .yoga-service-item{min-height:0;padding:23px 24px}.types-of-yoga-section .yoga-service-item h2{min-height:0;font-size:21px!important}.types-of-yoga-section .section3-card-bullets{max-width:260px;min-height:0;margin-left:auto;margin-right:auto;font-size:14px}}
         @media(max-width:767px){.types-of-yoga-section .section-content>.row{margin-left:0!important;margin-right:0!important}.types-of-yoga-section .section-content .col-lg-ipad{display:block!important;width:100%!important;max-width:100%!important;flex:0 0 100%!important;padding:0!important}.types-of-yoga-section .section-content .col-lg-ipad>[class*="col-"]{display:block!important;float:none!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important;width:calc(100% - 28px)!important;max-width:420px!important;flex:0 0 auto!important;margin:0!important;padding:0!important}.types-of-yoga-section .section-content .col-lg-ipad>[class*="col-"] .yoga-service-item{width:100%!important;box-sizing:border-box;text-align:center}.types-of-yoga-section .section-content .col-lg-ipad>[class*="col-"]:not(:last-of-type) .yoga-service-item{margin-bottom:28px!important}.types-of-yoga-section .section-content .col-lg-ipad>[class*="col-"] .yoga-service-item h2{text-align:center}.types-of-yoga-section .section-content .col-lg-ipad>.col-md-4:empty{display:none!important}}
     </style>
@@ -1001,48 +1002,38 @@
 
     <style>
         .yogintra-guidance-section { background: #f4f9f8; }
-        .yogintra-guidance-panel { padding: 42px 46px; border: 1px solid #d9ebe9; background: #fff; box-shadow: 0 14px 34px rgba(8, 68, 81, .08); }
-        .yogintra-guidance-kicker { margin: 0 0 9px; color: #14757d; font-size: 12px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
-        .yogintra-guidance-title { margin: 0 0 14px; color: #084451; font-size: 30px; font-weight: 800; line-height: 1.25; }
-        .yogintra-guidance-copy { margin: 0; color: #45666d; font-size: 16px; line-height: 1.7; }
-        .yogintra-guidance-focus { margin: 0 0 14px; color: #084451; font-size: 16px; font-weight: 800; }
-        .yogintra-guidance-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 22px; margin: 0; padding: 0; list-style: none; }
-        .yogintra-guidance-list li { position: relative; padding-left: 23px; color: #365b63; font-size: 14px; line-height: 1.45; }
-        .yogintra-guidance-list li::before { position: absolute; top: 2px; left: 0; content: '\\2713'; color: #14757d; font-weight: 900; }
-        .yogintra-guidance-footer { margin: 26px 0 0; padding-top: 20px; border-top: 1px solid #e2eeee; color: #45666d; font-size: 15px; line-height: 1.65; }
-        .yogintra-guidance-note { margin: 12px 0 0; color: #71878b; font-size: 12px; line-height: 1.6; }
-        @media (max-width: 767px) { .yogintra-guidance-panel { padding: 30px 24px; }.yogintra-guidance-title { font-size: 25px; }.yogintra-guidance-list { grid-template-columns: 1fr; gap: 9px; } }
+        .yogintra-guidance-section .section-title { margin-bottom: 28px; }
+        .yogintra-guidance-copy { max-width: 760px; margin: 0 auto; color: #45666d; font-size: 16px; line-height: 1.7; }
+        .yogintra-guidance-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 30px; max-width: 760px; margin: 0 auto; padding: 0; list-style: none; text-align: left; }
+        .yogintra-guidance-list li { position: relative; padding-left: 22px; color: #365b63; font-size: 14px; line-height: 1.45; }
+        .yogintra-guidance-list li::before { position: absolute; top: 1px; left: 0; content: '•'; color: #14757d; font-size: 22px; line-height: .75; }
+        .yogintra-guidance-footer { max-width: 760px; margin: 28px auto 0; color: #45666d; font-size: 15px; line-height: 1.65; }
+        .yogintra-guidance-note { max-width: 760px; margin: 12px auto 0; color: #71878b; font-size: 12px; line-height: 1.6; }
+        @media (max-width: 767px) { .yogintra-guidance-list { grid-template-columns: 1fr; gap: 9px; max-width: 320px; }.yogintra-guidance-copy, .yogintra-guidance-footer, .yogintra-guidance-note { padding: 0 14px; } }
     </style>
     <section class="yogintra-guidance-section">
-        <div class="container pt-50 pb-50">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="yogintra-guidance-panel">
-                        <div class="row">
-                            <div class="col-md-5 mb-sm-25">
-                                <p class="yogintra-guidance-kicker">Learn with confidence</p>
-                                <h3 class="yogintra-guidance-title">Guidance That Supports Your Yoga Journey</h3>
-                                <p class="yogintra-guidance-copy">A knowledgeable instructor can help you understand yoga techniques, develop appropriate movement patterns, and build a practice suited to your current experience.</p>
-                            </div>
-                            <div class="col-md-7">
-                                <p class="yogintra-guidance-focus">Our instructors can help you focus on:</p>
-                                <ul class="yogintra-guidance-list">
-                                    <li>Yoga fundamentals</li>
-                                    <li>Yoga posture and alignment</li>
-                                    <li>Breathing practices</li>
-                                    <li>Flexibility and mobility</li>
-                                    <li>Strength-building movements</li>
-                                    <li>Relaxation techniques</li>
-                                    <li>Wellness and mindfulness</li>
-                                    <li>Building consistent yoga habits</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <p class="yogintra-guidance-footer">Whether you are beginning yoga or continuing an established practice, the right guidance can make each session more structured, purposeful, and personal.</p>
-                        <p class="yogintra-guidance-note"><time datetime="2026-09-20">Last reviewed: September 20, 2026</time> · Yoga and wellness information is for general education only and is not a substitute for medical advice. Please consult a qualified healthcare professional before starting a new exercise practice, especially if you have an injury, health condition, or are pregnant. Read our <a href="{{ url('editorial-policy') }}">Editorial Policy</a>.</p>
+        <div class="container pt-50 pb-50 text-center">
+            <div class="section-title">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h3 class="h2 mt-0 line-height-1">Guidance for Your <span class="text-theme-colored2">Yoga Journey</span></h3>
+                        <p class="yogintra-guidance-copy">A knowledgeable instructor can help you understand yoga techniques, develop appropriate movement patterns, and build a practice suited to your current experience.</p>
                     </div>
                 </div>
             </div>
+            <p class="font-weight-700 text-black mb-15">Our instructors can help you focus on:</p>
+            <ul class="yogintra-guidance-list">
+                <li>Yoga fundamentals</li>
+                <li>Yoga posture and alignment</li>
+                <li>Breathing practices</li>
+                <li>Flexibility and mobility</li>
+                <li>Strength-building movements</li>
+                <li>Relaxation techniques</li>
+                <li>Wellness and mindfulness</li>
+                <li>Building consistent yoga habits</li>
+            </ul>
+            <p class="yogintra-guidance-footer">Whether you are beginning yoga or continuing an established practice, the right guidance can make each session more structured, purposeful, and personal.</p>
+            <p class="yogintra-guidance-note"><time datetime="2026-09-20">Last reviewed: September 20, 2026</time> · Yoga and wellness information is for general education only and is not a substitute for medical advice. Please consult a qualified healthcare professional before starting a new exercise practice, especially if you have an injury, health condition, or are pregnant. Read our <a href="{{ url('editorial-policy') }}">Editorial Policy</a>.</p>
         </div>
     </section>
 
