@@ -16,8 +16,9 @@
         $videoHeroNavigation = request()->segment(1) === null
             && ($app_setting->hero_media_type ?? 'slider') === 'video'
             && filled($app_setting->hero_video);
+        $homeMobileHeroNavigation = request()->segment(1) === null;
     @endphp
-    <header id="header" class="header header-floating {{ $videoHeroNavigation ? 'video-hero-navigation' : '' }}">
+    <header id="header" class="header header-floating {{ $videoHeroNavigation ? 'video-hero-navigation' : '' }} {{ $homeMobileHeroNavigation ? 'home-mobile-hero-navigation' : '' }}">
         <div class="header-top sm-text-center style-bordered">
             <div class="container">
                 <div class="row"></div>
@@ -92,11 +93,17 @@
     <style>
         @media only screen and (max-width: 600px) {
             .header-nav-centered-logo nav.menuzord .menuzord-brand img {
-                width: 180px !important;
+                width: 190px !important;
             }
             .menuzord-responsive .showhide {
-                margin-top: 0;
+                width:64px;
+                height:64px;
+                margin-top:0;
+                padding-top:17px;
+                position:relative;
             }
+            .menuzord-responsive .showhide em { width:28px; height:4px; margin:5px 18px 0; border-radius:4px; }
+            .menuzord-responsive .menuzord-brand img { width:190px !important; height:auto !important; }
             #header {
                 height: 70px !important;
             }
@@ -152,6 +159,48 @@
             .video-hero-navigation .header-nav .menuzord-responsive .showhide em {
                 color:#222 !important;
             }
+
+            .header.home-mobile-hero-navigation {
+                position:absolute !important;
+                top:0;
+                left:0;
+                width:100%;
+                height:70px !important;
+                z-index:1100;
+                background:transparent !important;
+                transition:background-color .2s ease, box-shadow .2s ease;
+            }
+            .home-mobile-hero-navigation .header-nav-wrapper,
+            .home-mobile-hero-navigation .menuzord {
+                background:transparent !important;
+                box-shadow:none !important;
+            }
+            .home-mobile-hero-navigation .menuzord-responsive .showhide em {
+                background:#084451 !important;
+            }
+            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide em { opacity:0; }
+            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::before,
+            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::after {
+                content:'';
+                position:absolute;
+                top:31px;
+                right:18px;
+                width:28px;
+                height:4px;
+                border-radius:4px;
+                background:#084451;
+            }
+            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::before { transform:rotate(45deg); }
+            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::after { transform:rotate(-45deg); }
+            .home-mobile-hero-navigation .menuzord-menu { background:#fff !important; }
+            .home-mobile-hero-navigation.mobile-hero-scrolled,
+            .home-mobile-hero-navigation.mobile-hero-scrolled .header-nav,
+            .home-mobile-hero-navigation.mobile-hero-scrolled .header-nav-wrapper,
+            .home-mobile-hero-navigation .header-nav.scroll-to-fixed-fixed,
+            .home-mobile-hero-navigation .header-nav.scroll-to-fixed-fixed .header-nav-wrapper {
+                background:#fff !important;
+                box-shadow:0 2px 12px rgba(10,49,59,.12) !important;
+            }
         }
     </style>
 
@@ -172,6 +221,10 @@
                 position: relative;
                 background-color: #fff;
             }
+            .header.header-floating.home-mobile-hero-navigation {
+                position:absolute;
+                background-color:transparent;
+            }
         }
 
         @media only screen and (max-width: 1199px) and (min-width: 1000px) {
@@ -186,4 +239,27 @@
             }
         }
     </style>
+    @if ($homeMobileHeroNavigation)
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const header = document.getElementById('header');
+                const hero = document.getElementById('home');
+                if (!header || !hero) return;
+                const updateMobileHeroNavigation = function () {
+                    if (window.innerWidth > 1000) {
+                        header.classList.remove('mobile-hero-scrolled');
+                        return;
+                    }
+                    header.classList.toggle('mobile-hero-scrolled', window.scrollY > 12);
+                };
+                updateMobileHeroNavigation();
+                window.addEventListener('scroll', updateMobileHeroNavigation, { passive: true });
+                window.addEventListener('resize', updateMobileHeroNavigation);
+                document.addEventListener('click', function (event) {
+                    if (!event.target.closest('.home-mobile-hero-navigation .showhide')) return;
+                    header.classList.toggle('mobile-menu-open');
+                }, true);
+            });
+        </script>
+    @endif
 </div>
