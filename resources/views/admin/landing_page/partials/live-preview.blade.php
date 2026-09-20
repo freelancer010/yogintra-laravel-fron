@@ -457,14 +457,15 @@
           const previewButton = preview.querySelector('[data-preview-column-target="' + target + '"]');
           if (previewButton) {
             if (key === 'button_text') previewButton.textContent = element.button_text || 'Button label';
-            previewButton.style.width = element.styles.width || 'auto';
-            previewButton.style.padding = (element.styles.padding_top ?? 12) + 'px ' + (element.styles.padding_right ?? 24) + 'px ' + (element.styles.padding_bottom ?? 12) + 'px ' + (element.styles.padding_left ?? 24) + 'px';
+            previewButton.style.setProperty('width', element.styles.width || 'auto', 'important');
+            previewButton.style.setProperty('padding', (element.styles.padding_top ?? 12) + 'px ' + (element.styles.padding_right ?? 24) + 'px ' + (element.styles.padding_bottom ?? 12) + 'px ' + (element.styles.padding_left ?? 24) + 'px', 'important');
             const previewRow = previewButton.closest('.preview-draggable-row');
             if (previewRow) {
               previewRow.style.setProperty('--preview-row-margin-top', (element.styles.margin_top ?? 0) + 'px');
               previewRow.style.setProperty('--preview-row-margin-right', (element.styles.margin_right ?? 0) + 'px');
               previewRow.style.setProperty('--preview-row-margin-bottom', (element.styles.margin_bottom ?? 0) + 'px');
               previewRow.style.setProperty('--preview-row-margin-left', (element.styles.margin_left ?? 0) + 'px');
+              previewRow.style.setProperty('margin', (element.styles.margin_top ?? 0) + 'px ' + (element.styles.margin_right ?? 0) + 'px ' + (element.styles.margin_bottom ?? 0) + 'px ' + (element.styles.margin_left ?? 0) + 'px', 'important');
             }
           }
           blocks[columnIndex] = block; blocksField.value = JSON.stringify(blocks); queueSnapshot();
@@ -481,18 +482,23 @@
       // to the section-level editor.
       element.styles ||= {};
       const isListElement = element.type === 'bullets';
+      const isImageElement = element.type === 'image';
       const elementLabel = ({ heading: 'Heading', subtext: 'Subtext', bullets: 'Bullet list', image: 'Image' })[element.type] || 'Element';
       const elementDefaults = { color: element.type === 'heading' ? textColor.value : descriptionColor.value, size: element.type === 'heading' ? 24 : 16, align: textAlign.value, padding_top: 0, padding_right: 0, padding_bottom: 0, padding_left: 0, margin_top: 0, margin_right: 0, margin_bottom: 0, margin_left: 0 };
       Object.entries(elementDefaults).forEach(([key, value]) => element.styles[key] ??= value);
       const stackedSide = (side, key) => '<label>' + side + '<span class="button-side-input"><input data-stacked-element="' + key + '" type="number" min="0" max="160" value="' + escape(element.styles[key]) + '"><em>px</em></span></label>';
       const stackedSpacing = '<div class="column-spacing-controls"><strong>Padding</strong><div class="button-side-controls">' + stackedSide('Top', 'padding_top') + stackedSide('Right', 'padding_right') + stackedSide('Bottom', 'padding_bottom') + stackedSide('Left', 'padding_left') + '</div><strong>Margin</strong><div class="button-side-controls">' + stackedSide('Top', 'margin_top') + stackedSide('Right', 'margin_right') + stackedSide('Bottom', 'margin_bottom') + stackedSide('Left', 'margin_left') + '</div></div>';
-      const stackedText = isListElement
+      const stackedText = isImageElement
+        ? '<label>Image width <span>' + escape(element.image_size ?? block.image_size ?? 100) + '%</span></label><input data-stacked-element="image_size" type="range" min="20" max="100" value="' + escape(element.image_size ?? block.image_size ?? 100) + '"><small>Use the Replace image button on the image to choose a different file.</small>'
+        : isListElement
         ? '<label>List items <small>One item per line</small></label><textarea data-stacked-element="items" rows="6">' + escape(element.items || '') + '</textarea>'
         : '<label>Edit ' + elementLabel.toLowerCase() + '</label><textarea data-stacked-element="text" rows="4">' + escape(element.text || '') + '</textarea>';
-      stylePanel.innerHTML = '<div class="builder-inspector-title"><span>' + elementLabel + ' design</span><span>◐</span></div><button type="button" class="back-to-column">← Back to section</button>' + stackedText + '<label>Text alignment</label><select data-stacked-element="align"><option value="left" ' + (element.styles.align === 'left' ? 'selected' : '') + '>Left</option><option value="center" ' + (element.styles.align === 'center' ? 'selected' : '') + '>Center</option><option value="right" ' + (element.styles.align === 'right' ? 'selected' : '') + '>Right</option></select><label>Colour</label><input data-stacked-element="color" type="color" value="' + escape(element.styles.color) + '"><label>Font size <span>' + escape(element.styles.size) + 'px</span></label><input data-stacked-element="size" type="range" min="12" max="56" value="' + escape(element.styles.size) + '">' + stackedSpacing;
+      const textAppearance = isImageElement ? '' : '<label>Text alignment</label><select data-stacked-element="align"><option value="left" ' + (element.styles.align === 'left' ? 'selected' : '') + '>Left</option><option value="center" ' + (element.styles.align === 'center' ? 'selected' : '') + '>Center</option><option value="right" ' + (element.styles.align === 'right' ? 'selected' : '') + '>Right</option></select><label>Colour</label><input data-stacked-element="color" type="color" value="' + escape(element.styles.color) + '"><label>Font size <span>' + escape(element.styles.size) + 'px</span></label><input data-stacked-element="size" type="range" min="12" max="56" value="' + escape(element.styles.size) + '">';
+      stylePanel.innerHTML = '<div class="builder-inspector-title"><span>' + elementLabel + ' design</span><span>◐</span></div><button type="button" class="back-to-column">← Back to section</button>' + stackedText + textAppearance + stackedSpacing;
       const updateStackedElement = control => {
         const key = control.dataset.stackedElement;
         if (['text', 'items'].includes(key)) element[key] = control.value;
+        else if (key === 'image_size') element.image_size = Number(control.value);
         else element.styles[key] = ['align', 'color'].includes(key) ? control.value : Number(control.value);
         blocks[columnIndex] = block; blocksField.value = JSON.stringify(blocks); render(); queueSnapshot();
       };
@@ -722,6 +728,18 @@
       const selectedStyles = elementStyles(card).styles;
       let blocks = []; try { blocks = JSON.parse(getValue(card, 'blocks') || '[]'); } catch (_) {}
       let extraElements = []; try { extraElements = JSON.parse(getValue(card, 'elements') || '[]'); } catch (_) {}
+      // Legacy image-only columns predate draggable element stacks. Upgrade
+      // them at render time so their image has a handle and can be reordered
+      // with text, lists, and buttons without discarding the uploaded file.
+      if (type === 'custom_columns') {
+        let upgraded = false;
+        blocks = blocks.map(block => {
+          if (block?.type !== 'image') return block;
+          upgraded = true;
+          return { ...block, type: 'stack', elements: [{ type: 'image', image_size: block.image_size ?? 100 }, ...(block.elements || [])] };
+        });
+        if (upgraded) getField(card, 'blocks').value = JSON.stringify(blocks);
+      }
       let blockPreviews = {}; try { blockPreviews = JSON.parse(card.dataset.blockPreviews || '{}'); } catch (_) {}
       blocks.forEach((block, blockIndex) => { if (blockPreviews[blockIndex]) block.previewImage = blockPreviews[blockIndex]; });
       const position = getValue(card, 'image_position') || 'left';
@@ -788,6 +806,8 @@
         const element = block.elements?.[Number(row.dataset.columnElementIndex)] || {};
         const style = element.styles || {};
         row.style.setProperty('margin', (style.margin_top ?? 0) + 'px ' + (style.margin_right ?? 0) + 'px ' + (style.margin_bottom ?? 0) + 'px ' + (style.margin_left ?? 0) + 'px', 'important');
+        const item = row.querySelector('.preview-column-row');
+        if (item) item.style.setProperty('padding', (style.padding_top ?? 0) + 'px ' + (style.padding_right ?? 0) + 'px ' + (style.padding_bottom ?? 0) + 'px ' + (style.padding_left ?? 0) + 'px', 'important');
       });
       previewSection.querySelectorAll('[data-preview-field]').forEach(element => { const field = getField(card, element.dataset.previewField); if (field && /<a\b/i.test(field.value)) element.innerHTML = richPreview(field.value); });
       previewSection.querySelectorAll('[data-preview-column]').forEach(element => { const block = blocks[Number(element.dataset.previewColumn)]; const value = block?.[element.dataset.previewColumnKey]; if (value && /<a\b/i.test(value)) element.innerHTML = richPreview(value); });
@@ -913,7 +933,14 @@
       const imageFrame = previewSection.querySelector('.preview-image-frame');
       if (imageFrame && (type === 'image_text' || type === 'image')) { imageFrame.style.width = (getValue(card, 'image_size') || (type === 'image' ? '100' : '42')) + '%'; }
       if (imageFrame) { imageFrame.addEventListener('click', event => { event.stopPropagation(); const action = event.target.closest('.preview-image-action'); if (action) { imageInput?.click(); return; } focusCard(card, 'image'); }); }
-      [['heading', '[data-preview-field="heading"]'], ['content', '[data-preview-field="content"]']].forEach(([key, selector]) => previewSection.querySelectorAll(selector).forEach(element => { const style = selectedStyles[key]; element.style.padding = style.padding_y + 'px ' + style.padding_x + 'px'; element.style.margin = style.margin_y + 'px ' + style.margin_x + 'px'; element.style.fontWeight = style.font_weight; element.style.fontStyle = style.font_style; element.style.textDecoration = style.text_decoration; }));
+      [['heading', '[data-preview-field="heading"]'], ['content', '[data-preview-field="content"]']].forEach(([key, selector]) => previewSection.querySelectorAll(selector).forEach(element => { const style = selectedStyles[key]; element.style.setProperty('padding', style.padding_y + 'px ' + style.padding_x + 'px', 'important'); element.style.setProperty('margin', style.margin_y + 'px ' + style.margin_x + 'px', 'important'); element.style.fontWeight = style.font_weight; element.style.fontStyle = style.font_style; element.style.textDecoration = style.text_decoration; }));
+      previewSection.querySelectorAll('[data-preview-extra], [data-preview-extra-list]').forEach(node => {
+        const index = Number(node.dataset.previewExtra ?? node.dataset.previewExtraList);
+        const style = extraElements[index] || {};
+        const padding = style.padding ?? 0; const margin = style.margin ?? 0;
+        node.style.setProperty('padding', (style.padding_top ?? padding) + 'px ' + (style.padding_right ?? padding) + 'px ' + (style.padding_bottom ?? padding) + 'px ' + (style.padding_left ?? padding) + 'px', 'important');
+        node.style.setProperty('margin', (style.margin_top ?? margin) + 'px ' + (style.margin_right ?? margin) + 'px ' + (style.margin_bottom ?? margin) + 'px ' + (style.margin_left ?? margin) + 'px', 'important');
+      });
       previewSection.addEventListener('click', event => { const selectedColumnElement = event.target.closest('[data-preview-column-target]'); const editable = event.target.closest('[contenteditable]'); const extraList = event.target.closest('[data-preview-extra-list]'); const extraTarget = extraList ? 'extra-' + extraList.dataset.previewExtraList : null; const target = selectedColumnElement?.dataset.previewColumnTarget || editable?.dataset.previewField || (editable?.dataset.previewExtra !== undefined ? 'extra-' + editable.dataset.previewExtra : 'section'); const elementTarget = extraTarget || target; focusCard(card, elementTarget); if (editable) editable.classList.add('is-editing'); }, true);
       content.appendChild(previewSection);
       const layer = document.createElement('div');
