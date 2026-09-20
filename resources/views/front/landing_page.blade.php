@@ -1492,9 +1492,11 @@
               @endif
               @php
                 $columnStyles = $column['styles'] ?? [];
-                $columnStyle = function ($key, $defaultColor, $defaultSize) use ($columnStyles, $section) {
-                  $style = $columnStyles[$key] ?? [];
-                  return 'color: '.($style['color'] ?? $defaultColor).'; font-size: '.(int)($style['size'] ?? $defaultSize).'px; padding: '.(int)($style['padding'] ?? 0).'px; margin: '.(int)($style['margin'] ?? 0).'px; text-align: '.($style['align'] ?? $section->text_align ?? 'left').';';
+                $columnStyle = function ($key, $defaultColor, $defaultSize, $element = null) use ($columnStyles, $section) {
+                  $style = $element['styles'] ?? ($columnStyles[$key] ?? []);
+                  $padding = (int) ($style['padding'] ?? 0);
+                  $margin = (int) ($style['margin'] ?? 0);
+                  return 'color: '.($style['color'] ?? $defaultColor).'; font-size: '.(int)($style['size'] ?? $defaultSize).'px; padding: '.(int)($style['padding_top'] ?? $padding).'px '.(int)($style['padding_right'] ?? $padding).'px '.(int)($style['padding_bottom'] ?? $padding).'px '.(int)($style['padding_left'] ?? $padding).'px; margin: '.(int)($style['margin_top'] ?? $margin).'px '.(int)($style['margin_right'] ?? $margin).'px '.(int)($style['margin_bottom'] ?? $margin).'px '.(int)($style['margin_left'] ?? $margin).'px; text-align: '.($style['align'] ?? $section->text_align ?? 'left').';';
                 };
                 $imageStyle = $columnStyles['image'] ?? [];
               @endphp
@@ -1521,14 +1523,14 @@
                 @if($columnBullets)<ul class="landing-column-bullets" style="{{ $columnStyle('bullets', $section->description_color ?? '#647b82', 16) }}">@foreach($columnBullets as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>@endif
                 @foreach(($column['elements'] ?? []) as $element)
                   @if(($element['type'] ?? '') === 'heading')
-                    <h3 style="{{ $columnStyle('title', $section->text_color ?? '#183c45', 24) }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</h3>
+                    <h3 style="{{ $columnStyle('title', $section->text_color ?? '#183c45', 24, $element) }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</h3>
                   @elseif(($element['type'] ?? '') === 'subtext')
-                    <p class="landing-builder-content" style="{{ $columnStyle('text', $section->description_color ?? '#647b82', 16) }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</p>
+                    <p class="landing-builder-content" style="{{ $columnStyle('text', $section->description_color ?? '#647b82', 16, $element) }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</p>
                   @elseif(($element['type'] ?? '') === 'bullets')
                     @php
                       $stackBullets = array_filter(array_map('trim', preg_split('/\r?\n/', $element['items'] ?? '')));
                     @endphp
-                    @if($stackBullets)<ul class="landing-column-bullets" style="{{ $columnStyle('bullets', $section->description_color ?? '#647b82', 16) }}">@foreach($stackBullets as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>@endif
+                    @if($stackBullets)<ul class="landing-column-bullets" style="{{ $columnStyle('bullets', $section->description_color ?? '#647b82', 16, $element) }}">@foreach($stackBullets as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>@endif
                   @elseif(($element['type'] ?? '') === 'button' && !empty($element['button_text']))
                     @php
                       $buttonElementStyle = $element['styles'] ?? [];
@@ -1594,14 +1596,15 @@
           <div class="mb-4" style="text-align: {{ $section->text_align ?? 'left' }};">
             @if($section->heading)<h2 class="mb-3" style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->heading) !!}</h2>@endif
             @foreach($extraElements as $element)
-              @if(($element['type'] ?? '') === 'heading')<h3 style="color: {{ $element['color'] ?? $section->text_color ?? '#183c45' }}; font-size: {{ $element['size'] ?? $section->heading_size ?? 32 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</h3>
+              @php $elementPadding = $element['padding'] ?? 0; $elementMargin = $element['margin'] ?? 0; $elementSpacing = 'padding: '.($element['padding_top'] ?? $elementPadding).'px '.($element['padding_right'] ?? $elementPadding).'px '.($element['padding_bottom'] ?? $elementPadding).'px '.($element['padding_left'] ?? $elementPadding).'px; margin: '.($element['margin_top'] ?? $elementMargin).'px '.($element['margin_right'] ?? $elementMargin).'px '.($element['margin_bottom'] ?? $elementMargin).'px '.($element['margin_left'] ?? $elementMargin).'px;'; @endphp
+              @if(($element['type'] ?? '') === 'heading')<h3 style="color: {{ $element['color'] ?? $section->text_color ?? '#183c45' }}; font-size: {{ $element['size'] ?? $section->heading_size ?? 32 }}px; {{ $elementSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</h3>
               @elseif(in_array(($element['type'] ?? ''), ['bullet_list', 'numbered_list'], true))
                 @php
                   $items = array_filter(array_map('trim', preg_split('/\r?\n/', $element['items'] ?? '')));
                 @endphp
-                @if(($element['type'] ?? '') === 'numbered_list')<ol class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding-top: {{ $element['padding'] ?? 0 }}px; padding-bottom: {{ $element['padding'] ?? 0 }}px; margin-top: {{ $element['margin'] ?? 0 }}px; margin-bottom: {{ $element['margin'] ?? 0 }}px; --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ol>
-                @else<ul class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding-top: {{ $element['padding'] ?? 0 }}px; padding-bottom: {{ $element['padding'] ?? 0 }}px; margin-top: {{ $element['margin'] ?? 0 }}px; margin-bottom: {{ $element['margin'] ?? 0 }}px; --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ul>@endif
-              @else<p style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</p>@endif
+                @if(($element['type'] ?? '') === 'numbered_list')<ol class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; {{ $elementSpacing }} --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ol>
+                @else<ul class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; {{ $elementSpacing }} --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ul>@endif
+              @else<p style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; {{ $elementSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</p>@endif
             @endforeach
             @if($section->content)<div class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }}; font-size: {{ $section->description_size ?? 16 }}px; {{ $contentSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif
           </div>
@@ -1637,14 +1640,15 @@
             @if($section->heading)<h2 class="mb-3" style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->heading) !!}</h2>@endif
             @if(in_array($section->section_type, ['text', 'image_text', 'cta'], true))
               @foreach($extraElements as $element)
-                @if(($element['type'] ?? '') === 'heading')<h3 style="color: {{ $element['color'] ?? $section->text_color ?? '#183c45' }}; font-size: {{ $element['size'] ?? $section->heading_size ?? 32 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</h3>
+                @php $elementPadding = $element['padding'] ?? 0; $elementMargin = $element['margin'] ?? 0; $elementSpacing = 'padding: '.($element['padding_top'] ?? $elementPadding).'px '.($element['padding_right'] ?? $elementPadding).'px '.($element['padding_bottom'] ?? $elementPadding).'px '.($element['padding_left'] ?? $elementPadding).'px; margin: '.($element['margin_top'] ?? $elementMargin).'px '.($element['margin_right'] ?? $elementMargin).'px '.($element['margin_bottom'] ?? $elementMargin).'px '.($element['margin_left'] ?? $elementMargin).'px;'; @endphp
+                @if(($element['type'] ?? '') === 'heading')<h3 style="color: {{ $element['color'] ?? $section->text_color ?? '#183c45' }}; font-size: {{ $element['size'] ?? $section->heading_size ?? 32 }}px; {{ $elementSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</h3>
                 @elseif(in_array(($element['type'] ?? ''), ['bullet_list', 'numbered_list'], true))
                   @php
                     $items = array_filter(array_map('trim', preg_split('/\r?\n/', $element['items'] ?? '')));
                   @endphp
-                  @if(($element['type'] ?? '') === 'numbered_list')<ol class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding-top: {{ $element['padding'] ?? 0 }}px; padding-bottom: {{ $element['padding'] ?? 0 }}px; margin-top: {{ $element['margin'] ?? 0 }}px; margin-bottom: {{ $element['margin'] ?? 0 }}px; --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ol>
-                  @else<ul class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding-top: {{ $element['padding'] ?? 0 }}px; padding-bottom: {{ $element['padding'] ?? 0 }}px; margin-top: {{ $element['margin'] ?? 0 }}px; margin-bottom: {{ $element['margin'] ?? 0 }}px; --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ul>@endif
-                @else<p style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; padding: {{ $element['padding'] ?? 0 }}px; margin: {{ $element['margin'] ?? 0 }}px;">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</p>@endif
+                  @if(($element['type'] ?? '') === 'numbered_list')<ol class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; {{ $elementSpacing }} --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ol>
+                  @else<ul class="landing-builder-list" style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; {{ $elementSpacing }} --list-item-gap: {{ $element['item_gap'] ?? 8 }}px;">@foreach($items as $item)<li>{{ $item }}</li>@endforeach</ul>@endif
+                @else<p style="color: {{ $element['color'] ?? $section->description_color ?? '#647b82' }}; font-size: {{ $element['size'] ?? $section->description_size ?? 16 }}px; {{ $elementSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</p>@endif
               @endforeach
             @endif
             @if($section->content)<div class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }}; font-size: {{ $section->description_size ?? 16 }}px; {{ $contentSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif

@@ -488,8 +488,9 @@
         }
 
         .accordion-button {
-            background-color: #ffffff;
-            color: #333333;
+            background-color: #1a73e8 !important;
+            border-color: #1a73e8 !important;
+            color: #ffffff !important;
             font-size: 16px;
             font-weight: 500;
             padding: 18px 20px;
@@ -502,19 +503,21 @@
         }
 
         .accordion-button:not(.collapsed) {
-            background-color: #f0f7ff;
-            color: #000000;
+            background-color: #1557b0 !important;
+            border-color: #1557b0 !important;
+            color: #ffffff !important;
             box-shadow: none;
-            border-bottom: 2px solid #000000;
+            border-bottom: 2px solid #1557b0;
         }
 
         .accordion-button:hover {
-            background-color: #f5f5f5;
-            color: #000000;
+            background-color: #1557b0 !important;
+            border-color: #1557b0 !important;
+            color: #ffffff !important;
         }
 
         .accordion-button::after {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23e07f00'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
             background-size: 1.25rem;
         }
 

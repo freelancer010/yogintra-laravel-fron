@@ -153,8 +153,8 @@
   .preview-empty-column-drop { display:grid; place-items:center; min-height:104px; border:1px dashed #8fc6cc; border-radius:9px; color:#5d8188; font-size:12px; font-weight:700; }
   .preview-column-drop-hint { margin-top:12px; padding:8px; border:1px dashed #b5d8dc; border-radius:7px; color:#6b8a90; font-size:11px; font-weight:700; text-align:center; transition:border-color .18s ease,background .18s ease; }
   .preview-column-stack.is-element-drop-target .preview-column-drop-hint { border-color:#0e8490; background:#dff5f6; color:#0e6974; }
-  .preview-draggable-row { position:relative; display:flex; align-items:flex-start; gap:7px; min-width:0; padding:0 4px 0 0; border-radius:7px; transition:background .16s ease,outline-color .16s ease,opacity .16s ease; }
-  .preview-draggable-row > :not(.preview-row-handle):not(.preview-row-delete) { min-width:0; flex:1; margin-top:0; margin-bottom:0; }
+  .preview-draggable-row { position:relative; display:flex; align-items:flex-start; gap:7px; min-width:0; padding:0 4px 0 0; margin:var(--preview-row-margin-top, 0px) var(--preview-row-margin-right, 0px) var(--preview-row-margin-bottom, 0px) var(--preview-row-margin-left, 0px) !important; border-radius:7px; transition:background .16s ease,outline-color .16s ease,opacity .16s ease; }
+  .preview-draggable-row > :not(.preview-row-handle):not(.preview-row-delete) { min-width:0; flex:1; margin:0 !important; }
   .preview-draggable-row > .preview-cta { flex:0 0 auto !important; }
   /* A column stacks draggable rows, so store button spacing on the row. This
      gives the editor the same vertical geometry as the public button. */
@@ -236,7 +236,10 @@
   .preview-image-hero .preview-image-frame { max-width:100%; }
   .visual-style-panel input[type=file] { width:100%; font-size:12px; }
   .image-help { display:block; margin-top:5px; color:#6b7f85; font-size:11px; }
-  .image-size-progress { height:7px; overflow:hidden; margin:8px 0 4px; border-radius:999px; background:#dce9eb; }
+  /* The native range input already communicates image width; a second visual
+     progress bar only duplicates that control. Keep the element for updates,
+     but do not display it. */
+  .image-size-progress { display:none; height:7px; overflow:hidden; margin:8px 0 4px; border-radius:999px; background:#dce9eb; }
   .image-size-progress span { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#16717a,#49afb2); transition:width .12s ease; }
   .text-format-controls { display:flex; align-items:center; gap:6px; margin:14px 0 4px; padding-top:12px; border-top:1px solid #e4edef; }
   .text-format-controls span { margin-right:auto; color:#56727a; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; }
