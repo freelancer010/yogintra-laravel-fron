@@ -166,6 +166,53 @@
         .video-hero-navigation .menuzord-menu ul.dropdown { background: #fff; }
         .video-hero-navigation .menuzord-menu ul.dropdown li a { color: #183c45 !important; }
         @media only screen and (max-width: 1000px) {
+            /* All non-home pages use a stable white mobile bar from the first
+               paint. This prevents the scroll-to-fixed plugin from changing
+               the header width or position only after the first scroll. */
+            .header.header-floating:not(.home-mobile-hero-navigation) {
+                position:relative !important;
+                width:100% !important;
+                height:64px !important;
+                min-height:64px !important;
+                background:#fff !important;
+            }
+            .header.header-floating:not(.home-mobile-hero-navigation) .header-nav,
+            .header.header-floating:not(.home-mobile-hero-navigation) .header-nav-wrapper,
+            .header.header-floating:not(.home-mobile-hero-navigation) .menuzord {
+                position:relative !important;
+                top:auto !important;
+                left:auto !important;
+                right:auto !important;
+                width:100% !important;
+                min-height:64px !important;
+                margin:0 !important;
+                padding:0 !important;
+                background:#fff !important;
+                box-shadow:none !important;
+            }
+            .header.header-floating:not(.home-mobile-hero-navigation) .header-nav-wrapper .container,
+            .header.header-floating:not(.home-mobile-hero-navigation) .header-nav-wrapper .container.ipad_header {
+                width:100% !important;
+                max-width:none !important;
+                margin:0 !important;
+                padding:0 !important;
+            }
+            .header.header-floating:not(.home-mobile-hero-navigation) .menuzord-responsive .menuzord-brand {
+                display:flex;
+                align-items:center;
+                height:64px;
+                margin:0 0 0 22px !important;
+            }
+            .header.header-floating:not(.home-mobile-hero-navigation) .menuzord-responsive .menuzord-brand img {
+                width:185px !important;
+                max-width:none !important;
+                height:48px !important;
+                object-fit:contain;
+                object-position:left center;
+            }
+            .header.header-floating:not(.home-mobile-hero-navigation) .menuzord-responsive .showhide em {
+                background:#084451 !important;
+            }
             .video-hero-navigation .header-nav .menuzord-menu > li > a,
             .video-hero-navigation .header-nav .menuzord-menu > li > a > i,
             .video-hero-navigation .header-nav .menuzord-menu > li.active > a,
@@ -232,6 +279,15 @@
             .home-mobile-hero-navigation .header-nav.scroll-to-fixed-fixed .header-nav-wrapper {
                 background:#fff !important;
                 box-shadow:0 2px 12px rgba(10,49,59,.12) !important;
+            }
+            .home-mobile-hero-navigation.mobile-hero-scrolled,
+            .home-mobile-hero-navigation.mobile-hero-scrolled .header-nav,
+            .home-mobile-hero-navigation.mobile-hero-scrolled .header-nav-wrapper,
+            .home-mobile-hero-navigation .header-nav.scroll-to-fixed-fixed,
+            .home-mobile-hero-navigation .header-nav.scroll-to-fixed-fixed .header-nav-wrapper {
+                top:0 !important;
+                margin-top:0 !important;
+                transform:none !important;
             }
             .home-mobile-hero-navigation.mobile-hero-scrolled { position:fixed !important; }
         }
