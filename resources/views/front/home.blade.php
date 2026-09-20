@@ -874,7 +874,9 @@
                         <div class="row justify-content-center">
                             <div class="col-12 col-md-8 col-lg-ipad">
                                 @foreach ($rand_service as $r_service)
-                                    @php($cardButton = $section3Button('category_'.$r_service->service_cat_id, 'Book Now', url($r_service->service_cat_slug)))
+                                    @php
+                                        $cardButton = $section3Button('category_'.$r_service->service_cat_id, 'Book Now', url($r_service->service_cat_slug));
+                                    @endphp
                                     <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                         <div class="yoga-service-item text-center">
                                              <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
@@ -886,7 +888,9 @@
                                 @endforeach
 
                                 <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
-                                    @php($cardButton = $section3Button('ttc', 'Visit Now', route('ttc')))
+                                    @php
+                                        $cardButton = $section3Button('ttc', 'Visit Now', route('ttc'));
+                                    @endphp
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['ttc'] ?? 'assets/icon-thumb3-150x150.jpg') }}" width="150" height="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
                                          <h2 class="mb-15 fs-16">TTC</h2>
@@ -896,7 +900,9 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
-                                    @php($cardButton = $section3Button('retreat', 'Visit Now', route('retreat.all')))
+                                    @php
+                                        $cardButton = $section3Button('retreat', 'Visit Now', route('retreat.all'));
+                                    @endphp
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['retreat'] ?? 'assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs">
                                          <h2 class="mb-15 fs-16">Retreat</h2>
@@ -906,7 +912,9 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
-                                    @php($cardButton = $section3Button('workshop', 'Visit Now', route('workshop')))
+                                    @php
+                                        $cardButton = $section3Button('workshop', 'Visit Now', route('workshop'));
+                                    @endphp
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['workshop'] ?? 'assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops">
                                          <h2 class="mb-15 fs-16">Workshop</h2>
@@ -916,7 +924,9 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
-                                    @php($cardButton = $section3Button('yoga_center', 'Visit Now', route('yoga.center')))
+                                    @php
+                                        $cardButton = $section3Button('yoga_center', 'Visit Now', route('yoga.center'));
+                                    @endphp
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['yoga_center'] ?? 'uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility">
                                          <h2 class="mb-15 fs-16">Yoga Center</h2>
