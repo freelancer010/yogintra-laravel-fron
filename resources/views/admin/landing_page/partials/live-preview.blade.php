@@ -1004,12 +1004,28 @@
     preview.querySelectorAll('.live-preview-content [contenteditable]').forEach(saveEditableMarkup);
     setSaveState('Saving…');
   });
+  // Capture the complete canvas before a destructive action. This makes Ctrl/Cmd+Z
+  // restore deleted sections, images, blocks, and individual column elements.
+  document.addEventListener('click', event => {
+    const destructiveControl = event.target.closest([
+      '.delete-selected-section', '.remove-section-image', '.remove-testimonial-row',
+      '.remove-faq-row', '.section-tree-delete', '[data-remove-extra]',
+      '[data-remove-block]', '[data-delete-column-element]', '[data-action="delete"]',
+      '[title^="Delete"]', '[aria-label^="Delete"]'
+    ].join(','));
+    if (destructiveControl) flushSnapshot();
+  }, true);
+
   document.addEventListener('keydown', event => {
     if (!(event.ctrlKey || event.metaKey)) return;
-    if (!event.target.closest('.live-preview-content [contenteditable]')) return;
     const key = event.key.toLowerCase();
-    if (key === 'z') { event.preventDefault(); flushSnapshot(); restoreHistory(event.shiftKey ? historyIndex + 1 : historyIndex - 1); }
-    if (key === 'y') { event.preventDefault(); flushSnapshot(); restoreHistory(historyIndex + 1); }
+    if (key !== 'z' && key !== 'y') return;
+    // Preserve native undo/redo while typing in regular inspector/form fields.
+    if (event.target.closest('input, textarea, select')) return;
+    event.preventDefault();
+    flushSnapshot();
+    if (key === 'z') restoreHistory(event.shiftKey ? historyIndex + 1 : historyIndex - 1);
+    if (key === 'y') restoreHistory(historyIndex + 1);
   });
   preview.querySelector('.live-preview-content').addEventListener('paste', (event) => {
     const editable = event.target.closest('[contenteditable]');
