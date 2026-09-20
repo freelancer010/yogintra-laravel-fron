@@ -29,7 +29,7 @@
                 <div class="container ipad_header">
                     <nav id="menuzord-right" class="menuzord orange no-bg menuzord-responsive">
                         <a class="menuzord-brand switchable-logo pull-left flip mb-10" href="{{ url('/') }}" aria-label="YogIntra home page">
-                            <img class="logo-default" width="205" height="55" src="{{ asset($app_setting->app_sticky_logo) }}" alt="YogIntra Logo">
+                            <img class="logo-default" width="205" height="55" src="{{ asset($app_setting->app_sticky_logo) }}" alt="YogIntra Logo" fetchpriority="high" decoding="async">
                             <img class="logo-scrolled-to-fixed" width="205" height="55" src="{{ asset($app_setting->app_sticky_logo) }}" alt="YogIntra Logo">
                             <span class="sr-only">YogIntra home page</span>
                         </a>
