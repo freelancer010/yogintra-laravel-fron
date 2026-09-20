@@ -1004,16 +1004,14 @@
     preview.querySelectorAll('.live-preview-content [contenteditable]').forEach(saveEditableMarkup);
     setSaveState('Saving…');
   });
-  // Capture the complete canvas before a destructive action. This makes Ctrl/Cmd+Z
-  // restore deleted sections, images, blocks, and individual column elements.
-  document.addEventListener('click', event => {
-    const destructiveControl = event.target.closest([
-      '.delete-selected-section', '.remove-section-image', '.remove-testimonial-row',
-      '.remove-faq-row', '.section-tree-delete', '[data-remove-extra]',
-      '[data-remove-block]', '[data-delete-column-element]', '[data-action="delete"]',
-      '[title^="Delete"]', '[aria-label^="Delete"]'
-    ].join(','));
-    if (destructiveControl) flushSnapshot();
+  // Take a checkpoint before every canvas action. Consecutive clicks, drag/drop
+  // operations, additions, and deletions therefore remain separate undo steps.
+  // Text and numeric input are intentionally left debounced as one typing/edit step.
+  document.addEventListener('pointerdown', event => {
+    if (event.target.closest('input, textarea, select')) return;
+    const isBuilderControl = [canvas, inspector, elementToolbar, addBar, picker, linkPopup, linkActions]
+      .some(element => element?.contains(event.target));
+    if (isBuilderControl) flushSnapshot();
   }, true);
 
   document.addEventListener('keydown', event => {
