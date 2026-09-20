@@ -7,6 +7,8 @@
   // Settings are kept in a modal; Laravel remains the source of validation so a
   // hidden browser-required field can never block the Publish action.
   document.getElementById('landing-page-form').noValidate = true;
+  const builderForm = document.getElementById('landing-page-form');
+  let builderDirty = false;
 
   // Form cards remain the persistence layer; visual controls below are the editor UI.
   const panelColumn = sections.closest('.col-md-12');
@@ -24,7 +26,7 @@
   }));
   const elementToolbar = document.createElement('div');
   elementToolbar.className = 'builder-element-toolbar';
-  elementToolbar.innerHTML = '<button type="button" data-toolbar-action="edit">Edit</button><button type="button" data-toolbar-action="link">Link</button><button type="button" data-toolbar-action="align">Align</button><button type="button" data-toolbar-action="duplicate">Duplicate</button>';
+  elementToolbar.innerHTML = '<button type="button" data-toolbar-action="edit">Edit</button><button type="button" data-toolbar-action="link">Link</button><button type="button" data-toolbar-action="align">Align</button><button type="button" data-toolbar-action="duplicate">Duplicate</button><button type="button" data-toolbar-action="delete">Delete</button>';
   document.body.appendChild(elementToolbar);
 
   const addBar = document.createElement('div');
@@ -33,51 +35,76 @@
   canvas.appendChild(addBar);
   const picker = document.createElement('div');
   picker.className = 'template-picker';
-  picker.innerHTML = '<div class="template-picker-backdrop"></div><div class="template-picker-dialog" role="dialog" aria-modal="true"><button type="button" class="template-picker-close" aria-label="Close">×</button><h3>Add a section</h3><p>Choose a ready-to-edit starting layout.</p><div class="template-picker-grid"><button data-template="text"><b>¶</b><strong>Text</strong><small>Heading and description</small></button><button data-template="custom_columns"><b>▥</b><strong>Empty section</strong><small>Build a 1-, 2-, or 3-column layout</small></button><button data-template="image_text"><b>▣</b><strong>Image + text</strong><small>Two-column story</small></button><button data-template="feature_grid"><b>▦</b><strong>Cards / features</strong><small>Repeatable benefit cards</small></button><button data-template="testimonial"><b>★</b><strong>Testimonials</strong><small>Use existing client reviews</small></button><button data-template="faq"><b>?</b><strong>Homepage FAQ</strong><small>Common questions and answers</small></button><button data-template="image"><b>▤</b><strong>Full image</strong><small>Image or visual break</small></button><button data-template="cta"><b>↗</b><strong>Button / CTA</strong><small>Prompt people to act</small></button></div></div>';
+  picker.innerHTML = '<div class="template-picker-backdrop"></div><div class="template-picker-dialog" role="dialog" aria-modal="true"><button type="button" class="template-picker-close" aria-label="Close">×</button><h3>Add a section</h3><p>Choose a ready-to-edit starting layout.</p><div class="template-picker-grid"><button data-template="services"><b>▦</b><strong>Services</strong><small>Repeatable service cards</small></button><button data-template="text"><b>¶</b><strong>Text</strong><small>Heading and description</small></button><button data-template="custom_columns"><b>▥</b><strong>Empty section</strong><small>Build a 1-, 2-, or 3-column layout</small></button><button data-template="image_text"><b>▣</b><strong>Image + text</strong><small>Two-column story</small></button><button data-template="feature_grid"><b>▦</b><strong>Cards / features</strong><small>Repeatable benefit cards</small></button><button data-template="testimonial"><b>★</b><strong>Testimonials</strong><small>Use existing client reviews</small></button><button data-template="faq"><b>?</b><strong>FAQ</strong><small>Common questions and answers</small></button><button data-template="contact"><b>✉</b><strong>Contact</strong><small>Contact call to action</small></button><button data-template="image"><b>▤</b><strong>Full image</strong><small>Image or visual break</small></button><button data-template="cta"><b>↗</b><strong>Button / CTA</strong><small>Prompt people to act</small></button></div><div class="template-saved-blocks"><strong>Saved blocks</strong><div data-saved-block-list><small>No saved blocks yet. Select a section and save it from Page structure.</small></div></div></div>';
   document.body.appendChild(picker);
   const openPicker = () => picker.classList.add('is-open');
   const closePicker = () => picker.classList.remove('is-open');
+  const savedBlocksKey = 'yogintra-builder-saved-blocks-v1';
+  const savedBlocks = () => { try { return JSON.parse(localStorage.getItem(savedBlocksKey) || '[]'); } catch (_) { return []; } };
+  const paintSavedBlocks = () => {
+    const list = picker.querySelector('[data-saved-block-list]');
+    const blocks = savedBlocks();
+    list.innerHTML = blocks.length ? blocks.map((block, index) => '<button type="button" data-saved-block="' + index + '">' + escape(block.name) + '</button>').join('') : '<small>No saved blocks yet. Select a section and save it from Page structure.</small>';
+  };
   addBar.querySelector('.add-section-primary').addEventListener('click', openPicker);
   picker.addEventListener('click', event => {
     if (event.target.classList.contains('template-picker-backdrop') || event.target.closest('.template-picker-close')) { closePicker(); return; }
+    const savedBlock = event.target.closest('[data-saved-block]');
+    if (savedBlock) {
+      const block = savedBlocks()[Number(savedBlock.dataset.savedBlock)];
+      if (!block?.markup) return;
+      const holder = document.createElement('div'); holder.innerHTML = block.markup;
+      const card = holder.firstElementChild;
+      if (!card) return;
+      card.dataset.builderId = '';
+      sections.appendChild(card); normalizeSectionIndexes(); render(); focusCard([...sections.querySelectorAll('.page-builder-section')].at(-1)); queueSnapshot(); closePicker(); return;
+    }
     const template = event.target.closest('[data-template]');
     if (!template) return;
     const type = template.dataset.template;
-    const sourceType = ['image', 'feature_grid', 'custom_columns', 'testimonial', 'faq'].includes(type) ? 'image_text' : type;
+    const templateAlias = { services: 'feature_grid', contact: 'cta' };
+    const resolvedType = templateAlias[type] || type;
+    const sourceType = ['image', 'feature_grid', 'custom_columns', 'testimonial', 'faq'].includes(resolvedType) ? 'image_text' : resolvedType;
     document.querySelector('.add-section[data-section-type="' + sourceType + '"]')?.click();
     setTimeout(() => {
       const card = [...sections.querySelectorAll('.page-builder-section')].at(-1);
       const field = card?.querySelector('select[name$="[section_type]"]');
-      if (field && ['image', 'feature_grid', 'custom_columns', 'testimonial', 'faq'].includes(type)) {
-        const usesCustomBlocks = type === 'testimonial' || type === 'faq';
-        if (!field.querySelector('option[value="' + (usesCustomBlocks ? 'custom_columns' : type) + '"]')) field.add(new Option(({ image: 'Image / Hero', feature_grid: 'Feature grid', custom_columns: 'Empty columns' })[usesCustomBlocks ? 'custom_columns' : type], usesCustomBlocks ? 'custom_columns' : type));
-        field.value = usesCustomBlocks ? 'custom_columns' : type;
-        if (type === 'image') ensureField(card, 'image_size', '100').value = '100';
-        if (type === 'feature_grid') {
+      if (card && type === 'text') { ensureField(card, 'heading', 'Section heading').value = 'Section heading'; ensureField(card, 'content', 'Add text to describe this section.').value = 'Add text to describe this section.'; }
+      if (card && type === 'image_text') { ensureField(card, 'heading', 'Section heading').value = 'Section heading'; ensureField(card, 'content', 'Add text to describe this section.').value = 'Add text to describe this section.'; }
+      if (card && type === 'cta') { ensureField(card, 'heading', 'Ready to get started?').value = 'Ready to get started?'; ensureField(card, 'content', 'Add a clear next step for your visitors.').value = 'Add a clear next step for your visitors.'; ensureField(card, 'button_text', 'Contact us').value = 'Contact us'; ensureField(card, 'button_url', '/contact').value = '/contact'; }
+      if (field && ['image', 'feature_grid', 'custom_columns', 'testimonial', 'faq', 'image_text', 'cta'].includes(resolvedType)) {
+        const usesCustomBlocks = resolvedType === 'testimonial' || resolvedType === 'faq';
+        if (!field.querySelector('option[value="' + (usesCustomBlocks ? 'custom_columns' : resolvedType) + '"]')) field.add(new Option(({ image: 'Image / Hero', feature_grid: 'Feature grid', custom_columns: 'Empty columns' })[usesCustomBlocks ? 'custom_columns' : resolvedType], usesCustomBlocks ? 'custom_columns' : resolvedType));
+        field.value = usesCustomBlocks ? 'custom_columns' : resolvedType;
+        if (resolvedType === 'image') ensureField(card, 'image_size', '100').value = '100';
+        if (resolvedType === 'feature_grid') {
           const blocks = ensureField(card, 'blocks', '');
-          blocks.value = JSON.stringify([{ icon: '✚', title: 'Traditional Healing', text: '' }, { icon: '♨', title: 'Improve Health', text: '' }, { icon: '☯', title: 'Holistic Wellness', text: '' }]);
+          const managedServices = Array.isArray(window.landingBuilderServices) ? window.landingBuilderServices : [];
+          const serviceBlocks = managedServices.filter(service => service.os_heading).map(service => ({ image: service.os_image || '', title: service.os_heading, text: '' }));
+          blocks.value = JSON.stringify(type === 'services' && serviceBlocks.length ? serviceBlocks : [{ icon: '✚', title: 'Traditional Healing', text: '' }, { icon: '♨', title: 'Improve Health', text: '' }, { icon: '☯', title: 'Holistic Wellness', text: '' }]);
           ensureField(card, 'grid_columns', '3').value = '3';
         }
-        if (type === 'custom_columns') {
+        if (resolvedType === 'custom_columns') {
           ensureField(card, 'heading', '').value = '';
           ensureField(card, 'content', '').value = '';
           ensureField(card, 'blocks', '[]').value = JSON.stringify([{ type: 'empty' }]);
           ensureField(card, 'grid_columns', '1').value = '1';
         }
-        if (type === 'testimonial') {
+        if (resolvedType === 'testimonial') {
           ensureField(card, 'heading', 'What our clients say').value = 'What our clients say';
           ensureField(card, 'content', '').value = '';
           ensureField(card, 'blocks', '[]').value = JSON.stringify([{ type: 'empty' }, { type: 'testimonial', image: '', rating: 5, review: 'YogIntra made my wellness journey feel supported, calm and genuinely personal.' }]);
           ensureField(card, 'grid_columns', '1').value = '1';
           ensureField(card, 'text_align', 'center').value = 'center';
         }
-        if (type === 'faq') {
+        if (resolvedType === 'faq') {
           ensureField(card, 'heading', 'Frequently asked questions').value = 'Frequently asked questions';
           ensureField(card, 'content', '').value = '';
           ensureField(card, 'blocks', '[]').value = JSON.stringify([{ type: 'empty' }, { type: 'faq', question: 'What would you like to know?', answer: 'Add a clear and helpful answer for visitors.' }]);
           ensureField(card, 'grid_columns', '1').value = '1';
           ensureField(card, 'text_align', 'center').value = 'center';
         }
+        if (type === 'contact') { ensureField(card, 'heading', 'Ready to begin?').value = 'Ready to begin?'; ensureField(card, 'content', 'Talk to our team about the right yoga service for you.').value = 'Talk to our team about the right yoga service for you.'; ensureField(card, 'button_text', 'Contact us').value = 'Contact us'; ensureField(card, 'button_url', '/contact').value = '/contact'; ensureField(card, 'text_align', 'center').value = 'center'; }
         field.dispatchEvent(new Event('change', { bubbles: true }));
       }
       if (card) { render(); focusCard(card); }
@@ -90,11 +117,26 @@
   stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Design</span><span>◐</span></div><div class="section-empty">Select a section on the canvas</div>';
   inspector.appendChild(stylePanel);
 
+  const inspectorTabs = document.createElement('div');
+  inspectorTabs.className = 'builder-inspector-tabs';
+  inspectorTabs.innerHTML = '<button type="button" class="is-active" data-inspector-tab="editor">Section editor</button><button type="button" data-inspector-tab="elements">Elements</button>';
+  inspector.insertBefore(inspectorTabs, stylePanel);
+  const elementsPanel = document.createElement('div');
+  elementsPanel.className = 'builder-elements-panel';
+  elementsPanel.innerHTML = '<p>Drag an element onto a section, or select a section and click an item.</p><div class="builder-element-library"><button type="button" draggable="true" data-library-element="heading"><b>H</b><span>Heading</span></button><button type="button" draggable="true" data-library-element="subtext"><b>¶</b><span>Subtext</span></button><button type="button" draggable="true" data-library-element="button"><b>↗</b><span>Button</span></button><button type="button" draggable="true" data-library-element="bullets"><b>•</b><span>Bullet list</span></button><button type="button" draggable="true" data-library-element="image"><b>▧</b><span>Image</span></button></div><small>Images add or replace the section image; column sections support up to three draggable columns.</small>';
+  inspector.insertBefore(elementsPanel, stylePanel);
+  const setInspectorTab = tab => {
+    inspectorTabs.querySelectorAll('button').forEach(button => button.classList.toggle('is-active', button.dataset.inspectorTab === tab));
+    stylePanel.hidden = tab !== 'editor'; elementsPanel.hidden = tab !== 'elements';
+  };
+  inspectorTabs.addEventListener('click', event => { const tab = event.target.closest('[data-inspector-tab]')?.dataset.inspectorTab; if (tab) setInspectorTab(tab); });
+  setInspectorTab('editor');
+
   const layers = document.createElement('div');
   layers.className = 'section-layers is-collapsed';
-  layers.innerHTML = '<button type="button" class="section-layers-toggle" aria-expanded="false"><span>Page structure</span><b id="layer-count">0 sections</b><i aria-hidden="true">⌄</i></button><div id="section-layers-list"></div>';
+  layers.innerHTML = '<button type="button" class="section-layers-toggle" aria-expanded="false"><span>Page structure</span><b id="layer-count">0 sections</b><i class="fas fa-chevron-down" aria-hidden="true"></i></button><div id="section-layers-list"></div>';
   inspector.appendChild(layers);
-  layers.querySelector('.section-layers-toggle').addEventListener('click', event => { const expanded = layers.classList.toggle('is-collapsed') === false; event.currentTarget.setAttribute('aria-expanded', String(expanded)); event.currentTarget.querySelector('i').textContent = expanded ? '⌃' : '⌄'; });
+  layers.querySelector('.section-layers-toggle').addEventListener('click', event => { const expanded = layers.classList.toggle('is-collapsed') === false; event.currentTarget.setAttribute('aria-expanded', String(expanded)); event.currentTarget.querySelector('i').classList.toggle('is-expanded', expanded); });
 
   const linkPopup = document.createElement('form');
   linkPopup.className = 'builder-link-popup';
@@ -124,7 +166,7 @@
     const markup = richPreview(editable.innerHTML);
     const listMarkup = () => [...editable.children].filter(item => item.tagName === 'LI').map(item => richPreview(item.innerHTML).trim()).filter(Boolean).join('\n');
     if (editable.dataset.previewField) { const field = getField(card, editable.dataset.previewField); if (field) field.value = markup; }
-    if (editable.dataset.previewColumn !== undefined) { const blocksField = getField(card, 'blocks'); let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {} if (blocks[Number(editable.dataset.previewColumn)]) { blocks[Number(editable.dataset.previewColumn)][editable.dataset.previewColumnKey] = editable.dataset.previewColumnKey === 'bullets' ? listMarkup() : markup; blocksField.value = JSON.stringify(blocks); } }
+    if (editable.dataset.previewColumn !== undefined) { const blocksField = getField(card, 'blocks'); let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {} if (blocks[Number(editable.dataset.previewColumn)]) { const key = editable.dataset.previewColumnKey; const elementMatch = /^element-(\d+)$/.exec(key); if (elementMatch) { const element = blocks[Number(editable.dataset.previewColumn)].elements?.[Number(elementMatch[1])]; if (element) { if (element.type === 'bullets') element.items = listMarkup(); else element.text = markup; } } else { blocks[Number(editable.dataset.previewColumn)][key] = key === 'bullets' ? listMarkup() : markup; } blocksField.value = JSON.stringify(blocks); } }
     if (editable.dataset.previewExtra !== undefined) { const elementsField = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(elementsField.value || '[]'); } catch (_) {} if (elements[Number(editable.dataset.previewExtra)]) { elements[Number(editable.dataset.previewExtra)].text = markup; elementsField.value = JSON.stringify(elements); } }
     if (editable.dataset.previewExtraList !== undefined) { const elementsField = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(elementsField.value || '[]'); } catch (_) {} if (elements[Number(editable.dataset.previewExtraList)]) { elements[Number(editable.dataset.previewExtraList)].items = listMarkup(); elementsField.value = JSON.stringify(elements); } }
   };
@@ -164,7 +206,7 @@
     if (nextIndex < 0 || nextIndex >= history.length) return;
     restoringHistory = true; sections.innerHTML = history[nextIndex]; historyIndex = nextIndex; normalizeSectionIndexes(); render(); restoringHistory = false; setSaveState('Unsaved changes');
   };
-  const queueSnapshot = () => { window.clearTimeout(historyTimer); historyTimer = window.setTimeout(snapshot, 350); setSaveState('Unsaved changes'); };
+  const queueSnapshot = () => { builderDirty = true; window.clearTimeout(historyTimer); historyTimer = window.setTimeout(snapshot, 350); setSaveState('Unsaved changes'); };
   const flushSnapshot = () => { window.clearTimeout(historyTimer); snapshot(); };
   const ensureField = (card, suffix, value) => {
     let field = getField(card, suffix);
@@ -178,6 +220,40 @@
     ['heading', 'content'].forEach(key => { ['padding_x', 'padding_y', 'margin_x', 'margin_y'].forEach(property => styles[key][property] ??= 0); styles[key].font_weight ??= key === 'heading' ? 'bold' : 'normal'; styles[key].font_style ??= 'normal'; styles[key].text_decoration ??= 'none'; });
     return { field, styles };
   };
+  const addElementToSection = (card, type, targetColumnIndex = null) => {
+    if (!card || !type) return;
+    const sectionType = getValue(card, 'section_type');
+    if (sectionType === 'custom_columns') {
+      const blocksField = ensureField(card, 'blocks', '[]'); let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {}
+      const gridColumns = ensureField(card, 'grid_columns', '1');
+      const visibleColumns = Math.max(1, Number(gridColumns.value));
+      const requestedColumn = targetColumnIndex !== null && targetColumnIndex < visibleColumns ? targetColumnIndex : -1;
+      const firstEmptyColumn = blocks.slice(0, visibleColumns).findIndex(block => block?.type === 'empty');
+      const columnIndex = requestedColumn >= 0 ? requestedColumn : (firstEmptyColumn >= 0 ? firstEmptyColumn : 0);
+      const element = type === 'heading' ? { type:'heading', text:'New heading' } : type === 'subtext' ? { type:'subtext', text:'Add supporting text.' } : type === 'bullets' ? { type:'bullets', items:'First point\nSecond point\nThird point' } : type === 'button' ? { type:'button', button_text:'Button label', button_url:'#' } : { type:'image', image:'', image_size:100 };
+      const currentBlock = blocks[columnIndex] || { type:'empty' };
+      if (currentBlock.type === 'empty') {
+        blocks[columnIndex] = type === 'image' ? { type:'image', image:'', image_size:100 } : { type:'stack', elements:[element] };
+      } else {
+        currentBlock.elements ||= [];
+        currentBlock.elements.push(element);
+        blocks[columnIndex] = currentBlock;
+      }
+      blocksField.value = JSON.stringify(blocks);
+      render(); focusCard(card, type === 'image' ? 'column-' + columnIndex + '-image' : 'section'); queueSnapshot();
+      if (type === 'image') card.querySelector('input[type=file]')?.click();
+      return;
+    }
+    if (type === 'image') { focusCard(card, 'image'); card.querySelector('input[type=file]')?.click(); return; }
+    if (type === 'button') { ensureField(card, 'button_text', 'Button label').value ||= 'Button label'; ensureField(card, 'button_url', '#').value ||= '#'; render(); focusCard(card, 'section'); queueSnapshot(); return; }
+    const elementsField = ensureField(card, 'elements', '[]'); let elements = []; try { elements = JSON.parse(elementsField.value || '[]'); } catch (_) {}
+    elements.push(type === 'heading' ? { type:'heading', text:'New heading', color:getValue(card, 'text_color') || '#183c45', size:Number(getValue(card, 'heading_size') || 32), padding:0, margin:0 } : type === 'bullets' ? { type:'bullet_list', items:'First point\nSecond point\nThird point', color:getValue(card, 'description_color') || '#647b82', size:Number(getValue(card, 'description_size') || 16), item_gap:8, padding:0, margin:0 } : { type:'subheading', text:'Add supporting text.', color:getValue(card, 'description_color') || '#647b82', size:Number(getValue(card, 'description_size') || 16), padding:0, margin:0 });
+    elementsField.value = JSON.stringify(elements); render(); focusCard(card, 'section'); queueSnapshot();
+  };
+  elementsPanel.querySelectorAll('[data-library-element]').forEach(item => {
+    item.addEventListener('dragstart', event => { event.dataTransfer.effectAllowed = 'copy'; event.dataTransfer.setData('application/x-builder-element', item.dataset.libraryElement); });
+    item.addEventListener('click', () => { const selected = sections.querySelector('.page-builder-section.is-selected'); if (!selected) { alert('Select a section first, then choose an element.'); return; } addElementToSection(selected, item.dataset.libraryElement); });
+  });
   const escape = (value) => String(value || '').replace(/[&<>'"]/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#039;', '"':'&quot;' })[character]);
   const richPreview = value => {
     const holder = document.createElement('div'); holder.innerHTML = value || '';
@@ -188,6 +264,7 @@
     return holder.innerHTML;
   };
   const plainText = (value) => { const element = document.createElement('div'); element.innerHTML = value || ''; return element.textContent || element.innerText || ''; };
+  paintSavedBlocks();
   const listItems = element => String(element.items || '').split(/\r?\n/).map(item => item.trim()).filter(Boolean);
   const previewExtraElement = (element, index, textColor, headingSize, descriptionColor, descriptionSize) => {
     const color = escape(element.color || (element.type === 'heading' ? textColor : descriptionColor));
@@ -209,15 +286,23 @@
     const selectedElement = inspector.querySelector('[data-selected-element]');
     selectedElement?.closest('.builder-selected-element')?.classList.remove('is-empty');
     const columnTarget = /^column-\d+-(title|text|small_text|bullets|image|button|testimonial|faq|container)$/.exec(target);
-    const selectedLabel = columnTarget
+    const stackedTarget = /^column-(\d+)-element-(\d+)$/.exec(target);
+    let stackedLabel = null;
+    if (stackedTarget) {
+      const blocksField = getField(card, 'blocks'); let blocks = [];
+      try { blocks = JSON.parse(blocksField?.value || '[]'); } catch (_) {}
+      const elementType = blocks[Number(stackedTarget[1])]?.elements?.[Number(stackedTarget[2])]?.type;
+      stackedLabel = ({ heading:'Heading', subtext:'Subtext', bullets:'Bullet list', button:'Button', image:'Image' })[elementType] || 'Element';
+    }
+    const selectedLabel = stackedLabel || (columnTarget
       ? ({ title: 'Heading', text: 'Text', small_text: 'Supporting text', bullets: 'Bullet list', image: 'Image', button: 'Button', testimonial: 'Testimonial', faq: 'FAQ', container: 'Column' })[columnTarget[1]]
-      : ({ section: 'Section', heading: 'Heading', content: 'Text', image: 'Image' })[target] || 'Section';
+      : ({ section: 'Section', heading: 'Heading', content: 'Text', image: 'Image' })[target] || 'Section');
     if (selectedElement) selectedElement.textContent = selectedLabel;
     document.querySelectorAll('[data-builder-id="' + card.dataset.builderId + '"]').forEach(element => element.classList.add('is-selected'));
     const previewSection = document.querySelector('.preview-section[data-builder-id="' + card.dataset.builderId + '"]');
     const tree = document.querySelector('.section-tree[data-builder-id="' + card.dataset.builderId + '"]');
     tree?.classList.remove('is-collapsed');
-    if (tree) { const toggle = tree.querySelector('.section-tree-toggle'); toggle?.setAttribute('aria-expanded', 'true'); if (toggle) toggle.textContent = '⌃'; }
+    if (tree) { const toggle = tree.querySelector('.section-tree-toggle'); toggle?.setAttribute('aria-expanded', 'true'); toggle?.classList.add('is-expanded'); }
     if (target === 'image') previewSection?.querySelector('.preview-image-frame')?.classList.add('is-selected-target');
     if (target !== 'section' && target !== 'image') {
       const previewTarget = previewSection?.querySelector('[data-preview-column-target="' + target + '"], [data-preview-field="' + target + '"]');
@@ -260,6 +345,12 @@
       if (elementsField) elementsField.value = JSON.stringify(elements);
       render(); queueSnapshot(); return;
     }
+    if (action === 'delete') {
+      if (target === 'section') { card.remove(); normalizeSectionIndexes(); elementToolbar.classList.remove('is-open'); render(); queueSnapshot(); return; }
+      const extraTarget = /^extra-(\d+)$/.exec(target);
+      if (extraTarget) { const elementsField = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(elementsField?.value || '[]'); } catch (_) {} elements.splice(Number(extraTarget[1]), 1); if (elementsField) elementsField.value = JSON.stringify(elements); render(); queueSnapshot(); }
+      return;
+    }
   });
 
   function renderStyles(card, target = card.dataset.selectedTarget || 'section') {
@@ -277,6 +368,10 @@
     const cardAlignment = ensureField(card, 'card_alignment', 'center');
     const gridGap = ensureField(card, 'grid_gap', '24');
     const imageSize = ensureField(card, 'image_size', type === 'image' ? '100' : '42');
+    const imageAlt = ensureField(card, 'image_alt', '');
+    const imageCrop = ensureField(card, 'image_crop', 'original');
+    const imageFocalX = ensureField(card, 'image_focal_x', '50');
+    const imageFocalY = ensureField(card, 'image_focal_y', '50');
     const elementData = elementStyles(card);
     const paddingX = ensureField(card, 'padding_x', '0');
     const padding = ensureField(card, 'padding_y', '48');
@@ -287,6 +382,31 @@
     let extraElements = []; try { extraElements = JSON.parse(elementsField.value || '[]'); } catch (_) {};
     let blockPreviews = {}; try { blockPreviews = JSON.parse(card.dataset.blockPreviews || '{}'); } catch (_) {};
     blocks.forEach((block, index) => { if (blockPreviews[index]) block.previewImage = blockPreviews[index]; });
+    const stackedElementTarget = type === 'custom_columns' && /^column-(\d+)-element-(\d+)$/.exec(target);
+    if (stackedElementTarget) {
+      const columnIndex = Number(stackedElementTarget[1]);
+      const elementIndex = Number(stackedElementTarget[2]);
+      const block = blocks[columnIndex] || {};
+      const element = block.elements?.[elementIndex];
+      if (!element) { focusCard(card, 'section'); return; }
+      if (element.type === 'button') {
+        element.styles ||= {}; element.styles.width ??= 'auto';
+        const buttonDefaults = { padding_top:12, padding_right:24, padding_bottom:12, padding_left:24, margin_top:0, margin_right:0, margin_bottom:0, margin_left:0 };
+        Object.entries(buttonDefaults).forEach(([key, value]) => element.styles[key] ??= value);
+        blocks[columnIndex] = block; blocksField.value = JSON.stringify(blocks);
+        const sideControl = (label, key) => '<label>' + label + '<span class="button-side-input"><input data-stacked-button="' + key + '" type="number" min="0" max="120" value="' + element.styles[key] + '"><em>px</em></span></label>';
+        stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Button design</span><span>↗</span></div><button type="button" class="back-to-column">← Back to section</button><label>Button label</label><input data-stacked-button="button_text" value="' + escape(element.button_text || '') + '" placeholder="Button label"><label>Button link</label><input data-stacked-button="button_url" value="' + escape(element.button_url || '') + '" placeholder="/contact or https://..."><label>Button width</label><select data-stacked-button="width"><option value="auto" ' + (element.styles.width === 'auto' ? 'selected' : '') + '>Fit content</option><option value="100%" ' + (element.styles.width === '100%' ? 'selected' : '') + '>Full column width</option></select><div class="column-spacing-controls"><strong>Padding</strong><div class="button-side-controls">' + sideControl('Top', 'padding_top') + sideControl('Right', 'padding_right') + sideControl('Bottom', 'padding_bottom') + sideControl('Left', 'padding_left') + '</div><strong>Margin</strong><div class="button-side-controls">' + sideControl('Top', 'margin_top') + sideControl('Right', 'margin_right') + sideControl('Bottom', 'margin_bottom') + sideControl('Left', 'margin_left') + '</div></div>';
+        const updateButton = control => {
+          const key = control.dataset.stackedButton;
+          if (['button_text', 'button_url'].includes(key)) element[key] = control.value;
+          else element.styles[key] = key === 'width' ? control.value : Number(control.value);
+          blocks[columnIndex] = block; blocksField.value = JSON.stringify(blocks); render(); queueSnapshot();
+        };
+        stylePanel.querySelectorAll('[data-stacked-button]').forEach(control => { control.addEventListener('input', () => updateButton(control)); control.addEventListener('change', () => updateButton(control)); });
+        stylePanel.querySelector('.back-to-column')?.addEventListener('click', () => focusCard(card, 'section'));
+        return;
+      }
+    }
     const columnTarget = type === 'custom_columns' && /^column-(\d+)-(title|text|small_text|bullets|image|button|testimonial|faq|container)$/.exec(target);
     if (columnTarget) {
       const columnIndex = Number(columnTarget[1]);
@@ -382,7 +502,7 @@
     const overlayColor = ensureField(card, 'background_overlay_color', '#000000');
     const overlayOpacity = ensureField(card, 'background_overlay_opacity', '0');
     const backgroundControls = '<div class="section-background-media"><div class="background-mode-toggle"><button type="button" data-background-mode="color" class="' + (backgroundMode.value === 'color' ? 'is-active' : '') + '">Colour</button><button type="button" data-background-mode="image" class="' + (backgroundMode.value === 'image' ? 'is-active' : '') + '">Image</button></div><div class="background-image-options ' + (backgroundMode.value === 'image' ? '' : 'is-hidden') + '"><label>Background image</label><input data-background-image type="file" accept="image/*"><small>' + (backgroundImage ? 'Current image selected' : 'Upload an image for this section') + '</small><label>Image position</label><select data-style="background_position"><option value="left" ' + (backgroundPosition.value === 'left' ? 'selected' : '') + '>Left</option><option value="center" ' + (backgroundPosition.value === 'center' ? 'selected' : '') + '>Center</option><option value="right" ' + (backgroundPosition.value === 'right' ? 'selected' : '') + '>Right</option><option value="top" ' + (backgroundPosition.value === 'top' ? 'selected' : '') + '>Top</option><option value="bottom" ' + (backgroundPosition.value === 'bottom' ? 'selected' : '') + '>Bottom</option></select><label>Overlay colour</label><input data-style="background_overlay_color" type="color" value="' + overlayColor.value + '"><label>Overlay opacity <span>' + overlayOpacity.value + '%</span></label><input data-style="background_overlay_opacity" type="range" min="0" max="90" value="' + overlayOpacity.value + '"><label class="builder-switch"><input data-style="background_parallax" type="checkbox" value="1" ' + (backgroundParallax.value === '1' ? 'checked' : '') + '><span class="builder-switch-track"></span><span>Desktop parallax</span></label><small>Moves the background at a different speed while visitors scroll. Disabled on mobile.</small></div></div>';
-    const elementControls = target === 'section' ? '<label>Background</label><input data-style="background_color" type="color" value="' + background.value + '"><label>Padding horizontal <span>' + paddingX.value + 'px</span></label><input data-style="padding_x" type="range" min="0" max="160" value="' + paddingX.value + '"><label>Padding vertical <span>' + padding.value + 'px</span></label><input data-style="padding_y" type="range" min="0" max="160" value="' + padding.value + '"><label>Margin horizontal <span>' + marginX.value + 'px</span></label><input data-style="margin_x" type="range" min="0" max="120" value="' + marginX.value + '"><label>Margin vertical <span>' + margin.value + 'px</span></label><input data-style="margin_y" type="range" min="0" max="120" value="' + margin.value + '">' : (target === 'image' ? '<label>Image width <span>' + imageSize.value + '%</span></label><input data-style="image_size" type="range" min="20" max="' + (type === 'image' ? '100' : '75') + '" value="' + imageSize.value + '"><div class="image-size-progress" aria-hidden="true"><span style="width:' + imageSize.value + '%"></span></div><small class="image-help">Hover the image to add or replace it.</small>' : '<label>Text alignment</label><select data-style="text_align"><option value="left" ' + (textAlign.value === 'left' ? 'selected' : '') + '>Left</option><option value="center" ' + (textAlign.value === 'center' ? 'selected' : '') + '>Center</option><option value="right" ' + (textAlign.value === 'right' ? 'selected' : '') + '>Right</option></select>' + (target === 'heading' ? '<label>Heading colour</label><input data-style="text_color" type="color" value="' + textColor.value + '"><label>Heading size <span>' + headingSize.value + 'px</span></label><input data-style="heading_size" type="range" min="16" max="72" value="' + headingSize.value + '">' : '<label>Description colour</label><input data-style="description_color" type="color" value="' + descriptionColor.value + '"><label>Description size <span>' + descriptionSize.value + 'px</span></label><input data-style="description_size" type="range" min="12" max="36" value="' + descriptionSize.value + '">') + '<label>Element padding <span>' + elementData.styles[target].padding_y + 'px</span></label><input data-element-style="padding_y" type="range" min="0" max="120" value="' + elementData.styles[target].padding_y + '"><label>Element margin <span>' + elementData.styles[target].margin_y + 'px</span></label><input data-element-style="margin_y" type="range" min="0" max="120" value="' + elementData.styles[target].margin_y + '">');
+    const elementControls = target === 'section' ? '<label>Background</label><input data-style="background_color" type="color" value="' + background.value + '"><label>Padding horizontal <span>' + paddingX.value + 'px</span></label><input data-style="padding_x" type="range" min="0" max="160" value="' + paddingX.value + '"><label>Padding vertical <span>' + padding.value + 'px</span></label><input data-style="padding_y" type="range" min="0" max="160" value="' + padding.value + '"><label>Margin horizontal <span>' + marginX.value + 'px</span></label><input data-style="margin_x" type="range" min="0" max="120" value="' + marginX.value + '"><label>Margin vertical <span>' + margin.value + 'px</span></label><input data-style="margin_y" type="range" min="0" max="120" value="' + margin.value + '">' : (target === 'image' ? '<label>Image width <span>' + imageSize.value + '%</span></label><input data-style="image_size" type="range" min="20" max="' + (type === 'image' ? '100' : '75') + '" value="' + imageSize.value + '"><div class="image-size-progress" aria-hidden="true"><span style="width:' + imageSize.value + '%"></span></div><label>Alt text</label><input data-style="image_alt" value="' + escape(imageAlt.value) + '" placeholder="Describe this image"><label>Crop ratio</label><select data-style="image_crop"><option value="original" ' + (imageCrop.value === 'original' ? 'selected' : '') + '>Original</option><option value="1:1" ' + (imageCrop.value === '1:1' ? 'selected' : '') + '>Square (1:1)</option><option value="4:3" ' + (imageCrop.value === '4:3' ? 'selected' : '') + '>Landscape (4:3)</option><option value="16:9" ' + (imageCrop.value === '16:9' ? 'selected' : '') + '>Wide (16:9)</option><option value="3:4" ' + (imageCrop.value === '3:4' ? 'selected' : '') + '>Portrait (3:4)</option></select><label>Focal point horizontal <span>' + imageFocalX.value + '%</span></label><input data-style="image_focal_x" type="range" min="0" max="100" value="' + imageFocalX.value + '"><label>Focal point vertical <span>' + imageFocalY.value + '%</span></label><input data-style="image_focal_y" type="range" min="0" max="100" value="' + imageFocalY.value + '"><button type="button" class="remove-section-image">Remove image</button><small class="image-help">Replace, crop, and set the visual focus without losing your alt text.</small>' : '<label>Text alignment</label><select data-style="text_align"><option value="left" ' + (textAlign.value === 'left' ? 'selected' : '') + '>Left</option><option value="center" ' + (textAlign.value === 'center' ? 'selected' : '') + '>Center</option><option value="right" ' + (textAlign.value === 'right' ? 'selected' : '') + '>Right</option></select>' + (target === 'heading' ? '<label>Heading colour</label><input data-style="text_color" type="color" value="' + textColor.value + '"><label>Heading size <span>' + headingSize.value + 'px</span></label><input data-style="heading_size" type="range" min="16" max="72" value="' + headingSize.value + '">' : '<label>Description colour</label><input data-style="description_color" type="color" value="' + descriptionColor.value + '"><label>Description size <span>' + descriptionSize.value + 'px</span></label><input data-style="description_size" type="range" min="12" max="36" value="' + descriptionSize.value + '">') + '<label>Element padding <span>' + elementData.styles[target].padding_y + 'px</span></label><input data-element-style="padding_y" type="range" min="0" max="120" value="' + elementData.styles[target].padding_y + '"><label>Element margin <span>' + elementData.styles[target].margin_y + 'px</span></label><input data-element-style="margin_y" type="range" min="0" max="120" value="' + elementData.styles[target].margin_y + '">');
     const directTextEditor = (target === 'heading' || target === 'content') ? '<label>Edit ' + (target === 'heading' ? 'heading' : 'text') + '</label><textarea data-text-editor rows="4" placeholder="Paste or type text here">' + escape(getValue(card, target)) + '</textarea>' : '';
     const formatControls = (target === 'heading' || target === 'content') ? '<div class="text-format-controls" aria-label="Text formatting"><span>Text style</span><button type="button" data-format="font_weight" data-format-value="bold" class="' + (elementData.styles[target].font_weight === 'bold' ? 'is-active' : '') + '"><b>B</b></button><button type="button" data-format="font_style" data-format-value="italic" class="' + (elementData.styles[target].font_style === 'italic' ? 'is-active' : '') + '"><i>I</i></button><button type="button" data-format="text_decoration" data-format-value="underline" class="' + (elementData.styles[target].text_decoration === 'underline' ? 'is-active' : '') + '"><u>U</u></button></div>' : '';
     stylePanel.innerHTML = '<div class="builder-inspector-title"><span>' + targetLabel + ' design</span><span>◐</span></div><button type="button" class="delete-selected-section">Delete section</button>' + (target === 'section' ? imageControl + blockControls + columnControls + extraElementControls + backgroundControls : '') + directTextEditor + elementControls + formatControls + (target === 'section' ? '<button type="button" class="apply-section-spacing">Apply this spacing to all sections</button>' : '');
@@ -417,6 +537,7 @@
       render();
     });
     stylePanel.querySelector('[data-section-image]')?.addEventListener('change', event => { const target = card.querySelector('input[type=file]'); if (!target || !event.target.files.length) return; target.files = event.target.files; delete card.dataset.previewImage; target.dispatchEvent(new Event('change', { bubbles: true })); });
+    stylePanel.querySelector('.remove-section-image')?.addEventListener('click', () => { const existing = getField(card, 'existing_image'); if (existing) existing.value = ''; const upload = card.querySelector('input[type=file]'); if (upload) upload.value = ''; delete card.dataset.previewImage; render(); queueSnapshot(); });
     stylePanel.querySelectorAll('[data-background-mode]').forEach(button => button.addEventListener('click', () => { backgroundMode.value = button.dataset.backgroundMode; renderStyles(card, target); render(); }));
     stylePanel.querySelector('[data-background-image]')?.addEventListener('change', event => {
       const file = event.target.files?.[0]; if (!file) return;
@@ -512,6 +633,8 @@
       const imageInput = card.querySelector('input[type=file]');
       const existingImage = getValue(card, 'existing_image');
       const image = card.dataset.previewImage || (existingImage ? '/' + existingImage.replace(/^\//, '') : '');
+      const imageCrop = getValue(card, 'image_crop') || 'original';
+      const imageFocal = (getValue(card, 'image_focal_x') || '50') + '% ' + (getValue(card, 'image_focal_y') || '50') + '%';
       const previewSection = document.createElement('article');
       previewSection.className = 'preview-section';
       previewSection.dataset.builderId = card.dataset.builderId;
@@ -522,20 +645,38 @@
       previewSection.style.setProperty('margin', marginY + 'px ' + marginX + 'px', 'important');
       previewSection.style.boxSizing = 'border-box';
       previewSection.style.setProperty('text-align', textAlign, 'important');
-      const imageMarkup = '<div class="preview-image-frame">' + (image ? '<img class="preview-section-image" src="' + escape(image) + '" alt="">' : '<div class="preview-image-empty">Image area</div>') + '<button type="button" class="preview-image-action">' + (image ? 'Replace image' : 'Add image') + '</button></div>';
+      const imageMarkup = '<div class="preview-image-frame" style="' + (imageCrop !== 'original' ? 'aspect-ratio:' + escape(imageCrop) + ';overflow:hidden;' : '') + '">' + (image ? '<img class="preview-section-image" src="' + escape(image) + '" alt="' + escape(getValue(card, 'image_alt')) + '" style="width:100%;height:' + (imageCrop !== 'original' ? '100%' : 'auto') + ';object-fit:cover;object-position:' + escape(imageFocal) + ';">' : '<div class="preview-image-empty">Image area</div>') + '<button type="button" class="preview-image-action">' + (image ? 'Replace image' : 'Add image') + '</button></div>';
       const gridColumns = type === 'custom_columns' ? Math.max(1, Math.min(3, Number(getValue(card, 'grid_columns') || 1))) : Math.max(2, Math.min(4, Number(getValue(card, 'grid_columns') || 3)));
       const gridMarkup = '<div class="preview-grid-heading"><h3 contenteditable="true" data-preview-field="heading" style="color:' + escape(textColor) + ';font-size:' + escape(headingSize) + 'px">' + richPreview(heading) + '</h3>' + extraElements.map((element, extraIndex) => previewExtraElement(element, extraIndex, textColor, headingSize, descriptionColor, descriptionSize)).join('') + '<p contenteditable="true" data-preview-field="content" style="color:' + escape(descriptionColor) + ';font-size:' + escape(descriptionSize) + 'px">' + richPreview(text) + '</p></div><div class="preview-feature-grid" style="grid-template-columns:repeat(' + gridColumns + ', minmax(0,1fr));gap:' + escape(getValue(card, 'grid_gap') || '24') + 'px">' + blocks.map(block => '<div class="preview-feature ' + (getValue(card, 'card_layout') === 'icon_left' ? 'is-icon-left' : 'is-stacked') + '" style="text-align:' + escape(getValue(card, 'card_alignment') || 'center') + '">' + (block.previewImage || block.image ? '<img src="' + escape(block.previewImage || ('/' + String(block.image).replace(/^\//, ''))) + '" alt="">' : '<b>' + escape(block.icon || '✦') + '</b>') + '<div><h4>' + richPreview(block.title || 'Feature title') + '</h4>' + (block.text ? '<p>' + richPreview(block.text) + '</p>' : '') + '</div></div>').join('') + '</div>';
       const columnStyle = (block, key) => { const style = (block.styles || {})[key] || {}; return 'color:' + escape(style.color || (key === 'title' ? textColor : descriptionColor)) + ';font-size:' + escape(style.size || (key === 'title' ? 24 : 16)) + 'px;padding:' + escape(style.padding || 0) + 'px;margin:' + escape(style.margin || 0) + 'px;text-align:' + escape(style.align || textAlign) + ';'; };
       const columnExtraMarkup = (block, index) => (block.small_text ? '<small class="preview-column-support" contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="small_text" data-preview-column-target="column-' + index + '-small_text" style="' + columnStyle(block, 'small_text') + '">' + escape(block.small_text) + '</small>' : '') + (block.bullets ? '<ul class="preview-builder-list" contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="bullets" data-preview-column-target="column-' + index + '-bullets" style="' + columnStyle(block, 'bullets') + ';--list-item-gap:' + escape((block.styles || {}).bullets?.item_gap ?? block.item_gap ?? 8) + 'px">' + String(block.bullets).split(/\r?\n/).filter(Boolean).map(item => '<li>' + richPreview(item) + '</li>').join('') + '</ul>' : '');
+      const stackedColumnElements = (block, index) => (block.elements || []).map((element, elementIndex) => {
+        const target = 'column-' + index + '-element-' + elementIndex;
+        const rowStart = '<div class="preview-draggable-row" draggable="true" data-column-element-column="' + index + '" data-column-element-index="' + elementIndex + '"><span class="preview-row-handle" title="Drag to reorder" aria-hidden="true">⠿</span><button type="button" class="preview-row-delete" data-delete-column-element="' + index + ':' + elementIndex + '" title="Delete element" aria-label="Delete element"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>';
+        const rowEnd = '</div>';
+        if (element.type === 'heading') return rowStart + '<h4 class="preview-column-row" contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="element-' + elementIndex + '" data-preview-column-target="' + target + '" style="' + columnStyle(block, 'title') + '">' + escape(element.text || 'New heading') + '</h4>' + rowEnd;
+        if (element.type === 'subtext') return rowStart + '<p class="preview-column-row" contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="element-' + elementIndex + '" data-preview-column-target="' + target + '" style="white-space:pre-wrap;' + columnStyle(block, 'text') + '">' + escape(element.text || 'Add supporting text.') + '</p>' + rowEnd;
+        if (element.type === 'bullets') return rowStart + '<ul class="preview-builder-list preview-column-row" contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="element-' + elementIndex + '" data-preview-column-target="' + target + '">' + String(element.items || '').split(/\r?\n/).filter(Boolean).map(item => '<li>' + escape(item) + '</li>').join('') + '</ul>' + rowEnd;
+        if (element.type === 'button') { const style = element.styles || {}; return rowStart + '<span class="preview-cta preview-column-row" data-preview-column-target="' + target + '" style="width:' + escape(style.width || 'auto') + ';padding:' + escape(style.padding_top ?? 12) + 'px ' + escape(style.padding_right ?? 24) + 'px ' + escape(style.padding_bottom ?? 12) + 'px ' + escape(style.padding_left ?? 24) + 'px;margin:' + escape(style.margin_top ?? 0) + 'px ' + escape(style.margin_right ?? 0) + 'px ' + escape(style.margin_bottom ?? 0) + 'px ' + escape(style.margin_left ?? 0) + 'px;">' + escape(element.button_text || 'Button label') + '</span>' + rowEnd; }
+        return rowStart + '<button type="button" class="preview-image-empty preview-column-row" data-preview-empty-image="' + index + '"><span aria-hidden="true">▧</span><strong>Add image</strong></button>' + rowEnd;
+      }).join('');
       const testimonialRows = blocks.slice(gridColumns).map((block, index) => ({ block, index: index + gridColumns })).filter(item => item.block.type === 'testimonial');
       const testimonialMarkup = testimonialRows.length ? '<div class="preview-special-heading"><h3 contenteditable="true" data-preview-field="heading" style="color:' + escape(textColor) + ';font-size:' + escape(headingSize) + 'px">' + richPreview(heading) + '</h3></div><div class="preview-testimonial-rows">' + testimonialRows.map(item => { const testimonial = item.block; const image = testimonial.previewImage || testimonial.image; const rating = Math.max(1, Math.min(5, Number(testimonial.rating || 5))); return '<article class="preview-testimonial-row" data-preview-column-target="column-' + item.index + '-testimonial"><div class="preview-testimonial-avatar">' + (image ? '<img src="' + escape(testimonial.previewImage || ('/' + String(testimonial.image).replace(/^\//, ''))) + '" alt="">' : '◉') + '</div><div><div class="preview-testimonial-stars">' + '★'.repeat(rating) + '<i>' + '☆'.repeat(5 - rating) + '</i></div><blockquote>“' + escape(testimonial.review || 'Share a client experience here.') + '”</blockquote><small>Click to edit testimonial</small></div></article>'; }).join('') + '</div>' : '';
       const faqRows = blocks.slice(gridColumns).map((block, index) => ({ block, index: index + gridColumns })).filter(item => item.block.type === 'faq');
       const faqMarkup = faqRows.length ? '<div class="preview-special-heading"><h3 contenteditable="true" data-preview-field="heading" style="color:' + escape(textColor) + ';font-size:' + escape(headingSize) + 'px">' + richPreview(heading) + '</h3></div><div class="preview-faq-rows">' + faqRows.map(item => '<article class="preview-faq-row" data-preview-column-target="column-' + item.index + '-faq"><b>+</b><div><strong>' + escape(item.block.question || 'What would you like to know?') + '</strong><p>' + escape(item.block.answer || 'Add a helpful answer for visitors.') + '</p><small>Click to edit FAQ</small></div></article>').join('') + '</div>' : '';
-      const columnMarkup = '<div class="preview-custom-columns-wrap"><div class="preview-feature-grid preview-custom-columns" style="grid-template-columns:repeat(' + gridColumns + ', minmax(0,1fr));gap:' + escape(getValue(card, 'grid_gap') || '24') + 'px">' + blocks.slice(0, gridColumns).map((block, index) => '<div class="preview-feature is-stacked preview-column-stack" style="text-align:' + escape(textAlign) + '">' + (block.type === 'image' ? (block.previewImage || block.image ? '<div class="preview-column-image-frame" data-preview-column-target="column-' + index + '-image"><img data-preview-column-image="' + index + '" style="width:' + escape(block.image_size ?? 100) + '%;max-width:100%;height:auto;margin:0 auto" src="' + escape(block.previewImage || ('/' + String(block.image).replace(/^\//, ''))) + '" alt=""><button type="button" class="preview-column-image-replace" data-preview-empty-image="' + index + '">↻ Replace image</button></div>' : '<button type="button" class="preview-image-empty" data-preview-empty-image="' + index + '"><span aria-hidden="true">▧</span><strong>Add image</strong><small>Click to upload</small></button>') : (block.type === 'button' ? '<span class="preview-cta">' + escape(block.button_text || 'Button label') + '</span>' : '<div><h4 contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="title" data-preview-column-target="column-' + index + '-title" style="' + columnStyle(block, 'title') + '">' + escape(block.title || 'Add a heading') + '</h4><p contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="text" data-preview-column-target="column-' + index + '-text" style="white-space:pre-wrap;' + columnStyle(block, 'text') + '">' + escape(block.text || 'Add text for this column.') + '</p></div>')) + columnExtraMarkup(block, index) + '<button type="button" class="preview-column-add" data-column-extra="' + index + '">＋ Add text or list</button>' + (gridColumns > 1 ? '<button type="button" class="preview-column-remove" data-column-remove="' + index + '" title="Remove column" aria-label="Remove column">×</button>' : '') + '</div>').join('') + '</div>' + testimonialMarkup + faqMarkup + (gridColumns < 3 ? '<button type="button" class="preview-column-divider" title="Split into ' + (gridColumns + 1) + ' columns" aria-label="Add a column">+</button>' : '') + '</div>';
+      const columnMarkup = '<div class="preview-custom-columns-wrap"><div class="preview-feature-grid preview-custom-columns" style="grid-template-columns:repeat(' + gridColumns + ', minmax(0,1fr));gap:' + escape(getValue(card, 'grid_gap') || '24') + 'px">' + blocks.slice(0, gridColumns).map((block, index) => '<div class="preview-feature is-stacked preview-column-stack" style="text-align:' + escape(textAlign) + '">' + (block.type === 'image' ? (block.previewImage || block.image ? '<div class="preview-column-image-frame" data-preview-column-target="column-' + index + '-image"><img data-preview-column-image="' + index + '" style="width:' + escape(block.image_size ?? 100) + '%;max-width:100%;height:auto;margin:0 auto" src="' + escape(block.previewImage || ('/' + String(block.image).replace(/^\//, ''))) + '" alt=""><button type="button" class="preview-column-image-replace" data-preview-empty-image="' + index + '">↻ Replace image</button></div>' : '<button type="button" class="preview-image-empty" data-preview-empty-image="' + index + '"><span aria-hidden="true">▧</span><strong>Add image</strong><small>Click to upload</small></button>') + stackedColumnElements(block, index) : (block.type === 'button' ? '<span class="preview-cta">' + escape(block.button_text || 'Button label') + '</span>' : '<div>' + (block.title ? '<h4 contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="title" data-preview-column-target="column-' + index + '-title" style="' + columnStyle(block, 'title') + '">' + escape(block.title) + '</h4>' : '') + (block.text ? '<p contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="text" data-preview-column-target="column-' + index + '-text" style="white-space:pre-wrap;' + columnStyle(block, 'text') + '">' + escape(block.text) + '</p>' : '') + stackedColumnElements(block, index) + '</div>')) + columnExtraMarkup(block, index) + '<div class="preview-column-drop-hint">Drop another element here</div>' + (gridColumns > 1 ? '<button type="button" class="preview-column-remove" data-column-remove="' + index + '" title="Remove column" aria-label="Remove column">×</button>' : '') + '</div>').join('') + '</div>' + testimonialMarkup + faqMarkup + (gridColumns < 3 ? '<button type="button" class="preview-column-divider" title="Split into ' + (gridColumns + 1) + ' columns" aria-label="Add a column">+</button>' : '') + '</div>';
       const textExtraMarkup = !['image', 'feature_grid', 'testimonial', 'faq'].includes(type) ? extraElements.map((element, extraIndex) => previewExtraElement(element, extraIndex, textColor, headingSize, descriptionColor, descriptionSize)).join('') : '';
       previewSection.innerHTML = type === 'feature_grid' ? gridMarkup : (type === 'custom_columns' ? columnMarkup : (type === 'image' ? '<div class="preview-image-hero">' + imageMarkup + '</div>' : '<div class="preview-section-row ' + (position === 'right' ? 'is-right' : '') + '">' + (type === 'image_text' ? imageMarkup : '') + '<div class="preview-section-copy"><small>' + escape(type.replace('_', ' + ')) + '</small><h3 contenteditable="true" data-preview-field="heading" style="color:' + escape(textColor) + ';font-size:' + escape(headingSize) + 'px">' + richPreview(heading) + '</h3>' + textExtraMarkup + '<p contenteditable="true" data-preview-field="content" style="color:' + escape(descriptionColor) + ';font-size:' + escape(descriptionSize) + 'px">' + richPreview(text) + '</p>' + (button ? '<span class="preview-cta">' + escape(button) + '</span>' : '') + '</div></div>'));
+      // Public builder sections use a centred content container. Keep the
+      // canvas geometry identical so saved padding is represented honestly.
+      if (type !== 'image') {
+        const sectionContainer = document.createElement('div');
+        sectionContainer.className = 'preview-section-container';
+        while (previewSection.firstChild) sectionContainer.appendChild(previewSection.firstChild);
+        previewSection.appendChild(sectionContainer);
+      }
       if (type === 'custom_columns' && blocks[0]?.type === 'empty' && (testimonialRows.length || faqRows.length)) previewSection.querySelector('.preview-column-stack')?.remove();
-      if (type === 'custom_columns') blocks.slice(0, gridColumns).forEach((block, index) => { if (block.type === 'empty') { const column = previewSection.querySelectorAll('.preview-column-stack')[index]; const primary = column?.firstElementChild; if (primary) primary.outerHTML = '<div class="preview-empty-column-wrap"><button type="button" class="preview-empty-column" data-empty-column="' + index + '">＋ Add element</button><div class="preview-empty-column-menu"><button type="button" data-empty-column-choice="heading" data-empty-column-index="' + index + '">Heading</button><button type="button" data-empty-column-choice="subtext" data-empty-column-index="' + index + '">Subtext</button><button type="button" data-empty-column-choice="button" data-empty-column-index="' + index + '">Button</button><button type="button" data-empty-column-choice="bullets" data-empty-column-index="' + index + '">Bulleted list</button><button type="button" data-empty-column-choice="image" data-empty-column-index="' + index + '">Image</button></div></div>'; } });
+      if (type === 'custom_columns') blocks.slice(0, gridColumns).forEach((block, index) => { if (block.type === 'empty') { const column = previewSection.querySelectorAll('.preview-column-stack')[index]; const primary = column?.firstElementChild; if (primary) primary.outerHTML = '<div class="preview-empty-column-drop">Drag an element here</div>'; } });
       if (type === 'custom_columns') blocks.slice(0, gridColumns).forEach((block, index) => { if (block.type === 'button') { const button = previewSection.querySelectorAll('.preview-column-stack')[index]?.querySelector('.preview-cta'); const style = (block.styles || {}).button || {}; if (button) { button.setAttribute('data-preview-column-target', 'column-' + index + '-button'); if (Number(style.padding || 0) > 0) button.style.padding = Number(style.padding) + 'px'; if (Number(style.margin || 0) > 0) button.style.margin = Number(style.margin) + 'px'; } } });
       previewSection.querySelectorAll('.preview-column-stack').forEach((column, index) => { const block = blocks[index] || {}; column.style.padding = Number(block.padding_y || 0) + 'px ' + Number(block.padding_x || 0) + 'px'; column.style.margin = Number(block.margin_y || 0) + 'px ' + Number(block.margin_x || 0) + 'px'; });
       previewSection.querySelectorAll('.preview-column-stack').forEach((column, index) => { const block = blocks[index] || {}; column.dataset.previewColumnTarget = 'column-' + index + '-container'; column.style.justifyContent = ({ start:'flex-start', center:'center', end:'flex-end' })[block.vertical_align || 'start']; });
@@ -551,7 +692,7 @@
       } else if (!['image', 'testimonial', 'faq', 'custom_columns'].includes(type)) {
         sectionActions.innerHTML = '<button type="button" class="preview-section-add" data-quick-add-trigger>＋ Add element</button><div class="preview-section-add-menu"><button type="button" data-quick-add-extra="heading">Heading</button><button type="button" data-quick-add-extra="subheading">Subheading</button><button type="button" data-quick-add-extra="bullet_list">Bulleted list</button><button type="button" data-quick-add-extra="numbered_list">Numbered list</button></div>';
       }
-      if (sectionActions.innerHTML) {
+      if (false && sectionActions.innerHTML) {
         sectionActions.addEventListener('click', event => {
           event.stopPropagation();
           if (event.target.closest('[data-quick-add-trigger]')) { sectionActions.classList.toggle('is-open'); return; }
@@ -578,6 +719,41 @@
         });
         previewSection.appendChild(sectionActions);
       }
+      previewSection.querySelectorAll('.preview-draggable-row').forEach(row => {
+        row.addEventListener('dragstart', event => { event.stopPropagation(); row.classList.add('is-dragging'); event.dataTransfer.effectAllowed = 'move'; event.dataTransfer.setData('application/x-builder-column-element', JSON.stringify({ column: Number(row.dataset.columnElementColumn), index: Number(row.dataset.columnElementIndex) })); });
+        row.addEventListener('dragend', () => row.classList.remove('is-dragging'));
+        row.addEventListener('dragover', event => { if (!event.dataTransfer.types.includes('application/x-builder-column-element')) return; event.preventDefault(); event.stopPropagation(); row.classList.add('is-drop-target'); event.dataTransfer.dropEffect = 'move'; });
+        row.addEventListener('dragleave', () => row.classList.remove('is-drop-target'));
+        row.addEventListener('drop', event => {
+          const raw = event.dataTransfer.getData('application/x-builder-column-element'); if (!raw) return;
+          event.preventDefault(); event.stopPropagation(); row.classList.remove('is-drop-target');
+          let source; try { source = JSON.parse(raw); } catch (_) { return; }
+          const targetColumn = Number(row.dataset.columnElementColumn); const targetIndex = Number(row.dataset.columnElementIndex);
+          const sourceElements = blocks[source.column]?.elements; const targetElements = blocks[targetColumn]?.elements;
+          if (!sourceElements || !targetElements || !sourceElements[source.index]) return;
+          const [moved] = sourceElements.splice(source.index, 1);
+          const insertionIndex = source.column === targetColumn && source.index < targetIndex ? targetIndex - 1 : targetIndex;
+          targetElements.splice(insertionIndex, 0, moved);
+          getField(card, 'blocks').value = JSON.stringify(blocks); render(); focusCard(card, 'section'); queueSnapshot();
+        });
+      });
+      previewSection.querySelectorAll('[data-delete-column-element]').forEach(button => button.addEventListener('click', event => {
+        event.preventDefault(); event.stopPropagation();
+        const [columnIndex, elementIndex] = button.dataset.deleteColumnElement.split(':').map(Number);
+        const elements = blocks[columnIndex]?.elements;
+        if (!elements || !elements[elementIndex]) return;
+        elements.splice(elementIndex, 1);
+        getField(card, 'blocks').value = JSON.stringify(blocks);
+        render(); focusCard(card, 'section'); queueSnapshot();
+      }));
+      previewSection.querySelectorAll('.preview-column-stack').forEach((column, columnIndex) => {
+        column.addEventListener('dragover', event => { if (!event.dataTransfer.types.includes('application/x-builder-element')) return; event.preventDefault(); event.stopPropagation(); column.classList.add('is-element-drop-target'); event.dataTransfer.dropEffect = 'copy'; });
+        column.addEventListener('dragleave', () => column.classList.remove('is-element-drop-target'));
+        column.addEventListener('drop', event => { const type = event.dataTransfer.getData('application/x-builder-element'); if (!type) return; event.preventDefault(); event.stopPropagation(); column.classList.remove('is-element-drop-target'); addElementToSection(card, type, columnIndex); });
+      });
+      previewSection.addEventListener('dragover', event => { if (!event.dataTransfer.types.includes('application/x-builder-element')) return; event.preventDefault(); previewSection.classList.add('is-element-drop-target'); event.dataTransfer.dropEffect = 'copy'; });
+      previewSection.addEventListener('dragleave', () => previewSection.classList.remove('is-element-drop-target'));
+      previewSection.addEventListener('drop', event => { const type = event.dataTransfer.getData('application/x-builder-element'); if (!type) return; event.preventDefault(); previewSection.classList.remove('is-element-drop-target'); addElementToSection(card, type); });
       const deleteSectionButton = document.createElement('button');
       deleteSectionButton.type = 'button'; deleteSectionButton.className = 'preview-section-delete'; deleteSectionButton.title = 'Delete section'; deleteSectionButton.setAttribute('aria-label', 'Delete section'); deleteSectionButton.textContent = '×';
       const deleteSection = event => { event.preventDefault(); event.stopImmediatePropagation(); if (!card.isConnected) return; card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); };
@@ -634,14 +810,13 @@
       const layer = document.createElement('div');
       layer.className = 'section-tree is-collapsed'; layer.dataset.builderId = card.dataset.builderId;
       const treeLabel = type === 'image' ? 'Full-width image' : heading;
-      layer.innerHTML = '<div class="section-tree-header"><button type="button" class="section-layer"><span>☷ ' + escape(treeLabel) + '</span><small>' + escape(type.replace('_', ' + ')) + '</small></button><button type="button" class="section-tree-duplicate" title="Duplicate section" aria-label="Duplicate section">⧉</button><button type="button" class="section-tree-delete" title="Delete section" aria-label="Delete section">×</button><button type="button" class="section-tree-toggle" aria-label="Expand section" aria-expanded="false">⌄</button></div><div class="section-tree-children"></div>';
+      layer.innerHTML = '<div class="section-tree-header"><button type="button" class="section-layer"><span>☷ ' + escape(treeLabel) + '</span><small>' + escape(type.replace('_', ' + ')) + '</small></button><button type="button" class="section-tree-delete" title="Delete section" aria-label="Delete section"><i class="fas fa-trash-alt" aria-hidden="true"></i></button><button type="button" class="section-tree-toggle" aria-label="Expand section" aria-expanded="false"><i class="fas fa-chevron-down" aria-hidden="true"></i></button></div><div class="section-tree-children"></div>';
       const root = layer.querySelector('.section-layer');
       root.draggable = true;
       root.dataset.treeTarget = 'section';
       root.addEventListener('click', () => focusCard(card, 'section'));
-      layer.querySelector('.section-tree-duplicate').addEventListener('click', event => { event.stopPropagation(); const copy = card.cloneNode(true); copy.dataset.builderId = ''; sections.insertBefore(copy, card.nextSibling); normalizeSectionIndexes(); render(); });
       layer.querySelector('.section-tree-delete').addEventListener('click', event => { event.stopPropagation(); card.remove(); normalizeSectionIndexes(); render(); queueSnapshot(); });
-      layer.querySelector('.section-tree-toggle').addEventListener('click', event => { event.stopPropagation(); const collapsed = layer.classList.toggle('is-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!collapsed)); event.currentTarget.setAttribute('aria-label', collapsed ? 'Expand section' : 'Collapse section'); event.currentTarget.textContent = collapsed ? '⌄' : '⌃'; });
+      layer.querySelector('.section-tree-toggle').addEventListener('click', event => { event.stopPropagation(); const collapsed = layer.classList.toggle('is-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!collapsed)); event.currentTarget.setAttribute('aria-label', collapsed ? 'Expand section' : 'Collapse section'); event.currentTarget.classList.toggle('is-expanded', !collapsed); });
       root.addEventListener('dragstart', event => { layer.classList.add('is-dragging'); event.dataTransfer.effectAllowed = 'move'; event.dataTransfer.setData('text/plain', card.dataset.builderId); });
       root.addEventListener('dragend', () => layer.classList.remove('is-dragging'));
       root.addEventListener('dragover', event => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; layer.classList.add('is-drag-over'); });
@@ -693,7 +868,7 @@
       const blocksField = card && getField(card, 'blocks');
       if (!blocksField) return;
       let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {}
-      if (blocks[Number(columnIndex)]) { blocks[Number(columnIndex)][event.target.dataset.previewColumnKey] = event.target.innerText; blocksField.value = JSON.stringify(blocks); }
+      if (blocks[Number(columnIndex)]) { const key = event.target.dataset.previewColumnKey; const elementMatch = /^element-(\d+)$/.exec(key); if (elementMatch) { const element = blocks[Number(columnIndex)].elements?.[Number(elementMatch[1])]; if (element) { if (element.type === 'bullets') element.items = [...event.target.querySelectorAll('li')].map(item => item.innerText).join('\n'); else element.text = event.target.innerText; } } else { blocks[Number(columnIndex)][key] = event.target.innerText; } blocksField.value = JSON.stringify(blocks); }
       return;
     }
     const extraIndex = event.target.dataset.previewExtra;
@@ -779,6 +954,15 @@
       delete event.target.closest('.page-builder-section').dataset.previewImage;
     }
     render();
+  });
+  builderForm.addEventListener('submit', () => { builderDirty = false; setSaveState('Saving…'); });
+  builderForm.addEventListener('input', () => { builderDirty = true; setSaveState('Unsaved changes'); });
+  builderForm.addEventListener('change', () => { builderDirty = true; setSaveState('Unsaved changes'); });
+  window.addEventListener('beforeunload', event => {
+    if (!builderDirty) return;
+    event.preventDefault();
+    event.returnValue = 'You have unsaved landing-page changes.';
+    return event.returnValue;
   });
   new MutationObserver(render).observe(sections, { childList: true, subtree: false });
   render();

@@ -71,6 +71,10 @@ class LandingPageController extends Controller
             'sections.*.heading' => 'nullable|string|max:255',
             'sections.*.content' => 'nullable|string',
             'sections.*.image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
+            'sections.*.image_alt' => 'nullable|string|max:255',
+            'sections.*.image_crop' => 'nullable|in:original,1:1,4:3,16:9,3:4',
+            'sections.*.image_focal_x' => 'nullable|integer|min:0|max:100',
+            'sections.*.image_focal_y' => 'nullable|integer|min:0|max:100',
             'sections.*.button_text' => 'nullable|string|max:100',
             'sections.*.button_url' => 'nullable|url|max:500',
             'sections.*.background_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
@@ -131,9 +135,10 @@ class LandingPageController extends Controller
     {
         $page = DB::table('new_landing_page')->where('page_id', $id)->first();
         $sections = LandingPageSection::where('landing_page_id', $id)->orderBy('sort_order')->get();
+        $adminServices = DB::table('our_service')->orderBy('os_id')->get(['os_heading', 'os_image']);
         abort_unless($page, 404);
 
-        return view('admin.landing_page.edit', compact('page', 'sections'));
+        return view('admin.landing_page.edit', compact('page', 'sections', 'adminServices'));
     }
 
     /** Toggle whether this city page is accessible on the public site. */
@@ -210,6 +215,10 @@ class LandingPageController extends Controller
             'sections.*.heading' => 'nullable|string|max:255',
             'sections.*.content' => 'nullable|string',
             'sections.*.image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
+            'sections.*.image_alt' => 'nullable|string|max:255',
+            'sections.*.image_crop' => 'nullable|in:original,1:1,4:3,16:9,3:4',
+            'sections.*.image_focal_x' => 'nullable|integer|min:0|max:100',
+            'sections.*.image_focal_y' => 'nullable|integer|min:0|max:100',
             'sections.*.button_text' => 'nullable|string|max:100',
             'sections.*.button_url' => 'nullable|url|max:500',
             'sections.*.background_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
@@ -326,6 +335,9 @@ class LandingPageController extends Controller
                 'content' => $section['content'] ?? null,
                 'image' => $imagePath,
                 'image_alt' => $section['image_alt'] ?? null,
+                'image_crop' => $section['image_crop'] ?? 'original',
+                'image_focal_x' => $section['image_focal_x'] ?? 50,
+                'image_focal_y' => $section['image_focal_y'] ?? 50,
                 'button_text' => $section['button_text'] ?? null,
                 'button_url' => $section['button_url'] ?? null,
                 'background_color' => $section['background_color'] ?? null,

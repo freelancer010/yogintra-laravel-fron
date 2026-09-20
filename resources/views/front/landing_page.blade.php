@@ -1380,6 +1380,8 @@
     .landing-builder-list li + li { margin-top: var(--list-item-gap, 8px); }
     .landing-builder-section.landing-align-center .landing-builder-list, .landing-builder-section.landing-align-center .landing-column-bullets { display:table; margin-left:auto; margin-right:auto; text-align:left; }
     .landing-builder-content .landing-sanskrit { color:#0f7a84; font-family:Philosopher, serif; font-size:28px; font-weight:700; margin:0 0 18px; }
+    .landing-builder-section .btn.btn-theme-colored { background:#1f73e8; border-color:#1f73e8; color:#fff; }
+    .landing-builder-section .btn.btn-theme-colored:hover, .landing-builder-section .btn.btn-theme-colored:focus { background:#155fc4; border-color:#155fc4; color:#fff; }
     .landing-builder-section .btn { border-radius: 999px; padding: 12px 24px; transition: transform .2s ease, box-shadow .2s ease; }
     .landing-builder-section .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.18); }
     .landing-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
@@ -1505,6 +1507,26 @@
                   $columnBullets = array_filter(array_map('trim', preg_split('/\r?\n/', $column['bullets'] ?? '')));
                 @endphp
                 @if($columnBullets)<ul class="landing-column-bullets" style="{{ $columnStyle('bullets', $section->description_color ?? '#647b82', 16) }}">@foreach($columnBullets as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>@endif
+                @foreach(($column['elements'] ?? []) as $element)
+                  @if(($element['type'] ?? '') === 'heading')
+                    <h3 style="{{ $columnStyle('title', $section->text_color ?? '#183c45', 24) }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</h3>
+                  @elseif(($element['type'] ?? '') === 'subtext')
+                    <p class="landing-builder-content" style="{{ $columnStyle('text', $section->description_color ?? '#647b82', 16) }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($element['text'] ?? '') !!}</p>
+                  @elseif(($element['type'] ?? '') === 'bullets')
+                    @php
+                      $stackBullets = array_filter(array_map('trim', preg_split('/\r?\n/', $element['items'] ?? '')));
+                    @endphp
+                    @if($stackBullets)<ul class="landing-column-bullets" style="{{ $columnStyle('bullets', $section->description_color ?? '#647b82', 16) }}">@foreach($stackBullets as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>@endif
+                  @elseif(($element['type'] ?? '') === 'button' && !empty($element['button_text']))
+                    @php
+                      $buttonElementStyle = $element['styles'] ?? [];
+                      $buttonElementSpacing = 'width: '.($buttonElementStyle['width'] ?? 'auto').'; padding: '.(int)($buttonElementStyle['padding_top'] ?? 12).'px '.(int)($buttonElementStyle['padding_right'] ?? 24).'px '.(int)($buttonElementStyle['padding_bottom'] ?? 12).'px '.(int)($buttonElementStyle['padding_left'] ?? 24).'px; margin: '.(int)($buttonElementStyle['margin_top'] ?? 0).'px '.(int)($buttonElementStyle['margin_right'] ?? 0).'px '.(int)($buttonElementStyle['margin_bottom'] ?? 0).'px '.(int)($buttonElementStyle['margin_left'] ?? 0).'px;';
+                    @endphp
+                    <a href="{{ $element['button_url'] ?? '#' }}" class="btn btn-theme-colored btn-flat" style="{{ $buttonElementSpacing }}">{{ $element['button_text'] }}</a>
+                  @elseif(($element['type'] ?? '') === 'image' && !empty($element['image']))
+                    <img src="{{ asset($element['image']) }}" alt="{{ $element['alt'] ?? 'Section image' }}" loading="lazy">
+                  @endif
+                @endforeach
               </div>
             @endforeach
           </div>
@@ -1595,7 +1617,7 @@
         <div class="row align-items-center {{ $section->section_type === 'image_text' ? 'landing-image-text-row' : '' }} {{ in_array($section->section_type, ['image_text', 'image']) ? '' : 'justify-content-center' }} {{ $section->image_position === 'right' ? 'landing-image-right' : '' }}">
           @if(in_array($section->section_type, ['image_text', 'image']) && $section->image)
             <div class="{{ $section->section_type === 'image' ? 'col-12' : 'col-md-6 mb-4 mb-md-0' }}" style="{{ $section->section_type === 'image_text' ? 'flex: 0 0 '.(int)($section->image_size ?? 42).'%; max-width: '.(int)($section->image_size ?? 42).'%;' : ($section->section_type === 'image' ? 'width: '.(int)($section->image_size ?? 100).'%; max-width: 100%; margin-left: auto; margin-right: auto;' : '') }}">
-              <img src="{{ asset($section->image) }}" alt="{{ $section->image_alt ?: $section->heading }}" class="{{ $section->section_type === 'image' ? 'landing-full-image' : 'img-fluid rounded' }}" loading="lazy">
+              <img src="{{ asset($section->image) }}" alt="{{ $section->image_alt ?: $section->heading }}" class="{{ $section->section_type === 'image' ? 'landing-full-image' : 'img-fluid rounded' }}" loading="lazy" style="object-fit: cover; object-position: {{ $section->image_focal_x ?? 50 }}% {{ $section->image_focal_y ?? 50 }}%; {{ ($section->image_crop ?? 'original') !== 'original' ? 'aspect-ratio: '.e($section->image_crop).'; width: 100%; height: auto;' : '' }}">
             </div>
           @endif
           @if($section->section_type !== 'image')

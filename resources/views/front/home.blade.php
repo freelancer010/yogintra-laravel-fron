@@ -843,10 +843,15 @@
     @php
         $section3FixedImages = json_decode($app_setting->section3_fixed_card_images ?: '{}', true) ?: [];
         $section3CardBullets = json_decode($app_setting->section3_card_bullets ?: '{}', true) ?: [];
+        $section3CardButtons = json_decode($app_setting->section3_card_buttons ?: '{}', true) ?: [];
         $section3DefaultBullets = ['Expert-led sessions', 'Flexible booking', 'Personalised guidance', 'Suitable for all levels', 'Wellness-focused practice'];
         $section3BulletItems = function ($key) use ($section3CardBullets, $section3DefaultBullets) {
             $items = array_values(array_filter(array_map('trim', preg_split('/\r?\n/', $section3CardBullets[$key] ?? ''))));
             return array_slice($items ?: $section3DefaultBullets, 0, 5);
+        };
+        $section3Button = function ($key, $defaultLabel, $defaultUrl) use ($section3CardButtons) {
+            $button = $section3CardButtons[$key] ?? [];
+            return ['label' => $button['label'] ?? $defaultLabel, 'url' => $button['url'] ?? $defaultUrl];
         };
     @endphp
     <style>
@@ -869,49 +874,54 @@
                         <div class="row justify-content-center">
                             <div class="col-12 col-md-8 col-lg-ipad">
                                 @foreach ($rand_service as $r_service)
+                                    @php($cardButton = $section3Button('category_'.$r_service->service_cat_id, 'Book Now', url($r_service->service_cat_slug)))
                                     <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
                                         <div class="yoga-service-item text-center">
                                              <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
                                              <h2 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h2>
                                              <ul class="section3-card-bullets">@foreach($section3BulletItems('category_'.$r_service->service_cat_id) as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
-                                             <a href="{{ url($r_service->service_cat_slug) }}" class="btn-sm-cs btn btn-success btn-primary-dark">Book Now</a>
+                                             <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
                                         </div>
                                     </div>
                                 @endforeach
 
                                 <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                    @php($cardButton = $section3Button('ttc', 'Visit Now', route('ttc')))
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['ttc'] ?? 'assets/icon-thumb3-150x150.jpg') }}" width="150" height="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
                                          <h2 class="mb-15 fs-16">TTC</h2>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('ttc') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
-                                         <a href="{{ route('ttc') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
+                                         <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                    @php($cardButton = $section3Button('retreat', 'Visit Now', route('retreat.all')))
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['retreat'] ?? 'assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs">
                                          <h2 class="mb-15 fs-16">Retreat</h2>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('retreat') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
-                                         <a href="{{ route('retreat.all') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
+                                         <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                    @php($cardButton = $section3Button('workshop', 'Visit Now', route('workshop')))
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['workshop'] ?? 'assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops">
                                          <h2 class="mb-15 fs-16">Workshop</h2>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('workshop') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
-                                         <a href="{{ route('workshop') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
+                                         <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                    @php($cardButton = $section3Button('yoga_center', 'Visit Now', route('yoga.center')))
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['yoga_center'] ?? 'uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility">
                                          <h2 class="mb-15 fs-16">Yoga Center</h2>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('yoga_center') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
-                                         <a href="{{ route('yoga.center') }}" class="btn-sm-cs btn btn-success btn-primary-dark">Visit Now</a>
+                                         <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
                                     </div>
                                 </div>
                                 </div>
@@ -941,16 +951,16 @@
                             <div class="item">
                                 <div class="team-members text-center maxwidth400">
                                     <div class="team-thumb">
-                                        <img class="img-fullwidth" width="200" height="200" loading="lazy" decoding="async" alt="YogIntra Instructor - {{ $trainer->name }}" src="{{ $api . '/' . $trainer->profile_image }}">
+                                        <img class="img-fullwidth" width="200" height="200" loading="lazy" decoding="async" alt="YogIntra Instructor - {{ $trainer->name ?? 'Instructor' }}" src="{{ $api . '/' . ($trainer->profile_image ?? '') }}">
                                     </div>
                                     @php
                                         $currentYear = now()->year;
-                                        $birthYear = \Carbon\Carbon::parse($trainer->dob)->year;
+                                        $birthYear = !empty($trainer->dob ?? null) ? \Carbon\Carbon::parse($trainer->dob)->year : $currentYear;
                                         $age = $currentYear - $birthYear;
                                     @endphp
                                     <div class="team-details">
                                         <div class="p-10">
-                                            <h4 class="text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name }}</h4>
+                                            <h4 class="text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name ?? 'YogIntra Instructor' }}</h4>
                                             {{-- <p class="mt-0 mb-0 text-dark">Age - {{ $age }}</p> --}}
                                         </div>
                                     </div>

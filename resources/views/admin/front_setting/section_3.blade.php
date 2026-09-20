@@ -10,9 +10,17 @@
         'yoga_center' => ['label' => 'Yoga Center', 'default' => 'uploads/yog_center.jpg'],
     ];
     $cardBullets = json_decode($setting->section3_card_bullets ?: '{}', true) ?: [];
+    $cardButtons = json_decode($setting->section3_card_buttons ?: '{}', true) ?: [];
     $defaultBullets = "Expert-led sessions\nFlexible booking\nPersonalised guidance\nSuitable for all levels\nWellness-focused practice";
     $bulletValue = function ($key) use ($cardBullets, $defaultBullets) {
         return $cardBullets[$key] ?? $defaultBullets;
+    };
+    $buttonValue = function ($key, $defaultLabel, $defaultUrl) use ($cardButtons) {
+        $button = $cardButtons[$key] ?? [];
+        return [
+            'label' => $button['label'] ?? $defaultLabel,
+            'url' => $button['url'] ?? $defaultUrl,
+        ];
     };
 @endphp
 
@@ -102,14 +110,24 @@
                             <div class="row">
                                 @foreach($serviceCategories as $category)
                                     <div class="col-12 mb-3 card-setting-control" data-card-settings="category_{{ $category->service_cat_id }}">
+                                        @php($button = $buttonValue('category_'.$category->service_cat_id, 'Book Now', url($category->service_cat_slug)))
                                         <label for="bulletsCategory{{ $category->service_cat_id }}">{{ $category->service_cat_name }}</label>
                                         <textarea id="bulletsCategory{{ $category->service_cat_id }}" class="form-control card-bullets-input" data-card-bullets="category_{{ $category->service_cat_id }}" rows="5" name="section3_card_bullets[category_{{ $category->service_cat_id }}]">{{ old('section3_card_bullets.category_'.$category->service_cat_id, $bulletValue('category_'.$category->service_cat_id)) }}</textarea>
+                                        <label class="mt-2" for="buttonLabelCategory{{ $category->service_cat_id }}">Button label</label>
+                                        <input id="buttonLabelCategory{{ $category->service_cat_id }}" class="form-control" type="text" maxlength="80" name="section3_card_buttons[category_{{ $category->service_cat_id }}][label]" value="{{ old('section3_card_buttons.category_'.$category->service_cat_id.'.label', $button['label']) }}">
+                                        <label class="mt-2" for="buttonUrlCategory{{ $category->service_cat_id }}">Button link</label>
+                                        <input id="buttonUrlCategory{{ $category->service_cat_id }}" class="form-control" type="text" maxlength="2048" name="section3_card_buttons[category_{{ $category->service_cat_id }}][url]" value="{{ old('section3_card_buttons.category_'.$category->service_cat_id.'.url', $button['url']) }}">
                                     </div>
                                 @endforeach
                                 @foreach($fixedCards as $key => $card)
                                     <div class="col-12 mb-3 card-setting-control" data-card-settings="{{ $key }}">
+                                        @php($button = $buttonValue($key, 'Visit Now', ['ttc' => route('ttc'), 'retreat' => route('retreat.all'), 'workshop' => route('workshop'), 'yoga_center' => route('yoga.center')][$key]))
                                         <label for="bullets{{ $key }}">{{ $card['label'] }}</label>
                                         <textarea id="bullets{{ $key }}" class="form-control card-bullets-input" data-card-bullets="{{ $key }}" rows="5" name="section3_card_bullets[{{ $key }}]">{{ old('section3_card_bullets.'.$key, $bulletValue($key)) }}</textarea>
+                                        <label class="mt-2" for="buttonLabel{{ $key }}">Button label</label>
+                                        <input id="buttonLabel{{ $key }}" class="form-control" type="text" maxlength="80" name="section3_card_buttons[{{ $key }}][label]" value="{{ old('section3_card_buttons.'.$key.'.label', $button['label']) }}">
+                                        <label class="mt-2" for="buttonUrl{{ $key }}">Button link</label>
+                                        <input id="buttonUrl{{ $key }}" class="form-control" type="text" maxlength="2048" name="section3_card_buttons[{{ $key }}][url]" value="{{ old('section3_card_buttons.'.$key.'.url', $button['url']) }}">
                                     </div>
                                 @endforeach
                             </div>

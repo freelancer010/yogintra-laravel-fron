@@ -98,6 +98,9 @@ class FrontSettingController extends Controller
             'section3_fixed_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5000',
             'section3_card_bullets' => 'nullable|array',
             'section3_card_bullets.*' => 'nullable|string|max:1000',
+            'section3_card_buttons' => 'nullable|array',
+            'section3_card_buttons.*.label' => 'nullable|string|max:80',
+            'section3_card_buttons.*.url' => 'nullable|string|max:2048',
         ]);
         $setting = Setting::firstOrFail();
         if ($request->hasFile('section3_background_image')) {
@@ -109,6 +112,7 @@ class FrontSettingController extends Controller
         }
         $setting->section3_fixed_card_images = json_encode($fixedImages);
         $setting->section3_card_bullets = json_encode($request->input('section3_card_bullets', []));
+        $setting->section3_card_buttons = json_encode($request->input('section3_card_buttons', []));
         $setting->section3_heading = $request->section3_heading;
         $setting->section3_description = $request->section3_description;
         $setting->section3_padding_y = $request->section3_padding_y;

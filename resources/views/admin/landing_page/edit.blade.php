@@ -16,7 +16,8 @@
             <div class="d-flex align-items-center w-100 landing-page-header">
                 <h3 class="card-title mb-0">Edit landing page</h3>
                 <div class="landing-page-header-actions ml-auto d-flex align-items-center justify-content-end">
-                    <a href="{{ url('/city/' . $page->page_slug) }}" target="_blank" rel="noopener" class="btn btn-outline-light btn-sm mr-2"><i class="fas fa-external-link-alt" aria-hidden="true"></i> View live page</a>
+                    <a href="{{ url('/city/' . $page->page_slug) }}" target="_blank" rel="noopener" class="btn btn-outline-light btn-sm mr-2"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Preview page</a>
+                    <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#page-settings-modal"><i class="fas fa-cog" aria-hidden="true"></i> Manage page settings</button>
                     <button type="button" class="btn btn-outline-warning btn-sm mr-2" id="classic-layout-toggle"><i class="fas fa-history" aria-hidden="true"></i> Classic layout: <span>{{ ($page->use_classic_layout ?? false) ? 'On' : 'Off' }}</span></button>
                     <button type="submit" form="landing-page-form" formnovalidate class="btn btn-success builder-submit floating-update-button">Update page</button>
                 </div>
@@ -28,7 +29,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 form-group mb-5 border-bottom text-center pb-5">
-                        <label>Page Image</label><br>
+                        <label>Open Graph / hero image</label><br>
                         @if($page->page_image)
                             <img id="preview-image" src="{{ asset($page->page_image) }}" width="45%" alt="Page Image">
                         @endif
@@ -43,11 +44,11 @@
                     <div class="col-md-6 form-group">
                     <label>Page Slug</label>
                     <input type="text" name="page_slug" class="form-control" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" value="{{ $page->page_slug }}">
-                    <small class="form-text text-muted">Published at /city/{{ $page->page_slug }}</small>
+                    <small class="form-text text-muted">Public URL preview: {{ url('/city/' . $page->page_slug) }}</small>
                     </div>
 
                     <div class="col-md-6 form-group">
-                    <label>Meta Description</label>
+                    <label>SEO description</label>
                     <textarea name="page_meta_description" class="form-control">{{ $page->page_meta_description }}</textarea>
                     </div>
 
@@ -57,7 +58,7 @@
                     </div>
 
                     <div class="col-md-6 form-group">
-                    <label>Meta Title</label>
+                    <label>SEO title</label>
                     <input type="text" name="page_meta_title" class="form-control" value="{{ $page->page_meta_title }}">
                     </div>
 
@@ -129,13 +130,16 @@
                                 <input type="hidden" name="sections[{{ $index }}][background_overlay_opacity]" value="{{ $section->background_overlay_opacity ?? 0 }}">
                                 @if($section->background_image)<input type="hidden" name="sections[{{ $index }}][existing_background_image]" value="{{ $section->background_image }}">@endif
                                 <div class="row">
-                                <div class="col-md-4 form-group"><label>Layout</label><select name="sections[{{ $index }}][section_type]" class="form-control"><option value="text" @selected($section->section_type === 'text')>Text</option><option value="image_text" @selected($section->section_type === 'image_text')>Image + Text</option><option value="feature_grid" @selected($section->section_type === 'feature_grid')>Feature grid</option><option value="custom_columns" @selected($section->section_type === 'custom_columns')>Empty columns</option><option value="testimonial" @selected($section->section_type === 'testimonial')>Testimonials</option><option value="faq" @selected($section->section_type === 'faq')>Homepage FAQ</option><option value="image" @selected($section->section_type === 'image')>Image / Hero</option><option value="cta" @selected($section->section_type === 'cta')>Call to Action</option></select></div>
+                                <div class="col-md-4 form-group"><label>Layout</label><select name="sections[{{ $index }}][section_type]" class="form-control"><option value="text" @selected($section->section_type === 'text')>Text</option><option value="image_text" @selected($section->section_type === 'image_text')>Image + Text</option><option value="feature_grid" @selected($section->section_type === 'feature_grid')>Feature grid</option><option value="custom_columns" @selected($section->section_type === 'custom_columns')>Empty columns</option><option value="testimonial" @selected($section->section_type === 'testimonial')>Testimonials</option><option value="faq" @selected($section->section_type === 'faq')>FAQ</option><option value="image" @selected($section->section_type === 'image')>Image / Hero</option><option value="cta" @selected($section->section_type === 'cta')>Call to Action</option></select></div>
                                 <div class="col-md-4 form-group"><label>Background</label><input name="sections[{{ $index }}][background_color]" class="form-control" value="{{ $section->background_color }}" placeholder="#ffffff"></div>
                                 <div class="col-md-4 form-group"><label>Image</label><input type="file" name="sections[{{ $index }}][image]" class="form-control" accept="image/*">@if($section->image)<input type="hidden" name="sections[{{ $index }}][existing_image]" value="{{ $section->image }}"><small class="d-block mt-1">Current: {{ basename($section->image) }}</small>@endif</div>
                                 <div class="col-md-12"><div class="layout-tools"><div><label>Image side</label><select name="sections[{{ $index }}][image_position]" class="form-control"><option value="left" @selected(($section->image_position ?? 'left') === 'left')>Left</option><option value="right" @selected(($section->image_position ?? 'left') === 'right')>Right</option></select></div><div class="range-control"><label>Section padding <span class="range-value">{{ $section->padding_y ?? 48 }}px</span></label><input type="range" name="sections[{{ $index }}][padding_y]" min="0" max="160" value="{{ $section->padding_y ?? 48 }}" oninput="this.previousElementSibling.querySelector('.range-value').textContent=this.value+'px'"></div><div class="range-control"><label>Section margin <span class="range-value">{{ $section->margin_y ?? 0 }}px</span></label><input type="range" name="sections[{{ $index }}][margin_y]" min="0" max="120" value="{{ $section->margin_y ?? 0 }}" oninput="this.previousElementSibling.querySelector('.range-value').textContent=this.value+'px'"></div></div></div>
                                 <div class="col-md-12 form-group"><label>Heading</label><input name="sections[{{ $index }}][heading]" class="form-control" value="{{ $section->heading }}"></div>
                                 <div class="col-md-12 form-group"><label>Text / HTML</label><textarea name="sections[{{ $index }}][content]" class="form-control" rows="5">{{ $section->content }}</textarea></div>
                                 <div class="col-md-4 form-group"><label>Image alt text</label><input name="sections[{{ $index }}][image_alt]" class="form-control" value="{{ $section->image_alt }}"></div>
+                                <input type="hidden" name="sections[{{ $index }}][image_crop]" value="{{ $section->image_crop ?? 'original' }}">
+                                <input type="hidden" name="sections[{{ $index }}][image_focal_x]" value="{{ $section->image_focal_x ?? 50 }}">
+                                <input type="hidden" name="sections[{{ $index }}][image_focal_y]" value="{{ $section->image_focal_y ?? 50 }}">
                                 <div class="col-md-4 form-group"><label>Button text</label><input name="sections[{{ $index }}][button_text]" class="form-control" value="{{ $section->button_text }}"></div>
                                 <div class="col-md-4 form-group"><label>Button URL</label><input type="url" name="sections[{{ $index }}][button_url]" class="form-control" value="{{ $section->button_url }}"></div>
                               </div></div>
@@ -174,7 +178,7 @@
       const type = button.dataset.sectionType;
       const card = document.createElement('div');
       card.className = 'card border mb-3 page-builder-section';
-      card.innerHTML = `<div class="card-header d-flex justify-content-between"><strong>Section</strong><div><button type="button" class="btn btn-outline-secondary btn-sm move-up">↑</button> <button type="button" class="btn btn-outline-secondary btn-sm move-down">↓</button> <button type="button" class="btn btn-outline-danger btn-sm remove-section">Remove</button></div></div><div class="card-body"><div class="row"><div class="col-md-4 form-group"><label>Layout</label><select name="sections[${index}][section_type]" class="form-control"><option value="text" ${type === 'text' ? 'selected' : ''}>Text</option><option value="image_text" ${type === 'image_text' ? 'selected' : ''}>Image + Text</option><option value="custom_columns" ${type === 'custom_columns' ? 'selected' : ''}>Empty columns</option><option value="testimonial" ${type === 'testimonial' ? 'selected' : ''}>Testimonials</option><option value="faq" ${type === 'faq' ? 'selected' : ''}>Homepage FAQ</option><option value="cta" ${type === 'cta' ? 'selected' : ''}>Call to Action</option></select></div><div class="col-md-4 form-group"><label>Background</label><input name="sections[${index}][background_color]" class="form-control" placeholder="#ffffff"></div><div class="col-md-4 form-group"><label>Image</label><input type="file" name="sections[${index}][image]" class="form-control" accept="image/*"></div><div class="col-md-12"><div class="layout-tools"><div><label>Image side</label><select name="sections[${index}][image_position]" class="form-control"><option value="left">Left</option><option value="right">Right</option></select></div><div class="range-control"><label>Section padding <span class="range-value">48px</span></label><input type="range" name="sections[${index}][padding_y]" min="0" max="160" value="48" oninput="this.previousElementSibling.querySelector('.range-value').textContent=this.value+'px'"></div><div class="range-control"><label>Section margin <span class="range-value">0px</span></label><input type="range" name="sections[${index}][margin_y]" min="0" max="120" value="0" oninput="this.previousElementSibling.querySelector('.range-value').textContent=this.value+'px'"></div></div></div><div class="col-md-12 form-group"><label>Heading</label><input name="sections[${index}][heading]" class="form-control"></div><div class="col-md-12 form-group"><label>Text / HTML</label><textarea name="sections[${index}][content]" class="form-control" rows="5"></textarea></div><div class="col-md-4 form-group"><label>Image alt text</label><input name="sections[${index}][image_alt]" class="form-control"></div><div class="col-md-4 form-group"><label>Button text</label><input name="sections[${index}][button_text]" class="form-control"></div><div class="col-md-4 form-group"><label>Button URL</label><input type="url" name="sections[${index}][button_url]" class="form-control"></div></div></div>`;
+      card.innerHTML = `<div class="card-header d-flex justify-content-between"><strong>Section</strong><div><button type="button" class="btn btn-outline-secondary btn-sm move-up">↑</button> <button type="button" class="btn btn-outline-secondary btn-sm move-down">↓</button> <button type="button" class="btn btn-outline-danger btn-sm remove-section">Remove</button></div></div><div class="card-body"><div class="row"><div class="col-md-4 form-group"><label>Layout</label><select name="sections[${index}][section_type]" class="form-control"><option value="text" ${type === 'text' ? 'selected' : ''}>Text</option><option value="image_text" ${type === 'image_text' ? 'selected' : ''}>Image + Text</option><option value="custom_columns" ${type === 'custom_columns' ? 'selected' : ''}>Empty columns</option><option value="testimonial" ${type === 'testimonial' ? 'selected' : ''}>Testimonials</option><option value="faq" ${type === 'faq' ? 'selected' : ''}>FAQ</option><option value="cta" ${type === 'cta' ? 'selected' : ''}>Call to Action</option></select></div><div class="col-md-4 form-group"><label>Background</label><input name="sections[${index}][background_color]" class="form-control" placeholder="#ffffff"></div><div class="col-md-4 form-group"><label>Image</label><input type="file" name="sections[${index}][image]" class="form-control" accept="image/*"></div><input type="hidden" name="sections[${index}][image_crop]" value="original"><input type="hidden" name="sections[${index}][image_focal_x]" value="50"><input type="hidden" name="sections[${index}][image_focal_y]" value="50"><div class="col-md-12"><div class="layout-tools"><div><label>Image side</label><select name="sections[${index}][image_position]" class="form-control"><option value="left">Left</option><option value="right">Right</option></select></div><div class="range-control"><label>Section padding <span class="range-value">48px</span></label><input type="range" name="sections[${index}][padding_y]" min="0" max="160" value="48" oninput="this.previousElementSibling.querySelector('.range-value').textContent=this.value+'px'"></div><div class="range-control"><label>Section margin <span class="range-value">0px</span></label><input type="range" name="sections[${index}][margin_y]" min="0" max="120" value="0" oninput="this.previousElementSibling.querySelector('.range-value').textContent=this.value+'px'"></div></div></div><div class="col-md-12 form-group"><label>Heading</label><input name="sections[${index}][heading]" class="form-control"></div><div class="col-md-12 form-group"><label>Text / HTML</label><textarea name="sections[${index}][content]" class="form-control" rows="5"></textarea></div><div class="col-md-4 form-group"><label>Image alt text</label><input name="sections[${index}][image_alt]" class="form-control"></div><div class="col-md-4 form-group"><label>Button text</label><input name="sections[${index}][button_text]" class="form-control"></div><div class="col-md-4 form-group"><label>Button URL</label><input type="url" name="sections[${index}][button_url]" class="form-control"></div></div></div>`;
       sections.appendChild(card);
     }));
     sections.addEventListener('click', (event) => {
@@ -190,12 +194,12 @@
     const formBody = document.querySelector('.landing-builder-shell form .card-body');
     const workspace = document.createElement('div');
     workspace.className = 'builder-workspace';
-    workspace.innerHTML = '<main class="builder-canvas"><div class="builder-canvas-header"><div><h4>Page canvas</h4><small class="text-muted">Click preview text to edit it inline</small></div><button type="button" class="builder-settings-button" data-toggle="modal" data-target="#page-settings-modal"><i class="fa fa-cog" aria-hidden="true"></i><span>Manage page settings</span></button></div></main><aside class="builder-inspector"><div class="builder-inspector-title builder-inspector-heading"><span>Section editor</span><span>✦</span></div><div class="builder-selected-element is-empty"><span>Selected element</span><strong data-selected-element aria-hidden="true"></strong></div></aside>';
+    workspace.innerHTML = '<main class="builder-canvas"><div class="builder-canvas-header"><div><h4>Page canvas</h4><small class="text-muted">Click preview text to edit it inline</small></div></div></main><aside class="builder-inspector"><div class="builder-inspector-title builder-inspector-heading"><span>Section editor</span><span>✦</span></div><div class="builder-selected-element is-empty"><span>Selected element</span><strong data-selected-element></strong></div></aside>';
     formBody.prepend(workspace);
     @if($sections->isEmpty())
     const classicConversionNotice = document.createElement('div');
-    classicConversionNotice.className = 'alert alert-info mt-3 mb-0';
-    classicConversionNotice.innerHTML = '<div class="d-flex flex-wrap align-items-center justify-content-between" style="gap:12px"><div><strong>Convert the classic page layout</strong><br><small>Create editable, city-aware sections from the old shared landing-page content.</small></div><button type="submit" class="btn btn-primary">Convert classic layout</button></div>';
+    classicConversionNotice.className = 'classic-conversion-notice';
+    classicConversionNotice.innerHTML = '<div class="classic-conversion-copy"><strong>Convert the classic page layout</strong><small>Create editable, city-aware sections from the old shared landing-page content.</small></div><button type="submit" class="btn btn-primary btn-sm">Convert classic layout</button>';
     const classicConversionButton = classicConversionNotice.querySelector('button');
     classicConversionButton.formAction = '{{ route('admin.landing-pages.convert-classic', $page->page_id) }}';
     classicConversionButton.formMethod = 'post';
@@ -251,6 +255,7 @@
       submitWrapper?.remove();
     }
 </script>
+<script>window.landingBuilderServices = @json($adminServices);</script>
 @include('admin.landing_page.partials.live-preview')
 <script>setTimeout(() => document.querySelector('.builder-toast')?.classList.add('is-hidden'), 3500);</script>
 @endsection

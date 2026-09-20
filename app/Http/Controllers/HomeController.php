@@ -513,9 +513,10 @@ class HomeController extends Controller
 
     public function privacyPolicy()
     {
-        return view('front.privacy_policy', [
+        return response()->view('front.privacy_policy', [
             'page' => 'privacy_policy',
-        ]);
+        ])->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+          ->header('Pragma', 'no-cache');
     }
 
     public function refundPolicy()
