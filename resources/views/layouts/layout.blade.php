@@ -10,7 +10,7 @@
     <title>@yield('meta_title', $app_setting->app_meta_title ?? 'YogIntra')</title>
     <meta name="description" content="@yield('meta_description', $app_setting->app_meta_description ?? 'Yogintra')">
     <meta name="keywords" content="@yield('meta_keywords', $app_setting->app_keywords ?? 'Yogintra')">
-    <meta name="robots" content="@yield('meta_robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')">
+    <meta name="robots" content="@yield('meta_robots', 'index, follow')">
     <link rel="alternate" type="text/plain" title="YogIntra LLMs.txt" href="{{ url('/llms.txt') }}">
 
     <meta property="og:title" content="@yield('meta_title', $app_setting->app_meta_title ?? 'YogIntra')" />
@@ -36,6 +36,22 @@
 
     <meta name="author" content="YogIntra" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <style>
+        .skip-to-content {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 10000;
+            padding: 10px 16px;
+            color: #fff;
+            background: #075c66;
+            border-radius: 4px;
+            transform: translateY(-160%);
+            transition: transform .15s ease;
+        }
+        .skip-to-content:focus { transform: translateY(0); color: #fff; outline: 3px solid #f6a623; outline-offset: 3px; }
+    </style>
 
     <!-- FAVICON -->
     <link href="{{ asset($app_setting->fevicon) }}" rel="shortcut icon" type="image/png">
@@ -271,10 +287,11 @@
 
 </head>
 <body>
+    <a class="skip-to-content" href="#main-content">Skip to main content</a>
     @include('partials.navbar')
-    <div class="main-content">
+    <main id="main-content" class="main-content" tabindex="-1">
         @yield('content')
-    </div>
+    </main>
     @include('partials.footer')
 
     <script>
