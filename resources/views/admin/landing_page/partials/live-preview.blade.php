@@ -119,7 +119,7 @@
 
   const inspectorTabs = document.createElement('div');
   inspectorTabs.className = 'builder-inspector-tabs';
-  inspectorTabs.innerHTML = '<button type="button" class="is-active" data-inspector-tab="editor">Section editor</button><button type="button" data-inspector-tab="elements">Elements</button>';
+  inspectorTabs.innerHTML = '<button type="button" class="is-active" data-inspector-tab="editor">Editor</button><button type="button" data-inspector-tab="elements">Elements</button>';
   inspector.insertBefore(inspectorTabs, stylePanel);
   const elementsPanel = document.createElement('div');
   elementsPanel.className = 'builder-elements-panel';
@@ -400,8 +400,24 @@
           const key = control.dataset.stackedButton;
           if (['button_text', 'button_url'].includes(key)) element[key] = control.value;
           else element.styles[key] = key === 'width' ? control.value : Number(control.value);
-          blocks[columnIndex] = block; blocksField.value = JSON.stringify(blocks); render(); queueSnapshot();
+          const previewButton = preview.querySelector('[data-preview-column-target="' + target + '"]');
+          if (previewButton) {
+            if (key === 'button_text') previewButton.textContent = element.button_text || 'Button label';
+            previewButton.style.width = element.styles.width || 'auto';
+            previewButton.style.padding = (element.styles.padding_top ?? 12) + 'px ' + (element.styles.padding_right ?? 24) + 'px ' + (element.styles.padding_bottom ?? 12) + 'px ' + (element.styles.padding_left ?? 24) + 'px';
+            const previewRow = previewButton.closest('.preview-draggable-row');
+            if (previewRow) {
+              previewRow.style.setProperty('--preview-row-margin-top', (element.styles.margin_top ?? 0) + 'px');
+              previewRow.style.setProperty('--preview-row-margin-right', (element.styles.margin_right ?? 0) + 'px');
+              previewRow.style.setProperty('--preview-row-margin-bottom', (element.styles.margin_bottom ?? 0) + 'px');
+              previewRow.style.setProperty('--preview-row-margin-left', (element.styles.margin_left ?? 0) + 'px');
+            }
+          }
+          blocks[columnIndex] = block; blocksField.value = JSON.stringify(blocks); queueSnapshot();
         };
+        // Do not redraw this panel on change: rebuilding the canvas while a
+        // numeric field is active restored stale values and made margins snap
+        // back to zero. The hidden blocks field is updated on every keystroke.
         stylePanel.querySelectorAll('[data-stacked-button]').forEach(control => { control.addEventListener('input', () => updateButton(control)); control.addEventListener('change', () => updateButton(control)); });
         stylePanel.querySelector('.back-to-column')?.addEventListener('click', () => focusCard(card, 'section'));
         return;
@@ -657,7 +673,7 @@
         if (element.type === 'heading') return rowStart + '<h4 class="preview-column-row" contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="element-' + elementIndex + '" data-preview-column-target="' + target + '" style="' + columnStyle(block, 'title') + '">' + escape(element.text || 'New heading') + '</h4>' + rowEnd;
         if (element.type === 'subtext') return rowStart + '<p class="preview-column-row" contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="element-' + elementIndex + '" data-preview-column-target="' + target + '" style="white-space:pre-wrap;' + columnStyle(block, 'text') + '">' + escape(element.text || 'Add supporting text.') + '</p>' + rowEnd;
         if (element.type === 'bullets') return rowStart + '<ul class="preview-builder-list preview-column-row" contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="element-' + elementIndex + '" data-preview-column-target="' + target + '">' + String(element.items || '').split(/\r?\n/).filter(Boolean).map(item => '<li>' + escape(item) + '</li>').join('') + '</ul>' + rowEnd;
-        if (element.type === 'button') { const style = element.styles || {}; return rowStart + '<span class="preview-cta preview-column-row" data-preview-column-target="' + target + '" style="width:' + escape(style.width || 'auto') + ';padding:' + escape(style.padding_top ?? 12) + 'px ' + escape(style.padding_right ?? 24) + 'px ' + escape(style.padding_bottom ?? 12) + 'px ' + escape(style.padding_left ?? 24) + 'px;margin:' + escape(style.margin_top ?? 0) + 'px ' + escape(style.margin_right ?? 0) + 'px ' + escape(style.margin_bottom ?? 0) + 'px ' + escape(style.margin_left ?? 0) + 'px;">' + escape(element.button_text || 'Button label') + '</span>' + rowEnd; }
+        if (element.type === 'button') { const style = element.styles || {}; const buttonRowStart = rowStart.replace('class="preview-draggable-row"', 'class="preview-draggable-row preview-button-row" style="--preview-row-margin-top:' + escape(style.margin_top ?? 0) + 'px;--preview-row-margin-right:' + escape(style.margin_right ?? 0) + 'px;--preview-row-margin-bottom:' + escape(style.margin_bottom ?? 0) + 'px;--preview-row-margin-left:' + escape(style.margin_left ?? 0) + 'px;"'); return buttonRowStart + '<span class="preview-cta preview-column-row" data-preview-column-target="' + target + '" style="width:' + escape(style.width || 'auto') + ';padding:' + escape(style.padding_top ?? 12) + 'px ' + escape(style.padding_right ?? 24) + 'px ' + escape(style.padding_bottom ?? 12) + 'px ' + escape(style.padding_left ?? 24) + 'px;">' + escape(element.button_text || 'Button label') + '</span>' + rowEnd; }
         return rowStart + '<button type="button" class="preview-image-empty preview-column-row" data-preview-empty-image="' + index + '"><span aria-hidden="true">▧</span><strong>Add image</strong></button>' + rowEnd;
       }).join('');
       const testimonialRows = blocks.slice(gridColumns).map((block, index) => ({ block, index: index + gridColumns })).filter(item => item.block.type === 'testimonial');
@@ -680,6 +696,15 @@
       if (type === 'custom_columns') blocks.slice(0, gridColumns).forEach((block, index) => { if (block.type === 'button') { const button = previewSection.querySelectorAll('.preview-column-stack')[index]?.querySelector('.preview-cta'); const style = (block.styles || {}).button || {}; if (button) { button.setAttribute('data-preview-column-target', 'column-' + index + '-button'); if (Number(style.padding || 0) > 0) button.style.padding = Number(style.padding) + 'px'; if (Number(style.margin || 0) > 0) button.style.margin = Number(style.margin) + 'px'; } } });
       previewSection.querySelectorAll('.preview-column-stack').forEach((column, index) => { const block = blocks[index] || {}; column.style.padding = Number(block.padding_y || 0) + 'px ' + Number(block.padding_x || 0) + 'px'; column.style.margin = Number(block.margin_y || 0) + 'px ' + Number(block.margin_x || 0) + 'px'; });
       previewSection.querySelectorAll('.preview-column-stack').forEach((column, index) => { const block = blocks[index] || {}; column.dataset.previewColumnTarget = 'column-' + index + '-container'; column.style.justifyContent = ({ start:'flex-start', center:'center', end:'flex-end' })[block.vertical_align || 'start']; });
+      // A button lives inside a draggable row in the editor. Apply the saved
+      // margin directly to that row after every render so its position is
+      // identical to the public page, including after a page reload.
+      previewSection.querySelectorAll('.preview-draggable-row.preview-button-row').forEach(row => {
+        const block = blocks[Number(row.dataset.columnElementColumn)] || {};
+        const element = block.elements?.[Number(row.dataset.columnElementIndex)] || {};
+        const style = element.styles || {};
+        row.style.setProperty('margin', (style.margin_top ?? 0) + 'px ' + (style.margin_right ?? 0) + 'px ' + (style.margin_bottom ?? 0) + 'px ' + (style.margin_left ?? 0) + 'px', 'important');
+      });
       previewSection.querySelectorAll('[data-preview-field]').forEach(element => { const field = getField(card, element.dataset.previewField); if (field && /<a\b/i.test(field.value)) element.innerHTML = richPreview(field.value); });
       previewSection.querySelectorAll('[data-preview-column]').forEach(element => { const block = blocks[Number(element.dataset.previewColumn)]; const value = block?.[element.dataset.previewColumnKey]; if (value && /<a\b/i.test(value)) element.innerHTML = richPreview(value); });
       previewSection.querySelectorAll('[data-preview-extra]').forEach(element => { const extra = extraElements[Number(element.dataset.previewExtra)]; if (extra?.text && /<a\b/i.test(extra.text)) element.innerHTML = richPreview(extra.text); });
@@ -840,9 +865,31 @@
   sections.addEventListener('input', () => { render(); queueSnapshot(); });
   sections.addEventListener('change', queueSnapshot);
   preview.addEventListener('click', event => { if (event.target.closest('button')) window.setTimeout(queueSnapshot, 0); });
+  const syncActiveStackedButton = () => {
+    const card = sections.querySelector('.page-builder-section.is-selected');
+    const target = card?.dataset.selectedTarget || '';
+    const match = /^column-(\d+)-element-(\d+)$/.exec(target);
+    if (!card || !match || !stylePanel.querySelector('[data-stacked-button]')) return;
+    const blocksField = getField(card, 'blocks');
+    if (!blocksField) return;
+    let blocks = [];
+    try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) { return; }
+    const element = blocks[Number(match[1])]?.elements?.[Number(match[2])];
+    if (!element || element.type !== 'button') return;
+    element.styles ||= {};
+    stylePanel.querySelectorAll('[data-stacked-button]').forEach(control => {
+      const key = control.dataset.stackedButton;
+      if (key === 'button_text' || key === 'button_url') element[key] = control.value;
+      else element.styles[key] = key === 'width' ? control.value : Number(control.value || 0);
+    });
+    blocksField.value = JSON.stringify(blocks);
+  };
   document.getElementById('landing-page-form')?.addEventListener('submit', () => {
     // Contenteditable nodes are outside the form cards, so synchronise them
     // explicitly before the browser serialises the hidden section fields.
+    // The inspector itself is outside the card, so commit its live numeric
+    // controls here as well before the browser builds the POST payload.
+    syncActiveStackedButton();
     preview.querySelectorAll('.live-preview-content [contenteditable]').forEach(saveEditableMarkup);
     setSaveState('Saving…');
   });

@@ -1332,6 +1332,18 @@
     .landing-builder-section .landing-custom-columns { display:grid; grid-template-columns:repeat(var(--column-count, 1), minmax(0, 1fr)); gap:24px; }
     .landing-builder-section.landing-section-parallax { background-attachment:scroll; will-change:background-position; }
     .landing-builder-section .landing-custom-column { min-height:72px; }
+    /* These values come from the builder's per-button controls.  They need
+       !important here because the legacy theme has broad .btn rules that
+       otherwise reset margin and padding on the public page. */
+    .landing-builder-section .landing-custom-column .landing-builder-button {
+      /* table keeps an auto-width button fitted to its label while allowing
+         its block margins to create reliable vertical spacing in a column. */
+      display:table !important;
+      align-self:flex-start !important;
+      width:var(--landing-button-width, auto) !important;
+      padding:var(--landing-button-padding-top, 12px) var(--landing-button-padding-right, 24px) var(--landing-button-padding-bottom, 12px) var(--landing-button-padding-left, 24px) !important;
+      margin:var(--landing-button-margin-top, 0px) var(--landing-button-margin-right, 0px) var(--landing-button-margin-bottom, 0px) var(--landing-button-margin-left, 0px) !important;
+    }
     .landing-builder-section .landing-custom-column img { display:block; width:100%; height:auto; object-fit:cover; border-radius:10px; }
     .landing-builder-section .landing-custom-column .landing-builder-content { white-space:pre-line; }
     .landing-builder-section .landing-column-support { display:block; margin-top:12px; color:#647b82; line-height:1.6; }
@@ -1520,9 +1532,9 @@
                   @elseif(($element['type'] ?? '') === 'button' && !empty($element['button_text']))
                     @php
                       $buttonElementStyle = $element['styles'] ?? [];
-                      $buttonElementSpacing = 'width: '.($buttonElementStyle['width'] ?? 'auto').'; padding: '.(int)($buttonElementStyle['padding_top'] ?? 12).'px '.(int)($buttonElementStyle['padding_right'] ?? 24).'px '.(int)($buttonElementStyle['padding_bottom'] ?? 12).'px '.(int)($buttonElementStyle['padding_left'] ?? 24).'px; margin: '.(int)($buttonElementStyle['margin_top'] ?? 0).'px '.(int)($buttonElementStyle['margin_right'] ?? 0).'px '.(int)($buttonElementStyle['margin_bottom'] ?? 0).'px '.(int)($buttonElementStyle['margin_left'] ?? 0).'px;';
+                      $buttonElementSpacing = '--landing-button-width: '.($buttonElementStyle['width'] ?? 'auto').'; --landing-button-padding-top: '.(int)($buttonElementStyle['padding_top'] ?? 12).'px; --landing-button-padding-right: '.(int)($buttonElementStyle['padding_right'] ?? 24).'px; --landing-button-padding-bottom: '.(int)($buttonElementStyle['padding_bottom'] ?? 12).'px; --landing-button-padding-left: '.(int)($buttonElementStyle['padding_left'] ?? 24).'px; --landing-button-margin-top: '.(int)($buttonElementStyle['margin_top'] ?? 0).'px; --landing-button-margin-right: '.(int)($buttonElementStyle['margin_right'] ?? 0).'px; --landing-button-margin-bottom: '.(int)($buttonElementStyle['margin_bottom'] ?? 0).'px; --landing-button-margin-left: '.(int)($buttonElementStyle['margin_left'] ?? 0).'px;';
                     @endphp
-                    <a href="{{ $element['button_url'] ?? '#' }}" class="btn btn-theme-colored btn-flat" style="{{ $buttonElementSpacing }}">{{ $element['button_text'] }}</a>
+                    <a href="{{ $element['button_url'] ?? '#' }}" class="btn btn-theme-colored btn-flat landing-builder-button" style="{{ $buttonElementSpacing }}">{{ $element['button_text'] }}</a>
                   @elseif(($element['type'] ?? '') === 'image' && !empty($element['image']))
                     <img src="{{ asset($element['image']) }}" alt="{{ $element['alt'] ?? 'Section image' }}" loading="lazy">
                   @endif

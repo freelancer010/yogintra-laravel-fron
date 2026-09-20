@@ -153,9 +153,20 @@
   .preview-empty-column-drop { display:grid; place-items:center; min-height:104px; border:1px dashed #8fc6cc; border-radius:9px; color:#5d8188; font-size:12px; font-weight:700; }
   .preview-column-drop-hint { margin-top:12px; padding:8px; border:1px dashed #b5d8dc; border-radius:7px; color:#6b8a90; font-size:11px; font-weight:700; text-align:center; transition:border-color .18s ease,background .18s ease; }
   .preview-column-stack.is-element-drop-target .preview-column-drop-hint { border-color:#0e8490; background:#dff5f6; color:#0e6974; }
-  .preview-draggable-row { position:relative; display:flex; align-items:flex-start; gap:7px; min-width:0; padding:4px 4px 4px 0; border-radius:7px; transition:background .16s ease,outline-color .16s ease,opacity .16s ease; }
+  .preview-draggable-row { position:relative; display:flex; align-items:flex-start; gap:7px; min-width:0; padding:0 4px 0 0; border-radius:7px; transition:background .16s ease,outline-color .16s ease,opacity .16s ease; }
   .preview-draggable-row > :not(.preview-row-handle):not(.preview-row-delete) { min-width:0; flex:1; margin-top:0; margin-bottom:0; }
-  .preview-draggable-row > .preview-cta { flex:0 0 auto; }
+  .preview-draggable-row > .preview-cta { flex:0 0 auto !important; }
+  /* A column stacks draggable rows, so store button spacing on the row. This
+     gives the editor the same vertical geometry as the public button. */
+  .preview-draggable-row.preview-button-row {
+    margin:var(--preview-row-margin-top, 0px) var(--preview-row-margin-right, 0px) var(--preview-row-margin-bottom, 0px) var(--preview-row-margin-left, 0px) !important;
+    display:grid;
+    grid-template-columns:15px minmax(0, 1fr) auto;
+    column-gap:7px;
+  }
+  .preview-button-row .preview-row-handle { grid-column:1; }
+  .preview-button-row .preview-cta { grid-column:2; justify-self:start; max-width:100%; box-sizing:border-box; }
+  .preview-button-row .preview-row-delete { grid-column:3; }
   .preview-row-handle { flex:0 0 15px; padding-top:3px; color:#87a2a8; font-size:15px; line-height:1; cursor:grab; user-select:none; }
   .preview-row-delete { flex:0 0 auto; order:3; margin:0 0 0 auto; border:0; background:transparent; color:#d94d5c; padding:3px 5px; font-size:12px; line-height:1; cursor:pointer; opacity:0; transition:opacity .16s ease, color .16s ease; }
   .preview-row-delete:hover { color:#ab2735; }
@@ -264,7 +275,10 @@
   /* Empty-column sections inherit the selected section alignment. Unlike feature
      cards, their list and supporting text must stretch across the column so the
      editor matches the public page's normal left-aligned flow. */
-  .preview-custom-columns .preview-feature.is-stacked { align-items:stretch; }
+  /* Custom-column elements rely only on their saved per-element margins.
+     The generic feature-card gap is editor chrome and must not create a
+     preview-only space that the public page cannot reproduce. */
+  .preview-custom-columns .preview-feature.is-stacked { align-items:stretch; gap:0; }
   .preview-custom-columns .preview-builder-list,
   .preview-custom-columns .preview-column-support { align-self:stretch; }
   .preview-custom-columns .preview-cta { align-self:center; width:auto; border:0; border-radius:6px; padding:16px 29px; background:#1f73e8; color:#fff; cursor:pointer; font-size:15px; font-weight:700; box-shadow:0 5px 12px rgba(31,115,232,.24); }
