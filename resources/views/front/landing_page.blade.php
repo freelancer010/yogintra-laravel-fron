@@ -1502,7 +1502,7 @@
               @endphp
               <div class="landing-custom-column" style="display: flex; flex-direction: column; justify-content: {{ ['start' => 'flex-start', 'center' => 'center', 'end' => 'flex-end'][$column['vertical_align'] ?? 'start'] }}; padding: {{ (int) ($column['padding_y'] ?? 0) }}px {{ (int) ($column['padding_x'] ?? 0) }}px; margin: {{ (int) ($column['margin_y'] ?? 0) }}px {{ (int) ($column['margin_x'] ?? 0) }}px;">
                 @if(($column['type'] ?? 'text') === 'image')
-                  @if(!empty($column['image']))<img src="{{ asset($column['image']) }}" alt="{{ $column['alt'] ?? 'Section image' }}" loading="lazy" style="width: {{ max(20, min(100, (int) ($column['image_size'] ?? 100))) }}%; margin: {{ (int) ($imageStyle['margin'] ?? 0) }}px auto; padding: {{ (int) ($imageStyle['padding'] ?? 0) }}px;">@endif
+                  @if(!empty($column['image']))@if(!empty($column['url']))<a href="{{ $column['url'] }}">@endif<img src="{{ asset($column['image']) }}" alt="{{ $column['alt'] ?? 'Section image' }}" loading="lazy" style="width: {{ max(20, min(100, (int) ($column['image_size'] ?? 100))) }}%; margin: {{ (int) ($imageStyle['margin'] ?? 0) }}px auto; padding: {{ (int) ($imageStyle['padding'] ?? 0) }}px;">@if(!empty($column['url']))</a>@endif@endif
                 @elseif(($column['type'] ?? 'text') === 'button')
                   @php
                     $buttonStyle = $columnStyles['button'] ?? [];
@@ -1547,7 +1547,7 @@
                       $imageMargin = (int) ($imageStyle['margin'] ?? 0);
                       $imageSpacing = 'padding: '.(int)($imageStyle['padding_top'] ?? $imagePadding).'px '.(int)($imageStyle['padding_right'] ?? $imagePadding).'px '.(int)($imageStyle['padding_bottom'] ?? $imagePadding).'px '.(int)($imageStyle['padding_left'] ?? $imagePadding).'px; margin: '.(int)($imageStyle['margin_top'] ?? $imageMargin).'px '.(int)($imageStyle['margin_right'] ?? $imageMargin).'px '.(int)($imageStyle['margin_bottom'] ?? $imageMargin).'px '.(int)($imageStyle['margin_left'] ?? $imageMargin).'px;';
                     @endphp
-                    <img src="{{ asset($stackImage) }}" alt="{{ $element['alt'] ?? $column['alt'] ?? 'Section image' }}" loading="lazy" style="width: {{ max(20, min(100, (int) ($element['image_size'] ?? $column['image_size'] ?? 100))) }}%; max-width:100%; height:auto; {{ $imageSpacing }}">
+                    @if(!empty($element['url']))<a href="{{ $element['url'] }}">@endif<img src="{{ asset($stackImage) }}" alt="{{ $element['alt'] ?? $column['alt'] ?? 'Section image' }}" loading="lazy" style="width: {{ max(20, min(100, (int) ($element['image_size'] ?? $column['image_size'] ?? 100))) }}%; max-width:100%; height:auto; {{ $imageSpacing }}">@if(!empty($element['url']))</a>@endif
                   @endif
                 @endforeach
               </div>

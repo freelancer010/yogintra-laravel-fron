@@ -140,7 +140,7 @@
 
   const linkPopup = document.createElement('form');
   linkPopup.className = 'builder-link-popup';
-  linkPopup.innerHTML = '<label>Link URL<input type="url" name="url" placeholder="https://example.com or /contact" required></label><label class="builder-link-new-tab"><input type="checkbox" name="new_tab"> Open in new tab</label><button type="submit">Add link</button><button type="button" class="builder-link-cancel">Cancel</button>';
+  linkPopup.innerHTML = '<label>Link URL<input type="text" name="url" placeholder="https://example.com or /contact" required></label><label class="builder-link-new-tab"><input type="checkbox" name="new_tab"> Open in new tab</label><button type="submit">Save link</button><button type="button" class="builder-link-cancel">Cancel</button>';
   document.body.appendChild(linkPopup);
   const linkActions = document.createElement('div');
   linkActions.className = 'builder-link-actions';
@@ -311,6 +311,34 @@
       ? '<h3 contenteditable="true" data-preview-extra="' + index + '" style="color:' + color + ';font-size:' + size + 'px;' + spacing + '">' + richPreview(element.text) + '</h3>'
       : '<p contenteditable="true" data-preview-extra="' + index + '" style="color:' + color + ';font-size:' + size + 'px;' + spacing + '">' + richPreview(element.text) + '</p>';
   };
+  const readBlocks = card => { try { return JSON.parse(getField(card, 'blocks')?.value || '[]'); } catch (_) { return []; } };
+  const writeBlocks = (card, blocks) => { const field = getField(card, 'blocks'); if (field) field.value = JSON.stringify(blocks); };
+  const targetParts = target => ({
+    stacked: /^column-(\d+)-element-(\d+)$/.exec(target),
+    column: /^column-(\d+)-(image|button|title|text|small_text|bullets|container|testimonial|faq)$/.exec(target),
+    card: /^card-(\d+)$/.exec(target),
+    extra: /^extra-(\d+)$/.exec(target),
+  });
+  const targetLink = (card, target) => {
+    const parts = targetParts(target); const blocks = readBlocks(card);
+    if (target === 'button') return { value: getValue(card, 'button_url'), set: value => ensureField(card, 'button_url', '').value = value };
+    if (parts.card && blocks[Number(parts.card[1])]) { const block = blocks[Number(parts.card[1])]; return { value: block.url || '', set: value => { block.url = value; writeBlocks(card, blocks); } }; }
+    if (parts.stacked) { const element = blocks[Number(parts.stacked[1])]?.elements?.[Number(parts.stacked[2])]; if (!element) return null; return { value: element.type === 'button' ? (element.button_url || '') : (element.url || ''), set: value => { if (element.type === 'button') element.button_url = value; else element.url = value; writeBlocks(card, blocks); } }; }
+    if (parts.column && ['image', 'button'].includes(parts.column[2])) { const block = blocks[Number(parts.column[1])]; if (!block) return null; return { value: parts.column[2] === 'button' ? (block.button_url || '') : (block.url || ''), set: value => { if (parts.column[2] === 'button') block.button_url = value; else block.url = value; writeBlocks(card, blocks); } }; }
+    return null;
+  };
+  const openElementLinkPopup = (card, target) => {
+    const link = targetLink(card, target);
+    if (!link) return false;
+    const rect = elementToolbar.getBoundingClientRect();
+    linkPopup.dataset.builderId = card.dataset.builderId;
+    linkPopup.dataset.target = target;
+    linkPopup.elements.url.value = link.value || '';
+    linkPopup.style.left = Math.min(window.innerWidth - 310, Math.max(12, rect.left)) + 'px';
+    linkPopup.style.top = Math.min(window.innerHeight - 180, Math.max(12, rect.bottom + 8)) + 'px';
+    linkPopup.classList.add('is-open'); linkPopup.elements.url.focus();
+    return true;
+  };
   const focusCard = (card, target = 'section') => {
     document.querySelectorAll('.page-builder-section, .preview-section, .section-layer, .section-tree-child, .preview-image-frame, .preview-section [data-preview-field], .preview-section [data-preview-column-target]').forEach(element => element.classList.remove('is-selected', 'is-selected-target'));
     card.classList.add('is-selected');
@@ -328,7 +356,7 @@
     }
     const selectedLabel = stackedLabel || (columnTarget
       ? ({ title: 'Heading', text: 'Text', small_text: 'Supporting text', bullets: 'Bullet list', image: 'Image', button: 'Button', testimonial: 'Testimonial', faq: 'FAQ', container: 'Column' })[columnTarget[1]]
-      : ({ section: 'Section', heading: 'Heading', content: 'Text', image: 'Image' })[target] || 'Section');
+      : ({ section: 'Section', heading: 'Heading', content: 'Text', image: 'Image', button: 'Button' })[target] || (/^card-\d+$/.test(target) ? 'Card' : 'Section'));
     if (selectedElement) selectedElement.textContent = selectedLabel;
     document.querySelectorAll('[data-builder-id="' + card.dataset.builderId + '"]').forEach(element => element.classList.add('is-selected'));
     const previewSection = document.querySelector('.preview-section[data-builder-id="' + card.dataset.builderId + '"]');
@@ -346,14 +374,24 @@
     card.scrollIntoView({ behavior: 'smooth', block: 'center' });
     renderStyles(card, target);
     const selected = previewSection?.querySelector('[data-preview-column-target="' + target + '"], [data-preview-field="' + target + '"], .preview-image-frame.is-selected-target') || previewSection;
-    if (selected) { const rect = selected.getBoundingClientRect(); elementToolbar.style.left = Math.max(8, rect.left) + 'px'; elementToolbar.style.top = Math.max(8, rect.top - 38) + 'px'; elementToolbar.dataset.builderId = card.dataset.builderId; elementToolbar.dataset.target = target; elementToolbar.classList.add('is-open'); }
+    if (selected) {
+      const rect = selected.getBoundingClientRect();
+      elementToolbar.dataset.builderId = card.dataset.builderId; elementToolbar.dataset.target = target;
+      elementToolbar.classList.add('is-open');
+      const toolbarWidth = elementToolbar.offsetWidth || 300;
+      elementToolbar.style.left = Math.min(window.innerWidth - toolbarWidth - 8, Math.max(8, rect.left)) + 'px';
+      elementToolbar.style.top = Math.max(8, rect.top - 38) + 'px';
+      const isText = /^(heading|content|extra-\d+|column-\d+-(title|text|small_text|bullets)|column-\d+-element-\d+)$/.test(target) && !targetLink(card, target);
+      elementToolbar.querySelector('[data-toolbar-action="align"]').hidden = !isText;
+      elementToolbar.querySelector('[data-toolbar-action="link"]').hidden = !isText && !targetLink(card, target);
+    }
   };
   elementToolbar.addEventListener('click', event => {
     const action = event.target.dataset.toolbarAction; if (!action) return;
     const card = [...sections.querySelectorAll('.page-builder-section')].find(item => item.dataset.builderId === elementToolbar.dataset.builderId); if (!card) return;
     const target = elementToolbar.dataset.target || 'section';
-    if (action === 'edit') { document.querySelector('.preview-section[data-builder-id="' + card.dataset.builderId + '"] [data-preview-field="' + target + '"], .preview-section[data-builder-id="' + card.dataset.builderId + '"] [data-preview-column-target="' + target + '"]')?.focus(); return; }
-    if (action === 'link') { if (selectedLinkRange) { linkPopup.classList.add('is-open'); linkPopup.elements.url.focus(); } else { alert('Select the text you want to link first, then choose Link.'); } return; }
+    if (action === 'edit') { focusCard(card, target); document.querySelector('.preview-section[data-builder-id="' + card.dataset.builderId + '"] [data-preview-field="' + target + '"], .preview-section[data-builder-id="' + card.dataset.builderId + '"] [data-preview-column-target="' + target + '"]')?.focus(); return; }
+    if (action === 'link') { if (openElementLinkPopup(card, target)) return; if (selectedLinkRange) { delete linkPopup.dataset.builderId; delete linkPopup.dataset.target; linkPopup.classList.add('is-open'); linkPopup.elements.url.focus(); } else { alert('Select text first, or choose an image, card, or button to set its link.'); } return; }
     if (action === 'align') {
       const columnTarget = /^column-(\d+)-(title|text|small_text|bullets)$/.exec(target);
       if (columnTarget) {
@@ -367,6 +405,9 @@
     }
     if (action === 'duplicate') {
       if (target === 'section') { const copy = card.cloneNode(true); copy.dataset.builderId = ''; sections.insertBefore(copy, card.nextSibling); normalizeSectionIndexes(); render(); queueSnapshot(); return; }
+      const parts = targetParts(target); const blocks = readBlocks(card);
+      if (parts.card && blocks[Number(parts.card[1])]) { blocks.splice(Number(parts.card[1]) + 1, 0, JSON.parse(JSON.stringify(blocks[Number(parts.card[1])]))); writeBlocks(card, blocks); render(); queueSnapshot(); return; }
+      if (parts.stacked) { const column = blocks[Number(parts.stacked[1])]; const item = column?.elements?.[Number(parts.stacked[2])]; if (item) { column.elements.splice(Number(parts.stacked[2]) + 1, 0, JSON.parse(JSON.stringify(item))); writeBlocks(card, blocks); render(); queueSnapshot(); } return; }
       const elementsField = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(elementsField?.value || '[]'); } catch (_) {}
       const extraTarget = /^extra-(\d+)$/.exec(target);
       if (extraTarget && elements[Number(extraTarget[1])]) {
@@ -379,6 +420,10 @@
     }
     if (action === 'delete') {
       if (target === 'section') { card.remove(); normalizeSectionIndexes(); elementToolbar.classList.remove('is-open'); render(); queueSnapshot(); return; }
+      const parts = targetParts(target); const blocks = readBlocks(card);
+      if (parts.card && blocks[Number(parts.card[1])]) { blocks.splice(Number(parts.card[1]), 1); writeBlocks(card, blocks); elementToolbar.classList.remove('is-open'); render(); queueSnapshot(); return; }
+      if (parts.stacked) { const column = blocks[Number(parts.stacked[1])]; if (column?.elements) { column.elements.splice(Number(parts.stacked[2]), 1); writeBlocks(card, blocks); elementToolbar.classList.remove('is-open'); render(); queueSnapshot(); } return; }
+      if (parts.column && ['image', 'button'].includes(parts.column[2])) { const index = Number(parts.column[1]); if (blocks[index]) { blocks[index] = { type:'empty' }; writeBlocks(card, blocks); elementToolbar.classList.remove('is-open'); render(); queueSnapshot(); } return; }
       const extraTarget = /^extra-(\d+)$/.exec(target);
       if (extraTarget) { const elementsField = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(elementsField?.value || '[]'); } catch (_) {} elements.splice(Number(extraTarget[1]), 1); if (elementsField) elementsField.value = JSON.stringify(elements); render(); queueSnapshot(); }
       return;
@@ -764,7 +809,7 @@
       previewSection.style.setProperty('text-align', textAlign, 'important');
       const imageMarkup = '<div class="preview-image-frame" style="' + (imageCrop !== 'original' ? 'aspect-ratio:' + escape(imageCrop) + ';overflow:hidden;' : '') + '">' + (image ? '<img class="preview-section-image" src="' + escape(image) + '" alt="' + escape(getValue(card, 'image_alt')) + '" style="width:100%;height:' + (imageCrop !== 'original' ? '100%' : 'auto') + ';object-fit:cover;object-position:' + escape(imageFocal) + ';">' : '<div class="preview-image-empty">Image area</div>') + '<button type="button" class="preview-image-action">' + (image ? 'Replace image' : 'Add image') + '</button></div>';
       const gridColumns = type === 'custom_columns' ? Math.max(1, Math.min(3, Number(getValue(card, 'grid_columns') || 1))) : Math.max(2, Math.min(4, Number(getValue(card, 'grid_columns') || 3)));
-      const gridMarkup = '<div class="preview-grid-heading"><h3 contenteditable="true" data-preview-field="heading" style="color:' + escape(textColor) + ';font-size:' + escape(headingSize) + 'px">' + richPreview(heading) + '</h3>' + extraElements.map((element, extraIndex) => previewExtraElement(element, extraIndex, textColor, headingSize, descriptionColor, descriptionSize)).join('') + '<p contenteditable="true" data-preview-field="content" style="color:' + escape(descriptionColor) + ';font-size:' + escape(descriptionSize) + 'px">' + richPreview(text) + '</p></div><div class="preview-feature-grid" style="grid-template-columns:repeat(' + gridColumns + ', minmax(0,1fr));gap:' + escape(getValue(card, 'grid_gap') || '24') + 'px">' + blocks.map(block => '<div class="preview-feature ' + (getValue(card, 'card_layout') === 'icon_left' ? 'is-icon-left' : 'is-stacked') + '" style="text-align:' + escape(getValue(card, 'card_alignment') || 'center') + '">' + (block.previewImage || block.image ? '<img src="' + escape(block.previewImage || ('/' + String(block.image).replace(/^\//, ''))) + '" alt="">' : '<b>' + escape(block.icon || '✦') + '</b>') + '<div><h4>' + richPreview(block.title || 'Feature title') + '</h4>' + (block.text ? '<p>' + richPreview(block.text) + '</p>' : '') + '</div></div>').join('') + '</div>';
+      const gridMarkup = '<div class="preview-grid-heading"><h3 contenteditable="true" data-preview-field="heading" style="color:' + escape(textColor) + ';font-size:' + escape(headingSize) + 'px">' + richPreview(heading) + '</h3>' + extraElements.map((element, extraIndex) => previewExtraElement(element, extraIndex, textColor, headingSize, descriptionColor, descriptionSize)).join('') + '<p contenteditable="true" data-preview-field="content" style="color:' + escape(descriptionColor) + ';font-size:' + escape(descriptionSize) + 'px">' + richPreview(text) + '</p></div><div class="preview-feature-grid" style="grid-template-columns:repeat(' + gridColumns + ', minmax(0,1fr));gap:' + escape(getValue(card, 'grid_gap') || '24') + 'px">' + blocks.map((block, blockIndex) => '<div class="preview-feature ' + (getValue(card, 'card_layout') === 'icon_left' ? 'is-icon-left' : 'is-stacked') + '" data-preview-column-target="card-' + blockIndex + '" style="text-align:' + escape(getValue(card, 'card_alignment') || 'center') + '">' + (block.previewImage || block.image ? '<img src="' + escape(block.previewImage || ('/' + String(block.image).replace(/^\//, ''))) + '" alt="">' : '<b>' + escape(block.icon || '✦') + '</b>') + '<div><h4>' + richPreview(block.title || 'Feature title') + '</h4>' + (block.text ? '<p>' + richPreview(block.text) + '</p>' : '') + '</div></div>').join('') + '</div>';
       const columnStyle = (block, key, element = null) => { const style = element?.styles || (block.styles || {})[key] || {}; const padding = style.padding ?? 0; const margin = style.margin ?? 0; return 'color:' + escape(style.color || (key === 'title' ? textColor : descriptionColor)) + ';font-size:' + escape(style.size || (key === 'title' ? 24 : 16)) + 'px;padding:' + escape(style.padding_top ?? padding) + 'px ' + escape(style.padding_right ?? padding) + 'px ' + escape(style.padding_bottom ?? padding) + 'px ' + escape(style.padding_left ?? padding) + 'px;margin:' + escape(style.margin_top ?? margin) + 'px ' + escape(style.margin_right ?? margin) + 'px ' + escape(style.margin_bottom ?? margin) + 'px ' + escape(style.margin_left ?? margin) + 'px;text-align:' + escape(style.align || textAlign) + ';'; };
       const columnExtraMarkup = (block, index) => (block.small_text ? '<small class="preview-column-support" contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="small_text" data-preview-column-target="column-' + index + '-small_text" style="' + columnStyle(block, 'small_text') + '">' + escape(block.small_text) + '</small>' : '') + (block.bullets ? '<ul class="preview-builder-list" contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="bullets" data-preview-column-target="column-' + index + '-bullets" style="' + columnStyle(block, 'bullets') + ';--list-item-gap:' + escape((block.styles || {}).bullets?.item_gap ?? block.item_gap ?? 8) + 'px">' + String(block.bullets).split(/\r?\n/).filter(Boolean).map(item => '<li>' + richPreview(item) + '</li>').join('') + '</ul>' : '');
       const stackedColumnElements = (block, index) => (block.elements || []).map((element, elementIndex) => {
@@ -785,7 +830,7 @@
       const faqMarkup = faqRows.length ? '<div class="preview-special-heading"><h3 contenteditable="true" data-preview-field="heading" style="color:' + escape(textColor) + ';font-size:' + escape(headingSize) + 'px">' + richPreview(heading) + '</h3></div><div class="preview-faq-rows">' + faqRows.map(item => '<article class="preview-faq-row" data-preview-column-target="column-' + item.index + '-faq"><b>+</b><div><strong>' + escape(item.block.question || 'What would you like to know?') + '</strong><p>' + escape(item.block.answer || 'Add a helpful answer for visitors.') + '</p><small>Click to edit FAQ</small></div></article>').join('') + '</div>' : '';
       const columnMarkup = '<div class="preview-custom-columns-wrap"><div class="preview-feature-grid preview-custom-columns" style="grid-template-columns:repeat(' + gridColumns + ', minmax(0,1fr));gap:' + escape(getValue(card, 'grid_gap') || '24') + 'px">' + blocks.slice(0, gridColumns).map((block, index) => '<div class="preview-feature is-stacked preview-column-stack" style="text-align:' + escape(textAlign) + '">' + (block.type === 'image' ? (block.previewImage || block.image ? '<div class="preview-column-image-frame" data-preview-column-target="column-' + index + '-image"><img data-preview-column-image="' + index + '" style="width:' + escape(block.image_size ?? 100) + '%;max-width:100%;height:auto;margin:0 auto" src="' + escape(block.previewImage || ('/' + String(block.image).replace(/^\//, ''))) + '" alt=""><button type="button" class="preview-column-image-replace" data-preview-empty-image="' + index + '">↻ Replace image</button></div>' : '<button type="button" class="preview-image-empty" data-preview-empty-image="' + index + '"><span aria-hidden="true">▧</span><strong>Add image</strong><small>Click to upload</small></button>') + stackedColumnElements(block, index) : (block.type === 'button' ? '<span class="preview-cta">' + escape(block.button_text || 'Button label') + '</span>' : '<div>' + (block.title ? '<h4 contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="title" data-preview-column-target="column-' + index + '-title" style="' + columnStyle(block, 'title') + '">' + escape(block.title) + '</h4>' : '') + (block.text ? '<p contenteditable="true" data-preview-column="' + index + '" data-preview-column-key="text" data-preview-column-target="column-' + index + '-text" style="white-space:pre-wrap;' + columnStyle(block, 'text') + '">' + escape(block.text) + '</p>' : '') + stackedColumnElements(block, index) + '</div>')) + columnExtraMarkup(block, index) + '<div class="preview-column-drop-hint">Drop another element here</div>' + (gridColumns > 1 ? '<button type="button" class="preview-column-remove" data-column-remove="' + index + '" title="Remove column" aria-label="Remove column">×</button>' : '') + '</div>').join('') + '</div>' + testimonialMarkup + faqMarkup + (gridColumns < 3 ? '<button type="button" class="preview-column-divider" title="Split into ' + (gridColumns + 1) + ' columns" aria-label="Add a column">+</button>' : '') + '</div>';
       const textExtraMarkup = !['image', 'feature_grid', 'testimonial', 'faq'].includes(type) ? extraElements.map((element, extraIndex) => previewExtraElement(element, extraIndex, textColor, headingSize, descriptionColor, descriptionSize)).join('') : '';
-      previewSection.innerHTML = type === 'feature_grid' ? gridMarkup : (type === 'custom_columns' ? columnMarkup : (type === 'image' ? '<div class="preview-image-hero">' + imageMarkup + '</div>' : '<div class="preview-section-row ' + (position === 'right' ? 'is-right' : '') + '">' + (type === 'image_text' ? imageMarkup : '') + '<div class="preview-section-copy"><small>' + escape(type.replace('_', ' + ')) + '</small><h3 contenteditable="true" data-preview-field="heading" style="color:' + escape(textColor) + ';font-size:' + escape(headingSize) + 'px">' + richPreview(heading) + '</h3>' + textExtraMarkup + '<p contenteditable="true" data-preview-field="content" style="color:' + escape(descriptionColor) + ';font-size:' + escape(descriptionSize) + 'px">' + richPreview(text) + '</p>' + (button ? '<span class="preview-cta">' + escape(button) + '</span>' : '') + '</div></div>'));
+      previewSection.innerHTML = type === 'feature_grid' ? gridMarkup : (type === 'custom_columns' ? columnMarkup : (type === 'image' ? '<div class="preview-image-hero">' + imageMarkup + '</div>' : '<div class="preview-section-row ' + (position === 'right' ? 'is-right' : '') + '">' + (type === 'image_text' ? imageMarkup : '') + '<div class="preview-section-copy"><small>' + escape(type.replace('_', ' + ')) + '</small><h3 contenteditable="true" data-preview-field="heading" style="color:' + escape(textColor) + ';font-size:' + escape(headingSize) + 'px">' + richPreview(heading) + '</h3>' + textExtraMarkup + '<p contenteditable="true" data-preview-field="content" style="color:' + escape(descriptionColor) + ';font-size:' + escape(descriptionSize) + 'px">' + richPreview(text) + '</p>' + (button ? '<span class="preview-cta" data-preview-field="button">' + escape(button) + '</span>' : '') + '</div></div>'));
       // Public builder sections use a centred content container. Keep the
       // canvas geometry identical so saved padding is represented honestly.
       if (type !== 'image') {
@@ -941,7 +986,7 @@
         node.style.setProperty('padding', (style.padding_top ?? padding) + 'px ' + (style.padding_right ?? padding) + 'px ' + (style.padding_bottom ?? padding) + 'px ' + (style.padding_left ?? padding) + 'px', 'important');
         node.style.setProperty('margin', (style.margin_top ?? margin) + 'px ' + (style.margin_right ?? margin) + 'px ' + (style.margin_bottom ?? margin) + 'px ' + (style.margin_left ?? margin) + 'px', 'important');
       });
-      previewSection.addEventListener('click', event => { const selectedColumnElement = event.target.closest('[data-preview-column-target]'); const editable = event.target.closest('[contenteditable]'); const extraList = event.target.closest('[data-preview-extra-list]'); const extraTarget = extraList ? 'extra-' + extraList.dataset.previewExtraList : null; const target = selectedColumnElement?.dataset.previewColumnTarget || editable?.dataset.previewField || (editable?.dataset.previewExtra !== undefined ? 'extra-' + editable.dataset.previewExtra : 'section'); const elementTarget = extraTarget || target; focusCard(card, elementTarget); if (editable) editable.classList.add('is-editing'); }, true);
+      previewSection.addEventListener('click', event => { const selectedColumnElement = event.target.closest('[data-preview-column-target]'); const selectedField = event.target.closest('[data-preview-field]'); const editable = event.target.closest('[contenteditable]'); const extraList = event.target.closest('[data-preview-extra-list]'); const extraTarget = extraList ? 'extra-' + extraList.dataset.previewExtraList : null; const target = selectedColumnElement?.dataset.previewColumnTarget || selectedField?.dataset.previewField || editable?.dataset.previewField || (editable?.dataset.previewExtra !== undefined ? 'extra-' + editable.dataset.previewExtra : 'section'); const elementTarget = extraTarget || target; focusCard(card, elementTarget); if (editable) editable.classList.add('is-editing'); }, true);
       content.appendChild(previewSection);
       const layer = document.createElement('div');
       layer.className = 'section-tree is-collapsed'; layer.dataset.builderId = card.dataset.builderId;
@@ -961,7 +1006,7 @@
       const children = [];
       if (type === 'image' || type === 'image_text') children.push({ target: 'image', label: 'Image' });
       if (type !== 'image') children.push({ target: 'heading', label: 'Heading' }, { target: 'content', label: 'Sub heading' });
-      if (button) children.push({ target: 'section', label: 'Button' });
+      if (button) children.push({ target: 'button', label: 'Button' });
       children.forEach(node => { const child = document.createElement('button'); child.type = 'button'; child.className = 'section-tree-child'; child.dataset.treeTarget = node.target; child.innerHTML = '<span>└</span> ' + node.label; child.addEventListener('click', event => { event.stopPropagation(); focusCard(card, node.target); }); layer.querySelector('.section-tree-children').appendChild(child); });
       list.appendChild(layer);
       if (imageInput && imageInput.files && imageInput.files[0] && !card.dataset.previewImage) {
@@ -1109,11 +1154,18 @@
     saveEditableMarkup(editable);
     hideLinkActions();
   });
-  linkPopup.querySelector('.builder-link-cancel').addEventListener('click', () => { clearSelectedLinkRange(); selectedLinkRange = null; linkPopup.classList.remove('is-open'); });
+  linkPopup.querySelector('.builder-link-cancel').addEventListener('click', () => { clearSelectedLinkRange(); selectedLinkRange = null; delete linkPopup.dataset.builderId; delete linkPopup.dataset.target; linkPopup.classList.remove('is-open'); });
   linkPopup.addEventListener('submit', event => {
     event.preventDefault();
     const url = linkPopup.elements.url.value.trim();
-    if (!selectedLinkRange || !url) return;
+    if (!url) return;
+    if (linkPopup.dataset.builderId && linkPopup.dataset.target) {
+      const card = [...sections.querySelectorAll('.page-builder-section')].find(item => item.dataset.builderId === linkPopup.dataset.builderId);
+      const link = card && targetLink(card, linkPopup.dataset.target);
+      if (!link) return;
+      link.set(url); linkPopup.reset(); delete linkPopup.dataset.builderId; delete linkPopup.dataset.target; linkPopup.classList.remove('is-open'); render(); focusCard(card, card.dataset.selectedTarget || 'section'); queueSnapshot(); return;
+    }
+    if (!selectedLinkRange) return;
     const selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(selectedLinkRange.range);
     document.execCommand('createLink', false, url);
     const anchor = selection.anchorNode?.parentElement?.closest('a');
