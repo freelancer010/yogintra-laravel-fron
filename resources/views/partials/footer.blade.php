@@ -90,6 +90,8 @@
                         <li style="display:inline-block" class="pr-10"><a class="text-white" href="{{ url('refund-policy') }}">Refund Policy</a></li>
                         <li style="display:inline-block" class="pr-10">|</li>
                         <li style="display:inline-block" class="pr-10"><a class="text-white" href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
+                        <li style="display:inline-block" class="pr-10">|</li>
+                        <li style="display:inline-block" class="pr-10"><a class="text-white" href="{{ url('editorial-policy') }}">Editorial Policy</a></li>
                     </ul>
                 </div>
             </div>

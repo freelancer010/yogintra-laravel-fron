@@ -73,9 +73,9 @@
             #home.hero-video-home .hero-video-copy .bg-white-transparent { text-align:center !important; }
             #home.hero-video-home .hero-video-copy h1,
             #home.hero-video-home .hero-video-copy p { color:#fff !important; }
-            #home.hero-video-home .hero-video-copy .btn { display:inline-block; background-color:var(--theme-color-1) !important; border-color:var(--theme-color-1) !important; color:#fff !important; }
+            #home.hero-video-home .hero-video-copy .btn { display:inline-block; background-color:#1a73e8 !important; border-color:#1a73e8 !important; color:#fff !important; }
             #home.hero-video-home .hero-video-copy .btn:hover,
-            #home.hero-video-home .hero-video-copy .btn:focus { background-color:var(--theme-color-2) !important; border-color:var(--theme-color-2) !important; }
+            #home.hero-video-home .hero-video-copy .btn:focus { background-color:#1557b0 !important; border-color:#1557b0 !important; }
         }
         .yg-txt-right{
             text-align:right;
@@ -766,7 +766,7 @@
             </div>
         </div>
         @endif
-        <a class="hero-scroll-cue visible-xs" href="#home-intro" aria-label="Scroll to explore"></a>
+        <a class="hero-scroll-cue visible-xs" href="#home-intro" aria-label="Scroll to explore"><span class="sr-only">Scroll to explore YogIntra services</span></a>
     </section>
 
     <section id="home-intro" class="section-content-image section-content-bg" style="background-image: url('{{ asset($section_1->of_image) }}');">
@@ -791,7 +791,7 @@
                             @foreach ($section_1_content as $content_1)
                                 <div class="col-sm-6">
                                     <div class="icon-box icon-theme-colored benefit-icon left media p-0 mb-sm-10 mt-30">
-                                        <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
+                                        <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip" aria-label="Explore yoga centres">
                                             <img src="{{ asset($content_1->of_image) }}" 
                                                 width="75" height="75" loading="lazy" alt="YogIntra Feature - {{ $content_1->of_heading }}" decoding="async">
                                         </a>
@@ -987,6 +987,18 @@
                             View Our More Instructors <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-lighter">
+        <div class="container pt-35 pb-35">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 text-center">
+                    <h3 class="mt-0">Guidance from YogIntra’s experienced yoga professionals</h3>
+                    <p class="text-black">Our classes and wellness content are developed with input from experienced yoga instructors. Meet our team, review our <a href="{{ url('editorial-policy') }}">Editorial Policy</a>, and choose guidance that suits your individual needs.</p>
+                    <p class="font-12 text-gray"><time datetime="2026-09-20">Last reviewed: September 20, 2026</time> · Yoga and wellness information is for general education only and is not a substitute for medical advice. Please consult a qualified healthcare professional before starting a new exercise practice, especially if you have an injury, health condition, or are pregnant.</p>
                 </div>
             </div>
         </div>

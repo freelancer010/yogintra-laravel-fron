@@ -526,6 +526,13 @@ class HomeController extends Controller
         ]);
     }
 
+    public function editorialPolicy()
+    {
+        return view('front.editorial_policy', [
+            'page' => 'editorial_policy',
+        ]);
+    }
+
     /**
      * Display the event details page.
      * @param string $slug

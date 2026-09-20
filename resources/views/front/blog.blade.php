@@ -8,17 +8,9 @@
 
 @push('styles')
     <style>
-        .blog-index { background: #f6faf9; }
-        .blog-index-hero { position: relative; min-height: 330px; display: flex; align-items: center; overflow: hidden; background: #123f49 url('{{ asset('assets/front/images/bg/bg6.jpg') }}') center/cover no-repeat; }
-        .blog-index-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, rgba(9,45,54,.92), rgba(12,82,91,.7)); }
-        .blog-index-hero .container { position: relative; z-index: 1; }
-        .blog-index-kicker { display: inline-flex; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,.14); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
-        .blog-index-title { color: #fff; font-size: clamp(34px, 5vw, 56px); line-height: 1.1; font-weight: 700; margin: 16px 0 12px; }
-        .blog-index-intro { max-width: 640px; color: rgba(255,255,255,.9); font-size: 18px; line-height: 1.65; margin: 0; }
-        .blog-index-breadcrumb { margin: 20px 0 0; padding: 0; list-style: none; color: rgba(255,255,255,.72); }
-        .blog-index-breadcrumb li { display: inline; }
-        .blog-index-breadcrumb li + li::before { content: '/'; margin: 0 9px; opacity: .75; }
-        .blog-index-breadcrumb a { color: #fff; }
+        .blog-index { width:100%; max-width:100%; overflow-x:hidden; background: #f6faf9; }
+        .blog-index-hero { display:block !important; width:100% !important; max-width:100% !important; height:330px !important; min-height:0 !important; margin:0 !important; padding:0 !important; overflow:hidden; background:#123f49; }
+        .blog-index-hero-image { display:block !important; width:100% !important; max-width:none !important; height:100% !important; min-height:0 !important; margin:0 !important; padding:0 !important; object-fit:cover !important; object-position:center !important; }
         .blog-index-content { padding: 38px 0 80px; }
         .blog-index-heading { max-width: 700px; margin: 0 auto 40px; text-align: center; }
         .blog-index-heading h2 { margin: 0 0 10px; color: #153f49; font-size: clamp(27px, 3vw, 38px); font-weight: 700; }
@@ -45,23 +37,15 @@
         .blog-index-empty { max-width: 620px; margin: 0 auto; padding: 52px 30px; border: 1px dashed #b9d1d1; border-radius: 18px; background: #fff; color: #647b82; text-align: center; }
         .blog-index-empty h2 { margin: 0 0 8px; color: #153f49; font-size: 25px; }
         @media (max-width: 991px) { .blog-posts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-        @media (max-width: 767px) { .blog-index-hero { min-height: 285px; } .blog-index-content { padding: 32px 0 58px; } .blog-posts { grid-template-columns: 1fr; gap: 20px; } .blog-card .entry-content { padding: 21px; } }
+        @media (max-width: 767px) { .blog-index-hero { height: 230px; } .blog-index-content { padding: 32px 0 58px; } .blog-posts { grid-template-columns: 1fr; gap: 20px; } .blog-card .entry-content { padding: 21px; } }
         @media (prefers-reduced-motion: reduce) { .blog-card .post, .blog-card .post-thumb img { transition: none; } }
     </style>
 @endpush
 
 @section('content')
 <main class="blog-index">
-    <section class="blog-index-hero" aria-labelledby="blog-page-title">
-        <div class="container">
-            <span class="blog-index-kicker">YogIntra blog</span>
-            <h1 class="blog-index-title" id="blog-page-title">Blog</h1>
-            <p class="blog-index-intro">Explore all blog</p>
-            <ol class="blog-index-breadcrumb" aria-label="Breadcrumb">
-                <li><a href="{{ url('/') }}">Home</a></li>
-                <li aria-current="page">Blog</li>
-            </ol>
-        </div>
+    <section class="blog-index-hero" aria-label="YogIntra blog">
+        <img class="blog-index-hero-image" src="{{ asset('assets/front/images/bg/bg6.jpg') }}" alt="Peaceful YogIntra wellness landscape" fetchpriority="high" style="display:block!important;width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important;">
     </section>
 
     <section class="blog-index-content" aria-labelledby="latest-stories-title">

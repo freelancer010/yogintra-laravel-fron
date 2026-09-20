@@ -49,7 +49,7 @@
                             <div class="thumb">
                                 <img class="img-fullwidth" alt="{{ $center->center_name }}" src="{{ asset($center->center_image) }}" style="height:300px;">
                                 <div class="overlay">
-                                    <a href="{{ url('/yoga-center/' . $center->center_slug) }}"><i class="fa fa-calendar mr-5"></i></a>
+                                    <a href="{{ url('/yoga-center/' . $center->center_slug) }}" aria-label="View {{ $center->center_name }} schedule"><i class="fa fa-calendar mr-5" aria-hidden="true"></i><span class="sr-only">View {{ $center->center_name }} schedule</span></a>
                                 </div>
                             </div>
                             <div class="schedule-details clearfix p-15 pt-10">

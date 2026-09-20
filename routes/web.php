@@ -56,6 +56,7 @@ Route::post('/get-data-for-trainer', [HomeController::class, 'get_data_for_train
 Route::get('/terms-and-condition', [HomeController::class, 'termsAndCondition']);
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/refund-policy', [HomeController::class, 'refundPolicy']);
+Route::get('/editorial-policy', [HomeController::class, 'editorialPolicy']);
 
 Route::get('/teacher-training-course', [HomeController::class, 'teacherTrainingCourse'])->name('ttc');
 Route::get('/teacher-training-course/{slug}', [HomeController::class, 'eventDetails'])->name('ttc.details');

@@ -1537,8 +1537,17 @@
                       $buttonElementSpacing = '--landing-button-width: '.($buttonElementStyle['width'] ?? 'auto').'; --landing-button-padding-top: '.(int)($buttonElementStyle['padding_top'] ?? 12).'px; --landing-button-padding-right: '.(int)($buttonElementStyle['padding_right'] ?? 24).'px; --landing-button-padding-bottom: '.(int)($buttonElementStyle['padding_bottom'] ?? 12).'px; --landing-button-padding-left: '.(int)($buttonElementStyle['padding_left'] ?? 24).'px; --landing-button-margin-top: '.(int)($buttonElementStyle['margin_top'] ?? 0).'px; --landing-button-margin-right: '.(int)($buttonElementStyle['margin_right'] ?? 0).'px; --landing-button-margin-bottom: '.(int)($buttonElementStyle['margin_bottom'] ?? 0).'px; --landing-button-margin-left: '.(int)($buttonElementStyle['margin_left'] ?? 0).'px;';
                     @endphp
                     <a href="{{ $element['button_url'] ?? '#' }}" class="btn btn-theme-colored btn-flat landing-builder-button" style="{{ $buttonElementSpacing }}">{{ $element['button_text'] }}</a>
-                  @elseif(($element['type'] ?? '') === 'image' && !empty($element['image']))
-                    <img src="{{ asset($element['image']) }}" alt="{{ $element['alt'] ?? 'Section image' }}" loading="lazy">
+                  @elseif(($element['type'] ?? '') === 'image' && !empty($element['image'] ?? $column['image'] ?? null))
+                    @php
+                      // Reordered images retain their upload on the column;
+                      // the element records only its place in the stack.
+                      $stackImage = $element['image'] ?? $column['image'];
+                      $imageStyle = $element['styles'] ?? [];
+                      $imagePadding = (int) ($imageStyle['padding'] ?? 0);
+                      $imageMargin = (int) ($imageStyle['margin'] ?? 0);
+                      $imageSpacing = 'padding: '.(int)($imageStyle['padding_top'] ?? $imagePadding).'px '.(int)($imageStyle['padding_right'] ?? $imagePadding).'px '.(int)($imageStyle['padding_bottom'] ?? $imagePadding).'px '.(int)($imageStyle['padding_left'] ?? $imagePadding).'px; margin: '.(int)($imageStyle['margin_top'] ?? $imageMargin).'px '.(int)($imageStyle['margin_right'] ?? $imageMargin).'px '.(int)($imageStyle['margin_bottom'] ?? $imageMargin).'px '.(int)($imageStyle['margin_left'] ?? $imageMargin).'px;';
+                    @endphp
+                    <img src="{{ asset($stackImage) }}" alt="{{ $element['alt'] ?? $column['alt'] ?? 'Section image' }}" loading="lazy" style="width: {{ max(20, min(100, (int) ($element['image_size'] ?? $column['image_size'] ?? 100))) }}%; max-width:100%; height:auto; {{ $imageSpacing }}">
                   @endif
                 @endforeach
               </div>
