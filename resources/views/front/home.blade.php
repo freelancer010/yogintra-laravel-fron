@@ -46,6 +46,25 @@
         .hero-video-wrap::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,.38); }
         .hero-video-copy { position:relative; z-index:1; min-height:100vh; display:flex; align-items:center; }
         @media (max-width: 767px) {
+            /* A focused, readable first viewport for image-slider heroes. */
+            #home:not(.hero-video-home) { position:relative; min-height:75svh !important; height:75svh !important; overflow:hidden; }
+            #home:not(.hero-video-home) .fullwidth-carousel,
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item { min-height:75svh !important; height:75svh !important; }
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item > img,
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item picture,
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item picture img { width:100%; height:100%; object-fit:cover; }
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item > .overlay { position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(3,22,27,.70) 0%, rgba(3,22,27,.38) 35%, rgba(3,22,27,.54) 100%) !important; }
+            #home:not(.hero-video-home) .fullwidth-carousel .display-table-absolute { z-index:2; }
+            #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent { max-width:330px; margin:0 auto; padding:0 !important; background:transparent !important; text-align:center !important; }
+            #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent h1,
+            #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent h2,
+            #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent p,
+            #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent h3 { color:#fff !important; text-shadow:0 2px 10px rgba(0,0,0,.35); }
+            #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent .btn { display:inline-flex; align-items:center; justify-content:center; min-width:154px; margin-top:22px !important; padding:12px 20px; border-radius:7px; background:#1a73e8 !important; border-color:#1a73e8 !important; box-shadow:0 8px 18px rgba(0,0,0,.24); }
+            #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent .btn:hover { background:#1557b0 !important; border-color:#1557b0 !important; }
+            .hero-scroll-cue { position:absolute; z-index:3; left:50%; bottom:17px; transform:translateX(-50%); width:30px; height:46px; border:2px solid rgba(255,255,255,.85); border-radius:20px; }
+            .hero-scroll-cue::after { content:''; position:absolute; top:8px; left:50%; width:5px; height:8px; border-radius:5px; background:#fff; transform:translateX(-50%); animation:heroScrollHint 1.6s ease-in-out infinite; }
+            @keyframes heroScrollHint { 0%,100% { transform:translate(-50%,0); opacity:.65; } 50% { transform:translate(-50%,14px); opacity:1; } }
             #home.hero-video-home { height:calc(100svh - 70px) !important; min-height:calc(100svh - 70px) !important; margin:0 !important; padding:0 !important; }
             #home.hero-video-home .hero-video-wrap,
             #home.hero-video-home .hero-video-copy { height:calc(100svh - 70px); min-height:calc(100svh - 70px); }
@@ -69,7 +88,8 @@
             font-weight: 900;
         }
         .btn-theme-custom {
-            background: #e07f00 !important;
+            background: #1a73e8 !important;
+            border-color: #1a73e8 !important;
         }
         .mobile-home-banner {
             width: 100%;
@@ -743,9 +763,10 @@
             </div>
         </div>
         @endif
+        <a class="hero-scroll-cue visible-xs" href="#home-intro" aria-label="Scroll to explore"></a>
     </section>
 
-    <section class="section-content-image section-content-bg" style="background-image: url('{{ asset($section_1->of_image) }}');">
+    <section id="home-intro" class="section-content-image section-content-bg" style="background-image: url('{{ asset($section_1->of_image) }}');">
         <div class="container">
             <div class="section-title text-center">
                 <div class="row">

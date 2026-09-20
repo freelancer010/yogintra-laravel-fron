@@ -201,6 +201,7 @@
                 background:#fff !important;
                 box-shadow:0 2px 12px rgba(10,49,59,.12) !important;
             }
+            .home-mobile-hero-navigation.mobile-hero-scrolled { position:fixed !important; }
         }
     </style>
 
@@ -245,12 +246,56 @@
                 const header = document.getElementById('header');
                 const hero = document.getElementById('home');
                 if (!header || !hero) return;
+                const nav = header.querySelector('.header-nav');
+                const navWrapper = header.querySelector('.header-nav-wrapper');
+                const menu = header.querySelector('.menuzord');
                 const updateMobileHeroNavigation = function () {
                     if (window.innerWidth > 1000) {
                         header.classList.remove('mobile-hero-scrolled');
+                        [header, nav, navWrapper, menu].filter(Boolean).forEach(function (element) {
+                            element.style.removeProperty('background-color');
+                            element.style.removeProperty('box-shadow');
+                        });
+                        ['position', 'top', 'left', 'width'].forEach(function (property) {
+                            header.style.removeProperty(property);
+                            if (nav) nav.style.removeProperty(property);
+                        });
                         return;
                     }
-                    header.classList.toggle('mobile-hero-scrolled', window.scrollY > 12);
+                    const scrolled = (window.pageYOffset || document.documentElement.scrollTop || 0) > 12;
+                    header.classList.toggle('mobile-hero-scrolled', scrolled);
+                    if (scrolled) {
+                        header.style.setProperty('position', 'fixed', 'important');
+                        header.style.setProperty('top', '0', 'important');
+                        header.style.setProperty('left', '0', 'important');
+                        header.style.setProperty('width', '100%', 'important');
+                        if (nav) {
+                            nav.style.setProperty('position', 'fixed', 'important');
+                            nav.style.setProperty('top', '0', 'important');
+                            nav.style.setProperty('left', '0', 'important');
+                            nav.style.setProperty('width', '100%', 'important');
+                            nav.style.setProperty('z-index', '1101', 'important');
+                        }
+                    } else {
+                        header.style.removeProperty('position');
+                        header.style.removeProperty('top');
+                        header.style.removeProperty('left');
+                        header.style.removeProperty('width');
+                        if (nav) {
+                            ['position', 'top', 'left', 'width', 'z-index'].forEach(function (property) {
+                                nav.style.removeProperty(property);
+                            });
+                        }
+                    }
+                    [header, nav, navWrapper, menu].filter(Boolean).forEach(function (element) {
+                        if (scrolled) {
+                            element.style.setProperty('background-color', '#fff', 'important');
+                            element.style.setProperty('box-shadow', '0 2px 12px rgba(10,49,59,.12)', 'important');
+                        } else {
+                            element.style.removeProperty('background-color');
+                            element.style.removeProperty('box-shadow');
+                        }
+                    });
                 };
                 updateMobileHeroNavigation();
                 window.addEventListener('scroll', updateMobileHeroNavigation, { passive: true });
