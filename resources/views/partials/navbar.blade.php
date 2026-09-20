@@ -192,8 +192,19 @@
                 position:fixed !important;
                 top:0 !important;
                 left:0 !important;
+                right:0 !important;
                 width:100% !important;
                 z-index:1101 !important;
+            }
+            .home-mobile-hero-navigation .header-nav-wrapper .container,
+            .home-mobile-hero-navigation .header-nav-wrapper .container.ipad_header,
+            .home-mobile-hero-navigation .header-nav-wrapper .menuzord {
+                width:100% !important;
+                max-width:none !important;
+                margin-left:0 !important;
+                margin-right:0 !important;
+                padding-left:0 !important;
+                padding-right:0 !important;
             }
             .home-mobile-hero-navigation .menuzord-responsive .showhide em {
                 background:#084451 !important;

@@ -467,6 +467,23 @@
             background-color: #1557b0;
         }
 
+        @media (max-width: 767px) {
+            /* Keep support controls available without covering page CTAs or cards. */
+            #messageIcon {
+                right: 16px;
+                bottom: 84px;
+                width: 48px;
+                height: 48px;
+            }
+            .tooltip-popup { display:none !important; }
+            #wa-widget-send-button,
+            .wa__btn_popup,
+            .wa-widget-send-button {
+                right: 16px !important;
+                bottom: 18px !important;
+            }
+        }
+
         .tooltip-popup {
             position: fixed;
             bottom: 150px;
