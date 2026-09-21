@@ -1016,30 +1016,39 @@
     </section>
 
     <style>
-        .yogintra-guidance-section { background: #f4f9f8; }
-        .yogintra-guidance-section .section-title { margin-bottom: 28px; }
-        .yogintra-guidance-copy { max-width: 840px; margin: 0 auto; color: #45666d; font-size: 18px; line-height: 1.7; }
-        .yogintra-guidance-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 30px; max-width: 760px; margin: 0 auto; padding: 0; list-style: none; text-align: left; }
-        .yogintra-guidance-list li { position: relative; padding-left: 22px; color: #365b63; font-size: 16px; line-height: 1.55; }
-        .yogintra-guidance-list li::before { position: absolute; top: 1px; left: 0; content: '•'; color: #14757d; font-size: 22px; line-height: .75; }
-        .yogintra-guidance-footer { max-width: 840px; margin: 28px auto 0; color: #45666d; font-size: 17px; line-height: 1.65; }
-        .yogintra-guidance-note { max-width: 840px; margin: 14px auto 0; color: #000; font-size: 14px; line-height: 1.65; }
-        .yogintra-guidance-policy { margin-top: 16px; }
-        .yogintra-guidance-policy .btn { min-width: 178px; border-radius: 6px; background: #1f73e8; border-color: #1f73e8; color: #fff; font-weight: 700; }
+        .yogintra-guidance-section { position: relative; overflow: hidden; background: linear-gradient(135deg, #eff8f7 0%, #f8fbfb 52%, #e7f4f2 100%); }
+        .yogintra-guidance-section::before, .yogintra-guidance-section::after { position: absolute; border-radius: 50%; content: ''; pointer-events: none; }
+        .yogintra-guidance-section::before { top: -190px; left: -110px; width: 390px; height: 390px; background: rgba(20, 117, 125, .09); }
+        .yogintra-guidance-section::after { right: -145px; bottom: -220px; width: 460px; height: 460px; background: rgba(31, 115, 232, .07); }
+        .yogintra-guidance-section .container { position: relative; z-index: 1; }
+        .yogintra-guidance-panel { max-width: 1080px; margin: 0 auto; padding: 56px 64px 46px; border: 1px solid rgba(20, 117, 125, .12); border-radius: 22px; background: rgba(255, 255, 255, .82); box-shadow: 0 20px 48px rgba(20, 68, 75, .10); }
+        .yogintra-guidance-section .section-title { margin-bottom: 30px; }
+        .yogintra-guidance-kicker { display: inline-block; margin-bottom: 12px; padding: 6px 13px; border-radius: 99px; background: #dff1ee; color: #0b6972; font-size: 12px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+        .yogintra-guidance-copy { max-width: 760px; margin: 0 auto; color: #45666d; font-size: 18px; line-height: 1.7; }
+        .yogintra-guidance-focus { margin: 0 0 18px; color: #143f48; font-size: 16px; font-weight: 800; }
+        .yogintra-guidance-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 850px; margin: 0 auto; padding: 0; list-style: none; text-align: left; }
+        .yogintra-guidance-list li { position: relative; min-height: 58px; padding: 17px 18px 16px 48px; border: 1px solid #d8e9e7; border-radius: 10px; background: #fff; color: #365b63; font-size: 16px; line-height: 1.45; box-shadow: 0 5px 13px rgba(20, 68, 75, .05); }
+        .yogintra-guidance-list li::before { position: absolute; top: 15px; left: 16px; width: 21px; height: 21px; border-radius: 50%; background: #14757d; color: #fff; content: '✓'; font-size: 13px; font-weight: 800; line-height: 21px; text-align: center; }
+        .yogintra-guidance-footer { max-width: 820px; margin: 34px auto 0; padding: 18px 24px; border-left: 4px solid #14757d; border-radius: 0 10px 10px 0; background: #e8f5f3; color: #315e66; font-size: 17px; line-height: 1.65; }
+        .yogintra-guidance-note { max-width: 840px; margin: 22px auto 0; color: #000; font-size: 14px; line-height: 1.65; }
+        .yogintra-guidance-policy { margin: 20px 0 0; }
+        .yogintra-guidance-policy .btn { min-width: 220px; padding: 12px 22px; border-radius: 7px; background: #1f73e8; border-color: #1f73e8; color: #fff; font-weight: 700; }
         .yogintra-guidance-policy .btn:hover, .yogintra-guidance-policy .btn:focus { background: #155fc7; border-color: #155fc7; color: #fff; }
-        @media (max-width: 767px) { .yogintra-guidance-list { grid-template-columns: 1fr; gap: 9px; max-width: 340px; }.yogintra-guidance-copy { font-size: 17px; }.yogintra-guidance-list li { font-size: 15px; }.yogintra-guidance-footer { font-size: 16px; }.yogintra-guidance-note { font-size: 13px; }.yogintra-guidance-copy, .yogintra-guidance-footer, .yogintra-guidance-note { padding: 0 14px; } }
+        @media (max-width: 767px) { .yogintra-guidance-panel { padding: 40px 18px 34px; border-radius: 16px; }.yogintra-guidance-list { grid-template-columns: 1fr; gap: 10px; max-width: 340px; }.yogintra-guidance-copy { font-size: 17px; }.yogintra-guidance-list li { min-height: 0; font-size: 15px; }.yogintra-guidance-footer { margin-top: 26px; padding: 16px; font-size: 16px; }.yogintra-guidance-note { font-size: 13px; }.yogintra-guidance-copy, .yogintra-guidance-note { padding: 0 5px; } }
     </style>
     <section class="yogintra-guidance-section">
-        <div class="container pt-50 pb-50 text-center">
+        <div class="container pt-70 pb-70 text-center">
+            <div class="yogintra-guidance-panel">
             <div class="section-title">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
+                        <span class="yogintra-guidance-kicker">Thoughtful, personal support</span>
                         <h3 class="h2 mt-0 line-height-1">Guidance for Your <span class="text-theme-colored2">Practice</span></h3>
                         <p class="yogintra-guidance-copy">A knowledgeable instructor can help you understand core techniques, develop appropriate movement patterns, and build a practice suited to your current experience.</p>
                     </div>
                 </div>
             </div>
-            <p class="font-weight-700 text-black mb-15">Our instructors can help you focus on:</p>
+            <p class="yogintra-guidance-focus">Our instructors can help you focus on:</p>
             <ul class="yogintra-guidance-list">
                 <li>Foundations and mindful movement</li>
                 <li>Posture and alignment</li>
@@ -1053,6 +1062,7 @@
             <p class="yogintra-guidance-footer">Whether you are getting started or continuing an established practice, the right guidance can make each session more structured, purposeful, and personal.</p>
             <p class="yogintra-guidance-note"><time datetime="2026-09-20">Last reviewed: September 20, 2026</time> · Wellness information is for general education only and is not a substitute for medical advice. Please consult a qualified healthcare professional before starting a new exercise practice, especially if you have an injury, health condition, or are pregnant.</p>
             <p class="yogintra-guidance-policy"><a class="btn btn-theme-colored btn-flat" href="{{ url('editorial-policy') }}">Read Editorial Policy</a></p>
+            </div>
         </div>
     </section>
 
