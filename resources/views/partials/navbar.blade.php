@@ -190,12 +190,23 @@
         .landing-hero-navigation .menuzord-menu > li > a > i { color:#fff !important; }
         .landing-hero-navigation .menuzord-menu > li.active > a,
         .landing-hero-navigation .menuzord-menu > li:hover > a { color:#2ed0da !important; }
-        .landing-hero-navigation.landing-hero-scrolled,
+        .landing-hero-navigation.landing-hero-scrolled {
+            background:#fff !important;
+            box-shadow:0 2px 12px rgba(10,49,59,.12) !important;
+        }
         .landing-hero-navigation.landing-hero-scrolled .header-nav,
         .landing-hero-navigation.landing-hero-scrolled .header-nav-wrapper,
         .landing-hero-navigation.landing-hero-scrolled .menuzord {
             background:#fff !important;
-            box-shadow:0 2px 12px rgba(10,49,59,.12) !important;
+            box-shadow:none !important;
+        }
+        /* The legacy scroll plugin also fixes .header-nav. Keep it inside the
+           already-fixed landing header so it cannot create a duplicate bar. */
+        .landing-hero-navigation.landing-hero-scrolled .header-nav {
+            position:relative !important;
+            top:auto !important;
+            left:auto !important;
+            width:100% !important;
         }
         .landing-hero-navigation.landing-hero-scrolled .menuzord-menu > li > a,
         .landing-hero-navigation.landing-hero-scrolled .menuzord-menu > li > a > i { color:#183c45 !important; }
@@ -423,7 +434,7 @@
                         header.style.setProperty('top', '0', 'important');
                         header.style.setProperty('left', '0', 'important');
                         header.style.setProperty('width', '100%', 'important');
-                        if (nav) {
+                        if (nav && !isLandingNavigation) {
                             nav.style.setProperty('position', 'fixed', 'important');
                             nav.style.setProperty('top', '0', 'important');
                             nav.style.setProperty('left', '0', 'important');
@@ -444,7 +455,7 @@
                     [header, nav, navWrapper, menu].filter(Boolean).forEach(function (element) {
                         if (scrolled) {
                             element.style.setProperty('background-color', '#fff', 'important');
-                            element.style.setProperty('box-shadow', '0 2px 12px rgba(10,49,59,.12)', 'important');
+                            element.style.setProperty('box-shadow', element === header ? '0 2px 12px rgba(10,49,59,.12)' : 'none', 'important');
                         } else if (isLandingNavigation) {
                             element.style.setProperty('background-color', 'transparent', 'important');
                             element.style.setProperty('box-shadow', 'none', 'important');
