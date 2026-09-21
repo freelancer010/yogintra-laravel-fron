@@ -641,7 +641,7 @@
                 };
             @endphp
             <div class="hero-video-wrap" @if($heroPoster) style="background-image: url('{{ asset($heroPoster) }}');" @endif>
-                <video class="hero-background-video" autoplay muted loop playsinline preload="metadata" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}" @if($heroPoster) poster="{{ asset($heroPoster) }}" @endif>
+                <video class="hero-background-video" muted loop playsinline preload="none" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}" @if($heroPoster) poster="{{ asset($heroPoster) }}" @endif>
                     <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
                     <track kind="captions" srclang="en" label="English" src="{{ asset('assets/front/captions/yogintra-hero-en.vtt') }}">
                 </video>
@@ -651,8 +651,15 @@
                         if (!video) return;
                         video.muted = true;
                         var startVideo = function () { video.play().catch(function () {}); };
-                        video.addEventListener('canplay', startVideo, { once: true });
-                        startVideo();
+                        // The preloaded poster is the LCP image. Delay the larger
+                        // video request until the initial page paint is complete.
+                        window.addEventListener('load', function () {
+                            if ('requestIdleCallback' in window) {
+                                window.requestIdleCallback(startVideo, { timeout: 1500 });
+                            } else {
+                                window.setTimeout(startVideo, 300);
+                            }
+                        }, { once: true });
 
                         var showPosterFallback = function () {
                             video.style.display = 'none';
