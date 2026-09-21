@@ -1351,9 +1351,18 @@
        the live gaps while the editor preview showed the correct value. */
     .landing-builder-section > .container,
     .landing-builder-section > .container-fluid {
+      position:relative;
+      z-index:2;
       padding-top: 0 !important;
       padding-bottom: 0 !important;
     }
+    .landing-builder-section.landing-has-background-media { isolation:isolate; }
+    .landing-builder-section .landing-section-background-media,
+    .landing-builder-section .landing-section-background-media picture,
+    .landing-builder-section .landing-section-background-media img { position:absolute; inset:0; display:block; width:100%; height:100%; }
+    .landing-builder-section .landing-section-background-media { z-index:-2; overflow:hidden; }
+    .landing-builder-section .landing-section-background-media img { object-fit:cover; }
+    .landing-builder-section.landing-has-background-media::before { position:absolute; z-index:-1; inset:0; background:var(--landing-background-overlay, transparent); content:''; pointer-events:none; }
     .landing-builder-section .landing-image-right { display: flex; flex-wrap: wrap; flex-direction: row-reverse; }
     .landing-builder-section .landing-image-right > [class*="col-"] { float: none; }
     .landing-builder-section .landing-image-text-row { display:flex; flex-wrap:wrap; align-items:center; }
@@ -1470,11 +1479,15 @@
       $overlayHex = ltrim($section->background_overlay_color ?? '#000000', '#');
       $overlayRgb = preg_match('/^[0-9a-fA-F]{6}$/', $overlayHex) ? sscanf($overlayHex, '%02x%02x%02x') : [0, 0, 0];
       $overlayOpacity = max(0, min(90, (int) ($section->background_overlay_opacity ?? 0))) / 100;
-      $backgroundImageStyle = $backgroundMode === 'image' && $section->background_image
-        ? "background-image: linear-gradient(rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity}), rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity})), url('".asset($section->background_image)."'); background-size: cover; background-repeat: no-repeat; background-position: ".($section->background_position ?? 'center')." center;"
+      $hasBackgroundImage = $backgroundMode === 'image' && filled($section->background_image);
+      $backgroundImageStyle = $hasBackgroundImage
+        ? "--landing-background-overlay: rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity});"
         : '';
     @endphp
-    <section class="landing-builder-section {{ $loop->first ? 'landing-first-section' : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $section->background_parallax && $backgroundMode === 'image' ? 'landing-section-parallax' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+    <section class="landing-builder-section {{ $loop->first ? 'landing-first-section' : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+      @if($hasBackgroundImage)
+        <x-responsive-image class="landing-section-background-media" :image="$section->background_image" :alt="$section->heading ? 'Background for ' . strip_tags($section->heading) : 'Landing page background'" sizes="100vw" loading="lazy" style="object-position: {{ $section->background_position ?? 'center' }} center;" />
+      @endif
       <div class="{{ $section->section_type === 'image' ? 'container-fluid' : 'container' }}" style="{{ $section->section_type === 'image' ? 'padding-left:0; padding-right:0;' : '' }}">
         @if($section->section_type === 'testimonial')
           <div class="mb-4" style="text-align: {{ $section->text_align ?? 'center' }};">
@@ -1488,7 +1501,7 @@
                   <div class="landing-testimonial-stars" aria-label="{{ $testimonial->test_review }} out of 5 stars">{{ str_repeat('★', max(0, min(5, (int) $testimonial->test_review))) }}</div>
                   <blockquote>“{{ $testimonial->test_description }}”</blockquote>
                   <div class="landing-testimonial-person">
-                    @if($testimonial->test_image)<img src="{{ asset($testimonial->test_image) }}" alt="{{ $testimonial->test_name }}" width="48" height="48" loading="lazy" decoding="async">
+                    @if($testimonial->test_image)<x-responsive-image :image="$testimonial->test_image" :alt="$testimonial->test_name" sizes="48px" width="48" height="48" loading="lazy" decoding="async" />
                     @else<div class="landing-testimonial-avatar">{{ strtoupper(substr($testimonial->test_name ?: 'Y', 0, 1)) }}</div>@endif
                     <div><strong>{{ $testimonial->test_name }}</strong>@if($testimonial->test_position)<small style="display:block;color:#647b82;">{{ $testimonial->test_position }}</small>@endif</div>
                   </div>
@@ -1540,7 +1553,7 @@
                     @if(!empty($column['url']))
                       <a href="{{ $column['url'] }}">
                     @endif
-                    <img src="{{ asset($column['image']) }}" alt="{{ $column['alt'] ?? 'Section image' }}" loading="lazy" style="width: {{ max(20, min(100, (int) ($column['image_size'] ?? 100))) }}%; margin: {{ (int) ($imageStyle['margin'] ?? 0) }}px auto; padding: {{ (int) ($imageStyle['padding'] ?? 0) }}px;">
+                    <x-responsive-image :image="$column['image']" :alt="$column['alt'] ?? 'Section image'" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" style="width: {{ max(20, min(100, (int) ($column['image_size'] ?? 100))) }}%; margin: {{ (int) ($imageStyle['margin'] ?? 0) }}px auto; padding: {{ (int) ($imageStyle['padding'] ?? 0) }}px;">
                     @if(!empty($column['url']))
                       </a>
                     @endif
@@ -1617,7 +1630,7 @@
                     <blockquote>“{{ $testimonial['review'] ?? '' }}”</blockquote>
                     <div class="landing-testimonial-person">
                       @if(!empty($testimonial['image']))
-                        <img src="{{ asset($testimonial['image']) }}" alt="Client testimonial" width="48" height="48" loading="lazy" decoding="async">
+                        <x-responsive-image :image="$testimonial['image']" alt="Client testimonial" sizes="48px" width="48" height="48" loading="lazy" decoding="async" />
                       @else
                         <div class="landing-testimonial-avatar">Y</div>
                       @endif
