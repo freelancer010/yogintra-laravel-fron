@@ -1,7 +1,14 @@
 @extends('layouts.layout')
 
+@php
+    $landingMetaDescription = \Illuminate\Support\Str::limit(
+        preg_replace('/\s+/', ' ', trim(strip_tags((string) ($page_data->page_meta_description ?? '')))),
+        145,
+        ''
+    );
+@endphp
 @section('meta_title', $page_data->page_meta_title ?? '')
-@section('meta_description', $page_data->page_meta_description ?? '' )
+@section('meta_description', $landingMetaDescription)
 @section('meta_keywords', $page_data->page_keywords ?? '' )
 
 @push('page_preloads')

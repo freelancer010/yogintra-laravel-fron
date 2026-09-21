@@ -49,7 +49,8 @@
 
                     <div class="col-md-6 form-group">
                     <label>SEO description</label>
-                    <textarea name="page_meta_description" class="form-control">{{ $page->page_meta_description }}</textarea>
+                    <textarea name="page_meta_description" class="form-control" maxlength="150" aria-describedby="meta-description-help">{{ $page->page_meta_description }}</textarea>
+                    <small id="meta-description-help" class="form-text text-muted">Keep this to 150 characters or fewer for search-result display.</small>
                     </div>
 
                     <div class="col-md-6 form-group">

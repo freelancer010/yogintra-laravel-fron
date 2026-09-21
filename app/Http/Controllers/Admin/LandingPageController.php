@@ -59,7 +59,7 @@ class LandingPageController extends Controller
         $request->validate([
             'page_name' => 'required|string|max:255',
             'page_slug' => ['nullable', 'string', 'max:500', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'unique:new_landing_page,page_slug'],
-            'page_meta_description' => 'nullable|string',
+            'page_meta_description' => 'nullable|string|max:150',
             'page_meta_title' => 'nullable|string',
             'page_keywords' => 'nullable|string',
             'page_head_code' => 'nullable|string',
@@ -206,7 +206,7 @@ class LandingPageController extends Controller
         $request->validate([
             'page_name' => 'required|string|max:255',
             'page_slug' => ['required', 'string', 'max:500', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('new_landing_page', 'page_slug')->ignore($id, 'page_id')],
-            'page_meta_description' => 'nullable|string',
+            'page_meta_description' => 'nullable|string|max:150',
             'page_meta_title' => 'nullable|string',
             'page_keywords' => 'nullable|string',
             'page_image_title' => 'nullable|string|max:255',

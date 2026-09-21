@@ -43,7 +43,8 @@
                   </div></div>
                   <div class="col-md-6 form-group"><div class="builder-field">
                     <label>Meta Description</label>
-                    <textarea name="page_meta_description" class="form-control"></textarea>
+                    <textarea name="page_meta_description" class="form-control" maxlength="150" aria-describedby="meta-description-help"></textarea>
+                    <small id="meta-description-help" class="form-text text-muted">Keep this to 150 characters or fewer for search-result display.</small>
                   </div></div>
                   <div class="col-md-6 form-group"><div class="builder-field">
                     <label>Meta Keywords</label>
