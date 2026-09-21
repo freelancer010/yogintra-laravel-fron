@@ -1769,6 +1769,9 @@
     });
   </script>
 @else
+@include('front.partials.classic_india_landing')
+{{-- Legacy classic layout retained below for reference; it is no longer rendered. --}}
+@if(false)
 <!-- Section: About -->
 {{-- <section>
     <div class="container" style="padding-top: 30px !important;padding-bottom: 30px!important;">
@@ -2335,6 +2338,7 @@
     </div>
 </section>
 <!-- FAQ Section End -->
+@endif
 
 @endif
 @endsection
