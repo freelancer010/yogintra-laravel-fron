@@ -190,7 +190,7 @@ class LandingPageController extends Controller
         }
 
         $this->createClassicSections($id, $city, (string) ($page->page_content ?? ''));
-        DB::table('new_landing_page')->where('page_id', $id)->update(['use_classic_layout' => false]);
+        DB::table('new_landing_page')->where('page_id', $id)->update(['use_classic_layout' => true]);
         $this->forgetPublicPageCache($page->page_slug);
 
         return redirect()->route('admin.landing-pages.edit', $id)->with(

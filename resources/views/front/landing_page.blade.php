@@ -1328,7 +1328,7 @@
     </div>
 </section>
 
-@if($page_sections->isNotEmpty() && !($page_data->use_classic_layout ?? false))
+@if($page_sections->isNotEmpty())
   <style>
     .landing-builder-section {
       overflow: hidden;

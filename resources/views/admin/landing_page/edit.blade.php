@@ -18,7 +18,7 @@
                 <div class="landing-page-header-actions ml-auto d-flex align-items-center justify-content-end">
                     <a href="{{ url('/city/' . $page->page_slug) }}" target="_blank" rel="noopener" class="btn btn-outline-light btn-sm mr-2"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Preview page</a>
                     <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#page-settings-modal"><i class="fas fa-cog" aria-hidden="true"></i> Manage page settings</button>
-                    <button type="button" class="btn btn-outline-warning btn-sm mr-2" id="classic-layout-toggle"><i class="fas fa-history" aria-hidden="true"></i> Default layout: <span>{{ ($page->use_classic_layout ?? false) ? 'On' : 'Off' }}</span></button>
+                    <button type="button" class="btn btn-outline-warning btn-sm mr-2" id="classic-layout-toggle" data-convert-url="{{ route('admin.landing-pages.convert-classic', $page->page_id) }}"><i class="fas fa-history" aria-hidden="true"></i> Default layout: <span>{{ ($page->use_classic_layout ?? false) ? 'On' : 'Off' }}</span></button>
                     <button type="submit" form="landing-page-form" formnovalidate class="btn btn-success builder-submit floating-update-button">Update page</button>
                 </div>
             </div>
@@ -70,7 +70,7 @@
 
                     <div class="col-md-12 form-group">
                       <div class="builder-field d-flex align-items-center justify-content-between" style="gap:16px;">
-                        <div><label class="mb-1">Page rendering</label><p class="mb-0 text-muted small">Use the fixed Default Classic design. To edit its content, choose “Use editable Classic template” below; it creates builder sections without changing the fixed template.</p></div>
+                        <div><label class="mb-1">Default layout</label><p class="mb-0 text-muted small">Turn this on to use the India Classic template. It saves immediately. The first time it is enabled, its editable sections are added to the builder canvas automatically.</p></div>
                         <div class="custom-control custom-switch flex-shrink-0">
                           <input type="hidden" name="use_classic_layout" value="0">
                           <input type="checkbox" class="custom-control-input" id="use-classic-layout" name="use_classic_layout" value="1" {{ ($page->use_classic_layout ?? false) ? 'checked' : '' }}>
@@ -96,12 +96,7 @@
                           <div class="section-palette"><button type="button" class="add-section" data-section-type="text">✦ Text</button><button type="button" class="add-section" data-section-type="image_text">▧ Image + Text</button><button type="button" class="add-section" data-section-type="cta">↗ CTA</button></div>
                         </div>
                         @if($sections->isEmpty())
-                          <div class="alert alert-info m-3 mb-0">
-                            <div class="d-flex flex-wrap align-items-center justify-content-between" style="gap: 12px;">
-                              <div><strong>Use the editable Classic template.</strong><br><small>This creates editable builder sections from the new India Classic layout. The fixed default layout remains available through the switch above.</small></div>
-                              <button type="submit" form="landing-page-form" formaction="{{ route('admin.landing-pages.convert-classic', $page->page_id) }}" formmethod="POST" class="btn btn-primary">Use editable Classic template</button>
-                            </div>
-                          </div>
+                          <div class="alert alert-info m-3 mb-0"><strong>Start with the Default layout.</strong><br><small>Enable the Default layout switch above to add its editable sections to this canvas.</small></div>
                         @endif
                         <div class="card-body" id="sections">
                           @foreach($sections as $index => $section)
@@ -241,10 +236,24 @@
       classicLayoutToggle?.classList.toggle('btn-outline-warning', !enabled);
       const label = classicLayoutToggle?.querySelector('span');
       if (label) label.textContent = enabled ? 'On' : 'Off';
-      if (classicLayoutToggle) classicLayoutToggle.title = enabled ? 'The fixed Default Classic layout will be shown after you update the page.' : 'Your editable builder layout will be shown after you update the page.';
+      if (classicLayoutToggle) classicLayoutToggle.title = enabled ? 'Default layout is enabled and saved automatically.' : 'Default layout is disabled and saved automatically.';
     };
-    classicLayoutToggle?.addEventListener('click', () => { if (classicLayoutInput) { classicLayoutInput.checked = !classicLayoutInput.checked; syncClassicLayoutToggle(); } });
-    classicLayoutInput?.addEventListener('change', syncClassicLayoutToggle);
+    const landingPageForm = document.getElementById('landing-page-form');
+    const saveLayoutChoice = () => {
+      if (!classicLayoutInput || !landingPageForm) return;
+      const hasSections = formBody.querySelectorAll('.page-builder-section').length > 0;
+      if (classicLayoutInput.checked && !hasSections) {
+        landingPageForm.action = classicLayoutToggle.dataset.convertUrl;
+      }
+      landingPageForm.submit();
+    };
+    classicLayoutToggle?.addEventListener('click', () => {
+      if (!classicLayoutInput) return;
+      classicLayoutInput.checked = !classicLayoutInput.checked;
+      syncClassicLayoutToggle();
+      saveLayoutChoice();
+    });
+    classicLayoutInput?.addEventListener('change', () => { syncClassicLayoutToggle(); saveLayoutChoice(); });
     syncClassicLayoutToggle();
     const panel = formBody.querySelector('.builder-section-panel');
     if (panel) workspace.querySelector('.builder-inspector').appendChild(panel.closest('.col-md-12'));
