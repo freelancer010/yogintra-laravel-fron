@@ -5,12 +5,15 @@
         $isLandingPage = request()->is('city/*');
         $isHomePage = request()->path() === '/';
         $deferNonCriticalStyles = $isLandingPage || $isHomePage;
+        $canonicalUrl = url(strtolower(request()->path()));
     @endphp
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Dynamic Meta Tags -->
-    <link rel="canonical" href="{{ url(strtolower(request()->path())) }}" />
+    <link rel="canonical" href="{{ $canonicalUrl }}" />
+    <link rel="alternate" hreflang="en-IN" href="{{ $canonicalUrl }}" />
+    <link rel="alternate" hreflang="x-default" href="{{ $canonicalUrl }}" />
     <link rel="amphtml" href="{{ url(strtolower(request()->path())) }}/amp" />
     <title>@yield('meta_title', $app_setting->app_meta_title ?? 'YogIntra')</title>
     <meta name="description" content="@yield('meta_description', $app_setting->app_meta_description ?? 'Yogintra')">
