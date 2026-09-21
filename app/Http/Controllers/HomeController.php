@@ -51,36 +51,7 @@ class HomeController extends Controller
         $app_setting = Setting::first();
         $all_slider = Slider::all();
         
-        // The trainer list comes from a separate CRM. Do not make every homepage
-        // visitor wait on that remote service; retain the last successful list if it
-        // is temporarily unavailable.
-        $all_trainer = Cache::get('homepage.trainers.current');
-
-        if ($all_trainer === null) {
-            try {
-                $response = Http::acceptJson()
-                    ->connectTimeout(2)
-                    ->timeout(5)
-                    ->get($this->api . '/get_all_trainer_limit');
-
-                $trainerPayload = $response->json();
-                $trainers = $response->successful() && is_array($trainerPayload)
-                    ? collect($trainerPayload)->map(fn ($trainer) => (object) $trainer)
-                    : null;
-
-                if ($trainers === null) {
-                    throw new \RuntimeException('The trainer API returned an invalid response.');
-                }
-
-                Cache::put('homepage.trainers.current', $trainers, now()->addMinutes(10));
-                Cache::put('homepage.trainers.last_successful', $trainers, now()->addDay());
-                $all_trainer = $trainers;
-            } catch (\Throwable $exception) {
-                report($exception);
-                $all_trainer = Cache::get('homepage.trainers.last_successful', collect());
-                Cache::put('homepage.trainers.current', $all_trainer, now()->addMinute());
-            }
-        }
+        $all_trainer = $this->cachedTrainers();
     
         $section_1 = Front::getOurFeaturesHeading();
         $section_1_content = Front::getAllOurFeatures();
@@ -404,26 +375,74 @@ class HomeController extends Controller
      */
     public function landingPage($slug)
     {
-        $data['all_slider'] = Front::getAllSlider();		
-        $data['section_1'] = Front::getOurFeaturesHeading();
-        $data['section_1_content'] = Front::getAllOurFeatures();
-        $data['section_2'] = Front::getOurServiceImage();
-        $data['section_2_content'] = Front::getAllOurService();
-        $data['rand_service'] = Service::getSixCategoryForHomePage();
+        $cacheKey = 'landing-page.data.' . sha1($slug);
+        $data = Cache::remember($cacheKey, now()->addMinutes(15), function () use ($slug) {
+            $pageData = Front::getLandingPageBySlug($slug);
 
-        $response = Http::get($this->api . '/get_all_trainer_limit');
-        $data['all_trainer'] = collect(Http::get($this->api . '/get_all_trainer_limit')->json())->map(function ($trainer) {
-            return (object) $trainer;
+            if (!$pageData) {
+                return null;
+            }
+
+            return [
+                'all_slider' => Front::getAllSlider(),
+                'section_1' => Front::getOurFeaturesHeading(),
+                'section_1_content' => Front::getAllOurFeatures(),
+                'section_2' => Front::getOurServiceImage(),
+                'section_2_content' => Front::getAllOurService(),
+                'rand_service' => Service::getSixCategoryForHomePage(),
+                'all_trainer' => $this->cachedTrainers(),
+                'page_data' => $pageData,
+                'page_sections' => \App\Models\LandingPageSection::where('landing_page_id', $pageData->page_id)
+                    ->orderBy('sort_order')
+                    ->get(),
+                'testimonials' => Testimonial::orderByDesc('test_id')->get(),
+            ];
         });
-        $data['api'] = $this->api_main;;
-        $data['page_data'] = Front::getLandingPageBySlug($slug);
-        abort_unless($data['page_data'], 404);
-        $data['page_sections'] = \App\Models\LandingPageSection::where('landing_page_id', $data['page_data']->page_id)
-            ->orderBy('sort_order')
-            ->get();
-        $data['testimonials'] = Testimonial::orderByDesc('test_id')->get();
+
+        abort_unless($data, 404);
+        $data['api'] = $this->api_main;
 
         return view('front.landing_page', $data);
+    }
+
+    /**
+     * Fetch CRM trainer data once, with a short cache and a last-known-good
+     * fallback so public pages never block indefinitely on the remote API.
+     */
+    private function cachedTrainers()
+    {
+        $allTrainer = Cache::get('homepage.trainers.current');
+
+        if ($allTrainer !== null) {
+            return $allTrainer;
+        }
+
+        try {
+            $response = Http::acceptJson()
+                ->connectTimeout(2)
+                ->timeout(5)
+                ->get($this->api . '/get_all_trainer_limit');
+
+            $trainerPayload = $response->json();
+            $trainers = $response->successful() && is_array($trainerPayload)
+                ? collect($trainerPayload)->map(fn ($trainer) => (object) $trainer)
+                : null;
+
+            if ($trainers === null) {
+                throw new \RuntimeException('The trainer API returned an invalid response.');
+            }
+
+            Cache::put('homepage.trainers.current', $trainers, now()->addMinutes(10));
+            Cache::put('homepage.trainers.last_successful', $trainers, now()->addDay());
+
+            return $trainers;
+        } catch (\Throwable $exception) {
+            report($exception);
+            $allTrainer = Cache::get('homepage.trainers.last_successful', collect());
+            Cache::put('homepage.trainers.current', $allTrainer, now()->addMinute());
+
+            return $allTrainer;
+        }
     }
 
     public function submitContactForm(Request $request)

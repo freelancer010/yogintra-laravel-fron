@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use App\Models\LandingPageSection;
@@ -145,10 +146,12 @@ class LandingPageController extends Controller
     public function togglePublished(Request $request, $id)
     {
         $request->validate(['is_published' => 'required|boolean']);
-        abort_unless(DB::table('new_landing_page')->where('page_id', $id)->exists(), 404);
+        $page = DB::table('new_landing_page')->where('page_id', $id)->first();
+        abort_unless($page, 404);
 
         $isPublished = $request->boolean('is_published');
         DB::table('new_landing_page')->where('page_id', $id)->update(['is_published' => $isPublished]);
+        $this->forgetPublicPageCache($page->page_slug);
 
         return back()->with('success', $isPublished ? 'Landing page is now visible on the public site.' : 'Landing page is now hidden from the public site.');
     }
@@ -189,6 +192,7 @@ class LandingPageController extends Controller
         }
 
         $this->createClassicSections($id, $city, (string) ($page->page_content ?? ''));
+        $this->forgetPublicPageCache($page->page_slug);
 
         return redirect()->route('admin.landing-pages.edit', $id)->with(
             'success',
@@ -285,6 +289,8 @@ class LandingPageController extends Controller
         DB::table('new_landing_page')->where('page_id', $id)->update($data);
         LandingPageSection::where('landing_page_id', $id)->delete();
         $this->saveSections($request, $id);
+        $this->forgetPublicPageCache($page->page_slug);
+        $this->forgetPublicPageCache($data['page_slug']);
 
         return redirect()->route('admin.landing-pages.edit', $id)->with('success', 'Page updated successfully.');
     }
@@ -300,6 +306,9 @@ class LandingPageController extends Controller
         }
 
         DB::table('new_landing_page')->where('page_id', $id)->delete();
+        if ($page) {
+            $this->forgetPublicPageCache($page->page_slug);
+        }
 
         return redirect()->route('admin.landing-pages.index')->with('success', 'Page deleted successfully.');
     }
@@ -373,6 +382,13 @@ class LandingPageController extends Controller
             // saveable while ignoring only fields absent from that older schema.
             $availableColumns = array_flip(Schema::getColumnListing('landing_page_sections'));
             LandingPageSection::create(array_intersect_key($sectionPayload, $availableColumns));
+        }
+    }
+
+    private function forgetPublicPageCache(?string $slug): void
+    {
+        if (filled($slug)) {
+            Cache::forget('landing-page.data.' . sha1($slug));
         }
     }
 
