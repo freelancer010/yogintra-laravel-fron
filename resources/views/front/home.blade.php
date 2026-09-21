@@ -1,15 +1,15 @@
 @extends('layouts.layout')
 @php
     $heroPoster = $app_setting->hero_video_thumbnail ?: null;
-    $heroVideoHeading = $app_setting->hero_video_heading ?: ($app_setting->hero_video_title ?: ($all_slider->first()?->slider_heading ?: 'Yoga classes with YogIntra'));
-    $heroVideoSubHeading = $app_setting->hero_video_sub_heading ?: ($app_setting->hero_video_description ?: ($all_slider->first()?->slider_sub_heading ?: 'Discover yoga classes and wellness support with YogIntra.'));
+    $heroVideoHeading = $app_setting->hero_video_heading ?: ($app_setting->hero_video_title ?: ($all_slider->first()?->slider_heading ?: 'Wellness classes with YogIntra'));
+    $heroVideoSubHeading = $app_setting->hero_video_sub_heading ?: ($app_setting->hero_video_description ?: ($all_slider->first()?->slider_sub_heading ?: 'Discover guided movement and wellbeing support with YogIntra.'));
     $heroVideoTitle = $heroVideoHeading;
     $heroVideoDescription = $heroVideoSubHeading;
     $heroVideoUploadDate = $app_setting->updated_at?->toDateString();
 @endphp
 @section('meta_title', $app_setting->app_meta_title ?: 'Yoga Classes, Home Yoga & Online Wellness | YogIntra')
-@section('meta_description', $app_setting->app_meta_description ?: 'Discover online yoga classes, home yoga sessions, yoga centres, wellness programs and teacher training with YogIntra. Start your healthier journey today.')
-@section('meta_keywords', 'yoga classes, online yoga classes, home yoga, yoga centre, yoga teacher training, wellness programs, YogIntra')
+@section('meta_description', $app_setting->app_meta_description ?: 'Discover online and at-home yoga sessions, wellness programs, centres, and teacher training with YogIntra. Start your healthier journey today.')
+@section('meta_keywords', 'yoga, online classes, home sessions, wellness programs, teacher training, YogIntra')
 @section('og_image', asset('assets/og-logo.webp'))
 @push('page_meta_tags')
     <meta name="theme-color" content="#0f7c87">
@@ -1026,24 +1026,24 @@
             <div class="section-title">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h3 class="h2 mt-0 line-height-1">Guidance for Your <span class="text-theme-colored2">Yoga Journey</span></h3>
-                        <p class="yogintra-guidance-copy">A knowledgeable instructor can help you understand yoga techniques, develop appropriate movement patterns, and build a practice suited to your current experience.</p>
+                        <h3 class="h2 mt-0 line-height-1">Guidance for Your <span class="text-theme-colored2">Practice</span></h3>
+                        <p class="yogintra-guidance-copy">A knowledgeable instructor can help you understand core techniques, develop appropriate movement patterns, and build a practice suited to your current experience.</p>
                     </div>
                 </div>
             </div>
             <p class="font-weight-700 text-black mb-15">Our instructors can help you focus on:</p>
             <ul class="yogintra-guidance-list">
-                <li>Yoga fundamentals</li>
-                <li>Yoga posture and alignment</li>
+                <li>Foundations and mindful movement</li>
+                <li>Posture and alignment</li>
                 <li>Breathing practices</li>
                 <li>Flexibility and mobility</li>
                 <li>Strength-building movements</li>
                 <li>Relaxation techniques</li>
                 <li>Wellness and mindfulness</li>
-                <li>Building consistent yoga habits</li>
+                <li>Building consistent habits</li>
             </ul>
-            <p class="yogintra-guidance-footer">Whether you are beginning yoga or continuing an established practice, the right guidance can make each session more structured, purposeful, and personal.</p>
-            <p class="yogintra-guidance-note"><time datetime="2026-09-20">Last reviewed: September 20, 2026</time> · Yoga and wellness information is for general education only and is not a substitute for medical advice. Please consult a qualified healthcare professional before starting a new exercise practice, especially if you have an injury, health condition, or are pregnant.</p>
+            <p class="yogintra-guidance-footer">Whether you are getting started or continuing an established practice, the right guidance can make each session more structured, purposeful, and personal.</p>
+            <p class="yogintra-guidance-note"><time datetime="2026-09-20">Last reviewed: September 20, 2026</time> · Wellness information is for general education only and is not a substitute for medical advice. Please consult a qualified healthcare professional before starting a new exercise practice, especially if you have an injury, health condition, or are pregnant.</p>
             <p class="yogintra-guidance-policy"><a class="btn btn-theme-colored btn-flat" href="{{ url('editorial-policy') }}">Read Editorial Policy</a></p>
         </div>
     </section>
@@ -1054,7 +1054,7 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <h3 class="h2 mt-0 line-height-1">What Our <span class="text-theme-colored2">Clients Say</span></h3>
-                        <p class="text-black">Real testimonials from our dedicated yoga practitioners and students</p>
+                        <p class="text-black">Real testimonials from our dedicated practitioners and students</p>
                     </div>
                 </div>
             </div>
@@ -1143,7 +1143,7 @@
                             </h5>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Yogintra is a wellness platform offering yoga classes, holistic programs, and community events designed to support physical, mental, and spiritual well-being.
+                                    Yogintra is a wellness platform offering guided classes, holistic programs, and community events designed to support physical, mental, and spiritual well-being.
                                 </div>
                             </div>
                         </div>
@@ -1159,8 +1159,8 @@
                                 <div class="accordion-body">
                                     <p>Yogintra offers:</p>
                                     <ul class="list-unstyled">
-                                        <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Group yoga classes (beginner to advanced)</li>
-                                        <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Online and home Yoga classes</li>
+                                        <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Group classes (beginner to advanced)</li>
+                                        <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Online and at-home classes</li>
                                         <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Private one-on-one sessions</li>
                                         <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Meditation and breathwork classes</li>
                                         <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Corporate wellness programs</li>
