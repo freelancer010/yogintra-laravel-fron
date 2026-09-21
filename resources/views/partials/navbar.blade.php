@@ -17,8 +17,10 @@
             && ($app_setting->hero_media_type ?? 'slider') === 'video'
             && filled($app_setting->hero_video);
         $homeMobileHeroNavigation = request()->segment(1) === null;
+        $landingHeroNavigation = request()->is('city/*');
+        $heroOverlayNavigation = $homeMobileHeroNavigation || $landingHeroNavigation;
     @endphp
-    <header id="header" class="header header-floating {{ $videoHeroNavigation ? 'video-hero-navigation' : '' }} {{ $homeMobileHeroNavigation ? 'home-mobile-hero-navigation' : '' }}">
+    <header id="header" class="header header-floating {{ $videoHeroNavigation ? 'video-hero-navigation' : '' }} {{ $homeMobileHeroNavigation ? 'home-mobile-hero-navigation' : '' }} {{ $landingHeroNavigation ? 'landing-hero-navigation' : '' }}">
         <div class="header-top sm-text-center style-bordered">
             <div class="container">
                 <div class="row"></div>
@@ -165,6 +167,33 @@
         }
         .video-hero-navigation .menuzord-menu ul.dropdown { background: #fff; }
         .video-hero-navigation .menuzord-menu ul.dropdown li a { color: #183c45 !important; }
+        .header.landing-hero-navigation {
+            position:absolute !important;
+            top:0;
+            left:0;
+            width:100%;
+            z-index:1100;
+            background:transparent !important;
+            transition:background-color .2s ease, box-shadow .2s ease;
+        }
+        .landing-hero-navigation .header-nav-wrapper,
+        .landing-hero-navigation .menuzord {
+            background:transparent !important;
+            box-shadow:none !important;
+        }
+        .landing-hero-navigation .menuzord-menu > li > a,
+        .landing-hero-navigation .menuzord-menu > li > a > i { color:#fff !important; }
+        .landing-hero-navigation .menuzord-menu > li.active > a,
+        .landing-hero-navigation .menuzord-menu > li:hover > a { color:#2ed0da !important; }
+        .landing-hero-navigation.landing-hero-scrolled,
+        .landing-hero-navigation.landing-hero-scrolled .header-nav,
+        .landing-hero-navigation.landing-hero-scrolled .header-nav-wrapper,
+        .landing-hero-navigation.landing-hero-scrolled .menuzord {
+            background:#fff !important;
+            box-shadow:0 2px 12px rgba(10,49,59,.12) !important;
+        }
+        .landing-hero-navigation.landing-hero-scrolled .menuzord-menu > li > a,
+        .landing-hero-navigation.landing-hero-scrolled .menuzord-menu > li > a > i { color:#183c45 !important; }
         @media only screen and (max-width: 1000px) {
             /* All non-home pages use a stable white mobile bar from the first
                paint. This prevents the scroll-to-fixed plugin from changing
@@ -321,6 +350,25 @@
                 position:absolute;
                 background-color:transparent;
             }
+            .header.header-floating.landing-hero-navigation {
+                position:absolute !important;
+                background-color:transparent !important;
+            }
+            .header.header-floating.landing-hero-navigation .header-nav-wrapper,
+            .header.header-floating.landing-hero-navigation .menuzord {
+                background:transparent !important;
+                box-shadow:none !important;
+            }
+            .header.header-floating.landing-hero-navigation .header-nav {
+                position:fixed !important;
+                top:0 !important;
+                left:0 !important;
+                right:0 !important;
+                width:100% !important;
+            }
+            .header.header-floating.landing-hero-navigation .menuzord-responsive .showhide em {
+                background:#084451 !important;
+            }
         }
 
         @media only screen and (max-width: 1199px) and (min-width: 1000px) {
@@ -335,18 +383,20 @@
             }
         }
     </style>
-    @if ($homeMobileHeroNavigation)
+    @if ($heroOverlayNavigation)
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const header = document.getElementById('header');
                 const hero = document.getElementById('home');
                 if (!header || !hero) return;
+                const isLandingNavigation = header.classList.contains('landing-hero-navigation');
+                const scrolledClass = isLandingNavigation ? 'landing-hero-scrolled' : 'mobile-hero-scrolled';
                 const nav = header.querySelector('.header-nav');
                 const navWrapper = header.querySelector('.header-nav-wrapper');
                 const menu = header.querySelector('.menuzord');
                 const updateMobileHeroNavigation = function () {
-                    if (window.innerWidth > 1000) {
-                        header.classList.remove('mobile-hero-scrolled');
+                    if (window.innerWidth > 1000 && !isLandingNavigation) {
+                        header.classList.remove(scrolledClass);
                         [header, nav, navWrapper, menu].filter(Boolean).forEach(function (element) {
                             element.style.removeProperty('background-color');
                             element.style.removeProperty('box-shadow');
@@ -362,7 +412,7 @@
                         document.documentElement.scrollTop || 0,
                         document.body.scrollTop || 0
                     ) > 12;
-                    header.classList.toggle('mobile-hero-scrolled', scrolled);
+                    header.classList.toggle(scrolledClass, scrolled);
                     if (scrolled) {
                         header.style.setProperty('position', 'fixed', 'important');
                         header.style.setProperty('top', '0', 'important');
@@ -405,7 +455,7 @@
                     window.requestAnimationFrame(watchMobileHeroNavigation);
                 }());
                 document.addEventListener('click', function (event) {
-                    if (!event.target.closest('.home-mobile-hero-navigation .showhide')) return;
+                    if (!event.target.closest('.home-mobile-hero-navigation .showhide, .landing-hero-navigation .showhide')) return;
                     header.classList.toggle('mobile-menu-open');
                 }, true);
             });
