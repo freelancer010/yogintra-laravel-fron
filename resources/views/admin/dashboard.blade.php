@@ -89,9 +89,10 @@
                   <div class="card-body">
                      <div class="row">
                         <div class="col-md-12">
-                           <a href="{{ route('sitemap.generate') }}" class="btn btn-success">
-                              <i class="fas fa-sitemap"></i> Generate Sitemap
-                           </a>
+                           <form action="{{ route('sitemap.generate') }}" method="POST" class="d-inline">
+                              @csrf
+                              <button type="submit" class="btn btn-success"><i class="fas fa-sitemap"></i> Generate Sitemap</button>
+                           </form>
                            <small class="text-muted ml-2">Click to regenerate the XML sitemap for search engines</small>
                            
                            @php
@@ -205,9 +206,10 @@
                                     <a href="{{ url('sitemap.xml') }}" target="_blank" class="btn btn-sm btn-info">
                                        <i class="fas fa-external-link-alt"></i> View Sitemap
                                     </a>
-                                    <a href="{{ route('sitemap.generate') }}" class="btn btn-sm btn-warning">
-                                       <i class="fas fa-sync"></i> Regenerate
-                                    </a>
+                                    <form action="{{ route('sitemap.generate') }}" method="POST" class="d-inline">
+                                       @csrf
+                                       <button type="submit" class="btn btn-sm btn-warning"><i class="fas fa-sync"></i> Regenerate</button>
+                                    </form>
                                     <button type="button" class="btn btn-sm btn-secondary" data-toggle="collapse" data-target="#xmlPreview">
                                        <i class="fas fa-code"></i> XML Preview
                                     </button>

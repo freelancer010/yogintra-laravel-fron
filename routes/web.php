@@ -233,10 +233,12 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+// Sitemap generation changes a public file, so keep it protected and register
+// it before the root-level service fallback below.
+Route::post('/generate-sitemap', [\App\Http\Controllers\SitemapController::class, 'generate'])
+    ->middleware(['auth', 'admin'])
+    ->name('sitemap.generate');
+
 // Public service pages use concise root-level URLs, e.g. /home-visit-yoga.
 // This remains last so named public routes and authentication routes take priority.
 Route::get('/{slug}', [HomeController::class, 'allService'])->name('all-service');
-
-Route::get('/generate-sitemap', [\App\Http\Controllers\SitemapController::class, 'generate'])
-    ->middleware(['auth', 'admin'])
-    ->name('sitemap.generate');

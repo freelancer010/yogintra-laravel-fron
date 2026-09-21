@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Carbon;
 use App\Models\Setting;
 use App\Models\Slider;
@@ -114,13 +115,28 @@ class SitemapController extends Controller
                 session()->forget('debug_messages');
             }
 
-            // Render and save
+            // Render and save atomically. This prevents crawlers from receiving a
+            // half-written XML document while an administrator regenerates it.
             $xml = view('sitemap.xml', compact('urls'))->render();
-            file_put_contents(public_path('sitemap.xml'), $xml);
+            $sitemapPath = public_path('sitemap.xml');
+            $sitemapDirectory = dirname($sitemapPath);
+
+            if (!is_dir($sitemapDirectory) || !is_writable($sitemapDirectory)) {
+                throw new \RuntimeException('The public directory is not writable. Grant the web-server user write access to ' . $sitemapDirectory . '.');
+            }
+
+            $temporaryPath = $sitemapPath . '.tmp';
+            File::put($temporaryPath, $xml, true);
+
+            if (!File::exists($temporaryPath) || File::size($temporaryPath) === 0) {
+                throw new \RuntimeException('The temporary sitemap file could not be written.');
+            }
+
+            File::move($temporaryPath, $sitemapPath, true);
 
             // Verify the file was created and get statistics
-            if (file_exists(public_path('sitemap.xml'))) {
-                $sitemapContent = file_get_contents(public_path('sitemap.xml'));
+            if (File::exists($sitemapPath)) {
+                $sitemapContent = File::get($sitemapPath);
                 $urlCount = substr_count($sitemapContent, '<url>');
                 $trainerUrlCount = substr_count($sitemapContent, '/trainer/');
                 $debugMessages[] = 'Sitemap generated with ' . $urlCount . ' total URLs (' . $trainerUrlCount . ' trainer URLs)';
