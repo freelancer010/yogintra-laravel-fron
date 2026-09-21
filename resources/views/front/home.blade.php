@@ -1012,7 +1012,7 @@
         .yogintra-guidance-list li { position: relative; padding-left: 22px; color: #365b63; font-size: 16px; line-height: 1.55; }
         .yogintra-guidance-list li::before { position: absolute; top: 1px; left: 0; content: '•'; color: #14757d; font-size: 22px; line-height: .75; }
         .yogintra-guidance-footer { max-width: 840px; margin: 28px auto 0; color: #45666d; font-size: 17px; line-height: 1.65; }
-        .yogintra-guidance-note { max-width: 840px; margin: 14px auto 0; color: #71878b; font-size: 14px; line-height: 1.65; }
+        .yogintra-guidance-note { max-width: 840px; margin: 14px auto 0; color: #000; font-size: 14px; line-height: 1.65; }
         .yogintra-guidance-policy { margin-top: 16px; }
         .yogintra-guidance-policy .btn { min-width: 178px; border-radius: 6px; background: #1f73e8; border-color: #1f73e8; color: #fff; font-weight: 700; }
         .yogintra-guidance-policy .btn:hover, .yogintra-guidance-policy .btn:focus { background: #155fc7; border-color: #155fc7; color: #fff; }
