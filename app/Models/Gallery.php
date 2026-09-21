@@ -19,7 +19,21 @@ class Gallery extends Model
         return DB::table('gallery as a')
             ->leftJoin('gallery_category as b', 'b.g_cat_id', '=', 'a.gallery_category')
             ->select('a.*', 'b.g_cat_name')
+            ->orderByDesc('a.gallery_id')
             ->get();
+    }
+
+    /**
+     * Fetch gallery items in stable, crawlable pages for the public gallery.
+     */
+    public static function paginateForPublic(int $perPage = 12)
+    {
+        return DB::table('gallery as a')
+            ->leftJoin('gallery_category as b', 'b.g_cat_id', '=', 'a.gallery_category')
+            ->select('a.*', 'b.g_cat_name')
+            ->orderByDesc('a.gallery_id')
+            ->paginate($perPage)
+            ->withQueryString();
     }
 
     /**

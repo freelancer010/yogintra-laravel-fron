@@ -223,7 +223,7 @@ class HomeController extends Controller
     {
         return view('front.gallery', [
             'page' => 'gallery',
-            'all_gallery' => \App\Models\Gallery::getAllGallery(),
+            'all_gallery' => \App\Models\Gallery::paginateForPublic(),
             'all_category' => \App\Models\Gallery::getAllCategory(),
         ]);
     }

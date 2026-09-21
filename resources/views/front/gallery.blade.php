@@ -196,6 +196,14 @@
                         @endforeach
                     </div>
 
+                    @if ($all_gallery instanceof \Illuminate\Contracts\Pagination\Paginator && $all_gallery->hasPages())
+                        <div class="row">
+                            <div class="col-md-12 text-center mt-40">
+                                {{ $all_gallery->links('pagination::bootstrap-4') }}
+                            </div>
+                        </div>
+                    @endif
+
                 </div>
             </div>
         </div>
