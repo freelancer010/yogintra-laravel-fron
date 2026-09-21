@@ -1781,7 +1781,7 @@
 </section> --}}
 
 
-<section class="">
+<section class="landing-life-section">
   <div class="container" style="padding-top: 30px !important; padding-bottom: 30px !important;">
     <div class="section-title text-center">
       <div class="row">
@@ -1839,24 +1839,24 @@
   </div>
 </section>
 
-<section class="">
+<section class="landing-promo-visual">
   <div class="container" style="padding-top: 30px !important; padding-bottom: 30px !important;">
     <div class="section-title text-center">
       <div class="row">
         <div class="col-12">
-          <img style="width: auto; height: auto;" loading="lazy" src="{{ asset('uploads/download.webp') }}" alt="For Good Health" width="800" height="400" decoding="async">
+          <img class="landing-promo-image" loading="lazy" src="{{ asset('uploads/download.webp') }}" alt="For Good Health" width="800" height="400" decoding="async">
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="">
+<section class="landing-reasons-section">
   <div class="container" style="padding-top: 30px !important; padding-bottom: 30px !important;">
     <div class="section-title text-center">
       
       <div class="row">
-        <div class="col-md-12 offset-md-2">
+        <div class="col-12">
           <h2 style="text-align: center; font-size: 36px; ">
             <span style="color: inherit; font-size: 36px; font-family: Philosopher, sans-serif !important;">
               THE MAIN REASONS TO PRACTICE YOGA
@@ -1875,7 +1875,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row landing-reasons-grid">
         @foreach ($section_1_content as $content_1)
             <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
                 <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
@@ -1893,6 +1893,55 @@
     </div>
   </div>
 </section>
+
+<style>
+  .landing-promo-image {
+    display: block;
+    width: min(100%, 800px);
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .landing-reasons-section { overflow: hidden; }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .landing-reasons-section .section-title > .row > .col-12 {
+      width: 100% !important;
+      margin-left: 0 !important;
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+
+    .landing-reasons-grid .col-lg-6.col-md-12.col-sm-12.w-48-desktop {
+      display: block !important;
+      width: 100% !important;
+      margin: 0 0 18px !important;
+      padding: 0 20px !important;
+    }
+
+    .landing-reasons-grid .icon-box.media {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: flex-start !important;
+      text-align: left !important;
+    }
+
+    .landing-reasons-grid .icon-box .icon {
+      width: 75px !important;
+      margin: 0 16px 0 0 !important;
+    }
+
+    .landing-reasons-grid .icon-box .icon img {
+      width: 75px !important;
+      height: 75px !important;
+    }
+
+    .landing-reasons-grid .icon-box .media-body {
+      min-width: 0;
+      text-align: left !important;
+    }
+  }
+</style>
 
 @php
     $yogaServices = [
