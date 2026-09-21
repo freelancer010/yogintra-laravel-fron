@@ -42,6 +42,17 @@
         .img-circle {
             max-width: 90% !important;
         }
+        /* Keep the small visible dots while providing an accessible mobile tap target. */
+        .owl-carousel .owl-dots .owl-dot {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin: 0;
+            padding: 0;
+        }
+        .owl-carousel .owl-dots .owl-dot span { margin: 0; }
         #home {
             min-height: 100vh;
         }
