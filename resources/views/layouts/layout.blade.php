@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    @php($isLandingPage = request()->is('city/*'))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -63,7 +64,9 @@
     <!-- Page-specific preloads (e.g., hero images) -->
     @stack('page_preloads')
     <link rel="preload" as="image" href="{{ asset($app_setting->app_sticky_logo) }}" fetchpriority="high">
-    <link rel="preload" as="font" href="{{ asset('assets/front/fonts/fontawesome-webfont3e6e.woff2') }}?v=4.7.0" type="font/woff2" crossorigin>
+    @unless ($isLandingPage)
+        <link rel="preload" as="font" href="{{ asset('assets/front/fonts/fontawesome-webfont3e6e.woff2') }}?v=4.7.0" type="font/woff2" crossorigin>
+    @endunless
 
     <!-- FOR PWA MANIFEST -->
     <link rel="manifest" href="{{ asset('manifest.json')}}">
@@ -71,22 +74,39 @@
     {{-- These styles are render-critical. Loading them as print media caused a visible
        unstyled first paint and a very large cumulative layout shift. --}}
     <link href="{{ asset('assets/front/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet" type="text/css">
+    @if ($isLandingPage)
+        <link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet"></noscript>
+    @else
+        <link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet" type="text/css">
+    @endif
     <link href="{{ asset('assets/front/css/menuzord-megamenu.min.css')}}" rel="stylesheet" type="text/css">
     <link id="menuzord-menu-skins" href="{{ asset('assets/front/css/menuzord-skins/menuzord-bottom-trace.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/front/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/front/css/utility-classes.min.css') }}" rel="stylesheet" type="text/css">
+    @if ($isLandingPage)
+        <link href="{{ asset('assets/front/css/font-awesome.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link href="{{ asset('assets/front/css/font-awesome.min.css') }}" rel="stylesheet"></noscript>
+        <link href="{{ asset('assets/front/css/utility-classes.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link href="{{ asset('assets/front/css/utility-classes.min.css') }}" rel="stylesheet"></noscript>
+    @else
+        <link href="{{ asset('assets/front/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/front/css/utility-classes.min.css') }}" rel="stylesheet" type="text/css">
+    @endif
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap" rel="stylesheet"></noscript>
 
     <link href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" rel="stylesheet" type="text/css">
     @if (request()->segment(1) == 'pages')
         <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">
     @endif
-    <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css">
+    @if ($isLandingPage)
+        <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet"></noscript>
+    @else
+        <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css">
+    @endif
     <link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css">
     
     <!-- Critical CSS for FCP on Mobile -->
