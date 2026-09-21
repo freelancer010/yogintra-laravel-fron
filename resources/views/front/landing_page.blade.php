@@ -1246,7 +1246,7 @@
     
     /* Ensure hero content doesn't cause layout shift */
     .home-content h1 {
-        font-size: 2.8rem;
+        font-size: clamp(2rem, 3.5vw, 2.4rem);
         line-height: 1.2;
         font-weight: 700;
     }
