@@ -1359,6 +1359,16 @@
                 $owl_carousel_4col.addClass("owl-carousel owl-theme");
             }
             $owl_carousel_4col.each(function() {
+                var $carousel = $(this);
+                var labelInstructorCarouselControls = function () {
+                    $carousel.find('.owl-nav .owl-prev')
+                        .removeAttr('role')
+                        .attr('aria-label', 'Previous instructors');
+                    $carousel.find('.owl-nav .owl-next')
+                        .removeAttr('role')
+                        .attr('aria-label', 'Next instructors');
+                };
+                $carousel.on('initialized.owl.carousel refreshed.owl.carousel translated.owl.carousel', labelInstructorCarouselControls);
                 var data_dots = ( $(this).data("dots") === undefined ) ? false: $(this).data("dots");
                 var data_nav = ( $(this).data("nav")=== undefined ) ? false: $(this).data("nav");
                 var data_duration = ( $(this).data("duration") === undefined ) ? 4000: $(this).data("duration");
@@ -1403,6 +1413,7 @@
                         }
                     }
                 });
+                labelInstructorCarouselControls();
             });
         }
         
