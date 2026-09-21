@@ -173,8 +173,13 @@
             left:0;
             width:100%;
             z-index:1100;
-            background:transparent !important;
             transition:background-color .2s ease, box-shadow .2s ease;
+        }
+        .landing-hero-navigation:not(.landing-hero-scrolled) .header-nav,
+        .landing-hero-navigation:not(.landing-hero-scrolled) .header-nav-wrapper,
+        .landing-hero-navigation:not(.landing-hero-scrolled) .menuzord {
+            background:transparent !important;
+            box-shadow:none !important;
         }
         .landing-hero-navigation .header-nav-wrapper,
         .landing-hero-navigation .menuzord {
@@ -440,6 +445,9 @@
                         if (scrolled) {
                             element.style.setProperty('background-color', '#fff', 'important');
                             element.style.setProperty('box-shadow', '0 2px 12px rgba(10,49,59,.12)', 'important');
+                        } else if (isLandingNavigation) {
+                            element.style.setProperty('background-color', 'transparent', 'important');
+                            element.style.setProperty('box-shadow', 'none', 'important');
                         } else {
                             element.style.removeProperty('background-color');
                             element.style.removeProperty('box-shadow');
