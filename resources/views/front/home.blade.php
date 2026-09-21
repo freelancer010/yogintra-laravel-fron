@@ -60,10 +60,6 @@
             #home:not(.hero-video-home) .fullwidth-carousel .carousel-item > .overlay { position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(3,22,27,.70) 0%, rgba(3,22,27,.38) 35%, rgba(3,22,27,.54) 100%) !important; }
             #home:not(.hero-video-home) .fullwidth-carousel .display-table-absolute { z-index:2; }
             #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent { max-width:330px; margin:0 auto; padding:0 !important; background:transparent !important; text-align:center !important; }
-            #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent h1,
-            #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent h2,
-            #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent p,
-            #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent h3 { color:#fff !important; text-shadow:0 2px 10px rgba(0,0,0,.35); }
             #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent .btn { display:inline-flex; align-items:center; justify-content:center; min-width:154px; margin-top:22px !important; padding:12px 20px; border-radius:7px; background:#1a73e8 !important; border-color:#1a73e8 !important; box-shadow:0 8px 18px rgba(0,0,0,.24); }
             #home:not(.hero-video-home) .fullwidth-carousel .bg-white-transparent .btn:hover { background:#1557b0 !important; border-color:#1557b0 !important; }
             .hero-scroll-cue { position:absolute; z-index:3; left:50%; bottom:17px; transform:translateX(-50%); width:30px; height:46px; border:2px solid rgba(255,255,255,.85); border-radius:20px; }
@@ -75,8 +71,6 @@
             #home.hero-video-home .hero-video-copy .container { position:static !important; top:auto !important; padding-left:20px; padding-right:20px; }
             #home.hero-video-home .hero-video-copy .row > [class*="col-"] { width:100%; margin-left:0; text-align:center !important; }
             #home.hero-video-home .hero-video-copy .bg-white-transparent { text-align:center !important; }
-            #home.hero-video-home .hero-video-copy h1,
-            #home.hero-video-home .hero-video-copy p { color:#fff !important; }
             #home.hero-video-home .hero-video-copy .btn { display:inline-block; background-color:#1a73e8 !important; border-color:#1a73e8 !important; color:#fff !important; }
             #home.hero-video-home .hero-video-copy .btn:hover,
             #home.hero-video-home .hero-video-copy .btn:focus { background-color:#1557b0 !important; border-color:#1557b0 !important; }
