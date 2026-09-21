@@ -28,15 +28,15 @@
     <div class="form-step active" id="step-1" data-step="1">
         <div class="form-group">
             <label for="name">Your Name:</label>
-            <input type="text" class="form-control" id="name" name="name" required placeholder="Enter your name here...">
+            <input type="text" class="form-control" id="name" name="name" required placeholder="Enter your name here..." aria-label="Your name" autocomplete="name">
         </div>
         <div class="form-group">
             <label for="phone">Phone Number:</label>
-            <input type="number" class="form-control" id="phone" name="number" required placeholder="Enter your number here...">
+            <input type="number" class="form-control" id="phone" name="number" required placeholder="Enter your number here..." aria-label="Phone number" autocomplete="tel">
         </div>
         <div class="form-group">
             <label for="email">Email ID:</label>
-            <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email here...">
+            <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email here..." aria-label="Email address" autocomplete="email">
         </div>
         <div class="d-flex justify-content-end mt-3">
             <button type="button" class="btn btn-primary next-step">Next</button>
@@ -47,15 +47,15 @@
     <div class="form-step" id="step-2" data-step="2">
         <div class="form-group">
             <label for="country">Select Country:</label>
-            <input type="text" class="form-control countries" id="country" name="country" required placeholder="Enter your Country" />
+            <input type="text" class="form-control countries" id="country" name="country" required placeholder="Enter your Country" aria-label="Country" autocomplete="country-name" />
         </div>
         <div class="form-group">
             <label for="state">Select State:</label>
-            <input type="text" class="form-control states" id="state" name="state" required placeholder="Enter your State" />
+            <input type="text" class="form-control states" id="state" name="state" required placeholder="Enter your State" aria-label="State" autocomplete="address-level1" />
         </div>
         <div class="form-group">
             <label for="city">Select City:</label>
-            <input type="text" class="form-control cities" id="city" name="city" required placeholder="Enter your city" />
+            <input type="text" class="form-control cities" id="city" name="city" required placeholder="Enter your city" aria-label="City" autocomplete="address-level2" />
         </div>
         <div class="form-buttons d-flex justify-content-end gap-2 mt-3">
             <button type="button" class="btn btn-light prev-step">Back</button>
@@ -67,7 +67,7 @@
     <div class="form-step" id="step-3" data-step="3">
         <div class="form-group">
             <label for="class">Service Menu:</label>
-            <select class="form-control" id="class" name="class" required>
+            <select class="form-control" id="class" name="class" required aria-label="Yoga service preference">
                 @foreach ($all_service as $service)
                     <option value="{{ $service->service_cat_name }}">{{ $service->service_cat_name }}</option>
                 @endforeach
@@ -79,7 +79,7 @@
         </div>
         <div class="form-group">
             <label for="message">Message:</label>
-            <textarea class="form-control" id="message" name="client-message" rows="4" required></textarea>
+            <textarea class="form-control" id="message" name="client-message" rows="4" required aria-label="Enquiry message"></textarea>
         </div>
         <div class="form-buttons d-flex justify-content-end gap-2 mt-3">
             <button type="button" class="btn btn-light prev-step">Back</button>

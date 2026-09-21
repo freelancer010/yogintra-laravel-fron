@@ -438,10 +438,10 @@
             <button type="button" class="cookie-secondary" id="cookieManage">Manage preferences</button>
         </div>
         <div class="cookie-preferences" id="cookiePreferences">
-            <label class="cookie-option"><span><strong>Essential</strong><small>Required for security and core site functions.</small></span><input type="checkbox" checked disabled></label>
-            <label class="cookie-option"><span><strong>Analytics</strong><small>Helps us understand site usage.</small></span><input type="checkbox" id="cookieAnalytics"></label>
-            <label class="cookie-option"><span><strong>Marketing</strong><small>Allows Meta advertising measurement.</small></span><input type="checkbox" id="cookieMarketing"></label>
-            <label class="cookie-option"><span><strong>Functional</strong><small>Enables the WhatsApp chat widget.</small></span><input type="checkbox" id="cookieFunctional"></label>
+            <label class="cookie-option"><span><strong>Essential</strong><small>Required for security and core site functions.</small></span><input type="checkbox" checked disabled aria-label="Essential cookies are always enabled"></label>
+            <label class="cookie-option"><span><strong>Analytics</strong><small>Helps us understand site usage.</small></span><input type="checkbox" id="cookieAnalytics" aria-label="Allow analytics cookies"></label>
+            <label class="cookie-option"><span><strong>Marketing</strong><small>Allows Meta advertising measurement.</small></span><input type="checkbox" id="cookieMarketing" aria-label="Allow marketing cookies"></label>
+            <label class="cookie-option"><span><strong>Functional</strong><small>Enables the WhatsApp chat widget.</small></span><input type="checkbox" id="cookieFunctional" aria-label="Allow functional cookies"></label>
             <div class="cookie-actions"><button type="button" id="cookieSave">Save preferences</button></div>
         </div>
     </div>
