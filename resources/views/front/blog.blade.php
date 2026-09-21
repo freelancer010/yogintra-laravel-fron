@@ -9,8 +9,14 @@
 @push('styles')
     <style>
         .blog-index { width:100%; max-width:100%; overflow-x:hidden; background: #f6faf9; }
-        .blog-index-hero { display:block !important; width:100% !important; max-width:100% !important; height:330px !important; min-height:0 !important; margin:0 !important; padding:0 !important; overflow:hidden; background:#123f49; }
+        .blog-index-hero { position:relative; display:block !important; width:100% !important; max-width:100% !important; height:330px !important; min-height:0 !important; margin:0 !important; padding:0 !important; overflow:hidden; background:#123f49; }
         .blog-index-hero-image { display:block !important; width:100% !important; max-width:none !important; height:100% !important; min-height:0 !important; margin:0 !important; padding:0 !important; object-fit:cover !important; object-position:center !important; }
+        .blog-index-hero::after { position:absolute; inset:0; content:''; background:rgba(10,42,48,.58); }
+        .blog-index-hero-content { position:absolute; z-index:1; top:50%; left:0; width:100%; transform:translateY(-50%); color:#fff; text-align:center; }
+        .blog-index-hero-content h1 { margin:0; color:#fff; font-size:clamp(38px, 5vw, 56px); font-weight:800; line-height:1.1; }
+        .blog-index-hero-content .breadcrumb { display:flex; justify-content:center; gap:9px; margin:14px 0 0; padding:0; background:transparent; color:rgba(255,255,255,.78); font-size:15px; }
+        .blog-index-hero-content .breadcrumb a { color:#fff; }
+        .blog-index-hero-content .breadcrumb li + li::before { padding-right:9px; color:rgba(255,255,255,.72); content:'/'; }
         .blog-index-content { padding: 38px 0 80px; }
         .blog-index-heading { max-width: 700px; margin: 0 auto 40px; text-align: center; }
         .blog-index-heading h2 { margin: 0 0 10px; color: #153f49; font-size: clamp(27px, 3vw, 38px); font-weight: 700; }
@@ -37,7 +43,7 @@
         .blog-index-empty { max-width: 620px; margin: 0 auto; padding: 52px 30px; border: 1px dashed #b9d1d1; border-radius: 18px; background: #fff; color: #647b82; text-align: center; }
         .blog-index-empty h2 { margin: 0 0 8px; color: #153f49; font-size: 25px; }
         @media (max-width: 991px) { .blog-posts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-        @media (max-width: 767px) { .blog-index-hero { height: 230px; } .blog-index-content { padding: 32px 0 58px; } .blog-posts { grid-template-columns: 1fr; gap: 20px; } .blog-card .entry-content { padding: 21px; } }
+        @media (max-width: 767px) { .blog-index-hero { height: 230px; } .blog-index-hero-content h1 { font-size:38px; } .blog-index-content { padding: 32px 0 58px; } .blog-posts { grid-template-columns: 1fr; gap: 20px; } .blog-card .entry-content { padding: 21px; } }
         @media (prefers-reduced-motion: reduce) { .blog-card .post, .blog-card .post-thumb img { transition: none; } }
     </style>
 @endpush
@@ -46,6 +52,13 @@
 <main class="blog-index">
     <section class="blog-index-hero" aria-label="YogIntra blog">
         <img class="blog-index-hero-image" src="{{ asset('assets/front/images/bg/bg6.jpg') }}" alt="Peaceful YogIntra wellness landscape" fetchpriority="high" style="display:block!important;width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important;">
+        <div class="blog-index-hero-content">
+            <h1>Blog</h1>
+            <ol class="breadcrumb" aria-label="Breadcrumb">
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li aria-current="page">Blog</li>
+            </ol>
+        </div>
     </section>
 
     <section class="blog-index-content" aria-labelledby="latest-stories-title">
