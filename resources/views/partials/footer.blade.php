@@ -56,7 +56,7 @@
                         <ul class="list-border mt-5">
                             <li class="m-0 pl-10 pr-10"> 
                                 <i class="fa fa-map-marker text-theme-colored mr-5"></i> 
-                                <a class="text-gray" href="https://www.google.com/maps/search/?api=1&amp;query=D-408+Shivlila+Apt%2C+Mumbra+Devi+Colony+Road%2C+Diva+East%2C+Thane-400612">D-408 Shivlila Apt, Mumbra Devi Colony Road, Diva East, Thane-400612</a>
+                                <a class="text-gray" href="https://www.google.com/maps/search/?api=1&amp;query=D-408+Shivlila+Apt%2C+Mumbra+Devi+Colony+Road%2C+Diva+East%2C+Thane-400612" rel="nofollow noopener noreferrer">D-408 Shivlila Apt, Mumbra Devi Colony Road, Diva East, Thane-400612</a>
                             </li>
                             <li class="m-0 pl-10 pr-10"> 
                                 <i class="fa fa-phone text-theme-colored mr-5"></i> 
