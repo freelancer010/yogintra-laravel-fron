@@ -1392,6 +1392,7 @@
                     margin: 15,
                     dots: false,
                     nav: data_nav,
+                    navElement: 'button',
                     navText: [
                         '<i class="fa fa-chevron-left"></i>',
                         '<i class="fa fa-chevron-right"></i>'
