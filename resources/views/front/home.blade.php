@@ -712,6 +712,7 @@
                                 decoding="async"
                                 fetchpriority="high"
                                 alt="YogIntra - {{ $slider->slider_heading }}"
+                                title="YogIntra - {{ $slider->slider_heading }}"
                             >
                         </picture>
                     @else
@@ -722,6 +723,7 @@
                             loading="lazy"
                             decoding="async"
                             alt="YogIntra - {{ $slider->slider_heading }}"
+                            title="YogIntra - {{ $slider->slider_heading }}"
                         >
                     @endif
                     <div class="overlay"></div>
@@ -757,6 +759,7 @@
             <img
                 src="{{ asset('assets/Mobile-Banner-new.webp') }}"
                 alt="YogIntra Mobile Banner - Yoga and Meditation Services"
+                title="YogIntra Mobile Banner - Yoga and Meditation Services"
                 width="414"
                 height="650"
                 decoding="async"
@@ -805,7 +808,7 @@
                                     <div class="icon-box icon-theme-colored benefit-icon left media p-0 mb-sm-10 mt-30">
                                         <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip" aria-label="Explore yoga centres">
                                             <img src="{{ asset($content_1->of_image) }}" 
-                                                width="75" height="75" loading="lazy" alt="YogIntra Feature - {{ $content_1->of_heading }}" decoding="async">
+                                                width="75" height="75" loading="lazy" alt="YogIntra Feature - {{ $content_1->of_heading }}" title="YogIntra Feature - {{ $content_1->of_heading }}" decoding="async">
                                         </a>
                                         <div class="media-body">
                                             <h3 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h3>
@@ -831,7 +834,7 @@
             <div class="section-content">
                 <div class="row">
                     <div class="col-md-6">
-                        <img src="{{ asset($section_2->os_image_image) }}" width="349" height="348" loading="lazy" decoding="async" alt="YogIntra Services - {{ $section_2->os_image_heading }}">
+                        <img src="{{ asset($section_2->os_image_image) }}" width="349" height="348" loading="lazy" decoding="async" alt="YogIntra Services - {{ $section_2->os_image_heading }}" title="YogIntra Services - {{ $section_2->os_image_heading }}">
                     </div>
                     <div class="col-md-6">
                         <h3 class="section-3 mb-0 sub-heading">{{ $section_2->os_image_sub_heading }}</h3>
@@ -843,7 +846,7 @@
                             @foreach ($section_2_content as $content_sec_2)
                                 <div class="col-sm-4 text-center">
                                     <div class="life-divin-section">
-                                        <img src="{{ asset($content_sec_2->os_image) }}" width="90" height="95" loading="lazy" decoding="async" alt="YogIntra Service Icon - {{ $content_sec_2->os_heading }}">
+                                        <img src="{{ asset($content_sec_2->os_image) }}" width="90" height="95" loading="lazy" decoding="async" alt="YogIntra Service Icon - {{ $content_sec_2->os_heading }}" title="YogIntra Service Icon - {{ $content_sec_2->os_heading }}">
                                     </div>
                                     <h3 class="service-heading">{{ $content_sec_2->os_heading }}</h3>
                                 </div>
@@ -897,7 +900,7 @@
                                     @endphp
                                     <div class="col-lg-3 col-md-3 col-sm-4 mb-30">
                                         <div class="yoga-service-item text-center">
-                                             <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
+                                             <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}" title="YogIntra Service Category - {{ $r_service->service_cat_name }}">
                                              <h2 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h2>
                                              <ul class="section3-card-bullets">@foreach($section3BulletItems('category_'.$r_service->service_cat_id) as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                              <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
@@ -910,7 +913,7 @@
                                         $cardButton = $section3Button('ttc', 'Visit Now', route('ttc'));
                                     @endphp
                                     <div class="yoga-service-item text-center">
-                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['ttc'] ?? 'assets/icon-thumb3-150x150.jpg') }}" width="150" height="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course">
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['ttc'] ?? 'assets/icon-thumb3-150x150.jpg') }}" width="150" height="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course" title="YogIntra TTC - Teacher Training Course">
                                          <h2 class="mb-15 fs-16">TTC</h2>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('ttc') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
@@ -922,7 +925,7 @@
                                         $cardButton = $section3Button('retreat', 'Visit Now', route('retreat.all'));
                                     @endphp
                                     <div class="yoga-service-item text-center">
-                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['retreat'] ?? 'assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs">
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['retreat'] ?? 'assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs" title="YogIntra Retreat Programs">
                                          <h2 class="mb-15 fs-16">Retreat</h2>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('retreat') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
@@ -934,7 +937,7 @@
                                         $cardButton = $section3Button('workshop', 'Visit Now', route('workshop'));
                                     @endphp
                                     <div class="yoga-service-item text-center">
-                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['workshop'] ?? 'assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops">
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['workshop'] ?? 'assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops" title="YogIntra Yoga Workshops">
                                          <h2 class="mb-15 fs-16">Workshop</h2>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('workshop') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
@@ -946,7 +949,7 @@
                                         $cardButton = $section3Button('yoga_center', 'Visit Now', route('yoga.center'));
                                     @endphp
                                     <div class="yoga-service-item text-center">
-                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['yoga_center'] ?? 'uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility">
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['yoga_center'] ?? 'uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility" title="YogIntra Yoga Center and Training Facility">
                                          <h2 class="mb-15 fs-16">Yoga Center</h2>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('yoga_center') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
@@ -979,7 +982,7 @@
                             <div class="item">
                                 <div class="team-members text-center maxwidth400">
                                     <div class="team-thumb">
-                                        <img class="img-fullwidth" width="200" height="200" loading="lazy" decoding="async" alt="YogIntra Instructor - {{ $trainer->name ?? 'Instructor' }}" src="{{ $api . '/' . ($trainer->profile_image ?? '') }}">
+                                        <img class="img-fullwidth" width="200" height="200" loading="lazy" decoding="async" alt="YogIntra Instructor - {{ $trainer->name ?? 'Instructor' }}" title="YogIntra Instructor - {{ $trainer->name ?? 'Instructor' }}" src="{{ $api . '/' . ($trainer->profile_image ?? '') }}">
                                     </div>
                                     @php
                                         $currentYear = now()->year;
@@ -1088,6 +1091,7 @@
                                                      width="38" height="38" 
                                                      loading="lazy" decoding="async"
                                                      alt="{{ $testimonial->test_name }}" 
+                                                     title="{{ $testimonial->test_name }}"
                                                      style="border-radius: 50%; object-fit: cover; flex-shrink: 0;">
                                             @else
                                                 <div style="width: 38px; height: 38px; background-color: #e07f00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; flex-shrink: 0; font-size: 16px;">
