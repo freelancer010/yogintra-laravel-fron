@@ -14,10 +14,18 @@
     .form-step.active {
         display: block;
     }
+    .yoga-center-share { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px; margin:0 0 42px; }
+    .yoga-center-share strong { margin-right:6px; color:#183c45; }
+    .yoga-center-share a { display:inline-flex; align-items:center; gap:7px; min-height:40px; padding:9px 14px; border:1px solid #d7e5e6; border-radius:7px; background:#fff; color:#183c45; font-weight:700; text-decoration:none; transition:background .2s ease, transform .2s ease; }
+    .yoga-center-share a:hover, .yoga-center-share a:focus { background:#e8f5f3; color:#0f6e78; transform:translateY(-1px); }
 </style>
 @endpush
 
 @section('content')
+@php
+    $shareUrl = url()->current();
+    $shareText = 'Explore Yoga Centers with YogIntra';
+@endphp
 
 <!-- Section: inner-header -->
 <section class="inner-header divider parallax layer-overlay overlay-dark-7"
@@ -79,6 +87,14 @@
         </div>
     </div>
 </section>
+<div class="container">
+    <nav class="yoga-center-share" aria-label="Share Yoga Center page">
+        <strong>Share this page:</strong>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ rawurlencode($shareUrl) }}" target="_blank" rel="noopener noreferrer nofollow" aria-label="Share Yoga Center page on Facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ rawurlencode($shareUrl) }}" target="_blank" rel="noopener noreferrer nofollow" aria-label="Share Yoga Center page on LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
+        <a href="https://wa.me/?text={{ rawurlencode($shareText . ' ' . $shareUrl) }}" target="_blank" rel="noopener noreferrer nofollow" aria-label="Share Yoga Center page on WhatsApp"><i class="fa fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+    </nav>
+</div>
 @endif
 
 
