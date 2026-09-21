@@ -422,6 +422,12 @@
                 toggle.setAttribute('role', 'button');
                 toggle.setAttribute('aria-label', 'Toggle navigation menu');
                 toggle.setAttribute('aria-controls', 'menuzord-right');
+                if (!toggle.querySelector('.sr-only')) {
+                    const label = document.createElement('span');
+                    label.className = 'sr-only';
+                    label.textContent = 'Toggle navigation menu';
+                    toggle.appendChild(label);
+                }
                 toggle.addEventListener('click', function (event) { event.preventDefault(); });
                 return true;
             };

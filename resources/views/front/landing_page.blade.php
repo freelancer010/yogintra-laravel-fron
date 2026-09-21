@@ -1879,8 +1879,9 @@
         @foreach ($section_1_content as $content_1)
             <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
                 <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
-                    <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip">
+                    <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip" aria-label="Explore Yoga Center">
                         <img loading="lazy" src="{{ asset($content_1->of_image) }}" width="75" height="75" alt="{{ $content_1->of_heading }}" decoding="async">
+                        <span class="sr-only">Explore Yoga Center</span>
                     </a>
                     <div class="media-body">
                         <h3 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h3>
