@@ -102,7 +102,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap" rel="stylesheet"></noscript>
+    @unless(request()->is('yoga-center*'))<noscript><link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap" rel="stylesheet"></noscript>@endunless
 
     <link href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" rel="stylesheet" type="text/css">
     @if (request()->segment(1) == 'pages')
