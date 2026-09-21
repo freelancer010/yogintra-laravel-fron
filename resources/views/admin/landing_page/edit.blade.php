@@ -186,7 +186,7 @@
     });
     document.body.classList.add('landing-builder-focus');
     const builderMenuButton = document.getElementById('sidebar-toggle');
-    builderMenuButton.addEventListener('click', function () { document.body.classList.toggle('landing-builder-focus'); this.textContent = document.body.classList.contains('landing-builder-focus') ? 'Show menu' : 'Focus editor'; });
+    builderMenuButton?.addEventListener('click', function () { document.body.classList.toggle('landing-builder-focus'); this.textContent = document.body.classList.contains('landing-builder-focus') ? 'Show menu' : 'Focus editor'; });
     const formBody = document.querySelector('.landing-builder-shell form .card-body');
     const workspace = document.createElement('div');
     workspace.className = 'builder-workspace';
@@ -195,7 +195,7 @@
     @if($sections->isEmpty())
     const classicConversionNotice = document.createElement('div');
     classicConversionNotice.className = 'classic-conversion-notice';
-    classicConversionNotice.innerHTML = '<div class="classic-conversion-copy"><strong>Convert the classic page layout</strong><small>Create editable, city-aware sections from the old shared landing-page content.</small></div><button type="submit" class="btn btn-primary btn-sm">Convert classic layout</button>';
+    classicConversionNotice.innerHTML = '<div class="classic-conversion-copy"><strong>Use the editable Default layout</strong><small>Create the India Classic template as editable sections on this canvas.</small></div><button type="submit" class="btn btn-primary btn-sm">Use editable template</button>';
     const classicConversionButton = classicConversionNotice.querySelector('button');
     classicConversionButton.formAction = '{{ route('admin.landing-pages.convert-classic', $page->page_id) }}';
     classicConversionButton.formMethod = 'post';
