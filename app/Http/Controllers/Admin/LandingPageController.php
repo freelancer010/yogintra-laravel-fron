@@ -157,9 +157,7 @@ class LandingPageController extends Controller
     }
 
     /**
-     * Convert the previously shared city-page fallback into independent builder
-     * sections. The generated copy uses the current page name so editors begin
-     * with a city-relevant page instead of the same generic text everywhere.
+     * Turn the fixed Classic template into editable visual-builder sections.
      */
     public function convertClassic($id)
     {
@@ -192,11 +190,12 @@ class LandingPageController extends Controller
         }
 
         $this->createClassicSections($id, $city, (string) ($page->page_content ?? ''));
+        DB::table('new_landing_page')->where('page_id', $id)->update(['use_classic_layout' => false]);
         $this->forgetPublicPageCache($page->page_slug);
 
         return redirect()->route('admin.landing-pages.edit', $id)->with(
             'success',
-            'Classic page converted to editable sections. Review the city-specific copy before publishing.'
+            'The default Classic layout is now editable in the page builder. Review the content and update the page to publish your changes.'
         );
     }
 
@@ -394,57 +393,44 @@ class LandingPageController extends Controller
 
     private function createClassicSections(int $pageId, string $city, string $legacyContent = ''): void
     {
-        $serviceBlocks = DB::table('our_service')->get()->map(fn ($item) => [
-            'image' => $item->os_image ?? null,
-            'title' => $item->os_heading ?? 'Yoga service',
-            'text' => '',
-        ])->filter(fn ($item) => filled($item['title']))->values()->all();
-
-        if (empty($serviceBlocks)) {
-            $serviceBlocks = [
-                ['image' => 'assets/front/images/6503db8d98529icon-1.png', 'title' => 'Alternative Medicines', 'text' => 'Holistic support for your wellbeing.'],
-                ['image' => 'assets/front/images/6503dbc7b2fc5icon-2.png', 'title' => 'For Good Health', 'text' => 'Build sustainable healthy habits.'],
-                ['image' => 'assets/front/images/6503dbe5edf47icon-3.png', 'title' => 'Healthy Mind & Body', 'text' => 'Balance movement, breath and mindfulness.'],
-            ];
-        }
-
-        $benefitBlocks = DB::table('our_feature')->get()->map(fn ($item) => [
-            'image' => $item->of_image ?? null,
-            'title' => $item->of_heading ?? 'Yoga benefit',
-            'text' => $item->of_description ?? '',
-        ])->filter(fn ($item) => filled($item['title']))->values()->all();
-
-        $yogaServiceBlocks = [
-            ['image' => 'uploads/home_visit_yoga.webp', 'title' => 'Home Visit Yoga', 'text' => "Personal yoga sessions in {$city}.", 'url' => url('home-visit-yoga')],
-            ['image' => 'uploads/private_online_yoga.webp', 'title' => 'Private Online Yoga', 'text' => 'One-to-one online guidance from home.', 'url' => url('private-online-yoga')],
-            ['image' => 'uploads/group_online_yoga.webp', 'title' => 'Group Online Yoga', 'text' => 'Practice together from anywhere.', 'url' => url('group-online-yoga')],
-            ['image' => 'uploads/65057356cad36images-150x150.webp', 'title' => 'Corporate Yoga', 'text' => "Wellbeing programmes for teams in {$city}.", 'url' => url('corporate-yoga')],
-            ['image' => 'uploads/yog_center.webp', 'title' => 'Yoga Center', 'text' => 'Explore guided classes and programmes.', 'url' => url('yoga-center')],
-            ['image' => 'uploads/ttc.webp', 'title' => 'Teacher Training', 'text' => 'Deepen your yoga knowledge and practice.', 'url' => url('teacher-training-course')],
+        $serviceBlocks = [
+            ['title' => 'Online Yoga Classes', 'text' => 'Live, instructor-led yoga sessions from the comfort of home.'],
+            ['title' => 'Personalized Yoga Classes', 'text' => 'Practice adapted to your experience, goals, schedule and comfort level.'],
+            ['title' => 'Yoga for Beginners', 'text' => 'Learn foundational poses, breathing, alignment and relaxation progressively.'],
+            ['title' => 'Flexibility & Mobility', 'text' => 'Build body awareness and comfortable movement through a consistent practice.'],
+            ['title' => 'Stress Management', 'text' => 'Make dedicated time for mindful movement, breathing and relaxation.'],
+            ['title' => 'Yoga for Professionals', 'text' => 'Flexible sessions that fit around work, sitting and everyday demands.'],
+            ['title' => 'Yoga for Seniors', 'text' => 'Gentle, adaptable practices for mobility, balance and comfortable movement.'],
+            ['title' => "Women's Yoga & Wellness", 'text' => 'Personalized practices that can adapt to individual needs and life stages.'],
         ];
 
-        $intro = $legacyContent !== ''
-            ? $legacyContent
-            : "<p class=\"landing-sanskrit\">|| योग: कर्मसु कौशलम् ||</p><p>Looking for yoga classes in <strong>{$city}</strong>? YogIntra offers personalised practice for mobility, strength, stress relief and everyday wellbeing.</p><p>Choose from flexible formats and guidance that can fit naturally into your routine.</p>";
+        $audienceBlocks = [
+            ['title' => 'Who can begin', 'text' => 'Yoga beginners learning from the basics\nWorking professionals seeking convenient sessions\nStudents exploring movement, mindfulness and relaxation\nSeniors looking for gentle, adaptable movement\nPeople working on flexibility and mobility'],
+            ['title' => 'What a practice can support', 'text' => 'Complementing an active lifestyle\nMore relaxation and mindful movement\nStructured guidance for experienced practitioners\nA home-based online yoga routine\nA pace that feels realistic and sustainable'],
+        ];
 
-        $galleryBlocks = [
-            ['image' => 'uploads/yoga-pose1.jpeg', 'title' => 'Yoga practice', 'text' => 'A moment of movement and balance.', 'url' => url('gallery')],
-            ['image' => 'uploads/yoga-pose2.jpeg', 'title' => 'Mindful practice', 'text' => 'Find calm through consistent practice.', 'url' => url('gallery')],
-            ['image' => 'uploads/yoga-pose3.jpeg', 'title' => 'Strength and serenity', 'text' => 'Explore more moments from YogIntra.', 'url' => url('gallery')],
+        $benefitBlocks = [
+            ['title' => 'Physical benefits', 'text' => 'Supports flexibility and mobility\nHelps develop functional strength\nEncourages body awareness\nSupports balance and coordination'],
+            ['title' => 'Mental & lifestyle benefits', 'text' => 'Creates time for relaxation\nSupports everyday stress management\nEncourages conscious breathing\nPromotes mindfulness'],
+            ['title' => 'The power of consistency', 'text' => 'You do not need hours of practice every day. Finding a realistic routine you can maintain is the most important step towards a long-term yoga practice.'],
+        ];
+
+        $planBlocks = [
+            ['title' => 'Trial Yoga Session', 'text' => 'A simple way to experience YogIntra before choosing a routine.\n\nDiscuss your yoga goals\nUnderstand the class format\nMeet your instructor\nExplore suitable options'],
+            ['title' => 'Monthly Yoga Plan', 'text' => 'Build consistency with regular instructor-guided yoga sessions.\n\nScheduled yoga classes\nInstructor guidance\nFlexible session options\nSuitable for regular practice'],
+            ['title' => 'Personalized Yoga Plan', 'text' => 'Individual guidance shaped around your requirements.\n\nGoal-oriented practice\nFlexible scheduling\nIndividual attention\nPractice adapted to you'],
         ];
 
         $sections = [
-            ['section_type' => 'text', 'heading' => "Yoga Classes in {$city}", 'content' => $intro, 'text_align' => 'center', 'padding_y' => 42],
-            ['section_type' => 'feature_grid', 'heading' => 'Life in Divine Yoga', 'content' => "<p>Choose a practice that suits your goals and routine in {$city}.</p>", 'elements' => [['type' => 'subheading', 'text' => '|| योग: कर्मसु कौशलम् ||', 'color' => '#0f7a84', 'size' => 26, 'padding' => 0, 'margin' => 0]], 'blocks' => $serviceBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'padding_y' => 42],
-            ['section_type' => 'image', 'heading' => null, 'content' => null, 'image' => 'uploads/download.webp', 'image_alt' => "Yoga and wellbeing in {$city}", 'image_size' => 80, 'padding_y' => 28],
-            ['section_type' => 'feature_grid', 'heading' => 'The main reasons to practise yoga', 'content' => "<p>Build a calmer, stronger and more balanced daily routine with guidance tailored to you in {$city}.</p>", 'elements' => [['type' => 'subheading', 'text' => '|| योगश्चित्तवृत्तिनिरोधः ||', 'color' => '#0f7a84', 'size' => 26, 'padding' => 0, 'margin' => 0]], 'blocks' => $benefitBlocks, 'grid_columns' => 2, 'card_layout' => 'icon_left', 'card_alignment' => 'left', 'text_align' => 'center', 'padding_y' => 42],
-            ['section_type' => 'feature_grid', 'heading' => 'A brief description of the types of yoga services', 'content' => "<p>Explore flexible ways to practise, from private sessions to group and workplace programmes in {$city}.</p>", 'elements' => [['type' => 'subheading', 'text' => '|| तत्र स्थितौ यत्नोऽभ्यासः ||', 'color' => '#0f7a84', 'size' => 26, 'padding' => 0, 'margin' => 0]], 'blocks' => $yogaServiceBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'padding_y' => 42],
-            ['section_type' => 'image_text', 'heading' => 'About YogIntra', 'content' => "<p>YogIntra brings experienced yoga professionals and practical wellness support together for people in {$city} and beyond. Our focus is making yoga approachable, consistent and relevant to your goals.</p>", 'image' => 'assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp', 'image_alt' => 'YogIntra', 'image_position' => 'left', 'image_size' => 35, 'padding_y' => 42],
-            ['section_type' => 'image_text', 'heading' => 'About our founder', 'content' => '<p>YogIntra was founded to make yoga easier to include in everyday life. Add founder information, local instructor experience and credentials here so visitors can understand who will guide their practice.</p>', 'image' => 'assets/image0-1-e1652675710448-povumdsa83b7dajv3gfs2377ei7o24wz5y0tn7sz34.webp', 'image_alt' => 'YogIntra founder', 'image_position' => 'right', 'image_size' => 42, 'padding_y' => 42],
-            ['section_type' => 'cta', 'heading' => 'Meet our instructors', 'content' => "<p>Discover the experienced YogIntra instructors available to guide your practice in {$city}.</p>", 'button_text' => 'View instructors', 'button_url' => url('trainers'), 'text_align' => 'center', 'padding_y' => 42],
-            ['section_type' => 'feature_grid', 'heading' => 'Gallery', 'content' => '<p>Discover tranquility through moments of yoga, movement and stillness.</p>', 'blocks' => $galleryBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'padding_y' => 42],
-            ['section_type' => 'text', 'heading' => "Yoga classes in {$city}: frequently asked questions", 'content' => "<h3>Are classes suitable for beginners?</h3><p>Yes. Sessions can be adapted to your current flexibility, fitness and confidence.</p><h3>Can I book a class in {$city}?</h3><p>Use the enquiry form to share your preferred area, timing and goals. The team will help you choose a suitable option.</p><h3>What should I bring to my first session?</h3><p>Wear comfortable clothing and bring water. Your instructor will guide you on everything else.</p>", 'text_align' => 'left', 'padding_y' => 42],
-            ['section_type' => 'cta', 'heading' => "Begin your yoga journey in {$city}", 'content' => "<p>Tell us what you are looking for and we will help you find the right yoga option.</p>", 'button_text' => 'Enquire now', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#eef8f7', 'padding_y' => 48],
+            ['section_type' => 'cta', 'heading' => 'Yoga Classes in India for a Healthier, More Balanced Life', 'content' => '<p>Practice yoga with experienced instructors through personalized and online yoga classes across India.</p><p>Whether you are a beginner, a busy professional, a senior, or an experienced practitioner, YogIntra makes it easier to build a consistent practice around your goals, schedule and lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#eff8f7', 'padding_y' => 72],
+            ['section_type' => 'text', 'heading' => 'Start where you are. Practice at your pace.', 'content' => '<p>Yoga has been part of India’s wellness traditions for centuries. YogIntra brings that practice into modern everyday life with convenient, personalized yoga sessions.</p><p>You do not need to be flexible, experienced, or ready to change your whole routine. With thoughtful guidance and a practice that fits your day, yoga can become a sustainable part of your wellbeing journey.</p>', 'text_align' => 'center', 'padding_y' => 64],
+            ['section_type' => 'feature_grid', 'heading' => 'Yoga Services Available Across India', 'content' => '<p>Choose a practice that meets you where you are, from live online guidance to sessions designed around your personal goals.</p>', 'blocks' => $serviceBlocks, 'grid_columns' => 4, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'background_color' => '#f5faf9', 'padding_y' => 64],
+            ['section_type' => 'feature_grid', 'heading' => 'Yoga Classes for Different Needs, Ages & Experience Levels', 'content' => '<p>You do not have to fit a particular fitness level to begin. Your practice can evolve as your experience and requirements change.</p>', 'blocks' => $audienceBlocks, 'grid_columns' => 2, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'padding_y' => 64],
+            ['section_type' => 'feature_grid', 'heading' => 'Benefits of Regular Yoga Practice', 'content' => '<p>When practiced appropriately and consistently, yoga can support movement, mindfulness, relaxation and overall wellbeing.</p>', 'blocks' => $benefitBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#0d6c75', 'text_color' => '#ffffff', 'description_color' => '#ffffff', 'padding_y' => 64],
+            ['section_type' => 'text', 'heading' => 'Start Your Yoga Journey in 3 Simple Steps', 'content' => '<h3>1. Share your requirements</h3><p>Tell us about your experience, preferred schedule, lifestyle and what you want from your practice.</p><h3>2. Choose your format</h3><p>Explore a suitable option such as online yoga classes or personalized yoga sessions.</p><h3>3. Start practicing</h3><p>Attend your sessions, follow instructor guidance and gradually build a consistent routine.</p>', 'text_align' => 'center', 'padding_y' => 64],
+            ['section_type' => 'feature_grid', 'heading' => 'Yoga Plans for Different Needs', 'content' => '<p>Choose a package based on your preferred schedule, class format and practice goals. Contact YogIntra for current pricing and availability.</p>', 'blocks' => $planBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'padding_y' => 64],
+            ['section_type' => 'faq', 'heading' => 'Frequently Asked Questions About Yoga Classes in India', 'content' => '<p>Does YogIntra offer yoga classes across India?</p><p>YogIntra offers online and other available formats. Online sessions can help students in different parts of India practice remotely with an instructor.</p><p>Are classes suitable for beginners?</p><p>Yes. Beginners can start with foundational practices and gradually become familiar with poses, breathing, alignment and relaxation.</p><p>Do I need to be flexible to start yoga?</p><p>No. A suitable beginner practice can be adapted to your current level and comfort.</p>', 'text_align' => 'center', 'background_color' => '#f5faf9', 'padding_y' => 64],
+            ['section_type' => 'cta', 'heading' => 'Ready to Start Your Yoga Journey?', 'content' => '<p>Whether you are taking your first class or looking for a more consistent practice, YogIntra makes it easier to find yoga sessions that fit your lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#e1f3f0', 'padding_y' => 72],
         ];
 
         foreach ($sections as $order => $section) {
