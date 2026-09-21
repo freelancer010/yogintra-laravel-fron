@@ -47,7 +47,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-6 sm-text-center mb-30 mb-sm-30">
                         <div class="schedule-box maxwidth500 bg-light mb-30">
                             <div class="thumb">
-                                <img class="img-fullwidth" alt="{{ $center->center_name }}" src="{{ asset($center->center_image) }}" style="height:300px;">
+                                <img class="img-fullwidth" alt="{{ $center->center_name }}" title="{{ $center->center_name }}" src="{{ asset($center->center_image) }}" style="height:300px;">
                                 <div class="overlay">
                                     <a href="{{ url('/yoga-center/' . $center->center_slug) }}" aria-label="View {{ $center->center_name }} schedule"><i class="fa fa-calendar mr-5" aria-hidden="true"></i><span class="sr-only">View {{ $center->center_name }} schedule</span></a>
                                 </div>

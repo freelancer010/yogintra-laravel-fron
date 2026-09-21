@@ -3,7 +3,7 @@
         <div class="row border-bottom-black">
             <div class="col-sm-6 col-md-3">
                 <div class="widget dark mb-5">
-                    <img class="mt-10 mb-20" width="246" height="66" alt="YogIntra" loading="lazy" src="{{ asset('uploads/6522371db10e06501ab36d6f70Rectrangular-logo-2.png') }}">
+                    <img class="mt-10 mb-20" width="246" height="66" alt="YogIntra" title="YogIntra Logo" loading="lazy" src="{{ asset('uploads/6522371db10e06501ab36d6f70Rectrangular-logo-2.png') }}">
                     <p>YogIntra helps promote a balanced development of the physical, mental, and spiritual being.</p>
                 </div>
                 <div class="widget dark mb-0">
