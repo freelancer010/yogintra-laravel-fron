@@ -176,7 +176,14 @@
                 min-height:64px !important;
                 background:#fff !important;
             }
-            .header.header-floating:not(.home-mobile-hero-navigation) .header-nav,
+            .header.header-floating:not(.home-mobile-hero-navigation) .header-nav {
+                position:fixed !important;
+                top:0 !important;
+                left:0 !important;
+                right:0 !important;
+                width:100% !important;
+                z-index:1101 !important;
+            }
             .header.header-floating:not(.home-mobile-hero-navigation) .header-nav-wrapper,
             .header.header-floating:not(.home-mobile-hero-navigation) .menuzord {
                 position:relative !important;
