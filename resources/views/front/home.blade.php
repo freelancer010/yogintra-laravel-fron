@@ -888,7 +888,7 @@
                                     @php
                                         $cardButton = $section3Button('category_'.$r_service->service_cat_id, 'Book Now', url($r_service->service_cat_slug));
                                     @endphp
-                                    <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                    <div class="col-lg-3 col-md-3 col-sm-4 mb-30">
                                         <div class="yoga-service-item text-center">
                                              <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}">
                                              <h2 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h2>
@@ -898,7 +898,7 @@
                                     </div>
                                 @endforeach
 
-                                <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                <div class="col-lg-3 col-md-3 col-sm-4 mb-30">
                                     @php
                                         $cardButton = $section3Button('ttc', 'Visit Now', route('ttc'));
                                     @endphp
@@ -910,7 +910,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-3 col-md-3 col-sm-4 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                <div class="col-lg-3 col-md-3 col-sm-4 mb-30">
                                     @php
                                         $cardButton = $section3Button('retreat', 'Visit Now', route('retreat.all'));
                                     @endphp
@@ -922,7 +922,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-3 col-md-3 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                <div class="col-lg-3 col-md-3 col-sm-6 mb-30">
                                     @php
                                         $cardButton = $section3Button('workshop', 'Visit Now', route('workshop'));
                                     @endphp
@@ -934,7 +934,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-3 col-md-3 col-sm-6 mb-30 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                <div class="col-lg-3 col-md-3 col-sm-6 mb-30">
                                     @php
                                         $cardButton = $section3Button('yoga_center', 'Visit Now', route('yoga.center'));
                                     @endphp

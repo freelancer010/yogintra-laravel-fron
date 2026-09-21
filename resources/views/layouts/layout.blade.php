@@ -525,9 +525,9 @@
             font-size: 14px;
             z-index: 9999;
             opacity: 0;
-            visibility: hidden;
+            pointer-events: none;
             transform: translateY(10px);
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
             width: 200px;
             text-align: center;
         }
@@ -544,22 +544,19 @@
 
         .tooltip-popup.show {
             opacity: 1;
-            visibility: visible;
+            pointer-events: auto;
             transform: translateY(0);
         }
 
         @keyframes pulseAnimation {
             0% {
                 transform: scale(1);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             }
             50% {
                 transform: scale(1.1);
-                box-shadow: 0 6px 12px rgba(0,0,0,0.4);
             }
             100% {
                 transform: scale(1);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             }
         }
 
