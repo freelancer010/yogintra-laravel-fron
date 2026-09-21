@@ -1323,7 +1323,12 @@
 
 @if($page_sections->isNotEmpty() && !($page_data->use_classic_layout ?? false))
   <style>
-    .landing-builder-section { overflow: hidden; }
+    .landing-builder-section {
+      overflow: hidden;
+      content-visibility: auto;
+      contain-intrinsic-size: auto 700px;
+    }
+    .landing-builder-section.landing-first-section { content-visibility: visible; }
     /* The legacy theme offsets its generic .container on some breakpoints.
        Builder content must always be centered relative to the viewport. */
     .landing-builder-section .container {
@@ -1462,7 +1467,7 @@
         ? "background-image: linear-gradient(rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity}), rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity})), url('".asset($section->background_image)."'); background-size: cover; background-repeat: no-repeat; background-position: ".($section->background_position ?? 'center')." center;"
         : '';
     @endphp
-    <section class="landing-builder-section landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $section->background_parallax && $backgroundMode === 'image' ? 'landing-section-parallax' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+    <section class="landing-builder-section {{ $loop->first ? 'landing-first-section' : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $section->background_parallax && $backgroundMode === 'image' ? 'landing-section-parallax' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
       <div class="{{ $section->section_type === 'image' ? 'container-fluid' : 'container' }}" style="{{ $section->section_type === 'image' ? 'padding-left:0; padding-right:0;' : '' }}">
         @if($section->section_type === 'testimonial')
           <div class="mb-4" style="text-align: {{ $section->text_align ?? 'center' }};">
@@ -1580,7 +1585,7 @@
                     @if(!empty($element['url']))
                       <a href="{{ $element['url'] }}">
                     @endif
-                    <img src="{{ asset($stackImage) }}" alt="{{ $element['alt'] ?? $column['alt'] ?? 'Section image' }}" loading="lazy" style="width: {{ max(20, min(100, (int) ($element['image_size'] ?? $column['image_size'] ?? 100))) }}%; max-width:100%; height:auto; {{ $imageSpacing }}">
+                    <x-responsive-image :image="$stackImage" :alt="$element['alt'] ?? $column['alt'] ?? 'Section image'" sizes="(max-width: 768px) 100vw, 50vw" style="width: {{ max(20, min(100, (int) ($element['image_size'] ?? $column['image_size'] ?? 100))) }}%; max-width:100%; height:auto; {{ $imageSpacing }}" />
                     @if(!empty($element['url']))
                       </a>
                     @endif
@@ -1657,7 +1662,7 @@
             @foreach($blocks as $block)
               <div class="landing-feature-card {{ $cardLayout }}" style="text-align: {{ $cardAlignment }};">
                 @if(!empty($block['image']))
-                  <img src="{{ asset($block['image']) }}" alt="{{ $block['title'] ?? 'Feature image' }}" width="120" height="120" loading="lazy" decoding="async">
+                  <x-responsive-image :image="$block['image']" :alt="$block['title'] ?? 'Feature image'" sizes="120px" width="120" height="120" />
                 @else
                   <div class="landing-feature-icon" style="color: {{ $section->text_color ?? '#183c45' }}">{{ $block['icon'] ?? '✦' }}</div>
                 @endif
@@ -1677,7 +1682,7 @@
         <div class="row align-items-center {{ $section->section_type === 'image_text' ? 'landing-image-text-row' : '' }} {{ in_array($section->section_type, ['image_text', 'image']) ? '' : 'justify-content-center' }} {{ $section->image_position === 'right' ? 'landing-image-right' : '' }}">
           @if(in_array($section->section_type, ['image_text', 'image']) && $section->image)
             <div class="{{ $section->section_type === 'image' ? 'col-12' : 'col-md-6 mb-4 mb-md-0' }}" style="{{ $section->section_type === 'image_text' ? 'flex: 0 0 '.(int)($section->image_size ?? 42).'%; max-width: '.(int)($section->image_size ?? 42).'%;' : ($section->section_type === 'image' ? 'width: '.(int)($section->image_size ?? 100).'%; max-width: 100%; margin-left: auto; margin-right: auto;' : '') }}">
-              <img src="{{ asset($section->image) }}" alt="{{ $section->image_alt ?: $section->heading }}" class="{{ $section->section_type === 'image' ? 'landing-full-image' : 'img-fluid rounded' }}" loading="lazy" style="object-fit: cover; object-position: {{ $section->image_focal_x ?? 50 }}% {{ $section->image_focal_y ?? 50 }}%; {{ ($section->image_crop ?? 'original') !== 'original' ? 'aspect-ratio: '.e($section->image_crop).'; width: 100%; height: auto;' : '' }}">
+              <x-responsive-image :image="$section->image" :alt="$section->image_alt ?: $section->heading" sizes="{{ $section->section_type === 'image' ? '100vw' : '(max-width: 768px) 100vw, 50vw' }}" class="{{ $section->section_type === 'image' ? 'landing-full-image' : 'img-fluid rounded' }}" style="object-fit: cover; object-position: {{ $section->image_focal_x ?? 50 }}% {{ $section->image_focal_y ?? 50 }}%; {{ ($section->image_crop ?? 'original') !== 'original' ? 'aspect-ratio: '.e($section->image_crop).'; width: 100%; height: auto;' : '' }}" />
             </div>
           @endif
           @if($section->section_type !== 'image')

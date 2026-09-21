@@ -69,8 +69,44 @@ class OptimizedImageUpload
         }
 
         $converted = imagewebp($image, $destinationPath, 82);
+
+        if ($converted) {
+            $this->createResponsiveVariants(
+                $image,
+                (int) $imageInfo[0],
+                (int) $imageInfo[1],
+                dirname($destinationPath),
+                pathinfo($destinationPath, PATHINFO_FILENAME)
+            );
+        }
+
         imagedestroy($image);
 
         return $converted && File::exists($destinationPath);
+    }
+
+    /**
+     * Keep the original WebP for large screens and add compact sources for
+     * responsive <picture> output. Smaller source files are not upscaled.
+     */
+    private function createResponsiveVariants($image, int $sourceWidth, int $sourceHeight, string $directory, string $basename): void
+    {
+        if (!function_exists('imagecreatetruecolor') || !function_exists('imagecopyresampled')) {
+            return;
+        }
+
+        foreach ([480, 768, 1280] as $targetWidth) {
+            if ($sourceWidth <= $targetWidth) {
+                continue;
+            }
+
+            $targetHeight = max(1, (int) round($sourceHeight * ($targetWidth / $sourceWidth)));
+            $variant = imagecreatetruecolor($targetWidth, $targetHeight);
+            imagealphablending($variant, false);
+            imagesavealpha($variant, true);
+            imagecopyresampled($variant, $image, 0, 0, 0, 0, $targetWidth, $targetHeight, $sourceWidth, $sourceHeight);
+            imagewebp($variant, $directory . DIRECTORY_SEPARATOR . $basename . '-' . $targetWidth . '.webp', 78);
+            imagedestroy($variant);
+        }
     }
 }
