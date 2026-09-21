@@ -1553,7 +1553,7 @@
                     @if(!empty($column['url']))
                       <a href="{{ $column['url'] }}">
                     @endif
-                    <x-responsive-image :image="$column['image']" :alt="$column['alt'] ?? 'Section image'" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" style="width: {{ max(20, min(100, (int) ($column['image_size'] ?? 100))) }}%; margin: {{ (int) ($imageStyle['margin'] ?? 0) }}px auto; padding: {{ (int) ($imageStyle['padding'] ?? 0) }}px;">
+                    <x-responsive-image :image="$column['image']" :alt="$column['alt'] ?? 'Section image'" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" style="width: {{ max(20, min(100, (int) ($column['image_size'] ?? 100))) }}%; margin: {{ (int) ($imageStyle['margin'] ?? 0) }}px auto; padding: {{ (int) ($imageStyle['padding'] ?? 0) }}px;" />
                     @if(!empty($column['url']))
                       </a>
                     @endif
