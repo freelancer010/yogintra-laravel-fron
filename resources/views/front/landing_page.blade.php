@@ -1265,6 +1265,28 @@
     .text-dark {
         color: #444444 !important;
     }
+    /* Legacy city-page accessibility: these elements are produced by the
+       theme carousel rather than the visual builder. Keep their controls
+       comfortable to tap without making the visible dots oversized. */
+    .review-section .text-gray { color: #4b4b4b !important; }
+    #faqAccordion .accordion-button { background: #ffffff; color: #183c45; font-weight: 700; }
+    #faqAccordion .accordion-button:not(.collapsed) { background: #e7f4f5; color: #0a4f5b; }
+    .owl-carousel .owl-dots .owl-dot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      margin: 0;
+      padding: 0;
+    }
+    .owl-carousel .owl-dots .owl-dot span { margin: 0; }
+    .owl-carousel .owl-nav button.owl-prev,
+    .owl-carousel .owl-nav button.owl-next {
+      min-width: 44px;
+      min-height: 44px;
+      margin-top: -22px;
+    }
    </style>
 @endpush
 
@@ -2269,6 +2291,31 @@
 
 <!-- Landing page specific scripts - deferred to after FCP -->
 <script type="text/javascript" defer>
+// The legacy theme creates Owl controls after the carousel markup is parsed.
+// Give every generated control an accessible name and a 44px tap target.
+function improveLandingCarouselAccessibility() {
+    document.querySelectorAll('.owl-carousel').forEach(function (carousel, carouselIndex) {
+        carousel.querySelectorAll('.owl-nav .owl-prev').forEach(function (button) {
+            button.removeAttribute('role');
+            button.setAttribute('aria-label', 'Previous slide');
+        });
+        carousel.querySelectorAll('.owl-nav .owl-next').forEach(function (button) {
+            button.removeAttribute('role');
+            button.setAttribute('aria-label', 'Next slide');
+        });
+        carousel.querySelectorAll('.owl-dots .owl-dot').forEach(function (button, slideIndex) {
+            button.setAttribute('aria-label', 'Show slide ' + (slideIndex + 1) + ' of carousel ' + (carouselIndex + 1));
+            button.setAttribute('aria-current', button.classList.contains('active') ? 'true' : 'false');
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', improveLandingCarouselAccessibility);
+window.addEventListener('load', function () {
+    improveLandingCarouselAccessibility();
+    window.setTimeout(improveLandingCarouselAccessibility, 300);
+}, { once: true });
+
 // Optimize initial hero section rendering
 window.addEventListener('load', function() {
     // Initialize forms and interactions after page load
