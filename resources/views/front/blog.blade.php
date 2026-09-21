@@ -48,7 +48,7 @@
 @section('content')
 <main class="blog-index">
     <section class="blog-index-hero" aria-label="YogIntra blog">
-        <img class="blog-index-hero-image" src="{{ asset('assets/front/images/bg/bg6.jpg') }}" alt="Peaceful YogIntra wellness landscape" fetchpriority="high" style="display:block!important;width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important;">
+        <img class="blog-index-hero-image" src="{{ asset('assets/front/images/bg/bg6.jpg') }}" alt="Peaceful YogIntra wellness landscape" title="Peaceful YogIntra wellness landscape" fetchpriority="high" style="display:block!important;width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important;">
         <div class="blog-index-hero-content">
             <h1>Blog</h1>
         </div>
@@ -68,7 +68,7 @@
                         <a href="{{ url('/blog/' . $all_blog->blog_slug) }}" aria-label="Read {{ $all_blog->blog_title }}">
                             <div class="post-thumb">
                                 @if ($all_blog->blog_image)
-                                    <img src="{{ asset($all_blog->blog_image) }}" alt="{{ $all_blog->blog_title }}" loading="lazy" decoding="async">
+                                    <img src="{{ asset($all_blog->blog_image) }}" alt="{{ $all_blog->blog_title }}" title="{{ $all_blog->blog_title }}" loading="lazy" decoding="async">
                                 @else
                                     <div class="post-thumb-fallback">{{ Str::limit($all_blog->blog_title, 72) }}</div>
                                 @endif

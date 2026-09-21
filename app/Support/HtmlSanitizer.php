@@ -91,6 +91,11 @@ class HtmlSanitizer
         if (strtolower($element->tagName) === 'a' && $element->getAttribute('target') === '_blank') {
             $element->setAttribute('rel', 'noopener noreferrer');
         }
+
+        if (strtolower($element->tagName) === 'img' && trim($element->getAttribute('title')) === '') {
+            $alt = trim($element->getAttribute('alt'));
+            $element->setAttribute('title', $alt !== '' ? $alt : 'Content image');
+        }
     }
 
     private function isSafeUrl(string $url, bool $isImage): bool
