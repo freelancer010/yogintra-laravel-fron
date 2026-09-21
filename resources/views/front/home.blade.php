@@ -1401,6 +1401,19 @@
             });
         }
         
+        var labelTestimonialCarouselControls = function ($carousel) {
+            $carousel.find('.owl-nav .owl-prev')
+                .removeAttr('role')
+                .attr('aria-label', 'Previous testimonials');
+            $carousel.find('.owl-nav .owl-next')
+                .removeAttr('role')
+                .attr('aria-label', 'Next testimonials');
+            $carousel.find('.owl-dots .owl-dot').each(function (index) {
+                $(this).attr('aria-label', 'Show testimonial slide ' + (index + 1));
+                $(this).attr('aria-current', $(this).hasClass('active') ? 'true' : 'false');
+            });
+        };
+
         var $owl_carousel_3col = $('.owl-carousel-3col');
     
         if ( $owl_carousel_3col.length > 0 ) {
@@ -1411,7 +1424,11 @@
                 var data_dots = ( $(this).data("dots") === undefined ) ? false: $(this).data("dots");
                 var data_nav = ( $(this).data("nav")=== undefined ) ? false: $(this).data("nav");
                 var data_duration = ( $(this).data("duration") === undefined ) ? 4000: $(this).data("duration");
-                $(this).owlCarousel({
+                var $carousel = $(this);
+                $carousel.on('initialized.owl.carousel refreshed.owl.carousel translated.owl.carousel', function () {
+                    labelTestimonialCarouselControls($(this));
+                });
+                $carousel.owlCarousel({
                     autoplay: true,
                     autoplayTimeout: data_duration,
                     loop: true,
@@ -1451,6 +1468,7 @@
                         }
                     }
                 });
+                labelTestimonialCarouselControls($carousel);
             });
         }
     </script>

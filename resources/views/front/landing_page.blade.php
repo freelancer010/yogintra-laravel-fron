@@ -1717,6 +1717,15 @@
         window.jQuery('.landing-testimonial-slider').each(function () {
           var slider = window.jQuery(this);
           if (slider.hasClass('owl-loaded')) return;
+          var labelSliderControls = function () {
+            slider.find('.owl-nav .owl-prev').removeAttr('role').attr('aria-label', 'Previous testimonials');
+            slider.find('.owl-nav .owl-next').removeAttr('role').attr('aria-label', 'Next testimonials');
+            slider.find('.owl-dots .owl-dot').each(function (index) {
+              window.jQuery(this).attr('aria-label', 'Show testimonial slide ' + (index + 1));
+              window.jQuery(this).attr('aria-current', window.jQuery(this).hasClass('active') ? 'true' : 'false');
+            });
+          };
+          slider.on('initialized.owl.carousel refreshed.owl.carousel translated.owl.carousel', labelSliderControls);
           slider.addClass('owl-carousel owl-theme').owlCarousel({
             loop: slider.children('.item').length > 3,
             margin: 12,
@@ -1727,6 +1736,7 @@
             autoplayHoverPause: true,
             responsive: { 0: { items: 1 }, 768: { items: 2 }, 1100: { items: 3 } }
           });
+          labelSliderControls();
         });
       }
     });
