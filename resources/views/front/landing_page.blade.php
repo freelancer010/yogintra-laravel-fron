@@ -1982,7 +1982,7 @@
         ],
         [
             'title' => 'Workshop',
-            'image' => 'uploads/workshop.webp',
+            'image' => 'assets/image0-1-e1652675710448-povumdsa83b7dajv3gfs2377ei7o24wz5y0tn7sz34.webp',
             'link' => 'workshop',
         ],
     ];
