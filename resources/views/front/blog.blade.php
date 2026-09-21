@@ -12,7 +12,7 @@
         .blog-index-hero { position:relative; display:block !important; width:100% !important; max-width:100% !important; height:330px !important; min-height:0 !important; margin:0 !important; padding:0 !important; overflow:hidden; background:#123f49; }
         .blog-index-hero-image { display:block !important; width:100% !important; max-width:none !important; height:100% !important; min-height:0 !important; margin:0 !important; padding:0 !important; object-fit:cover !important; object-position:center !important; }
         .blog-index-hero::after { position:absolute; inset:0; content:''; background:rgba(10,42,48,.58); }
-        .blog-index-hero-content { position:absolute; z-index:1; top:50%; left:0; width:100%; transform:translateY(-50%); color:#fff; text-align:center; }
+        .blog-index-hero-content { position:absolute; z-index:1; inset:0; display:flex; align-items:center; justify-content:center; color:#fff; text-align:center; }
         .blog-index-hero-content h1 { margin:0; color:#fff; font-size:clamp(38px, 5vw, 56px); font-weight:800; line-height:1.1; }
         .blog-index-content { padding: 38px 0 80px; }
         .blog-index-heading { max-width: 700px; margin: 0 auto 40px; text-align: center; }
