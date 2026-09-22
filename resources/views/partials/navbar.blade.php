@@ -385,6 +385,49 @@
             .header.header-floating.landing-hero-navigation .menuzord-responsive .showhide em {
                 background:#084451 !important;
             }
+            /* Landing pages use an overlay navigation. Keep its mobile logo and
+               menu control on one fixed-height row instead of inheriting the
+               legacy brand margins and menu button padding. */
+            .landing-hero-navigation .header-nav-wrapper,
+            .landing-hero-navigation .menuzord {
+                min-height:64px !important;
+                height:64px !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-brand {
+                display:flex !important;
+                align-items:center !important;
+                height:64px !important;
+                margin:0 0 0 18px !important;
+                padding:0 !important;
+                line-height:0 !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-brand img {
+                display:block !important;
+                width:155px !important;
+                height:44px !important;
+                max-width:calc(100vw - 104px) !important;
+                object-fit:contain !important;
+                object-position:left center !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .showhide {
+                position:absolute !important;
+                top:0 !important;
+                right:8px !important;
+                display:flex !important;
+                align-items:center !important;
+                justify-content:center !important;
+                width:56px !important;
+                height:64px !important;
+                margin:0 !important;
+                padding:0 !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .showhide em {
+                float:none !important;
+                width:27px !important;
+                height:3px !important;
+                margin:4px 0 0 !important;
+                border-radius:3px !important;
+            }
         }
 
         @media only screen and (max-width: 1199px) and (min-width: 1000px) {
