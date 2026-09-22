@@ -1316,9 +1316,9 @@
                             <h1 class="text-white text-uppercase font-54">
                                 {{ $page_data->page_image_title }}
                             </h1>
-                            <h3 class="text-white font-weight-400" style="margin-top: 20px;">
+                            <h2 class="text-white font-weight-400" style="margin-top: 20px;">
                                 {{ Str::limit($page_data->page_image_description, 120) }}
-                            </h3>
+                            </h2>
                             {{-- <a class="btn btn-colored btn-theme-colored btn-flat smooth-scroll-to-target mt-15" href="#donate-now">Donate Now</a> --}}
                         </div>
                         <div class="clearfix"></div>
