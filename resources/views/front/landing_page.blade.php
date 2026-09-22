@@ -1300,6 +1300,7 @@
 
 @section('content')
 <!-- Section: home -->
+@if($page_sections->isNotEmpty())
 <section id="home" class="divider parallax"
     style="background-image: url('{{ asset($page_data->page_image) }}');">
     <div class="display-table">
@@ -1327,6 +1328,7 @@
         </div>
     </div>
 </section>
+@endif
 
 @if($page_sections->isNotEmpty())
   <style>
