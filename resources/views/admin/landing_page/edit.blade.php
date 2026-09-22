@@ -93,7 +93,7 @@
                       <div class="card border-primary mt-3 builder-section-panel">
                         <div class="card-header d-flex justify-content-between align-items-center">
                           <strong>Page Builder</strong>
-                          <div class="section-palette"><button type="button" class="add-section" data-section-type="text">✦ Text</button><button type="button" class="add-section" data-section-type="image_text">▧ Image + Text</button><button type="button" class="add-section" data-section-type="cta">↗ CTA</button></div>
+                          <div class="section-palette"><button type="button" class="add-section" data-section-type="text">✦ Text</button><button type="button" class="add-section" data-section-type="image_text">▧ Image + Text</button><button type="button" class="add-section" data-section-type="image_text" data-trainer-slider>♙ Trainer slider</button><button type="button" class="add-section" data-section-type="cta">↗ CTA</button></div>
                         </div>
                         @if($sections->isEmpty())
                           <div class="alert alert-info m-3 mb-0"><strong>Start with the Default layout.</strong><br><small>Enable the Default layout switch above to add its editable sections to this canvas.</small></div>
@@ -168,6 +168,12 @@
 
     let sectionIndex = {{ $sections->count() }};
     const sections = document.getElementById('sections');
+    const addTrainerSliderOption = (select) => {
+      if (select && !select.querySelector('option[value="trainer_slider"]')) {
+        select.add(new Option('Trainer slider', 'trainer_slider'));
+      }
+    };
+    sections.querySelectorAll('select[name$="[section_type]"]').forEach(addTrainerSliderOption);
     document.querySelectorAll('.add-section').forEach((button) => button.addEventListener('click', () => {
       sections.querySelector('.section-empty')?.remove();
       const index = sectionIndex++;
@@ -176,7 +182,38 @@
       card.className = 'card border mb-3 page-builder-section';
       card.innerHTML = `<div class="card-header d-flex justify-content-between"><strong>Section</strong><div><button type="button" class="btn btn-outline-secondary btn-sm move-up">↑</button> <button type="button" class="btn btn-outline-secondary btn-sm move-down">↓</button> <button type="button" class="btn btn-outline-danger btn-sm remove-section">Remove</button></div></div><div class="card-body"><div class="row"><div class="col-md-4 form-group"><label>Layout</label><select name="sections[${index}][section_type]" class="form-control"><option value="text" ${type === 'text' ? 'selected' : ''}>Text</option><option value="image_text" ${type === 'image_text' ? 'selected' : ''}>Image + Text</option><option value="custom_columns" ${type === 'custom_columns' ? 'selected' : ''}>Empty columns</option><option value="testimonial" ${type === 'testimonial' ? 'selected' : ''}>Testimonials</option><option value="faq" ${type === 'faq' ? 'selected' : ''}>FAQ</option><option value="cta" ${type === 'cta' ? 'selected' : ''}>Call to Action</option></select></div><div class="col-md-4 form-group"><label>Background</label><input name="sections[${index}][background_color]" class="form-control" placeholder="#ffffff"></div><div class="col-md-4 form-group"><label>Image</label><input type="file" name="sections[${index}][image]" class="form-control" accept="image/*"></div><input type="hidden" name="sections[${index}][image_crop]" value="original"><input type="hidden" name="sections[${index}][image_focal_x]" value="50"><input type="hidden" name="sections[${index}][image_focal_y]" value="50"><div class="col-md-12"><div class="layout-tools"><div><label>Image side</label><select name="sections[${index}][image_position]" class="form-control"><option value="left">Left</option><option value="right">Right</option></select></div><div class="range-control"><label>Section padding <span class="range-value">48px</span></label><input type="range" name="sections[${index}][padding_y]" min="0" max="160" value="48" oninput="this.previousElementSibling.querySelector('.range-value').textContent=this.value+'px'"></div><div class="range-control"><label>Section margin <span class="range-value">0px</span></label><input type="range" name="sections[${index}][margin_y]" min="0" max="120" value="0" oninput="this.previousElementSibling.querySelector('.range-value').textContent=this.value+'px'"></div></div></div><div class="col-md-12 form-group"><label>Heading</label><input name="sections[${index}][heading]" class="form-control"></div><div class="col-md-12 form-group"><label>Text / HTML</label><textarea name="sections[${index}][content]" class="form-control" rows="5"></textarea></div><div class="col-md-4 form-group"><label>Image alt text</label><input name="sections[${index}][image_alt]" class="form-control"></div><div class="col-md-4 form-group"><label>Button text</label><input name="sections[${index}][button_text]" class="form-control"></div><div class="col-md-4 form-group"><label>Button URL</label><input type="url" name="sections[${index}][button_url]" class="form-control"></div></div></div>`;
       sections.appendChild(card);
+      if (type === 'trainer_slider') {
+        const layout = card.querySelector('select[name$="[section_type]"]');
+        addTrainerSliderOption(layout);
+        layout.value = 'trainer_slider';
+        const blocks = document.createElement('input');
+        blocks.type = 'hidden';
+        blocks.name = `sections[${index}][blocks]`;
+        blocks.value = JSON.stringify([{ title: 'Trainer name', text: '' }]);
+        card.appendChild(blocks);
+        const columns = document.createElement('input');
+        columns.type = 'hidden';
+        columns.name = `sections[${index}][grid_columns]`;
+        columns.value = '3';
+        card.appendChild(columns);
+      }
     }));
+    document.querySelector('[data-trainer-slider]')?.addEventListener('click', () => {
+      const card = sections.lastElementChild;
+      const layout = card?.querySelector('select[name$="[section_type]"]');
+      if (!card || !layout) return;
+      if (!layout.querySelector('option[value="feature_grid"]')) layout.add(new Option('Feature grid', 'feature_grid'));
+      layout.value = 'feature_grid';
+      const blocks = document.createElement('input');
+      blocks.type = 'hidden'; blocks.name = layout.name.replace('[section_type]', '[blocks]');
+      blocks.value = JSON.stringify([{ title: 'Trainer name', text: '' }, { title: 'Trainer name', text: '' }, { title: 'Trainer name', text: '' }]);
+      const elements = document.createElement('input');
+      elements.type = 'hidden'; elements.name = layout.name.replace('[section_type]', '[elements]');
+      elements.value = JSON.stringify([{ type: 'trainer_slider' }]);
+      const columns = document.createElement('input');
+      columns.type = 'hidden'; columns.name = layout.name.replace('[section_type]', '[grid_columns]'); columns.value = '3';
+      card.append(blocks, elements, columns);
+    });
     sections.addEventListener('click', (event) => {
       const card = event.target.closest('.page-builder-section');
       if (!card) return;
