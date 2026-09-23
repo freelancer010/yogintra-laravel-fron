@@ -1423,7 +1423,7 @@
     /* Keep light cards readable when their parent uses white copy on teal. */
     .landing-classic-section .landing-feature-card h4,
     .landing-classic-section .landing-feature-card p,
-    .landing-classic-section .landing-feature-card .landing-feature-icon { color:#0d6772 !important; }
+    .landing-classic-section .landing-feature-card .landing-feature-icon { color:#000 !important; }
     .landing-builder-section .landing-feature-card h4 { margin:10px 0 6px; font-size:19px; font-weight:700; line-height:1.3; }
     .landing-builder-section .landing-feature-card p { margin:0; line-height:1.65; }
     .landing-builder-section .landing-feature-card.stacked img { width:100px; height:100px; object-fit:contain; margin:0 auto 12px; }
