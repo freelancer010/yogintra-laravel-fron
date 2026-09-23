@@ -93,10 +93,7 @@
     </header>
 
     <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('assets/front/css/navbar.css') }}">
-
         <style>:root{--theme-color-1:{{ $visual_setting->color_1 }};--theme-color-2:{{ $visual_setting->color_2 }};}</style>
-    <link rel="stylesheet" href="{{ asset('assets/front/css/navbar-overrides.css') }}">
     @if ($heroOverlayNavigation)
                 <script src="{{ asset('assets/front/js/navbar-hero.js') }}" defer></script>
     @endif

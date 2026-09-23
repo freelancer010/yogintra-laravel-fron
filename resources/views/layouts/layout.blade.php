@@ -45,8 +45,6 @@
     <meta name="author" content="YogIntra" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <link rel="stylesheet" href="{{ asset('assets/front/css/layout.css') }}">
-
     <!-- FAVICON -->
     <link href="{{ asset($app_setting->fevicon) }}" rel="shortcut icon" type="image/png">
     <link href="{{ asset($app_setting->fevicon) }}" rel="apple-touch-icon">
@@ -64,43 +62,17 @@
     <!-- FOR PWA MANIFEST -->
     <link rel="manifest" href="{{ asset('manifest.json')}}">
 
-    {{-- These styles are render-critical. Loading them as print media caused a visible
-       unstyled first paint and a very large cumulative layout shift. --}}
-    <link href="{{ asset('assets/front/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
-    @if ($deferNonCriticalStyles)
-        <link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet"></noscript>
-    @else
-        <link href="{{ asset('assets/front/css/css-plugin-collections.min.css')}}" rel="stylesheet" type="text/css">
-    @endif
-    <link href="{{ asset('assets/front/css/menuzord-megamenu.min.css')}}" rel="stylesheet" type="text/css">
-    <link id="menuzord-menu-skins" href="{{ asset('assets/front/css/menuzord-skins/menuzord-bottom-trace.min.css')}}" rel="stylesheet" type="text/css">
-    @if ($deferNonCriticalStyles)
-        <link href="{{ asset('assets/front/css/font-awesome.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link href="{{ asset('assets/front/css/font-awesome.min.css') }}" rel="stylesheet"></noscript>
-        <link href="{{ asset('assets/front/css/utility-classes.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link href="{{ asset('assets/front/css/utility-classes.min.css') }}" rel="stylesheet"></noscript>
-    @else
-        <link href="{{ asset('assets/front/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('assets/front/css/utility-classes.min.css') }}" rel="stylesheet" type="text/css">
-    @endif
+    {{-- A single ordered bundle avoids a cascade of legacy stylesheet requests. --}}
+    <link href="{{ asset('assets/front/css/frontend.bundle.css') }}" rel="stylesheet" type="text/css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     @unless(request()->is('yoga-center*'))<noscript><link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap" rel="stylesheet"></noscript>@endunless
 
-    <link href="{{ asset('assets/front/css/style-main.min.css?l=123') }}" rel="stylesheet" type="text/css">
     @if (request()->segment(1) == 'pages')
         <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">
     @endif
-    @if ($isLandingPage)
-        <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet"></noscript>
-    @else
-        <link href="{{ asset('assets/front/css/custom-bootstrap-margin-padding.min.css') }}" rel="stylesheet" type="text/css">
-    @endif
-    <link href="{{ asset('assets/front/css/colors/theme-skin-color-set1.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Critical CSS for FCP on Mobile -->
 
