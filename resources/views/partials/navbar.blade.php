@@ -416,6 +416,7 @@
                 top:0 !important;
                 right:8px !important;
                 display:flex !important;
+                flex-direction:column !important;
                 align-items:center !important;
                 justify-content:center !important;
                 width:56px !important;
@@ -427,9 +428,22 @@
                 float:none !important;
                 width:27px !important;
                 height:3px !important;
-                margin:4px 0 0 !important;
+                margin:0 0 5px !important;
                 border-radius:3px !important;
             }
+            .landing-hero-navigation .menuzord-responsive .showhide em:last-child { margin-bottom:0 !important; }
+            .landing-hero-navigation.mobile-menu-open .menuzord-responsive .showhide em { opacity:0; }
+            .landing-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::before,
+            .landing-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::after {
+                position:absolute;
+                width:27px;
+                height:3px;
+                border-radius:3px;
+                background:#084451;
+                content:'';
+            }
+            .landing-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::before { transform:rotate(45deg); }
+            .landing-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::after { transform:rotate(-45deg); }
             /* Menuzord expands the mobile navigation below the brand row. Do
                not constrain that expanded area to the 64px header height. */
             .landing-hero-navigation.mobile-menu-open .header-nav-wrapper,
