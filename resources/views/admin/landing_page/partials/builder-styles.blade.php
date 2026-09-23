@@ -83,7 +83,7 @@
   .hero-canvas-copy { width:min(54%, 560px); display:flex; flex-direction:column; justify-content:center; padding:28px; background:rgba(28,23,19,.84); border-radius:10px; text-align:center; }
   .hero-canvas-copy small { color:#a9d2d5; margin-bottom:8px; }
   /* Mirrors the public homepage title style used by landing headings. */
-  .hero-canvas-copy h2 { margin:0 0 10px; color:#01aeb7; font-family:Quicksand,sans-serif; font-size:30px; font-weight:900; line-height:1; }
+  .hero-canvas-copy h2 { margin:0 0 10px; color:#01aeb7; font-family:Quicksand,sans-serif; font-size:30px; font-weight:900; line-height:1; text-transform:uppercase; }
   .hero-canvas-copy p { margin:0; color:#d8eaeb; font-size:16px; }
   .hero-canvas-copy [contenteditable]:focus { outline:2px solid #64c6cc; outline-offset:4px; border-radius:4px; }
   @media (max-width:640px) { .hero-canvas-stage { min-height:280px; padding:20px; } .hero-canvas-copy { width:100%; } }
@@ -416,6 +416,31 @@
   .focus-toggle { border: 1px solid rgba(255,255,255,.45); background:rgba(255,255,255,.12); color:#fff; border-radius:8px; padding:7px 11px; font-size:12px; font-weight:700; }
   .landing-page-header { width:100%; }
   .landing-page-header-actions { margin-left:auto; white-space:nowrap; }
+  /* A calm, editorial canvas for the Classic template. It deliberately
+     mirrors the public page's white / warm-neutral rhythm and compact cards. */
+  .builder-canvas { background:#f7f4ee; border:0; border-radius:14px; padding:22px; }
+  .builder-canvas-header { margin:0 0 16px; padding:0 4px; }
+  .builder-canvas-header h4 { color:#111; font-family:Quicksand,sans-serif; font-size:22px; font-weight:900; }
+  .live-preview { overflow:hidden; border:1px solid rgba(0,0,0,.10); border-radius:12px; background:#fff; box-shadow:0 10px 28px rgba(0,0,0,.06); }
+  .live-preview-toolbar { min-height:50px; padding:0 18px; border-bottom:1px solid rgba(0,0,0,.09); background:#fff; }
+  .live-preview-content { background:#f7f4ee; }
+  .preview-section.is-classic-preview { border:0; border-radius:0; min-height:0; padding:62px 30px; background:#fff !important; box-shadow:none; }
+  .preview-section.is-classic-preview.is-neutral-preview { background:#f7f4ee !important; }
+  .preview-section.is-classic-preview.is-benefits-section { background:#0d6772 !important; }
+  .preview-section.is-classic-preview:hover, .preview-section.is-classic-preview.is-selected { border:0; box-shadow:inset 0 0 0 2px #01aeb7; }
+  .preview-section.is-classic-preview .preview-section-copy h3,
+  .preview-section.is-classic-preview .preview-grid-heading h3,
+  .preview-section.is-classic-preview .preview-special-heading h3 { color:#01aeb7 !important; font-family:Quicksand,sans-serif; font-weight:900; line-height:1.08; }
+  .preview-section.is-classic-preview .preview-section-copy p,
+  .preview-section.is-classic-preview .preview-grid-heading p { color:#171717 !important; line-height:1.75; }
+  .preview-section.is-classic-preview.is-benefits-section .preview-grid-heading h3 { color:#01aeb7 !important; }
+  .preview-section.is-classic-preview.is-benefits-section .preview-grid-heading p { color:#fff !important; }
+  .preview-section.is-classic-preview .preview-feature { height:100%; padding:26px 22px; border:1px solid rgba(0,0,0,.09); border-radius:12px; background:#fff; box-shadow:0 7px 18px rgba(0,0,0,.05); }
+  .preview-section.is-classic-preview .preview-feature:hover { background:#fff; transform:translateY(-3px); }
+  .preview-section.is-classic-preview .preview-cta { border-radius:6px; padding:12px 20px; background:#0d6772; font-family:Quicksand,sans-serif; font-weight:800; }
+  .preview-section.is-classic-preview.is-benefits-section .preview-feature h4,
+  .preview-section.is-classic-preview.is-benefits-section .preview-feature p,
+  .preview-section.is-classic-preview.is-benefits-section .preview-feature b { color:#000 !important; }
   @media (max-width: 767px) { .landing-page-header { align-items:flex-start !important; flex-direction:column; gap:10px; } .landing-page-header-actions { width:100%; flex-wrap:wrap; justify-content:flex-start !important; white-space:normal; gap:7px; } .landing-page-header-actions .mr-2 { margin-right:0 !important; } }
   @media (max-width: 991px) { .builder-workspace { grid-template-columns: 1fr; } .builder-inspector { position:relative; top:auto; height:auto; min-height:0; max-height:none; overflow:visible; } }
 </style>

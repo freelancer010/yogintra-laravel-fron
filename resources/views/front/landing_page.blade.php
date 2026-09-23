@@ -1321,7 +1321,7 @@
                             {{-- <div>
                                 <img src="{{ asset($app_setting->app_sticky_logo) }}" alt="Logo">
                             </div> --}}
-                            <h1 class="text-white text-uppercase font-54">
+                            <h1 class="text-uppercase font-54" style="color:#01aeb7 !important; font-family:Quicksand,sans-serif !important; font-weight:900; line-height:1;">
                                 {{ $page_data->page_image_title }}
                             </h1>
                             <h2 class="text-white font-weight-400" style="margin-top: 20px;">
@@ -1340,13 +1340,13 @@
 @if($page_sections->isNotEmpty())
   <style>
     .landing-builder-section {
-      overflow: hidden;
-      content-visibility: auto;
-      contain-intrinsic-size: auto 700px;
+      overflow:hidden;
+      content-visibility:auto;
+      contain-intrinsic-size:auto 700px;
       position:relative;
       isolation:isolate;
-      border-top:1px solid rgba(18,58,68,.06);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+      border:0;
+      box-shadow:none;
     }
     /* Soft colour washes add depth without replacing the editable background
        colour selected for a section in the landing-page builder. */
@@ -1354,15 +1354,17 @@
     .landing-builder-section.landing-accent-1::after,
     .landing-builder-section.landing-accent-2::after,
     .landing-builder-section.landing-accent-3::after,
-    .landing-builder-section.landing-accent-0::after { background:radial-gradient(circle at 85% 10%, rgba(13,103,114,.08), transparent 42%); }
+    .landing-builder-section.landing-accent-0::after { background:none; }
     .landing-builder-section.landing-first-section { content-visibility: visible; }
     .landing-builder-section.landing-classic-section.landing-neutral-surface { background-color:#f7f4ee !important; }
+    .landing-builder-section.landing-classic-section.landing-neutral-surface.landing-accent-1,
+    .landing-builder-section.landing-classic-section.landing-neutral-surface.landing-accent-3 { background-color:#fff !important; }
     .landing-builder-section.landing-classic-section.landing-primary-surface { background-color:#0d6772 !important; }
     .landing-classic-section.landing-neutral-surface h2,
-    .landing-classic-section.landing-neutral-surface h3,
-    .landing-classic-section.landing-neutral-surface .landing-builder-content { color:#0d6772 !important; }
+    .landing-classic-section.landing-neutral-surface h3 { color:#01aeb7 !important; }
+    .landing-classic-section.landing-neutral-surface .landing-builder-content { color:#171717 !important; }
     .landing-classic-section.landing-primary-surface h2,
-    .landing-classic-section.landing-primary-surface h3,
+    .landing-classic-section.landing-primary-surface h3 { color:#01aeb7 !important; }
     .landing-classic-section.landing-primary-surface .landing-builder-content { color:#fff !important; }
     /* The legacy theme offsets its generic .container on some breakpoints.
        Builder content must always be centered relative to the viewport. */
@@ -1419,7 +1421,8 @@
     .landing-builder-section .landing-custom-column .landing-builder-content { white-space:pre-line; }
     .landing-builder-section .landing-column-support { display:block; margin-top:12px; color:#647b82; line-height:1.6; }
     .landing-builder-section .landing-column-bullets { margin:12px 0 0; padding-left:1.35em; line-height:1.65; list-style:disc outside; }
-    .landing-builder-section .landing-feature-card { box-sizing:border-box; min-width:0; padding:24px 20px; border:1px solid rgba(13,103,114,.14); border-radius:16px; background:#f7f4ee; box-shadow:0 10px 24px rgba(13,103,114,.08); text-align:center; }
+    .landing-builder-section .landing-feature-card { box-sizing:border-box; min-width:0; height:100%; padding:28px 24px; border:1px solid rgba(0,0,0,.09); border-radius:12px; background:#fff; box-shadow:0 8px 20px rgba(0,0,0,.05); text-align:center; transition:transform .22s ease, box-shadow .22s ease; }
+    .landing-builder-section .landing-feature-card:hover { transform:translateY(-4px); box-shadow:0 14px 28px rgba(0,0,0,.09); }
     /* Keep light cards readable when their parent uses white copy on teal. */
     .landing-benefits-section .landing-feature-card h4,
     .landing-benefits-section .landing-feature-card p,
@@ -1438,18 +1441,13 @@
        and compact line-height. Inline builder colour settings are overridden
        here so the public template and visual editor stay in sync. */
     .landing-builder-section h2,
-    .landing-builder-section h3 { font-family:Quicksand, sans-serif !important; font-weight:900 !important; color:#01aeb7 !important; line-height:1 !important; }
-    .landing-builder-section h2 { letter-spacing: -.02em; margin-top:0; margin-bottom:18px; }
-    /* Classic template headings keep their selected colour while the small
-       two-tone signature adds a consistent, recognisable YogIntra rhythm. */
-    .landing-builder-section.landing-classic-section h2::before { content:'— YOGINTRA —'; display:block; width:max-content; margin:0 0 10px; color:#0d6772; font-size:11px; font-weight:800; letter-spacing:.16em; line-height:1.2; text-transform:uppercase; }
-    .landing-builder-section.landing-classic-section h2::after { content:''; display:block; width:78px; height:4px; margin-top:15px; border-radius:999px; background:linear-gradient(90deg,#0d6772 0 52%,#f7f4ee 52% 100%); }
-    .landing-builder-section.landing-primary-surface.landing-classic-section h2::before { color:#fff; }
-    .landing-builder-section.landing-primary-surface.landing-classic-section h2::after { background:linear-gradient(90deg,#fff 0 52%,#f7f4ee 52% 100%); }
-    .landing-builder-section.landing-align-center.landing-classic-section h2::before, .landing-builder-section.landing-align-center.landing-classic-section h2::after { margin-left:auto; margin-right:auto; }
-    .landing-builder-section.landing-align-right.landing-classic-section h2::before, .landing-builder-section.landing-align-right.landing-classic-section h2::after { margin-left:auto; }
+    .landing-builder-section h3 { font-family:Quicksand, sans-serif !important; font-weight:900 !important; color:#01aeb7 !important; line-height:1.08 !important; }
+    .landing-builder-section h2 { max-width:850px; letter-spacing:-.025em; margin-top:0; margin-bottom:20px; }
+    .landing-builder-section.landing-classic-section h2::before,
+    .landing-builder-section.landing-classic-section h2::after { content:none; display:none; }
     .landing-builder-section h3 { line-height:1.32; margin-top:26px; margin-bottom:9px; }
-    .landing-builder-content { color: #53636a; font-size: 16px; line-height: 1.8; }
+    .landing-builder-content { max-width:780px; color:#171717; font-size:16px; line-height:1.75; }
+    .landing-align-center .landing-builder-content { margin-left:auto; margin-right:auto; }
     .landing-builder-content p { margin:0; }
     .landing-builder-content p + p { margin-top:15px; }
     /* Rich links added through the page builder must stay visibly identifiable,
@@ -1485,13 +1483,13 @@
     .landing-builder-content .landing-sanskrit { color:#0f7a84; font-family:Philosopher, serif; font-size:28px; font-weight:700; margin:0 0 18px; }
     .landing-builder-section .btn.btn-theme-colored { background:#0d6772; border-color:#0d6772; color:#fff; }
     .landing-builder-section .btn.btn-theme-colored:hover, .landing-builder-section .btn.btn-theme-colored:focus { background:#094f56; border-color:#094f56; color:#fff; }
-    .landing-builder-section .btn { border-radius: 999px; padding: 12px 24px; transition: transform .2s ease, box-shadow .2s ease; }
+    .landing-builder-section .btn { border-radius:6px; padding:13px 24px; font-family:Quicksand,sans-serif; font-weight:800; transition:transform .2s ease, box-shadow .2s ease; }
     .landing-builder-section .landing-section-button { display:inline-flex; align-items:center; justify-content:center; margin-top:24px !important; }
     .landing-builder-section .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.18); }
     .landing-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
     .landing-reveal.is-visible { opacity: 1; transform: translateY(0); }
     @media (prefers-reduced-motion: reduce) { .landing-reveal { opacity: 1; transform: none; transition: none; } }
-    @media (max-width: 767px) { .landing-builder-section .landing-image-text-row { flex-direction:column; } .landing-builder-section .landing-image-text-row > [class*="col-"] { flex:0 0 100% !important; max-width:100% !important; width:100%; } }
+    @media (max-width: 767px) { .landing-builder-section { padding-top:52px !important; padding-bottom:52px !important; } .landing-builder-section .landing-image-text-row { flex-direction:column; } .landing-builder-section .landing-image-text-row > [class*="col-"] { flex:0 0 100% !important; max-width:100% !important; width:100%; } .landing-builder-section h2 { font-size:30px !important; } }
     .landing-builder-section .landing-feature-card a { color:inherit; text-decoration:none; }
     .landing-builder-section .landing-feature-card .landing-card-link { display:inline-flex; align-items:center; margin-top:14px; color:#0d7c88; font-weight:700; font-size:14px; }
     .landing-builder-section .landing-testimonial-grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px; }

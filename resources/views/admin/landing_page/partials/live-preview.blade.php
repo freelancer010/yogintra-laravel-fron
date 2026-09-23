@@ -4,6 +4,7 @@
   const canvas = document.querySelector('.builder-canvas');
   const inspector = document.querySelector('.builder-inspector');
   if (!sections || !canvas || !inspector) return;
+  const isClassicLayout = document.getElementById('use-classic-layout')?.checked === true;
   // Settings are kept in a modal; Laravel remains the source of validation so a
   // hidden browser-required field can never block the Publish action.
   document.getElementById('landing-page-form').noValidate = true;
@@ -815,7 +816,10 @@
       const imageCrop = getValue(card, 'image_crop') || 'original';
       const imageFocal = (getValue(card, 'image_focal_x') || '50') + '% ' + (getValue(card, 'image_focal_y') || '50') + '%';
       const previewSection = document.createElement('article');
-      previewSection.className = 'preview-section' + (heading === 'Benefits of Regular Yoga Practice' ? ' is-benefits-section' : '');
+      previewSection.className = 'preview-section'
+        + (isClassicLayout ? ' is-classic-preview' : '')
+        + (isClassicLayout && index % 2 === 1 ? ' is-neutral-preview' : '')
+        + (heading === 'Benefits of Regular Yoga Practice' ? ' is-benefits-section' : '');
       previewSection.dataset.builderId = card.dataset.builderId;
       previewSection.style.backgroundColor = background;
       if (backgroundMode === 'image' && backgroundImage) { const rgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(overlayColor); const overlay = rgb ? 'rgba(' + parseInt(rgb[1], 16) + ',' + parseInt(rgb[2], 16) + ',' + parseInt(rgb[3], 16) + ',' + overlayOpacity + ')' : 'rgba(0,0,0,0)'; const backgroundUrl = /^(https?:)?\/\//i.test(backgroundImage) || backgroundImage.startsWith('/') ? backgroundImage : '/' + backgroundImage; previewSection.style.backgroundImage = 'linear-gradient(' + overlay + ',' + overlay + '), url("' + backgroundUrl.replace(/"/g, '%22') + '")'; previewSection.style.backgroundSize = 'cover'; previewSection.style.backgroundRepeat = 'no-repeat'; previewSection.style.backgroundPosition = (getValue(card, 'background_position') || 'center') + ' center'; }
