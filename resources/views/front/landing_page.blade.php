@@ -1423,6 +1423,12 @@
     .landing-builder-section .landing-image-text-row img { display:block; width:100%; max-height:390px; object-fit:contain; margin:0 auto; }
     @media (max-width: 767px) { .landing-builder-section .landing-image-right { flex-direction: column; } }
     .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; line-height:1.18; margin-top:0; margin-bottom:18px; }
+    /* Classic template headings keep their selected colour while the small
+       two-tone signature adds a consistent, recognisable YogIntra rhythm. */
+    .landing-builder-section.landing-classic-section h2::before { content:'— YOGINTRA —'; display:block; width:max-content; margin:0 0 10px; color:#0d7b84; font-size:11px; font-weight:800; letter-spacing:.16em; line-height:1.2; text-transform:uppercase; }
+    .landing-builder-section.landing-classic-section h2::after { content:''; display:block; width:78px; height:4px; margin-top:15px; border-radius:999px; background:linear-gradient(90deg,#0d7b84 0 52%,#e69a3c 52% 100%); }
+    .landing-builder-section.landing-align-center.landing-classic-section h2::before, .landing-builder-section.landing-align-center.landing-classic-section h2::after { margin-left:auto; margin-right:auto; }
+    .landing-builder-section.landing-align-right.landing-classic-section h2::before, .landing-builder-section.landing-align-right.landing-classic-section h2::after { margin-left:auto; }
     .landing-builder-section h3 { line-height:1.32; margin-top:26px; margin-bottom:9px; }
     .landing-builder-content { color: #53636a; font-size: 16px; line-height: 1.8; }
     .landing-builder-content p { margin:0; }
@@ -1461,6 +1467,7 @@
     .landing-builder-section .btn.btn-theme-colored { background:#1f73e8; border-color:#1f73e8; color:#fff; }
     .landing-builder-section .btn.btn-theme-colored:hover, .landing-builder-section .btn.btn-theme-colored:focus { background:#155fc4; border-color:#155fc4; color:#fff; }
     .landing-builder-section .btn { border-radius: 999px; padding: 12px 24px; transition: transform .2s ease, box-shadow .2s ease; }
+    .landing-builder-section .landing-section-button { display:inline-flex; align-items:center; justify-content:center; margin-top:24px !important; }
     .landing-builder-section .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.18); }
     .landing-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
     .landing-reveal.is-visible { opacity: 1; transform: translateY(0); }
@@ -1506,7 +1513,9 @@
       $headingStyle = $elementStyles['heading'] ?? [];
       $contentStyle = $elementStyles['content'] ?? [];
       $extraElements = json_decode($section->elements ?: '[]', true) ?: [];
-      $headingSpacing = 'padding: '.(int)($headingStyle['padding_y'] ?? 0).'px '.(int)($headingStyle['padding_x'] ?? 0).'px; margin: '.(int)($headingStyle['margin_y'] ?? 0).'px '.(int)($headingStyle['margin_x'] ?? 0).'px; font-weight: '.($headingStyle['font_weight'] ?? 'bold').'; font-style: '.($headingStyle['font_style'] ?? 'normal').'; text-decoration: '.($headingStyle['text_decoration'] ?? 'none').';';
+      // A baseline 18px below headings keeps the editable title, body copy,
+      // and CTA from visually running together. Builder margins add to it.
+      $headingSpacing = 'padding: '.(int)($headingStyle['padding_y'] ?? 0).'px '.(int)($headingStyle['padding_x'] ?? 0).'px; margin: '.(int)($headingStyle['margin_y'] ?? 0).'px '.(int)($headingStyle['margin_x'] ?? 0).'px '.(18 + (int)($headingStyle['margin_y'] ?? 0)).'px; font-weight: '.($headingStyle['font_weight'] ?? 'bold').'; font-style: '.($headingStyle['font_style'] ?? 'normal').'; text-decoration: '.($headingStyle['text_decoration'] ?? 'none').';';
       $contentSpacing = 'padding: '.(int)($contentStyle['padding_y'] ?? 0).'px '.(int)($contentStyle['padding_x'] ?? 0).'px; margin: '.(int)($contentStyle['margin_y'] ?? 0).'px '.(int)($contentStyle['margin_x'] ?? 0).'px; font-weight: '.($contentStyle['font_weight'] ?? 'normal').'; font-style: '.($contentStyle['font_style'] ?? 'normal').'; text-decoration: '.($contentStyle['text_decoration'] ?? 'none').';';
       $backgroundMode = $section->background_mode ?? 'color';
       $overlayHex = ltrim($section->background_overlay_color ?? '#000000', '#');
@@ -1517,7 +1526,7 @@
         ? "--landing-background-overlay: rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity});"
         : '';
     @endphp
-    <section class="landing-builder-section landing-accent-{{ $loop->iteration % 4 }} {{ $loop->first ? 'landing-first-section' : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+    <section class="landing-builder-section landing-accent-{{ $loop->iteration % 4 }} {{ $loop->first ? 'landing-first-section' : '' }} {{ !empty($page->use_classic_layout) ? 'landing-classic-section' : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
       @if($hasBackgroundImage)
         <x-responsive-image class="landing-section-background-media" :image="$section->background_image" :alt="$section->heading ? 'Background for ' . strip_tags($section->heading) : 'Landing page background'" sizes="100vw" loading="lazy" style="object-position: {{ $section->background_position ?? 'center' }} center;" />
       @endif
@@ -1774,7 +1783,7 @@
             @endif
             @if($section->content)<div class="landing-builder-content" style="color: {{ $section->description_color ?? '#647b82' }}; font-size: {{ $section->description_size ?? 16 }}px; {{ $contentSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->content) !!}</div>@endif
             @if($section->button_text && $section->button_url)
-              <a href="{{ $section->button_url }}" class="btn btn-theme-colored btn-flat mt-3">{{ $section->button_text }}</a>
+              <a href="{{ $section->button_url }}" class="btn btn-theme-colored btn-flat landing-section-button">{{ $section->button_text }}</a>
             @endif
           </div>
           @endif

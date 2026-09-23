@@ -196,8 +196,9 @@
   .preview-swap-button { position:absolute; z-index:3; top:12px; right:12px; opacity:0; transform:translateY(-5px); border:0; border-radius:999px; padding:7px 11px; color:#fff; background:#14616b; box-shadow:0 6px 14px rgba(15,89,98,.26); font-size:12px; font-weight:800; transition:.18s ease; }
   .preview-section:hover .preview-swap-button, .preview-section.is-selected .preview-swap-button { opacity:1; transform:translateY(0); }
   .preview-swap-button:hover { background:#0f5962; }
-  .preview-section-copy h3 { font-size:22px; color:#183c45; margin:0 0 10px; font-weight:800; }
-  .preview-section-copy p { white-space:pre-line; margin:0; line-height:1.6; }
+  .preview-section-copy h3 { font-size:22px; color:#183c45; margin:0 0 18px; font-weight:800; line-height:1.25; }
+  .preview-section-copy p { white-space:pre-line; margin:0; line-height:1.65; }
+  .preview-section-copy .preview-cta { display:inline-flex; margin-top:22px; }
   .preview-section [contenteditable]:focus, .preview-section [contenteditable].is-editing { outline:2px solid #35a5b0; outline-offset:4px; border-radius:4px; }
   .preview-section [contenteditable]:hover { outline:1px dashed #35a5b0; outline-offset:4px; border-radius:4px; }
   .preview-section [data-preview-field], .preview-section [data-preview-extra], .preview-section [data-preview-extra-list], .preview-section [data-preview-column-target] { cursor:pointer; transition:outline-color .15s ease, background .15s ease; }
@@ -272,8 +273,8 @@
   .extra-element-actions button:hover { background:#16717a; color:#fff; }
   .feature-block-control button, .add-feature-block { border:1px solid #9cc9ce; color:#14616b; background:#fff; border-radius:6px; font-size:11px; padding:5px 7px; }
   .preview-grid-heading { text-align:center; max-width:900px; margin:0 auto 24px; }
-  .preview-grid-heading h3 { margin:0 0 10px; font-weight:800; }
-  .preview-grid-heading p { margin:0; }
+  .preview-grid-heading h3 { margin:0 0 18px; font-weight:800; line-height:1.25; }
+  .preview-grid-heading p { margin:0; line-height:1.65; }
   .preview-builder-list { padding-left:1.4em; margin:10px 0; line-height:1.6; }
   .preview-builder-list li + li { margin-top:var(--list-item-gap, 8px); }
   .preview-feature-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:20px 34px; }
