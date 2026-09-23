@@ -51,7 +51,10 @@ class HomeController extends Controller
         $app_setting = Setting::first();
         $all_slider = Slider::all();
         
-        $all_trainer = $this->cachedTrainers();
+        // Keep the homepage focused. The complete directory remains available
+        // on /trainers, while this prevents a large CRM response from bloating
+        // the initial homepage DOM.
+        $all_trainer = $this->cachedTrainers()->take(6);
     
         $section_1 = Front::getOurFeaturesHeading();
         $section_1_content = Front::getAllOurFeatures();
@@ -64,10 +67,10 @@ class HomeController extends Controller
         $all_service = DB::table('service_category')->get();
         $api = $this->api_main;
     
-        $rand_service = Service::getSixCategoryForHomePage();
+        $rand_service = Service::getSixCategoryForHomePage()->take(4);
         
         // Fetch testimonials for review section
-        $testimonials = Testimonial::orderByDesc('test_id')->limit(6)->get();
+        $testimonials = Testimonial::orderByDesc('test_id')->limit(4)->get();
 
         return view('front.home', compact(
             'app_setting',

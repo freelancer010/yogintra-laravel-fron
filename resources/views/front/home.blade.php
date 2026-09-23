@@ -811,7 +811,10 @@
                     // rtl: THEMEMASCOT.isRTL.check(),
                     autoplay: true,
                     autoplayTimeout: data_duration,
-                    loop: true,
+                    // Rewind gives visitors the same continuous browsing
+                    // experience without Owl Carousel cloning every slide.
+                    loop: false,
+                    rewind: true,
                     items: 4,
                     margin: 15,
                     dots: false,
@@ -883,7 +886,9 @@
                 $carousel.owlCarousel({
                     autoplay: true,
                     autoplayTimeout: data_duration,
-                    loop: true,
+                    // Avoid cloned testimonial cards in the initial DOM.
+                    loop: false,
+                    rewind: true,
                     items: 3,
                     margin: 15,
                     dots: data_dots,
