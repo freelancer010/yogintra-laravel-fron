@@ -5,7 +5,13 @@
     $heroVideoSubHeading = $app_setting->hero_video_sub_heading ?: ($app_setting->hero_video_description ?: ($all_slider->first()?->slider_sub_heading ?: 'Discover guided movement and wellbeing support with YogIntra.'));
     $heroVideoTitle = $heroVideoHeading;
     $heroVideoDescription = $heroVideoSubHeading;
-    $heroVideoUploadDate = $app_setting->updated_at?->toDateString();
+    // Application settings do not use Eloquent timestamps. Use the hero video's
+    // file modification time as its upload date, with a valid ISO fallback for
+    // installations where the video is served from remote storage.
+    $heroVideoPath = filled($app_setting->hero_video) ? public_path($app_setting->hero_video) : null;
+    $heroVideoUploadDate = $heroVideoPath && is_file($heroVideoPath)
+        ? date(DATE_ATOM, filemtime($heroVideoPath))
+        : now()->toAtomString();
 @endphp
 @section('meta_title', $app_setting->app_meta_title ?: 'Yoga Classes, Home Yoga & Online Wellness | YogIntra')
 @section('meta_description', 'YogIntra offers guided yoga, meditation and wellness classes online, at home and near you to build strength, flexibility, balance and calm every day.')
