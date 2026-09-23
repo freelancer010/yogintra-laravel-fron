@@ -131,7 +131,7 @@
                             src="{{ asset($slider->slider_image) }}"
                             width="1519"
                             height="854"
-                            loading="lazy"
+                            loading="{{ $index < 3 ? 'eager' : 'lazy' }}"
                             decoding="async"
                             alt="YogIntra - {{ $slider->slider_heading }}"
                             title="YogIntra - {{ $slider->slider_heading }}"
