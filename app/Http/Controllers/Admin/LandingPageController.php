@@ -481,6 +481,49 @@ class LandingPageController extends Controller
             }
         }
 
+        // Apply the Classic template's colour palette only to untouched default
+        // headings. Editors can still select any colour in the visual builder.
+        $headingPalette = [
+            'Yoga Classes in India for a Healthier, More Balanced Life' => '#0d6772',
+            'Start where you are. Practice at your pace.' => '#24537f',
+            $aboutHeading => '#a75d20',
+            'Yoga Services Available Across India' => '#1d63a5',
+            'Yoga Classes for Different Needs, Ages & Experience Levels' => '#63469a',
+            'Start Your Yoga Journey in 3 Simple Steps' => '#9a6510',
+            'Yoga Plans for Different Needs' => '#087560',
+            'Frequently Asked Questions' => '#11706e',
+            'Ready to Start Your Yoga Journey?' => '#285ca3',
+        ];
+        foreach (LandingPageSection::where('landing_page_id', $pageId)->whereIn('heading', array_keys($headingPalette))->get() as $section) {
+            if (($section->text_color ?: '#183c45') === '#183c45') {
+                $section->update(['text_color' => $headingPalette[$section->heading]]);
+                $changed = true;
+            }
+        }
+
+        // Feature-card icons are persisted with their cards, so they are easy
+        // to replace from the builder's existing Icon input.
+        $sectionIcons = [
+            'Yoga Services Available Across India' => ['⌂', '◎', '☘', '↔', '☾', '◷', '♧', '☀'],
+            'Yoga Classes for Different Needs, Ages & Experience Levels' => ['☘', '◌'],
+            'Benefits of Regular Yoga Practice' => ['♧', '☾', '∞'],
+            'Yoga Plans for Different Needs' => ['◇', '◫', '◎'],
+        ];
+        foreach (LandingPageSection::where('landing_page_id', $pageId)->whereIn('heading', array_keys($sectionIcons))->get() as $section) {
+            $blocks = json_decode($section->blocks ?: '[]', true) ?: [];
+            $updated = false;
+            foreach ($blocks as $index => $block) {
+                if (empty($block['image']) && empty($block['icon']) && isset($sectionIcons[$section->heading][$index])) {
+                    $blocks[$index]['icon'] = $sectionIcons[$section->heading][$index];
+                    $updated = true;
+                }
+            }
+            if ($updated) {
+                $section->update(['blocks' => json_encode($blocks)]);
+                $changed = true;
+            }
+        }
+
         return $changed;
     }
 
@@ -499,31 +542,31 @@ class LandingPageController extends Controller
     private function createClassicSections(int $pageId, string $city, string $legacyContent = ''): void
     {
         $serviceBlocks = [
-            ['title' => 'Online Yoga Classes', 'text' => 'Live, instructor-led yoga sessions from the comfort of home.'],
-            ['title' => 'Personalized Yoga Classes', 'text' => 'Practice adapted to your experience, goals, schedule and comfort level.'],
-            ['title' => 'Yoga for Beginners', 'text' => 'Learn foundational poses, breathing, alignment and relaxation progressively.'],
-            ['title' => 'Flexibility & Mobility', 'text' => 'Build body awareness and comfortable movement through a consistent practice.'],
-            ['title' => 'Stress Management', 'text' => 'Make dedicated time for mindful movement, breathing and relaxation.'],
-            ['title' => 'Yoga for Professionals', 'text' => 'Flexible sessions that fit around work, sitting and everyday demands.'],
-            ['title' => 'Yoga for Seniors', 'text' => 'Gentle, adaptable practices for mobility, balance and comfortable movement.'],
-            ['title' => "Women's Yoga & Wellness", 'text' => 'Personalized practices that can adapt to individual needs and life stages.'],
+            ['icon' => '⌂', 'title' => 'Online Yoga Classes', 'text' => 'Live, instructor-led yoga sessions from the comfort of home.'],
+            ['icon' => '◎', 'title' => 'Personalized Yoga Classes', 'text' => 'Practice adapted to your experience, goals, schedule and comfort level.'],
+            ['icon' => '☘', 'title' => 'Yoga for Beginners', 'text' => 'Learn foundational poses, breathing, alignment and relaxation progressively.'],
+            ['icon' => '↔', 'title' => 'Flexibility & Mobility', 'text' => 'Build body awareness and comfortable movement through a consistent practice.'],
+            ['icon' => '☾', 'title' => 'Stress Management', 'text' => 'Make dedicated time for mindful movement, breathing and relaxation.'],
+            ['icon' => '◷', 'title' => 'Yoga for Professionals', 'text' => 'Flexible sessions that fit around work, sitting and everyday demands.'],
+            ['icon' => '♧', 'title' => 'Yoga for Seniors', 'text' => 'Gentle, adaptable practices for mobility, balance and comfortable movement.'],
+            ['icon' => '☀', 'title' => "Women's Yoga & Wellness", 'text' => 'Personalized practices that can adapt to individual needs and life stages.'],
         ];
 
         $audienceBlocks = [
-            ['title' => 'Who can begin', 'text' => 'Yoga beginners learning from the basics\nWorking professionals seeking convenient sessions\nStudents exploring movement, mindfulness and relaxation\nSeniors looking for gentle, adaptable movement\nPeople working on flexibility and mobility'],
-            ['title' => 'What a practice can support', 'text' => 'Complementing an active lifestyle\nMore relaxation and mindful movement\nStructured guidance for experienced practitioners\nA home-based online yoga routine\nA pace that feels realistic and sustainable'],
+            ['icon' => '☘', 'title' => 'Who can begin', 'text' => 'Yoga beginners learning from the basics\nWorking professionals seeking convenient sessions\nStudents exploring movement, mindfulness and relaxation\nSeniors looking for gentle, adaptable movement\nPeople working on flexibility and mobility'],
+            ['icon' => '◌', 'title' => 'What a practice can support', 'text' => 'Complementing an active lifestyle\nMore relaxation and mindful movement\nStructured guidance for experienced practitioners\nA home-based online yoga routine\nA pace that feels realistic and sustainable'],
         ];
 
         $benefitBlocks = [
-            ['title' => 'Physical benefits', 'text' => 'Supports flexibility and mobility\nHelps develop functional strength\nEncourages body awareness\nSupports balance and coordination'],
-            ['title' => 'Mental & lifestyle benefits', 'text' => 'Creates time for relaxation\nSupports everyday stress management\nEncourages conscious breathing\nPromotes mindfulness'],
-            ['title' => 'The power of consistency', 'text' => 'You do not need hours of practice every day. Finding a realistic routine you can maintain is the most important step towards a long-term yoga practice.'],
+            ['icon' => '♧', 'title' => 'Physical benefits', 'text' => 'Supports flexibility and mobility\nHelps develop functional strength\nEncourages body awareness\nSupports balance and coordination'],
+            ['icon' => '☾', 'title' => 'Mental & lifestyle benefits', 'text' => 'Creates time for relaxation\nSupports everyday stress management\nEncourages conscious breathing\nPromotes mindfulness'],
+            ['icon' => '∞', 'title' => 'The power of consistency', 'text' => 'You do not need hours of practice every day. Finding a realistic routine you can maintain is the most important step towards a long-term yoga practice.'],
         ];
 
         $planBlocks = [
-            ['title' => 'Trial Yoga Session', 'text' => 'A simple way to experience YogIntra before choosing a routine.\n\nDiscuss your yoga goals\nUnderstand the class format\nMeet your instructor\nExplore suitable options'],
-            ['title' => 'Monthly Yoga Plan', 'text' => 'Build consistency with regular instructor-guided yoga sessions.\n\nScheduled yoga classes\nInstructor guidance\nFlexible session options\nSuitable for regular practice'],
-            ['title' => 'Personalized Yoga Plan', 'text' => 'Individual guidance shaped around your requirements.\n\nGoal-oriented practice\nFlexible scheduling\nIndividual attention\nPractice adapted to you'],
+            ['icon' => '◇', 'title' => 'Trial Yoga Session', 'text' => 'A simple way to experience YogIntra before choosing a routine.\n\nDiscuss your yoga goals\nUnderstand the class format\nMeet your instructor\nExplore suitable options'],
+            ['icon' => '◫', 'title' => 'Monthly Yoga Plan', 'text' => 'Build consistency with regular instructor-guided yoga sessions.\n\nScheduled yoga classes\nInstructor guidance\nFlexible session options\nSuitable for regular practice'],
+            ['icon' => '◎', 'title' => 'Personalized Yoga Plan', 'text' => 'Individual guidance shaped around your requirements.\n\nGoal-oriented practice\nFlexible scheduling\nIndividual attention\nPractice adapted to you'],
         ];
 
         // These FAQ blocks match the homepage and are editable individually

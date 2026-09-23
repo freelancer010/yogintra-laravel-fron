@@ -1344,9 +1344,17 @@
       content-visibility: auto;
       contain-intrinsic-size: auto 700px;
       position:relative;
+      isolation:isolate;
       border-top:1px solid rgba(18,58,68,.06);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
     }
+    /* Soft colour washes add depth without replacing the editable background
+       colour selected for a section in the landing-page builder. */
+    .landing-builder-section::after { content:''; position:absolute; z-index:0; inset:0; pointer-events:none; }
+    .landing-builder-section.landing-accent-1::after { background:radial-gradient(circle at 8% 5%, rgba(38,156,151,.15), transparent 40%); }
+    .landing-builder-section.landing-accent-2::after { background:radial-gradient(circle at 93% 12%, rgba(58,112,194,.12), transparent 38%); }
+    .landing-builder-section.landing-accent-3::after { background:linear-gradient(125deg, rgba(226,139,46,.10), transparent 42%, rgba(32,135,123,.08)); }
+    .landing-builder-section.landing-accent-0::after { background:radial-gradient(circle at 50% 100%, rgba(121,83,181,.10), transparent 46%); }
     .landing-builder-section.landing-first-section { content-visibility: visible; }
     /* The legacy theme offsets its generic .container on some breakpoints.
        Builder content must always be centered relative to the viewport. */
@@ -1509,7 +1517,7 @@
         ? "--landing-background-overlay: rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity});"
         : '';
     @endphp
-    <section class="landing-builder-section {{ $loop->first ? 'landing-first-section' : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+    <section class="landing-builder-section landing-accent-{{ $loop->iteration % 4 }} {{ $loop->first ? 'landing-first-section' : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
       @if($hasBackgroundImage)
         <x-responsive-image class="landing-section-background-media" :image="$section->background_image" :alt="$section->heading ? 'Background for ' . strip_tags($section->heading) : 'Landing page background'" sizes="100vw" loading="lazy" style="object-position: {{ $section->background_position ?? 'center' }} center;" />
       @endif
