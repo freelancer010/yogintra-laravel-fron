@@ -38,7 +38,7 @@
     @if(($app_setting->hero_media_type ?? 'slider') === 'video' && $heroPoster)
         <link rel="preload" as="image" href="{{ asset($heroPoster) }}" fetchpriority="high">
     @endif
-    <link rel="stylesheet" href="{{ asset('assets/front/css/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/home.min.css') }}">
 @endpush
 @section('content')
     <section id="home" class="divider {{ (($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video)) ? 'hero-video-home' : '' }}">
@@ -56,7 +56,7 @@
                     <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
                     <track kind="captions" srclang="en" label="English" src="{{ asset('assets/front/captions/yogintra-hero-en.vtt') }}">
                 </video>
-                                <script src="{{ asset('assets/front/js/home-hero-video.js') }}" defer></script>
+                                <script src="{{ asset('assets/front/js/home-hero-video.min.js') }}" defer></script>
                 @if($heroVideoHeading)
                     <div class="hero-video-copy">
                         <div class="container position-ab"><div class="row"><div class="{{ $heroVideoColumnClass }}">
@@ -646,7 +646,7 @@
 @endsection
 @push('scripts')
     {{-- FAQ accordion uses the site's existing Bootstrap 4 collapse styles; no second Bootstrap runtime is needed. --}}
-        <script src="{{ asset('assets/front/js/home-page.js') }}" defer></script>
+        <script src="{{ asset('assets/front/js/home-page.min.js') }}" defer></script>
 
     
 

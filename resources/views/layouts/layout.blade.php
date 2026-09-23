@@ -65,10 +65,10 @@
     {{-- The homepage has focused render-critical styles. Defer the large legacy
        bundle there so it cannot delay the hero heading's first paint. --}}
     @if ($isHomePage)
-        <link href="{{ asset('assets/front/css/frontend.bundle.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link href="{{ asset('assets/front/css/frontend.bundle.css') }}" rel="stylesheet"></noscript>
+        <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet"></noscript>
     @else
-        <link href="{{ asset('assets/front/css/frontend.bundle.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css">
     @endif
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,7 +89,7 @@
     @stack('styles') {{-- For additional CSS in child views --}}
 
     <!-- Optional services are loaded only after the visitor grants consent. -->
-        <script src="{{ asset('assets/front/js/consent-loaders.js') }}" defer></script>
+        <script src="{{ asset('assets/front/js/consent-loaders.min.js') }}" defer></script>
 
     <!-- SCHEMA -->
     <script type="application/ld+json">
@@ -172,7 +172,7 @@
     </main>
     @include('partials.footer')
 
-    <script src="{{ asset('assets/front/js/conversion-tracking.js') }}" defer></script>
+    <script src="{{ asset('assets/front/js/conversion-tracking.min.js') }}" defer></script>
 
     {{-- Keep dependent scripts together at the end of the document so they do not block first paint. --}}
     <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"></script>
@@ -205,7 +205,7 @@
         </div>
     </div>
 
-        <script src="{{ asset('assets/front/js/cookie-preferences.js') }}" defer></script>
+        <script src="{{ asset('assets/front/js/cookie-preferences.min.js') }}" defer></script>
 
     <!-- Message Box Trigger Button -->
 
@@ -233,7 +233,7 @@
         </div>
     </div>
 
-        <script src="{{ asset('assets/front/js/contact-popup-form.js') }}" defer></script>
+        <script src="{{ asset('assets/front/js/contact-popup-form.min.js') }}" defer></script>
 
 </body>
 </html>
