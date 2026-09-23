@@ -1434,12 +1434,12 @@
     .landing-builder-section .landing-full-image { display:block; width:100%; height:auto; max-width:800px; max-height:400px; object-fit:contain; margin:0 auto; }
     .landing-builder-section .landing-image-text-row img { display:block; width:100%; max-height:390px; object-fit:contain; margin:0 auto; }
     @media (max-width: 767px) { .landing-builder-section .landing-image-right { flex-direction: column; } }
-    /* Match the homepage's Quicksand heading treatment across the editable
-       landing template, including card, FAQ, and section titles. */
+    /* Exact homepage title treatment: Quicksand, 900 weight, cyan #01aeb7,
+       and compact line-height. Inline builder colour settings are overridden
+       here so the public template and visual editor stay in sync. */
     .landing-builder-section h2,
-    .landing-builder-section h3,
-    .landing-builder-section h4 { font-family:Quicksand, sans-serif !important; }
-    .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; line-height:1.18; margin-top:0; margin-bottom:18px; }
+    .landing-builder-section h3 { font-family:Quicksand, sans-serif !important; font-weight:900 !important; color:#01aeb7 !important; line-height:1 !important; }
+    .landing-builder-section h2 { letter-spacing: -.02em; margin-top:0; margin-bottom:18px; }
     /* Classic template headings keep their selected colour while the small
        two-tone signature adds a consistent, recognisable YogIntra rhythm. */
     .landing-builder-section.landing-classic-section h2::before { content:'— YOGINTRA —'; display:block; width:max-content; margin:0 0 10px; color:#0d6772; font-size:11px; font-weight:800; letter-spacing:.16em; line-height:1.2; text-transform:uppercase; }

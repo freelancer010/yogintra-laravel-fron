@@ -815,7 +815,7 @@
       const imageCrop = getValue(card, 'image_crop') || 'original';
       const imageFocal = (getValue(card, 'image_focal_x') || '50') + '% ' + (getValue(card, 'image_focal_y') || '50') + '%';
       const previewSection = document.createElement('article');
-      previewSection.className = 'preview-section';
+      previewSection.className = 'preview-section' + (heading === 'Benefits of Regular Yoga Practice' ? ' is-benefits-section' : '');
       previewSection.dataset.builderId = card.dataset.builderId;
       previewSection.style.backgroundColor = background;
       if (backgroundMode === 'image' && backgroundImage) { const rgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(overlayColor); const overlay = rgb ? 'rgba(' + parseInt(rgb[1], 16) + ',' + parseInt(rgb[2], 16) + ',' + parseInt(rgb[3], 16) + ',' + overlayOpacity + ')' : 'rgba(0,0,0,0)'; const backgroundUrl = /^(https?:)?\/\//i.test(backgroundImage) || backgroundImage.startsWith('/') ? backgroundImage : '/' + backgroundImage; previewSection.style.backgroundImage = 'linear-gradient(' + overlay + ',' + overlay + '), url("' + backgroundUrl.replace(/"/g, '%22') + '")'; previewSection.style.backgroundSize = 'cover'; previewSection.style.backgroundRepeat = 'no-repeat'; previewSection.style.backgroundPosition = (getValue(card, 'background_position') || 'center') + ' center'; }
