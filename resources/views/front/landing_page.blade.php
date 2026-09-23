@@ -1434,6 +1434,11 @@
     .landing-builder-section .landing-full-image { display:block; width:100%; height:auto; max-width:800px; max-height:400px; object-fit:contain; margin:0 auto; }
     .landing-builder-section .landing-image-text-row img { display:block; width:100%; max-height:390px; object-fit:contain; margin:0 auto; }
     @media (max-width: 767px) { .landing-builder-section .landing-image-right { flex-direction: column; } }
+    /* Match the homepage's Quicksand heading treatment across the editable
+       landing template, including card, FAQ, and section titles. */
+    .landing-builder-section h2,
+    .landing-builder-section h3,
+    .landing-builder-section h4 { font-family:Quicksand, sans-serif !important; }
     .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; line-height:1.18; margin-top:0; margin-bottom:18px; }
     /* Classic template headings keep their selected colour while the small
        two-tone signature adds a consistent, recognisable YogIntra rhythm. */
