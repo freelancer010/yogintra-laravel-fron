@@ -87,8 +87,8 @@
                             </div>
                             <div class="form-group mb-4">
                                 <label for="section3Background">Replace background</label>
-                                <input id="section3Background" class="form-control-file" type="file" name="section3_background_image" accept="image/*">
-                                <small class="form-text text-muted">Leave empty to keep the current background.</small>
+                                <input id="section3Background" class="form-control-file" type="file" name="section3_background_image" accept="image/jpeg,image/png,image/webp,image/avif,.avif">
+                                <small class="form-text text-muted">JPG, PNG, WebP or AVIF. Leave empty to keep the current background.</small>
                             </div>
                             </div>
 
@@ -101,7 +101,7 @@
                                             <span>{{ $card['label'] }}</span>
                                             <em>Choose image</em>
                                         </label>
-                                        <input id="fixedImage{{ $key }}" class="d-none fixed-image-input" data-key="{{ $key }}" type="file" name="section3_fixed_images[{{ $key }}]" accept="image/*">
+                                        <input id="fixedImage{{ $key }}" class="d-none fixed-image-input" data-key="{{ $key }}" type="file" name="section3_fixed_images[{{ $key }}]" accept="image/jpeg,image/png,image/webp,image/avif,.avif">
                                     </div>
                                 @endforeach
                             </div>
