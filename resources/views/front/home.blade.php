@@ -8,7 +8,7 @@
     $heroVideoUploadDate = $app_setting->updated_at?->toDateString();
 @endphp
 @section('meta_title', $app_setting->app_meta_title ?: 'Yoga Classes, Home Yoga & Online Wellness | YogIntra')
-@section('meta_description', $app_setting->app_meta_description ?: 'Discover online and at-home yoga sessions, wellness programs, centres, and teacher training with YogIntra. Start your healthier journey today.')
+@section('meta_description', 'YogIntra offers guided yoga, meditation and wellness classes online, at home and near you to build strength, flexibility, balance and calm every day.')
 @section('meta_keywords', 'yoga, online classes, home sessions, wellness programs, teacher training, YogIntra')
 @section('og_image', asset('assets/og-logo.webp'))
 @push('page_meta_tags')
@@ -485,6 +485,14 @@
             background-color: #f9f9f9;
         }
 
+        .home-content-summary { background: #ffffff; }
+        .home-content-summary .summary-card { height: 100%; padding: 28px; border: 1px solid #dcebea; border-radius: 12px; background: #f7fbfb; }
+        .home-content-summary h3 { margin-top: 0; color: #143f48; font-size: 21px; font-weight: 700; }
+        .home-content-summary p, .home-content-summary li { color: #47656b; font-size: 16px; line-height: 1.65; }
+        .home-content-summary ul { margin: 0; padding-left: 20px; }
+        .home-content-summary .summary-intro { max-width: 800px; margin: 0 auto 34px; color: #47656b; font-size: 17px; line-height: 1.7; }
+        @media (max-width: 767px) { .home-content-summary .summary-card { margin-bottom: 16px; padding: 22px; }.home-content-summary .summary-intro { font-size: 16px; } }
+
         .accordion-item {
             background-color: #ffffff;
             border: 1px solid #e0e0e0 !important;
@@ -892,7 +900,7 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-md-10">
                                 <h2 class="ssc-ttl brief-dec-title m-fs-25 mb-20">{{ $app_setting->section3_heading ?: 'A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES' }}</h2>
-                                <p class="text-center">{{ $app_setting->section3_description ?: 'We at YogIntra provide various services to the nature of the clients. Wish how you would like to spend your time here we can talk and come to a conclusion.' }}</p>
+                                <p class="text-center">{{ $app_setting->section3_description ?: 'Choose a class that fits your goals, schedule and experience. Our team can help you find the right place to begin.' }}</p>
                             </div>
                         </div>
                     </div>
@@ -965,6 +973,42 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-content-summary">
+        <div class="container pt-70 pb-70">
+            <div class="section-title text-center">
+                <h2 class="mt-0 line-height-1">A clear way to begin</h2>
+                <p class="summary-intro">YogIntra helps you choose a class that suits your schedule, experience and goals. Start gently, ask questions and build a routine that feels sustainable.</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <article class="summary-card">
+                        <h3>Guidance you can trust</h3>
+                        <p>Our instructors support safe, steady progress. They can explain movement, offer simpler options and help you practise with confidence.</p>
+                        <p><a href="{{ url('trainers') }}" class="text-theme-colored2">Meet our instructors</a></p>
+                    </article>
+                </div>
+                <div class="col-md-4">
+                    <article class="summary-card">
+                        <h3>Classes for real life</h3>
+                        <ul>
+                            <li>Beginner-friendly group sessions</li>
+                            <li>Private classes at home or online</li>
+                            <li>Breathwork, meditation and wellness support</li>
+                            <li>Workshops and teacher-training programmes</li>
+                        </ul>
+                    </article>
+                </div>
+                <div class="col-md-4">
+                    <article class="summary-card">
+                        <h3>Find a suitable option</h3>
+                        <p>Explore classes, centres and wellness services in your area. If you are unsure where to start, our team can help you choose the right format.</p>
+                        <p><a href="{{ route('yoga.center') }}" class="text-theme-colored2">Explore centres and services</a></p>
+                    </article>
                 </div>
             </div>
         </div>
@@ -1162,7 +1206,7 @@
                             </h5>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Yogintra is a wellness platform offering guided classes, holistic programs, and community events designed to support physical, mental, and spiritual well-being.
+                                    YogIntra offers guided classes, wellness programmes and community events. Each option supports movement, rest and everyday wellbeing.
                                 </div>
                             </div>
                         </div>
@@ -1176,7 +1220,7 @@
                             </h5>
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    <p>Yogintra offers:</p>
+                                    <p>Choose from:</p>
                                     <ul class="list-unstyled">
                                         <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Group classes (beginner to advanced)</li>
                                         <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Online and at-home classes</li>
@@ -1198,7 +1242,7 @@
                             </h5>
                             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Many Yogintra locations offer trial or introductory packages. Check the pricing section for current offers.
+                                    Many locations offer trial or introductory packages. Check current options before you book.
                                 </div>
                             </div>
                         </div>
@@ -1212,7 +1256,7 @@
                             </h5>
                             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    <p>Absolutely. Trainers can design customized plans for:</p>
+                                    <p>Yes. Instructors can tailor a plan for:</p>
                                     <ul class="list-unstyled">
                                         <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Flexibility and strength goals</li>
                                         <li><i class="fa fa-check text-theme-colored2 mr-10"></i>Stress reduction</li>
@@ -1232,7 +1276,7 @@
                             </h5>
                             <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    <p>You can reach the team via:</p>
+                                    <p>You can contact our team by:</p>
                                     <ul class="list-unstyled">
                                         <li><i class="fa fa-envelope text-theme-colored2 mr-10"></i>Website contact form</li>
                                         <li><i class="fa fa-envelope text-theme-colored2 mr-10"></i>Email</li>
