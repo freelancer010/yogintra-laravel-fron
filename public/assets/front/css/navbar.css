@@ -1,0 +1,249 @@
+@media only screen and (max-width: 600px) {
+            .header-nav-centered-logo nav.menuzord .menuzord-brand img {
+                width: 190px !important;
+            }
+            .home-mobile-hero-navigation .menuzord-responsive .menuzord-brand {
+                display:flex;
+                align-items:center;
+                height:64px;
+                margin:0 0 0 22px !important;
+            }
+            .home-mobile-hero-navigation .menuzord-responsive .menuzord-brand img {
+                width:185px !important;
+                max-width:none !important;
+                height:48px !important;
+                object-fit:contain;
+                object-position:left center;
+            }
+            .menuzord-responsive .showhide {
+                width:64px;
+                height:64px;
+                margin-top:0;
+                padding-top:17px;
+                position:relative;
+            }
+            .menuzord-responsive .showhide em { width:28px; height:4px; margin:5px 18px 0; border-radius:4px; }
+            .menuzord-responsive .menuzord-brand img { width:190px !important; height:auto !important; }
+            #header {
+                height: 70px !important;
+            }
+        }
+        @media only screen and (max-width: 1000px) {
+            .video-hero-navigation .menuzord-menu { background:#fff !important; }
+            .video-hero-navigation .menuzord-menu > li > a,
+            .video-hero-navigation .menuzord-menu > li > a > i,
+            .video-hero-navigation .menuzord-responsive .showhide em { color:#222 !important; }
+            .video-hero-navigation .menuzord-menu > li.active > a,
+            .video-hero-navigation .menuzord-menu > li:hover > a { color:#00aab7 !important; }
+        }
+        #header {
+            height: 90px;
+        }
+        .menuzord-brand {
+            margin: 10px 30px 0 0;
+        }
+        .menuzord-menu > li > a {
+            padding: 22px 10px;
+        }
+        .video-hero-navigation .menuzord-menu > li > a,
+        .video-hero-navigation .menuzord-menu > li > a > i,
+        .video-hero-navigation .menuzord-responsive .showhide em {
+            color: #fff !important;
+        }
+        .video-hero-navigation .menuzord-menu > li.active > a,
+        .video-hero-navigation .menuzord-menu > li:hover > a {
+            color: #2ed0da !important;
+        }
+        .video-hero-navigation .menuzord-menu > li.active > a::after {
+            background-color: #2ed0da !important;
+        }
+        .video-hero-navigation .header-nav.scroll-to-fixed-fixed .header-nav-wrapper,
+        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed {
+            background: #fff !important;
+        }
+        .video-hero-navigation .header-nav.scroll-to-fixed-fixed .menuzord-menu > li > a,
+        .video-hero-navigation .header-nav.scroll-to-fixed-fixed .menuzord-menu > li > a > i,
+        .video-hero-navigation .header-nav.scroll-to-fixed-fixed .menuzord-responsive .showhide em,
+        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-menu > li > a,
+        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-menu > li > a > i,
+        .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-responsive .showhide em {
+            color: #222 !important;
+        }
+        .video-hero-navigation .menuzord-menu ul.dropdown { background: #fff; }
+        .video-hero-navigation .menuzord-menu ul.dropdown li a { color: #183c45 !important; }
+        .header.landing-hero-navigation {
+            position:absolute !important;
+            top:0;
+            left:0;
+            width:100%;
+            z-index:1100;
+            transition:background-color .2s ease, box-shadow .2s ease;
+        }
+        .landing-hero-navigation:not(.landing-hero-scrolled) .header-nav,
+        .landing-hero-navigation:not(.landing-hero-scrolled) .header-nav-wrapper,
+        .landing-hero-navigation:not(.landing-hero-scrolled) .menuzord {
+            background:transparent !important;
+            box-shadow:none !important;
+        }
+        .landing-hero-navigation .header-nav-wrapper,
+        .landing-hero-navigation .menuzord {
+            background:transparent !important;
+            box-shadow:none !important;
+        }
+        .landing-hero-navigation .menuzord-menu > li > a,
+        .landing-hero-navigation .menuzord-menu > li > a > i { color:#fff !important; }
+        .landing-hero-navigation .menuzord-menu > li.active > a,
+        .landing-hero-navigation .menuzord-menu > li:hover > a { color:#2ed0da !important; }
+        .landing-hero-navigation.landing-hero-scrolled {
+            background:#fff !important;
+            box-shadow:0 2px 12px rgba(10,49,59,.12) !important;
+        }
+        .landing-hero-navigation.landing-hero-scrolled .header-nav,
+        .landing-hero-navigation.landing-hero-scrolled .header-nav-wrapper,
+        .landing-hero-navigation.landing-hero-scrolled .menuzord {
+            background:#fff !important;
+            box-shadow:none !important;
+        }
+        /* The legacy scroll plugin also fixes .header-nav. Keep it inside the
+           already-fixed landing header so it cannot create a duplicate bar. */
+        .landing-hero-navigation.landing-hero-scrolled .header-nav {
+            position:relative !important;
+            top:auto !important;
+            left:auto !important;
+            width:100% !important;
+        }
+        .landing-hero-navigation.landing-hero-scrolled .menuzord-menu > li > a,
+        .landing-hero-navigation.landing-hero-scrolled .menuzord-menu > li > a > i { color:#183c45 !important; }
+        @media only screen and (max-width: 1000px) {
+            /* All non-home pages use a stable white mobile bar from the first
+               paint. This prevents the scroll-to-fixed plugin from changing
+               the header width or position only after the first scroll. */
+            .header.header-floating:not(.home-mobile-hero-navigation) {
+                position:relative !important;
+                width:100% !important;
+                height:64px !important;
+                min-height:64px !important;
+                background:#fff !important;
+            }
+            .header.header-floating:not(.home-mobile-hero-navigation) .header-nav {
+                position:fixed !important;
+                top:0 !important;
+                left:0 !important;
+                right:0 !important;
+                width:100% !important;
+                z-index:1101 !important;
+            }
+            .header.header-floating:not(.home-mobile-hero-navigation) .header-nav-wrapper,
+            .header.header-floating:not(.home-mobile-hero-navigation) .menuzord {
+                position:relative !important;
+                top:auto !important;
+                left:auto !important;
+                right:auto !important;
+                width:100% !important;
+                min-height:64px !important;
+                margin:0 !important;
+                padding:0 !important;
+                background:#fff !important;
+                box-shadow:none !important;
+            }
+            .header.header-floating:not(.home-mobile-hero-navigation) .header-nav-wrapper .container,
+            .header.header-floating:not(.home-mobile-hero-navigation) .header-nav-wrapper .container.ipad_header {
+                width:100% !important;
+                max-width:none !important;
+                margin:0 !important;
+                padding:0 !important;
+            }
+            .header.header-floating:not(.home-mobile-hero-navigation) .menuzord-responsive .menuzord-brand {
+                display:flex;
+                align-items:center;
+                height:64px;
+                margin:0 0 0 22px !important;
+            }
+            .header.header-floating:not(.home-mobile-hero-navigation) .menuzord-responsive .menuzord-brand img {
+                width:185px !important;
+                max-width:none !important;
+                height:48px !important;
+                object-fit:contain;
+                object-position:left center;
+            }
+            .header.header-floating:not(.home-mobile-hero-navigation) .menuzord-responsive .showhide em {
+                background:#084451 !important;
+            }
+            .video-hero-navigation .header-nav .menuzord-menu > li > a,
+            .video-hero-navigation .header-nav .menuzord-menu > li > a > i,
+            .video-hero-navigation .header-nav .menuzord-menu > li.active > a,
+            .video-hero-navigation .header-nav .menuzord-menu > li:hover > a,
+            .video-hero-navigation .header-nav .menuzord-responsive .showhide em {
+                color:#222 !important;
+            }
+
+            .header.home-mobile-hero-navigation {
+                position:absolute !important;
+                top:0;
+                left:0;
+                width:100%;
+                height:70px !important;
+                z-index:1100;
+                background:transparent !important;
+                transition:background-color .2s ease, box-shadow .2s ease;
+            }
+            .home-mobile-hero-navigation .header-nav-wrapper,
+            .home-mobile-hero-navigation .menuzord {
+                background:transparent !important;
+                box-shadow:none !important;
+            }
+            .home-mobile-hero-navigation .header-nav {
+                position:fixed !important;
+                top:0 !important;
+                left:0 !important;
+                right:0 !important;
+                width:100% !important;
+                z-index:1101 !important;
+            }
+            .home-mobile-hero-navigation .header-nav-wrapper .container,
+            .home-mobile-hero-navigation .header-nav-wrapper .container.ipad_header,
+            .home-mobile-hero-navigation .header-nav-wrapper .menuzord {
+                width:100% !important;
+                max-width:none !important;
+                margin-left:0 !important;
+                margin-right:0 !important;
+                padding-left:0 !important;
+                padding-right:0 !important;
+            }
+            .home-mobile-hero-navigation .menuzord-responsive .showhide em {
+                background:#084451 !important;
+            }
+            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide em { opacity:0; }
+            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::before,
+            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::after {
+                content:'';
+                position:absolute;
+                top:31px;
+                right:18px;
+                width:28px;
+                height:4px;
+                border-radius:4px;
+                background:#084451;
+            }
+            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::before { transform:rotate(45deg); }
+            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::after { transform:rotate(-45deg); }
+            .home-mobile-hero-navigation .menuzord-menu { background:#fff !important; }
+            .home-mobile-hero-navigation.mobile-hero-scrolled,
+            .home-mobile-hero-navigation.mobile-hero-scrolled .header-nav,
+            .home-mobile-hero-navigation.mobile-hero-scrolled .header-nav-wrapper,
+            .home-mobile-hero-navigation .header-nav.scroll-to-fixed-fixed,
+            .home-mobile-hero-navigation .header-nav.scroll-to-fixed-fixed .header-nav-wrapper {
+                background:#fff !important;
+                box-shadow:0 2px 12px rgba(10,49,59,.12) !important;
+            }
+            .home-mobile-hero-navigation.mobile-hero-scrolled,
+            .home-mobile-hero-navigation.mobile-hero-scrolled .header-nav,
+            .home-mobile-hero-navigation.mobile-hero-scrolled .header-nav-wrapper,
+            .home-mobile-hero-navigation .header-nav.scroll-to-fixed-fixed,
+            .home-mobile-hero-navigation .header-nav.scroll-to-fixed-fixed .header-nav-wrapper {
+                top:0 !important;
+                margin-top:0 !important;
+                transform:none !important;
+            }
+            .home-mobile-hero-navigation.mobile-hero-scrolled { position:fixed !important; }
+        }

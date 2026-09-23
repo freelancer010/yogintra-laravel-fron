@@ -1,0 +1,138 @@
+.header.non-home-navigation .header-nav-wrapper {
+            background-color: #fff;
+        }};
+        }
+
+        @media only screen and (max-width: 1000px) {
+            .header.header-floating {
+                position: relative;
+                background-color: #fff;
+            }
+            .header.header-floating.home-mobile-hero-navigation {
+                position:absolute;
+                background-color:transparent;
+            }
+            .header.header-floating.landing-hero-navigation {
+                position:absolute !important;
+                background-color:transparent !important;
+            }
+            .header.header-floating.landing-hero-navigation .header-nav-wrapper,
+            .header.header-floating.landing-hero-navigation .menuzord {
+                background:transparent !important;
+                box-shadow:none !important;
+            }
+            .header.header-floating.landing-hero-navigation .header-nav {
+                position:fixed !important;
+                top:0 !important;
+                left:0 !important;
+                right:0 !important;
+                width:100% !important;
+            }
+            .header.header-floating.landing-hero-navigation .menuzord-responsive .showhide em {
+                background:#084451 !important;
+            }
+            /* Landing pages use an overlay navigation. Keep its mobile logo and
+               menu control on one fixed-height row instead of inheriting the
+               legacy brand margins and menu button padding. */
+            .landing-hero-navigation .header-nav-wrapper,
+            .landing-hero-navigation .menuzord {
+                min-height:64px !important;
+                height:64px !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-brand {
+                display:flex !important;
+                align-items:center !important;
+                height:64px !important;
+                margin:0 0 0 18px !important;
+                padding:0 !important;
+                line-height:0 !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-brand img {
+                display:block !important;
+                width:155px !important;
+                height:44px !important;
+                max-width:calc(100vw - 104px) !important;
+                object-fit:contain !important;
+                object-position:left center !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-brand .logo-default { display:block !important; }
+            .landing-hero-navigation .menuzord-responsive .menuzord-brand .logo-scrolled-to-fixed { display:none !important; }
+            .landing-hero-navigation .menuzord-responsive .showhide {
+                position:absolute !important;
+                top:0 !important;
+                right:8px !important;
+                display:flex !important;
+                flex-direction:column !important;
+                align-items:center !important;
+                justify-content:center !important;
+                width:56px !important;
+                height:64px !important;
+                margin:0 !important;
+                padding:0 !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .showhide em {
+                float:none !important;
+                width:27px !important;
+                height:3px !important;
+                margin:0 0 5px !important;
+                border-radius:3px !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .showhide em:last-child { margin-bottom:0 !important; }
+            .landing-hero-navigation.mobile-menu-open .menuzord-responsive .showhide em { opacity:0; }
+            .landing-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::before,
+            .landing-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::after {
+                position:absolute;
+                width:27px;
+                height:3px;
+                border-radius:3px;
+                background:#084451;
+                content:'';
+            }
+            .landing-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::before { transform:rotate(45deg); }
+            .landing-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::after { transform:rotate(-45deg); }
+            /* Menuzord expands the mobile navigation below the brand row. Do
+               not constrain that expanded area to the 64px header height. */
+            .landing-hero-navigation.mobile-menu-open .header-nav-wrapper,
+            .landing-hero-navigation.mobile-menu-open .menuzord {
+                height:auto !important;
+                min-height:64px !important;
+                overflow:visible !important;
+                background:#fff !important;
+            }
+            .landing-hero-navigation.mobile-menu-open .header-nav {
+                background:#fff !important;
+                box-shadow:0 4px 14px rgba(10,49,59,.16) !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu {
+                clear:both !important;
+                max-height:calc(100vh - 64px) !important;
+                overflow-y:auto !important;
+                -webkit-overflow-scrolling:touch;
+                background:#fff !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu > li > a,
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu > li > a > i,
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu .indicator {
+                color:#183c45 !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu ul.dropdown,
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu ul.megamenu {
+                background:#f5f9f9 !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu ul.dropdown a,
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu ul.megamenu a {
+                color:#183c45 !important;
+            }
+        }
+
+        @media only screen and (max-width: 1199px) and (min-width: 1000px) {
+            .ipad_header {
+                width: 1100px;
+            }
+            .menuzord-menu > li > a {
+                padding: 22px 5px !important;
+            }
+            .menuzord-menu.menuzord-right {
+                float: inherit;
+            }
+        }
