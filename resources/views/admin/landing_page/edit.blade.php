@@ -95,9 +95,6 @@
                           <strong>Page Builder</strong>
                           <div class="section-palette"><button type="button" class="add-section" data-section-type="text">✦ Text</button><button type="button" class="add-section" data-section-type="image_text">▧ Image + Text</button><button type="button" class="add-section" data-section-type="image_text" data-trainer-slider>♙ Trainer slider</button><button type="button" class="add-section" data-section-type="cta">↗ CTA</button></div>
                         </div>
-                        @if($sections->isEmpty())
-                          <div class="alert alert-info m-3 mb-0"><strong>Start with the Default layout.</strong><br><small>Enable the Default layout switch above to add its editable sections to this canvas.</small></div>
-                        @endif
                         <div class="card-body" id="sections">
                           @foreach($sections as $index => $section)
                             <div class="card border mb-3 page-builder-section">
@@ -229,15 +226,6 @@
     workspace.className = 'builder-workspace';
     workspace.innerHTML = '<main class="builder-canvas"><div class="builder-canvas-header"><div><h4>Page canvas</h4><small class="text-muted">Click preview text to edit it inline</small></div></div></main><aside class="builder-inspector"><div class="builder-inspector-title builder-inspector-heading"><span>Editor</span><span>✦</span></div><div class="builder-selected-element is-empty"><span>Selected element</span><strong data-selected-element></strong></div></aside>';
     formBody.prepend(workspace);
-    @if($sections->isEmpty())
-    const classicConversionNotice = document.createElement('div');
-    classicConversionNotice.className = 'classic-conversion-notice';
-    classicConversionNotice.innerHTML = '<div class="classic-conversion-copy"><strong>Use the editable Default layout</strong><small>Create the India Classic template as editable sections on this canvas.</small></div><button type="submit" class="btn btn-primary btn-sm">Use editable template</button>';
-    const classicConversionButton = classicConversionNotice.querySelector('button');
-    classicConversionButton.formAction = '{{ route('admin.landing-pages.convert-classic', $page->page_id) }}';
-    classicConversionButton.formMethod = 'post';
-    workspace.querySelector('.builder-canvas').appendChild(classicConversionNotice);
-    @endif
     const inspector = workspace.querySelector('.builder-inspector');
     const heroEditor = document.createElement('section');
     heroEditor.className = 'hero-editor';

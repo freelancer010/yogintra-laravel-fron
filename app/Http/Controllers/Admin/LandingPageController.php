@@ -51,7 +51,7 @@ class LandingPageController extends Controller
         ]);
 
         return redirect()->route('admin.landing-pages.edit', $pageId)
-            ->with('success', 'Draft created. Add sections to build the page.');
+            ->with('success', 'Draft created with the editable Default layout.');
     }
 
     public function store(Request $request)
@@ -135,9 +135,24 @@ class LandingPageController extends Controller
     public function edit($id)
     {
         $page = DB::table('new_landing_page')->where('page_id', $id)->first();
-        $sections = LandingPageSection::where('landing_page_id', $id)->orderBy('sort_order')->get();
-        $adminServices = DB::table('our_service')->orderBy('os_id')->get(['os_heading', 'os_image']);
         abort_unless($page, 404);
+
+        $sections = LandingPageSection::where('landing_page_id', $id)->orderBy('sort_order')->get();
+
+        // An empty canvas is not a useful starting point. Seed every new or
+        // legacy empty builder page with the same Classic template used on the
+        // public landing pages, so the canvas opens with real editable content.
+        if ($sections->isEmpty()) {
+            $city = trim((string) ($page->page_name ?: $page->page_slug));
+            $this->createClassicSections($id, $city !== '' ? $city : 'your city', (string) ($page->page_content ?? ''));
+            DB::table('new_landing_page')->where('page_id', $id)->update(['use_classic_layout' => true]);
+            $this->forgetPublicPageCache($page->page_slug);
+
+            $page = DB::table('new_landing_page')->where('page_id', $id)->first();
+            $sections = LandingPageSection::where('landing_page_id', $id)->orderBy('sort_order')->get();
+        }
+
+        $adminServices = DB::table('our_service')->orderBy('os_id')->get(['os_heading', 'os_image']);
 
         return view('admin.landing_page.edit', compact('page', 'sections', 'adminServices'));
     }
