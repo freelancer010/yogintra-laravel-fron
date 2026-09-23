@@ -30,7 +30,7 @@
   .india-classic-hero::before { position:absolute; top:-180px; right:-150px; width:430px; height:430px; border-radius:50%; background:rgba(13,108,117,.09); content:''; }
   .india-classic-hero::after { position:absolute; bottom:-170px; left:-130px; width:360px; height:360px; border-radius:50%; background:rgba(31,115,232,.07); content:''; }
   .india-classic-hero .india-shell { position:relative; z-index:1; max-width:900px; text-align:center; }
-  .india-classic-hero h1 { margin:16px 0; color:#102f37; font-size:clamp(38px, 5vw, 62px); font-weight:800; line-height:1.08; letter-spacing:-.035em; }
+  .india-classic-hero h1, .india-classic-hero h2 { margin:16px 0; color:#102f37; font-size:clamp(38px, 5vw, 62px); font-weight:800; line-height:1.08; letter-spacing:-.035em; }
   .india-classic-hero .india-hero-copy { max-width:800px; margin:0 auto; color:#41656c; font-size:19px; line-height:1.75; }
   .india-classic-hero .india-hero-note { max-width:780px; margin:20px auto 0; color:#55757b; font-size:16px; line-height:1.7; }
   .india-benefits { margin-top:44px; display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:16px; }
@@ -96,7 +96,7 @@
   <section class="india-classic-hero">
     <div class="india-shell india-reveal">
       <span class="india-eyebrow"><i class="fa fa-leaf" aria-hidden="true"></i> Yoga for everyday life</span>
-      <h1>Yoga Classes in India for a Healthier, More Balanced Life</h1>
+      <h2>Yoga Classes in India for a Healthier, More Balanced Life</h2>
       <p class="india-hero-copy">Practice yoga with experienced instructors through personalized and online yoga classes across India.</p>
       <p class="india-hero-note">Whether you are a beginner, a busy professional, a senior, or an experienced practitioner, YogIntra makes it easier to build a consistent practice around your goals, schedule and lifestyle.</p>
       <div class="india-actions"><a class="india-btn" href="{{ url('contact') }}">Book Your Yoga Session</a><a class="india-btn india-btn-outline" href="{{ url('service') }}">Explore Yoga Classes</a></div>

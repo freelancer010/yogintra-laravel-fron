@@ -409,6 +409,8 @@
                 object-fit:contain !important;
                 object-position:left center !important;
             }
+            .landing-hero-navigation .menuzord-responsive .menuzord-brand .logo-default { display:block !important; }
+            .landing-hero-navigation .menuzord-responsive .menuzord-brand .logo-scrolled-to-fixed { display:none !important; }
             .landing-hero-navigation .menuzord-responsive .showhide {
                 position:absolute !important;
                 top:0 !important;
