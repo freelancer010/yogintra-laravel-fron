@@ -62,8 +62,14 @@
     <!-- FOR PWA MANIFEST -->
     <link rel="manifest" href="{{ asset('manifest.json')}}">
 
-    {{-- A single ordered bundle avoids a cascade of legacy stylesheet requests. --}}
-    <link href="{{ asset('assets/front/css/frontend.bundle.css') }}" rel="stylesheet" type="text/css">
+    {{-- The homepage has focused render-critical styles. Defer the large legacy
+       bundle there so it cannot delay the hero heading's first paint. --}}
+    @if ($isHomePage)
+        <link href="{{ asset('assets/front/css/frontend.bundle.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link href="{{ asset('assets/front/css/frontend.bundle.css') }}" rel="stylesheet"></noscript>
+    @else
+        <link href="{{ asset('assets/front/css/frontend.bundle.css') }}" rel="stylesheet" type="text/css">
+    @endif
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
