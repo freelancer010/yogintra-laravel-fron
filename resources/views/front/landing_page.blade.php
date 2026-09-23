@@ -43,8 +43,9 @@
         
         @media (max-width: 767px) {
             #home {
-                min-height: 35vh;
-                padding: 40px 20px !important;
+                min-height: calc(100vh - 78px);
+                min-height: calc(100svh - 78px);
+                padding: 22px 15px !important;
             }
         }
         
@@ -117,12 +118,20 @@
     
     @media (max-width: 767px) {
         #home {
-            min-height: 40vh;
-            background-position: 30% center !important;
+            min-height: calc(100vh - 78px);
+            min-height: calc(100svh - 78px);
+            height: calc(100vh - 78px);
+            height: calc(100svh - 78px);
+            background-position: center center !important;
             background-size: cover !important;
             background-attachment: scroll !important;
-            padding: 30px 15px !important;
+            padding: 22px 15px !important;
+            display: flex;
+            align-items: center;
         }
+        #home .display-table { display: table; width: 100%; height: 100%; }
+        #home .display-table-cell { display: table-cell; height: 100%; vertical-align: middle; }
+        #home .container { padding-top: 0 !important; padding-bottom: 0 !important; }
         #home::before {
             background: rgba(0, 0, 0, 0.7) !important;
         }
