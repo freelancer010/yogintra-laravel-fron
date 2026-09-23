@@ -1334,6 +1334,9 @@
       overflow: hidden;
       content-visibility: auto;
       contain-intrinsic-size: auto 700px;
+      position:relative;
+      border-top:1px solid rgba(18,58,68,.06);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
     }
     .landing-builder-section.landing-first-section { content-visibility: visible; }
     /* The legacy theme offsets its generic .container on some breakpoints.
@@ -1391,7 +1394,7 @@
     .landing-builder-section .landing-custom-column .landing-builder-content { white-space:pre-line; }
     .landing-builder-section .landing-column-support { display:block; margin-top:12px; color:#647b82; line-height:1.6; }
     .landing-builder-section .landing-column-bullets { margin:12px 0 0; padding-left:1.35em; line-height:1.65; list-style:disc outside; }
-    .landing-builder-section .landing-feature-card { box-sizing:border-box; min-width:0; padding:18px 14px; text-align:center; }
+    .landing-builder-section .landing-feature-card { box-sizing:border-box; min-width:0; padding:24px 20px; border:1px solid rgba(22,69,80,.09); border-radius:16px; background:rgba(255,255,255,.78); box-shadow:0 10px 24px rgba(23,74,82,.06); text-align:center; }
     .landing-builder-section .landing-feature-card h4 { margin:10px 0 6px; font-size:19px; font-weight:700; line-height:1.3; }
     .landing-builder-section .landing-feature-card p { margin:0; line-height:1.65; }
     .landing-builder-section .landing-feature-card.stacked img { width:100px; height:100px; object-fit:contain; margin:0 auto 12px; }
@@ -1402,8 +1405,11 @@
     .landing-builder-section .landing-full-image { display:block; width:100%; height:auto; max-width:800px; max-height:400px; object-fit:contain; margin:0 auto; }
     .landing-builder-section .landing-image-text-row img { display:block; width:100%; max-height:390px; object-fit:contain; margin:0 auto; }
     @media (max-width: 767px) { .landing-builder-section .landing-image-right { flex-direction: column; } }
-    .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; }
+    .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; line-height:1.18; margin-top:0; margin-bottom:18px; }
+    .landing-builder-section h3 { line-height:1.32; margin-top:26px; margin-bottom:9px; }
     .landing-builder-content { color: #53636a; font-size: 16px; line-height: 1.8; }
+    .landing-builder-content p { margin:0; }
+    .landing-builder-content p + p { margin-top:15px; }
     /* Rich links added through the page builder must stay visibly identifiable,
        regardless of their parent text colour or the legacy theme defaults. */
     .landing-builder-section .landing-builder-content a,

@@ -150,6 +150,9 @@ class LandingPageController extends Controller
 
             $page = DB::table('new_landing_page')->where('page_id', $id)->first();
             $sections = LandingPageSection::where('landing_page_id', $id)->orderBy('sort_order')->get();
+        } elseif ($page->use_classic_layout && $this->upgradeClassicTemplateSections($id)) {
+            $this->forgetPublicPageCache($page->page_slug);
+            $sections = LandingPageSection::where('landing_page_id', $id)->orderBy('sort_order')->get();
         }
 
         $adminServices = DB::table('our_service')->orderBy('os_id')->get(['os_heading', 'os_image']);
@@ -406,6 +409,78 @@ class LandingPageController extends Controller
         }
     }
 
+    /** Keep previously seeded Classic canvases aligned with the current editable template. */
+    private function upgradeClassicTemplateSections(int $pageId): bool
+    {
+        $changed = false;
+        $aboutHeading = 'About YogIntra';
+
+        if (!LandingPageSection::where('landing_page_id', $pageId)->where('heading', $aboutHeading)->exists()) {
+            // Place the About section just after the introduction without
+            // disturbing an editor's other section order.
+            LandingPageSection::where('landing_page_id', $pageId)->where('sort_order', '>=', 2)->increment('sort_order');
+            LandingPageSection::create([
+                'landing_page_id' => $pageId,
+                'section_type' => 'image_text',
+                'heading' => $aboutHeading,
+                'content' => '<p>Back in 2011, YogIntra started with a simple thought: to make yoga accessible to everyday people, even with busy schedules. Today, YogIntra is building a community nationally and internationally, helping people of all ages and genders stay healthy, active and connected through yoga.</p><p>The name YogIntra comes from “Yog” and “Intra.” Yog comes from the Sanskrit word “Yuj,” meaning connection or union. Intra refers to something within. Together, YogIntra represents the connection between the soul and the divine within oneself, bringing yoga into everyday life with balance, wellness and inner connection.</p>',
+                'image' => 'assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp',
+                'image_alt' => 'YogIntra logo',
+                'image_position' => 'left',
+                'image_size' => 34,
+                'background_color' => '#fff7ed',
+                'padding_x' => 0,
+                'padding_y' => 72,
+                'margin_x' => 0,
+                'margin_y' => 0,
+                'text_color' => '#183c45',
+                'heading_size' => 32,
+                'description_color' => '#647b82',
+                'description_size' => 16,
+                'text_align' => 'left',
+                'grid_columns' => 3,
+                'card_layout' => 'stacked',
+                'card_alignment' => 'center',
+                'grid_gap' => 24,
+                'sort_order' => 2,
+            ]);
+            $changed = true;
+        }
+
+        $faq = LandingPageSection::where('landing_page_id', $pageId)
+            ->whereIn('heading', ['Frequently Asked Questions About Yoga Classes in India', 'Frequently Asked Questions'])
+            ->orderBy('sort_order')
+            ->first();
+        $faqPayload = [
+            'section_type' => 'custom_columns',
+            'heading' => 'Frequently Asked Questions',
+            'content' => '',
+            'blocks' => json_encode($this->homepageFaqBlocks()),
+            'grid_columns' => 1,
+            'text_align' => 'center',
+            'background_color' => '#f0f7f7',
+            'padding_y' => 72,
+        ];
+        if ($faq && $faq->blocks !== $faqPayload['blocks']) {
+            $faq->update($faqPayload);
+            $changed = true;
+        }
+
+        return $changed;
+    }
+
+    private function homepageFaqBlocks(): array
+    {
+        return [
+            ['type' => 'empty'],
+            ['type' => 'faq', 'question' => 'What is YogIntra?', 'answer' => 'YogIntra offers guided classes, wellness programmes and community events. Each option supports movement, rest and everyday wellbeing.'],
+            ['type' => 'faq', 'question' => 'What services does YogIntra provide?', 'answer' => 'Choose from group classes, online and at-home classes, private one-on-one sessions, meditation and breathwork, corporate wellness programmes, and mindfulness workshops.'],
+            ['type' => 'faq', 'question' => 'Do YogIntra offer trial classes?', 'answer' => 'Many locations offer trial or introductory packages. Check the current options before you book.'],
+            ['type' => 'faq', 'question' => 'Do YogIntra trainers offer personalized programs?', 'answer' => 'Yes. Instructors can tailor a plan around flexibility and strength goals, stress reduction, non-medical recovery support, and lifestyle or mindfulness routines.'],
+            ['type' => 'faq', 'question' => 'How can I contact YogIntra?', 'answer' => 'You can contact our team through the website contact form, email, phone, or our social media channels.'],
+        ];
+    }
+
     private function createClassicSections(int $pageId, string $city, string $legacyContent = ''): void
     {
         $serviceBlocks = [
@@ -436,17 +511,21 @@ class LandingPageController extends Controller
             ['title' => 'Personalized Yoga Plan', 'text' => 'Individual guidance shaped around your requirements.\n\nGoal-oriented practice\nFlexible scheduling\nIndividual attention\nPractice adapted to you'],
         ];
 
+        // These FAQ blocks match the homepage and are editable individually
+        // through the visual builder's FAQ editor.
+        $homepageFaqBlocks = $this->homepageFaqBlocks();
+
         $sections = [
-            ['section_type' => 'cta', 'heading' => 'Yoga Classes in India for a Healthier, More Balanced Life', 'content' => '<p>Practice yoga with experienced instructors through personalized and online yoga classes across India.</p><p>Whether you are a beginner, a busy professional, a senior, or an experienced practitioner, YogIntra makes it easier to build a consistent practice around your goals, schedule and lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#eff8f7', 'padding_y' => 72],
-            ['section_type' => 'text', 'heading' => 'Start where you are. Practice at your pace.', 'content' => '<p>Yoga has been part of India’s wellness traditions for centuries. YogIntra brings that practice into modern everyday life with convenient, personalized yoga sessions.</p><p>You do not need to be flexible, experienced, or ready to change your whole routine. With thoughtful guidance and a practice that fits your day, yoga can become a sustainable part of your wellbeing journey.</p>', 'text_align' => 'center', 'padding_y' => 64],
-            ['section_type' => 'image_text', 'heading' => 'About YogIntra', 'content' => '<p>Back in 2011, YogIntra started with a simple thought: to make yoga accessible to everyday people, even with busy schedules. Today, YogIntra is building a community nationally and internationally, helping people of all ages and genders stay healthy, active and connected through yoga.</p><p>The name YogIntra comes from “Yog” and “Intra.” Yog comes from the Sanskrit word “Yuj,” meaning connection or union. Intra refers to something within. Together, YogIntra represents the connection between the soul and the divine within oneself, bringing yoga into everyday life with balance, wellness and inner connection.</p>', 'image' => 'assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp', 'image_alt' => 'YogIntra logo', 'image_position' => 'left', 'image_size' => 34, 'text_align' => 'left', 'background_color' => '#f5faf9', 'padding_y' => 64],
-            ['section_type' => 'feature_grid', 'heading' => 'Yoga Services Available Across India', 'content' => '<p>Choose a practice that meets you where you are, from live online guidance to sessions designed around your personal goals.</p>', 'blocks' => $serviceBlocks, 'grid_columns' => 4, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'background_color' => '#f5faf9', 'padding_y' => 64],
-            ['section_type' => 'feature_grid', 'heading' => 'Yoga Classes for Different Needs, Ages & Experience Levels', 'content' => '<p>You do not have to fit a particular fitness level to begin. Your practice can evolve as your experience and requirements change.</p>', 'blocks' => $audienceBlocks, 'grid_columns' => 2, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'padding_y' => 64],
+            ['section_type' => 'cta', 'heading' => 'Yoga Classes in India for a Healthier, More Balanced Life', 'content' => '<p>Practice yoga with experienced instructors through personalized and online yoga classes across India.</p><p>Whether you are a beginner, a busy professional, a senior, or an experienced practitioner, YogIntra makes it easier to build a consistent practice around your goals, schedule and lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#e4f4f2', 'padding_y' => 80],
+            ['section_type' => 'text', 'heading' => 'Start where you are. Practice at your pace.', 'content' => '<p>Yoga has been part of India’s wellness traditions for centuries. YogIntra brings that practice into modern everyday life with convenient, personalized yoga sessions.</p><p>You do not need to be flexible, experienced, or ready to change your whole routine. With thoughtful guidance and a practice that fits your day, yoga can become a sustainable part of your wellbeing journey.</p>', 'text_align' => 'center', 'background_color' => '#ffffff', 'padding_y' => 72],
+            ['section_type' => 'image_text', 'heading' => 'About YogIntra', 'content' => '<p>Back in 2011, YogIntra started with a simple thought: to make yoga accessible to everyday people, even with busy schedules. Today, YogIntra is building a community nationally and internationally, helping people of all ages and genders stay healthy, active and connected through yoga.</p><p>The name YogIntra comes from “Yog” and “Intra.” Yog comes from the Sanskrit word “Yuj,” meaning connection or union. Intra refers to something within. Together, YogIntra represents the connection between the soul and the divine within oneself, bringing yoga into everyday life with balance, wellness and inner connection.</p>', 'image' => 'assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp', 'image_alt' => 'YogIntra logo', 'image_position' => 'left', 'image_size' => 34, 'text_align' => 'left', 'background_color' => '#fff7ed', 'padding_y' => 72],
+            ['section_type' => 'feature_grid', 'heading' => 'Yoga Services Available Across India', 'content' => '<p>Choose a practice that meets you where you are, from live online guidance to sessions designed around your personal goals.</p>', 'blocks' => $serviceBlocks, 'grid_columns' => 4, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'background_color' => '#eef6ff', 'padding_y' => 72],
+            ['section_type' => 'feature_grid', 'heading' => 'Yoga Classes for Different Needs, Ages & Experience Levels', 'content' => '<p>You do not have to fit a particular fitness level to begin. Your practice can evolve as your experience and requirements change.</p>', 'blocks' => $audienceBlocks, 'grid_columns' => 2, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#f8f4ff', 'padding_y' => 72],
             ['section_type' => 'feature_grid', 'heading' => 'Benefits of Regular Yoga Practice', 'content' => '<p>When practiced appropriately and consistently, yoga can support movement, mindfulness, relaxation and overall wellbeing.</p>', 'blocks' => $benefitBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#0d6c75', 'text_color' => '#ffffff', 'description_color' => '#ffffff', 'padding_y' => 64],
-            ['section_type' => 'text', 'heading' => 'Start Your Yoga Journey in 3 Simple Steps', 'content' => '<h3>1. Share your requirements</h3><p>Tell us about your experience, preferred schedule, lifestyle and what you want from your practice.</p><h3>2. Choose your format</h3><p>Explore a suitable option such as online yoga classes or personalized yoga sessions.</p><h3>3. Start practicing</h3><p>Attend your sessions, follow instructor guidance and gradually build a consistent routine.</p>', 'text_align' => 'center', 'padding_y' => 64],
-            ['section_type' => 'feature_grid', 'heading' => 'Yoga Plans for Different Needs', 'content' => '<p>Choose a package based on your preferred schedule, class format and practice goals. Contact YogIntra for current pricing and availability.</p>', 'blocks' => $planBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'padding_y' => 64],
-            ['section_type' => 'faq', 'heading' => 'Frequently Asked Questions About Yoga Classes in India', 'content' => '<p>Does YogIntra offer yoga classes across India?</p><p>YogIntra offers online and other available formats. Online sessions can help students in different parts of India practice remotely with an instructor.</p><p>Are classes suitable for beginners?</p><p>Yes. Beginners can start with foundational practices and gradually become familiar with poses, breathing, alignment and relaxation.</p><p>Do I need to be flexible to start yoga?</p><p>No. A suitable beginner practice can be adapted to your current level and comfort.</p>', 'text_align' => 'center', 'background_color' => '#f5faf9', 'padding_y' => 64],
-            ['section_type' => 'cta', 'heading' => 'Ready to Start Your Yoga Journey?', 'content' => '<p>Whether you are taking your first class or looking for a more consistent practice, YogIntra makes it easier to find yoga sessions that fit your lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#e1f3f0', 'padding_y' => 72],
+            ['section_type' => 'text', 'heading' => 'Start Your Yoga Journey in 3 Simple Steps', 'content' => '<h3>1. Share your requirements</h3><p>Tell us about your experience, preferred schedule, lifestyle and what you want from your practice.</p><h3>2. Choose your format</h3><p>Explore a suitable option such as online yoga classes or personalized yoga sessions.</p><h3>3. Start practicing</h3><p>Attend your sessions, follow instructor guidance and gradually build a consistent routine.</p>', 'text_align' => 'center', 'background_color' => '#fff9e8', 'padding_y' => 72],
+            ['section_type' => 'feature_grid', 'heading' => 'Yoga Plans for Different Needs', 'content' => '<p>Choose a package based on your preferred schedule, class format and practice goals. Contact YogIntra for current pricing and availability.</p>', 'blocks' => $planBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#eef8f4', 'padding_y' => 72],
+            ['section_type' => 'custom_columns', 'heading' => 'Frequently Asked Questions', 'content' => '', 'blocks' => $homepageFaqBlocks, 'grid_columns' => 1, 'text_align' => 'center', 'background_color' => '#f0f7f7', 'padding_y' => 72],
+            ['section_type' => 'cta', 'heading' => 'Ready to Start Your Yoga Journey?', 'content' => '<p>Whether you are taking your first class or looking for a more consistent practice, YogIntra makes it easier to find yoga sessions that fit your lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#e6f0ff', 'padding_y' => 80],
         ];
 
         foreach ($sections as $order => $section) {
