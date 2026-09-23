@@ -19,6 +19,29 @@
 @section('og_image', asset('assets/og-logo.webp'))
 @push('page_meta_tags')
     <meta name="theme-color" content="#0f7c87">
+    <style id="home-mobile-layout-critical">
+        /* The shared legacy stylesheet is deferred on the homepage. Reserve the
+           mobile hero's final geometry before it arrives so the hidden desktop
+           carousel never creates a large first-paint layout shift. */
+        @media (max-width: 767px) {
+            #home { position:relative; min-height:75svh; height:75svh; overflow:hidden; }
+            #home .fullwidth-carousel { display:none !important; }
+            #home .mobile-home { display:block !important; position:relative; width:100%; min-height:75svh; height:75svh; padding:0 !important; overflow:hidden; }
+            #home .mobile-home-banner { display:block; width:100%; height:75svh; object-fit:cover; }
+            #home .mobile-home > .position-absolute { inset:0; display:flex; align-items:center; padding:0 20px !important; }
+            #home .mobile-home > .position-absolute .container { width:100%; padding:0 !important; }
+        }
+        @media (min-width: 768px) {
+            #home .mobile-home { display:none !important; }
+            #home:not(.hero-video-home) { position:relative; min-height:100vh; height:100vh; overflow:hidden; }
+            #home:not(.hero-video-home) .fullwidth-carousel,
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item { min-height:100%; height:100%; }
+            #home:not(.hero-video-home) .fullwidth-carousel:not(.owl-carousel) .carousel-item:not(:first-child) { display:none; }
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item > img,
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item picture,
+            #home:not(.hero-video-home) .fullwidth-carousel .carousel-item picture img { display:block; width:100%; height:100%; object-fit:cover; }
+        }
+    </style>
     @if(($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video))
         @php
             $heroVideoSchema = [
