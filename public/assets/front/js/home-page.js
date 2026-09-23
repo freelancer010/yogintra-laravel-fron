@@ -114,6 +114,10 @@ function ajaxCall() {
 
         }
 
+        // Owl Carousel measures element dimensions while it starts.  Delay these
+        // below-the-fold carousels until the browser has completed the first paint
+        // so their measurements do not block the hero or force layout during LCP.
+        var initializeNonCriticalCarousels = function () {
         var $owl_carousel_4col = $('.owl-carousel-4col');
 
         if ( $owl_carousel_4col.length > 0 ) {
@@ -254,4 +258,28 @@ function ajaxCall() {
                 });
                 labelTestimonialCarouselControls($carousel);
             });
+        }
+        };
+
+        var scheduleNonCriticalCarousels = function () {
+            var runWhenIdle = function () {
+                if ('requestIdleCallback' in window) {
+                    window.requestIdleCallback(initializeNonCriticalCarousels, { timeout: 1500 });
+                    return;
+                }
+
+                window.setTimeout(initializeNonCriticalCarousels, 250);
+            };
+
+            // Two animation frames ensure the initial frame has been presented
+            // before the carousel plugin reads and writes layout properties.
+            window.requestAnimationFrame(function () {
+                window.requestAnimationFrame(runWhenIdle);
+            });
+        };
+
+        if (document.readyState === 'complete') {
+            scheduleNonCriticalCarousels();
+        } else {
+            window.addEventListener('load', scheduleNonCriticalCarousels, { once: true });
         }
