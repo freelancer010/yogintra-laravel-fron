@@ -430,6 +430,39 @@
                 margin:4px 0 0 !important;
                 border-radius:3px !important;
             }
+            /* Menuzord expands the mobile navigation below the brand row. Do
+               not constrain that expanded area to the 64px header height. */
+            .landing-hero-navigation.mobile-menu-open .header-nav-wrapper,
+            .landing-hero-navigation.mobile-menu-open .menuzord {
+                height:auto !important;
+                min-height:64px !important;
+                overflow:visible !important;
+                background:#fff !important;
+            }
+            .landing-hero-navigation.mobile-menu-open .header-nav {
+                background:#fff !important;
+                box-shadow:0 4px 14px rgba(10,49,59,.16) !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu {
+                clear:both !important;
+                max-height:calc(100vh - 64px) !important;
+                overflow-y:auto !important;
+                -webkit-overflow-scrolling:touch;
+                background:#fff !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu > li > a,
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu > li > a > i,
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu .indicator {
+                color:#183c45 !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu ul.dropdown,
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu ul.megamenu {
+                background:#f5f9f9 !important;
+            }
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu ul.dropdown a,
+            .landing-hero-navigation .menuzord-responsive .menuzord-menu ul.megamenu a {
+                color:#183c45 !important;
+            }
         }
 
         @media only screen and (max-width: 1199px) and (min-width: 1000px) {
@@ -521,6 +554,8 @@
                 document.addEventListener('click', function (event) {
                     if (!event.target.closest('.home-mobile-hero-navigation .showhide, .landing-hero-navigation .showhide')) return;
                     header.classList.toggle('mobile-menu-open');
+                    const toggle = header.querySelector('.showhide');
+                    if (toggle) toggle.setAttribute('aria-expanded', header.classList.contains('mobile-menu-open') ? 'true' : 'false');
                 }, true);
             });
         </script>
@@ -536,13 +571,13 @@
                 toggle.setAttribute('role', 'button');
                 toggle.setAttribute('aria-label', 'Toggle navigation menu');
                 toggle.setAttribute('aria-controls', 'menuzord-right');
+                toggle.setAttribute('aria-expanded', 'false');
                 if (!toggle.querySelector('.sr-only')) {
                     const label = document.createElement('span');
                     label.className = 'sr-only';
                     label.textContent = 'Toggle navigation menu';
                     toggle.appendChild(label);
                 }
-                toggle.addEventListener('click', function (event) { event.preventDefault(); });
                 return true;
             };
 
