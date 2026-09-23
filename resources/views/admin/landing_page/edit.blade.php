@@ -230,7 +230,6 @@
     const heroEditor = document.createElement('section');
     heroEditor.className = 'hero-editor';
     heroEditor.innerHTML = '<div class="hero-editor-heading"><div><strong>Hero section</strong><small>Edit the page image and its overlay content here.</small></div><span>Hero</span></div><div class="hero-editor-fields"></div>';
-    workspace.querySelector('.builder-canvas').appendChild(heroEditor);
     const heroFields = [...formBody.querySelectorAll('.form-group')].filter(group => group.querySelector('[name="page_image"], [name="page_image_title"], [name="page_image_description"]'));
     heroFields.forEach(group => heroEditor.querySelector('.hero-editor-fields').appendChild(group));
     const heroImageInput = heroEditor.querySelector('[name="page_image"]');
@@ -247,6 +246,10 @@
     heroStage.querySelector('h2').addEventListener('input', event => { heroTitleInput.value = event.target.innerText; });
     heroStage.querySelector('p').addEventListener('input', event => { heroDescriptionInput.value = event.target.innerText; });
     heroImageInput.addEventListener('change', event => { if (!event.target.files?.[0]) return; const reader = new FileReader(); reader.onload = () => { heroStage.style.backgroundImage = 'linear-gradient(90deg, rgba(25,19,15,.43), rgba(25,19,15,.68)), url("' + reader.result + '")'; heroStage.querySelector('.hero-image-action span').textContent = 'Change hero image'; }; reader.readAsDataURL(event.target.files[0]); });
+    // The live canvas owns the visual order.  Keep the hero's existing fields
+    // and inline editing handlers together, then let the preview render it as
+    // the first editable section rather than as a separate panel above it.
+    window.landingPageHeroEditor = heroEditor;
     const settingsModal = document.createElement('div');
     settingsModal.className = 'modal fade'; settingsModal.id = 'page-settings-modal'; settingsModal.tabIndex = -1;
     settingsModal.innerHTML = '<div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Manage page settings</h5><button type="button" class="close" data-dismiss="modal"><span>&times;</span></button></div><div class="modal-body row" id="page-settings-fields"></div><div class="modal-footer"><a class="btn btn-outline-danger mr-auto" href="{{ route('admin.landing-pages.destroy', $page->page_id) }}" onclick="return confirm(\'Delete this landing page?\')">Delete page</a><button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button></div></div></div>';

@@ -18,6 +18,7 @@
   preview.className = 'live-preview';
   preview.innerHTML = '<div class="live-preview-toolbar"><span><i class="preview-dot"></i><span class="builder-save-state">Saved</span></span><span class="builder-device-controls"><button type="button" data-device="desktop" class="is-active">Desktop</button><button type="button" data-device="tablet">Tablet</button><button type="button" data-device="mobile">Mobile</button></span></div><div class="live-preview-content"></div>';
   canvas.appendChild(preview);
+  const heroEditor = window.landingPageHeroEditor;
   const saveState = preview.querySelector('.builder-save-state');
   const setSaveState = value => { saveState.textContent = value; saveState.parentElement.classList.toggle('is-dirty', value !== 'Saved'); };
   preview.querySelectorAll('[data-device]').forEach(control => control.addEventListener('click', () => {
@@ -745,14 +746,30 @@
     const cards = [...sections.querySelectorAll('.page-builder-section')];
     const content = preview.querySelector('.live-preview-content');
     const list = layers.querySelector('#section-layers-list');
-    layers.querySelector('#layer-count').textContent = cards.length + ' sections';
+    layers.querySelector('#layer-count').textContent = (cards.length + (heroEditor ? 1 : 0)) + ' sections';
     if (!cards.length) {
-      content.innerHTML = '<div class="section-empty">Your page preview will appear here. Add a section to begin.</div>';
-      list.innerHTML = '<div class="section-empty">No sections yet</div>';
+      content.replaceChildren();
+      if (heroEditor) content.appendChild(heroEditor);
+      const emptyState = document.createElement('div');
+      emptyState.className = 'section-empty';
+      emptyState.textContent = 'Your page preview will appear here. Add a section to begin.';
+      content.appendChild(emptyState);
+      list.innerHTML = heroEditor ? '<div class="section-empty">Hero section</div>' : '<div class="section-empty">No sections yet</div>';
       return;
     }
-    content.innerHTML = '';
+    content.replaceChildren();
+    if (heroEditor) content.appendChild(heroEditor);
     list.innerHTML = '';
+    if (heroEditor) {
+      const heroLayer = document.createElement('div');
+      heroLayer.className = 'section-tree';
+      heroLayer.innerHTML = '<div class="section-tree-header"><button type="button" class="section-layer"><span>☷ Hero section</span><small>hero</small></button></div>';
+      heroLayer.querySelector('.section-layer').addEventListener('click', () => {
+        heroEditor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        heroEditor.querySelector('[contenteditable]')?.focus({ preventScroll: true });
+      });
+      list.appendChild(heroLayer);
+    }
     cards.forEach((card, index) => {
       card.dataset.builderId ||= 'section-' + Date.now() + '-' + index;
       const type = getValue(card, 'section_type') || 'text';

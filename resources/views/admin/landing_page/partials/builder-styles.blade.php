@@ -146,6 +146,8 @@
   .builder-element-toolbar button:hover { background:#286773; }
   .builder-element-toolbar button[data-toolbar-action="delete"]:hover { background:#9d3542; }
   .live-preview-content { min-height:280px; display:flex; flex-direction:column; gap:0; padding:0; background:#fff; overflow:hidden; }
+  /* The hero is part of the canvas flow, before the editable body sections. */
+  .live-preview-content > .hero-editor { margin:0; border:0; border-bottom:1px solid #c5e1e4; border-radius:0; }
   .preview-section { cursor:pointer; position:relative; border:1px dashed transparent; border-radius:10px; padding:26px; transition:.2s ease; min-height:72px; }
   /* Mirrors .landing-builder-section .container on the public page. */
   .preview-section-container { width:min(1140px, 100%); margin-left:auto; margin-right:auto; padding-left:15px; padding-right:15px; box-sizing:border-box; }
