@@ -62,6 +62,20 @@
     <!-- FOR PWA MANIFEST -->
     <link rel="manifest" href="{{ asset('manifest.json')}}">
 
+    @if ($isHomePage)
+        {{-- These overlays are rendered near the end of the document. Keep them
+           out of normal flow before the deferred stylesheet has loaded. --}}
+        <style id="home-overlay-critical">
+            .cookie-banner,#messagePopup{position:fixed;display:none;z-index:1000000}
+            #messageIcon,.tooltip-popup{position:fixed;z-index:9999}
+            .cookie-banner{right:20px;bottom:20px;left:20px;max-width:480px;margin:auto}
+            #messageIcon{right:20px;bottom:90px;width:50px;height:50px}
+            .tooltip-popup{right:20px;bottom:150px}
+            #messagePopup{right:20px;bottom:100px;max-width:90%;max-height:90vh}
+            @media(max-width:767px){#messageIcon{right:16px;bottom:84px;width:48px;height:48px}.tooltip-popup{display:none!important}}
+        </style>
+    @endif
+
     {{-- The homepage has focused render-critical styles. Defer the large legacy
        bundle there so it cannot delay the hero heading's first paint. --}}
     @if ($isHomePage)
