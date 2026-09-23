@@ -93,9 +93,11 @@ class FrontSettingController extends Controller
         $request->validate([
             'section3_heading' => 'required|string|max:255',
             'section3_description' => 'required|string|max:1000',
-            'section3_background_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,avif|max:5000',
+            // Laravel's `image` rule does not recognise AVIF on every server.
+            // Validate the uploaded file and its allowed image extension instead.
+            'section3_background_image' => 'nullable|file|mimes:jpg,jpeg,png,webp,avif|max:5000',
             'section3_padding_y' => 'required|integer|min:20|max:180',
-            'section3_fixed_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,avif|max:5000',
+            'section3_fixed_images.*' => 'nullable|file|mimes:jpg,jpeg,png,webp,avif|max:5000',
             'section3_card_bullets' => 'nullable|array',
             'section3_card_bullets.*' => 'nullable|string|max:1000',
             'section3_card_buttons' => 'nullable|array',
