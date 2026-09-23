@@ -466,6 +466,21 @@ class LandingPageController extends Controller
             $changed = true;
         }
 
+        // Earlier template versions gave the two CTA sections 72–80px of
+        // padding above and below. A 64px rhythm keeps the copy and action
+        // together while leaving the padding slider fully editable.
+        $ctaHeadings = [
+            'Yoga Classes in India for a Healthier, More Balanced Life',
+            'Ready to Start Your Yoga Journey?',
+        ];
+        $ctaSections = LandingPageSection::where('landing_page_id', $pageId)->whereIn('heading', $ctaHeadings)->get();
+        foreach ($ctaSections as $ctaSection) {
+            if (in_array((int) $ctaSection->padding_y, [72, 80], true)) {
+                $ctaSection->update(['padding_y' => 64]);
+                $changed = true;
+            }
+        }
+
         return $changed;
     }
 
@@ -516,7 +531,7 @@ class LandingPageController extends Controller
         $homepageFaqBlocks = $this->homepageFaqBlocks();
 
         $sections = [
-            ['section_type' => 'cta', 'heading' => 'Yoga Classes in India for a Healthier, More Balanced Life', 'content' => '<p>Practice yoga with experienced instructors through personalized and online yoga classes across India.</p><p>Whether you are a beginner, a busy professional, a senior, or an experienced practitioner, YogIntra makes it easier to build a consistent practice around your goals, schedule and lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#e4f4f2', 'padding_y' => 80],
+            ['section_type' => 'cta', 'heading' => 'Yoga Classes in India for a Healthier, More Balanced Life', 'content' => '<p>Practice yoga with experienced instructors through personalized and online yoga classes across India.</p><p>Whether you are a beginner, a busy professional, a senior, or an experienced practitioner, YogIntra makes it easier to build a consistent practice around your goals, schedule and lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#e4f4f2', 'padding_y' => 64],
             ['section_type' => 'text', 'heading' => 'Start where you are. Practice at your pace.', 'content' => '<p>Yoga has been part of India’s wellness traditions for centuries. YogIntra brings that practice into modern everyday life with convenient, personalized yoga sessions.</p><p>You do not need to be flexible, experienced, or ready to change your whole routine. With thoughtful guidance and a practice that fits your day, yoga can become a sustainable part of your wellbeing journey.</p>', 'text_align' => 'center', 'background_color' => '#ffffff', 'padding_y' => 72],
             ['section_type' => 'image_text', 'heading' => 'About YogIntra', 'content' => '<p>Back in 2011, YogIntra started with a simple thought: to make yoga accessible to everyday people, even with busy schedules. Today, YogIntra is building a community nationally and internationally, helping people of all ages and genders stay healthy, active and connected through yoga.</p><p>The name YogIntra comes from “Yog” and “Intra.” Yog comes from the Sanskrit word “Yuj,” meaning connection or union. Intra refers to something within. Together, YogIntra represents the connection between the soul and the divine within oneself, bringing yoga into everyday life with balance, wellness and inner connection.</p>', 'image' => 'assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp', 'image_alt' => 'YogIntra logo', 'image_position' => 'left', 'image_size' => 34, 'text_align' => 'left', 'background_color' => '#fff7ed', 'padding_y' => 72],
             ['section_type' => 'feature_grid', 'heading' => 'Yoga Services Available Across India', 'content' => '<p>Choose a practice that meets you where you are, from live online guidance to sessions designed around your personal goals.</p>', 'blocks' => $serviceBlocks, 'grid_columns' => 4, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'background_color' => '#eef6ff', 'padding_y' => 72],
@@ -525,7 +540,7 @@ class LandingPageController extends Controller
             ['section_type' => 'text', 'heading' => 'Start Your Yoga Journey in 3 Simple Steps', 'content' => '<h3>1. Share your requirements</h3><p>Tell us about your experience, preferred schedule, lifestyle and what you want from your practice.</p><h3>2. Choose your format</h3><p>Explore a suitable option such as online yoga classes or personalized yoga sessions.</p><h3>3. Start practicing</h3><p>Attend your sessions, follow instructor guidance and gradually build a consistent routine.</p>', 'text_align' => 'center', 'background_color' => '#fff9e8', 'padding_y' => 72],
             ['section_type' => 'feature_grid', 'heading' => 'Yoga Plans for Different Needs', 'content' => '<p>Choose a package based on your preferred schedule, class format and practice goals. Contact YogIntra for current pricing and availability.</p>', 'blocks' => $planBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#eef8f4', 'padding_y' => 72],
             ['section_type' => 'custom_columns', 'heading' => 'Frequently Asked Questions', 'content' => '', 'blocks' => $homepageFaqBlocks, 'grid_columns' => 1, 'text_align' => 'center', 'background_color' => '#f0f7f7', 'padding_y' => 72],
-            ['section_type' => 'cta', 'heading' => 'Ready to Start Your Yoga Journey?', 'content' => '<p>Whether you are taking your first class or looking for a more consistent practice, YogIntra makes it easier to find yoga sessions that fit your lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#e6f0ff', 'padding_y' => 80],
+            ['section_type' => 'cta', 'heading' => 'Ready to Start Your Yoga Journey?', 'content' => '<p>Whether you are taking your first class or looking for a more consistent practice, YogIntra makes it easier to find yoga sessions that fit your lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#e6f0ff', 'padding_y' => 64],
         ];
 
         foreach ($sections as $order => $section) {
