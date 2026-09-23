@@ -428,7 +428,7 @@ class LandingPageController extends Controller
                 'image_alt' => 'YogIntra logo',
                 'image_position' => 'left',
                 'image_size' => 34,
-                'background_color' => '#fff7ed',
+                'background_color' => '#f7f4ee',
                 'padding_x' => 0,
                 'padding_y' => 72,
                 'margin_x' => 0,
@@ -458,7 +458,7 @@ class LandingPageController extends Controller
             'blocks' => json_encode($this->homepageFaqBlocks()),
             'grid_columns' => 1,
             'text_align' => 'center',
-            'background_color' => '#f0f7f7',
+            'background_color' => '#f7f4ee',
             'padding_y' => 72,
         ];
         if ($faq && $faq->blocks !== $faqPayload['blocks']) {
@@ -481,22 +481,30 @@ class LandingPageController extends Controller
             }
         }
 
-        // Apply the Classic template's colour palette only to untouched default
-        // headings. Editors can still select any colour in the visual builder.
-        $headingPalette = [
-            'Yoga Classes in India for a Healthier, More Balanced Life' => '#0d6772',
-            'Start where you are. Practice at your pace.' => '#24537f',
-            $aboutHeading => '#a75d20',
-            'Yoga Services Available Across India' => '#1d63a5',
-            'Yoga Classes for Different Needs, Ages & Experience Levels' => '#63469a',
-            'Start Your Yoga Journey in 3 Simple Steps' => '#9a6510',
-            'Yoga Plans for Different Needs' => '#087560',
-            'Frequently Asked Questions' => '#11706e',
-            'Ready to Start Your Yoga Journey?' => '#285ca3',
+        // Keep the Classic template intentionally calm: deep teal and a warm
+        // neutral only. This also corrects older Classic pages that inherited
+        // a collection of accent colours from early template iterations.
+        $classicHeadings = [
+            'Yoga Classes in India for a Healthier, More Balanced Life',
+            'Start where you are. Practice at your pace.',
+            $aboutHeading,
+            'Yoga Services Available Across India',
+            'Yoga Classes for Different Needs, Ages & Experience Levels',
+            'Benefits of Regular Yoga Practice',
+            'Start Your Yoga Journey in 3 Simple Steps',
+            'Yoga Plans for Different Needs',
+            'Frequently Asked Questions',
+            'Ready to Start Your Yoga Journey?',
         ];
-        foreach (LandingPageSection::where('landing_page_id', $pageId)->whereIn('heading', array_keys($headingPalette))->get() as $section) {
-            if (($section->text_color ?: '#183c45') === '#183c45') {
-                $section->update(['text_color' => $headingPalette[$section->heading]]);
+        foreach (LandingPageSection::where('landing_page_id', $pageId)->whereIn('heading', $classicHeadings)->get() as $section) {
+            $isTealSection = $section->heading === 'Benefits of Regular Yoga Practice';
+            $palette = [
+                'background_color' => $isTealSection ? '#0d6772' : '#f7f4ee',
+                'text_color' => $isTealSection ? '#ffffff' : '#0d6772',
+                'description_color' => $isTealSection ? '#ffffff' : '#0d6772',
+            ];
+            if (array_intersect_assoc($palette, $section->only(array_keys($palette))) !== $palette) {
+                $section->update($palette);
                 $changed = true;
             }
         }
@@ -574,16 +582,16 @@ class LandingPageController extends Controller
         $homepageFaqBlocks = $this->homepageFaqBlocks();
 
         $sections = [
-            ['section_type' => 'cta', 'heading' => 'Yoga Classes in India for a Healthier, More Balanced Life', 'content' => '<p>Practice yoga with experienced instructors through personalized and online yoga classes across India.</p><p>Whether you are a beginner, a busy professional, a senior, or an experienced practitioner, YogIntra makes it easier to build a consistent practice around your goals, schedule and lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#e4f4f2', 'padding_y' => 64],
-            ['section_type' => 'text', 'heading' => 'Start where you are. Practice at your pace.', 'content' => '<p>Yoga has been part of India’s wellness traditions for centuries. YogIntra brings that practice into modern everyday life with convenient, personalized yoga sessions.</p><p>You do not need to be flexible, experienced, or ready to change your whole routine. With thoughtful guidance and a practice that fits your day, yoga can become a sustainable part of your wellbeing journey.</p>', 'text_align' => 'center', 'background_color' => '#ffffff', 'padding_y' => 72],
-            ['section_type' => 'image_text', 'heading' => 'About YogIntra', 'content' => '<p>Back in 2011, YogIntra started with a simple thought: to make yoga accessible to everyday people, even with busy schedules. Today, YogIntra is building a community nationally and internationally, helping people of all ages and genders stay healthy, active and connected through yoga.</p><p>The name YogIntra comes from “Yog” and “Intra.” Yog comes from the Sanskrit word “Yuj,” meaning connection or union. Intra refers to something within. Together, YogIntra represents the connection between the soul and the divine within oneself, bringing yoga into everyday life with balance, wellness and inner connection.</p>', 'image' => 'assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp', 'image_alt' => 'YogIntra logo', 'image_position' => 'left', 'image_size' => 34, 'text_align' => 'left', 'background_color' => '#fff7ed', 'padding_y' => 72],
-            ['section_type' => 'feature_grid', 'heading' => 'Yoga Services Available Across India', 'content' => '<p>Choose a practice that meets you where you are, from live online guidance to sessions designed around your personal goals.</p>', 'blocks' => $serviceBlocks, 'grid_columns' => 4, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'background_color' => '#eef6ff', 'padding_y' => 72],
-            ['section_type' => 'feature_grid', 'heading' => 'Yoga Classes for Different Needs, Ages & Experience Levels', 'content' => '<p>You do not have to fit a particular fitness level to begin. Your practice can evolve as your experience and requirements change.</p>', 'blocks' => $audienceBlocks, 'grid_columns' => 2, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#f8f4ff', 'padding_y' => 72],
-            ['section_type' => 'feature_grid', 'heading' => 'Benefits of Regular Yoga Practice', 'content' => '<p>When practiced appropriately and consistently, yoga can support movement, mindfulness, relaxation and overall wellbeing.</p>', 'blocks' => $benefitBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#0d6c75', 'text_color' => '#ffffff', 'description_color' => '#ffffff', 'padding_y' => 64],
-            ['section_type' => 'text', 'heading' => 'Start Your Yoga Journey in 3 Simple Steps', 'content' => '<h3>1. Share your requirements</h3><p>Tell us about your experience, preferred schedule, lifestyle and what you want from your practice.</p><h3>2. Choose your format</h3><p>Explore a suitable option such as online yoga classes or personalized yoga sessions.</p><h3>3. Start practicing</h3><p>Attend your sessions, follow instructor guidance and gradually build a consistent routine.</p>', 'text_align' => 'center', 'background_color' => '#fff9e8', 'padding_y' => 72],
-            ['section_type' => 'feature_grid', 'heading' => 'Yoga Plans for Different Needs', 'content' => '<p>Choose a package based on your preferred schedule, class format and practice goals. Contact YogIntra for current pricing and availability.</p>', 'blocks' => $planBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#eef8f4', 'padding_y' => 72],
-            ['section_type' => 'custom_columns', 'heading' => 'Frequently Asked Questions', 'content' => '', 'blocks' => $homepageFaqBlocks, 'grid_columns' => 1, 'text_align' => 'center', 'background_color' => '#f0f7f7', 'padding_y' => 72],
-            ['section_type' => 'cta', 'heading' => 'Ready to Start Your Yoga Journey?', 'content' => '<p>Whether you are taking your first class or looking for a more consistent practice, YogIntra makes it easier to find yoga sessions that fit your lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#e6f0ff', 'padding_y' => 64],
+            ['section_type' => 'cta', 'heading' => 'Yoga Classes in India for a Healthier, More Balanced Life', 'content' => '<p>Practice yoga with experienced instructors through personalized and online yoga classes across India.</p><p>Whether you are a beginner, a busy professional, a senior, or an experienced practitioner, YogIntra makes it easier to build a consistent practice around your goals, schedule and lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 64],
+            ['section_type' => 'text', 'heading' => 'Start where you are. Practice at your pace.', 'content' => '<p>Yoga has been part of India’s wellness traditions for centuries. YogIntra brings that practice into modern everyday life with convenient, personalized yoga sessions.</p><p>You do not need to be flexible, experienced, or ready to change your whole routine. With thoughtful guidance and a practice that fits your day, yoga can become a sustainable part of your wellbeing journey.</p>', 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 72],
+            ['section_type' => 'image_text', 'heading' => 'About YogIntra', 'content' => '<p>Back in 2011, YogIntra started with a simple thought: to make yoga accessible to everyday people, even with busy schedules. Today, YogIntra is building a community nationally and internationally, helping people of all ages and genders stay healthy, active and connected through yoga.</p><p>The name YogIntra comes from “Yog” and “Intra.” Yog comes from the Sanskrit word “Yuj,” meaning connection or union. Intra refers to something within. Together, YogIntra represents the connection between the soul and the divine within oneself, bringing yoga into everyday life with balance, wellness and inner connection.</p>', 'image' => 'assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp', 'image_alt' => 'YogIntra logo', 'image_position' => 'left', 'image_size' => 34, 'text_align' => 'left', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 72],
+            ['section_type' => 'feature_grid', 'heading' => 'Yoga Services Available Across India', 'content' => '<p>Choose a practice that meets you where you are, from live online guidance to sessions designed around your personal goals.</p>', 'blocks' => $serviceBlocks, 'grid_columns' => 4, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 72],
+            ['section_type' => 'feature_grid', 'heading' => 'Yoga Classes for Different Needs, Ages & Experience Levels', 'content' => '<p>You do not have to fit a particular fitness level to begin. Your practice can evolve as your experience and requirements change.</p>', 'blocks' => $audienceBlocks, 'grid_columns' => 2, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 72],
+            ['section_type' => 'feature_grid', 'heading' => 'Benefits of Regular Yoga Practice', 'content' => '<p>When practiced appropriately and consistently, yoga can support movement, mindfulness, relaxation and overall wellbeing.</p>', 'blocks' => $benefitBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#0d6772', 'text_color' => '#ffffff', 'description_color' => '#ffffff', 'padding_y' => 64],
+            ['section_type' => 'text', 'heading' => 'Start Your Yoga Journey in 3 Simple Steps', 'content' => '<h3>1. Share your requirements</h3><p>Tell us about your experience, preferred schedule, lifestyle and what you want from your practice.</p><h3>2. Choose your format</h3><p>Explore a suitable option such as online yoga classes or personalized yoga sessions.</p><h3>3. Start practicing</h3><p>Attend your sessions, follow instructor guidance and gradually build a consistent routine.</p>', 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 72],
+            ['section_type' => 'feature_grid', 'heading' => 'Yoga Plans for Different Needs', 'content' => '<p>Choose a package based on your preferred schedule, class format and practice goals. Contact YogIntra for current pricing and availability.</p>', 'blocks' => $planBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 72],
+            ['section_type' => 'custom_columns', 'heading' => 'Frequently Asked Questions', 'content' => '', 'blocks' => $homepageFaqBlocks, 'grid_columns' => 1, 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 72],
+            ['section_type' => 'cta', 'heading' => 'Ready to Start Your Yoga Journey?', 'content' => '<p>Whether you are taking your first class or looking for a more consistent practice, YogIntra makes it easier to find yoga sessions that fit your lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 64],
         ];
 
         foreach ($sections as $order => $section) {

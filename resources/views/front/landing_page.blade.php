@@ -1351,11 +1351,19 @@
     /* Soft colour washes add depth without replacing the editable background
        colour selected for a section in the landing-page builder. */
     .landing-builder-section::after { content:''; position:absolute; z-index:0; inset:0; pointer-events:none; }
-    .landing-builder-section.landing-accent-1::after { background:radial-gradient(circle at 8% 5%, rgba(38,156,151,.15), transparent 40%); }
-    .landing-builder-section.landing-accent-2::after { background:radial-gradient(circle at 93% 12%, rgba(58,112,194,.12), transparent 38%); }
-    .landing-builder-section.landing-accent-3::after { background:linear-gradient(125deg, rgba(226,139,46,.10), transparent 42%, rgba(32,135,123,.08)); }
-    .landing-builder-section.landing-accent-0::after { background:radial-gradient(circle at 50% 100%, rgba(121,83,181,.10), transparent 46%); }
+    .landing-builder-section.landing-accent-1::after,
+    .landing-builder-section.landing-accent-2::after,
+    .landing-builder-section.landing-accent-3::after,
+    .landing-builder-section.landing-accent-0::after { background:radial-gradient(circle at 85% 10%, rgba(13,103,114,.08), transparent 42%); }
     .landing-builder-section.landing-first-section { content-visibility: visible; }
+    .landing-builder-section.landing-classic-section.landing-neutral-surface { background-color:#f7f4ee !important; }
+    .landing-builder-section.landing-classic-section.landing-primary-surface { background-color:#0d6772 !important; }
+    .landing-classic-section.landing-neutral-surface h2,
+    .landing-classic-section.landing-neutral-surface h3,
+    .landing-classic-section.landing-neutral-surface .landing-builder-content { color:#0d6772 !important; }
+    .landing-classic-section.landing-primary-surface h2,
+    .landing-classic-section.landing-primary-surface h3,
+    .landing-classic-section.landing-primary-surface .landing-builder-content { color:#fff !important; }
     /* The legacy theme offsets its generic .container on some breakpoints.
        Builder content must always be centered relative to the viewport. */
     .landing-builder-section .container {
@@ -1411,7 +1419,11 @@
     .landing-builder-section .landing-custom-column .landing-builder-content { white-space:pre-line; }
     .landing-builder-section .landing-column-support { display:block; margin-top:12px; color:#647b82; line-height:1.6; }
     .landing-builder-section .landing-column-bullets { margin:12px 0 0; padding-left:1.35em; line-height:1.65; list-style:disc outside; }
-    .landing-builder-section .landing-feature-card { box-sizing:border-box; min-width:0; padding:24px 20px; border:1px solid rgba(22,69,80,.09); border-radius:16px; background:rgba(255,255,255,.78); box-shadow:0 10px 24px rgba(23,74,82,.06); text-align:center; }
+    .landing-builder-section .landing-feature-card { box-sizing:border-box; min-width:0; padding:24px 20px; border:1px solid rgba(13,103,114,.14); border-radius:16px; background:#f7f4ee; box-shadow:0 10px 24px rgba(13,103,114,.08); text-align:center; }
+    /* Keep light cards readable when their parent uses white copy on teal. */
+    .landing-classic-section .landing-feature-card h4,
+    .landing-classic-section .landing-feature-card p,
+    .landing-classic-section .landing-feature-card .landing-feature-icon { color:#0d6772 !important; }
     .landing-builder-section .landing-feature-card h4 { margin:10px 0 6px; font-size:19px; font-weight:700; line-height:1.3; }
     .landing-builder-section .landing-feature-card p { margin:0; line-height:1.65; }
     .landing-builder-section .landing-feature-card.stacked img { width:100px; height:100px; object-fit:contain; margin:0 auto 12px; }
@@ -1425,8 +1437,10 @@
     .landing-builder-section h2 { color: #123a44; font-weight: 700; letter-spacing: -.02em; line-height:1.18; margin-top:0; margin-bottom:18px; }
     /* Classic template headings keep their selected colour while the small
        two-tone signature adds a consistent, recognisable YogIntra rhythm. */
-    .landing-builder-section.landing-classic-section h2::before { content:'— YOGINTRA —'; display:block; width:max-content; margin:0 0 10px; color:#0d7b84; font-size:11px; font-weight:800; letter-spacing:.16em; line-height:1.2; text-transform:uppercase; }
-    .landing-builder-section.landing-classic-section h2::after { content:''; display:block; width:78px; height:4px; margin-top:15px; border-radius:999px; background:linear-gradient(90deg,#0d7b84 0 52%,#e69a3c 52% 100%); }
+    .landing-builder-section.landing-classic-section h2::before { content:'— YOGINTRA —'; display:block; width:max-content; margin:0 0 10px; color:#0d6772; font-size:11px; font-weight:800; letter-spacing:.16em; line-height:1.2; text-transform:uppercase; }
+    .landing-builder-section.landing-classic-section h2::after { content:''; display:block; width:78px; height:4px; margin-top:15px; border-radius:999px; background:linear-gradient(90deg,#0d6772 0 52%,#f7f4ee 52% 100%); }
+    .landing-builder-section.landing-primary-surface.landing-classic-section h2::before { color:#fff; }
+    .landing-builder-section.landing-primary-surface.landing-classic-section h2::after { background:linear-gradient(90deg,#fff 0 52%,#f7f4ee 52% 100%); }
     .landing-builder-section.landing-align-center.landing-classic-section h2::before, .landing-builder-section.landing-align-center.landing-classic-section h2::after { margin-left:auto; margin-right:auto; }
     .landing-builder-section.landing-align-right.landing-classic-section h2::before, .landing-builder-section.landing-align-right.landing-classic-section h2::after { margin-left:auto; }
     .landing-builder-section h3 { line-height:1.32; margin-top:26px; margin-bottom:9px; }
@@ -1464,8 +1478,8 @@
     .landing-builder-list li + li { margin-top: var(--list-item-gap, 8px); }
     .landing-builder-section.landing-align-center .landing-builder-list, .landing-builder-section.landing-align-center .landing-column-bullets { display:table; margin-left:auto; margin-right:auto; text-align:left; }
     .landing-builder-content .landing-sanskrit { color:#0f7a84; font-family:Philosopher, serif; font-size:28px; font-weight:700; margin:0 0 18px; }
-    .landing-builder-section .btn.btn-theme-colored { background:#1f73e8; border-color:#1f73e8; color:#fff; }
-    .landing-builder-section .btn.btn-theme-colored:hover, .landing-builder-section .btn.btn-theme-colored:focus { background:#155fc4; border-color:#155fc4; color:#fff; }
+    .landing-builder-section .btn.btn-theme-colored { background:#0d6772; border-color:#0d6772; color:#fff; }
+    .landing-builder-section .btn.btn-theme-colored:hover, .landing-builder-section .btn.btn-theme-colored:focus { background:#094f56; border-color:#094f56; color:#fff; }
     .landing-builder-section .btn { border-radius: 999px; padding: 12px 24px; transition: transform .2s ease, box-shadow .2s ease; }
     .landing-builder-section .landing-section-button { display:inline-flex; align-items:center; justify-content:center; margin-top:24px !important; }
     .landing-builder-section .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.18); }
@@ -1526,7 +1540,7 @@
         ? "--landing-background-overlay: rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity});"
         : '';
     @endphp
-    <section class="landing-builder-section landing-accent-{{ $loop->iteration % 4 }} {{ $loop->first ? 'landing-first-section' : '' }} {{ !empty($page->use_classic_layout) ? 'landing-classic-section' : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+    <section class="landing-builder-section landing-accent-{{ $loop->iteration % 4 }} {{ $loop->first ? 'landing-first-section' : '' }} {{ !empty($page->use_classic_layout) ? 'landing-classic-section ' . ($section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-primary-surface' : 'landing-neutral-surface') : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
       @if($hasBackgroundImage)
         <x-responsive-image class="landing-section-background-media" :image="$section->background_image" :alt="$section->heading ? 'Background for ' . strip_tags($section->heading) : 'Landing page background'" sizes="100vw" loading="lazy" style="object-position: {{ $section->background_position ?? 'center' }} center;" />
       @endif
