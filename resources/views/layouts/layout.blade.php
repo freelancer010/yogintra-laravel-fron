@@ -769,6 +769,38 @@
             background: #f5f5f5;
             color: #333;
         }
+
+        /* The enquiry form already has its own field structure. Avoid nesting
+           a second card's padding inside the popup, which made the mobile
+           dialog unnecessarily tall and sparse. */
+        #messagePopup {
+            width: 390px;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 18px 45px rgba(15, 39, 45, .24);
+        }
+        #messagePopup .popup-content > h4 {
+            margin: 2px 34px 18px !important;
+            font-size: 25px !important;
+            line-height: 1.25;
+        }
+        #messagePopup .embedded-form {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+        }
+        #messagePopup .form-step { margin-bottom: 0; }
+        #messagePopup .form-group { margin-bottom: 16px; }
+        #messagePopup .form-control {
+            height: 48px;
+            margin-bottom: 0;
+            border-radius: 9px;
+            padding: 10px 14px;
+        }
+        #messagePopup label { margin-bottom: 6px; }
+        #messagePopup .btn { min-width: 104px; height: 46px; border-radius: 8px; }
+        #messagePopup .close-btn { top: 9px; right: 9px; }
         
         @media (max-width: 480px) {
             #messagePopup {
@@ -776,8 +808,9 @@
                 right: 2.5%;
                 left: 2.5%;
                 bottom: 80px;
-                padding: 20px;
+                padding: 18px;
             }
+            #messagePopup .popup-content > h4 { margin-bottom: 16px !important; }
         }
 
         /* Form step styling */
