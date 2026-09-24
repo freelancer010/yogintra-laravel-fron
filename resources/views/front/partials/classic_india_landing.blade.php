@@ -30,7 +30,6 @@
   .india-classic-hero::before, .india-classic-hero::after { display:none; }
   .india-classic-hero .india-shell { position:relative; z-index:1; max-width:900px; text-align:center; }
   .india-classic-hero h1, .india-classic-hero h2 { max-width:820px; margin:16px auto; color:#102f37; font-family:Roboto,Arial,sans-serif; font-size:clamp(36px, 4.25vw, 54px); font-weight:700; line-height:1.1; letter-spacing:-.03em; }
-  .india-classic-hero h2 span { display:block; margin-bottom:12px; color:var(--india-teal); font-size:.32em; font-weight:700; letter-spacing:.12em; line-height:1.2; text-transform:uppercase; }
   .india-classic-hero .india-hero-copy { max-width:800px; margin:0 auto; color:#41656c; font-size:19px; line-height:1.75; }
   .india-classic-hero .india-hero-note { max-width:780px; margin:20px auto 0; color:#55757b; font-size:16px; line-height:1.7; }
   .india-benefits { margin-top:52px; display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:16px; }
@@ -96,7 +95,7 @@
   <section class="india-classic-hero">
     <div class="india-shell india-reveal">
       <span class="india-eyebrow"><i class="fa fa-leaf" aria-hidden="true"></i> Yoga for everyday life</span>
-      <h2><span>Yoga Classes in India</span>For a Healthier, More Balanced Life</h2>
+      <h2>For a Healthier, More Balanced Life</h2>
       <p class="india-hero-copy">Practice yoga with experienced instructors through personalized and online yoga classes across India.</p>
       <p class="india-hero-note">Whether you are a beginner, a busy professional, a senior, or an experienced practitioner, YogIntra makes it easier to build a consistent practice around your goals, schedule and lifestyle.</p>
       <div class="india-actions"><a class="india-btn" href="{{ url('contact') }}">Book Your Yoga Session</a><a class="india-btn india-btn-outline" href="{{ url('service') }}">Explore Yoga Classes</a></div>
