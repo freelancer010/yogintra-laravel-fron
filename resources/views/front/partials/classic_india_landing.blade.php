@@ -13,27 +13,27 @@
 @endphp
 
 <style>
-  .india-classic { --india-teal:#0d6c75; --india-ink:#143b43; --india-mist:#eff8f7; --india-blue:#1f73e8; color:var(--india-ink); overflow:hidden; }
+  .india-classic { --india-teal:#0d6772; --india-ink:#143b43; --india-mist:#eff8f7; color:var(--india-ink); font-family:Roboto,Arial,sans-serif; overflow:hidden; }
   .india-classic section { position:relative; padding:86px 0; }
   .india-classic .india-shell { width:min(1140px, calc(100% - 32px)); margin:0 auto; }
   .india-classic .india-eyebrow { display:inline-flex; align-items:center; gap:8px; padding:7px 13px; border-radius:99px; background:#dff1ee; color:var(--india-teal); font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-  .india-classic h2 { margin:14px 0 15px; color:var(--india-ink); font-size:clamp(30px, 4vw, 45px); font-weight:800; line-height:1.16; }
+  .india-classic h2 { margin:14px 0 15px; color:var(--india-ink); font-family:Roboto,Arial,sans-serif; font-size:clamp(30px, 4vw, 45px); font-weight:700; line-height:1.16; }
   .india-classic .india-lead { max-width:760px; margin:0 auto; color:#496a71; font-size:18px; line-height:1.75; }
-  .india-classic .india-btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:12px 23px; border:1px solid var(--india-blue); border-radius:8px; background:var(--india-blue); color:#fff !important; font-weight:800; text-decoration:none !important; transition:transform .2s ease, background .2s ease, box-shadow .2s ease; }
-  .india-classic .india-btn:hover, .india-classic .india-btn:focus { background:#155fc7; color:#fff !important; box-shadow:0 12px 25px rgba(31,115,232,.24); transform:translateY(-2px); }
+  .india-classic .india-btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:12px 23px; border:1px solid var(--india-teal); border-radius:6px; background:var(--india-teal); color:#fff !important; font-family:Roboto,Arial,sans-serif; font-weight:700; text-decoration:none !important; transition:transform .2s ease, background .2s ease, box-shadow .2s ease; }
+  .india-classic .india-btn:hover, .india-classic .india-btn:focus { background:#094f56; color:#fff !important; box-shadow:0 12px 25px rgba(13,103,114,.22); transform:translateY(-2px); }
   .india-classic .india-btn-outline { border-color:#b7d4d3; background:transparent; color:var(--india-teal) !important; }
   .india-classic .india-btn-outline:hover, .india-classic .india-btn-outline:focus { border-color:var(--india-teal); background:#e9f5f3; color:var(--india-teal) !important; }
   .india-classic .india-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:28px; }
   .india-classic .india-reveal { opacity:0; transform:translateY(22px); transition:opacity .65s ease, transform .65s ease; }
   .india-classic .india-reveal.is-visible { opacity:1; transform:none; }
-  .india-classic-hero { background:linear-gradient(135deg, #edf8f6 0%, #fff 54%, #e5f2fb 100%); }
-  .india-classic-hero::before { position:absolute; top:-180px; right:-150px; width:430px; height:430px; border-radius:50%; background:rgba(13,108,117,.09); content:''; }
-  .india-classic-hero::after { position:absolute; bottom:-170px; left:-130px; width:360px; height:360px; border-radius:50%; background:rgba(31,115,232,.07); content:''; }
+  .india-classic-hero { background:#f7f4ee; }
+  .india-classic-hero::before, .india-classic-hero::after { display:none; }
   .india-classic-hero .india-shell { position:relative; z-index:1; max-width:900px; text-align:center; }
-  .india-classic-hero h1, .india-classic-hero h2 { margin:16px 0; color:#102f37; font-size:clamp(38px, 5vw, 62px); font-weight:800; line-height:1.08; letter-spacing:-.035em; }
+  .india-classic-hero h1, .india-classic-hero h2 { max-width:820px; margin:16px auto; color:#102f37; font-family:Roboto,Arial,sans-serif; font-size:clamp(36px, 4.25vw, 54px); font-weight:700; line-height:1.1; letter-spacing:-.03em; }
+  .india-classic-hero h2 span { display:block; margin-bottom:12px; color:var(--india-teal); font-size:.32em; font-weight:700; letter-spacing:.12em; line-height:1.2; text-transform:uppercase; }
   .india-classic-hero .india-hero-copy { max-width:800px; margin:0 auto; color:#41656c; font-size:19px; line-height:1.75; }
   .india-classic-hero .india-hero-note { max-width:780px; margin:20px auto 0; color:#55757b; font-size:16px; line-height:1.7; }
-  .india-benefits { margin-top:44px; display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:16px; }
+  .india-benefits { margin-top:52px; display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:16px; }
   .india-benefit { min-height:142px; padding:22px 17px; border:1px solid #dcebe9; border-radius:14px; background:rgba(255,255,255,.84); box-shadow:0 10px 24px rgba(17,70,76,.06); text-align:left; }
   .india-benefit i { display:grid; width:38px; height:38px; place-items:center; border-radius:10px; background:#e4f4f1; color:var(--india-teal); font-size:18px; }
   .india-benefit strong { display:block; margin-top:15px; font-size:16px; line-height:1.3; }
@@ -76,7 +76,7 @@
   .india-city-cloud span { padding:9px 14px; border:1px solid #d5e7e4; border-radius:99px; background:#fff; color:#315e66; font-weight:700; }
   .india-packages { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:22px; margin-top:40px; }
   .india-package { display:flex; flex-direction:column; padding:34px 28px; border:1px solid #d9e8e6; border-radius:17px; background:#fff; box-shadow:0 12px 28px rgba(17,70,76,.06); }
-  .india-package.is-featured { border-color:#1f73e8; box-shadow:0 18px 36px rgba(31,115,232,.15); transform:translateY(-8px); }
+  .india-package.is-featured { border-color:var(--india-teal); box-shadow:0 18px 36px rgba(13,103,114,.15); transform:translateY(-8px); }
   .india-package h3 { margin:0; color:var(--india-ink); font-size:23px; font-weight:800; }
   .india-package > p { min-height:50px; color:#5c787d; line-height:1.6; }
   .india-package .india-check-list { margin:8px 0 24px; }
@@ -96,7 +96,7 @@
   <section class="india-classic-hero">
     <div class="india-shell india-reveal">
       <span class="india-eyebrow"><i class="fa fa-leaf" aria-hidden="true"></i> Yoga for everyday life</span>
-      <h2>Yoga Classes in India for a Healthier, More Balanced Life</h2>
+      <h2><span>Yoga Classes in India</span>For a Healthier, More Balanced Life</h2>
       <p class="india-hero-copy">Practice yoga with experienced instructors through personalized and online yoga classes across India.</p>
       <p class="india-hero-note">Whether you are a beginner, a busy professional, a senior, or an experienced practitioner, YogIntra makes it easier to build a consistent practice around your goals, schedule and lifestyle.</p>
       <div class="india-actions"><a class="india-btn" href="{{ url('contact') }}">Book Your Yoga Session</a><a class="india-btn india-btn-outline" href="{{ url('service') }}">Explore Yoga Classes</a></div>
