@@ -430,6 +430,11 @@
   .preview-section.is-classic-preview.is-neutral-preview { background:#f7f4ee !important; }
   .preview-section.is-classic-preview.is-benefits-section { background:#0d6772 !important; }
   .preview-section.is-classic-preview:hover, .preview-section.is-classic-preview.is-selected { border:0; box-shadow:inset 0 0 0 2px #01aeb7; }
+  .preview-section.is-classic-preview.is-intro-section { padding-top:54px !important; padding-bottom:54px !important; background:#f7f4ee !important; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy { max-width:760px; margin:0 auto; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy h3 { max-width:820px; margin:0 auto 18px !important; color:#0d3f45 !important; font-family:Roboto,Arial,sans-serif !important; font-size:clamp(34px, 3.65vw, 52px) !important; font-weight:700; line-height:1.12; letter-spacing:-.025em; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy p { color:#355c66 !important; font-family:Roboto,Arial,sans-serif; font-size:18px !important; line-height:1.65; }
+  .preview-section.is-classic-preview.is-intro-section .preview-cta { border-radius:6px; padding:13px 24px; background:#0d6772; color:#fff; font-family:Roboto,Arial,sans-serif; font-weight:700; }
   .preview-section.is-classic-preview .preview-section-copy h3,
   .preview-section.is-classic-preview .preview-grid-heading h3,
   .preview-section.is-classic-preview .preview-special-heading h3 { color:#01aeb7 !important; font-family:Quicksand,sans-serif; font-weight:900; line-height:1.08; }
