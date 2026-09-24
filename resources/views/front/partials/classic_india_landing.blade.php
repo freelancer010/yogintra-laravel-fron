@@ -37,13 +37,20 @@
   .india-benefit i { display:grid; width:38px; height:38px; place-items:center; border-radius:10px; background:#e4f4f1; color:var(--india-teal); font-size:18px; }
   .india-benefit strong { display:block; margin-top:15px; font-size:16px; line-height:1.3; }
   .india-benefit span { display:block; margin-top:6px; color:#607c81; font-size:13px; line-height:1.55; }
-  .india-story { background:#fff; }
-  .india-story-grid { display:grid; grid-template-columns:.9fr 1.1fr; gap:64px; align-items:center; }
-  .india-story-mark { display:grid; min-height:350px; place-items:center; border-radius:22px; background:linear-gradient(145deg, #0d6c75, #159099); box-shadow:0 22px 42px rgba(13,108,117,.24); color:#fff; text-align:center; }
-  .india-story-mark i { font-size:64px; }
-  .india-story-mark strong { display:block; max-width:235px; margin-top:18px; font-size:25px; line-height:1.25; }
-  .india-story .india-copy { color:#4d6c72; font-size:17px; line-height:1.8; }
-  .india-story .india-copy p + p { margin-top:14px; }
+  .india-story { padding:68px 0 !important; background:#fff; }
+  .india-story-grid { display:grid; grid-template-columns:.82fr 1.18fr; gap:56px; align-items:center; }
+  .india-story-mark { position:relative; display:grid; min-height:320px; place-items:center; overflow:hidden; border-radius:18px; background:#0d6772; box-shadow:0 18px 36px rgba(13,103,114,.16); color:#fff; text-align:center; }
+  .india-story-mark > img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:62% center; opacity:.84; filter:saturate(.72); }
+  .india-story-mark::after { position:absolute; inset:0; background:rgba(13,103,114,.52); content:''; }
+  .india-story-mark > div { position:relative; z-index:1; padding:28px; }
+  .india-story-mark strong { display:block; max-width:235px; font-family:Roboto,Arial,sans-serif; font-size:24px; font-weight:700; line-height:1.28; }
+  .india-story h2 { max-width:660px; margin-top:15px; font-size:clamp(32px, 3.4vw, 46px); line-height:1.12; }
+  .india-story .india-copy { max-width:650px; color:#4d6c72; font-size:17px; line-height:1.75; }
+  .india-story .india-copy p + p { margin-top:15px; }
+  .india-story .india-copy .india-story-next { margin-top:18px; color:#143b43; font-weight:700; }
+  .india-story-link { display:inline-flex; align-items:center; gap:8px; margin-top:22px; color:var(--india-teal) !important; font-family:Roboto,Arial,sans-serif; font-size:15px; font-weight:700; text-decoration:none !important; }
+  .india-story-link::after { width:34px; height:2px; background:var(--india-teal); content:''; transition:width .2s ease; }
+  .india-story-link:hover::after { width:48px; }
   .india-service-section { background:#f5faf9; }
   .india-service-grid { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:18px; margin-top:42px; }
   .india-service { height:100%; padding:26px 22px; border:1px solid #dceae8; border-radius:15px; background:#fff; box-shadow:0 10px 22px rgba(17,70,76,.05); transition:transform .22s ease, box-shadow .22s ease; }
@@ -87,7 +94,7 @@
   .india-final { background:linear-gradient(135deg, #e1f3f0, #edf5ff); text-align:center; }
   .india-final .india-shell { max-width:820px; }
   @media (max-width:991px) { .india-benefits { grid-template-columns:repeat(2,minmax(0,1fr)); }.india-service-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.india-story-grid { gap:35px; }.india-benefit-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-  @media (max-width:767px) { .india-classic section { padding:58px 0; }.india-classic-hero h1 { font-size:36px; }.india-classic-hero .india-hero-copy, .india-classic .india-lead { font-size:16px; }.india-benefits, .india-service-grid, .india-for-grid, .india-benefit-grid, .india-steps, .india-packages, .india-story-grid { grid-template-columns:1fr; }.india-story-mark { min-height:240px; }.india-service-grid { gap:14px; }.india-benefit { min-height:0; }.india-list-panel, .india-step, .india-package { padding:25px 21px; }.india-package.is-featured { transform:none; }.india-actions { flex-direction:column; }.india-btn { width:100%; }.india-final .india-btn { width:auto; } }
+  @media (max-width:767px) { .india-classic section { padding:58px 0; }.india-classic-hero h1 { font-size:36px; }.india-classic-hero .india-hero-copy, .india-classic .india-lead { font-size:16px; }.india-benefits, .india-service-grid, .india-for-grid, .india-benefit-grid, .india-steps, .india-packages, .india-story-grid { grid-template-columns:1fr; }.india-story { padding:54px 0 !important; }.india-story-mark { min-height:270px; }.india-story h2 { font-size:32px; }.india-service-grid { gap:14px; }.india-benefit { min-height:0; }.india-list-panel, .india-step, .india-package { padding:25px 21px; }.india-package.is-featured { transform:none; }.india-actions { flex-direction:column; }.india-btn { width:100%; }.india-final .india-btn { width:auto; } }
   @media (prefers-reduced-motion:reduce) { .india-classic *, .india-classic .india-reveal { scroll-behavior:auto !important; transition:none !important; transform:none !important; } .india-classic .india-reveal { opacity:1; } }
 </style>
 
@@ -108,7 +115,7 @@
     </div>
   </section>
 
-  <section class="india-story"><div class="india-shell india-story-grid india-reveal"><div class="india-story-mark"><div><i class="fa fa-om" aria-hidden="true"></i><strong>Your yoga partner, wherever you are in India</strong></div></div><div><span class="india-eyebrow">About YogIntra</span><h2>Start where you are. Practice at your pace.</h2><div class="india-copy"><p>Yoga has been part of India’s wellness traditions for centuries. YogIntra brings that practice into modern everyday life with convenient, personalized yoga sessions.</p><p>You do not need to be flexible, experienced, or ready to change your whole routine. With thoughtful guidance and a practice that fits your day, yoga can become a sustainable part of your wellbeing journey.</p><p>From online yoga classes to beginner-friendly and personalized sessions, YogIntra offers flexible options for different needs and lifestyles.</p></div></div></div></section>
+  <section class="india-story"><div class="india-shell india-story-grid india-reveal"><div class="india-story-mark"><img src="{{ asset('assets/about-women.webp') }}" alt="Woman practising yoga"><div><strong>Your yoga partner, wherever you are in India</strong></div></div><div><span class="india-eyebrow">About YogIntra</span><h2>Start where you are. Practice at your pace.</h2><div class="india-copy"><p>Yoga has been part of India’s wellness traditions for centuries. YogIntra brings that practice into modern everyday life with convenient, personalized yoga sessions.</p><p>You do not need to be flexible, experienced, or ready to change your whole routine. With thoughtful guidance and a practice that fits your day, yoga can become a sustainable part of your wellbeing journey.</p><p class="india-story-next">Explore a practice that fits your life.</p></div><a class="india-story-link" href="{{ url('about') }}">About YogIntra</a></div></div></section>
 
   <section class="india-service-section"><div class="india-shell text-center india-reveal"><span class="india-eyebrow">Find your format</span><h2>Yoga Services Available Across India</h2><p class="india-lead">Choose a practice that meets you where you are, from live online guidance to sessions designed around your personal goals.</p><div class="india-service-grid">@foreach($classicServices as $service)<article class="india-service"><i class="fa {{ $service['icon'] }}" aria-hidden="true"></i><h3>{{ $service['title'] }}</h3><p>{{ $service['text'] }}</p></article>@endforeach</div></div></section>
 
