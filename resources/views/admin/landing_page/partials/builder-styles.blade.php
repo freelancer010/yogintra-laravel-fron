@@ -81,14 +81,14 @@
   .hero-persistence-fields { display:none; }
   .hero-canvas-stage { min-height:410px; position:relative; display:flex; align-items:center; justify-content:flex-end; padding:46px; background:#0d3f45 center/cover no-repeat; border-radius:10px; overflow:hidden; color:#fff; }
   .hero-image-action { position:absolute; z-index:1; left:18px; bottom:18px; border:1px solid rgba(255,255,255,.28); border-radius:6px; padding:9px 13px; background:rgba(7,37,41,.72); color:#fff; cursor:pointer; font-size:11px; font-weight:800; }
-  .hero-canvas-copy { width:min(47%, 520px); display:flex; flex-direction:column; justify-content:center; padding:0; background:transparent; border-radius:0; text-align:left; }
-  .hero-canvas-copy small { color:#01aeb7; margin-bottom:14px; font-family:Roboto,Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+  .hero-canvas-copy { width:min(50%, 560px); display:flex; flex-direction:column; justify-content:center; padding:0; background:transparent; border-radius:0; text-align:left; }
+  .hero-canvas-copy small { color:#9fe5e1; margin-bottom:14px; font-family:Roboto,Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:.14em; text-shadow:0 1px 10px rgba(0,0,0,.32); text-transform:uppercase; }
   /* Mirrors the public homepage title style used by landing headings. */
-  .hero-canvas-copy h2 { margin:0; color:#fff; font-family:Roboto,Arial,sans-serif; font-size:42px; font-weight:700; line-height:1.08; text-transform:none; }
-  .hero-canvas-copy p { margin:19px 0 0; color:rgba(255,255,255,.88); font-family:Roboto,Arial,sans-serif; font-size:17px; font-weight:400; line-height:1.55; }
+  .hero-canvas-copy h2 { margin:0; color:#fff; font-family:Roboto,Arial,sans-serif; font-size:38px; font-weight:700; line-height:1.08; text-transform:none; }
+  .hero-canvas-copy p { margin:19px 0 0; color:rgba(255,255,255,.90); font-family:Roboto,Arial,sans-serif; font-size:17px; font-weight:400; line-height:1.55; }
   .hero-preview-cta { display:inline-flex; align-items:center; justify-content:center; align-self:flex-start; margin-top:24px; padding:12px 19px; border-radius:6px; background:#01aeb7; color:#fff; font-family:Roboto,Arial,sans-serif; font-size:13px; font-weight:700; }
   .hero-canvas-copy [contenteditable]:focus { outline:2px solid #64c6cc; outline-offset:4px; border-radius:4px; }
-  @media (max-width:640px) { .hero-canvas-stage { min-height:390px; padding:28px 22px; align-items:flex-end; } .hero-canvas-copy { width:100%; text-align:center; } .hero-canvas-copy small { margin-left:auto; margin-right:auto; } .hero-canvas-copy h2 { font-size:34px; } .hero-preview-cta { align-self:center; } }
+  @media (max-width:640px) { .hero-canvas-stage { min-height:390px; padding:28px 22px; align-items:flex-end; } .hero-canvas-copy { width:100%; text-align:center; } .hero-canvas-copy small { margin-left:auto; margin-right:auto; } .hero-canvas-copy h2 { font-size:32px; } .hero-preview-cta { align-self:center; } }
   .hero-editor-fields .form-group { margin:0; padding:0; max-width:none; }
   .hero-editor-fields .form-group:first-child { grid-column:span 2; text-align:left !important; border-bottom:1px solid #d9e9eb; padding-bottom:12px; }
   .hero-editor-fields #preview-image { max-width:260px; width:auto !important; max-height:150px; object-fit:cover; border-radius:8px; display:block; margin:0 0 9px !important; }

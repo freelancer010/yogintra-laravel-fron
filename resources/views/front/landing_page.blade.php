@@ -1315,13 +1315,13 @@
       background-color:#0d3f45;
     }
     #home.landing-hero::before {
-      background:linear-gradient(90deg, rgba(7,37,41,.18) 0%, rgba(7,37,41,.34) 38%, rgba(7,37,41,.92) 72%, rgba(7,37,41,.96) 100%) !important;
+      background:linear-gradient(90deg, rgba(7,37,41,.03) 0%, rgba(7,37,41,.16) 38%, rgba(7,37,41,.90) 72%, rgba(7,37,41,.96) 100%) !important;
     }
     #home.landing-hero .display-table { display:block; height:auto; }
     #home.landing-hero .display-table-cell { display:block; height:auto; }
     #home.landing-hero .landing-hero-container { width:min(1180px, calc(100% - 48px)); max-width:1180px; margin:0 auto; padding:0; }
     #home.landing-hero .landing-hero-copy {
-      width:min(510px, 48%);
+      width:min(560px, 50%);
       margin-left:auto !important;
       padding:0 !important;
       border:0;
@@ -1331,20 +1331,20 @@
       text-align:left !important;
       backdrop-filter:none;
     }
-    #home.landing-hero .landing-hero-kicker { display:block; margin:0 0 18px; color:#01aeb7; font-family:Roboto,Arial,sans-serif; font-size:13px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
-    #home.landing-hero .landing-hero-copy h1 { margin:0; color:#fff !important; font-family:Roboto,Arial,sans-serif !important; font-size:clamp(42px, 5vw, 68px) !important; font-weight:700 !important; line-height:1.08 !important; letter-spacing:-.025em; text-align:left !important; text-transform:none; }
-    #home.landing-hero .landing-hero-copy .landing-hero-description { max-width:490px; margin:24px 0 0; color:rgba(255,255,255,.88); font-family:Roboto,Arial,sans-serif; font-size:clamp(18px, 1.5vw, 22px); font-weight:400; line-height:1.55; text-align:left; }
+    #home.landing-hero .landing-hero-kicker { display:block; margin:0 0 18px; color:#9fe5e1; font-family:Roboto,Arial,sans-serif; font-size:13px; font-weight:700; letter-spacing:.14em; text-shadow:0 1px 10px rgba(0,0,0,.32); text-transform:uppercase; }
+    #home.landing-hero .landing-hero-copy h1 { margin:0; color:#fff !important; font-family:Roboto,Arial,sans-serif !important; font-size:clamp(40px, 4.5vw, 60px) !important; font-weight:700 !important; line-height:1.08 !important; letter-spacing:-.025em; text-align:left !important; text-transform:none; }
+    #home.landing-hero .landing-hero-copy .landing-hero-description { max-width:560px; margin:24px 0 0; color:rgba(255,255,255,.90); font-family:Roboto,Arial,sans-serif; font-size:clamp(18px, 1.5vw, 22px); font-weight:400; line-height:1.55; text-align:left; }
     #home.landing-hero .landing-hero-actions { display:flex; align-items:center; flex-wrap:wrap; gap:18px; margin-top:32px; }
     #home.landing-hero .landing-hero-primary { display:inline-flex; align-items:center; justify-content:center; min-height:50px; padding:0 23px; border-radius:6px; background:#01aeb7; color:#fff !important; font-family:Roboto,Arial,sans-serif; font-size:15px; font-weight:700; transition:transform .2s ease, background .2s ease; }
     #home.landing-hero .landing-hero-primary:hover { background:#018e96; color:#fff; transform:translateY(-2px); }
     #home.landing-hero .landing-hero-secondary { color:#fff !important; font-family:Roboto,Arial,sans-serif; font-size:15px; font-weight:700; text-decoration:underline; text-decoration-color:rgba(1,174,183,.85); text-decoration-thickness:2px; text-underline-offset:6px; }
     @media (max-width:767px) {
       #home.landing-hero { min-height:calc(100svh - 78px) !important; padding:90px 0 42px !important; background-position:38% center !important; }
-      #home.landing-hero::before { background:linear-gradient(180deg, rgba(7,37,41,.35) 0%, rgba(7,37,41,.64) 42%, rgba(7,37,41,.94) 100%) !important; }
+      #home.landing-hero::before { background:linear-gradient(180deg, rgba(7,37,41,.18) 0%, rgba(7,37,41,.58) 42%, rgba(7,37,41,.94) 100%) !important; }
       #home.landing-hero .landing-hero-container { width:min(100% - 36px, 480px); margin:0 auto; }
       #home.landing-hero .landing-hero-copy { width:100% !important; margin:0 !important; text-align:center !important; }
       #home.landing-hero .landing-hero-kicker, #home.landing-hero .landing-hero-copy h1, #home.landing-hero .landing-hero-copy .landing-hero-description { text-align:center !important; }
-      #home.landing-hero .landing-hero-copy h1 { font-size:clamp(38px, 11vw, 52px) !important; }
+      #home.landing-hero .landing-hero-copy h1 { font-size:clamp(36px, 10vw, 48px) !important; }
       #home.landing-hero .landing-hero-description { margin-left:auto; margin-right:auto; font-size:18px !important; }
       #home.landing-hero .landing-hero-actions { justify-content:center; margin-top:28px; }
     }
