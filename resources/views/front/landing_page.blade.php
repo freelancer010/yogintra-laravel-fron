@@ -1303,31 +1303,72 @@
       min-height: 44px;
       margin-top: -22px;
     }
+    /* Classic landing hero: editorial two-column composition. These rules are
+       deliberately last so they replace the older city-page hero overrides. */
+    #home.landing-hero {
+      min-height:clamp(620px, 86vh, 760px) !important;
+      height:auto !important;
+      display:flex;
+      align-items:center;
+      padding:108px 0 70px !important;
+      background-position:center center !important;
+      background-color:#0d3f45;
+    }
+    #home.landing-hero::before {
+      background:linear-gradient(90deg, rgba(7,37,41,.18) 0%, rgba(7,37,41,.34) 38%, rgba(7,37,41,.92) 72%, rgba(7,37,41,.96) 100%) !important;
+    }
+    #home.landing-hero .display-table { display:block; height:auto; }
+    #home.landing-hero .display-table-cell { display:block; height:auto; }
+    #home.landing-hero .landing-hero-container { width:min(1180px, calc(100% - 48px)); max-width:1180px; margin:0 auto; padding:0; }
+    #home.landing-hero .landing-hero-copy {
+      width:min(510px, 48%);
+      margin-left:auto !important;
+      padding:0 !important;
+      border:0;
+      border-radius:0;
+      background:transparent !important;
+      box-shadow:none;
+      text-align:left !important;
+      backdrop-filter:none;
+    }
+    #home.landing-hero .landing-hero-kicker { display:block; margin:0 0 18px; color:#01aeb7; font-family:Quicksand,sans-serif; font-size:13px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+    #home.landing-hero .landing-hero-copy h1 { margin:0; color:#fff !important; font-family:Quicksand,sans-serif !important; font-size:clamp(42px, 5vw, 68px) !important; font-weight:900 !important; line-height:1.03 !important; letter-spacing:-.035em; text-align:left !important; text-transform:none; }
+    #home.landing-hero .landing-hero-copy .landing-hero-description { max-width:490px; margin:24px 0 0; color:rgba(255,255,255,.88); font-family:Quicksand,sans-serif; font-size:clamp(18px, 1.5vw, 22px); font-weight:500; line-height:1.55; text-align:left; }
+    #home.landing-hero .landing-hero-actions { display:flex; align-items:center; flex-wrap:wrap; gap:18px; margin-top:32px; }
+    #home.landing-hero .landing-hero-primary { display:inline-flex; align-items:center; justify-content:center; min-height:50px; padding:0 23px; border-radius:6px; background:#01aeb7; color:#fff !important; font-family:Quicksand,sans-serif; font-size:15px; font-weight:800; transition:transform .2s ease, background .2s ease; }
+    #home.landing-hero .landing-hero-primary:hover { background:#018e96; color:#fff; transform:translateY(-2px); }
+    #home.landing-hero .landing-hero-secondary { color:#fff !important; font-family:Quicksand,sans-serif; font-size:15px; font-weight:800; text-decoration:underline; text-decoration-color:rgba(1,174,183,.85); text-decoration-thickness:2px; text-underline-offset:6px; }
+    @media (max-width:767px) {
+      #home.landing-hero { min-height:calc(100svh - 78px) !important; padding:90px 0 42px !important; background-position:38% center !important; }
+      #home.landing-hero::before { background:linear-gradient(180deg, rgba(7,37,41,.35) 0%, rgba(7,37,41,.64) 42%, rgba(7,37,41,.94) 100%) !important; }
+      #home.landing-hero .landing-hero-container { width:min(100% - 36px, 480px); margin:0 auto; }
+      #home.landing-hero .landing-hero-copy { width:100% !important; margin:0 !important; text-align:center !important; }
+      #home.landing-hero .landing-hero-kicker, #home.landing-hero .landing-hero-copy h1, #home.landing-hero .landing-hero-copy .landing-hero-description { text-align:center !important; }
+      #home.landing-hero .landing-hero-copy h1 { font-size:clamp(38px, 11vw, 52px) !important; }
+      #home.landing-hero .landing-hero-description { margin-left:auto; margin-right:auto; font-size:18px !important; }
+      #home.landing-hero .landing-hero-actions { justify-content:center; margin-top:28px; }
+    }
    </style>
 @endpush
 
 
 @section('content')
 <!-- Section: home -->
-<section id="home" class="divider parallax"
+<section id="home" class="divider parallax landing-hero"
     style="background-image: url('{{ asset($page_data->page_image) }}');">
     <div class="display-table">
         <div class="display-table-cell">
-            <div class="container pt-100 pb-100">
+            <div class="container landing-hero-container">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="home-content">
-                            {{-- Uncomment if you want to show the logo --}}
-                            {{-- <div>
-                                <img src="{{ asset($app_setting->app_sticky_logo) }}" alt="Logo">
-                            </div> --}}
-                            <h1 class="text-uppercase font-54" style="color:#01aeb7 !important; font-family:Quicksand,sans-serif !important; font-weight:900; line-height:1;">
-                                {{ $page_data->page_image_title }}
-                            </h1>
-                            <h2 class="text-white font-weight-400" style="margin-top: 20px;">
-                                {{ Str::limit($page_data->page_image_description, 120) }}
-                            </h2>
-                            {{-- <a class="btn btn-colored btn-theme-colored btn-flat smooth-scroll-to-target mt-15" href="#donate-now">Donate Now</a> --}}
+                        <div class="home-content landing-hero-copy">
+                            <span class="landing-hero-kicker">YogIntra · Kandivali</span>
+                            <h1>{{ $page_data->page_image_title }}</h1>
+                            <p class="landing-hero-description">{{ Str::limit($page_data->page_image_description, 150) }}</p>
+                            <div class="landing-hero-actions">
+                                <a class="landing-hero-primary" href="{{ url('contact') }}">Book a Trial Class</a>
+                                <a class="landing-hero-secondary" href="#landing-page-content">Explore classes</a>
+                            </div>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -1543,7 +1584,7 @@
         ? "--landing-background-overlay: rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity});"
         : '';
     @endphp
-    <section class="landing-builder-section landing-accent-{{ $loop->iteration % 4 }} {{ $loop->first ? 'landing-first-section' : '' }} {{ $section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-benefits-section' : '' }} {{ !empty($page->use_classic_layout) ? 'landing-classic-section ' . ($section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-primary-surface' : 'landing-neutral-surface') : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+    <section @if($loop->first) id="landing-page-content" @endif class="landing-builder-section landing-accent-{{ $loop->iteration % 4 }} {{ $loop->first ? 'landing-first-section' : '' }} {{ $section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-benefits-section' : '' }} {{ !empty($page->use_classic_layout) ? 'landing-classic-section ' . ($section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-primary-surface' : 'landing-neutral-surface') : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
       @if($hasBackgroundImage)
         <x-responsive-image class="landing-section-background-media" :image="$section->background_image" :alt="$section->heading ? 'Background for ' . strip_tags($section->heading) : 'Landing page background'" sizes="100vw" loading="lazy" style="object-position: {{ $section->background_position ?? 'center' }} center;" />
       @endif
