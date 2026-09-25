@@ -416,7 +416,6 @@ class LandingPageController extends Controller
         $aboutHeading = 'About YogIntra';
         $introHeading = 'For a Healthier, More Balanced Life';
         $storyHeading = 'Start where you are. Practice at your pace.';
-        $trainerHeading = 'Meet Your YogIntra Trainers';
         $storyContent = '<p>Yoga has been part of India’s wellness traditions for centuries. YogIntra brings that practice into modern everyday life with convenient, personalized yoga sessions.</p><p>You do not need to be flexible, experienced, or ready to change your whole routine. With thoughtful guidance and a practice that fits your day, yoga can become a sustainable part of your wellbeing journey.</p><p><strong>Explore a practice that fits your life.</strong></p>';
 
         $legacyIntro = LandingPageSection::where('landing_page_id', $pageId)
@@ -484,31 +483,6 @@ class LandingPageController extends Controller
             $changed = true;
         }
 
-        // Add the trainer carousel to older Classic canvases once, without
-        // replacing a trainer section the editor has already customized.
-        if (!LandingPageSection::where('landing_page_id', $pageId)->where('section_type', 'trainer_slider')->exists()) {
-            $serviceSection = LandingPageSection::where('landing_page_id', $pageId)
-                ->where('heading', 'Yoga Services Available Across India')
-                ->first();
-            $sortOrder = $serviceSection ? ((int) $serviceSection->sort_order + 1) : 3;
-            LandingPageSection::where('landing_page_id', $pageId)->where('sort_order', '>=', $sortOrder)->increment('sort_order');
-            LandingPageSection::create([
-                'landing_page_id' => $pageId,
-                'section_type' => 'trainer_slider',
-                'heading' => $trainerHeading,
-                'content' => '<p>Meet the instructors who can support your practice in your area. Replace these starter cards with your team’s photos, names and service locations.</p>',
-                'blocks' => json_encode($this->trainerSliderBlocks()),
-                'background_color' => '#ffffff',
-                'padding_x' => 0, 'padding_y' => 72, 'margin_x' => 0, 'margin_y' => 0,
-                'text_color' => '#143b43', 'heading_size' => 32,
-                'description_color' => '#4d6c72', 'description_size' => 16,
-                'text_align' => 'center', 'grid_columns' => 3,
-                'card_layout' => 'stacked', 'card_alignment' => 'center', 'grid_gap' => 24,
-                'sort_order' => $sortOrder,
-            ]);
-            $changed = true;
-        }
-
         $faq = LandingPageSection::where('landing_page_id', $pageId)
             ->whereIn('heading', ['Frequently Asked Questions About Yoga Classes in India', 'Frequently Asked Questions'])
             ->orderBy('sort_order')
@@ -549,7 +523,6 @@ class LandingPageController extends Controller
         $classicHeadings = [
             $introHeading,
             $storyHeading,
-            $trainerHeading,
             $aboutHeading,
             'Yoga Services Available Across India',
             'Yoga Classes for Different Needs, Ages & Experience Levels',
@@ -610,15 +583,6 @@ class LandingPageController extends Controller
         ];
     }
 
-    private function trainerSliderBlocks(): array
-    {
-        return [
-            ['title' => 'Your local yoga trainer', 'location' => 'Your city & nearby areas', 'text' => 'Add this instructor’s qualifications, style and class focus.', 'image' => ''],
-            ['title' => 'Your local yoga trainer', 'location' => 'Mumbai & online', 'text' => 'Add this instructor’s qualifications, style and class focus.', 'image' => ''],
-            ['title' => 'Your local yoga trainer', 'location' => 'At home or online', 'text' => 'Add this instructor’s qualifications, style and class focus.', 'image' => ''],
-        ];
-    }
-
     private function createClassicSections(int $pageId, string $city, string $legacyContent = ''): void
     {
         $serviceBlocks = [
@@ -649,8 +613,6 @@ class LandingPageController extends Controller
             ['icon' => '◎', 'title' => 'Personalized Yoga Plan', 'text' => 'Individual guidance shaped around your requirements.\n\nGoal-oriented practice\nFlexible scheduling\nIndividual attention\nPractice adapted to you'],
         ];
 
-        $trainerBlocks = $this->trainerSliderBlocks();
-
         // These FAQ blocks match the homepage and are editable individually
         // through the visual builder's FAQ editor.
         $homepageFaqBlocks = $this->homepageFaqBlocks();
@@ -659,7 +621,6 @@ class LandingPageController extends Controller
             ['section_type' => 'cta', 'heading' => 'For a Healthier, More Balanced Life', 'content' => '<p>Practice yoga with experienced instructors through personalized and online yoga classes across India.</p><p>Whether you are a beginner, a busy professional, a senior, or an experienced practitioner, YogIntra makes it easier to build a consistent practice around your goals, schedule and lifestyle.</p>', 'button_text' => 'Book Your Yoga Session', 'button_url' => url('contact'), 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 64],
             ['section_type' => 'image_text', 'heading' => 'Start where you are. Practice at your pace.', 'content' => '<p>Yoga has been part of India’s wellness traditions for centuries. YogIntra brings that practice into modern everyday life with convenient, personalized yoga sessions.</p><p>You do not need to be flexible, experienced, or ready to change your whole routine. With thoughtful guidance and a practice that fits your day, yoga can become a sustainable part of your wellbeing journey.</p><p><strong>Explore a practice that fits your life.</strong></p>', 'image' => 'assets/about-women.webp', 'image_alt' => 'Woman practising yoga', 'image_position' => 'left', 'image_size' => 40, 'button_text' => 'About YogIntra', 'button_url' => url('about'), 'text_align' => 'left', 'background_color' => '#ffffff', 'text_color' => '#143b43', 'description_color' => '#4d6c72', 'padding_y' => 68],
             ['section_type' => 'feature_grid', 'heading' => 'Yoga Services Available Across India', 'content' => '<p>Choose a practice that meets you where you are, from live online guidance to sessions designed around your personal goals.</p>', 'blocks' => $serviceBlocks, 'grid_columns' => 4, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 72],
-            ['section_type' => 'trainer_slider', 'heading' => 'Meet Your YogIntra Trainers', 'content' => '<p>Meet the instructors who can support your practice in your area. Replace these starter cards with your team’s photos, names and service locations.</p>', 'blocks' => $trainerBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'center', 'text_align' => 'center', 'background_color' => '#ffffff', 'text_color' => '#143b43', 'description_color' => '#4d6c72', 'padding_y' => 72],
             ['section_type' => 'feature_grid', 'heading' => 'Yoga Classes for Different Needs, Ages & Experience Levels', 'content' => '<p>You do not have to fit a particular fitness level to begin. Your practice can evolve as your experience and requirements change.</p>', 'blocks' => $audienceBlocks, 'grid_columns' => 2, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 72],
             ['section_type' => 'feature_grid', 'heading' => 'Benefits of Regular Yoga Practice', 'content' => '<p>When practiced appropriately and consistently, yoga can support movement, mindfulness, relaxation and overall wellbeing.</p>', 'blocks' => $benefitBlocks, 'grid_columns' => 3, 'card_layout' => 'stacked', 'card_alignment' => 'left', 'text_align' => 'center', 'background_color' => '#0d6772', 'text_color' => '#ffffff', 'description_color' => '#ffffff', 'padding_y' => 64],
             ['section_type' => 'text', 'heading' => 'Start Your Yoga Journey in 3 Simple Steps', 'content' => '<h3>1. Share your requirements</h3><p>Tell us about your experience, preferred schedule, lifestyle and what you want from your practice.</p><h3>2. Choose your format</h3><p>Explore a suitable option such as online yoga classes or personalized yoga sessions.</p><h3>3. Start practicing</h3><p>Attend your sessions, follow instructor guidance and gradually build a consistent routine.</p>', 'text_align' => 'center', 'background_color' => '#f7f4ee', 'text_color' => '#0d6772', 'description_color' => '#0d6772', 'padding_y' => 72],

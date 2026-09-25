@@ -276,21 +276,11 @@
   .extra-element-actions button:hover { background:#16717a; color:#fff; }
   .feature-block-control button, .add-feature-block { border:1px solid #9cc9ce; color:#14616b; background:#fff; border-radius:6px; font-size:11px; padding:5px 7px; }
   .preview-grid-heading { text-align:center; max-width:900px; margin:0 auto 24px; }
-  .preview-grid-heading h3 { margin:0 0 18px; font-family:Roboto,Arial,sans-serif; color:#143b43; font-weight:700; line-height:1.15; }
+  .preview-grid-heading h3 { margin:0 0 18px; font-family:Quicksand,sans-serif; color:#01aeb7; font-weight:900; line-height:1; }
   .preview-grid-heading p { margin:0; line-height:1.65; }
   .preview-builder-list { padding-left:1.4em; margin:10px 0; line-height:1.6; }
   .preview-builder-list li + li { margin-top:var(--list-item-gap, 8px); }
   .preview-feature-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:20px 34px; }
-  .preview-trainer-slider { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px; }
-  .preview-trainer-card { overflow:hidden; border:1px solid #dce8ea; border-radius:12px; background:#fff; box-shadow:0 7px 18px rgba(19,60,68,.07); cursor:pointer; text-align:center; }
-  .preview-trainer-card:hover, .preview-trainer-card.is-selected-target { border-color:#0d6772; box-shadow:0 9px 23px rgba(13,103,114,.14); }
-  .preview-trainer-card > img, .preview-trainer-avatar { display:block; width:100%; aspect-ratio:1/1; object-fit:cover; }
-  .preview-trainer-avatar { display:grid; place-items:center; background:#e6f4f2; color:#0d6772; font-size:42px; }
-  .preview-trainer-card-copy { padding:16px; }
-  .preview-trainer-card h4 { margin:0 0 5px; color:#143b43; font-family:Roboto,Arial,sans-serif; font-size:18px; font-weight:700; }
-  .preview-trainer-card p { margin:0; color:#5d7277; font-size:13px; line-height:1.55; }
-  .preview-trainer-card .preview-trainer-location { margin-bottom:8px; color:#0d6772; font-weight:700; }
-  .builder-control-help { margin:8px 0 12px; color:#5d7277; font-size:12px; line-height:1.5; }
   .preview-feature { display:flex; gap:13px; align-items:flex-start; padding:12px; border-radius:8px; }
   .preview-feature.is-stacked { flex-direction:column; align-items:center; text-align:center; }
   /* Empty-column sections inherit the selected section alignment. Unlike feature
@@ -419,7 +409,7 @@
   .section-tree-children { margin:5px 0 0 19px; padding-left:10px; border-left:1px solid #d7e5e8; }
   .section-tree-child { display:block; width:100%; border:0; padding:5px 2px; background:transparent; color:#668087; text-align:left; font-size:12px; }
   .section-tree-child:hover, .section-tree-child.is-selected { color:#14616b; font-weight:700; }
-  @media (max-width: 640px) { .preview-section-row, .preview-section-row.is-right { flex-direction:column; } .preview-section-image, .preview-image-empty { width:100%; } .preview-feature-grid, .preview-trainer-slider { grid-template-columns:1fr; } .preview-testimonial-row { align-items:flex-start; padding:16px; } }
+  @media (max-width: 640px) { .preview-section-row, .preview-section-row.is-right { flex-direction:column; } .preview-section-image, .preview-image-empty { width:100%; } .preview-feature-grid { grid-template-columns:1fr; } .preview-testimonial-row { align-items:flex-start; padding:16px; } }
   .layout-tools { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; background:#f7fafb; border-radius:10px; padding:12px; margin-top:6px; }
   .layout-tools label { font-size:11px !important; }
   .range-control { grid-column: span 2; }

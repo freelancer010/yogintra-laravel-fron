@@ -1565,10 +1565,8 @@
     .landing-builder-section .landing-trainer-card { width:100%; overflow:hidden; border:1px solid #e4ecee; border-radius:14px; background:#fff; box-shadow:0 6px 18px rgba(19,60,68,.07); text-align:center; }
     .landing-builder-section .landing-trainer-card img, .landing-builder-section .landing-trainer-avatar { display:block; width:100%; aspect-ratio:1/1; object-fit:cover; }
     .landing-builder-section .landing-trainer-avatar { display:grid; place-items:center; background:#e6f4f2; color:#0f7a84; font-size:44px; font-weight:800; }
-    .landing-builder-section .landing-trainer-card h3 { margin:0; padding:18px 16px 4px; color:#183c45; font-size:20px; font-weight:700; }
-    .landing-builder-section .landing-trainer-location { display:flex; align-items:center; justify-content:center; gap:7px; margin:0; padding:0 16px 10px; color:#0d6772; font-size:14px; font-weight:700; line-height:1.45; }
-    .landing-builder-section .landing-trainer-location i { font-size:13px; }
-    .landing-builder-section .landing-trainer-bio { margin:0; padding:0 16px 18px; color:#647b82; line-height:1.55; }
+    .landing-builder-section .landing-trainer-card h3 { margin:0; padding:18px 16px 8px; color:#183c45; font-size:20px; font-weight:700; }
+    .landing-builder-section .landing-trainer-card p { margin:0; padding:0 16px 18px; color:#647b82; line-height:1.55; }
     .landing-builder-section .landing-faq-list { max-width:860px; margin:0 auto; }
     .landing-builder-section .landing-faq-item { border:1px solid #dfe8ea; border-radius:10px; background:#fff; overflow:hidden; }
     .landing-builder-section .landing-faq-item + .landing-faq-item { margin-top:12px; }
@@ -1615,8 +1613,7 @@
                 @if(!empty($trainer['image']))<x-responsive-image :image="$trainer['image']" :alt="$trainer['title'] ?? 'YogIntra trainer'" sizes="(max-width: 768px) 92vw, 33vw" loading="lazy" decoding="async" />
                 @else<div class="landing-trainer-avatar">{{ strtoupper(substr($trainer['title'] ?? 'Y', 0, 1)) }}</div>@endif
                 <h3>{{ $trainer['title'] ?? 'Trainer name' }}</h3>
-                @if(!empty($trainer['location']))<p class="landing-trainer-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>{{ $trainer['location'] }}</p>@endif
-                @if(!empty($trainer['text']))<p class="landing-trainer-bio">{{ $trainer['text'] }}</p>@endif
+                @if(!empty($trainer['text']))<p>{{ $trainer['text'] }}</p>@endif
               </article></div>
             @empty
               <p style="grid-column:1/-1;text-align:center;color:#647b82;">Add trainer cards in the landing-page builder.</p>
