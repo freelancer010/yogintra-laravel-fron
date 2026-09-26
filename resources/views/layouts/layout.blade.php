@@ -216,7 +216,7 @@
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     @endif
     <script src="{{ asset('assets/front/js/bootstrap.min.js') }}" @if ($isHomePage) defer @endif></script>
-    <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}" @if ($isHomePage) defer @endif></script>
+    <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}?v={{ filemtime(public_path('assets/front/js/jquery-plugin-collection.min.js')) }}" @if ($isHomePage) defer @endif></script>
     <script src="{{ asset('assets/front/js/custom.min.js') }}" @if ($isHomePage) defer @endif></script>
     @stack('scripts')
 
