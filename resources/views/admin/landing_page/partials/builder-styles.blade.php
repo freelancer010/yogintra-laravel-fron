@@ -429,6 +429,10 @@
   .focus-toggle { border: 1px solid rgba(255,255,255,.45); background:rgba(255,255,255,.12); color:#fff; border-radius:8px; padding:7px 11px; font-size:12px; font-weight:700; }
   .landing-page-header { width:100%; }
   .landing-page-header-actions { margin-left:auto; white-space:nowrap; }
+  .classic-layout-status { display:inline-flex; align-items:center; gap:6px; color:#0d5961; font-size:12px; font-weight:800; white-space:nowrap; }
+  .auto-save-control { display:inline-flex; align-items:center; min-height:31px; padding:0 2px 0 26px; color:#49666d; font-size:12px; font-weight:700; white-space:nowrap; }
+  .auto-save-control .custom-control-label::before { border-color:#7fc5cb; }
+  .auto-save-control .custom-control-input:checked ~ .custom-control-label::before { border-color:#0d6772; background-color:#0d6772; }
   /* A calm, editorial canvas for the Classic template. It deliberately
      mirrors the public page's white / warm-neutral rhythm and compact cards. */
   /* The page preview belongs directly in the edit card; the header labels the canvas. */

@@ -23,7 +23,48 @@
   const savedClassicCanvas = @json(str_starts_with((string) ($page->page_content ?? ''), '<!-- classic-builder-canvas -->') ? substr((string) $page->page_content, strlen('<!-- classic-builder-canvas -->')) : '');
   const heroEditor = window.landingPageHeroEditor;
   const saveState = preview.querySelector('.builder-save-state');
-  const setSaveState = value => { saveState.textContent = value; saveState.parentElement.classList.toggle('is-dirty', value !== 'Saved'); };
+  const autoSaveToggle = document.getElementById('auto-save-toggle');
+  const autoSaveKey = 'yogintra-builder-autosave-{{ $page->page_id }}';
+  let autoSaveTimer = null;
+  let autoSaveInFlight = false;
+  const autoSaveEnabled = () => autoSaveToggle?.checked === true;
+  const runAutoSave = async () => {
+    if (!autoSaveEnabled() || autoSaveInFlight || !builderForm?.checkValidity()) return;
+    autoSaveInFlight = true;
+    saveState.textContent = 'Saving…';
+    try {
+      await fetch(builderForm.action, {
+        method: 'POST',
+        body: new FormData(builderForm),
+        credentials: 'same-origin',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      });
+      saveState.textContent = 'Saved';
+      saveState.parentElement.classList.remove('is-dirty');
+    } catch (_) {
+      saveState.textContent = 'Save failed';
+      saveState.parentElement.classList.add('is-dirty');
+    } finally {
+      autoSaveInFlight = false;
+    }
+  };
+  const queueAutoSave = () => {
+    if (!autoSaveEnabled()) return;
+    clearTimeout(autoSaveTimer);
+    autoSaveTimer = setTimeout(runAutoSave, 1200);
+  };
+  const setSaveState = value => {
+    saveState.textContent = value;
+    saveState.parentElement.classList.toggle('is-dirty', value !== 'Saved');
+    if (value !== 'Saved') queueAutoSave();
+  };
+  if (autoSaveToggle) {
+    autoSaveToggle.checked = localStorage.getItem(autoSaveKey) !== 'off';
+    autoSaveToggle.addEventListener('change', () => {
+      localStorage.setItem(autoSaveKey, autoSaveToggle.checked ? 'on' : 'off');
+      if (autoSaveToggle.checked && saveState.textContent !== 'Saved') queueAutoSave();
+    });
+  }
   preview.querySelectorAll('[data-device]').forEach(control => control.addEventListener('click', () => {
     preview.dataset.device = control.dataset.device;
     preview.querySelectorAll('[data-device]').forEach(button => button.classList.toggle('is-active', button === control));

@@ -18,7 +18,11 @@
                 <div class="landing-page-header-actions ml-auto d-flex align-items-center justify-content-end">
                     <a href="{{ url('/city/' . $page->page_slug) }}" target="_blank" rel="noopener" class="btn btn-outline-light btn-sm mr-2"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Preview page</a>
                     <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#page-settings-modal"><i class="fas fa-cog" aria-hidden="true"></i> Manage page settings</button>
-                    <button type="button" class="btn btn-outline-warning btn-sm mr-2" id="classic-layout-toggle" data-convert-url="{{ route('admin.landing-pages.convert-classic', $page->page_id) }}"><i class="fas fa-history" aria-hidden="true"></i> Default layout: <span>{{ ($page->use_classic_layout ?? false) ? 'On' : 'Off' }}</span></button>
+                    <span class="classic-layout-status mr-2"><i class="fas fa-check-circle" aria-hidden="true"></i> Classic live layout</span>
+                    <div class="custom-control custom-switch auto-save-control mr-2">
+                        <input type="checkbox" class="custom-control-input" id="auto-save-toggle" checked>
+                        <label class="custom-control-label" for="auto-save-toggle">Auto save</label>
+                    </div>
                     <button type="submit" form="landing-page-form" formnovalidate class="btn btn-success builder-submit floating-update-button">Update page</button>
                 </div>
             </div>
@@ -27,6 +31,7 @@
         <form id="landing-page-form" action="{{ route('admin.landing-pages.update', $page->page_id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" id="classic-canvas-content" name="classic_canvas_content" value="">
+            <input type="checkbox" id="use-classic-layout" name="use_classic_layout" value="1" checked hidden>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 form-group mb-5 border-bottom text-center pb-5">
@@ -67,17 +72,6 @@
                     <div class="col-md-6 form-group">
                     <label>Head Code</label>
                     <textarea name="page_head_code" class="form-control">{{ $page->page_head_code }}</textarea>
-                    </div>
-
-                    <div class="col-md-12 form-group">
-                      <div class="builder-field d-flex align-items-center justify-content-between" style="gap:16px;">
-                        <div><label class="mb-1">Default layout</label><p class="mb-0 text-muted small">Turn this on to use the India Classic template. It saves immediately. The first time it is enabled, its editable sections are added to the builder canvas automatically.</p></div>
-                        <div class="custom-control custom-switch flex-shrink-0">
-                          <input type="hidden" name="use_classic_layout" value="0">
-                          <input type="checkbox" class="custom-control-input" id="use-classic-layout" name="use_classic_layout" value="1" {{ ($page->use_classic_layout ?? false) ? 'checked' : '' }}>
-                          <label class="custom-control-label" for="use-classic-layout">Use default Classic layout</label>
-                        </div>
-                      </div>
                     </div>
 
                     <div class="col-md-12 form-group">
@@ -258,33 +252,6 @@
     formBody.appendChild(settingsModal);
     const settingsFields = settingsModal.querySelector('#page-settings-fields');
     formBody.querySelectorAll('.form-group').forEach(group => { if (!group.closest('.builder-section-panel') && !group.closest('.hero-editor')) settingsFields.appendChild(group); });
-    const classicLayoutInput = formBody.querySelector('#use-classic-layout');
-    const classicLayoutToggle = document.getElementById('classic-layout-toggle');
-    const syncClassicLayoutToggle = () => {
-      const enabled = classicLayoutInput?.checked;
-      classicLayoutToggle?.classList.toggle('btn-warning', enabled);
-      classicLayoutToggle?.classList.toggle('btn-outline-warning', !enabled);
-      const label = classicLayoutToggle?.querySelector('span');
-      if (label) label.textContent = enabled ? 'On' : 'Off';
-      if (classicLayoutToggle) classicLayoutToggle.title = enabled ? 'Default layout is enabled and saved automatically.' : 'Default layout is disabled and saved automatically.';
-    };
-    const landingPageForm = document.getElementById('landing-page-form');
-    const saveLayoutChoice = () => {
-      if (!classicLayoutInput || !landingPageForm) return;
-      const hasSections = formBody.querySelectorAll('.page-builder-section').length > 0;
-      if (classicLayoutInput.checked && !hasSections) {
-        landingPageForm.action = classicLayoutToggle.dataset.convertUrl;
-      }
-      landingPageForm.submit();
-    };
-    classicLayoutToggle?.addEventListener('click', () => {
-      if (!classicLayoutInput) return;
-      classicLayoutInput.checked = !classicLayoutInput.checked;
-      syncClassicLayoutToggle();
-      saveLayoutChoice();
-    });
-    classicLayoutInput?.addEventListener('change', () => { syncClassicLayoutToggle(); saveLayoutChoice(); });
-    syncClassicLayoutToggle();
     const panel = formBody.querySelector('.builder-section-panel');
     if (panel) workspace.querySelector('.builder-inspector').appendChild(panel.closest('.col-md-12'));
     const submit = formBody.querySelector('.builder-submit');
