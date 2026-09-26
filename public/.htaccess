@@ -73,5 +73,5 @@
     RewriteRule ^(.*)$ ${tolower:%{REQUEST_URI}} [R=301,L]
 
     RewriteCond %{HTTP_HOST} ^www\.yogintra\.com$
-    RewriteRule ^/?$ "http\:\/\/yogintra\.com\/" [R=301,L]
+    RewriteRule ^/?$ "https\:\/\/yogintra\.com\/" [R=301,L]
 </IfModule>
