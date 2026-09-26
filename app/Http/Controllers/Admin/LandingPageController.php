@@ -44,7 +44,10 @@ class LandingPageController extends Controller
             'page_meta_title' => $request->page_meta_title ?: $request->page_name,
             'page_keywords' => '',
             'page_head_code' => '',
-            'page_image' => 'uploads/1681071409default-profile.png',
+            // The editorial Classic hero is the useful default for a new
+            // landing page. Editors can replace it from the builder at any
+            // time without seeing the generic profile placeholder.
+            'page_image' => 'assets/landing-reference/hero.webp',
             'page_image_title' => $request->page_name,
             'page_image_description' => '',
             'page_content' => '',
@@ -123,9 +126,8 @@ class LandingPageController extends Controller
         $data['page_slug'] = $request->page_slug ?: Str::slug($request->page_name);
         $data['page_title'] = $request->page_name;
         $data['use_classic_layout'] = true;
-        // The legacy table requires an image even when a builder page starts as
-        // text-only. A real hero image can still be added later in settings.
-        $data['page_image'] = 'uploads/1681071409default-profile.png';
+        // Give full-form creations the same Classic hero as quick drafts.
+        $data['page_image'] = 'assets/landing-reference/hero.webp';
 
         if ($request->hasFile('page_image')) {
             $data['page_image'] = app(OptimizedImageUpload::class)->store($request->file('page_image'));

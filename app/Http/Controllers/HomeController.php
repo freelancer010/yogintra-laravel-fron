@@ -419,6 +419,10 @@ class HomeController extends Controller
                 ? $faviconPath
                 : asset($faviconPath);
             $faviconType = str_starts_with($favicon, 'data:image/svg') ? 'image/svg+xml' : 'image/png';
+            $pageImagePath = trim((string) ($data['page_data']->page_image ?? ''));
+            $heroImage = $pageImagePath !== '' && $pageImagePath !== 'uploads/1681071409default-profile.png'
+                ? (str_starts_with($pageImagePath, 'data:') || preg_match('#^https?://#i', $pageImagePath) ? $pageImagePath : asset($pageImagePath))
+                : asset('assets/landing-reference/hero.webp');
             $globalHeader = view('partials.navbar', [
                 'app_setting' => $appSetting,
                 'all_service' => DB::table('service_category')->get(),
@@ -450,7 +454,7 @@ class HomeController extends Controller
 
             $referenceLayout = str_replace(
                 ['href="styles.css"', 'src="app.js"', 'src="assets/hero.webp"', 'src="assets/guidance.webp"'],
-                ['href="/assets/landing-reference/styles.css"', 'src="/assets/landing-reference/app.js"', 'src="/assets/landing-reference/hero.webp"', 'src="/assets/landing-reference/guidance.webp"'],
+                ['href="/assets/landing-reference/styles.css"', 'src="/assets/landing-reference/app.js"', 'src="' . e($heroImage) . '"', 'src="/assets/landing-reference/guidance.webp"'],
                 $referenceLayout
             );
             // The reference file carries a placeholder teal “Y” icon. Remove
@@ -477,6 +481,14 @@ class HomeController extends Controller
             if (str_starts_with($savedCanvas, $canvasPrefix)) {
                 $savedCanvas = substr($savedCanvas, strlen($canvasPrefix));
                 if (str_starts_with(ltrim($savedCanvas), '<main')) {
+                    // The page-level image is the source of truth for the
+                    // hero, including canvases saved before this behaviour.
+                    $savedCanvas = preg_replace(
+                        '#(<div\\s+class="hero-visual"[^>]*>\\s*<img\\b[^>]*\\bsrc=")[^"]*#i',
+                        '$1' . e($heroImage),
+                        $savedCanvas,
+                        1
+                    ) ?? $savedCanvas;
                     $referenceLayout = preg_replace('#<main\\b[^>]*>.*?</main>#s', $savedCanvas, $referenceLayout, 1) ?? $referenceLayout;
                 }
             }
