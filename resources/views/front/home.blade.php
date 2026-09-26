@@ -139,7 +139,10 @@
                             src="{{ asset($slider->slider_image) }}"
                             width="1519"
                             height="854"
-                            loading="{{ $index < 3 ? 'eager' : 'lazy' }}"
+                            {{-- Owl Carousel creates cloned slides before the initial item in
+                                the DOM. Lazy-loading any hero slide can therefore make it
+                                appear as an above-the-fold lazy image to browsers/audits. --}}
+                            loading="eager"
                             decoding="async"
                             alt="YogIntra - {{ $slider->slider_heading }}"
                             title="YogIntra - {{ $slider->slider_heading }}"
@@ -181,6 +184,7 @@
                 title="YogIntra Mobile Banner - Yoga and Meditation Services"
                 width="414"
                 height="650"
+                loading="eager"
                 decoding="async"
                 fetchpriority="high"
                 class="mobile-home-banner"
