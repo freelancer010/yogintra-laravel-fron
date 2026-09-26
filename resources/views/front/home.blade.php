@@ -20,6 +20,8 @@
 @push('page_meta_tags')
     <meta name="theme-color" content="#0f7c87">
     <style id="home-mobile-layout-critical">
+        .hero-video-play{position:absolute;bottom:20px;right:20px;z-index:4;border:1px solid #fff;border-radius:6px;padding:10px 16px;background:#123e46;color:#fff;cursor:pointer}
+        .hero-video-play[hidden]{display:none}
         /* The shared legacy stylesheet is deferred on the homepage. Reserve the
            mobile hero's final geometry before it arrives so the hidden desktop
            carousel never creates a large first-paint layout shift. */
@@ -77,6 +79,7 @@
     @endif
     {{-- Hero typography and geometry must be styled before first paint. --}}
     <link rel="stylesheet" href="{{ asset('assets/front/css/home.min.css') }}">
+    <noscript><style>.types-of-yoga-section{background-image:url('{{ asset($app_setting->section3_background_image ?: 'assets/parallax-decor2.png') }}')}</style></noscript>
 @endpush
 @section('content')
     <section id="home" class="divider {{ (($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video)) ? 'hero-video-home' : '' }}">
@@ -94,7 +97,8 @@
                     <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
                     <track kind="captions" srclang="en" label="English" src="{{ asset('assets/front/captions/yogintra-hero-en.vtt') }}">
                 </video>
-                                <script src="{{ asset('assets/front/js/home-hero-video.min.js') }}" defer></script>
+                <button class="hero-video-play" type="button" hidden aria-label="Play background video">Play background video</button>
+                <script src="{{ asset('assets/front/js/home-hero-video.js') }}?v={{ filemtime(public_path('assets/front/js/home-hero-video.js')) }}" defer></script>
                 @if($heroVideoHeading)
                     <div class="hero-video-copy">
                         <div class="container position-ab"><div class="row"><div class="{{ $heroVideoColumnClass }}">
@@ -304,7 +308,7 @@
             return ['label' => $button['label'] ?? $defaultLabel, 'url' => $button['url'] ?? $defaultUrl];
         };
     @endphp
-    <section class="divider types-of-yoga-section section-parallax-bg" style="background-image: url('{{ asset($app_setting->section3_background_image ?: 'assets/parallax-decor2.png') }}'); padding-top:{{ $app_setting->section3_padding_y ?: 70 }}px; padding-bottom:{{ $app_setting->section3_padding_y ?: 70 }}px;">
+    <section class="divider types-of-yoga-section section-parallax-bg" data-home-background="{{ asset($app_setting->section3_background_image ?: 'assets/parallax-decor2.png') }}" style="padding-top:{{ $app_setting->section3_padding_y ?: 70 }}px; padding-bottom:{{ $app_setting->section3_padding_y ?: 70 }}px;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12">
@@ -689,6 +693,7 @@
 @push('scripts')
     {{-- FAQ accordion uses the site's existing Bootstrap 4 collapse styles; no second Bootstrap runtime is needed. --}}
         <script src="{{ asset('assets/front/js/home-page.min.js') }}" defer></script>
+        <script src="{{ asset('assets/front/js/home-backgrounds.js') }}" defer></script>
         <script src="{{ asset('assets/front/js/home-carousel-accessibility.js') }}" defer></script>
 
     
