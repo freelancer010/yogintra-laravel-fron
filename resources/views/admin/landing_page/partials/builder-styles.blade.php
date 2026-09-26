@@ -433,11 +433,13 @@
   .preview-toolbar-controls { display:flex; align-items:center; gap:12px; margin-left:auto; }
   .builder-device-controls { align-items:center; }
   .builder-device-controls button { display:inline-flex; align-items:center; justify-content:center; min-height:32px; }
-  .auto-save-control { position:relative; display:flex; align-items:center; min-height:32px; margin:0; padding:0 0 0 33px; color:#49666d; font-size:12px; font-weight:700; white-space:nowrap; }
-  .auto-save-control .custom-control-label { display:flex; align-items:center; min-height:32px; margin:0; line-height:1; cursor:pointer; }
-  .auto-save-control .custom-control-label::before { top:50%; left:-33px; transform:translateY(-50%); border-color:#7fc5cb; }
-  .auto-save-control .custom-control-label::after { top:50%; left:calc(-33px + 2px); transform:translateY(-50%); }
-  .auto-save-control .custom-control-input:checked ~ .custom-control-label::before { border-color:#0d6772; background-color:#0d6772; }
+  .auto-save-control { display:inline-flex; align-items:center; gap:8px; min-height:32px; margin:0; color:#49666d; font-size:12px; font-weight:700; line-height:1; white-space:nowrap; cursor:pointer; }
+  .auto-save-control input { position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
+  .auto-save-switch { position:relative; display:block; flex:0 0 36px; width:36px; height:20px; border-radius:999px; background:#a7bec3; transition:background-color .18s ease; }
+  .auto-save-switch::after { content:""; position:absolute; top:3px; left:3px; width:14px; height:14px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.2); transition:transform .18s ease; }
+  .auto-save-control input:checked + .auto-save-switch { background:#0d6772; }
+  .auto-save-control input:checked + .auto-save-switch::after { transform:translateX(16px); }
+  .auto-save-control input:focus-visible + .auto-save-switch { outline:2px solid #1f98a4; outline-offset:3px; }
   @media (max-width: 640px) { .live-preview-toolbar { gap:8px; padding:8px 12px; align-items:flex-start; } .preview-toolbar-controls { margin-left:auto; flex-wrap:wrap; justify-content:flex-end; gap:8px; } }
   /* A calm, editorial canvas for the Classic template. It deliberately
      mirrors the public page's white / warm-neutral rhythm and compact cards. */
