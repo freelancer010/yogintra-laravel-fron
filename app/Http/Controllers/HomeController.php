@@ -44,7 +44,7 @@ class HomeController extends Controller
     /**
      * Display the home page.
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -93,7 +93,7 @@ class HomeController extends Controller
     /**
      * Display the about page.
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function about()
     {
@@ -404,6 +404,65 @@ class HomeController extends Controller
 
         abort_unless($data, 404);
         $data['api'] = $this->api_main;
+
+        // The Classic landing experience currently uses the supplied
+        // editorial reference layout. It is intentionally served as a
+        // standalone, fast static page until its blocks are mapped back into
+        // the visual builder.
+        if (!empty($data['page_data']->use_classic_layout)) {
+            $referenceLayout = file_get_contents(public_path('assets/landing-reference/index.html'));
+            abort_unless($referenceLayout !== false, 500);
+
+            $globalHeader = view('partials.navbar', [
+                'app_setting' => Setting::first(),
+                'all_service' => DB::table('service_category')->get(),
+                'visual_setting' => DB::table('visual_setting')->first(),
+            ])->render();
+            $globalHeader = str_replace(
+                '<header id="header" class="header',
+                '<header id="header" class="landing-global-header header',
+                $globalHeader
+            );
+            $globalHeader = preg_replace(
+                '#(<ul class="menuzord-menu[^"]*"[^>]*>)#',
+                '<button class="landing-menu-toggle" type="button" aria-expanded="false" aria-controls="landing-global-menu">Menu <span aria-hidden="true">☰</span></button>$1',
+                $globalHeader,
+                1
+            );
+            $globalHeader = str_replace('class="menuzord-menu ', 'id="landing-global-menu" class="menuzord-menu ', $globalHeader);
+
+            $globalFooter = view('partials.footer')->render();
+            $globalFooter = str_replace(
+                '<footer id="footer" class="footer bg-black-000">',
+                '<footer id="footer" class="landing-global-footer footer bg-black-000">',
+                $globalFooter
+            );
+            $trainerSection = view('front.partials.classic-trainers', [
+                'trainers' => collect($data['all_trainer'])->take(3),
+                'api' => $this->api_main,
+            ])->render();
+
+            $referenceLayout = str_replace(
+                ['href="styles.css"', 'src="app.js"', 'src="assets/hero.webp"', 'src="assets/guidance.webp"'],
+                ['href="/assets/landing-reference/styles.css"', 'src="/assets/landing-reference/app.js"', 'src="/assets/landing-reference/hero.webp"', 'src="/assets/landing-reference/guidance.webp"'],
+                $referenceLayout
+            );
+            $referenceLayout = str_replace(
+                '</head>',
+                '<link rel="stylesheet" href="/assets/front/css/font-awesome.min.css"><link rel="stylesheet" href="/assets/landing-reference/global-header.css"><link rel="stylesheet" href="/assets/landing-reference/classic-trainers.css"><link rel="stylesheet" href="/assets/landing-reference/global-footer.css"><style>.brand-logo img{display:block;width:190px;height:auto;object-fit:contain}@media(max-width:680px){.brand-logo img{width:150px}}</style></head>',
+                $referenceLayout
+            );
+            $referenceLayout = preg_replace('#<header>.*?</header>#s', $globalHeader, $referenceLayout, 1);
+            $referenceLayout = str_replace('<section id="about" class="about section">', $trainerSection . '<section id="about" class="about section">', $referenceLayout);
+            $referenceLayout = preg_replace('#<footer\\b[^>]*>.*?</footer>#s', $globalFooter, $referenceLayout, 1);
+            $referenceLayout = str_replace(
+                '</body>',
+                '<div hidden><button class="menu-toggle"></button><nav id="navigation"></nav><span id="year"></span></div><script src="/assets/landing-reference/global-header.js" defer></script></body>',
+                $referenceLayout
+            );
+
+            return response($referenceLayout)->header('Content-Type', 'text/html; charset=UTF-8');
+        }
 
         return view('front.landing_page', $data);
     }

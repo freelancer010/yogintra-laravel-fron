@@ -95,7 +95,7 @@
     <!-- Styles -->
         <style>:root{--theme-color-1:{{ $visual_setting->color_1 }};--theme-color-2:{{ $visual_setting->color_2 }};}</style>
     @if ($heroOverlayNavigation)
-                <script src="{{ asset('assets/front/js/navbar-hero.min.js') }}" defer></script>
+                <script src="{{ asset('assets/front/js/navbar-hero.js') }}" defer></script>
     @endif
         <script src="{{ asset('assets/front/js/navbar-accessibility.min.js') }}" defer></script>
 </div>

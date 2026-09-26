@@ -1539,10 +1539,30 @@
     .landing-builder-section .btn { border-radius:6px; padding:13px 24px; font-family:Quicksand,sans-serif; font-weight:800; transition:transform .2s ease, box-shadow .2s ease; }
     .landing-builder-section .landing-section-button { display:inline-flex; align-items:center; justify-content:center; margin-top:24px !important; }
     .landing-builder-section .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.18); }
+    /* The introduction immediately after the hero is deliberately quieter
+       and narrower than the later content sections. This gives its two
+       paragraphs a clear reading order and keeps the action visually close. */
+    .landing-builder-section.landing-intro-section { padding-top:64px !important; padding-bottom:64px !important; background:#fff !important; }
+    .landing-builder-section.landing-intro-section .row { display:flex; justify-content:center; margin-left:0; margin-right:0; }
+    .landing-builder-section.landing-intro-section .col-md-10 { display:flex; flex:0 1 900px; flex-direction:column; align-items:center; float:none; width:100%; max-width:900px; margin-left:auto !important; margin-right:auto !important; text-align:center !important; }
+    .landing-builder-section.landing-intro-section .landing-intro-eyebrow { display:inline-flex; align-items:center; margin:0 auto 14px; padding:7px 13px; border-radius:999px; background:#e1efed; color:#0d6772; font-family:Roboto,Arial,sans-serif; font-size:12px; font-weight:700; letter-spacing:.1em; line-height:1; text-transform:uppercase; }
+    .landing-builder-section.landing-classic-section.landing-neutral-surface.landing-intro-section h2 { max-width:780px; margin:0 auto 22px !important; color:#143b43 !important; font-family:Roboto,Arial,sans-serif !important; font-size:clamp(34px, 3.35vw, 48px) !important; font-weight:700 !important; line-height:1.14 !important; letter-spacing:-.025em; text-align:center !important; }
+    .landing-builder-section.landing-classic-section.landing-neutral-surface.landing-intro-section .landing-builder-content { max-width:720px; margin:0 auto; color:#46636a !important; font-family:Roboto,Arial,sans-serif !important; font-size:18px !important; line-height:1.65 !important; text-align:center !important; }
+    .landing-builder-section.landing-intro-section .landing-builder-content p:first-child { color:#264f58; font-size:19px; font-weight:500; }
+    .landing-builder-section.landing-intro-section .landing-builder-content p + p { margin-top:18px; }
+    .landing-builder-section.landing-intro-section .landing-section-button { align-self:center; margin-top:28px !important; padding:14px 26px; background:#0d6772 !important; border-color:#0d6772 !important; font-family:Roboto,Arial,sans-serif !important; font-weight:700; }
+    .landing-builder-section.landing-brand-story { background:#fff !important; }
+    .landing-builder-section.landing-brand-story .landing-image-text-row { max-width:1040px; margin-left:auto; margin-right:auto; }
+    .landing-builder-section.landing-brand-story .landing-image-text-row img { border-radius:14px; box-shadow:0 14px 32px rgba(20,59,67,.12); }
+    .landing-builder-section.landing-classic-section.landing-neutral-surface.landing-brand-story h2 { margin:0 0 18px !important; color:#143b43 !important; font-family:Roboto,Arial,sans-serif !important; font-size:clamp(32px, 2.7vw, 42px) !important; font-weight:700 !important; line-height:1.16 !important; letter-spacing:-.02em; }
+    .landing-builder-section.landing-classic-section.landing-neutral-surface.landing-brand-story .landing-builder-content { max-width:560px; color:#4d6c72 !important; font-family:Roboto,Arial,sans-serif !important; font-size:17px !important; line-height:1.75 !important; }
+    .landing-builder-section.landing-brand-story .landing-builder-content p + p { margin-top:16px; }
+    .landing-builder-section.landing-brand-story .landing-section-button { margin-top:24px !important; border:0; background:transparent !important; color:#0d6772 !important; font-family:Roboto,Arial,sans-serif !important; font-weight:700; padding:0 !important; box-shadow:none !important; }
+    .landing-builder-section.landing-brand-story .landing-section-button::after { content:' →'; }
     .landing-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
     .landing-reveal.is-visible { opacity: 1; transform: translateY(0); }
     @media (prefers-reduced-motion: reduce) { .landing-reveal { opacity: 1; transform: none; transition: none; } }
-    @media (max-width: 767px) { .landing-builder-section { padding-top:52px !important; padding-bottom:52px !important; } .landing-builder-section .landing-image-text-row { flex-direction:column; } .landing-builder-section .landing-image-text-row > [class*="col-"] { flex:0 0 100% !important; max-width:100% !important; width:100%; } .landing-builder-section h2 { font-size:30px !important; } }
+    @media (max-width: 767px) { .landing-builder-section { padding-top:52px !important; padding-bottom:52px !important; } .landing-builder-section.landing-intro-section { padding-top:52px !important; padding-bottom:52px !important; } .landing-builder-section.landing-intro-section h2 { font-size:32px !important; } .landing-builder-section.landing-intro-section .landing-builder-content { font-size:16px !important; } .landing-builder-section.landing-intro-section .landing-builder-content p:first-child { font-size:17px; } .landing-builder-section.landing-brand-story .landing-image-text-row img { max-width:340px; margin:0 auto 28px; } .landing-builder-section.landing-brand-story .landing-builder-content { font-size:16px !important; } .landing-builder-section .landing-image-text-row { flex-direction:column; } .landing-builder-section .landing-image-text-row > [class*="col-"] { flex:0 0 100% !important; max-width:100% !important; width:100%; } .landing-builder-section h2 { font-size:30px !important; } }
     .landing-builder-section .landing-feature-card a { color:inherit; text-decoration:none; }
     .landing-builder-section .landing-feature-card .landing-card-link { display:inline-flex; align-items:center; margin-top:14px; color:#0d7c88; font-weight:700; font-size:14px; }
     .landing-builder-section .landing-testimonial-grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px; }
@@ -1592,11 +1612,16 @@
       $overlayRgb = preg_match('/^[0-9a-fA-F]{6}$/', $overlayHex) ? sscanf($overlayHex, '%02x%02x%02x') : [0, 0, 0];
       $overlayOpacity = max(0, min(90, (int) ($section->background_overlay_opacity ?? 0))) / 100;
       $hasBackgroundImage = $backgroundMode === 'image' && filled($section->background_image);
+      $isIntroSection = in_array($section->heading, [
+        'Yoga Classes in India for a Healthier, More Balanced Life',
+        'For a Healthier, More Balanced Life',
+      ], true);
+      $isBrandStory = $section->heading === 'Why YogIntra';
       $backgroundImageStyle = $hasBackgroundImage
         ? "--landing-background-overlay: rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity});"
         : '';
     @endphp
-    <section @if($loop->first) id="landing-page-content" @endif class="landing-builder-section landing-accent-{{ $loop->iteration % 4 }} {{ $loop->first ? 'landing-first-section' : '' }} {{ $section->heading === 'Yoga Classes in India for a Healthier, More Balanced Life' ? 'landing-intro-section' : '' }} {{ $section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-benefits-section' : '' }} {{ !empty($page->use_classic_layout) ? 'landing-classic-section ' . ($section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-primary-surface' : 'landing-neutral-surface') : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+    <section @if($loop->first) id="landing-page-content" @endif class="landing-builder-section landing-accent-{{ $loop->iteration % 4 }} {{ $loop->first ? 'landing-first-section' : '' }} {{ $isIntroSection ? 'landing-intro-section' : '' }} {{ $isBrandStory ? 'landing-brand-story' : '' }} {{ $section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-benefits-section' : '' }} {{ !empty($page->use_classic_layout) ? 'landing-classic-section ' . ($section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-primary-surface' : 'landing-neutral-surface') : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
       @if($hasBackgroundImage)
         <x-responsive-image class="landing-section-background-media" :image="$section->background_image" :alt="$section->heading ? 'Background for ' . strip_tags($section->heading) : 'Landing page background'" sizes="100vw" loading="lazy" style="object-position: {{ $section->background_position ?? 'center' }} center;" />
       @endif
@@ -1837,6 +1862,7 @@
           @endif
           @if($section->section_type !== 'image')
           <div class="{{ $section->section_type === 'image_text' && $section->image ? 'col-md-6' : 'col-md-10 col-md-offset-1' }}" style="{{ $section->section_type === 'image_text' && $section->image ? 'flex: 1 1 0; max-width: none;' : '' }} text-align: {{ $section->text_align ?? 'left' }};">
+            @if($isIntroSection)<span class="landing-intro-eyebrow">YogIntra Wellness</span>@endif
             @if($section->heading)<h2 class="mb-3" style="color: {{ $section->text_color ?? '#183c45' }}; font-size: {{ $section->heading_size ?? 32 }}px; {{ $headingSpacing }}">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section->heading) !!}</h2>@endif
             @if(in_array($section->section_type, ['text', 'image_text', 'cta'], true))
               @foreach($extraElements as $element)

@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
                 const header = document.getElementById('header');
-                const hero = document.getElementById('home');
-                if (!header || !hero) return;
+                if (!header) return;
                 const isLandingNavigation = header.classList.contains('landing-hero-navigation');
                 const scrolledClass = isLandingNavigation ? 'landing-hero-scrolled' : 'mobile-hero-scrolled';
                 const nav = header.querySelector('.header-nav');

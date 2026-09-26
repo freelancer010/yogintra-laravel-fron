@@ -430,11 +430,18 @@
   .preview-section.is-classic-preview.is-neutral-preview { background:#f7f4ee !important; }
   .preview-section.is-classic-preview.is-benefits-section { background:#0d6772 !important; }
   .preview-section.is-classic-preview:hover, .preview-section.is-classic-preview.is-selected { border:0; box-shadow:inset 0 0 0 2px #01aeb7; }
-  .preview-section.is-classic-preview.is-intro-section { padding-top:54px !important; padding-bottom:54px !important; background:#f7f4ee !important; }
-  .preview-section.is-classic-preview.is-intro-section .preview-section-copy { max-width:760px; margin:0 auto; }
-  .preview-section.is-classic-preview.is-intro-section .preview-section-copy h3 { max-width:820px; margin:0 auto 18px !important; color:#0d3f45 !important; font-family:Roboto,Arial,sans-serif !important; font-size:clamp(34px, 3.65vw, 52px) !important; font-weight:700; line-height:1.12; letter-spacing:-.025em; }
-  .preview-section.is-classic-preview.is-intro-section .preview-section-copy p { color:#355c66 !important; font-family:Roboto,Arial,sans-serif; font-size:18px !important; line-height:1.65; }
-  .preview-section.is-classic-preview.is-intro-section .preview-cta { border-radius:6px; padding:13px 24px; background:#0d6772; color:#fff; font-family:Roboto,Arial,sans-serif; font-weight:700; }
+  .preview-section.is-classic-preview.is-intro-section { padding-top:64px !important; padding-bottom:64px !important; background:#fff !important; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy { max-width:720px; margin:0 auto; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy h3::before { content:'YOGINTRA WELLNESS'; display:table; margin:0 auto 14px; padding:7px 13px; border-radius:999px; background:#e1efed; color:#0d6772; font-size:12px; font-weight:700; letter-spacing:.1em; line-height:1; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy h3 { max-width:780px; margin:0 auto 22px !important; color:#143b43 !important; font-family:Roboto,Arial,sans-serif !important; font-size:clamp(34px, 3.35vw, 48px) !important; font-weight:700; line-height:1.14; letter-spacing:-.025em; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy p { color:#46636a !important; font-family:Roboto,Arial,sans-serif; font-size:18px !important; line-height:1.65; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy p + p { margin-top:18px; }
+  .preview-section.is-classic-preview.is-intro-section .preview-cta { margin-top:28px; border-radius:6px; padding:14px 26px; background:#0d6772; color:#fff; font-family:Roboto,Arial,sans-serif; font-weight:700; }
+  .preview-section.is-classic-preview.is-brand-story .preview-section-row { max-width:1040px; margin:0 auto; }
+  .preview-section.is-classic-preview.is-brand-story .preview-section-image { border-radius:14px; box-shadow:0 14px 32px rgba(20,59,67,.12); }
+  .preview-section.is-classic-preview.is-brand-story .preview-section-copy h3 { margin:0 0 18px !important; color:#143b43 !important; font-family:Roboto,Arial,sans-serif !important; font-size:clamp(32px, 2.7vw, 42px) !important; font-weight:700; line-height:1.16; }
+  .preview-section.is-classic-preview.is-brand-story .preview-section-copy p { max-width:560px; color:#4d6c72 !important; font-family:Roboto,Arial,sans-serif; font-size:17px !important; line-height:1.75; }
+  .preview-section.is-classic-preview.is-brand-story .preview-cta { padding:0; background:transparent; color:#0d6772; font-family:Roboto,Arial,sans-serif; font-weight:700; box-shadow:none; }
   .preview-section.is-classic-preview .preview-section-copy h3,
   .preview-section.is-classic-preview .preview-grid-heading h3,
   .preview-section.is-classic-preview .preview-special-heading h3 { color:#01aeb7 !important; font-family:Quicksand,sans-serif; font-weight:900; line-height:1.08; }
