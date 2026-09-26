@@ -48,6 +48,9 @@ class LandingPageController extends Controller
             'page_image_title' => $request->page_name,
             'page_image_description' => '',
             'page_content' => '',
+            // All new city pages begin on the same editable Classic canvas
+            // that is used by the public landing-page route.
+            'use_classic_layout' => true,
         ]);
 
         return redirect()->route('admin.landing-pages.edit', $pageId)
@@ -119,6 +122,7 @@ class LandingPageController extends Controller
 
         $data['page_slug'] = $request->page_slug ?: Str::slug($request->page_name);
         $data['page_title'] = $request->page_name;
+        $data['use_classic_layout'] = true;
         // The legacy table requires an image even when a builder page starts as
         // text-only. A real hero image can still be added later in settings.
         $data['page_image'] = 'uploads/1681071409default-profile.png';
