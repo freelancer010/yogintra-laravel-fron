@@ -211,14 +211,15 @@
 
     <script src="{{ asset('assets/front/js/conversion-tracking.min.js') }}" defer></script>
 
-    {{-- Keep dependent scripts together at the end of the document so they do not block first paint. --}}
-    <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"></script>
+    {{-- On the homepage these dependent scripts retain their document order but
+       defer until parsing completes, reducing main-thread work during FCP/LCP. --}}
+    <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}" @if ($isHomePage) defer @endif></script>
     @if (request()->is('service-details/*', 'service_details/*'))
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     @endif
-    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}"></script>
-    <script src="{{ asset('assets/front/js/custom.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}" @if ($isHomePage) defer @endif></script>
+    <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}" @if ($isHomePage) defer @endif></script>
+    <script src="{{ asset('assets/front/js/custom.min.js') }}" @if ($isHomePage) defer @endif></script>
     @stack('scripts')
 
 
