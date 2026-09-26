@@ -117,8 +117,18 @@
 }
 
 @media (max-width: 680px) {
-  .landing-global-footer .container { width: calc(100% - 36px); padding-top: 38px; }
-  .landing-global-footer .row { grid-template-columns: 1fr; gap: 28px; padding-bottom: 32px; }
-  .landing-global-footer .footer-bottom .container { display: block; padding: 18px 0 24px; }
-  .landing-global-footer .footer-bottom ul { margin-top: 12px; }
+  .landing-global-footer .container { width: calc(100% - 36px); padding-top: 28px; }
+  .landing-global-footer .row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 18px; padding-bottom: 28px; }
+  .landing-global-footer .row > :first-child,
+  .landing-global-footer .row > :nth-child(4),
+  .landing-global-footer .row > :last-child { grid-column: 1 / -1; }
+  .landing-global-footer .row > :nth-child(4) .list-border { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; }
+  .landing-global-footer img { width: 165px; margin-bottom: 12px; }
+  .landing-global-footer p { font-size: 13px; line-height: 1.55; }
+  .landing-global-footer h6 { margin: 0 0 8px; font-size: 12px; }
+  .landing-global-footer .list-border li { padding: 5px 0; font-size: 13px; }
+  .landing-global-footer .styled-icons { margin-top: 14px; }
+  .landing-global-footer .opening-hours .list-border li { padding: 6px 0; }
+  .landing-global-footer .footer-bottom .container { display: block; padding: 16px 0 20px; }
+  .landing-global-footer .footer-bottom ul { margin-top: 10px; gap: 5px 9px; }
 }

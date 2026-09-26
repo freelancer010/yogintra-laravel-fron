@@ -423,6 +423,18 @@ class HomeController extends Controller
             $heroImage = $pageImagePath !== '' && $pageImagePath !== 'uploads/1681071409default-profile.png'
                 ? (str_starts_with($pageImagePath, 'data:') || preg_match('#^https?://#i', $pageImagePath) ? $pageImagePath : asset($pageImagePath))
                 : asset('assets/landing-reference/hero.webp');
+            $cityName = trim((string) ($data['page_data']->page_name ?? $data['page_data']->page_slug ?? ''));
+            $cityName = ucwords(str_replace(['-', '_'], ' ', $cityName ?: 'your city'));
+            $cityLabel = e($cityName);
+            // These replacements keep the shared editorial layout cohesive
+            // while making its default city-facing copy useful and unique.
+            // An editor's custom words are left untouched below.
+            $defaultCityCopy = [
+                'YOUR SPACE. YOUR PACE. YOUR PRACTICE.' => 'YOGINTRA · ' . e(strtoupper($cityName)),
+                'A little time for you.<br><em>A healthier,<br>more balanced life.</em>' => 'Yoga classes in ' . $cityLabel . '.<br><em>A healthier,<br>more balanced life.</em>',
+                'Personalised and live online yoga classes across India. Experienced guidance, wherever you call home.' => 'Personalised and live online yoga classes in ' . $cityLabel . '. Experienced guidance, wherever you call home.',
+                'Start where you are.' => 'Yoga in ' . $cityLabel . '.',
+            ];
             $globalHeader = view('partials.navbar', [
                 'app_setting' => $appSetting,
                 'all_service' => DB::table('service_category')->get(),
@@ -457,6 +469,7 @@ class HomeController extends Controller
                 ['href="/assets/landing-reference/styles.css"', 'src="/assets/landing-reference/app.js"', 'src="' . e($heroImage) . '"', 'src="/assets/landing-reference/guidance.webp"'],
                 $referenceLayout
             );
+            $referenceLayout = str_replace(array_keys($defaultCityCopy), array_values($defaultCityCopy), $referenceLayout);
             // The reference file carries a placeholder teal “Y” icon. Remove
             // it so every live city page uses the favicon from global settings.
             $referenceLayout = preg_replace('#<link\s+rel="icon"[^>]*>#i', '', $referenceLayout) ?? $referenceLayout;
@@ -481,6 +494,9 @@ class HomeController extends Controller
             if (str_starts_with($savedCanvas, $canvasPrefix)) {
                 $savedCanvas = substr($savedCanvas, strlen($canvasPrefix));
                 if (str_starts_with(ltrim($savedCanvas), '<main')) {
+                    // Only localize the original default phrases; content an
+                    // editor has already written for this page remains theirs.
+                    $savedCanvas = str_replace(array_keys($defaultCityCopy), array_values($defaultCityCopy), $savedCanvas);
                     // The page-level image is the source of truth for the
                     // hero, including canvases saved before this behaviour.
                     $savedCanvas = preg_replace(

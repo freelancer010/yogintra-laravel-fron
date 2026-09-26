@@ -28,8 +28,8 @@
   let autoSaveTimer = null;
   let autoSaveInFlight = false;
   const autoSaveEnabled = () => autoSaveToggle?.checked === true;
-  const runAutoSave = async () => {
-    if (!autoSaveEnabled() || autoSaveInFlight || !builderForm?.checkValidity()) return;
+  const runAutoSave = async (force = false) => {
+    if ((!force && !autoSaveEnabled()) || autoSaveInFlight || !builderForm?.checkValidity()) return;
     autoSaveInFlight = true;
     saveState.textContent = 'Saving…';
     try {
@@ -58,6 +58,13 @@
     saveState.parentElement.classList.toggle('is-dirty', value !== 'Saved');
     if (value !== 'Saved') queueAutoSave();
   };
+  const handleSaveShortcut = event => {
+    if (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== 's') return;
+    event.preventDefault();
+    clearTimeout(autoSaveTimer);
+    runAutoSave(true);
+  };
+  document.addEventListener('keydown', handleSaveShortcut);
   if (autoSaveToggle) {
     autoSaveToggle.checked = localStorage.getItem(autoSaveKey) !== 'off';
     autoSaveToggle.addEventListener('change', () => {
@@ -830,6 +837,7 @@
           // Save clean page markup. Builder-only markers and temporary text
           // wrappers must never leak into the public landing page.
           const savedMain = frameMain.cloneNode(true);
+          savedMain.querySelectorAll('[data-builder-control]').forEach(control => control.remove());
           savedMain.querySelectorAll('[data-builder-inline-wrapper]').forEach(wrapper => wrapper.replaceWith(...wrapper.childNodes));
           savedMain.querySelectorAll('[contenteditable],[data-builder-editable-text],[data-builder-selected-text],[data-builder-editable-image]').forEach(element => {
             element.removeAttribute('contenteditable');
@@ -841,6 +849,13 @@
           classicCanvasField.value = savedMain.outerHTML;
         };
         let selectedClassicText = null;
+        const classicLinkLabel = link => link.querySelector(':scope > .classic-link-label') || link.querySelector('.classic-link-label');
+        const classicLinkText = link => (classicLinkLabel(link)?.innerText || link.innerText).trim();
+        const setClassicLinkText = (link, text) => {
+          const label = classicLinkLabel(link);
+          if (label) label.textContent = text;
+          else link.textContent = text;
+        };
         const showClassicTextEditor = element => {
           if (selectedClassicText) selectedClassicText.removeAttribute('data-builder-selected-text');
           selectedClassicText = element;
@@ -868,10 +883,10 @@
           stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Edit button</span><span>↗</span></div><label for="classic-link-label">Button text</label><input id="classic-link-label" type="text"><label for="classic-link-url">Link URL</label><input id="classic-link-url" type="url" placeholder="/contact or https://example.com"><small class="classic-editor-help">Use a relative path such as /contact for a page on this site.</small>';
           const labelInput = stylePanel.querySelector('#classic-link-label');
           const linkInput = stylePanel.querySelector('#classic-link-url');
-          labelInput.value = element.innerText;
+          labelInput.value = classicLinkText(element);
           linkInput.value = element.getAttribute('href') || '';
           labelInput.addEventListener('input', () => {
-            element.textContent = labelInput.value;
+            setClassicLinkText(element, labelInput.value);
             saveClassicCanvas();
             setSaveState('Unsaved changes');
           });
@@ -947,18 +962,53 @@
           reader.readAsDataURL(file);
         });
         makeTextEditable();
-        frameMain.querySelectorAll('a').forEach(link => {
-          link.contentEditable = 'true';
-          link.dataset.builderEditableText = 'true';
-          link.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); showClassicLinkEditor(link); });
-          link.addEventListener('input', () => {
-            if (selectedClassicText === link) {
-              const labelInput = stylePanel.querySelector('#classic-link-label');
-              if (labelInput) labelInput.value = link.innerText;
-            }
+        frameDocument.addEventListener('keydown', handleSaveShortcut);
+        frameMain.querySelectorAll('.faq-list details').forEach((faqItem, index) => {
+          faqItem.style.position = 'relative';
+          const removeFaqButton = frameDocument.createElement('button');
+          removeFaqButton.type = 'button';
+          removeFaqButton.dataset.builderControl = 'remove-faq';
+          removeFaqButton.title = 'Remove this question';
+          removeFaqButton.setAttribute('aria-label', 'Remove question ' + (index + 1));
+          removeFaqButton.textContent = '×';
+          removeFaqButton.style.cssText = 'position:absolute;right:42px;top:16px;z-index:2;width:24px;height:24px;border:1px solid #d7b9b9;border-radius:50%;background:#fff;color:#9a3838;font:700 17px/1 Arial;cursor:pointer;';
+          removeFaqButton.addEventListener('click', event => {
+            event.preventDefault();
+            event.stopPropagation();
+            faqItem.remove();
             saveClassicCanvas();
             setSaveState('Unsaved changes');
           });
+          faqItem.appendChild(removeFaqButton);
+        });
+        frameMain.querySelectorAll('a').forEach(link => {
+          // Button arrows and other decorative spans must remain untouched.
+          // Wrap only the link's human-readable text in an editable label.
+          let label = classicLinkLabel(link);
+          if (!label) {
+            const textNode = [...link.childNodes].find(node => node.nodeType === Node.TEXT_NODE && node.nodeValue.trim());
+            if (textNode) {
+              label = frameDocument.createElement('span');
+              label.className = 'classic-link-label';
+              label.textContent = textNode.nodeValue;
+              textNode.replaceWith(label);
+            }
+          }
+          link.contentEditable = 'false';
+          if (label) {
+            label.contentEditable = 'true';
+            label.dataset.builderEditableText = 'true';
+            label.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); showClassicLinkEditor(link); });
+            label.addEventListener('input', () => {
+              if (selectedClassicText === link) {
+                const labelInput = stylePanel.querySelector('#classic-link-label');
+                if (labelInput) labelInput.value = classicLinkText(link);
+              }
+              saveClassicCanvas();
+              setSaveState('Unsaved changes');
+            });
+          }
+          link.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); showClassicLinkEditor(link); });
         });
         saveClassicCanvas();
       });
