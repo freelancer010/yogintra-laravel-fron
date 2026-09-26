@@ -76,10 +76,14 @@
         </style>
     @endif
 
-    {{-- The homepage hero relies on this bundle for its carousel and overlay
-       geometry. It must be available before first paint: loading it asynchronously
-       lets the caption render in normal flow, then shifts the entire page. --}}
-    <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css">
+    {{-- Homepage-specific critical CSS reserves the hero geometry. The remaining
+       legacy bundle can load after first paint without shifting the hero. --}}
+    @if ($isHomePage)
+        <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css"></noscript>
+    @else
+        <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css">
+    @endif
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -40,6 +40,9 @@
             #home:not(.hero-video-home) .fullwidth-carousel .carousel-item > img,
             #home:not(.hero-video-home) .fullwidth-carousel .carousel-item picture,
             #home:not(.hero-video-home) .fullwidth-carousel .carousel-item picture img { display:block; width:100%; height:100%; object-fit:cover; }
+            #home:not(.hero-video-home) .fullwidth-carousel .display-table-absolute { position:absolute; inset:0; z-index:2; display:table!important; width:100%; height:100%; }
+            #home:not(.hero-video-home) .fullwidth-carousel .display-table-cell { display:table-cell; height:100%; vertical-align:middle; }
+            #home:not(.hero-video-home) .fullwidth-carousel .container.position-ab { position:relative!important; top:auto!important; width:100%; }
         }
     </style>
     @if(($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video))
