@@ -30,6 +30,11 @@
             #home .mobile-home-banner { display:block; width:100%; height:75svh; object-fit:cover; }
             #home .mobile-home > .position-absolute { inset:0; display:flex; align-items:center; padding:0 20px !important; }
             #home .mobile-home > .position-absolute .container { width:100%; padding:0 !important; }
+            /* The trainer and testimonial carousels initialise after first paint.
+               Keep their pre-init layout to one slide so Owl does not collapse a
+               stack of cards while it is visible. */
+            .owl-carousel-4col:not(.owl-loaded),.owl-carousel-3col:not(.owl-loaded) { min-height:350px; overflow:hidden; }
+            .owl-carousel-4col:not(.owl-loaded) > .item:not(:first-child),.owl-carousel-3col:not(.owl-loaded) > .item:not(:first-child) { display:none; }
         }
         @media (min-width: 768px) {
             #home .mobile-home { display:none !important; }
@@ -686,6 +691,7 @@
 @push('scripts')
     {{-- FAQ accordion uses the site's existing Bootstrap 4 collapse styles; no second Bootstrap runtime is needed. --}}
         <script src="{{ asset('assets/front/js/home-page.min.js') }}" defer></script>
+        <script src="{{ asset('assets/front/js/home-carousel-accessibility.js') }}" defer></script>
 
     
 
