@@ -430,9 +430,15 @@
   .landing-page-header { width:100%; }
   .landing-page-header-actions { margin-left:auto; white-space:nowrap; }
   .classic-layout-status { display:inline-flex; align-items:center; gap:6px; color:#0d5961; font-size:12px; font-weight:800; white-space:nowrap; }
-  .auto-save-control { display:inline-flex; align-items:center; min-height:31px; padding:0 2px 0 26px; color:#49666d; font-size:12px; font-weight:700; white-space:nowrap; }
-  .auto-save-control .custom-control-label::before { border-color:#7fc5cb; }
+  .preview-toolbar-controls { display:flex; align-items:center; gap:12px; margin-left:auto; }
+  .builder-device-controls { align-items:center; }
+  .builder-device-controls button { display:inline-flex; align-items:center; justify-content:center; min-height:32px; }
+  .auto-save-control { position:relative; display:flex; align-items:center; min-height:32px; margin:0; padding:0 0 0 33px; color:#49666d; font-size:12px; font-weight:700; white-space:nowrap; }
+  .auto-save-control .custom-control-label { display:flex; align-items:center; min-height:32px; margin:0; line-height:1; cursor:pointer; }
+  .auto-save-control .custom-control-label::before { top:50%; left:-33px; transform:translateY(-50%); border-color:#7fc5cb; }
+  .auto-save-control .custom-control-label::after { top:50%; left:calc(-33px + 2px); transform:translateY(-50%); }
   .auto-save-control .custom-control-input:checked ~ .custom-control-label::before { border-color:#0d6772; background-color:#0d6772; }
+  @media (max-width: 640px) { .live-preview-toolbar { gap:8px; padding:8px 12px; align-items:flex-start; } .preview-toolbar-controls { margin-left:auto; flex-wrap:wrap; justify-content:flex-end; gap:8px; } }
   /* A calm, editorial canvas for the Classic template. It deliberately
      mirrors the public page's white / warm-neutral rhythm and compact cards. */
   /* The page preview belongs directly in the edit card; the header labels the canvas. */

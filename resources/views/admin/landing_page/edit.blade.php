@@ -19,10 +19,6 @@
                     <a href="{{ url('/city/' . $page->page_slug) }}" target="_blank" rel="noopener" class="btn btn-outline-light btn-sm mr-2"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Preview page</a>
                     <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#page-settings-modal"><i class="fas fa-cog" aria-hidden="true"></i> Manage page settings</button>
                     <span class="classic-layout-status mr-2"><i class="fas fa-check-circle" aria-hidden="true"></i> Classic live layout</span>
-                    <div class="custom-control custom-switch auto-save-control mr-2">
-                        <input type="checkbox" class="custom-control-input" id="auto-save-toggle" checked>
-                        <label class="custom-control-label" for="auto-save-toggle">Auto save</label>
-                    </div>
                     <button type="submit" form="landing-page-form" formnovalidate class="btn btn-success builder-submit floating-update-button">Update page</button>
                 </div>
             </div>

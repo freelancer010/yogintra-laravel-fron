@@ -414,7 +414,10 @@ class HomeController extends Controller
             abort_unless($referenceLayout !== false, 500);
 
             $appSetting = Setting::first();
-            $favicon = asset($appSetting->fevicon ?? 'assets/og-logo.webp');
+            $faviconPath = $appSetting->fevicon ?? 'assets/og-logo.webp';
+            $favicon = str_starts_with($faviconPath, 'data:') || preg_match('#^https?://#i', $faviconPath)
+                ? $faviconPath
+                : asset($faviconPath);
             $faviconType = str_starts_with($favicon, 'data:image/svg') ? 'image/svg+xml' : 'image/png';
             $globalHeader = view('partials.navbar', [
                 'app_setting' => $appSetting,
@@ -450,9 +453,12 @@ class HomeController extends Controller
                 ['href="/assets/landing-reference/styles.css"', 'src="/assets/landing-reference/app.js"', 'src="/assets/landing-reference/hero.webp"', 'src="/assets/landing-reference/guidance.webp"'],
                 $referenceLayout
             );
+            // The reference file carries a placeholder teal “Y” icon. Remove
+            // it so every live city page uses the favicon from global settings.
+            $referenceLayout = preg_replace('#<link\s+rel="icon"[^>]*>#i', '', $referenceLayout) ?? $referenceLayout;
             $referenceLayout = str_replace(
                 '</head>',
-                '<link rel="icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="apple-touch-icon" href="' . e($favicon) . '"><link rel="stylesheet" href="/assets/front/css/font-awesome.min.css"><link rel="stylesheet" href="/assets/landing-reference/global-header.css"><link rel="stylesheet" href="/assets/landing-reference/classic-trainers.css"><link rel="stylesheet" href="/assets/landing-reference/global-footer.css"><style>.brand-logo img{display:block;width:190px;height:auto;object-fit:contain}@media(max-width:680px){.brand-logo img{width:150px}}</style></head>',
+                '<link rel="icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="shortcut icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="apple-touch-icon" href="' . e($favicon) . '"><link rel="stylesheet" href="/assets/front/css/font-awesome.min.css"><link rel="stylesheet" href="/assets/landing-reference/global-header.css"><link rel="stylesheet" href="/assets/landing-reference/classic-trainers.css"><link rel="stylesheet" href="/assets/landing-reference/global-footer.css"><style>.brand-logo img{display:block;width:190px;height:auto;object-fit:contain}@media(max-width:680px){.brand-logo img{width:150px}}</style></head>',
                 $referenceLayout
             );
             $referenceLayout = preg_replace('#<header>.*?</header>#s', $globalHeader, $referenceLayout, 1);

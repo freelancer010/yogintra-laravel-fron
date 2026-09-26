@@ -17,7 +17,7 @@
 
   const preview = document.createElement('div');
   preview.className = 'live-preview';
-  preview.innerHTML = '<div class="live-preview-toolbar"><span><i class="preview-dot"></i><span class="builder-save-state">Saved</span></span><span class="builder-device-controls"><button type="button" data-device="desktop" class="is-active">Desktop</button><button type="button" data-device="tablet">Tablet</button><button type="button" data-device="mobile">Mobile</button></span></div><div class="live-preview-content"></div>';
+  preview.innerHTML = '<div class="live-preview-toolbar"><span class="builder-save-indicator"><i class="preview-dot"></i><span class="builder-save-state">Saved</span></span><div class="preview-toolbar-controls"><div class="custom-control custom-switch auto-save-control"><input type="checkbox" class="custom-control-input" id="auto-save-toggle" checked><label class="custom-control-label" for="auto-save-toggle">Auto save</label></div><span class="builder-device-controls"><button type="button" data-device="desktop" class="is-active">Desktop</button><button type="button" data-device="tablet">Tablet</button><button type="button" data-device="mobile">Mobile</button></span></div></div><div class="live-preview-content"></div>';
   canvas.appendChild(preview);
   const classicCanvasField = document.getElementById('classic-canvas-content');
   const savedClassicCanvas = @json(str_starts_with((string) ($page->page_content ?? ''), '<!-- classic-builder-canvas -->') ? substr((string) $page->page_content, strlen('<!-- classic-builder-canvas -->')) : '');
