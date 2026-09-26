@@ -1494,7 +1494,7 @@
        and compact line-height. Inline builder colour settings are overridden
        here so the public template and visual editor stay in sync. */
     .landing-builder-section h2,
-    .landing-builder-section h3 { font-family:Roboto,Arial,sans-serif !important; font-weight:700 !important; color:#01aeb7 !important; line-height:1.08 !important; }
+    .landing-builder-section h3 { font-family:Quicksand, sans-serif !important; font-weight:900 !important; color:#01aeb7 !important; line-height:1.08 !important; }
     .landing-builder-section h2 { max-width:850px; letter-spacing:-.025em; margin-top:0; margin-bottom:20px; }
     .landing-builder-section.landing-classic-section h2::before,
     .landing-builder-section.landing-classic-section h2::after { content:none; display:none; }
@@ -1596,7 +1596,7 @@
         ? "--landing-background-overlay: rgba({$overlayRgb[0]}, {$overlayRgb[1]}, {$overlayRgb[2]}, {$overlayOpacity});"
         : '';
     @endphp
-    <section @if($loop->first) id="landing-page-content" @endif class="landing-builder-section landing-accent-{{ $loop->iteration % 4 }} {{ $loop->first ? 'landing-first-section' : '' }} {{ $section->heading === 'For a Healthier, More Balanced Life' ? 'landing-intro-section' : '' }} {{ $section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-benefits-section' : '' }} {{ !empty($page->use_classic_layout) ? 'landing-classic-section ' . ($section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-primary-surface' : 'landing-neutral-surface') : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
+    <section @if($loop->first) id="landing-page-content" @endif class="landing-builder-section landing-accent-{{ $loop->iteration % 4 }} {{ $loop->first ? 'landing-first-section' : '' }} {{ $section->heading === 'Yoga Classes in India for a Healthier, More Balanced Life' ? 'landing-intro-section' : '' }} {{ $section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-benefits-section' : '' }} {{ !empty($page->use_classic_layout) ? 'landing-classic-section ' . ($section->heading === 'Benefits of Regular Yoga Practice' ? 'landing-primary-surface' : 'landing-neutral-surface') : '' }} landing-reveal landing-align-{{ in_array($section->text_align, ['left', 'center', 'right'], true) ? $section->text_align : 'left' }} {{ $hasBackgroundImage ? 'landing-has-background-media' : '' }}" data-background-position="{{ $section->background_position ?? 'center' }}" style="background-color: {{ $section->background_color ?: 'transparent' }}; {{ $backgroundImageStyle }} padding: {{ $section->padding_y ?? 48 }}px {{ $section->padding_x ?? 0 }}px; margin: {{ $section->margin_y ?? 0 }}px {{ $section->margin_x ?? 0 }}px;">
       @if($hasBackgroundImage)
         <x-responsive-image class="landing-section-background-media" :image="$section->background_image" :alt="$section->heading ? 'Background for ' . strip_tags($section->heading) : 'Landing page background'" sizes="100vw" loading="lazy" style="object-position: {{ $section->background_position ?? 'center' }} center;" />
       @endif

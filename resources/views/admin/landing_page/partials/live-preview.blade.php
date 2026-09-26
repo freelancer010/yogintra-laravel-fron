@@ -819,7 +819,7 @@
       previewSection.className = 'preview-section'
         + (isClassicLayout ? ' is-classic-preview' : '')
         + (isClassicLayout && index % 2 === 1 ? ' is-neutral-preview' : '')
-        + (heading === 'For a Healthier, More Balanced Life' ? ' is-intro-section' : '')
+        + (heading === 'Yoga Classes in India for a Healthier, More Balanced Life' ? ' is-intro-section' : '')
         + (heading === 'Benefits of Regular Yoga Practice' ? ' is-benefits-section' : '');
       previewSection.dataset.builderId = card.dataset.builderId;
       previewSection.style.backgroundColor = background;
