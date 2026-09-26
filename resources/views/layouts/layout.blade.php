@@ -72,6 +72,18 @@
             #messageIcon{right:20px;bottom:90px;width:50px;height:50px}
             .tooltip-popup{right:20px;bottom:150px}
             #messagePopup{right:20px;bottom:100px;max-width:90%;max-height:90vh}
+            @media(min-width:768px){
+                /* The homepage navigation overlays the hero on desktop. Reserve
+                   that out-of-flow position before the deferred theme CSS arrives. */
+                #header.home-mobile-hero-navigation{position:absolute;top:0;left:0;width:100%;z-index:1100;background:transparent}
+                #header.home-mobile-hero-navigation .header-nav{position:absolute;top:0;left:0;right:0;width:100%;z-index:1101;background:transparent}
+                #header.home-mobile-hero-navigation .menuzord{position:relative;width:100%;min-height:75px;background:transparent}
+                #header.home-mobile-hero-navigation .menuzord-brand{float:left;display:block;margin:10px 30px 0 0;line-height:1.3}
+                #header.home-mobile-hero-navigation .menuzord-brand img.logo-default{display:block;width:205px;height:55px;object-fit:contain}
+                #header.home-mobile-hero-navigation .menuzord-brand img.logo-scrolled-to-fixed{display:none}
+                #header.home-mobile-hero-navigation .menuzord-menu{float:right;margin:0;padding:0;list-style:none}
+                #header.home-mobile-hero-navigation .menuzord-menu>li{display:inline-block;float:left}
+            }
             @media(max-width:767px){
                 #messageIcon{right:16px;bottom:84px;width:48px;height:48px}.tooltip-popup{display:none!important}
                 /* Keep the homepage's desktop menu from taking normal-flow space
