@@ -63,6 +63,7 @@ class LandingPageController extends Controller
             'page_meta_title' => 'nullable|string',
             'page_keywords' => 'nullable|string',
             'page_head_code' => 'nullable|string',
+            'classic_canvas_content' => 'nullable|string',
             'use_classic_layout' => 'nullable|boolean',
             'page_image_title' => 'nullable|string',
             'page_image_description' => 'nullable|string',
@@ -292,6 +293,12 @@ class LandingPageController extends Controller
         // Do not erase content created with the legacy editor when editing an old page.
         if ($request->has('page_content')) {
             $data['page_content'] = $request->page_content ?? '';
+        }
+        // The Classic canvas is edited separately from the public static
+        // reference layout. Keep its snapshot with the page record so edits
+        // reappear in the builder without changing the public page output.
+        if ($request->filled('classic_canvas_content')) {
+            $data['page_content'] = '<!-- classic-builder-canvas -->' . $request->classic_canvas_content;
         }
 
         // Handle Image Upload
@@ -559,6 +566,80 @@ class LandingPageController extends Controller
                 $section->update(['blocks' => json_encode($blocks)]);
                 $changed = true;
             }
+        }
+
+        // The published Classic reference contains these three supporting
+        // sections. Add them to older editable canvases once, so the builder
+        // has the same complete section inventory without changing the live
+        // page or overwriting a user's existing section content.
+        $referenceSections = [
+            [
+                'section_type' => 'feature_grid',
+                'heading' => 'A practice made for you',
+                'content' => '',
+                'blocks' => json_encode([
+                    ['icon' => '◉', 'title' => 'Live, instructor-led sessions', 'text' => ''],
+                    ['icon' => '◌', 'title' => 'A practice made for you', 'text' => ''],
+                    ['icon' => '◷', 'title' => 'Space for your schedule', 'text' => ''],
+                    ['icon' => '⌂', 'title' => 'Online, across India', 'text' => ''],
+                ]),
+                'grid_columns' => 4,
+                'card_layout' => 'icon_left',
+                'card_alignment' => 'left',
+                'text_align' => 'left',
+                'background_color' => '#f8f7f2',
+                'text_color' => '#183c3b',
+                'description_color' => '#566b68',
+                'padding_y' => 26,
+            ],
+            [
+                'section_type' => 'feature_grid',
+                'heading' => 'Learn the foundations. Grow with confidence.',
+                'content' => '<p>From your first class to an established practice, our instructors help make sessions structured, mindful and purposeful.</p>',
+                'blocks' => json_encode([
+                    ['icon' => '✓', 'title' => 'Posture & alignment', 'text' => 'Build a comfortable, supported foundation.'],
+                    ['icon' => '✓', 'title' => 'Breathing & mindfulness', 'text' => 'Make space for calm, focus and consistency.'],
+                ]),
+                'grid_columns' => 2,
+                'card_layout' => 'icon_left',
+                'card_alignment' => 'left',
+                'text_align' => 'left',
+                'background_color' => '#f8f7f2',
+                'text_color' => '#183c3b',
+                'description_color' => '#566b68',
+                'padding_y' => 55,
+            ],
+            [
+                'section_type' => 'cta',
+                'heading' => 'At home. On the go. Across India.',
+                'content' => '<p>A yoga mat, space to move and an internet connection. Join live online sessions wherever life takes you, without the commute.</p>',
+                'button_text' => 'Find your online class',
+                'button_url' => url('contact'),
+                'text_align' => 'center',
+                'background_color' => '#f2eee5',
+                'text_color' => '#183c3b',
+                'description_color' => '#566b68',
+                'padding_y' => 100,
+            ],
+        ];
+        $nextSortOrder = (int) LandingPageSection::where('landing_page_id', $pageId)->max('sort_order') + 1;
+        foreach ($referenceSections as $referenceSection) {
+            if (LandingPageSection::where('landing_page_id', $pageId)->where('heading', $referenceSection['heading'])->exists()) {
+                continue;
+            }
+            LandingPageSection::create(array_merge([
+                'landing_page_id' => $pageId,
+                'image_position' => 'left',
+                'image_size' => 42,
+                'padding_x' => 0,
+                'margin_x' => 0,
+                'margin_y' => 0,
+                'heading_size' => 40,
+                'description_size' => 16,
+                'grid_gap' => 24,
+                'sort_order' => $nextSortOrder++,
+            ], $referenceSection));
+            $changed = true;
         }
 
         return $changed;

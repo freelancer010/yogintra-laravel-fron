@@ -79,16 +79,16 @@
   .hero-editor-heading > span { border-radius:999px; padding:4px 9px; color:#14616b; background:#dff4f4; font-size:11px; font-weight:800; text-transform:uppercase; }
   .hero-editor-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
   .hero-persistence-fields { display:none; }
-  .hero-canvas-stage { min-height:410px; position:relative; display:flex; align-items:center; justify-content:flex-end; padding:46px; background:#0d3f45 center/cover no-repeat; border-radius:10px; overflow:hidden; color:#fff; }
-  .hero-image-action { position:absolute; z-index:1; left:18px; bottom:18px; border:1px solid rgba(255,255,255,.28); border-radius:6px; padding:9px 13px; background:rgba(7,37,41,.72); color:#fff; cursor:pointer; font-size:11px; font-weight:800; }
-  .hero-canvas-copy { width:min(50%, 560px); display:flex; flex-direction:column; justify-content:center; padding:0; background:transparent; border-radius:0; text-align:left; }
-  .hero-canvas-copy small { color:#9fe5e1; margin-bottom:14px; font-family:Roboto,Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:.14em; text-shadow:0 1px 10px rgba(0,0,0,.32); text-transform:uppercase; }
-  /* Mirrors the public homepage title style used by landing headings. */
-  .hero-canvas-copy h2 { margin:0; color:#fff; font-family:Roboto,Arial,sans-serif; font-size:38px; font-weight:700; line-height:1.08; text-transform:none; }
-  .hero-canvas-copy p { margin:19px 0 0; color:rgba(255,255,255,.90); font-family:Roboto,Arial,sans-serif; font-size:17px; font-weight:400; line-height:1.55; }
-  .hero-preview-cta { display:inline-flex; align-items:center; justify-content:center; align-self:flex-start; margin-top:24px; padding:12px 19px; border-radius:6px; background:#01aeb7; color:#fff; font-family:Roboto,Arial,sans-serif; font-size:13px; font-weight:700; }
+  .hero-canvas-stage { min-height:410px; position:relative; display:grid; grid-template-columns:1fr 1fr; gap:34px; align-items:center; padding:34px 38px; background:#fff; border:1px solid #dce8e2; border-radius:10px; overflow:hidden; color:#183c3b; }
+  .hero-stage-media { min-height:340px; position:relative; order:2; border-radius:120px 120px 7px 7px; background:#e6eeea center/cover no-repeat; overflow:hidden; }
+  .hero-image-action { position:absolute; z-index:1; right:16px; bottom:16px; border:1px solid rgba(255,255,255,.7); border-radius:5px; padding:9px 13px; background:rgba(9,82,83,.92); color:#fff; cursor:pointer; font-size:11px; font-weight:800; }
+  .hero-canvas-copy { width:100%; display:flex; flex-direction:column; justify-content:center; padding:0; text-align:left; }
+  .hero-canvas-copy small { color:#095253; margin-bottom:16px; font-family:Arial,sans-serif; font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+  .hero-canvas-copy h2 { margin:0; color:#183c3b; font-family:Georgia,'Times New Roman',serif; font-size:clamp(34px,4vw,53px); font-weight:400; line-height:1.05; letter-spacing:-.04em; }
+  .hero-canvas-copy p { margin:22px 0 0; color:#566b68; font-family:Arial,sans-serif; font-size:16px; font-weight:400; line-height:1.65; }
+  .hero-preview-cta { display:inline-flex; align-items:center; justify-content:center; align-self:flex-start; margin-top:26px; padding:13px 19px; border-radius:5px; background:#095253; color:#fff; font-family:Arial,sans-serif; font-size:13px; font-weight:700; }
   .hero-canvas-copy [contenteditable]:focus { outline:2px solid #64c6cc; outline-offset:4px; border-radius:4px; }
-  @media (max-width:640px) { .hero-canvas-stage { min-height:390px; padding:28px 22px; align-items:flex-end; } .hero-canvas-copy { width:100%; text-align:center; } .hero-canvas-copy small { margin-left:auto; margin-right:auto; } .hero-canvas-copy h2 { font-size:32px; } .hero-preview-cta { align-self:center; } }
+  @media (max-width:640px) { .hero-canvas-stage { min-height:0; grid-template-columns:1fr; gap:25px; padding:26px 22px; } .hero-stage-media { min-height:290px; order:0; border-radius:90px 90px 6px 6px; } .hero-canvas-copy { text-align:left; } .hero-canvas-copy h2 { font-size:37px; } }
   .hero-editor-fields .form-group { margin:0; padding:0; max-width:none; }
   .hero-editor-fields .form-group:first-child { grid-column:span 2; text-align:left !important; border-bottom:1px solid #d9e9eb; padding-bottom:12px; }
   .hero-editor-fields #preview-image { max-width:260px; width:auto !important; max-height:150px; object-fit:cover; border-radius:8px; display:block; margin:0 0 9px !important; }
@@ -149,8 +149,19 @@
   .builder-element-toolbar button:hover { background:#286773; }
   .builder-element-toolbar button[data-toolbar-action="delete"]:hover { background:#9d3542; }
   .live-preview-content { min-height:280px; display:flex; flex-direction:column; gap:0; padding:0; background:#fff; overflow:hidden; }
+  .classic-live-canvas { display:block; width:100%; min-height:calc(100vh - 170px); height:1100px; border:0; background:#fff; }
+  .classic-editor-help { display:block; margin-top:8px; color:#6d858a; font-size:11px; line-height:1.45; }
+  .live-preview[data-device="tablet"] .classic-live-canvas { width:768px; max-width:100%; margin-inline:auto; }
+  .live-preview[data-device="mobile"] .classic-live-canvas { width:425px; max-width:100%; margin-inline:auto; }
   /* The hero is part of the canvas flow, before the editable body sections. */
-  .live-preview-content > .hero-editor { margin:0; border:0; border-bottom:1px solid #c5e1e4; border-radius:0; }
+  /* Hero is the first section of the canvas, not a separate builder panel. */
+  .live-preview-content > .hero-editor { margin:0; padding:0; border:0; border-bottom:0; border-radius:0; background:#fff; }
+  .live-preview-content > .hero-editor > .hero-editor-heading { display:none; }
+  .live-preview-content > .hero-editor > .hero-canvas-stage { width:min(1220px, 100%); min-height:0; margin:0 auto; padding:58px 40px 70px; gap:50px; border:0; border-radius:0; }
+  .live-preview-content > .hero-editor > .hero-canvas-stage .hero-stage-media { min-height:540px; border-radius:180px 180px 8px 8px; }
+  .live-preview-content > .hero-editor > .hero-canvas-stage .hero-canvas-copy h2 { font-size:clamp(44px,4.55vw,69px); line-height:1.12; letter-spacing:-.045em; }
+  .live-preview-content > .hero-editor > .hero-canvas-stage .hero-canvas-copy p { max-width:470px; margin-top:26px; font-size:18px; }
+  .live-preview-content > .hero-editor > .hero-canvas-stage .hero-preview-cta { margin-top:32px; padding:15px 23px; }
   .preview-section { cursor:pointer; position:relative; border:1px dashed transparent; border-radius:10px; padding:26px; transition:.2s ease; min-height:72px; }
   /* Mirrors .landing-builder-section .container on the public page. */
   .preview-section-container { width:min(1140px, 100%); margin-left:auto; margin-right:auto; padding-left:15px; padding-right:15px; box-sizing:border-box; }
@@ -420,42 +431,107 @@
   .landing-page-header-actions { margin-left:auto; white-space:nowrap; }
   /* A calm, editorial canvas for the Classic template. It deliberately
      mirrors the public page's white / warm-neutral rhythm and compact cards. */
-  .builder-canvas { background:#f7f4ee; border:0; border-radius:14px; padding:22px; }
-  .builder-canvas-header { margin:0 0 16px; padding:0 4px; }
-  .builder-canvas-header h4 { color:#111; font-family:Quicksand,sans-serif; font-size:22px; font-weight:900; }
+  /* The page preview belongs directly in the edit card; the header labels the canvas. */
+  .builder-canvas { width:100%; background:transparent; border:0; border-radius:0; padding:0; }
+  .builder-canvas-header { display:none; }
+  .landing-page-canvas-label { color:#6b8086; font-size:.88em; font-weight:600; }
   .live-preview { overflow:hidden; border:1px solid rgba(0,0,0,.10); border-radius:12px; background:#fff; box-shadow:0 10px 28px rgba(0,0,0,.06); }
   .live-preview-toolbar { min-height:50px; padding:0 18px; border-bottom:1px solid rgba(0,0,0,.09); background:#fff; }
-  .live-preview-content { background:#f7f4ee; }
-  .preview-section.is-classic-preview { border:0; border-radius:0; min-height:0; padding:62px 30px; background:#fff !important; box-shadow:none; }
-  .preview-section.is-classic-preview.is-neutral-preview { background:#f7f4ee !important; }
-  .preview-section.is-classic-preview.is-benefits-section { background:#0d6772 !important; }
-  .preview-section.is-classic-preview:hover, .preview-section.is-classic-preview.is-selected { border:0; box-shadow:inset 0 0 0 2px #01aeb7; }
-  .preview-section.is-classic-preview.is-intro-section { padding-top:64px !important; padding-bottom:64px !important; background:#fff !important; }
-  .preview-section.is-classic-preview.is-intro-section .preview-section-copy { max-width:720px; margin:0 auto; }
-  .preview-section.is-classic-preview.is-intro-section .preview-section-copy h3::before { content:'YOGINTRA WELLNESS'; display:table; margin:0 auto 14px; padding:7px 13px; border-radius:999px; background:#e1efed; color:#0d6772; font-size:12px; font-weight:700; letter-spacing:.1em; line-height:1; }
-  .preview-section.is-classic-preview.is-intro-section .preview-section-copy h3 { max-width:780px; margin:0 auto 22px !important; color:#143b43 !important; font-family:Roboto,Arial,sans-serif !important; font-size:clamp(34px, 3.35vw, 48px) !important; font-weight:700; line-height:1.14; letter-spacing:-.025em; }
-  .preview-section.is-classic-preview.is-intro-section .preview-section-copy p { color:#46636a !important; font-family:Roboto,Arial,sans-serif; font-size:18px !important; line-height:1.65; }
-  .preview-section.is-classic-preview.is-intro-section .preview-section-copy p + p { margin-top:18px; }
-  .preview-section.is-classic-preview.is-intro-section .preview-cta { margin-top:28px; border-radius:6px; padding:14px 26px; background:#0d6772; color:#fff; font-family:Roboto,Arial,sans-serif; font-weight:700; }
-  .preview-section.is-classic-preview.is-brand-story .preview-section-row { max-width:1040px; margin:0 auto; }
-  .preview-section.is-classic-preview.is-brand-story .preview-section-image { border-radius:14px; box-shadow:0 14px 32px rgba(20,59,67,.12); }
-  .preview-section.is-classic-preview.is-brand-story .preview-section-copy h3 { margin:0 0 18px !important; color:#143b43 !important; font-family:Roboto,Arial,sans-serif !important; font-size:clamp(32px, 2.7vw, 42px) !important; font-weight:700; line-height:1.16; }
-  .preview-section.is-classic-preview.is-brand-story .preview-section-copy p { max-width:560px; color:#4d6c72 !important; font-family:Roboto,Arial,sans-serif; font-size:17px !important; line-height:1.75; }
-  .preview-section.is-classic-preview.is-brand-story .preview-cta { padding:0; background:transparent; color:#0d6772; font-family:Roboto,Arial,sans-serif; font-weight:700; box-shadow:none; }
+  /* Keep the builder canvas visually faithful to the published Classic layout.
+     Editing affordances appear only on selection/hover; the base typography,
+     spacing, and two-colour palette match landing-reference/styles.css. */
+  .live-preview-content { background:#fff; }
+  .preview-section.is-classic-preview { border:0; border-radius:0; min-height:0; padding:100px 40px; background:#fff !important; box-shadow:none; }
+  .preview-section.is-classic-preview.is-neutral-preview,
+  .preview-section.is-classic-preview.is-brand-story,
+  .preview-section.is-classic-preview.is-audience-section { background:#f8f7f2 !important; }
+  .preview-section.is-classic-preview.is-benefits-section,
+  .preview-section.is-classic-preview.is-booking-section { background:#095253 !important; }
+  .preview-section.is-classic-preview:hover,
+  .preview-section.is-classic-preview.is-selected { border:0; box-shadow:inset 0 0 0 2px #095253; }
+  .preview-section.is-classic-preview .preview-section-container { width:min(1220px, 100%); padding:0; }
   .preview-section.is-classic-preview .preview-section-copy h3,
   .preview-section.is-classic-preview .preview-grid-heading h3,
-  .preview-section.is-classic-preview .preview-special-heading h3 { color:#01aeb7 !important; font-family:Quicksand,sans-serif; font-weight:900; line-height:1.08; }
+  .preview-section.is-classic-preview .preview-special-heading h3 { color:#183c3b !important; font-family:Georgia,'Times New Roman',serif !important; font-size:clamp(36px,3.4vw,51px) !important; font-weight:400; line-height:1.12; letter-spacing:-.045em; }
   .preview-section.is-classic-preview .preview-section-copy p,
-  .preview-section.is-classic-preview .preview-grid-heading p { color:#171717 !important; line-height:1.75; }
-  .preview-section.is-classic-preview.is-benefits-section .preview-grid-heading h3 { color:#01aeb7 !important; }
-  .preview-section.is-classic-preview.is-benefits-section .preview-grid-heading p { color:#fff !important; }
-  .preview-section.is-classic-preview .preview-feature { height:100%; padding:26px 22px; border:1px solid rgba(0,0,0,.09); border-radius:12px; background:#fff; box-shadow:0 7px 18px rgba(0,0,0,.05); }
-  .preview-section.is-classic-preview .preview-feature:hover { background:#fff; transform:translateY(-3px); }
-  .preview-section.is-classic-preview .preview-cta { border-radius:6px; padding:12px 20px; background:#0d6772; font-family:Quicksand,sans-serif; font-weight:800; }
-  .preview-section.is-classic-preview.is-benefits-section .preview-feature h4,
+  .preview-section.is-classic-preview .preview-grid-heading p { color:#566b68 !important; font-family:Arial,Helvetica,sans-serif; font-size:16px !important; line-height:1.65; }
+  .preview-section.is-classic-preview .preview-grid-heading { max-width:730px; }
+  .preview-section.is-classic-preview .preview-grid-heading h3 { margin-bottom:20px !important; }
+  .preview-section.is-classic-preview.is-intro-section { padding-top:82px !important; padding-bottom:82px !important; background:#fff !important; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy { max-width:680px; margin:0 auto; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy h3::before { content:'YOUR SPACE. YOUR PACE. YOUR PRACTICE.'; display:table; margin:0 auto 20px; color:#095253; font-family:Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:.16em; line-height:1.2; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy h3 { max-width:780px; margin:0 auto 22px !important; text-align:center; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy p { max-width:640px; margin-inline:auto; text-align:center; }
+  .preview-section.is-classic-preview.is-intro-section .preview-section-copy p + p { margin-top:18px; }
+  .preview-section.is-classic-preview.is-intro-section .preview-cta,
+  .preview-section.is-classic-preview .preview-cta { margin-top:30px; border:1px solid #095253; border-radius:5px; padding:15px 23px; background:#095253; color:#fff; font-family:Arial,Helvetica,sans-serif; font-weight:600; }
+  .preview-section.is-classic-preview.is-brand-story .preview-section-row { max-width:1220px; gap:85px; margin:0 auto; }
+  .preview-section.is-classic-preview.is-brand-story .preview-image-frame { flex:0 0 calc(50% - 43px); }
+  .preview-section.is-classic-preview.is-brand-story .preview-section-image { min-height:460px; border-radius:5px 5px 130px 5px; box-shadow:none; }
+  .preview-section.is-classic-preview.is-brand-story .preview-section-copy h3 { margin:0 0 22px !important; }
+  .preview-section.is-classic-preview.is-brand-story .preview-section-copy p { max-width:560px; margin-top:22px; }
+  .preview-section.is-classic-preview.is-brand-story .preview-cta { padding:0 0 5px; border:0; border-bottom:1px solid #aec5bf; border-radius:0; background:transparent; color:#183c3b; }
+  .preview-section.is-classic-preview.is-services-section .preview-feature-grid { border-top:1px solid #dce4df; border-left:1px solid #dce4df; gap:0 !important; }
+  .preview-section.is-classic-preview.is-trainers-section .preview-grid-heading { max-width:680px; }
+  .preview-section.is-classic-preview.is-trainers-section .preview-feature-grid { grid-template-columns:repeat(3,1fr) !important; gap:22px !important; }
+  .preview-section.is-classic-preview.is-trainers-section .preview-feature { overflow:hidden; padding:0 0 22px; border-radius:8px; }
+  .preview-section.is-classic-preview.is-trainers-section .preview-feature img { width:100%; height:230px; border-radius:0; object-fit:cover; }
+  .preview-section.is-classic-preview.is-trainers-section .preview-feature > div { padding:0 20px; }
+  .preview-section.is-classic-preview.is-services-section .preview-feature { padding:30px 25px; border:0; border-right:1px solid #dce4df; border-bottom:1px solid #dce4df; border-radius:0; background:transparent; box-shadow:none; }
+  .preview-section.is-classic-preview .preview-feature { height:100%; padding:30px 25px; border:1px solid #dce4df; border-radius:0; background:#fff; box-shadow:none; }
+  .preview-section.is-classic-preview .preview-feature:hover { background:#f8f7f2; transform:none; }
+  .preview-section.is-classic-preview .preview-feature h4 { margin:0 0 13px; color:#183c3b; font-family:Arial,Helvetica,sans-serif; font-size:18px; font-weight:500; line-height:1.35; }
+  .preview-section.is-classic-preview .preview-feature p { color:#566b68; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:1.75; }
+  .preview-section.is-classic-preview .preview-feature b { color:#095253; }
+  .preview-section.is-classic-preview.is-benefits-section .preview-grid-heading h3,
+  .preview-section.is-classic-preview.is-booking-section .preview-section-copy h3 { color:#fff !important; }
+  .preview-section.is-classic-preview.is-benefits-section .preview-grid-heading p,
+  .preview-section.is-classic-preview.is-booking-section .preview-section-copy p { color:#d1e0da !important; }
+  .preview-section.is-classic-preview.is-benefits-section .preview-feature { padding:28px 0 0; border:0; border-top:1px solid rgba(255,255,255,.25); border-radius:0; background:transparent; }
+  .preview-section.is-classic-preview.is-benefits-section .preview-feature h4 { color:#fff !important; font-family:Georgia,'Times New Roman',serif; font-size:28px; font-weight:400; }
   .preview-section.is-classic-preview.is-benefits-section .preview-feature p,
-  .preview-section.is-classic-preview.is-benefits-section .preview-feature b { color:#000 !important; }
+  .preview-section.is-classic-preview.is-benefits-section .preview-feature b { color:#dae7e1 !important; }
+  .preview-section.is-classic-preview.is-audience-section .preview-grid-heading,
+  .preview-section.is-classic-preview.is-steps-section .preview-grid-heading,
+  .preview-section.is-classic-preview.is-booking-section .preview-section-copy { margin-left:auto; margin-right:auto; text-align:center; }
+  .preview-section.is-classic-preview.is-audience-section .preview-feature-grid { justify-content:center; }
+  .preview-section.is-classic-preview.is-plans-section .preview-feature-grid { gap:22px !important; }
+  .preview-section.is-classic-preview.is-plans-section .preview-feature { padding:32px; border-radius:8px; }
+  .preview-section.is-classic-preview.is-benefit-strip-section { padding-top:26px !important; padding-bottom:26px !important; background:#f8f7f2 !important; border-top:1px solid #e7e9e1; border-bottom:1px solid #e7e9e1; }
+  .preview-section.is-classic-preview.is-benefit-strip-section .preview-grid-heading { display:none; }
+  .preview-section.is-classic-preview.is-benefit-strip-section .preview-feature-grid { grid-template-columns:repeat(4,1fr) !important; gap:20px !important; }
+  .preview-section.is-classic-preview.is-benefit-strip-section .preview-feature { display:flex; align-items:center; gap:12px; padding:0; border:0; background:transparent; text-align:left !important; }
+  .preview-section.is-classic-preview.is-benefit-strip-section .preview-feature b { flex:0 0 auto; font-size:24px; }
+  .preview-section.is-classic-preview.is-benefit-strip-section .preview-feature h4 { margin:0; font-size:14px; font-weight:500; }
+  .preview-section.is-classic-preview.is-benefit-strip-section .preview-feature p { display:none; }
+  .preview-section.is-classic-preview.is-guidance-section { padding:55px 40px !important; background:#f8f7f2 !important; }
+  .preview-section.is-classic-preview.is-guidance-section .preview-grid-heading { max-width:500px; }
+  .preview-section.is-classic-preview.is-guidance-section .preview-feature-grid { grid-template-columns:repeat(2,1fr) !important; gap:60px !important; align-items:center; }
+  .preview-section.is-classic-preview.is-guidance-section .preview-feature { padding:0; border:0; background:transparent; }
+  .preview-section.is-classic-preview.is-guidance-section .preview-feature h4 { margin-bottom:10px; }
+  .preview-section.is-classic-preview.is-online-section { background:#f2eee5 !important; }
+  .preview-section.is-classic-preview.is-online-section .preview-section-copy { max-width:650px; margin:0 auto; text-align:center; }
+  .preview-section.is-classic-preview.is-booking-section { padding-top:78px !important; padding-bottom:78px !important; }
+  .preview-section.is-classic-preview.is-booking-section .preview-cta { border-color:#f4f0e5; background:#f4f0e5; color:#095253; }
+  @media (max-width: 680px) {
+    .live-preview-content > .hero-editor > .hero-canvas-stage { grid-template-columns:1fr; padding:40px 18px 35px; gap:35px; }
+    .live-preview-content > .hero-editor > .hero-canvas-stage .hero-stage-media { order:2; min-height:420px; border-radius:140px 140px 5px 5px; }
+    .live-preview-content > .hero-editor > .hero-canvas-stage .hero-canvas-copy h2 { font-size:46px; }
+    .preview-section.is-classic-preview { padding:65px 18px; }
+    .preview-section.is-classic-preview.is-intro-section { padding-top:65px !important; padding-bottom:65px !important; }
+    .preview-section.is-classic-preview.is-brand-story .preview-section-row { gap:35px; }
+    .preview-section.is-classic-preview.is-brand-story .preview-image-frame { flex-basis:auto; width:100%; }
+    .preview-section.is-classic-preview.is-brand-story .preview-section-image { min-height:390px; }
+    .preview-section.is-classic-preview.is-services-section .preview-feature { padding:22px 16px; }
+    .preview-section.is-classic-preview.is-benefit-strip-section .preview-feature-grid { grid-template-columns:1fr 1fr !important; gap:20px 14px !important; }
+    .preview-section.is-classic-preview.is-benefit-strip-section .preview-feature h4 { font-size:12px; }
+    .preview-section.is-classic-preview.is-guidance-section { padding:28px 18px !important; }
+    .preview-section.is-classic-preview.is-guidance-section .preview-feature-grid { grid-template-columns:1fr !important; gap:24px !important; }
+  }
   @media (max-width: 767px) { .landing-page-header { align-items:flex-start !important; flex-direction:column; gap:10px; } .landing-page-header-actions { width:100%; flex-wrap:wrap; justify-content:flex-start !important; white-space:normal; gap:7px; } .landing-page-header-actions .mr-2 { margin-right:0 !important; } }
-  @media (max-width: 991px) { .builder-workspace { grid-template-columns: 1fr; } .builder-inspector { position:relative; top:auto; height:auto; min-height:0; max-height:none; overflow:visible; } }
+  @media (max-width: 991px) {
+    .builder-workspace { grid-template-columns: 1fr; }
+    .builder-inspector { position:relative; top:auto; width:100%; height:auto; min-height:0; max-height:none; overflow:visible; }
+  }
 </style>
 @endpush

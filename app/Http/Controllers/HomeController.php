@@ -413,8 +413,11 @@ class HomeController extends Controller
             $referenceLayout = file_get_contents(public_path('assets/landing-reference/index.html'));
             abort_unless($referenceLayout !== false, 500);
 
+            $appSetting = Setting::first();
+            $favicon = asset($appSetting->fevicon ?? 'assets/og-logo.webp');
+            $faviconType = str_starts_with($favicon, 'data:image/svg') ? 'image/svg+xml' : 'image/png';
             $globalHeader = view('partials.navbar', [
-                'app_setting' => Setting::first(),
+                'app_setting' => $appSetting,
                 'all_service' => DB::table('service_category')->get(),
                 'visual_setting' => DB::table('visual_setting')->first(),
             ])->render();
@@ -449,7 +452,7 @@ class HomeController extends Controller
             );
             $referenceLayout = str_replace(
                 '</head>',
-                '<link rel="stylesheet" href="/assets/front/css/font-awesome.min.css"><link rel="stylesheet" href="/assets/landing-reference/global-header.css"><link rel="stylesheet" href="/assets/landing-reference/classic-trainers.css"><link rel="stylesheet" href="/assets/landing-reference/global-footer.css"><style>.brand-logo img{display:block;width:190px;height:auto;object-fit:contain}@media(max-width:680px){.brand-logo img{width:150px}}</style></head>',
+                '<link rel="icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="apple-touch-icon" href="' . e($favicon) . '"><link rel="stylesheet" href="/assets/front/css/font-awesome.min.css"><link rel="stylesheet" href="/assets/landing-reference/global-header.css"><link rel="stylesheet" href="/assets/landing-reference/classic-trainers.css"><link rel="stylesheet" href="/assets/landing-reference/global-footer.css"><style>.brand-logo img{display:block;width:190px;height:auto;object-fit:contain}@media(max-width:680px){.brand-logo img{width:150px}}</style></head>',
                 $referenceLayout
             );
             $referenceLayout = preg_replace('#<header>.*?</header>#s', $globalHeader, $referenceLayout, 1);
@@ -460,6 +463,17 @@ class HomeController extends Controller
                 '<div hidden><button class="menu-toggle"></button><nav id="navigation"></nav><span id="year"></span></div><script src="/assets/landing-reference/global-header.js" defer></script></body>',
                 $referenceLayout
             );
+
+            // A saved Classic canvas replaces only the page body. The shared
+            // header, footer, stylesheets, and assets remain the live layout.
+            $canvasPrefix = '<!-- classic-builder-canvas -->';
+            $savedCanvas = (string) ($data['page_data']->page_content ?? '');
+            if (str_starts_with($savedCanvas, $canvasPrefix)) {
+                $savedCanvas = substr($savedCanvas, strlen($canvasPrefix));
+                if (str_starts_with(ltrim($savedCanvas), '<main')) {
+                    $referenceLayout = preg_replace('#<main\\b[^>]*>.*?</main>#s', $savedCanvas, $referenceLayout, 1) ?? $referenceLayout;
+                }
+            }
 
             return response($referenceLayout)->header('Content-Type', 'text/html; charset=UTF-8');
         }

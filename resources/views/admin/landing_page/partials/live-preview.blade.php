@@ -19,6 +19,8 @@
   preview.className = 'live-preview';
   preview.innerHTML = '<div class="live-preview-toolbar"><span><i class="preview-dot"></i><span class="builder-save-state">Saved</span></span><span class="builder-device-controls"><button type="button" data-device="desktop" class="is-active">Desktop</button><button type="button" data-device="tablet">Tablet</button><button type="button" data-device="mobile">Mobile</button></span></div><div class="live-preview-content"></div>';
   canvas.appendChild(preview);
+  const classicCanvasField = document.getElementById('classic-canvas-content');
+  const savedClassicCanvas = @json(str_starts_with((string) ($page->page_content ?? ''), '<!-- classic-builder-canvas -->') ? substr((string) $page->page_content, strlen('<!-- classic-builder-canvas -->')) : '');
   const heroEditor = window.landingPageHeroEditor;
   const saveState = preview.querySelector('.builder-save-state');
   const setSaveState = value => { saveState.textContent = value; saveState.parentElement.classList.toggle('is-dirty', value !== 'Saved'); };
@@ -748,6 +750,181 @@
     const content = preview.querySelector('.live-preview-content');
     const list = layers.querySelector('#section-layers-list');
     layers.querySelector('#layer-count').textContent = (cards.length + (heroEditor ? 1 : 0)) + ' sections';
+
+    // The Classic template is the public landing layout.  Show that exact
+    // rendered page in the builder canvas instead of maintaining a second,
+    // approximate markup version for the editor.
+    if (isClassicLayout) {
+      content.replaceChildren();
+      const classicFrame = document.createElement('iframe');
+      classicFrame.className = 'classic-live-canvas';
+      classicFrame.src = '{{ url('/city/' . $page->page_slug) }}';
+      classicFrame.title = 'Live landing page canvas';
+      classicFrame.loading = 'eager';
+      classicFrame.addEventListener('load', () => {
+        // This is a same-origin canvas preview. Hide the shared site chrome
+        // only inside this iframe so editors work with page content alone.
+        const frameDocument = classicFrame.contentDocument;
+        if (!frameDocument) return;
+        frameDocument.querySelectorAll('header, footer, .landing-global-header, .landing-global-footer').forEach(element => element.remove());
+        frameDocument.documentElement.style.scrollPaddingTop = '0';
+        frameDocument.body.style.paddingTop = '0';
+
+        let frameMain = frameDocument.querySelector('main');
+        if (!frameMain) return;
+        const editingStyle = frameDocument.createElement('style');
+        editingStyle.textContent = '[data-builder-editable-text]:hover{outline:1px dashed #095253;outline-offset:4px;cursor:text}[data-builder-editable-text]:focus,[data-builder-selected-text]{outline:2px solid #095253;outline-offset:4px}[data-builder-editable-image]{cursor:pointer}[data-builder-editable-image]:hover{outline:3px solid #095253;outline-offset:3px}.chips span[data-builder-editable-text]{padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;font:inherit!important;color:inherit!important}';
+        frameDocument.head.appendChild(editingStyle);
+        if (savedClassicCanvas) {
+          const restoredCanvas = frameDocument.createRange().createContextualFragment(savedClassicCanvas);
+          const restoredMain = restoredCanvas.querySelector('main');
+          if (restoredMain) {
+            frameMain.replaceWith(restoredMain);
+            frameMain = restoredMain;
+          }
+        }
+
+        const saveClassicCanvas = () => {
+          if (!classicCanvasField) return;
+          // Save clean page markup. Builder-only markers and temporary text
+          // wrappers must never leak into the public landing page.
+          const savedMain = frameMain.cloneNode(true);
+          savedMain.querySelectorAll('[data-builder-inline-wrapper]').forEach(wrapper => wrapper.replaceWith(...wrapper.childNodes));
+          savedMain.querySelectorAll('[contenteditable],[data-builder-editable-text],[data-builder-selected-text],[data-builder-editable-image]').forEach(element => {
+            element.removeAttribute('contenteditable');
+            element.removeAttribute('data-builder-editable-text');
+            element.removeAttribute('data-builder-selected-text');
+            element.removeAttribute('data-builder-editable-image');
+            element.removeAttribute('data-builder-inline-wrapper');
+          });
+          classicCanvasField.value = savedMain.outerHTML;
+        };
+        let selectedClassicText = null;
+        const showClassicTextEditor = element => {
+          if (selectedClassicText) selectedClassicText.removeAttribute('data-builder-selected-text');
+          selectedClassicText = element;
+          selectedClassicText.dataset.builderSelectedText = 'true';
+          const selectedElement = inspector.querySelector('[data-selected-element]');
+          selectedElement?.closest('.builder-selected-element')?.classList.remove('is-empty');
+          if (selectedElement) selectedElement.textContent = element.tagName.toLowerCase() + ' text';
+          stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Edit text</span><span>¶</span></div><label for="classic-text-editor">Selected text</label><textarea id="classic-text-editor" rows="8"></textarea><small class="classic-editor-help">Edits here and in the canvas stay in sync.</small>';
+          const textEditor = stylePanel.querySelector('#classic-text-editor');
+          textEditor.value = element.innerText;
+          textEditor.addEventListener('input', () => {
+            if (!selectedClassicText) return;
+            selectedClassicText.textContent = textEditor.value;
+            saveClassicCanvas();
+            setSaveState('Unsaved changes');
+          });
+        };
+        const showClassicLinkEditor = element => {
+          if (selectedClassicText) selectedClassicText.removeAttribute('data-builder-selected-text');
+          selectedClassicText = element;
+          selectedClassicText.dataset.builderSelectedText = 'true';
+          const selectedElement = inspector.querySelector('[data-selected-element]');
+          selectedElement?.closest('.builder-selected-element')?.classList.remove('is-empty');
+          if (selectedElement) selectedElement.textContent = 'Button / link';
+          stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Edit button</span><span>↗</span></div><label for="classic-link-label">Button text</label><input id="classic-link-label" type="text"><label for="classic-link-url">Link URL</label><input id="classic-link-url" type="url" placeholder="/contact or https://example.com"><small class="classic-editor-help">Use a relative path such as /contact for a page on this site.</small>';
+          const labelInput = stylePanel.querySelector('#classic-link-label');
+          const linkInput = stylePanel.querySelector('#classic-link-url');
+          labelInput.value = element.innerText;
+          linkInput.value = element.getAttribute('href') || '';
+          labelInput.addEventListener('input', () => {
+            element.textContent = labelInput.value;
+            saveClassicCanvas();
+            setSaveState('Unsaved changes');
+          });
+          linkInput.addEventListener('input', () => {
+            element.setAttribute('href', linkInput.value);
+            saveClassicCanvas();
+            setSaveState('Unsaved changes');
+          });
+        };
+        const makeTextEditable = () => {
+          const editableElements = new Set(frameMain.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,summary,.eyebrow,.photo-note strong,.photo-note span,.vertical-label,.image-label,.large-number,.booking-note'));
+          const walker = frameDocument.createTreeWalker(frameMain, NodeFilter.SHOW_TEXT);
+          const standaloneTextNodes = [];
+          let node;
+          while ((node = walker.nextNode())) {
+            const parent = node.parentElement;
+            if (!parent || !node.nodeValue.trim() || ['SCRIPT', 'STYLE', 'SVG'].includes(parent.tagName)) continue;
+            if (!parent.closest('h1,h2,h3,h4,h5,h6,p,a,li,blockquote,summary,.eyebrow,.photo-note strong,.photo-note span,.vertical-label,.image-label,.large-number,.booking-note,[data-builder-editable-text]')) standaloneTextNodes.push(node);
+          }
+          editableElements.forEach(element => {
+            element.contentEditable = 'true';
+            element.dataset.builderEditableText = 'true';
+            element.addEventListener('input', saveClassicCanvas);
+            element.addEventListener('input', () => {
+              if (selectedClassicText === element) {
+                const textEditor = stylePanel.querySelector('#classic-text-editor');
+                if (textEditor) textEditor.value = element.innerText;
+              }
+              setSaveState('Unsaved changes');
+            });
+            element.addEventListener('click', event => { event.stopPropagation(); showClassicTextEditor(element); });
+          });
+          // Labels that sit beside icons (for example the four benefit-strip
+          // items) are bare text nodes in a mixed element. Wrap only the text
+          // so the icon and its layout remain intact.
+          standaloneTextNodes.forEach(textNode => {
+            const editor = frameDocument.createElement('span');
+            editor.textContent = textNode.nodeValue;
+            editor.contentEditable = 'true';
+            editor.dataset.builderEditableText = 'true';
+            editor.dataset.builderInlineWrapper = 'true';
+            editor.addEventListener('input', saveClassicCanvas);
+            editor.addEventListener('input', () => {
+              if (selectedClassicText === editor) {
+                const textEditor = stylePanel.querySelector('#classic-text-editor');
+                if (textEditor) textEditor.value = editor.innerText;
+              }
+              setSaveState('Unsaved changes');
+            });
+            editor.addEventListener('click', event => { event.stopPropagation(); showClassicTextEditor(editor); });
+            textNode.replaceWith(editor);
+          });
+        };
+        const imagePicker = frameDocument.createElement('input');
+        imagePicker.type = 'file';
+        imagePicker.accept = 'image/avif,image/*';
+        imagePicker.hidden = true;
+        frameDocument.body.appendChild(imagePicker);
+        let selectedImage = null;
+        frameMain.querySelectorAll('img').forEach(image => {
+          image.dataset.builderEditableImage = 'true';
+          image.addEventListener('click', event => {
+            event.preventDefault();
+            selectedImage = image;
+            imagePicker.click();
+          });
+        });
+        imagePicker.addEventListener('change', event => {
+          const file = event.target.files?.[0];
+          if (!file || !selectedImage) return;
+          const reader = new FileReader();
+          reader.addEventListener('load', () => { selectedImage.src = reader.result; saveClassicCanvas(); });
+          reader.readAsDataURL(file);
+        });
+        makeTextEditable();
+        frameMain.querySelectorAll('a').forEach(link => {
+          link.contentEditable = 'true';
+          link.dataset.builderEditableText = 'true';
+          link.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); showClassicLinkEditor(link); });
+          link.addEventListener('input', () => {
+            if (selectedClassicText === link) {
+              const labelInput = stylePanel.querySelector('#classic-link-label');
+              if (labelInput) labelInput.value = link.innerText;
+            }
+            saveClassicCanvas();
+            setSaveState('Unsaved changes');
+          });
+        });
+        saveClassicCanvas();
+      });
+      content.appendChild(classicFrame);
+      list.innerHTML = '<div class="section-empty">Live Classic layout</div>';
+      return;
+    }
     if (!cards.length) {
       content.replaceChildren();
       if (heroEditor) content.appendChild(heroEditor);
@@ -821,6 +998,16 @@
         + (isClassicLayout && index % 2 === 1 ? ' is-neutral-preview' : '')
         + (['Yoga Classes in India for a Healthier, More Balanced Life', 'For a Healthier, More Balanced Life'].includes(heading) ? ' is-intro-section' : '')
         + (heading === 'Why YogIntra' ? ' is-brand-story' : '')
+        + (heading === 'A practice made for you' ? ' is-benefit-strip-section' : '')
+        + (heading === 'Yoga Services Available Across India' ? ' is-services-section' : '')
+        + (heading === 'Practice with experienced instructors.' ? ' is-trainers-section' : '')
+        + (heading === 'Yoga Classes for Different Needs, Ages & Experience Levels' ? ' is-audience-section' : '')
+        + (heading === 'Start Your Yoga Journey in 3 Simple Steps' ? ' is-steps-section' : '')
+        + (heading === 'Yoga Plans for Different Needs' ? ' is-plans-section' : '')
+        + (heading === 'Frequently Asked Questions' ? ' is-faq-section' : '')
+        + (heading === 'Learn the foundations. Grow with confidence.' ? ' is-guidance-section' : '')
+        + (heading === 'At home. On the go. Across India.' ? ' is-online-section' : '')
+        + (heading === 'Ready to Start Your Yoga Journey?' ? ' is-booking-section' : '')
         + (heading === 'Benefits of Regular Yoga Practice' ? ' is-benefits-section' : '');
       previewSection.dataset.builderId = card.dataset.builderId;
       previewSection.style.backgroundColor = background;

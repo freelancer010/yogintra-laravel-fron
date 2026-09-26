@@ -14,7 +14,7 @@
         <div class="card card-default">
         <div class="card-header">
             <div class="d-flex align-items-center w-100 landing-page-header">
-                <h3 class="card-title mb-0">Edit landing page</h3>
+                <h3 class="card-title mb-0">Edit landing page <span class="landing-page-canvas-label">· Page canvas</span></h3>
                 <div class="landing-page-header-actions ml-auto d-flex align-items-center justify-content-end">
                     <a href="{{ url('/city/' . $page->page_slug) }}" target="_blank" rel="noopener" class="btn btn-outline-light btn-sm mr-2"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Preview page</a>
                     <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#page-settings-modal"><i class="fas fa-cog" aria-hidden="true"></i> Manage page settings</button>
@@ -26,6 +26,7 @@
 
         <form id="landing-page-form" action="{{ route('admin.landing-pages.update', $page->page_id) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            <input type="hidden" id="classic-canvas-content" name="classic_canvas_content" value="">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 form-group mb-5 border-bottom text-center pb-5">
@@ -238,14 +239,15 @@
     const currentHeroImage = heroEditor.querySelector('#preview-image')?.src || '';
     const heroStage = document.createElement('div');
     heroStage.className = 'hero-canvas-stage';
-    heroStage.innerHTML = '<button type="button" class="hero-image-action"><span>' + (currentHeroImage ? 'Change hero image' : 'Add hero image') + '</span></button><div class="hero-canvas-copy"><small>YogIntra · Kandivali</small><h2 contenteditable="true">' + (heroTitleInput.value || 'Hero heading') + '</h2><p contenteditable="true">' + (heroDescriptionInput.value || 'Add a supporting hero message.') + '</p><span class="hero-preview-cta">Book a Trial Class</span></div>';
-    if (currentHeroImage) heroStage.style.backgroundImage = 'linear-gradient(90deg, rgba(7,37,41,.03), rgba(7,37,41,.16) 40%, rgba(7,37,41,.90) 74%), url("' + currentHeroImage + '")';
+    heroStage.innerHTML = '<div class="hero-canvas-copy"><small>YogIntra · {{ strtoupper($page->page_slug) }}</small><h2 contenteditable="true">' + (heroTitleInput.value || 'A little time for you. A healthier, more balanced life.') + '</h2><p contenteditable="true">' + (heroDescriptionInput.value || 'Personalised and live online yoga classes across India. Experienced guidance, wherever you call home.') + '</p><span class="hero-preview-cta">Book your yoga session <b>↗</b></span></div><div class="hero-stage-media"><button type="button" class="hero-image-action"><span>' + (currentHeroImage ? 'Change hero image' : 'Add hero image') + '</span></button></div>';
+    const heroMedia = heroStage.querySelector('.hero-stage-media');
+    if (currentHeroImage) heroMedia.style.backgroundImage = 'url("' + currentHeroImage + '")';
     heroEditor.querySelector('.hero-editor-fields').before(heroStage);
     heroEditor.querySelector('.hero-editor-fields').classList.add('hero-persistence-fields');
     heroStage.querySelector('.hero-image-action').addEventListener('click', () => heroImageInput.click());
     heroStage.querySelector('h2').addEventListener('input', event => { heroTitleInput.value = event.target.innerText; });
     heroStage.querySelector('p').addEventListener('input', event => { heroDescriptionInput.value = event.target.innerText; });
-    heroImageInput.addEventListener('change', event => { if (!event.target.files?.[0]) return; const reader = new FileReader(); reader.onload = () => { heroStage.style.backgroundImage = 'linear-gradient(90deg, rgba(7,37,41,.03), rgba(7,37,41,.16) 40%, rgba(7,37,41,.90) 74%), url("' + reader.result + '")'; heroStage.querySelector('.hero-image-action span').textContent = 'Change hero image'; }; reader.readAsDataURL(event.target.files[0]); });
+    heroImageInput.addEventListener('change', event => { if (!event.target.files?.[0]) return; const reader = new FileReader(); reader.onload = () => { heroMedia.style.backgroundImage = 'url("' + reader.result + '")'; heroStage.querySelector('.hero-image-action span').textContent = 'Change hero image'; }; reader.readAsDataURL(event.target.files[0]); });
     // The live canvas owns the visual order.  Keep the hero's existing fields
     // and inline editing handlers together, then let the preview render it as
     // the first editable section rather than as a separate panel above it.
