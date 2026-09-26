@@ -72,7 +72,18 @@
             #messageIcon{right:20px;bottom:90px;width:50px;height:50px}
             .tooltip-popup{right:20px;bottom:150px}
             #messagePopup{right:20px;bottom:100px;max-width:90%;max-height:90vh}
-            @media(max-width:767px){#messageIcon{right:16px;bottom:84px;width:48px;height:48px}.tooltip-popup{display:none!important}}
+            @media(max-width:767px){
+                #messageIcon{right:16px;bottom:84px;width:48px;height:48px}.tooltip-popup{display:none!important}
+                /* Keep the homepage's desktop menu from taking normal-flow space
+                   before the deferred navigation stylesheet and script initialise. */
+                #header.home-mobile-hero-navigation{position:absolute;top:0;left:0;width:100%;height:64px;z-index:1100;background:transparent}
+                #header.home-mobile-hero-navigation .header-nav{position:fixed;top:0;left:0;right:0;width:100%;height:64px;z-index:1101;background:#fff;box-shadow:0 2px 12px rgba(10,49,59,.12)}
+                #header.home-mobile-hero-navigation .header-nav-wrapper,#header.home-mobile-hero-navigation .ipad_header,#header.home-mobile-hero-navigation .menuzord{position:relative;width:100%;height:64px;min-height:64px;margin:0;padding:0;background:#fff}
+                #header.home-mobile-hero-navigation .menuzord-brand{display:flex;align-items:center;height:64px;margin:0 0 0 18px;padding:0;line-height:0}
+                #header.home-mobile-hero-navigation .menuzord-brand img.logo-default{display:block;width:155px;height:44px;max-width:calc(100vw - 104px);object-fit:contain;object-position:left center}
+                #header.home-mobile-hero-navigation .menuzord-brand img.logo-scrolled-to-fixed,#header.home-mobile-hero-navigation .menuzord-menu{display:none}
+                #header.home-mobile-hero-navigation.mobile-menu-open .header-nav-wrapper,#header.home-mobile-hero-navigation.mobile-menu-open .menuzord{height:auto}
+            }
         </style>
     @endif
 
