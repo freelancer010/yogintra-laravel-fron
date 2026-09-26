@@ -99,11 +99,9 @@
         </style>
     @endif
 
-    {{-- Homepage-specific critical CSS reserves the hero geometry. The remaining
-       legacy bundle can load after first paint without shifting the hero. --}}
+    {{-- Apply layout CSS before first paint; deferring this theme causes CLS. --}}
     @if ($isHomePage)
-        <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css"></noscript>
+        <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet">
     @else
         <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css">
     @endif

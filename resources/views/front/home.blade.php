@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 @php
-    $heroPoster = $app_setting->hero_video_thumbnail ?: null;
+    $heroPoster = $app_setting->hero_video_thumbnail ?: ($all_slider->first()?->slider_image ?: 'assets/Mobile-Banner-new.webp');
     $heroVideoHeading = $app_setting->hero_video_heading ?: ($app_setting->hero_video_title ?: ($all_slider->first()?->slider_heading ?: 'Wellness classes with YogIntra'));
     $heroVideoSubHeading = $app_setting->hero_video_sub_heading ?: ($app_setting->hero_video_description ?: ($all_slider->first()?->slider_sub_heading ?: 'Discover guided movement and wellbeing support with YogIntra.'));
     $heroVideoTitle = $heroVideoHeading;
@@ -75,10 +75,8 @@
     @if(($app_setting->hero_media_type ?? 'slider') === 'video' && $heroPoster)
         <link rel="preload" as="image" href="{{ asset($heroPoster) }}" fetchpriority="high">
     @endif
-    {{-- Above-the-fold home geometry is in the small critical stylesheet above.
-        Load the remaining section styling without delaying first render. --}}
-    <link rel="preload" as="style" href="{{ asset('assets/front/css/home.min.css') }}" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/home.min.css') }}"></noscript>
+    {{-- Hero typography and geometry must be styled before first paint. --}}
+    <link rel="stylesheet" href="{{ asset('assets/front/css/home.min.css') }}">
 @endpush
 @section('content')
     <section id="home" class="divider {{ (($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video)) ? 'hero-video-home' : '' }}">

@@ -65,7 +65,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.addEventListener('scroll', updateMobileHeroNavigation, { passive: true });
                 document.addEventListener('scroll', updateMobileHeroNavigation, { passive: true, capture: true });
                 window.addEventListener('resize', updateMobileHeroNavigation);
-                (function watchMobileHeroNavigation() {
+                // Landing pages retain their existing sticky integration. Home
+                // already updates on scroll/resize; idle frames need no writes.
+                if (isLandingNavigation) (function watchMobileHeroNavigation() {
                     updateMobileHeroNavigation();
                     window.requestAnimationFrame(watchMobileHeroNavigation);
                 }());
