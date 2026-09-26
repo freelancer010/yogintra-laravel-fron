@@ -55,9 +55,9 @@
     <!-- Page-specific preloads (e.g., hero images) -->
     @stack('page_preloads')
     <link rel="preload" as="image" href="{{ asset($app_setting->app_sticky_logo) }}" fetchpriority="high">
-    @unless ($deferNonCriticalStyles)
+    @if ($isHomePage || !$deferNonCriticalStyles)
         <link rel="preload" as="font" href="{{ asset('assets/front/fonts/fontawesome-webfont3e6e.woff2') }}?v=4.7.0" type="font/woff2" crossorigin>
-    @endunless
+    @endif
 
     <!-- FOR PWA MANIFEST -->
     <link rel="manifest" href="{{ asset('manifest.json')}}">
@@ -76,14 +76,10 @@
         </style>
     @endif
 
-    {{-- The homepage has focused render-critical styles. Defer the large legacy
-       bundle there so it cannot delay the hero heading's first paint. --}}
-    @if ($isHomePage)
-        <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet"></noscript>
-    @else
-        <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css">
-    @endif
+    {{-- The homepage hero relies on this bundle for its carousel and overlay
+       geometry. It must be available before first paint: loading it asynchronously
+       lets the caption render in normal flow, then shifts the entire page. --}}
+    <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
