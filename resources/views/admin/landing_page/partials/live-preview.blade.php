@@ -827,6 +827,17 @@
           const restoredCanvas = frameDocument.createRange().createContextualFragment(savedClassicCanvas);
           const restoredMain = restoredCanvas.querySelector('main');
           if (restoredMain) {
+            // Older saved canvases predate testimonials. Preserve their edits
+            // while carrying the newly seeded section into the editor too.
+            if (!restoredMain.hasAttribute('data-testimonials-initialized') && frameMain.hasAttribute('data-testimonials-initialized')) {
+              const testimonials = frameMain.querySelector('#testimonials');
+              if (testimonials && !restoredMain.querySelector('#testimonials')) {
+                const faq = restoredMain.querySelector('section#faq');
+                if (faq) faq.before(testimonials.cloneNode(true));
+                else restoredMain.appendChild(testimonials.cloneNode(true));
+              }
+              restoredMain.setAttribute('data-testimonials-initialized', 'true');
+            }
             frameMain.replaceWith(restoredMain);
             frameMain = restoredMain;
           }
@@ -958,7 +969,13 @@
           const file = event.target.files?.[0];
           if (!file || !selectedImage) return;
           const reader = new FileReader();
-          reader.addEventListener('load', () => { selectedImage.src = reader.result; saveClassicCanvas(); });
+          const imageToUpdate = selectedImage;
+          reader.addEventListener('load', () => {
+            imageToUpdate.src = reader.result;
+            saveClassicCanvas();
+            setSaveState('Unsaved changes');
+            imagePicker.value = '';
+          });
           reader.readAsDataURL(file);
         });
         makeTextEditable();
