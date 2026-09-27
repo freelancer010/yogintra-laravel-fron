@@ -1,0 +1,10 @@
+.classic-testimonials { background: #fff; border-top: 1px solid #dce4df; }
+.classic-testimonials .section-top { margin-bottom: 36px; }
+.classic-testimonials-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.classic-testimonial-card { display: flex; flex-direction: column; min-width: 0; padding: 30px; border: 1px solid #dce4df; border-radius: 12px; background: #fff; }
+.classic-testimonial-card blockquote { margin: 0 0 28px; color: #183c3b; font: inherit; font-size: 17px; line-height: 1.8; overflow-wrap: anywhere; }
+.classic-testimonial-person { display: flex; align-items: center; gap: 14px; margin-top: auto; }
+.classic-testimonial-person img { flex: 0 0 56px; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+.classic-testimonial-person h3 { margin: 0; color: #183c3b; font-size: 18px; }
+.classic-testimonial-person p { margin: 4px 0 0; color: #566b68; font-size: 14px; overflow-wrap: anywhere; }
+@media (max-width: 900px) { .classic-testimonials-grid { grid-template-columns: 1fr; gap: 18px; } .classic-testimonial-card { padding: 24px; } }

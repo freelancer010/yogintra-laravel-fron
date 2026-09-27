@@ -509,6 +509,24 @@ class HomeController extends Controller
                 }
             }
 
+            // Seed older canvases once. The marker survives builder saves, so
+            // edited reviews (or an intentionally removed section) stay intact.
+            if (!str_contains($referenceLayout, 'data-testimonials-initialized')) {
+                $reviews = collect($data['testimonials'])->filter(fn ($review) => trim((string) $review->test_description) !== '')->take(3);
+                if ($reviews->isNotEmpty()) {
+                    $testimonialSection = view('front.partials.classic-testimonials', ['testimonials' => $reviews])->render();
+                    if (!str_contains($referenceLayout, 'id="testimonials"')) {
+                        $referenceLayout = preg_replace('#(<section\b[^>]*\bid="faq"[^>]*>)#', $testimonialSection . '$1', $referenceLayout, 1, $inserted);
+                        if (!$inserted) {
+                            $referenceLayout = str_replace('</main>', $testimonialSection . '</main>', $referenceLayout);
+                        }
+                    }
+                    $referenceLayout = preg_replace('#<main\b#', '<main data-testimonials-initialized="true"', $referenceLayout, 1);
+                }
+            }
+            $testimonialCss = asset('assets/landing-reference/classic-testimonials.css') . '?v=' . filemtime(public_path('assets/landing-reference/classic-testimonials.css'));
+            $referenceLayout = str_replace('</head>', '<link rel="stylesheet" href="' . e($testimonialCss) . '"></head>', $referenceLayout);
+
             return response($referenceLayout)->header('Content-Type', 'text/html; charset=UTF-8');
         }
 
