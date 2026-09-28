@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 <style>
   .landing-builder-shell { max-width: 1320px; margin: 28px auto; }
+  .landing-builder-shell .builder-source-fields[hidden] { display:none !important; }
   .builder-toast { position:fixed; z-index:1060; right:26px; top:76px; background:#16717a; color:#fff; border-radius:10px; padding:12px 17px; font-weight:700; box-shadow:0 12px 28px rgba(15,89,98,.28); transition:opacity .3s ease, transform .3s ease; }
   .builder-toast.is-hidden { opacity:0; transform:translateY(-10px); pointer-events:none; }
   .builder-toast-error { background:#b63b47; }

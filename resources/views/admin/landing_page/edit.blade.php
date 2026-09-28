@@ -29,7 +29,7 @@
             <input type="hidden" id="classic-canvas-content" name="classic_canvas_content" value="">
             <input type="checkbox" id="use-classic-layout" name="use_classic_layout" value="1" checked hidden>
             <div class="card-body">
-                <div class="row">
+                <div class="row builder-source-fields" hidden>
                     <div class="col-md-12 form-group mb-5 border-bottom text-center pb-5">
                         <label>Open Graph / hero image</label><br>
                         @if($page->page_image)
@@ -228,8 +228,11 @@
       }
     };
     window.addEventListener('resize', fitBuilderViewport);
-    const builderResizeObserver = new ResizeObserver(fitBuilderViewport);
-    builderResizeObserver.observe(document.querySelector('.landing-builder-shell > .card > .card-header'));
+    const builderHeader = workspace.closest('.card')?.querySelector('.card-header');
+    if (builderHeader && typeof ResizeObserver !== 'undefined') {
+      const builderResizeObserver = new ResizeObserver(fitBuilderViewport);
+      builderResizeObserver.observe(builderHeader);
+    }
     builderMenuButton?.addEventListener('click', () => requestAnimationFrame(fitBuilderViewport));
     requestAnimationFrame(fitBuilderViewport);
     const inspector = workspace.querySelector('.builder-inspector');
