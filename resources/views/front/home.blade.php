@@ -394,22 +394,31 @@
         </div>
     </section>
 
-    <section class="home-content-summary">
+    <section class="home-content-summary" aria-labelledby="home-start-heading">
         <div class="container pt-70 pb-70">
-            <div class="section-title text-center">
-                <h2 class="mt-0 line-height-1">A clear way to begin</h2>
+            <div class="section-title text-center summary-heading">
+                <span class="summary-eyebrow">Start with confidence</span>
+                <h2 id="home-start-heading" class="mt-0 line-height-1">A clear way to begin</h2>
                 <p class="summary-intro">YogIntra helps you choose a class that suits your schedule, experience and goals. Start gently, ask questions and build a routine that feels sustainable.</p>
             </div>
-            <div class="row">
+            <div class="row summary-grid">
                 <div class="col-md-4">
-                    <article class="summary-card">
+                    <article class="summary-card summary-card-guidance">
+                        <div class="summary-card-header">
+                            <span class="summary-icon" aria-hidden="true"><i class="fa fa-compass"></i></span>
+                            <span class="summary-step">01</span>
+                        </div>
                         <h3>Guidance you can trust</h3>
                         <p>Our instructors support safe, steady progress. They can explain movement, offer simpler options and help you practise with confidence.</p>
-                        <p><a href="{{ url('trainers') }}" class="text-theme-colored2">Meet our instructors</a></p>
+                        <a href="{{ url('trainers') }}" class="summary-link">Meet our instructors <span aria-hidden="true">&rarr;</span></a>
                     </article>
                 </div>
                 <div class="col-md-4">
-                    <article class="summary-card">
+                    <article class="summary-card summary-card-classes">
+                        <div class="summary-card-header">
+                            <span class="summary-icon" aria-hidden="true"><i class="fa fa-calendar-check-o"></i></span>
+                            <span class="summary-step">02</span>
+                        </div>
                         <h3>Classes for real life</h3>
                         <ul>
                             <li>Beginner-friendly group sessions</li>
@@ -420,10 +429,14 @@
                     </article>
                 </div>
                 <div class="col-md-4">
-                    <article class="summary-card">
+                    <article class="summary-card summary-card-options">
+                        <div class="summary-card-header">
+                            <span class="summary-icon" aria-hidden="true"><i class="fa fa-map-marker"></i></span>
+                            <span class="summary-step">03</span>
+                        </div>
                         <h3>Find a suitable option</h3>
                         <p>Explore classes, centres and wellness services in your area. If you are unsure where to start, our team can help you choose the right format.</p>
-                        <p><a href="{{ route('yoga.center') }}" class="text-theme-colored2">Explore centres and services</a></p>
+                        <a href="{{ route('yoga.center') }}" class="summary-link">Explore centres and services <span aria-hidden="true">&rarr;</span></a>
                     </article>
                 </div>
             </div>
