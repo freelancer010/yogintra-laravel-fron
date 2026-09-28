@@ -67,8 +67,8 @@
                 </td>
                 <td><strong>{{ $page->page_name }}</strong></td>
                 <td>
-                @php($publicUrl = url('/city/' . $page->page_slug))
-                <a class="landing-page-url" href="{{ $publicUrl }}" target="_blank" rel="noopener">{{ $publicUrl }}</a>
+                @php($publicPath = '/city/' . rawurlencode($page->page_slug))
+                <a class="landing-page-url" href="{{ $publicPath }}" target="_blank" rel="noopener" data-public-url data-public-path="{{ $publicPath }}">{{ request()->getSchemeAndHttpHost() . $publicPath }}</a>
                 </td>
                 <td class="landing-page-actions">
                   <a class="btn btn-outline-primary btn-sm" href="{{ route('admin.landing-pages.edit', $page->page_id) }}" title="Edit {{ $page->page_name }}">
@@ -93,6 +93,12 @@
     </div>
     </div>
 </section>
+
+<script>
+document.querySelectorAll('[data-public-url]').forEach(function (link) {
+    link.textContent = window.location.origin + link.dataset.publicPath;
+});
+</script>
 
 <div class="modal fade" id="newPageModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">

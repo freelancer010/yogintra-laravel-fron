@@ -828,7 +828,7 @@
       content.replaceChildren();
       const classicFrame = document.createElement('iframe');
       classicFrame.className = 'classic-live-canvas';
-      classicFrame.src = '{{ url('/city/' . $page->page_slug) }}';
+      classicFrame.src = @json('/city/' . rawurlencode($page->page_slug));
       classicFrame.title = 'Live landing page canvas';
       classicFrame.loading = 'eager';
       classicFrame.addEventListener('load', () => {

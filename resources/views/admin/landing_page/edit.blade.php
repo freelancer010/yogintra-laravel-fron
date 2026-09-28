@@ -3,6 +3,8 @@
 
 @section('content')
 
+@php($publicPagePath = '/city/' . rawurlencode($page->page_slug))
+
 @if($errors->any())
   <div class="builder-toast builder-toast-error" role="alert">{{ $errors->first() }}</div>
 @endif
@@ -16,7 +18,7 @@
             <div class="d-flex align-items-center w-100 landing-page-header">
                 <h3 class="card-title mb-0">Edit landing page <span class="landing-page-canvas-label">· Page canvas</span></h3>
                 <div class="landing-page-header-actions ml-auto d-flex align-items-center justify-content-end">
-                    <a href="{{ url('/city/' . $page->page_slug) }}" target="_blank" rel="noopener" class="btn btn-outline-light btn-sm mr-2"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Preview page</a>
+                    <a href="{{ $publicPagePath }}" data-public-page-link target="_blank" rel="noopener" class="btn btn-outline-light btn-sm mr-2"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Preview page</a>
                     <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#page-settings-modal"><i class="fas fa-cog" aria-hidden="true"></i> Manage page settings</button>
                     <span class="classic-layout-status mr-2"><i class="fas fa-check-circle" aria-hidden="true"></i> Classic live layout</span>
                     <button type="submit" form="landing-page-form" formnovalidate class="btn btn-success builder-submit">Update page</button>
@@ -46,7 +48,7 @@
                     <div class="col-md-6 form-group">
                     <label>Page Slug</label>
                     <input type="text" name="page_slug" class="form-control" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" value="{{ $page->page_slug }}">
-                    <small class="form-text text-muted">Public URL preview: {{ url('/city/' . $page->page_slug) }}</small>
+                    <small class="form-text text-muted">Public URL preview: <span data-public-url-preview data-public-path="{{ $publicPagePath }}">{{ request()->getSchemeAndHttpHost() . $publicPagePath }}</span></small>
                     </div>
 
                     <div class="col-md-6 form-group">
@@ -143,6 +145,20 @@
 </div>
 </section>
 <script>
+    const pageSlugInput = document.querySelector('[name="page_slug"]');
+    const publicUrlPreview = document.querySelector('[data-public-url-preview]');
+    const publicPageLink = document.querySelector('[data-public-page-link]');
+    const syncPublicPageUrl = () => {
+        const path = '/city/' + encodeURIComponent(pageSlugInput?.value.trim() || '');
+        if (publicUrlPreview) {
+            publicUrlPreview.dataset.publicPath = path;
+            publicUrlPreview.textContent = window.location.origin + path;
+        }
+        if (publicPageLink) publicPageLink.href = path;
+    };
+    pageSlugInput?.addEventListener('input', syncPublicPageUrl);
+    syncPublicPageUrl();
+
     function previewImage(event) {
         if (!event.target.files?.[0]) return;
         const reader = new FileReader();
