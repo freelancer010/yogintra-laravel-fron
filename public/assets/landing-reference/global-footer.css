@@ -15,8 +15,28 @@
   display: grid;
   grid-template-columns: 1.55fr repeat(3, 1fr) 1.45fr;
   gap: 32px;
+  width: 100%;
+  margin-right: 0;
+  margin-left: 0;
   padding-bottom: 42px;
   border-bottom: 1px solid rgba(217, 231, 226, .2);
+}
+
+/* The footer uses CSS Grid, so Bootstrap's percentage column widths and
+   floats must not continue to size the grid items inside each grid track. */
+.landing-global-footer .row > [class*="col-"] {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  float: none;
+}
+
+/* Bootstrap's clearfix pseudo-elements otherwise become extra grid items,
+   shifting the first column and wrapping Support onto a second row. */
+.landing-global-footer .row::before,
+.landing-global-footer .row::after {
+  display: none;
+  content: none;
 }
 
 .landing-global-footer .widget { margin: 0; }
