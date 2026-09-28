@@ -527,6 +527,25 @@ class HomeController extends Controller
                     $referenceLayout = preg_replace('#<main\b#', '<main data-testimonials-initialized="true"', $referenceLayout, 1);
                 }
             }
+            // Restore each page's original hero copy once, then let subsequent
+            // builder edits remain authoritative through the saved marker.
+            if (!str_contains($referenceLayout, 'data-hero-copy-restored')) {
+                $originalTitle = trim((string) ($data['page_data']->page_image_title ?? ''));
+                $originalDescription = trim((string) ($data['page_data']->page_image_description ?? ''));
+                if ($originalTitle !== '') {
+                    $referenceLayout = preg_replace_callback(
+                        '#(<div\b[^>]*class="hero-copy"[^>]*>.*?<h1\b[^>]*>).*?(</h1>)#s',
+                        fn ($match) => $match[1] . e($originalTitle) . $match[2], $referenceLayout, 1
+                    );
+                }
+                if ($originalDescription !== '') {
+                    $referenceLayout = preg_replace_callback(
+                        '#(<div\b[^>]*class="hero-copy"[^>]*>.*?</h1>\s*<p\b[^>]*>).*?(</p>)#s',
+                        fn ($match) => $match[1] . e($originalDescription) . $match[2], $referenceLayout, 1
+                    );
+                }
+                $referenceLayout = preg_replace('#<main\b#', '<main data-hero-copy-restored="true"', $referenceLayout, 1);
+            }
             $testimonialCss = asset('assets/landing-reference/classic-testimonials.css') . '?v=' . filemtime(public_path('assets/landing-reference/classic-testimonials.css'));
             $referenceLayout = str_replace('</head>', '<link rel="stylesheet" href="' . e($testimonialCss) . '"></head>', $referenceLayout);
 

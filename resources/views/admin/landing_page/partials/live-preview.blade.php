@@ -847,6 +847,14 @@
           const restoredCanvas = frameDocument.createRange().createContextualFragment(savedClassicCanvas);
           const restoredMain = restoredCanvas.querySelector('main');
           if (restoredMain) {
+            if (!restoredMain.hasAttribute('data-hero-copy-restored') && frameMain.hasAttribute('data-hero-copy-restored')) {
+              ['.hero-copy h1', '.hero-copy > p'].forEach(selector => {
+                const original = frameMain.querySelector(selector);
+                const restored = restoredMain.querySelector(selector);
+                if (original && restored) restored.innerHTML = original.innerHTML;
+              });
+              restoredMain.setAttribute('data-hero-copy-restored', 'true');
+            }
             // Older saved canvases predate testimonials. Preserve their edits
             // while carrying the newly seeded section into the editor too.
             if (!restoredMain.hasAttribute('data-testimonials-initialized') && frameMain.hasAttribute('data-testimonials-initialized')) {
