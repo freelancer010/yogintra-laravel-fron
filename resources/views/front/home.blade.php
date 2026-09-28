@@ -13,9 +13,9 @@
         ? date(DATE_ATOM, filemtime($heroVideoPath))
         : now()->toAtomString();
 @endphp
-@section('meta_title', $app_setting->app_meta_title ?: 'Yoga Classes, Home Yoga & Online Wellness | YogIntra')
-@section('meta_description', 'YogIntra offers guided yoga, meditation and wellness classes online, at home and near you to build strength, flexibility, balance and calm every day.')
-@section('meta_keywords', 'yoga, online classes, home sessions, wellness programs, teacher training, YogIntra')
+@section('meta_title', $app_setting->app_meta_title)
+@section('meta_description', $app_setting->app_meta_description)
+@section('meta_keywords', $app_setting->app_keywords)
 @section('og_image', asset('assets/og-logo.webp'))
 @push('page_meta_tags')
     <meta name="theme-color" content="#0f7c87">
