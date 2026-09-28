@@ -273,9 +273,9 @@
     <div id="messagePopup">
         <div class="close-btn" onclick="toggleMessagePopup()">&times;</div>
         <div class="popup-content">
-            <h4 class="text-center mb-20" style="font-size: 24px; font-weight: 600; color: #333; margin-bottom: 25px;">
+            <div class="popup-title text-center mb-20" style="font-size: 24px; font-weight: 600; color: #333; margin-bottom: 25px;">
                 Get In Touch
-            </h4>
+            </div>
             <div class="form-wrapper">
                 <x-multi-step-form
                     :form-type="'embed'"

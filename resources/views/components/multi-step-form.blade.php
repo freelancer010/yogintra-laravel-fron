@@ -102,7 +102,7 @@
                 <div class="icon-fix"></div>
             </div>
         </div>
-        <h4 class="success-title">Thank You!</h4>
+        <div class="success-title">Thank You!</div>
         <p class="success-text">Your enquiry has been submitted successfully. We'll get back to you soon.</p>
     </div>
 </div>
@@ -508,7 +508,7 @@
             animation: scaleIn 0.5s ease-out;
         }
 
-        .success-message h4 {
+        .success-message .success-title {
             color: #333;
             font-size: 24px;
             margin-bottom: 15px;
@@ -570,7 +570,7 @@
                 font-size: 40px;
                 margin-bottom: 15px;
             }
-            .success-message h4 {
+            .success-message .success-title {
                 font-size: 20px;
                 margin-bottom: 10px;
             }

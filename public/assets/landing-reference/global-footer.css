@@ -32,7 +32,7 @@
 .landing-global-footer a,
 .landing-global-footer li { color: #d7e3df; }
 .landing-global-footer p { margin: 0; font-size: 14px; line-height: 1.7; }
-.landing-global-footer h6 {
+.landing-global-footer .footer-heading {
   margin: 5px 0 16px;
   color: #fff;
   font: 600 14px/1.35 Arial, Helvetica, sans-serif;
@@ -125,7 +125,7 @@
   .landing-global-footer .row > :nth-child(4) .list-border { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; }
   .landing-global-footer img { width: 165px; margin-bottom: 12px; }
   .landing-global-footer p { font-size: 13px; line-height: 1.55; }
-  .landing-global-footer h6 { margin: 0 0 8px; font-size: 12px; }
+  .landing-global-footer .footer-heading { margin: 0 0 8px; font-size: 12px; }
   .landing-global-footer .list-border li { padding: 5px 0; font-size: 13px; }
   .landing-global-footer .styled-icons { margin-top: 14px; }
   .landing-global-footer .opening-hours .list-border li { padding: 6px 0; }

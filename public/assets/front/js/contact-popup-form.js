@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="success-icon">
                         <i class="fa fa-check-circle"></i>
                     </div>
-                    <h4>Thank You!</h4>
+                    <div class="success-title">Thank You!</div>
                     <p>${message || 'Your enquiry has been submitted successfully. We\'ll get back to you soon.'}</p>
                 </div>
             `;
