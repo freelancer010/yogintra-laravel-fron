@@ -527,6 +527,18 @@ class HomeController extends Controller
                     $referenceLayout = preg_replace('#<main\b#', '<main data-testimonials-initialized="true"', $referenceLayout, 1);
                 }
             }
+            if (!str_contains($referenceLayout, 'data-locations-initialized')) {
+                $locations = DB::table('new_landing_page')->where('is_published', true)->orderBy('page_name')->get(['page_name', 'page_slug']);
+                $locationsSection = view('front.partials.classic-locations', compact('locations'))->render();
+                if (!str_contains($referenceLayout, 'id="locations"')) {
+                    $referenceLayout = preg_replace_callback('#(<section\b[^>]*\bid="faq"[^>]*>)#', fn ($match) => $locationsSection . $match[1], $referenceLayout, 1, $insertedLocations);
+                    if (!$insertedLocations) $referenceLayout = str_replace('</main>', $locationsSection . '</main>', $referenceLayout);
+                }
+                $referenceLayout = preg_replace('#<main\b#', '<main data-locations-initialized="true"', $referenceLayout, 1);
+            }
+            $locationsCss = asset('assets/landing-reference/classic-locations.css') . '?v=' . filemtime(public_path('assets/landing-reference/classic-locations.css'));
+            $referenceLayout = str_replace('</head>', '<link rel="stylesheet" href="' . e($locationsCss) . '"></head>', $referenceLayout);
+
             // Restore each page's original hero copy once, then let subsequent
             // builder edits remain authoritative through the saved marker.
             if (!str_contains($referenceLayout, 'data-hero-copy-restored')) {

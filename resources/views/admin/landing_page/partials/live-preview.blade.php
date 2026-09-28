@@ -847,6 +847,15 @@
           const restoredCanvas = frameDocument.createRange().createContextualFragment(savedClassicCanvas);
           const restoredMain = restoredCanvas.querySelector('main');
           if (restoredMain) {
+            if (!restoredMain.hasAttribute('data-locations-initialized') && frameMain.hasAttribute('data-locations-initialized')) {
+              const locations = frameMain.querySelector('#locations');
+              if (locations && !restoredMain.querySelector('#locations')) {
+                const faq = restoredMain.querySelector('section#faq');
+                if (faq) faq.before(locations.cloneNode(true));
+                else restoredMain.appendChild(locations.cloneNode(true));
+              }
+              restoredMain.setAttribute('data-locations-initialized', 'true');
+            }
             if (!restoredMain.hasAttribute('data-hero-copy-restored') && frameMain.hasAttribute('data-hero-copy-restored')) {
               ['.hero-copy h1', '.hero-copy > p'].forEach(selector => {
                 const original = frameMain.querySelector(selector);

@@ -1,0 +1,6 @@
+.classic-locations { background:#fff; border-top:1px solid #dce4df; }
+.classic-locations-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; list-style:none; padding:0; margin:32px 0; }
+.classic-locations-grid a { display:block; padding:15px 18px; border:1px solid #dce4df; border-radius:8px; color:#183c3b; overflow-wrap:anywhere; }
+.classic-locations-grid a:hover, .classic-locations-grid a:focus-visible { background:#edf5f3; border-color:#0b6569; }
+@media(max-width:800px) { .classic-locations-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:380px) { .classic-locations-grid { grid-template-columns:1fr; } }
