@@ -103,6 +103,7 @@
     {{-- Apply layout CSS before first paint; deferring this theme causes CLS. --}}
     @if ($isHomePage)
         <link href="{{ asset('assets/front/css/homepage.bundle.min.css') }}?v={{ filemtime(public_path('assets/front/css/homepage.bundle.min.css')) }}" rel="stylesheet">
+        <link href="{{ asset('assets/landing-reference/global-footer.css') }}?v={{ filemtime(public_path('assets/landing-reference/global-footer.css')) }}" rel="stylesheet">
         <style id="home-navigation-state">
             @media(min-width:1001px){
                 #header.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .header-nav,

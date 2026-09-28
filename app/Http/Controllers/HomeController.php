@@ -488,15 +488,23 @@ class HomeController extends Controller
             $referenceLayout = preg_replace('#<link\s+rel="icon"[^>]*>#i', '', $referenceLayout) ?? $referenceLayout;
             $referenceLayout = str_replace(
                 '</head>',
-                '<link rel="icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="shortcut icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="apple-touch-icon" href="' . e($favicon) . '"><link rel="stylesheet" href="/assets/front/css/font-awesome.min.css"><link rel="stylesheet" href="/assets/landing-reference/global-header.css"><link rel="stylesheet" href="/assets/landing-reference/classic-trainers.css"><link rel="stylesheet" href="/assets/landing-reference/global-footer.css"><style>.brand-logo img{display:block;width:190px;height:auto;object-fit:contain}@media(max-width:680px){.brand-logo img{width:150px}}</style></head>',
+                '<meta name="csrf-token" content="' . e(csrf_token()) . '"><link rel="icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="shortcut icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="apple-touch-icon" href="' . e($favicon) . '"><link rel="stylesheet" href="/assets/front/css/font-awesome.min.css"><link rel="stylesheet" href="/assets/landing-reference/global-header.css"><link rel="stylesheet" href="/assets/landing-reference/classic-trainers.css"><link rel="stylesheet" href="/assets/landing-reference/global-footer.css"><style>.brand-logo img{display:block;width:190px;height:auto;object-fit:contain}@media(max-width:680px){.brand-logo img{width:150px}}</style></head>',
                 $referenceLayout
             );
+            $referenceLayout = preg_replace(
+                '#<body([^>]*)>#i',
+                '<body$1 data-contact-form-endpoint="' . e(route('form.submit')) . '">',
+                $referenceLayout,
+                1
+            ) ?? $referenceLayout;
             $referenceLayout = preg_replace('#<header>.*?</header>#s', $globalHeader, $referenceLayout, 1);
             $referenceLayout = str_replace('<section id="about" class="about section">', $trainerSection . '<section id="about" class="about section">', $referenceLayout);
             $referenceLayout = preg_replace('#<footer\\b[^>]*>.*?</footer>#s', $globalFooter, $referenceLayout, 1);
             $referenceLayout = str_replace(
                 '</body>',
-                '<div hidden><button class="menu-toggle"></button><nav id="navigation"></nav><span id="year"></span></div><script src="/assets/landing-reference/global-header.js" defer></script></body>',
+                view('front.partials.landing-floating-tools', [
+                    'source' => $cityName . ' Landing Page',
+                ])->render() . '<div hidden><button class="menu-toggle"></button><nav id="navigation"></nav><span id="year"></span></div><script src="/assets/landing-reference/global-header.js" defer></script><script src="/assets/front/js/contact-popup-form.min.js" defer></script></body>',
                 $referenceLayout
             );
 

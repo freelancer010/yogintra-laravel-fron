@@ -1,4 +1,4 @@
-<footer id="footer" class="footer bg-black-000">
+<footer id="footer" class="{{ request()->is('/') ? 'landing-global-footer ' : '' }}footer bg-black-000">
     <div class="container pt-40 pb-0">
         <div class="row border-bottom-black">
             <div class="col-sm-6 col-md-3">
