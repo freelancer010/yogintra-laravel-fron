@@ -101,7 +101,7 @@
 
     {{-- Apply layout CSS before first paint; deferring this theme causes CLS. --}}
     @if ($isHomePage)
-        <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/front/css/homepage.bundle.min.css') }}?v={{ filemtime(public_path('assets/front/css/homepage.bundle.min.css')) }}" rel="stylesheet">
     @else
         <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css">
     @endif
