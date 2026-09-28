@@ -30,6 +30,8 @@
     saveControls.className = 'builder-header-save-controls';
     saveState.parentElement.setAttribute('role', 'status');
     saveControls.append(saveState.parentElement, autoSaveToggle.closest('.auto-save-control'));
+    const updateButton = pageHeader.querySelector('.builder-submit');
+    if (updateButton) saveControls.appendChild(updateButton);
     pageHeader.querySelector('.card-title').after(saveControls);
   }
   const autoSaveKey = 'yogintra-builder-autosave-{{ $page->page_id }}';

@@ -138,6 +138,7 @@
   .builder-save-indicator.is-dirty .preview-dot { background:#e59b28; }
   .builder-header-save-controls { display:flex; align-items:center; gap:18px; margin:0 20px; color:#527079; font-size:12px; font-weight:700; }
   .builder-header-save-controls .builder-save-indicator { white-space:nowrap; }
+  .builder-header-save-controls .builder-submit { position:static; padding:9px 14px; font-size:12px; white-space:nowrap; box-shadow:none; }
   .landing-page-header { flex-wrap:wrap; row-gap:10px; }
   .live-preview-toolbar .preview-toolbar-controls { margin-left:auto; }
   @media (max-width:767px) { .builder-header-save-controls { margin:0; flex-wrap:wrap; } }
