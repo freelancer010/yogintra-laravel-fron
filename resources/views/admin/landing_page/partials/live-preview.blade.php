@@ -35,25 +35,36 @@
   const autoSaveKey = 'yogintra-builder-autosave-{{ $page->page_id }}';
   let autoSaveTimer = null;
   let autoSaveInFlight = false;
+  let editRevision = 0;
   const autoSaveEnabled = () => autoSaveToggle?.checked === true;
   const runAutoSave = async (force = false) => {
-    if ((!force && !autoSaveEnabled()) || autoSaveInFlight || !builderForm?.checkValidity()) return;
+    if ((!force && !autoSaveEnabled()) || autoSaveInFlight || !builderForm) return;
     autoSaveInFlight = true;
+    const savingRevision = editRevision;
+    let saveSucceeded = false;
     saveState.textContent = 'Saving…';
     try {
-      await fetch(builderForm.action, {
+      const response = await fetch(builderForm.action, {
         method: 'POST',
         body: new FormData(builderForm),
         credentials: 'same-origin',
-        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
       });
-      saveState.textContent = 'Saved';
-      saveState.parentElement.classList.remove('is-dirty');
-    } catch (_) {
+      const result = await response.json();
+      if (!response.ok || result.saved !== true) {
+        throw new Error(Object.values(result.errors || {}).flat().join(' ') || result.message || 'Please try saving again.');
+      }
+      saveSucceeded = true;
+      saveState.textContent = editRevision === savingRevision ? 'Saved' : 'Unsaved changes';
+      saveState.parentElement.classList.toggle('is-dirty', editRevision !== savingRevision);
+      saveState.removeAttribute('title');
+    } catch (error) {
       saveState.textContent = 'Save failed';
+      saveState.title = error.message;
       saveState.parentElement.classList.add('is-dirty');
     } finally {
       autoSaveInFlight = false;
+      if (saveSucceeded && editRevision !== savingRevision) queueAutoSave();
     }
   };
   const queueAutoSave = () => {
@@ -62,6 +73,7 @@
     autoSaveTimer = setTimeout(runAutoSave, 1200);
   };
   const setSaveState = value => {
+    if (value !== 'Saved') editRevision++;
     saveState.textContent = value;
     saveState.parentElement.classList.toggle('is-dirty', value !== 'Saved');
     if (value !== 'Saved') queueAutoSave();

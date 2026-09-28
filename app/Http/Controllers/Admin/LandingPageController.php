@@ -322,6 +322,10 @@ class LandingPageController extends Controller
         $this->forgetPublicPageCache($page->page_slug);
         $this->forgetPublicPageCache($data['page_slug']);
 
+        if ($request->expectsJson()) {
+            return response()->json(['saved' => true]);
+        }
+
         return redirect()->route('admin.landing-pages.edit', $id)->with('success', 'Page updated successfully.');
     }
 
