@@ -528,7 +528,7 @@ class HomeController extends Controller
                 }
             }
             if (!str_contains($referenceLayout, 'data-locations-initialized')) {
-                $locations = DB::table('new_landing_page')->where('is_published', true)->orderBy('page_name')->get(['page_name', 'page_slug']);
+                $locations = DB::table('new_landing_page')->where('is_published', true)->orderBy('page_name')->limit(8)->get(['page_name', 'page_slug']);
                 $locationsSection = view('front.partials.classic-locations', compact('locations'))->render();
                 if (!str_contains($referenceLayout, 'id="locations"')) {
                     $referenceLayout = preg_replace_callback('#(<section\b[^>]*\bid="faq"[^>]*>)#', fn ($match) => $locationsSection . $match[1], $referenceLayout, 1, $insertedLocations);
