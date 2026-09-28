@@ -120,6 +120,16 @@
 
   // Maintain active tab after form submission
   $(document).ready(function() {
+    $('[data-length-counter]').each(function () {
+      const field = this;
+      const counter = document.querySelector('[data-counter-for="' + field.name + '"]');
+      const updateCounter = function () {
+        counter.textContent = field.value.length + ' / ' + field.maxLength;
+      };
+      field.addEventListener('input', updateCounter);
+      updateCounter();
+    });
+
     // Get active tab from URL hash or localStorage
     let activeTab = window.location.hash || localStorage.getItem('activeSettingsTab') || '#general';
     

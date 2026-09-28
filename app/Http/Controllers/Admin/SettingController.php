@@ -22,6 +22,7 @@ class SettingController extends Controller
 
         switch ($type) {
             case 'general':
+                $request->validate($this->generalValidationRules());
                 $data = $request->only([
                     'app_name', 'app_meta_title', 'app_meta_description',
                     'app_keywords', 'footer_about_us'
@@ -76,6 +77,7 @@ class SettingController extends Controller
 
             default:
                 // If no type specified, handle all fields
+                $request->validate($this->generalValidationRules());
                 $data = $request->only([
                     'app_name', 'app_keywords', 'app_meta_title', 'app_meta_description',
                     'footer_about_us', 'app_address', 'app_mobile', 'app_email',
@@ -103,5 +105,16 @@ class SettingController extends Controller
         return redirect()->back()->with('success', $message)
             ->with('updated', true)
             ->with('activeTab', $type);
+    }
+
+    private function generalValidationRules(): array
+    {
+        return [
+            'app_name' => ['required', 'string', 'max:100'],
+            'app_meta_title' => ['nullable', 'string', 'max:60'],
+            'app_meta_description' => ['nullable', 'string', 'max:160'],
+            'app_keywords' => ['nullable', 'string', 'max:255'],
+            'footer_about_us' => ['nullable', 'string', 'max:200'],
+        ];
     }
 }
