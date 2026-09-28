@@ -1028,6 +1028,19 @@
           link.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); showClassicLinkEditor(link); });
         });
         saveClassicCanvas();
+        // Size the document itself, not the iframe viewport (which would
+        // prevent shrinking). The surrounding canvas owns scrolling.
+        frameDocument.documentElement.style.overflow = 'hidden';
+        frameDocument.body.style.overflow = 'hidden';
+        const resizeCanvas = () => {
+          if (!classicFrame.isConnected) return;
+          const height = Math.ceil(frameMain.getBoundingClientRect().height);
+          classicFrame.style.height = Math.max(1, height) + 'px';
+        };
+        const canvasSizeObserver = new ResizeObserver(resizeCanvas);
+        canvasSizeObserver.observe(frameMain);
+        classicFrame.addEventListener('load', () => canvasSizeObserver.disconnect(), { once: true });
+        resizeCanvas();
       });
       content.appendChild(classicFrame);
       list.innerHTML = '<div class="section-empty">Live Classic layout</div>';

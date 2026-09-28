@@ -150,7 +150,7 @@
   .builder-element-toolbar button:hover { background:#286773; }
   .builder-element-toolbar button[data-toolbar-action="delete"]:hover { background:#9d3542; }
   .live-preview-content { min-height:280px; display:flex; flex-direction:column; gap:0; padding:0; background:#fff; overflow:hidden; }
-  .classic-live-canvas { display:block; width:100%; min-height:calc(100vh - 170px); height:1100px; border:0; background:#fff; }
+  .classic-live-canvas { display:block; flex:none; width:100%; min-height:0; border:0; background:#fff; }
   .classic-editor-help { display:block; margin-top:8px; color:#6d858a; font-size:11px; line-height:1.45; }
   .live-preview[data-device="tablet"] .classic-live-canvas { width:768px; max-width:100%; margin-inline:auto; }
   .live-preview[data-device="mobile"] .classic-live-canvas { width:425px; max-width:100%; margin-inline:auto; }
@@ -549,10 +549,10 @@
   @media (min-width: 992px) {
     html.builder-fixed-viewport, html.builder-fixed-viewport body { height:100%; overflow:hidden; }
     .builder-fixed-viewport .builder-workspace { height:var(--builder-pane-height); min-height:0; align-items:stretch; }
-    .builder-fixed-viewport .builder-canvas { display:flex; flex-direction:column; height:100%; min-height:0; overflow:hidden; }
-    .builder-fixed-viewport .live-preview { display:flex; flex-direction:column; flex:1; min-height:0; margin-bottom:0; }
-    .builder-fixed-viewport .live-preview-content { flex:1; min-height:0; overflow:auto; overscroll-behavior:contain; }
-    .builder-fixed-viewport .classic-live-canvas { flex:1; height:100%; min-height:0; }
+    .builder-fixed-viewport .builder-canvas { display:block; height:100%; min-height:0; overflow-y:auto; overscroll-behavior:contain; }
+    .builder-fixed-viewport .live-preview { display:block; min-height:0; margin-bottom:18px; }
+    .builder-fixed-viewport .live-preview-content { min-height:0; overflow:hidden; }
+    .builder-fixed-viewport .classic-live-canvas { flex:none; min-height:0; }
     .builder-fixed-viewport .builder-inspector { position:relative; top:0; height:100%; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding-bottom:80px; }
   }
 </style>
