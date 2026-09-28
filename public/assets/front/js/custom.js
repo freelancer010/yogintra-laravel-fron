@@ -41,7 +41,7 @@ var THEMEMASCOT = {};
             return (THEMEMASCOT.isMobile.Android() || THEMEMASCOT.isMobile.BlackBerry() || THEMEMASCOT.isMobile.iOS() || THEMEMASCOT.isMobile.Opera() || THEMEMASCOT.isMobile.Windows());
         }
     };
-  
+
     THEMEMASCOT.isRTL = {
         check: function() {
             if( $( "html" ).attr("dir") === "rtl" ) {
