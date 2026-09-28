@@ -413,6 +413,19 @@ class HomeController extends Controller
             $referenceLayout = file_get_contents(public_path('assets/landing-reference/index.html'));
             abort_unless($referenceLayout !== false, 500);
 
+            // SEO settings belong to each page, not the shared reference template.
+            $referenceLayout = preg_replace_callback(
+                '#<title\b[^>]*>.*?</title>#is',
+                fn () => '<title>' . e((string) ($data['page_data']->page_meta_title ?? '')) . '</title>',
+                $referenceLayout, 1
+            );
+            $referenceLayout = preg_replace('#<meta\b[^>]*\bname=["\'](?:description|keywords)["\'][^>]*>#i', '', $referenceLayout);
+            $referenceLayout = str_replace('</head>',
+                '<meta name="description" content="' . e((string) ($data['page_data']->page_meta_description ?? '')) . '">' .
+                '<meta name="keywords" content="' . e((string) ($data['page_data']->page_keywords ?? '')) . '"></head>',
+                $referenceLayout
+            );
+
             $appSetting = Setting::first();
             $faviconPath = $appSetting->fevicon ?? 'assets/og-logo.webp';
             $favicon = str_starts_with($faviconPath, 'data:') || preg_match('#^https?://#i', $faviconPath)
