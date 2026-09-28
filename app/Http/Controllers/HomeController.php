@@ -61,8 +61,18 @@ class HomeController extends Controller
         $rand_service = collect();
         $testimonials = collect();
 
+        // Application settings are the homepage source of truth. Resolve them
+        // independently so a failure in any optional homepage table cannot
+        // replace valid database settings with the emergency fallback.
         try {
-            $app_setting = Setting::first() ?: $app_setting;
+            $app_setting = Setting::where('app_id', 1)->first()
+                ?: Setting::first()
+                ?: $app_setting;
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
+
+        try {
             $all_slider = Slider::all();
             $section_1 = Front::getOurFeaturesHeading() ?: $section_1;
             $section_1_content = Front::getAllOurFeatures();
