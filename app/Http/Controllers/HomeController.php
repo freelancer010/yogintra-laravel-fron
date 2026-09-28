@@ -494,6 +494,9 @@ class HomeController extends Controller
             if (str_starts_with($savedCanvas, $canvasPrefix)) {
                 $savedCanvas = substr($savedCanvas, strlen($canvasPrefix));
                 if (str_starts_with(ltrim($savedCanvas), '<main')) {
+                    if (!str_contains($savedCanvas, 'data-saved-classic-canvas')) {
+                        $savedCanvas = preg_replace('#<main\b#', '<main data-saved-classic-canvas="true"', $savedCanvas, 1);
+                    }
                     // Only localize the original default phrases; content an
                     // editor has already written for this page remains theirs.
                     $savedCanvas = str_replace(array_keys($defaultCityCopy), array_values($defaultCityCopy), $savedCanvas);
@@ -530,6 +533,12 @@ class HomeController extends Controller
             $referenceLayout = str_replace(
                 'href="/assets/landing-reference/global-footer.css"',
                 'href="/assets/landing-reference/global-footer.css?v=' . filemtime(public_path('assets/landing-reference/global-footer.css')) . '"',
+                $referenceLayout
+            );
+
+            $referenceLayout = str_replace(
+                'src="/assets/landing-reference/app.js"',
+                'src="/assets/landing-reference/app.js?v=' . filemtime(public_path('assets/landing-reference/app.js')) . '"',
                 $referenceLayout
             );
 
