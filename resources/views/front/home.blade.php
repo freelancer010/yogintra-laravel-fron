@@ -78,7 +78,7 @@
         <link rel="preload" as="image" href="{{ asset($heroPoster) }}" fetchpriority="high">
     @endif
     {{-- Hero typography and geometry must be styled before first paint. --}}
-    <link rel="stylesheet" href="{{ asset('assets/front/css/home.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/home.min.css') }}?v={{ filemtime(public_path('assets/front/css/home.min.css')) }}">
     <noscript><style>.types-of-yoga-section{background-image:url('{{ asset($app_setting->section3_background_image ?: 'assets/parallax-decor2.png') }}')}</style></noscript>
 @endpush
 @section('content')
