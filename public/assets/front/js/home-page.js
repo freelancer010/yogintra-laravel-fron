@@ -140,7 +140,7 @@ function ajaxCall() {
                 var data_duration = ( $(this).data("duration") === undefined ) ? 4000: $(this).data("duration");
                 $(this).owlCarousel({
                     // rtl: THEMEMASCOT.isRTL.check(),
-                    autoplay: true,
+                    autoplay: false,
                     autoplayTimeout: data_duration,
                     // Rewind gives visitors the same continuous browsing
                     // experience without Owl Carousel cloning every slide.
@@ -215,7 +215,7 @@ function ajaxCall() {
                     labelTestimonialCarouselControls($(this));
                 });
                 $carousel.owlCarousel({
-                    autoplay: true,
+                    autoplay: false,
                     autoplayTimeout: data_duration,
                     // Avoid cloned testimonial cards in the initial DOM.
                     loop: false,

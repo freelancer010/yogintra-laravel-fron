@@ -442,7 +442,7 @@
 
             <div class="row mtli-row-clearfix">
                 <div class="col-md-12">
-                    <div class="owl-carousel-4col" data-nav="true" data-dots="true">
+                    <div class="owl-carousel-4col" data-nav="true" data-dots="true" data-autoplay="false">
                         @foreach ($all_trainer as $trainer)
                             <div class="item">
                                 <div class="team-members text-center maxwidth400">
@@ -518,7 +518,7 @@
 
             <div class="row mtli-row-clearfix">
                 <div class="col-md-12">
-                    <div class="owl-carousel-3col" data-nav="true" data-dots="true">
+                    <div class="owl-carousel-3col" data-nav="true" data-dots="true" data-autoplay="false">
                         @forelse($testimonials as $testimonial)
                             <div class="item">
                                 <div class="testimonial-card bg-white rounded" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: 350px; display: flex; flex-direction: column; overflow: hidden; padding: 25px;">
@@ -692,7 +692,7 @@
 @endsection
 @push('scripts')
     {{-- FAQ accordion uses the site's existing Bootstrap 4 collapse styles; no second Bootstrap runtime is needed. --}}
-        <script src="{{ asset('assets/front/js/home-page.min.js') }}" defer></script>
+        <script src="{{ asset('assets/front/js/home-page.min.js') }}?v={{ filemtime(public_path('assets/front/js/home-page.min.js')) }}" defer></script>
         <script src="{{ asset('assets/front/js/home-backgrounds.js') }}" defer></script>
         <script src="{{ asset('assets/front/js/home-carousel-accessibility.js') }}" defer></script>
 

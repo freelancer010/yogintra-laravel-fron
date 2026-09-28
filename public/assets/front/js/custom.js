@@ -41,7 +41,7 @@ var THEMEMASCOT = {};
             return (THEMEMASCOT.isMobile.Android() || THEMEMASCOT.isMobile.BlackBerry() || THEMEMASCOT.isMobile.iOS() || THEMEMASCOT.isMobile.Opera() || THEMEMASCOT.isMobile.Windows());
         }
     };
-
+  
     THEMEMASCOT.isRTL = {
         check: function() {
             if( $( "html" ).attr("dir") === "rtl" ) {
@@ -1949,9 +1949,10 @@ var THEMEMASCOT = {};
                     var data_dots = ( $(this).data("dots") === undefined ) ? false: $(this).data("dots");
                     var data_nav = ( $(this).data("nav")=== undefined ) ? false: $(this).data("nav");
                     var data_duration = ( $(this).data("duration") === undefined ) ? 4000: $(this).data("duration");
+                    var data_autoplay = ( $(this).data("autoplay") === undefined ) ? true: $(this).data("autoplay");
                     $(this).owlCarousel({
                         rtl: THEMEMASCOT.isRTL.check(),
-                        autoplay: true,
+                        autoplay: data_autoplay,
                         autoplayTimeout: data_duration,
                         loop: true,
                         items: 3,
@@ -2003,9 +2004,10 @@ var THEMEMASCOT = {};
                     var data_dots = ( $(this).data("dots") === undefined ) ? false: $(this).data("dots");
                     var data_nav = ( $(this).data("nav")=== undefined ) ? false: $(this).data("nav");
                     var data_duration = ( $(this).data("duration") === undefined ) ? 4000: $(this).data("duration");
+                    var data_autoplay = ( $(this).data("autoplay") === undefined ) ? true: $(this).data("autoplay");
                     $(this).owlCarousel({
                         rtl: THEMEMASCOT.isRTL.check(),
-                        autoplay: true,
+                        autoplay: data_autoplay,
                         autoplayTimeout: data_duration,
                         loop: true,
                         items: 4,
@@ -2407,7 +2409,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     };
-  
+
     // IntersectionObserver setup
     const observer = new IntersectionObserver(callback, {
       root: null, // Use the browser viewport
@@ -2429,5 +2431,3 @@ function loadReviewScript() {
     var src = scriptTag.attr("data-src");
     scriptTag.attr("src", src);
 }
-  
-  
