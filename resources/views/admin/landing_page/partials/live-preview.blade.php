@@ -24,6 +24,14 @@
   const heroEditor = window.landingPageHeroEditor;
   const saveState = preview.querySelector('.builder-save-state');
   const autoSaveToggle = document.getElementById('auto-save-toggle');
+  const pageHeader = document.querySelector('.landing-page-header');
+  if (pageHeader) {
+    const saveControls = document.createElement('div');
+    saveControls.className = 'builder-header-save-controls';
+    saveState.parentElement.setAttribute('role', 'status');
+    saveControls.append(saveState.parentElement, autoSaveToggle.closest('.auto-save-control'));
+    pageHeader.querySelector('.card-title').after(saveControls);
+  }
   const autoSaveKey = 'yogintra-builder-autosave-{{ $page->page_id }}';
   let autoSaveTimer = null;
   let autoSaveInFlight = false;
