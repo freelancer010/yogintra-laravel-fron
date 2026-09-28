@@ -20,8 +20,11 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @if (request()->routeIs('login'))
+            <link rel="stylesheet" href="{{ asset('assets/front/css/login.css') }}?v={{ filemtime(public_path('assets/front/css/login.css')) }}">
+        @endif
     </head>
-    <body class="font-sans text-gray-900 antialiased">
+    <body class="font-sans text-gray-900 antialiased {{ request()->routeIs('login') ? 'login-page' : '' }}">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg text" style="border-top:4px solid #007bff">
                 <div class="flex justify-center mb-5">

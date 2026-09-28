@@ -1,0 +1,18 @@
+.login-intro { margin-bottom: 24px; text-align: center; }
+.login-intro h1 { margin: 0 0 6px; color: #183c3b; font-size: 26px; font-weight: 600; line-height: 1.25; }
+.login-intro p { margin: 0; color: #607571; font-size: 15px; line-height: 1.5; }
+@media (max-width: 639px) {
+  .login-page { background: #edf5f3; }
+  .login-page > div { min-height: 100vh; min-height: 100svh; padding: max(24px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom)); background: linear-gradient(160deg, #e6f2ee, #f6f9f8); justify-content: center; }
+  .login-page > div > div { width: 100%; max-width: 420px; margin: 0; padding: 28px 24px; border: 1px solid #dce8e4; border-top: 3px solid #0b6569 !important; border-radius: 20px; box-shadow: 0 12px 36px #183c3b12; }
+  .login-page > div > div > div:first-child { margin-bottom: 22px; }
+  .login-page img { max-width: 200px; height: auto; }
+  .login-page hr { display: none; }
+  .login-page input[type=email], .login-page input[type=password] { min-height: 50px; padding: 12px 14px; border-color: #cddbd7; border-radius: 10px; font-size: 16px; }
+  .login-page input:focus-visible, .login-page a:focus-visible, .login-page button:focus-visible { outline: 2px solid #0b6569; outline-offset: 3px; }
+  .login-page label[for=remember_me] { min-height: 44px; gap: 8px; }
+  .login-page input[type=checkbox] { width: 20px; height: 20px; color: #0b6569; }
+  .login-actions { display: flex; flex-direction: column-reverse; gap: 12px; margin-top: 14px; }
+  .login-actions button { justify-content: center; width: 100%; min-height: 50px; margin: 0; border-radius: 10px; background: #0b6569; font-size: 15px; letter-spacing: .025em; }
+  .login-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; color: #0b6569; text-underline-offset: 3px; }
+}
