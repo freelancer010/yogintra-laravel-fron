@@ -1,7 +1,7 @@
 .landing-global-footer {
   display: block;
   padding: 0;
-  background: #102b2b;
+  background: #000;
   color: #d7e3df;
 }
 
@@ -89,7 +89,7 @@
   border: 0;
 }
 
-.landing-global-footer .footer-bottom { border-top: 0; }
+.landing-global-footer .footer-bottom { border-top: 0; background: #000; }
 .landing-global-footer .footer-bottom hr { display: none; }
 .landing-global-footer .footer-bottom .container {
   display: flex;

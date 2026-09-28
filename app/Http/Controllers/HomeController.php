@@ -527,6 +527,12 @@ class HomeController extends Controller
             $testimonialCss = asset('assets/landing-reference/classic-testimonials.css') . '?v=' . filemtime(public_path('assets/landing-reference/classic-testimonials.css'));
             $referenceLayout = str_replace('</head>', '<link rel="stylesheet" href="' . e($testimonialCss) . '"></head>', $referenceLayout);
 
+            $referenceLayout = str_replace(
+                'href="/assets/landing-reference/global-footer.css"',
+                'href="/assets/landing-reference/global-footer.css?v=' . filemtime(public_path('assets/landing-reference/global-footer.css')) . '"',
+                $referenceLayout
+            );
+
             return response($referenceLayout)->header('Content-Type', 'text/html; charset=UTF-8');
         }
 
