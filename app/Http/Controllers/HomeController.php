@@ -526,7 +526,7 @@ class HomeController extends Controller
                 '</body>',
                 view('front.partials.landing-floating-tools', [
                     'source' => $cityName . ' Landing Page',
-                ])->render() . '<div hidden><button class="menu-toggle"></button><nav id="navigation"></nav><span id="year"></span></div><script src="/assets/landing-reference/global-header.js" defer></script><script src="/assets/front/js/contact-popup-form.min.js" defer></script></body>',
+                ])->render() . '<script src="/assets/landing-reference/global-header.js" defer></script><script src="/assets/front/js/contact-popup-form.min.js" defer></script></body>',
                 $referenceLayout
             );
 
