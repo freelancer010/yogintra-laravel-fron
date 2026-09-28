@@ -59,9 +59,6 @@
         <link rel="preload" as="font" href="{{ asset('assets/front/fonts/fontawesome-webfont3e6e.woff2') }}?v=4.7.0" type="font/woff2" crossorigin>
     @endif
 
-    <!-- FOR PWA MANIFEST -->
-    <link rel="manifest" href="{{ asset('manifest.json')}}">
-
     @if ($isHomePage)
         {{-- These overlays are rendered near the end of the document. Keep them
            out of normal flow before the deferred stylesheet has loaded. --}}
