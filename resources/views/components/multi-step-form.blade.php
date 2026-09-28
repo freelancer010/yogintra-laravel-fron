@@ -2,7 +2,12 @@
 
 @php
     use Illuminate\Support\Facades\DB;
-    $all_service = DB::table('service_category')->get();
+    try {
+        $all_service = DB::table('service_category')->get();
+    } catch (\Throwable $exception) {
+        report($exception);
+        $all_service = collect();
+    }
     
     // For this blade, always set form_type to embed
     $form_type = 'embed';

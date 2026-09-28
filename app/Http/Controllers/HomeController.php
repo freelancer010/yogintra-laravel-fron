@@ -19,6 +19,7 @@ use App\Models\BlogCategory;
 use App\Models\Yoga;
 use App\Models\Event;
 use App\Models\Testimonial;
+use App\Support\StaticSiteFallback;
 
 class HomeController extends Controller
 {
@@ -48,29 +49,40 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $app_setting = Setting::first();
-        $all_slider = Slider::all();
+        $app_setting = StaticSiteFallback::settings();
+        $all_slider = StaticSiteFallback::sliders();
+        $section_1 = StaticSiteFallback::featureHeading();
+        $section_1_content = StaticSiteFallback::features();
+        $section_2 = StaticSiteFallback::serviceHeading();
+        $section_2_content = StaticSiteFallback::serviceItems();
+        $all_landing_page = collect();
+        $visual_setting = StaticSiteFallback::visualSettings();
+        $all_service = collect();
+        $rand_service = collect();
+        $testimonials = collect();
+
+        try {
+            $app_setting = Setting::first() ?: $app_setting;
+            $all_slider = Slider::all();
+            $section_1 = Front::getOurFeaturesHeading() ?: $section_1;
+            $section_1_content = Front::getAllOurFeatures();
+            $section_2 = Front::getOurServiceImage() ?: $section_2;
+            $section_2_content = Front::getAllOurService();
+            $all_landing_page = LandingPage::whereNotNull('page_slug')->get();
+            $visual_setting = DB::table('visual_setting')->first() ?: $visual_setting;
+            $all_service = DB::table('service_category')->get();
+            $rand_service = Service::getSixCategoryForHomePage()->take(4);
+            $testimonials = Testimonial::orderByDesc('test_id')->limit(4)->get();
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
         
         // Keep the homepage focused. The complete directory remains available
         // on /trainers, while this prevents a large CRM response from bloating
         // the initial homepage DOM.
         $all_trainer = $this->cachedTrainers()->take(6);
     
-        $section_1 = Front::getOurFeaturesHeading();
-        $section_1_content = Front::getAllOurFeatures();
-    
-        $section_2 = Front::getOurServiceImage(); // ✅ Fetch Section 2 Data
-        $section_2_content = Front::getAllOurService(); // ✅ Fetch Section 2 Content
-    
-        $all_landing_page = LandingPage::whereNotNull('page_slug')->get();
-        $visual_setting = DB::table('visual_setting')->first();
-        $all_service = DB::table('service_category')->get();
         $api = $this->api_main;
-    
-        $rand_service = Service::getSixCategoryForHomePage()->take(4);
-        
-        // Fetch testimonials for review section
-        $testimonials = Testimonial::orderByDesc('test_id')->limit(4)->get();
 
         return view('front.home', compact(
             'app_setting',
