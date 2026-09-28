@@ -77,6 +77,7 @@
                    that out-of-flow position before the deferred theme CSS arrives. */
                 #header.home-mobile-hero-navigation{position:absolute;top:0;left:0;width:100%;z-index:1100;background:transparent}
                 #header.home-mobile-hero-navigation .header-nav{position:absolute;top:0;left:0;right:0;width:100%;z-index:1101;background:transparent}
+                #header.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .header-nav,#header.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .header-nav-wrapper,#header.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .menuzord{background:transparent!important;box-shadow:none!important}
                 #header.home-mobile-hero-navigation .menuzord{position:relative;width:100%;min-height:75px;background:transparent}
                 #header.home-mobile-hero-navigation .menuzord-brand{float:left;display:block;margin:10px 30px 0 0;line-height:1.3}
                 #header.home-mobile-hero-navigation .menuzord-brand img.logo-default{display:block;width:205px;height:55px;object-fit:contain}
@@ -102,6 +103,20 @@
     {{-- Apply layout CSS before first paint; deferring this theme causes CLS. --}}
     @if ($isHomePage)
         <link href="{{ asset('assets/front/css/homepage.bundle.min.css') }}?v={{ filemtime(public_path('assets/front/css/homepage.bundle.min.css')) }}" rel="stylesheet">
+        <style id="home-navigation-state">
+            @media(min-width:1001px){
+                #header.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .header-nav,
+                #header.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .header-nav-wrapper,
+                #header.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .menuzord{background:transparent!important;box-shadow:none!important}
+                #header.video-hero-navigation.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .menuzord-menu>li>a,
+                #header.video-hero-navigation.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .menuzord-menu>li>a>i{color:#fff!important}
+                #header.home-mobile-hero-navigation.mobile-hero-scrolled .header-nav,
+                #header.home-mobile-hero-navigation.mobile-hero-scrolled .header-nav-wrapper,
+                #header.home-mobile-hero-navigation.mobile-hero-scrolled .menuzord{background:#fff!important}
+                #header.video-hero-navigation.home-mobile-hero-navigation.mobile-hero-scrolled .menuzord-menu>li>a,
+                #header.video-hero-navigation.home-mobile-hero-navigation.mobile-hero-scrolled .menuzord-menu>li>a>i{color:#222!important}
+            }
+        </style>
     @else
         <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css">
     @endif

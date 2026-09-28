@@ -8,7 +8,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const menu = header.querySelector('.menuzord');
                 const updateMobileHeroNavigation = function () {
                     if (window.innerWidth > 1000 && !isLandingNavigation) {
-                        header.classList.remove(scrolledClass);
+                        const scrolled = Math.max(
+                            window.pageYOffset || 0,
+                            document.documentElement.scrollTop || 0,
+                            document.body.scrollTop || 0
+                        ) > 12;
+                        header.classList.toggle(scrolledClass, scrolled);
                         [header, nav, navWrapper, menu].filter(Boolean).forEach(function (element) {
                             element.style.removeProperty('background-color');
                             element.style.removeProperty('box-shadow');

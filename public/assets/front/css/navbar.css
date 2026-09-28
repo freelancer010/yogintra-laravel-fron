@@ -69,6 +69,30 @@
         .video-hero-navigation .header-nav-wrapper.scroll-to-fixed-fixed .menuzord-responsive .showhide em {
             color: #222 !important;
         }
+        @media only screen and (min-width: 1001px) {
+            /* The legacy sticky plugin adds scroll-to-fixed-fixed at page load.
+               Use the real scroll state so the home navigation still overlays
+               the hero until the visitor starts scrolling. */
+            .home-mobile-hero-navigation:not(.mobile-hero-scrolled) .header-nav,
+            .home-mobile-hero-navigation:not(.mobile-hero-scrolled) .header-nav-wrapper,
+            .home-mobile-hero-navigation:not(.mobile-hero-scrolled) .menuzord {
+                background: transparent !important;
+                box-shadow: none !important;
+            }
+            .video-hero-navigation.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .menuzord-menu > li > a,
+            .video-hero-navigation.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .menuzord-menu > li > a > i {
+                color: #fff !important;
+            }
+            .home-mobile-hero-navigation.mobile-hero-scrolled .header-nav,
+            .home-mobile-hero-navigation.mobile-hero-scrolled .header-nav-wrapper,
+            .home-mobile-hero-navigation.mobile-hero-scrolled .menuzord {
+                background: #fff !important;
+            }
+            .video-hero-navigation.home-mobile-hero-navigation.mobile-hero-scrolled .menuzord-menu > li > a,
+            .video-hero-navigation.home-mobile-hero-navigation.mobile-hero-scrolled .menuzord-menu > li > a > i {
+                color: #222 !important;
+            }
+        }
         .video-hero-navigation .menuzord-menu ul.dropdown { background: #fff; }
         .video-hero-navigation .menuzord-menu ul.dropdown li a { color: #183c45 !important; }
         .header.landing-hero-navigation {
