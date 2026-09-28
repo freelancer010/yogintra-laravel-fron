@@ -545,5 +545,14 @@
     .builder-workspace { grid-template-columns: 1fr; }
     .builder-inspector { position:relative; top:auto; width:100%; height:auto; min-height:0; max-height:none; overflow:visible; }
   }
+  @media (min-width: 992px) {
+    html.builder-fixed-viewport, html.builder-fixed-viewport body { height:100%; overflow:hidden; }
+    .builder-fixed-viewport .builder-workspace { height:var(--builder-pane-height); min-height:0; align-items:stretch; }
+    .builder-fixed-viewport .builder-canvas { display:flex; flex-direction:column; height:100%; min-height:0; overflow:hidden; }
+    .builder-fixed-viewport .live-preview { display:flex; flex-direction:column; flex:1; min-height:0; margin-bottom:0; }
+    .builder-fixed-viewport .live-preview-content { flex:1; min-height:0; overflow:auto; overscroll-behavior:contain; }
+    .builder-fixed-viewport .classic-live-canvas { flex:1; height:100%; min-height:0; }
+    .builder-fixed-viewport .builder-inspector { position:relative; top:0; height:100%; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding-bottom:80px; }
+  }
 </style>
 @endpush

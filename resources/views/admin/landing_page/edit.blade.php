@@ -217,6 +217,36 @@
     workspace.className = 'builder-workspace';
     workspace.innerHTML = '<main class="builder-canvas"><div class="builder-canvas-header"><div><h4>Page canvas</h4><small class="text-muted">Click preview text to edit it inline</small></div></div></main><aside class="builder-inspector"><div class="builder-inspector-title builder-inspector-heading"><span>Editor</span><span>✦</span></div><div class="builder-selected-element is-empty"><span>Selected element</span><strong data-selected-element></strong></div></aside>';
     formBody.prepend(workspace);
+    // Fit the two scrolling panes below the actual toolbar, including when
+    // navigation wraps, browser zoom changes, or the menu is toggled.
+    const fitBuilderViewport = () => {
+      const desktop = window.matchMedia('(min-width: 992px)').matches;
+      document.documentElement.classList.toggle('builder-fixed-viewport', desktop);
+      if (desktop) {
+        window.scrollTo(0, 0);
+        workspace.style.setProperty('--builder-pane-height', Math.max(120, window.innerHeight - workspace.getBoundingClientRect().top - 24) + 'px');
+      }
+    };
+    window.addEventListener('resize', fitBuilderViewport);
+    const builderResizeObserver = new ResizeObserver(fitBuilderViewport);
+    builderResizeObserver.observe(document.querySelector('.landing-builder-shell > .card > .card-header'));
+    builderMenuButton?.addEventListener('click', () => requestAnimationFrame(fitBuilderViewport));
+    requestAnimationFrame(fitBuilderViewport);
+    // Fit the two scrolling panes below the actual toolbar, including when
+    // navigation wraps, browser zoom changes, or the menu is toggled.
+    const fitBuilderViewport = () => {
+      const desktop = window.matchMedia('(min-width: 992px)').matches;
+      document.documentElement.classList.toggle('builder-fixed-viewport', desktop);
+      if (desktop) {
+        window.scrollTo(0, 0);
+        workspace.style.setProperty('--builder-pane-height', Math.max(120, window.innerHeight - workspace.getBoundingClientRect().top - 24) + 'px');
+      }
+    };
+    window.addEventListener('resize', fitBuilderViewport);
+    const builderResizeObserver = new ResizeObserver(fitBuilderViewport);
+    builderResizeObserver.observe(document.querySelector('.landing-builder-shell > .card > .card-header'));
+    builderMenuButton?.addEventListener('click', () => requestAnimationFrame(fitBuilderViewport));
+    requestAnimationFrame(fitBuilderViewport);
     const inspector = workspace.querySelector('.builder-inspector');
     const heroEditor = document.createElement('section');
     heroEditor.className = 'hero-editor';
