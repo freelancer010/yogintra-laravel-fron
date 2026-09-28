@@ -7,23 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const navWrapper = header.querySelector('.header-nav-wrapper');
                 const menu = header.querySelector('.menuzord');
                 const updateMobileHeroNavigation = function () {
-                    if (window.innerWidth > 1000 && !isLandingNavigation) {
-                        const scrolled = Math.max(
-                            window.pageYOffset || 0,
-                            document.documentElement.scrollTop || 0,
-                            document.body.scrollTop || 0
-                        ) > 12;
-                        header.classList.toggle(scrolledClass, scrolled);
-                        [header, nav, navWrapper, menu].filter(Boolean).forEach(function (element) {
-                            element.style.removeProperty('background-color');
-                            element.style.removeProperty('box-shadow');
-                        });
-                        ['position', 'top', 'left', 'width'].forEach(function (property) {
-                            header.style.removeProperty(property);
-                            if (nav) nav.style.removeProperty(property);
-                        });
-                        return;
-                    }
                     const scrolled = Math.max(
                         window.pageYOffset || 0,
                         document.documentElement.scrollTop || 0,
