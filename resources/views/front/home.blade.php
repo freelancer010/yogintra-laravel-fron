@@ -209,7 +209,7 @@
                         <div class="col-md-6">
                             <div class="bg-white-transparent pt-20 pb-50 outline-border">
                                 <p class="text-black-555 mob-font-54">{{ $mob_heading }}</p>
-                                <h3 class="font-weight-400 margin-tp sub_heading mob-sub_heading">{{ $mob_sub_heading }}</h3>
+                                <p class="h3 font-weight-400 margin-tp sub_heading mob-sub_heading">{{ $mob_sub_heading }}</p>
                             </div>
                         </div>
                     </div>
@@ -248,7 +248,7 @@
                                         </a>
                                         <div class="media-body">
                                             <h3 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h3>
-                                            <h3 class="fs-14 text-black">{{ $content_1->of_description }}</h3>
+                                            <p class="h3 fs-14 text-black">{{ $content_1->of_description }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -273,8 +273,8 @@
                         <img src="{{ asset($section_2->os_image_image) }}" width="349" height="348" loading="lazy" decoding="async" alt="YogIntra Services - {{ $section_2->os_image_heading }}" title="YogIntra Services - {{ $section_2->os_image_heading }}">
                     </div>
                     <div class="col-md-6">
-                        <h3 class="section-3 mb-0 sub-heading">{{ $section_2->os_image_sub_heading }}</h3>
-                        <div class="fs-50 ssc-ttl m-fs-25">{{ $section_2->os_image_heading }}</div>
+                        <p class="h3 section-3 mb-0 sub-heading">{{ $section_2->os_image_sub_heading }}</p>
+                        <h2 class="fs-50 ssc-ttl m-fs-25 mt-0 mb-0">{{ $section_2->os_image_heading }}</h2>
                         <div>
                             <div class="text-black">{!! app(\App\Support\HtmlSanitizer::class)->sanitize($section_2->os_image_description) !!}</div>
                         </div>
@@ -330,7 +330,7 @@
                                     <div class="col-lg-3 col-md-3 col-sm-4 mb-30">
                                         <div class="yoga-service-item text-center">
                                              <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}" title="YogIntra Service Category - {{ $r_service->service_cat_name }}">
-                                             <h2 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h2>
+                                             <h3 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h3>
                                              <ul class="section3-card-bullets">@foreach($section3BulletItems('category_'.$r_service->service_cat_id) as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                              <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
                                         </div>
@@ -343,7 +343,7 @@
                                     @endphp
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['ttc'] ?? 'assets/icon-thumb3-150x150.jpg') }}" width="150" height="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course" title="YogIntra TTC - Teacher Training Course">
-                                         <h2 class="mb-15 fs-16">TTC</h2>
+                                         <h3 class="mb-15 fs-16">TTC</h3>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('ttc') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
                                     </div>
@@ -355,7 +355,7 @@
                                     @endphp
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['retreat'] ?? 'assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs" title="YogIntra Retreat Programs">
-                                         <h2 class="mb-15 fs-16">Retreat</h2>
+                                         <h3 class="mb-15 fs-16">Retreat</h3>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('retreat') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
                                     </div>
@@ -367,7 +367,7 @@
                                     @endphp
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['workshop'] ?? 'assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops" title="YogIntra Yoga Workshops">
-                                         <h2 class="mb-15 fs-16">Workshop</h2>
+                                         <h3 class="mb-15 fs-16">Workshop</h3>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('workshop') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
                                     </div>
@@ -379,7 +379,7 @@
                                     @endphp
                                     <div class="yoga-service-item text-center">
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['yoga_center'] ?? 'uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility" title="YogIntra Yoga Center and Training Facility">
-                                         <h2 class="mb-15 fs-16">Yoga Center</h2>
+                                         <h3 class="mb-15 fs-16">Yoga Center</h3>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('yoga_center') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
                                     </div>
@@ -448,7 +448,7 @@
             <div class="section-title text-center">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h3 class="h2 mt-0 line-height-1">Meet Our <span class="text-theme-colored2">Instructors</span></h3>
+                        <h2 class="h2 mt-0 line-height-1">Meet Our <span class="text-theme-colored2">Instructors</span></h2>
                     </div>
                 </div>
             </div>
@@ -469,7 +469,7 @@
                                     @endphp
                                     <div class="team-details">
                                         <div class="p-10">
-                                            <h4 class="text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name ?? 'YogIntra Instructor' }}</h4>
+                                            <h3 class="h4 text-uppercase mt-0 mb-0 text-dark">{{ $trainer->name ?? 'YogIntra Instructor' }}</h3>
                                             {{-- <p class="mt-0 mb-0 text-dark">Age - {{ $age }}</p> --}}
                                         </div>
                                     </div>
@@ -495,7 +495,7 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <span class="yogintra-guidance-kicker">Thoughtful, personal support</span>
-                        <h3 class="h2 mt-0 line-height-1">Guidance for Your <span class="text-theme-colored2">Practice</span></h3>
+                        <h2 class="h2 mt-0 line-height-1">Guidance for Your <span class="text-theme-colored2">Practice</span></h2>
                         <p class="yogintra-guidance-copy">A knowledgeable instructor can help you understand core techniques, develop appropriate movement patterns, and build a practice suited to your current experience.</p>
                     </div>
                 </div>
@@ -523,7 +523,7 @@
             <div class="section-title text-center">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h3 class="h2 mt-0 line-height-1">What Our <span class="text-theme-colored2">Clients Say</span></h3>
+                        <h2 class="h2 mt-0 line-height-1">What Our <span class="text-theme-colored2">Clients Say</span></h2>
                         <p class="text-black">Real testimonials from our dedicated practitioners and students</p>
                     </div>
                 </div>
@@ -566,7 +566,7 @@
                                                 </div>
                                             @endif
                                             <div style="min-width: 0;">
-                                                <h4 class="mb-0 text-dark" style="font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $testimonial->test_name }}</h4>
+                                                <h3 class="mb-0 text-dark" style="font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $testimonial->test_name }}</h3>
                                                 @if($testimonial->test_position)
                                                     <small class="text-dark" style="font-size: 12px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $testimonial->test_position }}</small>
                                                 @endif
@@ -596,7 +596,7 @@
             <div class="section-title text-center">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h5 class="h2 mt-0 line-height-1">Frequently Asked <span class="text-theme-colored2">Questions</span></h5>
+                        <h2 class="h2 mt-0 line-height-1">Frequently Asked <span class="text-theme-colored2">Questions</span></h2>
                         <p class="text-black">Find answers to common questions about YogIntra services and programs</p>
                     </div>
                 </div>
@@ -607,11 +607,11 @@
                     <div class="accordion" id="faqAccordion">
                         <!-- FAQ Item 1 -->
                         <div class="accordion-item mb-15 border-1px">
-                            <h5 class="h2 accordion-header" id="headingOne">
+                            <h3 class="h2 accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     <strong>What is YogIntra?</strong>
                                 </button>
-                            </h5>
+                            </h3>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     YogIntra offers guided classes, wellness programmes and community events. Each option supports movement, rest and everyday wellbeing.
@@ -621,11 +621,11 @@
 
                         <!-- FAQ Item 2 -->
                         <div class="accordion-item mb-15 border-1px">
-                            <h5 class="accordion-header" id="headingTwo">
+                            <h3 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     <strong>What services does YogIntra provide?</strong>
                                 </button>
-                            </h5>
+                            </h3>
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     <p>Choose from:</p>
@@ -643,11 +643,11 @@
 
                         <!-- FAQ Item 3 -->
                         <div class="accordion-item mb-15 border-1px">
-                            <h5 class="accordion-header" id="headingThree">
+                            <h3 class="accordion-header" id="headingThree">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                     <strong>Do YogIntra offer trial classes?</strong>
                                 </button>
-                            </h5>
+                            </h3>
                             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     Many locations offer trial or introductory packages. Check current options before you book.
@@ -657,11 +657,11 @@
 
                         <!-- FAQ Item 4 -->
                         <div class="accordion-item mb-15 border-1px">
-                            <h5 class="accordion-header" id="headingFour">
+                            <h3 class="accordion-header" id="headingFour">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                     <strong>Do YogIntra Trainers offer personalized programs?</strong>
                                 </button>
-                            </h5>
+                            </h3>
                             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     <p>Yes. Instructors can tailor a plan for:</p>
@@ -677,11 +677,11 @@
 
                         <!-- FAQ Item 5 -->
                         <div class="accordion-item mb-15 border-1px">
-                            <h5 class="accordion-header" id="headingFive">
+                            <h3 class="accordion-header" id="headingFive">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                     <strong>How can I contact YogIntra?</strong>
                                 </button>
-                            </h5>
+                            </h3>
                             <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     <p>You can contact our team by:</p>
