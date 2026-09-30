@@ -360,7 +360,7 @@ class LandingPageController extends Controller
                 $backgroundImagePath = app(OptimizedImageUpload::class)->store($request->file("sections.$order.background_image"), 'uploads/landing-pages');
             }
 
-            $blocks = json_decode($section['blocks'] ?? '[]', true);
+            $blocks = json_decode($this->normalizeBuilderAmpersands($section['blocks'] ?? '[]'), true);
             $blocks = is_array($blocks) ? $blocks : [];
             $blockUploads = data_get($request->allFiles(), "sections.$order.block_images", []);
             foreach (is_array($blockUploads) ? $blockUploads : [] as $blockIndex => $blockImage) {
@@ -374,14 +374,14 @@ class LandingPageController extends Controller
             $sectionPayload = [
                 'landing_page_id' => $pageId,
                 'section_type' => $section['section_type'],
-                'heading' => $section['heading'] ?? null,
-                'content' => $section['content'] ?? null,
+                'heading' => $this->normalizeBuilderAmpersands($section['heading'] ?? null),
+                'content' => $this->normalizeBuilderAmpersands($section['content'] ?? null),
                 'image' => $imagePath,
                 'image_alt' => $section['image_alt'] ?? null,
                 'image_crop' => $section['image_crop'] ?? 'original',
                 'image_focal_x' => $section['image_focal_x'] ?? 50,
                 'image_focal_y' => $section['image_focal_y'] ?? 50,
-                'button_text' => $section['button_text'] ?? null,
+                'button_text' => $this->normalizeBuilderAmpersands($section['button_text'] ?? null),
                 'button_url' => $section['button_url'] ?? null,
                 'background_color' => $section['background_color'] ?? null,
                 'background_mode' => $section['background_mode'] ?? 'color',
@@ -403,7 +403,7 @@ class LandingPageController extends Controller
                 'text_align' => $section['text_align'] ?? 'left',
                 'element_styles' => $section['element_styles'] ?? null,
                 'blocks' => $blocks ? json_encode(array_values($blocks)) : ($section['blocks'] ?? null),
-                'elements' => $section['elements'] ?? null,
+                'elements' => $this->normalizeBuilderAmpersands($section['elements'] ?? null),
                 'grid_columns' => $section['grid_columns'] ?? 3,
                 'card_layout' => $section['card_layout'] ?? 'stacked',
                 'card_alignment' => $section['card_alignment'] ?? 'center',
@@ -417,6 +417,29 @@ class LandingPageController extends Controller
             $availableColumns = array_flip(Schema::getColumnListing('landing_page_sections'));
             LandingPageSection::create(array_intersect_key($sectionPayload, $availableColumns));
         }
+    }
+
+    /**
+     * Keep literal ampersands canonical in builder data.
+     *
+     * Browsers serialize a typed ampersand from a contenteditable element as
+     * `&amp;`. Storing that representation causes it to be escaped again when
+     * loaded into the builder's form controls. Decode only the ampersand
+     * entity here; other HTML entities and the editable markup remain intact.
+     */
+    private function normalizeBuilderAmpersands(?string $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        do {
+            $normalized = str_ireplace('&amp;', '&', $value);
+            $changed = $normalized !== $value;
+            $value = $normalized;
+        } while ($changed);
+
+        return $value;
     }
 
     private function forgetPublicPageCache(?string $slug): void

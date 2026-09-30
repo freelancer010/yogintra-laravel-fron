@@ -237,8 +237,8 @@
     const previewSection = editable?.closest('.preview-section');
     const card = previewSection && [...sections.querySelectorAll('.page-builder-section')].find(item => item.dataset.builderId === previewSection.dataset.builderId);
     if (!card || !editable) return;
-    const markup = richPreview(editable.innerHTML);
-    const listMarkup = () => [...editable.children].filter(item => item.tagName === 'LI').map(item => richPreview(item.innerHTML).trim()).filter(Boolean).join('\n');
+    const markup = decodeAmpersands(richPreview(editable.innerHTML));
+    const listMarkup = () => [...editable.children].filter(item => item.tagName === 'LI').map(item => decodeAmpersands(richPreview(item.innerHTML)).trim()).filter(Boolean).join('\n');
     if (editable.dataset.previewField) { const field = getField(card, editable.dataset.previewField); if (field) field.value = markup; }
     if (editable.dataset.previewColumn !== undefined) { const blocksField = getField(card, 'blocks'); let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {} if (blocks[Number(editable.dataset.previewColumn)]) { const key = editable.dataset.previewColumnKey; const elementMatch = /^element-(\d+)$/.exec(key); if (elementMatch) { const element = blocks[Number(editable.dataset.previewColumn)].elements?.[Number(elementMatch[1])]; if (element) { if (element.type === 'bullets') element.items = listMarkup(); else element.text = markup; } } else { blocks[Number(editable.dataset.previewColumn)][key] = key === 'bullets' ? listMarkup() : markup; } blocksField.value = JSON.stringify(blocks); } }
     if (editable.dataset.previewExtra !== undefined) { const elementsField = getField(card, 'elements'); let elements = []; try { elements = JSON.parse(elementsField.value || '[]'); } catch (_) {} if (elements[Number(editable.dataset.previewExtra)]) { elements[Number(editable.dataset.previewExtra)].text = markup; elementsField.value = JSON.stringify(elements); } }
@@ -361,6 +361,21 @@
     item.addEventListener('click', () => { const selected = sections.querySelector('.page-builder-section.is-selected'); if (!selected) { alert('Select a section first, then choose an element.'); return; } addElementToSection(selected, item.dataset.libraryElement); });
   });
   const escape = (value) => String(value || '').replace(/[&<>'"]/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#039;', '"':'&quot;' })[character]);
+  // contenteditable.innerHTML encodes a literal ampersand as `&amp;`. The
+  // builder stores editable HTML, but its form fields are the source of truth;
+  // keeping that entity in the field makes the next editor render show the
+  // entity text (and a later save can encode it again). Store literal
+  // ampersands while leaving tags and every other entity untouched.
+  const decodeAmpersands = value => {
+    let normalized = String(value || '');
+    while (/&amp;/i.test(normalized)) normalized = normalized.replace(/&amp;/gi, '&');
+    return normalized;
+  };
+  sections.querySelectorAll('input[name], textarea[name]').forEach(field => {
+    if (/\[(?:heading|content|button_text|blocks|elements)\]$/.test(field.name)) {
+      field.value = decodeAmpersands(field.value);
+    }
+  });
   const richPreview = value => {
     const holder = document.createElement('div'); holder.innerHTML = value || '';
     holder.querySelectorAll('*').forEach(node => {
