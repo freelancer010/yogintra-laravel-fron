@@ -50,8 +50,24 @@ class GenerateSitemap extends Command
             );
         }
 
-        // Keep the CLI-generated sitemap aligned with the admin generator.
-        $services = DB::table('service')->whereNotNull('service_slug')->select('service_slug')->get();
+        // Root-level service category pages, e.g. /home-visit-yoga.
+        $serviceCategories = DB::table('service_category')
+            ->whereNotNull('service_cat_slug')
+            ->where('service_cat_slug', '<>', '')
+            ->select('service_cat_slug')
+            ->distinct()
+            ->get();
+        foreach ($serviceCategories as $category) {
+            $sitemap->add(Url::create('/' . ltrim($category->service_cat_slug, '/'))->setPriority(0.9));
+        }
+
+        // Keep the CLI-generated service detail URLs aligned with the admin generator.
+        $services = DB::table('service')
+            ->whereNotNull('service_slug')
+            ->where('service_slug', '<>', '')
+            ->select('service_slug')
+            ->distinct()
+            ->get();
         foreach ($services as $service) {
             $sitemap->add(Url::create('/service-details/' . $service->service_slug)->setPriority(0.8));
         }

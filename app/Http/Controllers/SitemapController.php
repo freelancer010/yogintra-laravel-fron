@@ -48,8 +48,26 @@ class SitemapController extends Controller
                 $urls[] = $this->formatUrl(url('/blog/' . $blog->blog_slug), '0.64', $blog->created_at);
             }
 
-            // Service URLs (from `service_slug`)
-            $services = DB::table('service')->select('service_slug')->get();
+            // Public service category pages use concise root-level URLs, such
+            // as /home-visit-yoga. These are distinct from service details.
+            $serviceCategories = DB::table('service_category')
+                ->whereNotNull('service_cat_slug')
+                ->where('service_cat_slug', '<>', '')
+                ->select('service_cat_slug')
+                ->distinct()
+                ->get();
+            $debugMessages[] = 'Found ' . count($serviceCategories) . ' service categories for sitemap';
+            foreach ($serviceCategories as $category) {
+                $urls[] = $this->formatUrl(url('/' . ltrim($category->service_cat_slug, '/')), '0.90');
+            }
+
+            // Service detail URLs (from `service_slug`)
+            $services = DB::table('service')
+                ->whereNotNull('service_slug')
+                ->where('service_slug', '<>', '')
+                ->select('service_slug')
+                ->distinct()
+                ->get();
             $debugMessages[] = 'Found ' . count($services) . ' services for sitemap';
             foreach ($services as $service) {
                 $urls[] = $this->formatUrl(url('/service-details/' . $service->service_slug), '0.80');
