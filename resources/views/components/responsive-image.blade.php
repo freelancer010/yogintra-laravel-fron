@@ -4,6 +4,7 @@
     'sizes' => '100vw',
     'loading' => 'lazy',
     'decoding' => 'async',
+    'title' => null,
 ])
 
 @php
@@ -14,6 +15,7 @@
     $sourcePath = public_path($image);
     $sourceDimensions = is_file($sourcePath) ? @getimagesize($sourcePath) : false;
     $variants = [];
+    $imageTitle = filled($title) ? $title : $alt;
 
     if ($extension === 'webp') {
         foreach ([480, 768, 1280] as $width) {
@@ -32,5 +34,5 @@
     @if($variants)
         <source type="image/webp" srcset="{{ implode(', ', $variants) }}" sizes="{{ $sizes }}">
     @endif
-    <img src="{{ asset($image) }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="{{ $decoding }}" {{ $attributes }}>
+    <img src="{{ asset($image) }}" alt="{{ $alt }}" title="{{ $imageTitle }}" loading="{{ $loading }}" decoding="{{ $decoding }}" {{ $attributes }}>
 </picture>

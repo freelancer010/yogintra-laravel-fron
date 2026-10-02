@@ -2011,28 +2011,28 @@
         @forelse($section_2_content as $content_sec_2)
           <div class="col-sm-4 text-center">
             <div class="life-divin-section">
-              <img loading="lazy" src="{{ asset($content_sec_2->os_image) }}" alt="YogIntra Service Icon - {{ $content_sec_2->os_heading }}" width="90" height="95" decoding="async">
+              <img loading="lazy" src="{{ asset($content_sec_2->os_image) }}" alt="YogIntra Service Icon - {{ $content_sec_2->os_heading }}" title="YogIntra Service Icon - {{ $content_sec_2->os_heading }}" width="90" height="95" decoding="async">
             </div>
             <h5 style="font-size: 16px">{{ $content_sec_2->os_heading }}</h5>
           </div>
         @empty
           <div class="col-sm-4 text-center">
             <div class="">
-              <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines" width="100" height="100" decoding="async">
+              <img loading="lazy" src="{{ asset('assets/front/images/6503db8d98529icon-1.png') }}" alt="Alternative Medicines" title="Alternative Medicines" width="100" height="100" decoding="async">
             </div>
             <h5 style="font-size: 16px">Alternative Medicines</h5>
           </div>
 
           <div class="col-sm-4 text-center">
             <div class="">
-              <img loading="lazy" src="{{ asset('assets/front/images/6503dbc7b2fc5icon-2.png') }}" alt="For Good Health" width="100" height="100" decoding="async">
+              <img loading="lazy" src="{{ asset('assets/front/images/6503dbc7b2fc5icon-2.png') }}" alt="For Good Health" title="For Good Health" width="100" height="100" decoding="async">
             </div>
             <h5 style="font-size: 16px">For Good Health</h5>
           </div>
 
           <div class="col-sm-4 text-center">
             <div class="">
-              <img loading="lazy" src="{{ asset('assets/front/images/6503dbe5edf47icon-3.png') }}" alt="Healthy Mind &amp; Body" width="100" height="100" decoding="async">
+              <img loading="lazy" src="{{ asset('assets/front/images/6503dbe5edf47icon-3.png') }}" alt="Healthy Mind &amp; Body" title="Healthy Mind &amp; Body" width="100" height="100" decoding="async">
             </div>
             <h5 style="font-size: 16px">Healthy Mind &amp; Body</h5>
           </div>
@@ -2047,7 +2047,7 @@
     <div class="section-title text-center">
       <div class="row">
         <div class="col-12">
-          <img class="landing-promo-image" loading="lazy" src="{{ asset('uploads/download.webp') }}" alt="For Good Health" width="800" height="400" decoding="async">
+          <img class="landing-promo-image" loading="lazy" src="{{ asset('uploads/download.webp') }}" alt="For Good Health" title="For Good Health" width="800" height="400" decoding="async">
         </div>
       </div>
     </div>
@@ -2083,7 +2083,7 @@
             <div class="col-lg-6 col-md-12 col-sm-12 w-48-desktop">
                 <div class="icon-box icon-theme-colored left media p-0 mb-sm-10 mt-30">
                     <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip" aria-label="Explore Yoga Center">
-                        <img loading="lazy" src="{{ asset($content_1->of_image) }}" width="75" height="75" alt="{{ $content_1->of_heading }}" decoding="async">
+                        <img loading="lazy" src="{{ asset($content_1->of_image) }}" width="75" height="75" alt="{{ $content_1->of_heading }}" title="{{ $content_1->of_heading }}" decoding="async">
                         <span class="sr-only">Explore Yoga Center</span>
                     </a>
                     <div class="media-body">
@@ -2213,7 +2213,7 @@
             <div class="row">
                 @foreach ($yogaServices as $service)
                     <div class="col-xs-12 col-sm-6 col-md-3 mb-4 wow fadeInLeft mt-20" data-wow-duration="1s" data-wow-delay="0.3s">
-                        <img loading="lazy" width="160" height="160" class="img-circle img-thumbnail mb-2" src="{{ asset($service['image']) }}" alt="{{ $service['title'] }}" decoding="async">
+                        <img loading="lazy" width="160" height="160" class="img-circle img-thumbnail mb-2" src="{{ asset($service['image']) }}" alt="{{ $service['title'] }}" title="{{ $service['title'] }}" decoding="async">
                         <h2 class="mb-5 fs-16">{{ $service['title'] }}</h2>
                         <a href="{{ url($service['link']) }}" class="btn btn-success">Visit Now</a>
                     </div>
@@ -2228,7 +2228,7 @@
         <div class="section-title">
             <div class="row align-items-center">
                 <div class="col-md-4">
-                    <img loading="lazy" src="{{ asset('assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp') }}" alt="YogIntra" class="img-fluid" width="250" height="200">
+                    <img loading="lazy" src="{{ asset('assets/Square-Logo-with-Name-2-povy7zr4loqk9maa9hbtvdrc77dpfngjngf3wrmp40.webp') }}" alt="YogIntra" title="YogIntra" class="img-fluid" width="250" height="200">
                 </div>
                 <div class="col-md-8 text-start text-md-start">
                     <h4 style="font-size: 30px;" class="mt-4">About YogIntra:</h4>
@@ -2290,7 +2290,7 @@
                             <div class="item">
                                 <div class="team-members text-center maxwidth400">
                                     <div class="team-thumb">
-                                        <img class="img-fullwidth" width="200" height="200" loading="lazy" alt="yogintra trainers" src="{{ $api . '/' . $trainer->profile_image }}" decoding="async">
+                                        <img class="img-fullwidth" width="200" height="200" loading="lazy" alt="YogIntra trainer" title="YogIntra trainer" src="{{ $api . '/' . $trainer->profile_image }}" decoding="async">
                                     </div>
                                     @php
                                         $currentYear = now()->year;
@@ -2334,7 +2334,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-4 sm-text-center mb-30 mb-sm-30">
                     <div class="team-members text-center maxwidth400" onclick="open_modal({{ $i }})">
                         <div class="team-thumb">
-                            <img loading="lazy" class="img-fullwidth" id="imageresource_{{ $i }}" style="height: 200px; width: auto" alt="yogintra" width="300" height="200" decoding="async" src="{{ asset('uploads/yoga-pose' . $i . '.jpeg') }}">
+                            <img loading="lazy" class="img-fullwidth" id="imageresource_{{ $i }}" style="height: 200px; width: auto" alt="YogIntra yoga pose" title="YogIntra yoga pose" width="300" height="200" decoding="async" src="{{ asset('uploads/yoga-pose' . $i . '.jpeg') }}">
                         </div>
                     </div>
                 </div>
@@ -2386,7 +2386,7 @@
                                         @if($testimonial->test_image)
                                             <img src="{{ asset($testimonial->test_image) }}" width="38" height="38" loading="lazy" decoding="async"
                                                  width="38" height="38" 
-                                                 alt="{{ $testimonial->test_name }}" 
+                                                 alt="{{ $testimonial->test_name }}" title="{{ $testimonial->test_name }}"
                                                  style="border-radius: 50%; object-fit: cover; flex-shrink: 0;">
                                         @else
                                             <div style="width: 38px; height: 38px; background-color: #e07f00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; flex-shrink: 0; font-size: 16px;">

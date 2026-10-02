@@ -616,10 +616,35 @@ class HomeController extends Controller
                 $referenceLayout
             );
 
+            $referenceLayout = $this->ensureLandingImageTitles($referenceLayout);
+
             return response($referenceLayout)->header('Content-Type', 'text/html; charset=UTF-8');
         }
 
         return view('front.landing_page', $data);
+    }
+
+    /** Add a useful fallback title to every image in the assembled Classic page. */
+    private function ensureLandingImageTitles(string $html): string
+    {
+        return preg_replace_callback('#<img\b[^>]*>#i', static function (array $match): string {
+            $tag = $match[0];
+            if (preg_match('#\btitle\s*=#i', $tag)) {
+                return $tag;
+            }
+
+            $title = 'YogIntra image';
+            if (preg_match('#\balt\s*=\s*(["\'])(.*?)\1#is', $tag, $altMatch)) {
+                $alt = trim(html_entity_decode($altMatch[2], ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+                if ($alt !== '') {
+                    $title = $alt;
+                }
+            }
+
+            $attribute = ' title="' . e($title) . '"';
+
+            return preg_replace('#\s*/?>$#', $attribute . '$0', $tag, 1) ?? $tag;
+        }, $html) ?? $html;
     }
 
     /**

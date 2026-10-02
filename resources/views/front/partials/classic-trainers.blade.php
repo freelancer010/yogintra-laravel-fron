@@ -21,7 +21,7 @@
                         : asset('assets/landing-reference/guidance.webp');
                 @endphp
                 <article class="classic-trainer-card">
-                    <img src="{{ $image }}" alt="YogIntra instructor {{ $details['name'] ?? 'Instructor' }}" loading="lazy" width="480" height="520">
+                    <img src="{{ $image }}" alt="YogIntra instructor {{ $details['name'] ?? 'Instructor' }}" title="YogIntra instructor {{ $details['name'] ?? 'Instructor' }}" loading="lazy" width="480" height="520">
                     <div class="classic-trainer-card__body">
                         <h3>{{ $details['name'] ?? 'YogIntra Instructor' }}</h3>
                         @if ($age)

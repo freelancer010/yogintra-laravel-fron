@@ -13,7 +13,7 @@
                     <blockquote>{{ $testimonial->test_description }}</blockquote>
                     <div class="classic-testimonial-person">
                         @if ($testimonial->test_image)
-                            <img src="{{ asset($testimonial->test_image) }}" alt="{{ $testimonial->test_name }}" width="56" height="56" loading="lazy" decoding="async">
+                            <img src="{{ asset($testimonial->test_image) }}" alt="{{ $testimonial->test_name }}" title="{{ $testimonial->test_name }}" width="56" height="56" loading="lazy" decoding="async">
                         @endif
                         <div>
                             <h3>{{ $testimonial->test_name }}</h3>
