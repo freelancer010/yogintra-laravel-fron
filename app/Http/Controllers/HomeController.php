@@ -20,6 +20,7 @@ use App\Models\Yoga;
 use App\Models\Event;
 use App\Models\Testimonial;
 use App\Support\StaticSiteFallback;
+use App\Services\OptimizedImageUpload;
 
 class HomeController extends Controller
 {
@@ -458,6 +459,13 @@ class HomeController extends Controller
             $heroImage = $pageImagePath !== '' && $pageImagePath !== 'uploads/1681071409default-profile.png'
                 ? (str_starts_with($pageImagePath, 'data:') || preg_match('#^https?://#i', $pageImagePath) ? $pageImagePath : asset($pageImagePath))
                 : asset('assets/landing-reference/hero.webp');
+            $heroVariantPaths = preg_match('#^(?:https?:)?//#i', $pageImagePath) || str_starts_with($pageImagePath, 'data:')
+                ? []
+                : app(OptimizedImageUpload::class)->responsiveVariants($pageImagePath);
+            $heroSrcset = collect($heroVariantPaths)
+                ->map(fn (string $path, int $width) => asset($path) . ' ' . $width . 'w')
+                ->implode(', ');
+            $heroSizes = '(max-width: 680px) calc(100vw - 66px), (max-width: 1000px) calc(50vw - 52px), 585px';
             $cityName = trim((string) ($data['page_data']->page_name ?? $data['page_data']->page_slug ?? ''));
             $cityName = ucwords(str_replace(['-', '_'], ' ', $cityName ?: 'your city'));
             $cityLabel = e($cityName);
@@ -473,7 +481,9 @@ class HomeController extends Controller
             // HTML or any landing-page database fields.
             $referenceLayout = preg_replace('#<link\b[^>]*\brel=["\']canonical["\'][^>]*>#i', '', $referenceLayout) ?? $referenceLayout;
             $referenceLayout = preg_replace('#<link\b[^>]*\brel=["\']alternate["\'][^>]*\bhreflang=["\'][^"\']+["\'][^>]*>#i', '', $referenceLayout) ?? $referenceLayout;
-            $heroPreload = '<link rel="preload" as="image" href="' . e($heroImage) . '" fetchpriority="high">';
+            $heroPreload = '<link rel="preload" as="image" href="' . e($heroImage) . '"' .
+                ($heroSrcset !== '' ? ' imagesrcset="' . e($heroSrcset) . '" imagesizes="' . e($heroSizes) . '"' : '') .
+                ' fetchpriority="high">';
             $referenceLayout = str_replace('</head>', $landingSeoMarkup . $heroPreload . '</head>', $referenceLayout);
             // These replacements keep the shared editorial layout cohesive
             // while making its default city-facing copy useful and unique.
@@ -632,15 +642,21 @@ class HomeController extends Controller
 
             $referenceLayout = preg_replace_callback(
                 '#(<div\\s+class="hero-visual"[^>]*>\\s*)(<img\\b[^>]*>)#i',
-                fn (array $match) => $match[1] . $this->prioritizeLandingHeroImage($match[2]),
+                fn (array $match) => $match[1] . $this->prioritizeLandingHeroImage($match[2], $heroSrcset, $heroSizes),
                 $referenceLayout,
                 1
             ) ?? $referenceLayout;
             $referenceLayout = $this->ensureLandingImageTitles($referenceLayout);
 
-            return response($referenceLayout)
-                ->header('Content-Type', 'text/html; charset=UTF-8')
-                ->header('Link', '<' . $heroImage . '>; rel=preload; as=image; fetchpriority=high');
+            $response = response($referenceLayout)->header('Content-Type', 'text/html; charset=UTF-8');
+            // A non-responsive image can be safely preloaded from the HTTP
+            // header. Responsive heroes use imagesrcset in the document head;
+            // preloading the fallback URL as well would download two files.
+            if ($heroSrcset === '') {
+                $response->header('Link', '<' . $heroImage . '>; rel=preload; as=image; fetchpriority=high');
+            }
+
+            return $response;
         }
 
         return view('front.landing_page', $data);
@@ -670,7 +686,7 @@ class HomeController extends Controller
     }
 
     /** Make the above-the-fold hero immediately loadable without altering its content. */
-    private function prioritizeLandingHeroImage(string $tag): string
+    private function prioritizeLandingHeroImage(string $tag, string $srcset = '', string $sizes = ''): string
     {
         $attributes = [
             'loading' => 'eager',
@@ -690,6 +706,16 @@ class HomeController extends Controller
             }
 
             $tag = preg_replace('#\\s*/?>$#', ' ' . $name . '="' . $value . '"$0', $tag, 1) ?? $tag;
+        }
+
+        if ($srcset !== '') {
+            $responsiveAttributes = [
+                'srcset' => $srcset,
+                'sizes' => $sizes,
+            ];
+            foreach ($responsiveAttributes as $name => $value) {
+                $tag = preg_replace('#\\s*/?>$#', ' ' . $name . '="' . e($value) . '"$0', $tag, 1) ?? $tag;
+            }
         }
 
         return $tag;

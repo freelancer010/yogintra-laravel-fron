@@ -12,6 +12,69 @@ use Illuminate\Support\Str;
  */
 class OptimizedImageUpload
 {
+    /**
+     * Create and return responsive WebP candidates for an existing public
+     * image. This also upgrades images uploaded before responsive variants
+     * were introduced, without changing the stored database path.
+     *
+     * @return array<int, string> Width-indexed public paths.
+     */
+    public function responsiveVariants(string $publicImage): array
+    {
+        $publicImage = ltrim(str_replace('\\', '/', $publicImage), '/');
+        if (strtolower(pathinfo($publicImage, PATHINFO_EXTENSION)) !== 'webp') {
+            return [];
+        }
+
+        $sourcePath = public_path($publicImage);
+        $imageInfo = is_file($sourcePath) ? @getimagesize($sourcePath) : false;
+        if (!$imageInfo) {
+            return [];
+        }
+
+        $directory = dirname($sourcePath);
+        $basename = pathinfo($sourcePath, PATHINFO_FILENAME);
+        $sourceWidth = (int) $imageInfo[0];
+        $expectedWidths = array_values(array_filter([480, 768, 1280], static fn (int $width) => $sourceWidth > $width));
+        $hasEveryVariant = collect($expectedWidths)->every(
+            static fn (int $width) => File::exists($directory . DIRECTORY_SEPARATOR . $basename . '-' . $width . '.webp')
+        );
+
+        if ($hasEveryVariant) {
+            return $this->responsiveVariantPaths($publicImage, $directory, $basename, $sourceWidth);
+        }
+
+        if (!function_exists('imagecreatefromwebp')) {
+            return [];
+        }
+
+        $image = @imagecreatefromwebp($sourcePath);
+        if (!$image) {
+            return [];
+        }
+
+        $this->createResponsiveVariants($image, $sourceWidth, (int) $imageInfo[1], $directory, $basename);
+        imagedestroy($image);
+
+        return $this->responsiveVariantPaths($publicImage, $directory, $basename, $sourceWidth);
+    }
+
+    /** @return array<int, string> */
+    private function responsiveVariantPaths(string $publicImage, string $directory, string $basename, int $sourceWidth): array
+    {
+        $variants = [];
+        foreach ([480, 768, 1280] as $width) {
+            $path = $directory . DIRECTORY_SEPARATOR . $basename . '-' . $width . '.webp';
+            if (is_file($path)) {
+                $variants[$width] = trim(str_replace('\\', '/', dirname($publicImage)), './') . '/' . basename($path);
+            }
+        }
+        $variants[$sourceWidth] = $publicImage;
+        ksort($variants);
+
+        return $variants;
+    }
+
     public function store(UploadedFile $file, string $publicDirectory = 'uploads'): string
     {
         $publicDirectory = trim(str_replace('\\', '/', $publicDirectory), '/');
@@ -100,12 +163,17 @@ class OptimizedImageUpload
                 continue;
             }
 
+            $variantPath = $directory . DIRECTORY_SEPARATOR . $basename . '-' . $targetWidth . '.webp';
+            if (File::exists($variantPath)) {
+                continue;
+            }
+
             $targetHeight = max(1, (int) round($sourceHeight * ($targetWidth / $sourceWidth)));
             $variant = imagecreatetruecolor($targetWidth, $targetHeight);
             imagealphablending($variant, false);
             imagesavealpha($variant, true);
             imagecopyresampled($variant, $image, 0, 0, 0, 0, $targetWidth, $targetHeight, $sourceWidth, $sourceHeight);
-            imagewebp($variant, $directory . DIRECTORY_SEPARATOR . $basename . '-' . $targetWidth . '.webp', 78);
+            imagewebp($variant, $variantPath, 78);
             imagedestroy($variant);
         }
     }
