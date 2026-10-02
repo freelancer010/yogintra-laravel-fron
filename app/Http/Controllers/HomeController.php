@@ -473,7 +473,8 @@ class HomeController extends Controller
             // HTML or any landing-page database fields.
             $referenceLayout = preg_replace('#<link\b[^>]*\brel=["\']canonical["\'][^>]*>#i', '', $referenceLayout) ?? $referenceLayout;
             $referenceLayout = preg_replace('#<link\b[^>]*\brel=["\']alternate["\'][^>]*\bhreflang=["\'][^"\']+["\'][^>]*>#i', '', $referenceLayout) ?? $referenceLayout;
-            $referenceLayout = str_replace('</head>', $landingSeoMarkup . '</head>', $referenceLayout);
+            $heroPreload = '<link rel="preload" as="image" href="' . e($heroImage) . '" fetchpriority="high">';
+            $referenceLayout = str_replace('</head>', $landingSeoMarkup . $heroPreload . '</head>', $referenceLayout);
             // These replacements keep the shared editorial layout cohesive
             // while making its default city-facing copy useful and unique.
             // An editor's custom words are left untouched below.
@@ -629,9 +630,17 @@ class HomeController extends Controller
                 $referenceLayout
             );
 
+            $referenceLayout = preg_replace_callback(
+                '#(<div\\s+class="hero-visual"[^>]*>\\s*)(<img\\b[^>]*>)#i',
+                fn (array $match) => $match[1] . $this->prioritizeLandingHeroImage($match[2]),
+                $referenceLayout,
+                1
+            ) ?? $referenceLayout;
             $referenceLayout = $this->ensureLandingImageTitles($referenceLayout);
 
-            return response($referenceLayout)->header('Content-Type', 'text/html; charset=UTF-8');
+            return response($referenceLayout)
+                ->header('Content-Type', 'text/html; charset=UTF-8')
+                ->header('Link', '<' . $heroImage . '>; rel=preload; as=image; fetchpriority=high');
         }
 
         return view('front.landing_page', $data);
@@ -658,6 +667,32 @@ class HomeController extends Controller
 
             return preg_replace('#\s*/?>$#', $attribute . '$0', $tag, 1) ?? $tag;
         }, $html) ?? $html;
+    }
+
+    /** Make the above-the-fold hero immediately loadable without altering its content. */
+    private function prioritizeLandingHeroImage(string $tag): string
+    {
+        $attributes = [
+            'loading' => 'eager',
+            'fetchpriority' => 'high',
+            'decoding' => 'async',
+        ];
+
+        foreach ($attributes as $name => $value) {
+            if (preg_match('#\\b' . preg_quote($name, '#') . '\\s*=#i', $tag)) {
+                $tag = preg_replace(
+                    "#\\b" . preg_quote($name, '#') . "\\s*=\\s*([\"']).*?\\1#i",
+                    $name . '="' . $value . '"',
+                    $tag,
+                    1
+                ) ?? $tag;
+                continue;
+            }
+
+            $tag = preg_replace('#\\s*/?>$#', ' ' . $name . '="' . $value . '"$0', $tag, 1) ?? $tag;
+        }
+
+        return $tag;
     }
 
     /** Build canonical, language-alternate and structured data tags for a city page. */
