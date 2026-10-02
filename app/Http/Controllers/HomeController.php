@@ -461,6 +461,19 @@ class HomeController extends Controller
             $cityName = trim((string) ($data['page_data']->page_name ?? $data['page_data']->page_slug ?? ''));
             $cityName = ucwords(str_replace(['-', '_'], ' ', $cityName ?: 'your city'));
             $cityLabel = e($cityName);
+            $landingSeoMarkup = $this->landingPageSeoMarkup(
+                $data['page_data'],
+                $appSetting,
+                $heroImage,
+                $cityName
+            );
+            // The standalone Classic document bypasses the shared Blade
+            // layout, so add page-level SEO metadata directly to its head.
+            // This changes only the response and never rewrites saved canvas
+            // HTML or any landing-page database fields.
+            $referenceLayout = preg_replace('#<link\b[^>]*\brel=["\']canonical["\'][^>]*>#i', '', $referenceLayout) ?? $referenceLayout;
+            $referenceLayout = preg_replace('#<link\b[^>]*\brel=["\']alternate["\'][^>]*\bhreflang=["\'][^"\']+["\'][^>]*>#i', '', $referenceLayout) ?? $referenceLayout;
+            $referenceLayout = str_replace('</head>', $landingSeoMarkup . '</head>', $referenceLayout);
             // These replacements keep the shared editorial layout cohesive
             // while making its default city-facing copy useful and unique.
             // An editor's custom words are left untouched below.
@@ -645,6 +658,93 @@ class HomeController extends Controller
 
             return preg_replace('#\s*/?>$#', $attribute . '$0', $tag, 1) ?? $tag;
         }, $html) ?? $html;
+    }
+
+    /** Build canonical, language-alternate and structured data tags for a city page. */
+    private function landingPageSeoMarkup(object $page, ?Setting $setting, string $heroImage, string $cityName): string
+    {
+        $slug = trim(strtolower((string) ($page->page_slug ?? '')), '/');
+        $canonicalUrl = url('/city/' . $slug);
+        $siteUrl = url('/');
+        $pageTitle = trim((string) ($page->page_meta_title ?? $page->page_image_title ?? $page->page_name ?? 'YogIntra'));
+        $description = trim(preg_replace('/\s+/', ' ', strip_tags((string) ($page->page_meta_description ?? $page->page_image_description ?? ''))) ?? '');
+        $organizationId = rtrim($siteUrl, '/') . '/#organization';
+        $webPageId = $canonicalUrl . '#webpage';
+        $serviceId = $canonicalUrl . '#service';
+        $logoPath = trim((string) ($setting?->app_sticky_logo ?? 'assets/og-logo.webp'));
+        $logoUrl = preg_match('#^(?:https?:)?//#i', $logoPath) || str_starts_with($logoPath, 'data:')
+            ? $logoPath
+            : asset($logoPath);
+
+        $schema = [
+            '@context' => 'https://schema.org',
+            '@graph' => [
+                [
+                    '@type' => 'Organization',
+                    '@id' => $organizationId,
+                    'name' => trim((string) ($setting?->app_name ?? 'YogIntra')) ?: 'YogIntra',
+                    'url' => $siteUrl,
+                    'logo' => [
+                        '@type' => 'ImageObject',
+                        'url' => $logoUrl,
+                    ],
+                    'email' => filled($setting?->app_email) ? (string) $setting->app_email : null,
+                    'telephone' => filled($setting?->app_mobile) ? (string) $setting->app_mobile : null,
+                ],
+                [
+                    '@type' => 'WebPage',
+                    '@id' => $webPageId,
+                    'url' => $canonicalUrl,
+                    'name' => $pageTitle,
+                    'description' => $description,
+                    'inLanguage' => 'en-IN',
+                    'isPartOf' => [
+                        '@type' => 'WebSite',
+                        '@id' => rtrim($siteUrl, '/') . '/#website',
+                        'url' => $siteUrl,
+                        'name' => 'YogIntra',
+                    ],
+                    'primaryImageOfPage' => [
+                        '@type' => 'ImageObject',
+                        'url' => $heroImage,
+                    ],
+                    'breadcrumb' => [
+                        '@type' => 'BreadcrumbList',
+                        'itemListElement' => [
+                            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $siteUrl],
+                            ['@type' => 'ListItem', 'position' => 2, 'name' => $cityName, 'item' => $canonicalUrl],
+                        ],
+                    ],
+                    'mainEntity' => ['@id' => $serviceId],
+                ],
+                [
+                    '@type' => 'Service',
+                    '@id' => $serviceId,
+                    'name' => $pageTitle,
+                    'description' => $description,
+                    'url' => $canonicalUrl,
+                    'image' => $heroImage,
+                    'serviceType' => 'Yoga classes and personalised yoga instruction',
+                    'areaServed' => [
+                        '@type' => 'Place',
+                        'name' => $cityName,
+                    ],
+                    'provider' => ['@id' => $organizationId],
+                ],
+            ],
+        ];
+
+        // Remove unavailable optional properties instead of emitting nulls.
+        $schema['@graph'][0] = array_filter($schema['@graph'][0], static fn ($value) => $value !== null && $value !== '');
+        $json = json_encode(
+            $schema,
+            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+        );
+
+        return '<link rel="canonical" href="' . e($canonicalUrl) . '">' .
+            '<link rel="alternate" hreflang="en-IN" href="' . e($canonicalUrl) . '">' .
+            '<link rel="alternate" hreflang="x-default" href="' . e($canonicalUrl) . '">' .
+            '<script type="application/ld+json">' . $json . '</script>';
     }
 
     /**
