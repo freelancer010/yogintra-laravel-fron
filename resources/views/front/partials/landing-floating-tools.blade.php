@@ -2,6 +2,7 @@
   .landing-float{position:fixed;right:20px;display:grid;place-items:center;width:54px;height:54px;border:0;border-radius:50%;color:#fff!important;text-decoration:none;box-shadow:0 5px 16px rgba(0,0,0,.28);z-index:9999;cursor:pointer}
   .landing-float-enquiry{bottom:88px;background:#1677ea;font-size:21px}.landing-float-whatsapp{bottom:20px;background:#16be45;font-size:28px}
   .landing-float:hover{transform:translateY(-2px)}
+  .landing-visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
   .tooltip-popup{position:fixed;right:82px;bottom:98px;padding:10px 14px;border-radius:7px;background:#263238;color:#fff;font:600 13px/1.2 Arial,sans-serif;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9998}.tooltip-popup.show{opacity:1}
   #messagePopup{position:fixed;right:20px;bottom:154px;display:none;width:min(410px,calc(100vw - 32px));max-height:calc(100vh - 180px);overflow:auto;padding:26px;background:#fff;border-radius:14px;box-shadow:0 12px 38px rgba(0,0,0,.3);z-index:10000;color:#183c45;font-family:Arial,sans-serif}
   #messagePopup .close-btn{position:absolute;top:8px;right:12px;border:0;background:transparent;font-size:28px;line-height:1;cursor:pointer}#messagePopup .popup-title{margin:0 0 18px;text-align:center;font-size:23px;font-weight:600}
@@ -14,7 +15,7 @@
 
 <button id="messageIcon" class="landing-float landing-float-enquiry" type="button" aria-label="Open enquiry form"><i class="fa fa-comment" aria-hidden="true"></i></button>
 <div class="tooltip-popup">Enquire with us!</div>
-<a class="landing-float landing-float-whatsapp" href="https://wa.me/919867291573" target="_blank" rel="noopener noreferrer" aria-label="Chat with YogIntra on WhatsApp"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
+<a class="landing-float landing-float-whatsapp" href="https://wa.me/919867291573" target="_blank" rel="noopener noreferrer" aria-label="Chat with YogIntra on WhatsApp"><i class="fa fa-whatsapp" aria-hidden="true"></i><span class="landing-visually-hidden">Chat with YogIntra on WhatsApp</span></a>
 
 <div id="messagePopup" role="dialog" aria-modal="true" aria-labelledby="landingEnquiryTitle">
   <button class="close-btn" type="button" onclick="toggleMessagePopup()" aria-label="Close enquiry form">&times;</button>
