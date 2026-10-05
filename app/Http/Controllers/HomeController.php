@@ -773,6 +773,7 @@ class HomeController extends Controller
         return '<link rel="canonical" href="' . e($canonicalUrl) . '">' .
             '<link rel="alternate" hreflang="en-IN" href="' . e($canonicalUrl) . '">' .
             '<link rel="alternate" hreflang="x-default" href="' . e($canonicalUrl) . '">' .
+            '<link rel="alternate" type="text/plain" title="YogIntra LLMs.txt" href="' . e(url('/llms.txt')) . '">' .
             $this->landingPageSchemaMarkup($page, $setting, $heroImage, $cityName);
     }
 

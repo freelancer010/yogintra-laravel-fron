@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use App\Models\LandingPageSection;
+use App\Services\LlmsFileUpdater;
 use App\Services\OptimizedImageUpload;
 use Illuminate\Validation\Rule;
 
@@ -55,6 +56,7 @@ class LandingPageController extends Controller
             // that is used by the public landing-page route.
             'use_classic_layout' => true,
         ]);
+        $this->refreshLlmsLandingPages();
 
         return redirect()->route('admin.landing-pages.edit', $pageId)
             ->with('success', 'Draft created with the editable Default layout.');
@@ -135,6 +137,7 @@ class LandingPageController extends Controller
 
         $pageId = DB::table('new_landing_page')->insertGetId($data);
         $this->saveSections($request, $pageId);
+        $this->refreshLlmsLandingPages();
 
         return redirect()->route('admin.landing-pages.edit', $pageId)->with('success', 'Page published successfully.');
     }
@@ -177,6 +180,7 @@ class LandingPageController extends Controller
         $isPublished = $request->boolean('is_published');
         DB::table('new_landing_page')->where('page_id', $id)->update(['is_published' => $isPublished]);
         $this->forgetPublicPageCache($page->page_slug);
+        $this->refreshLlmsLandingPages();
 
         return back()->with('success', $isPublished ? 'Landing page is now visible on the public site.' : 'Landing page is now hidden from the public site.');
     }
@@ -321,6 +325,9 @@ class LandingPageController extends Controller
         $this->saveSections($request, $id);
         $this->forgetPublicPageCache($page->page_slug);
         $this->forgetPublicPageCache($data['page_slug']);
+        if ($page->page_name !== $data['page_name'] || $page->page_slug !== $data['page_slug'] || $page->page_meta_title !== $data['page_meta_title']) {
+            $this->refreshLlmsLandingPages();
+        }
 
         if ($request->expectsJson()) {
             return response()->json(['saved' => true]);
@@ -343,8 +350,19 @@ class LandingPageController extends Controller
         if ($page) {
             $this->forgetPublicPageCache($page->page_slug);
         }
+        $this->refreshLlmsLandingPages();
 
         return redirect()->route('admin.landing-pages.index')->with('success', 'Page deleted successfully.');
+    }
+
+    /** Keep AI discovery current without allowing a filesystem issue to block page saves. */
+    private function refreshLlmsLandingPages(): void
+    {
+        try {
+            app(LlmsFileUpdater::class)->refreshLandingPages();
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
     }
 
     private function saveSections(Request $request, int $pageId): void

@@ -86,36 +86,80 @@ Yoga and Meditation offer quick resets for busy people. Just 10 minutes of daily
 
 ## City
 
-- [Cst](https://yogintra.com/city/cst): Home Yoga and Online Yoga Classes in CST - YogIntra
-- [Goa](https://yogintra.com/city/goa): #1 Home Yoga and Online Yoga Classes in Goa - YogIntra
-- [Mopa](https://yogintra.com/city/mopa): Home Yoga and Online Yoga Classes in Mopa - YogIntra
-- [Pune](https://yogintra.com/city/pune): #1 Home Yoga and Online Yoga Classes in Pune - YogIntra
-- [Sion](https://yogintra.com/city/sion): Home Yoga and Online Yoga Classes in Sion - YogIntra
+- [Agonda](https://yogintra.com/city/agonda): Home Yoga and Online Yoga Classes in Agonda - YogIntra
+- [Andheri](https://yogintra.com/city/andheri): Home Yoga and Online Yoga Classes in Andheri - YogIntra
+- [Arambol](https://yogintra.com/city/arambol): Home Yoga and Online Yoga Classes in Arambol - YogIntra
+- [Bagmalo](https://yogintra.com/city/bagmalo): Home Yoga and Online Yoga Classes in Bagmalo - YogIntra
+- [Bandra](https://yogintra.com/city/bandra): Home Yoga and Online Yoga Classes in Bandra - YogIntra
+- [Bangalore](https://yogintra.com/city/bangalore): #1 Home Yoga and Online Yoga Classes in Bangalore - YogIntra
+- [Bhandup](https://yogintra.com/city/bhandup): Home Yoga and Online Yoga Classes in Bhandup - YogIntra
+- [Borivali](https://yogintra.com/city/borivali): Home Yoga and Online Yoga Classes in Borivali - YogIntra
+- [Canadplace](https://yogintra.com/city/canadplace): Home Yoga and Online Yoga Classes in Canadplace - YogIntra
+- [Chandigarh](https://yogintra.com/city/chandigarh): #1 Home Yoga and Online Yoga Classes in Chandigarh - YogIntra
+- [Chembur](https://yogintra.com/city/chembur): Home Yoga and Online Yoga Classes in Chembur - YogIntra
+- [Colaba](https://yogintra.com/city/colaba): Home Yoga and Online Yoga Classes in Colaba - YogIntra
+- [CST](https://yogintra.com/city/cst): Home Yoga and Online Yoga Classes in CST - YogIntra
 - [Dadar](https://yogintra.com/city/dadar): Home Yoga and Online Yoga Classes in Dadar - YogIntra
 - [Delhi](https://yogintra.com/city/delhi): #1 Home Yoga and Online Yoga Classes in Delhi - YogIntra
+- [Delhi NCR](https://yogintra.com/city/delhi-ncr): #1 Home Yoga and Online Yoga Classes in Delhi NCR - YogIntra
+- [Electronic City](https://yogintra.com/city/electronic-city): Home Yoga and Online Yoga Classes in Electronic City - YogIntra
+- [Faridabad](https://yogintra.com/city/faridabad): #1 Home Yoga and Online Yoga Classes in Faridabad - YogIntra
+- [Ghatkopar](https://yogintra.com/city/ghatkopar): Home Yoga and Online Yoga Classes in Ghatkopar - YogIntra
+- [Ghaziabad](https://yogintra.com/city/ghaziabad): #1 Home Yoga and Online Yoga Classes in Ghaziabad - YogIntra
+- [Goa](https://yogintra.com/city/goa): #1 Home Yoga and Online Yoga Classes in Goa - YogIntra
+- [Goregaon](https://yogintra.com/city/goregaon): Home Yoga and Online Yoga Classes in Goregaon - YogIntra
+- [Gurgaon](https://yogintra.com/city/gurgaon): #1 Home Yoga and Online Yoga Classes in Gurgaon - YogIntra
+- [HSR Layout](https://yogintra.com/city/hsr-layout): Home Yoga and Online Yoga Classes in HSR Layout - YogIntra
+- [Hyderabad](https://yogintra.com/city/hyderabad): Home Yoga and Online Yoga Classes in Hyderabad - YogIntra
 - [India](https://yogintra.com/city/india): #1 Home Yoga and Online Yoga Classes in India - YogIntra
+- [Indira Nagar](https://yogintra.com/city/indira-nagar): Home Yoga and Online Yoga Classes in Indira Nagar - YogIntra
+- [Janakpuri](https://yogintra.com/city/janakpuri): Home Yoga and Online Yoga Classes in Janakpuri - YogIntra
+- [Kandivali](https://yogintra.com/city/kandivali): Home Yoga and Online Yoga Classes in Kandivali - YogIntra
+- [Karol Bagh](https://yogintra.com/city/karol-bagh): Home Yoga and Online Yoga Classes in Karol Bagh - YogIntra
+- [Kharar](https://yogintra.com/city/kharar): Home Yoga and Online Yoga Classes in Kharar - YogIntra
+- [Kharghar](https://yogintra.com/city/kharghar): Home Yoga and Online Yoga Classes in Kharghar - YogIntra
+- [Kirtinagar](https://yogintra.com/city/kirtinagar): Home Yoga and Online Yoga Classes in Kirtinagar - YogIntra
+- [Koramangala](https://yogintra.com/city/koramangala): Home Yoga and Online Yoga Classes in Koramangala - YogIntra
+- [Laxmanjhula](https://yogintra.com/city/laxmanjhula): Drop in Yoga Classes in Laxmanjhula - YogIntra
 - [Lolen](https://yogintra.com/city/lolen): Home Yoga and Online Yoga Classes in Lolen - YogIntra
+- [Madgaon](https://yogintra.com/city/madgaon): Home Yoga and Online Yoga Classes in Madgaon - YogIntra
 - [Malad](https://yogintra.com/city/malad): Home Yoga and Online Yoga Classes in Malad - YogIntra
+- [Mapusa](https://yogintra.com/city/mapusa): Home Yoga and Online Yoga Classes in Mapusa - YogIntra
 - [Marol](https://yogintra.com/city/marol): Home Yoga and Online Yoga Classes in Marol - YogIntra
+- [MG Road](https://yogintra.com/city/mg-road): Home Yoga and Online Yoga Classes in MG Road - YogIntra
+- [Mopa](https://yogintra.com/city/mopa): Home Yoga and Online Yoga Classes in Mopa - YogIntra
+- [Mulund](https://yogintra.com/city/mulund): Home Yoga and Online Yoga Classes in Mulund - YogIntra
+- [Mumbai](https://yogintra.com/city/mumbai): Home Yoga and Online Yoga Classes in Mumbai - YogIntra
+- [Nariman Point](https://yogintra.com/city/nariman-point): Home Yoga and Online Yoga Classes in Nariman Point - YogIntra
+- [Navi Mumbai](https://yogintra.com/city/navi-mumbai): #1 Home Yoga and Online Yoga Classes in Navi Mumbai - YogIntra
+- [Nayagaon](https://yogintra.com/city/nayagaon): Home Yoga and Online Yoga Classes in Nayagaon - YogIntra
 - [Nerul](https://yogintra.com/city/nerul): Home Yoga and Online Yoga Classes in Nerul - YogIntra
 - [Noida](https://yogintra.com/city/noida): #1 Home Yoga and Online Yoga Classes in Noida - YogIntra
+- [Panaji](https://yogintra.com/city/panaji): Home Yoga and Online Yoga Classes in Panaji - YogIntra
+- [Panchkula](https://yogintra.com/city/panchkula): Home Yoga and Online Yoga Classes in Panchkula - YogIntra
 - [Parel](https://yogintra.com/city/parel): Home Yoga and Online Yoga Classes in Parel - YogIntra
+- [Patelnagar](https://yogintra.com/city/patelnagar): Home Yoga and Online Yoga Classes in Patelnagar - YogIntra
+- [Pitampura](https://yogintra.com/city/pitampura): Home Yoga and Online Yoga Classes in Pitampura - YogIntra
 - [Ponda](https://yogintra.com/city/ponda): Home Yoga and Online Yoga Classes in Ponda - YogIntra
-- [Powai](https://yogintra.com/city/powai): #1 Home Yoga and Online Yoga Classes in Powai - YogIntra
+- [Powai](https://yogintra.com/city/powai): Home Yoga and Online Yoga Classes in Powai - YogIntra
+- [Prayagraj](https://yogintra.com/city/prayagraj): Personal Yoga Trainer in Prayagraj | YogIntra
+- [Pune](https://yogintra.com/city/pune): #1 Home Yoga and Online Yoga Classes in Pune - YogIntra
+- [Punjab](https://yogintra.com/city/punjab): #1 Home Yoga and Online Yoga Classes in Punjab - YogIntra
+- [Rajori Garden](https://yogintra.com/city/rajori-garden): Home Yoga and Online Yoga Classes in Rajori Garden - YogIntra
+- [Ramjhula](https://yogintra.com/city/ramjhula): Drop in Yoga Classes in Ramjhula - YogIntra
+- [Rishikesh](https://yogintra.com/city/rishikesh): Drop in Yoga Classes in Rishikesh - YogIntra
+- [Rohini](https://yogintra.com/city/rohini): Home Yoga and Online Yoga Classes in Rohini - YogIntra
 - [Saket](https://yogintra.com/city/saket): Home Yoga and Online Yoga Classes in Saket - YogIntra
+- [Santacruz](https://yogintra.com/city/santacruz): Home Yoga and Online Yoga Classes in Santacruz - YogIntra
+- [Sarjapura Road](https://yogintra.com/city/sarjapura-road): Home Yoga and Online Yoga Classes in Sarjapura Road - YogIntra
+- [Shahdara](https://yogintra.com/city/shahdara): Home Yoga and Online Yoga Classes in Shahdara - YogIntra
+- [Sion](https://yogintra.com/city/sion): Home Yoga and Online Yoga Classes in Sion - YogIntra
 - [Thane](https://yogintra.com/city/thane): Home Yoga and Online Yoga Classes in Thane - YogIntra
 - [Vashi](https://yogintra.com/city/vashi): Home Yoga and Online Yoga Classes in Vashi - YogIntra
+- [Versova](https://yogintra.com/city/versova): Home Yoga and Online Yoga Classes in Versova - YogIntra
+- [Wadala](https://yogintra.com/city/wadala): Home Yoga and Online Yoga Classes in Wadala - YogIntra
+- [Whitefield](https://yogintra.com/city/whitefield): Home Yoga and Online Yoga Classes in Whitefield - YogIntra
 - [Worli](https://yogintra.com/city/worli): Home Yoga and Online Yoga Classes in Worli - YogIntra
-- [Agonda](https://yogintra.com/city/agonda): Home Yoga and Online Yoga Classes in Agonda - YogIntra
-- [Bandra](https://yogintra.com/city/bandra): Home Yoga and Online Yoga Classes in Bandra - YogIntra
-- [Colaba](https://yogintra.com/city/colaba): Home Yoga and Online Yoga Classes in Colaba - YogIntra
-- [Kharar](https://yogintra.com/city/kharar): Home Yoga and Online Yoga Classes in Kharar - YogIntra
-- [Mapusa](https://yogintra.com/city/mapusa): Home Yoga and Online Yoga Classes in Mapusa - YogIntra
-- [Mulund](https://yogintra.com/city/mulund): Home Yoga and Online Yoga Classes in Mulund - YogIntra
-- [Mumbai](https://yogintra.com/city/mumbai): #1 Home Yoga and Online Yoga Classes in Mumbai - YogIntra
-- [Panaji](https://yogintra.com/city/panaji): Home Yoga and Online Yoga Classes in Panaji - YogIntra
-- [Punjab](https://yogintra.com/city/punjab): #1 Home Yoga and Online Yoga Classes in Punjab - YogIntra
-- [Rohini](https://yogintra.com/city/rohini): Home Yoga and Online Yoga Classes in Rohini - YogIntra
 
 ## Service details
 
