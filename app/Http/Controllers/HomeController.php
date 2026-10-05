@@ -668,6 +668,23 @@ class HomeController extends Controller
             return $response;
         }
 
+        // Legacy landing layouts use the shared Blade shell rather than the
+        // standalone Classic document. Supply the same page-specific JSON-LD
+        // there as well so every /city/* response exposes structured data.
+        $legacyPage = $data['page_data'];
+        $legacyImagePath = trim((string) ($legacyPage->page_image ?? ''));
+        $legacyHeroImage = $legacyImagePath !== ''
+            ? (str_starts_with($legacyImagePath, 'data:') || preg_match('#^https?://#i', $legacyImagePath) ? $legacyImagePath : asset($legacyImagePath))
+            : asset('assets/og-logo.webp');
+        $legacyCityName = trim((string) ($legacyPage->page_name ?? $legacyPage->page_slug ?? ''));
+        $legacyCityName = ucwords(str_replace(['-', '_'], ' ', $legacyCityName ?: 'your city'));
+        $data['landing_schema_markup'] = $this->landingPageSchemaMarkup(
+            $legacyPage,
+            Setting::first(),
+            $legacyHeroImage,
+            $legacyCityName
+        );
+
         return view('front.landing_page', $data);
     }
 
@@ -735,12 +752,25 @@ class HomeController extends Controller
     {
         $slug = trim(strtolower((string) ($page->page_slug ?? '')), '/');
         $canonicalUrl = url('/city/' . $slug);
+
+        return '<link rel="canonical" href="' . e($canonicalUrl) . '">' .
+            '<link rel="alternate" hreflang="en-IN" href="' . e($canonicalUrl) . '">' .
+            '<link rel="alternate" hreflang="x-default" href="' . e($canonicalUrl) . '">' .
+            $this->landingPageSchemaMarkup($page, $setting, $heroImage, $cityName);
+    }
+
+    /** Build server-rendered JSON-LD shared by Classic and legacy city pages. */
+    private function landingPageSchemaMarkup(object $page, ?Setting $setting, string $heroImage, string $cityName): string
+    {
+        $slug = trim(strtolower((string) ($page->page_slug ?? '')), '/');
+        $canonicalUrl = url('/city/' . $slug);
         $siteUrl = url('/');
         $pageTitle = trim((string) ($page->page_meta_title ?? $page->page_image_title ?? $page->page_name ?? 'YogIntra'));
         $description = trim(preg_replace('/\s+/', ' ', strip_tags((string) ($page->page_meta_description ?? $page->page_image_description ?? ''))) ?? '');
         $organizationId = rtrim($siteUrl, '/') . '/#organization';
         $webPageId = $canonicalUrl . '#webpage';
         $serviceId = $canonicalUrl . '#service';
+        $breadcrumbId = $canonicalUrl . '#breadcrumb';
         $logoPath = trim((string) ($setting?->app_sticky_logo ?? 'assets/og-logo.webp'));
         $logoUrl = preg_match('#^(?:https?:)?//#i', $logoPath) || str_starts_with($logoPath, 'data:')
             ? $logoPath
@@ -778,13 +808,7 @@ class HomeController extends Controller
                         '@type' => 'ImageObject',
                         'url' => $heroImage,
                     ],
-                    'breadcrumb' => [
-                        '@type' => 'BreadcrumbList',
-                        'itemListElement' => [
-                            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $siteUrl],
-                            ['@type' => 'ListItem', 'position' => 2, 'name' => $cityName, 'item' => $canonicalUrl],
-                        ],
-                    ],
+                    'breadcrumb' => ['@id' => $breadcrumbId],
                     'mainEntity' => ['@id' => $serviceId],
                 ],
                 [
@@ -801,6 +825,14 @@ class HomeController extends Controller
                     ],
                     'provider' => ['@id' => $organizationId],
                 ],
+                [
+                    '@type' => 'BreadcrumbList',
+                    '@id' => $breadcrumbId,
+                    'itemListElement' => [
+                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $siteUrl],
+                        ['@type' => 'ListItem', 'position' => 2, 'name' => $cityName, 'item' => $canonicalUrl],
+                    ],
+                ],
             ],
         ];
 
@@ -811,10 +843,7 @@ class HomeController extends Controller
             JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
         );
 
-        return '<link rel="canonical" href="' . e($canonicalUrl) . '">' .
-            '<link rel="alternate" hreflang="en-IN" href="' . e($canonicalUrl) . '">' .
-            '<link rel="alternate" hreflang="x-default" href="' . e($canonicalUrl) . '">' .
-            '<script type="application/ld+json">' . $json . '</script>';
+        return '<script type="application/ld+json">' . $json . '</script>';
     }
 
     /**

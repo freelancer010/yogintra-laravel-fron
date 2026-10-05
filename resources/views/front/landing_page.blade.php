@@ -11,6 +11,10 @@
 @section('meta_description', $landingMetaDescription)
 @section('meta_keywords', $page_data->page_keywords ?? '' )
 
+@push('page_meta_tags')
+    {!! $landing_schema_markup ?? '' !!}
+@endpush
+
 @push('page_preloads')
     <!-- Critical preloads for LCP optimization -->
     <link rel="preload" as="image" href="{{ asset($page_data->page_image) }}" fetchpriority="high" media="(min-width: 768px)">
