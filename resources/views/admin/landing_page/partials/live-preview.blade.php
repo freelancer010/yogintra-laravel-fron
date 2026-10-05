@@ -917,6 +917,62 @@
           classicCanvasField.value = savedMain.outerHTML;
         };
         let selectedClassicText = null;
+        const classicTextHistory = new WeakMap();
+        const ensureClassicTextHistory = element => {
+          if (!classicTextHistory.has(element)) {
+            classicTextHistory.set(element, { entries: [element.innerHTML], index: 0, timer: null });
+          }
+          return classicTextHistory.get(element);
+        };
+        const recordClassicTextHistory = (element, immediate = false) => {
+          const state = ensureClassicTextHistory(element);
+          clearTimeout(state.timer);
+          const record = () => {
+            const markup = element.innerHTML;
+            if (state.entries[state.index] === markup) return;
+            state.entries.splice(state.index + 1);
+            state.entries.push(markup);
+            state.index = state.entries.length - 1;
+          };
+          if (immediate) record();
+          else state.timer = setTimeout(record, 250);
+        };
+        const restoreClassicTextHistory = (element, direction) => {
+          const state = ensureClassicTextHistory(element);
+          clearTimeout(state.timer);
+          recordClassicTextHistory(element, true);
+          const nextIndex = Math.max(0, Math.min(state.entries.length - 1, state.index + direction));
+          if (nextIndex === state.index) return;
+          state.index = nextIndex;
+          element.innerHTML = state.entries[state.index];
+          const textEditor = stylePanel.querySelector('#classic-text-editor');
+          if (selectedClassicText === element && textEditor) textEditor.value = element.innerText;
+          saveClassicCanvas();
+          setSaveState('Unsaved changes');
+        };
+        const handleClassicTextUndo = event => {
+          if (!(event.ctrlKey || event.metaKey) || !['z', 'y'].includes(event.key.toLowerCase())) return;
+          const editable = frameDocument.activeElement?.closest?.('[data-builder-editable-text]');
+          if (!editable || !frameMain.contains(editable)) return;
+          event.preventDefault();
+          const redo = event.key.toLowerCase() === 'y' || (event.key.toLowerCase() === 'z' && event.shiftKey);
+          restoreClassicTextHistory(editable, redo ? 1 : -1);
+        };
+        const bindClassicTextEditor = element => {
+          element.contentEditable = 'true';
+          element.dataset.builderEditableText = 'true';
+          ensureClassicTextHistory(element);
+          element.addEventListener('input', () => {
+            recordClassicTextHistory(element);
+            saveClassicCanvas();
+            if (selectedClassicText === element) {
+              const textEditor = stylePanel.querySelector('#classic-text-editor');
+              if (textEditor) textEditor.value = element.innerText;
+            }
+            setSaveState('Unsaved changes');
+          });
+          element.addEventListener('click', event => { event.stopPropagation(); showClassicTextEditor(element); });
+        };
         const classicLinkLabel = link => link.querySelector(':scope > .classic-link-label') || link.querySelector('.classic-link-label');
         const classicLinkText = link => (classicLinkLabel(link)?.innerText || link.innerText).trim();
         const setClassicLinkText = (link, text) => {
@@ -930,13 +986,14 @@
           selectedClassicText.dataset.builderSelectedText = 'true';
           const selectedElement = inspector.querySelector('[data-selected-element]');
           selectedElement?.closest('.builder-selected-element')?.classList.remove('is-empty');
-          if (selectedElement) selectedElement.textContent = element.tagName.toLowerCase() + ' text';
+          if (selectedElement) selectedElement.textContent = (element.matches('em, i') ? 'Italic' : element.closest('h1,h2,h3,h4,h5,h6') ? 'Heading' : element.tagName.toLowerCase()) + ' text';
           stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Edit text</span><span>¶</span></div><label for="classic-text-editor">Selected text</label><textarea id="classic-text-editor" rows="8"></textarea><small class="classic-editor-help">Edits here and in the canvas stay in sync.</small>';
           const textEditor = stylePanel.querySelector('#classic-text-editor');
           textEditor.value = element.innerText;
           textEditor.addEventListener('input', () => {
             if (!selectedClassicText) return;
             selectedClassicText.textContent = textEditor.value;
+            recordClassicTextHistory(selectedClassicText);
             saveClassicCanvas();
             setSaveState('Unsaved changes');
           });
@@ -965,7 +1022,28 @@
           });
         };
         const makeTextEditable = () => {
-          const editableElements = new Set(frameMain.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,summary,.eyebrow,.photo-note strong,.photo-note span,.vertical-label,.image-label,.large-number,.booking-note'));
+          const editableElements = new Set();
+          frameMain.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,summary,.eyebrow,.photo-note strong,.photo-note span,.vertical-label,.image-label,.large-number,.booking-note').forEach(element => {
+            const styledRuns = [...element.querySelectorAll('em,strong,b,i,u')]
+              .filter(run => run.innerText.trim() && !run.querySelector('em,strong,b,i,u'));
+            if (!styledRuns.length) {
+              editableElements.add(element);
+              return;
+            }
+
+            // Mixed-style headings must not be flattened into one plain-text
+            // field. Keep each styled run intact and wrap direct normal text
+            // only while the builder is open; saveClassicCanvas unwraps it.
+            [...element.childNodes].forEach(child => {
+              if (child.nodeType !== Node.TEXT_NODE || !child.nodeValue.trim()) return;
+              const editor = frameDocument.createElement('span');
+              editor.textContent = child.nodeValue;
+              editor.dataset.builderInlineWrapper = 'true';
+              child.replaceWith(editor);
+              editableElements.add(editor);
+            });
+            styledRuns.forEach(run => editableElements.add(run));
+          });
           const walker = frameDocument.createTreeWalker(frameMain, NodeFilter.SHOW_TEXT);
           const standaloneTextNodes = [];
           let node;
@@ -975,17 +1053,7 @@
             if (!parent.closest('h1,h2,h3,h4,h5,h6,p,a,li,blockquote,summary,.eyebrow,.photo-note strong,.photo-note span,.vertical-label,.image-label,.large-number,.booking-note,[data-builder-editable-text]')) standaloneTextNodes.push(node);
           }
           editableElements.forEach(element => {
-            element.contentEditable = 'true';
-            element.dataset.builderEditableText = 'true';
-            element.addEventListener('input', saveClassicCanvas);
-            element.addEventListener('input', () => {
-              if (selectedClassicText === element) {
-                const textEditor = stylePanel.querySelector('#classic-text-editor');
-                if (textEditor) textEditor.value = element.innerText;
-              }
-              setSaveState('Unsaved changes');
-            });
-            element.addEventListener('click', event => { event.stopPropagation(); showClassicTextEditor(element); });
+            bindClassicTextEditor(element);
           });
           // Labels that sit beside icons (for example the four benefit-strip
           // items) are bare text nodes in a mixed element. Wrap only the text
@@ -996,15 +1064,7 @@
             editor.contentEditable = 'true';
             editor.dataset.builderEditableText = 'true';
             editor.dataset.builderInlineWrapper = 'true';
-            editor.addEventListener('input', saveClassicCanvas);
-            editor.addEventListener('input', () => {
-              if (selectedClassicText === editor) {
-                const textEditor = stylePanel.querySelector('#classic-text-editor');
-                if (textEditor) textEditor.value = editor.innerText;
-              }
-              setSaveState('Unsaved changes');
-            });
-            editor.addEventListener('click', event => { event.stopPropagation(); showClassicTextEditor(editor); });
+            bindClassicTextEditor(editor);
             textNode.replaceWith(editor);
           });
         };
@@ -1037,6 +1097,7 @@
         });
         makeTextEditable();
         frameDocument.addEventListener('keydown', handleSaveShortcut);
+        frameDocument.addEventListener('keydown', handleClassicTextUndo);
         frameMain.querySelectorAll('.faq-list details').forEach((faqItem, index) => {
           faqItem.style.position = 'relative';
           const removeFaqButton = frameDocument.createElement('button');
