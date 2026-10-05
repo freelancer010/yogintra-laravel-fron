@@ -903,6 +903,9 @@
           // wrappers must never leak into the public landing page.
           const savedMain = frameMain.cloneNode(true);
           savedMain.querySelectorAll('[data-builder-control]').forEach(control => control.remove());
+          // Opening an FAQ in the editor is preview UI state, not page
+          // content. Never persist that state into the public canvas.
+          savedMain.querySelectorAll('.faq-list details[open]').forEach(item => item.removeAttribute('open'));
           savedMain.querySelectorAll('[data-builder-inline-wrapper]').forEach(wrapper => wrapper.replaceWith(...wrapper.childNodes));
           savedMain.querySelectorAll('[contenteditable],[data-builder-editable-text],[data-builder-selected-text],[data-builder-editable-image]').forEach(element => {
             element.removeAttribute('contenteditable');

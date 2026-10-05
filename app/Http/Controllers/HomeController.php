@@ -646,6 +646,15 @@ class HomeController extends Controller
                 $referenceLayout,
                 1
             ) ?? $referenceLayout;
+            // FAQ open/closed state can be toggled while editing the iframe.
+            // It is transient UI state and must not make a saved public page
+            // load with an answer permanently expanded. This also repairs
+            // canvases saved before the builder-side safeguard existed.
+            $referenceLayout = preg_replace_callback(
+                '#<details\\b[^>]*>#i',
+                static fn (array $match) => preg_replace("#\\s+open(?:\\s*=\\s*([\"']).*?\\1)?#i", '', $match[0]) ?? $match[0],
+                $referenceLayout
+            ) ?? $referenceLayout;
             $referenceLayout = $this->ensureLandingImageTitles($referenceLayout);
 
             $response = response($referenceLayout)->header('Content-Type', 'text/html; charset=UTF-8');

@@ -7,6 +7,34 @@ if(servicesContainer&&!savedCanvas&&!servicesContainer.children.length)servicesC
 const faqs=[['Can I join yoga classes from anywhere in India?','Live online sessions let you practise remotely with an instructor from home. Ask YogIntra about the formats and session times available for your needs.'],['Are the classes suitable for beginners?','Yes. Start with foundational poses, breathing, alignment and relaxation. You don’t need advanced flexibility or previous yoga experience.'],['What do I need for an online class?','A yoga mat, enough comfortable space to move, a suitable device and an internet connection. Your instructor can advise if your sessions need any additional equipment.'],['How much do classes cost?','Fees depend on class format, session duration, frequency and package. Enquire with YogIntra for current pricing, inclusions, validity and cancellation terms.'],['How often should I practise?','Your routine should suit your goals, experience, schedule and individual circumstances. Your instructor can help you find a realistic frequency you can maintain.'],['Can I get personalised guidance online?','Ask about personalised online sessions for your requirements. Where available, your instructor can adapt the practice to your experience and needs.'],['How do I choose the right yoga class?','Think about your experience, goals, preferred schedule and the level of instructor attention you want. Share these with YogIntra to explore a suitable format.']];
 const faqContainer=document.querySelector('#faqs');
 if(faqContainer&&!savedCanvas&&!faqContainer.children.length)faqContainer.innerHTML=faqs.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join('');
+if(faqContainer){
+  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const animateFaq=(item,expand)=>{
+    item.getAnimations().forEach(animation=>animation.cancel());
+    const summary=item.querySelector('summary');
+    if(!summary)return;
+    const startHeight=item.getBoundingClientRect().height;
+    if(expand)item.open=true;
+    const endHeight=expand?item.scrollHeight:summary.getBoundingClientRect().height;
+    if(reduceMotion){item.open=expand;return}
+    item.style.overflow='hidden';
+    const animation=item.animate(
+      {height:[`${startHeight}px`,`${endHeight}px`],opacity:expand?[.82,1]:[1,.88]},
+      {duration:220,easing:'cubic-bezier(.2,.7,.25,1)'}
+    );
+    animation.onfinish=()=>{item.open=expand;item.style.removeProperty('overflow');item.style.removeProperty('height');item.style.removeProperty('opacity')};
+    animation.oncancel=()=>{item.style.removeProperty('overflow');item.style.removeProperty('height');item.style.removeProperty('opacity')};
+  };
+  faqContainer.querySelectorAll('details').forEach(item=>{
+    item.removeAttribute('open');
+    item.querySelector('summary')?.addEventListener('click',event=>{
+      event.preventDefault();
+      const expand=!item.open;
+      if(expand)faqContainer.querySelectorAll('details[open]').forEach(openItem=>{if(openItem!==item)animateFaq(openItem,false)});
+      animateFaq(item,expand);
+    });
+  });
+}
 document.querySelectorAll('[data-icon]').forEach(el=>el.outerHTML=icon(el.dataset.icon));
 const toggle=document.querySelector('.menu-toggle'),nav=document.querySelector('#navigation');
 if(toggle&&nav){
