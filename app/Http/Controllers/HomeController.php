@@ -523,9 +523,27 @@ class HomeController extends Controller
                 'api' => $this->api_main,
             ])->render();
 
+            // The hero copy is the mobile LCP element. Inline only the two
+            // small stylesheets needed to paint it and the fixed header;
+            // below-the-fold component CSS can download without blocking the
+            // first render.
+            $landingCss = file_get_contents(public_path('assets/landing-reference/styles.css')) ?: '';
+            $landingHeaderCss = file_get_contents(public_path('assets/landing-reference/global-header.css')) ?: '';
             $referenceLayout = str_replace(
-                ['href="styles.css"', 'src="app.js"', 'src="assets/hero.webp"', 'src="assets/guidance.webp"'],
-                ['href="/assets/landing-reference/styles.css"', 'src="/assets/landing-reference/app.js"', 'src="' . e($heroImage) . '"', 'src="/assets/landing-reference/guidance.webp"'],
+                '<link rel="stylesheet" href="styles.css">',
+                '<style id="landing-critical-css">' . $landingCss . '</style>',
+                $referenceLayout
+            );
+            $deferredStylesheet = static function (string $url): string {
+                $escapedUrl = e($url);
+
+                return '<link rel="preload" as="style" href="' . $escapedUrl . '" onload="this.onload=null;this.rel=\'stylesheet\'">' .
+                    '<noscript><link rel="stylesheet" href="' . $escapedUrl . '"></noscript>';
+            };
+
+            $referenceLayout = str_replace(
+                ['src="app.js"', 'src="assets/hero.webp"', 'src="assets/guidance.webp"'],
+                ['src="/assets/landing-reference/app.js"', 'src="' . e($heroImage) . '"', 'src="/assets/landing-reference/guidance.webp"'],
                 $referenceLayout
             );
             $referenceLayout = str_replace(array_keys($defaultCityCopy), array_values($defaultCityCopy), $referenceLayout);
@@ -534,7 +552,12 @@ class HomeController extends Controller
             $referenceLayout = preg_replace('#<link\s+rel="icon"[^>]*>#i', '', $referenceLayout) ?? $referenceLayout;
             $referenceLayout = str_replace(
                 '</head>',
-                '<meta name="csrf-token" content="' . e(csrf_token()) . '"><link rel="icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="shortcut icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="apple-touch-icon" href="' . e($favicon) . '"><link rel="stylesheet" href="/assets/front/css/font-awesome.min.css"><link rel="stylesheet" href="/assets/landing-reference/global-header.css"><link rel="stylesheet" href="/assets/landing-reference/classic-trainers.css"><link rel="stylesheet" href="/assets/landing-reference/global-footer.css"><style>.brand-logo img{display:block;width:190px;height:auto;object-fit:contain}@media(max-width:680px){.brand-logo img{width:150px}}</style></head>',
+                '<meta name="csrf-token" content="' . e(csrf_token()) . '"><link rel="icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="shortcut icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="apple-touch-icon" href="' . e($favicon) . '">' .
+                '<style id="landing-header-critical-css">' . $landingHeaderCss . '</style>' .
+                $deferredStylesheet(asset('assets/front/css/font-awesome.min.css')) .
+                $deferredStylesheet(asset('assets/landing-reference/classic-trainers.css')) .
+                $deferredStylesheet(asset('assets/landing-reference/global-footer.css') . '?v=' . filemtime(public_path('assets/landing-reference/global-footer.css'))) .
+                '<style>.brand-logo img{display:block;width:190px;height:auto;object-fit:contain}@media(max-width:680px){.brand-logo img{width:150px}}</style></head>',
                 $referenceLayout
             );
             $referenceLayout = preg_replace(
@@ -604,7 +627,7 @@ class HomeController extends Controller
                 $referenceLayout = preg_replace('#<main\b#', '<main data-locations-initialized="true"', $referenceLayout, 1);
             }
             $locationsCss = asset('assets/landing-reference/classic-locations.css') . '?v=' . filemtime(public_path('assets/landing-reference/classic-locations.css'));
-            $referenceLayout = str_replace('</head>', '<link rel="stylesheet" href="' . e($locationsCss) . '"></head>', $referenceLayout);
+            $referenceLayout = str_replace('</head>', $deferredStylesheet($locationsCss) . '</head>', $referenceLayout);
 
             // Restore each page's original hero copy once, then let subsequent
             // builder edits remain authoritative through the saved marker.
@@ -626,13 +649,7 @@ class HomeController extends Controller
                 $referenceLayout = preg_replace('#<main\b#', '<main data-hero-copy-restored="true"', $referenceLayout, 1);
             }
             $testimonialCss = asset('assets/landing-reference/classic-testimonials.css') . '?v=' . filemtime(public_path('assets/landing-reference/classic-testimonials.css'));
-            $referenceLayout = str_replace('</head>', '<link rel="stylesheet" href="' . e($testimonialCss) . '"></head>', $referenceLayout);
-
-            $referenceLayout = str_replace(
-                'href="/assets/landing-reference/global-footer.css"',
-                'href="/assets/landing-reference/global-footer.css?v=' . filemtime(public_path('assets/landing-reference/global-footer.css')) . '"',
-                $referenceLayout
-            );
+            $referenceLayout = str_replace('</head>', $deferredStylesheet($testimonialCss) . '</head>', $referenceLayout);
 
             $referenceLayout = str_replace(
                 'src="/assets/landing-reference/app.js"',
