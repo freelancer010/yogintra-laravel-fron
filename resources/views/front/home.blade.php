@@ -20,12 +20,39 @@
 @push('page_meta_tags')
     <meta name="theme-color" content="#0f7c87">
     <style id="home-mobile-layout-critical">
+        *,*:before,*:after{box-sizing:border-box}
+        html,body{margin:0;width:100%;min-height:100%}
+        body{overflow-x:hidden;color:#777;background:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:14px;line-height:1.7}
+        #wrapper{width:100%;overflow:hidden}
+        .container{width:100%;margin-right:auto;margin-left:auto;padding-right:15px;padding-left:15px}
+        .row{display:flex;flex-wrap:wrap;margin-right:-15px;margin-left:-15px}
+        .row>[class*=col-]{position:relative;width:100%;padding-right:15px;padding-left:15px}
+        .col-md-6{width:50%}
+        .text-right{text-align:right}.text-center{text-align:center}
+        .ml-md-auto{margin-left:auto}.offset-md-2{margin-left:16.666667%}.col-md-8{width:66.666667%}
+        .pt-20{padding-top:20px}.pb-50{padding-bottom:50px}.mt-10{margin-top:10px}.mt-15{margin-top:15px}
+        .text-black-555{color:#01aeb7!important}.font-18{font-size:18px!important}.font-54{font-size:3.85714286rem!important}
+        .heading-bold{font-weight:900}.bg-white-transparent{background:transparent}
+        #home{position:relative;min-height:100vh}
+        .hero-video-wrap{position:relative;min-height:100vh;overflow:hidden;background:#111 center/cover no-repeat}
+        .hero-video-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+        .hero-video-wrap:after{position:absolute;inset:0;content:"";background:#00000061}
+        .hero-video-copy{position:relative;z-index:1;display:flex;align-items:center;min-height:100vh}
+        .hero-video-copy h1{margin:.67em 0;font-family:Quicksand,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:900;line-height:1}
+        .hero-video-copy p{margin-bottom:10px}
+        .hero-video-copy .btn{display:inline-block;padding:12px 24px;border:1px solid #1a73e8;border-radius:4px;background:#1a73e8;color:#fff;font-weight:600;line-height:1.42857143;text-decoration:none;text-transform:uppercase;letter-spacing:.5px}
         .hero-video-play{position:absolute;bottom:20px;right:20px;z-index:4;border:1px solid #fff;border-radius:6px;padding:10px 16px;background:#123e46;color:#fff;cursor:pointer}
         .hero-video-play[hidden]{display:none}
         /* The shared legacy stylesheet is deferred on the homepage. Reserve the
            mobile hero's final geometry before it arrives so the hidden desktop
            carousel never creates a large first-paint layout shift. */
         @media (max-width: 767px) {
+            .col-md-6,.col-md-8{width:100%}.offset-md-2{margin-left:0}.font-54{font-size:2rem!important}
+            #home.hero-video-home{height:calc(100svh - 70px)!important;min-height:calc(100svh - 70px)!important;margin:0!important;padding:0!important}
+            #home.hero-video-home .hero-video-wrap,#home.hero-video-home .hero-video-copy{height:calc(100svh - 70px);min-height:calc(100svh - 70px)}
+            #home.hero-video-home .hero-video-copy .container{position:static!important;padding-right:20px;padding-left:20px}
+            #home.hero-video-home .hero-video-copy .row>[class*=col-]{width:100%;margin-left:0;text-align:center!important}
+            #home.hero-video-home .hero-video-copy .bg-white-transparent{text-align:center!important}
             #home { position:relative; min-height:75svh; height:75svh; overflow:hidden; }
             #home .fullwidth-carousel { display:none !important; }
             #home .mobile-home { display:block !important; position:relative; width:100%; min-height:75svh; height:75svh; padding:0 !important; overflow:hidden; }
@@ -39,6 +66,7 @@
             .owl-carousel-4col:not(.owl-loaded) > .item:not(:first-child),.owl-carousel-3col:not(.owl-loaded) > .item:not(:first-child) { display:none; }
         }
         @media (min-width: 768px) {
+            .container{max-width:750px}
             #home .mobile-home { display:none !important; }
             #home:not(.hero-video-home) { position:relative; min-height:100vh; height:100vh; overflow:hidden; }
             #home:not(.hero-video-home) .fullwidth-carousel,
@@ -51,6 +79,8 @@
             #home:not(.hero-video-home) .fullwidth-carousel .display-table-cell { display:table-cell; height:100%; vertical-align:middle; }
             #home:not(.hero-video-home) .fullwidth-carousel .container.position-ab { position:relative!important; top:auto!important; width:100%; }
         }
+        @media (min-width: 992px) {.container{max-width:970px}}
+        @media (min-width: 1200px) {.container{max-width:1170px}}
     </style>
     @if(($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video))
         @php
@@ -77,8 +107,8 @@
     @if(($app_setting->hero_media_type ?? 'slider') === 'video' && $heroPoster)
         <link rel="preload" as="image" href="{{ asset($heroPoster) }}" fetchpriority="high">
     @endif
-    {{-- Hero typography and geometry must be styled before first paint. --}}
-    <link rel="stylesheet" href="{{ asset('assets/front/css/home.min.css') }}?v={{ filemtime(public_path('assets/front/css/home.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/home.min.css') }}?v={{ filemtime(public_path('assets/front/css/home.min.css')) }}" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/home.min.css') }}?v={{ filemtime(public_path('assets/front/css/home.min.css')) }}"></noscript>
     <noscript><style>.types-of-yoga-section{background-image:url('{{ asset($app_setting->section3_background_image ?: 'assets/parallax-decor2.png') }}')}</style></noscript>
 @endpush
 @section('content')

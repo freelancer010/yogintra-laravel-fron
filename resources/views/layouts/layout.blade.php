@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{{ request()->path() === '/' ? 'home-critical-loading' : '' }}">
 <head>
     @php
         $isLandingPage = request()->is('city/*');
@@ -54,8 +54,10 @@
 
     <!-- Page-specific preloads (e.g., hero images) -->
     @stack('page_preloads')
-    <link rel="preload" as="image" href="{{ asset($app_setting->app_sticky_logo) }}" fetchpriority="high">
-    @if ($isHomePage || !$deferNonCriticalStyles)
+    @unless ($isHomePage)
+        <link rel="preload" as="image" href="{{ asset($app_setting->app_sticky_logo) }}" fetchpriority="high">
+    @endunless
+    @if (!$deferNonCriticalStyles)
         <link rel="preload" as="font" href="{{ asset('assets/front/fonts/fontawesome-webfont3e6e.woff2') }}?v=4.7.0" type="font/woff2" crossorigin>
     @endif
 
@@ -63,6 +65,7 @@
         {{-- These overlays are rendered near the end of the document. Keep them
            out of normal flow before the deferred stylesheet has loaded. --}}
         <style id="home-overlay-critical">
+            .home-critical-loading main>section:not(#home){visibility:hidden}
             .cookie-banner,#messagePopup{position:fixed;display:none;z-index:1000000}
             #messageIcon,.tooltip-popup{position:fixed;z-index:9999}
             .cookie-banner{right:20px;bottom:20px;left:20px;max-width:480px;margin:auto}
@@ -97,10 +100,16 @@
         </style>
     @endif
 
-    {{-- Apply layout CSS before first paint; deferring this theme causes CLS. --}}
+    {{-- The inline hero layout prevents unstyled content from entering the
+       viewport while the large legacy theme downloads outside the critical path. --}}
     @if ($isHomePage)
-        <link href="{{ asset('assets/front/css/homepage.bundle.min.css') }}?v={{ filemtime(public_path('assets/front/css/homepage.bundle.min.css')) }}" rel="stylesheet">
-        <link href="{{ asset('assets/landing-reference/global-footer.css') }}?v={{ filemtime(public_path('assets/landing-reference/global-footer.css')) }}" rel="stylesheet">
+        <link href="{{ asset('assets/front/css/homepage.bundle.min.css') }}?v={{ filemtime(public_path('assets/front/css/homepage.bundle.min.css')) }}" rel="stylesheet" media="print" onload="this.media='all';document.documentElement.classList.remove('home-critical-loading')" onerror="document.documentElement.classList.remove('home-critical-loading')">
+        <link href="{{ asset('assets/landing-reference/global-footer.css') }}?v={{ filemtime(public_path('assets/landing-reference/global-footer.css')) }}" rel="stylesheet" media="print" onload="this.media='all'">
+        <noscript>
+            <style>.home-critical-loading main>section:not(#home){visibility:visible}</style>
+            <link href="{{ asset('assets/front/css/homepage.bundle.min.css') }}?v={{ filemtime(public_path('assets/front/css/homepage.bundle.min.css')) }}" rel="stylesheet">
+            <link href="{{ asset('assets/landing-reference/global-footer.css') }}?v={{ filemtime(public_path('assets/landing-reference/global-footer.css')) }}" rel="stylesheet">
+        </noscript>
         <style id="home-navigation-state">
             @media(min-width:1001px){
                 #header.home-mobile-hero-navigation:not(.mobile-hero-scrolled) .header-nav,
