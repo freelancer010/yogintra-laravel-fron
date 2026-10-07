@@ -1,7 +1,7 @@
 <div class="col-xs-12 col-sm-6 col-md-3 sm-text-center mb-30 mb-sm-30">
   <div class="team-members text-center maxwidth400" onclick="window.location.href='{{ route('trainer.show', $trainer['id']) }}'" style="cursor: pointer;">
     <div class="team-thumb">
-      <img class="img-fullwidth" id="imageresource_{{ $i }}" style="height: 200px; width: auto" alt="YogIntra" src="{{ $api }}/{{ $trainer['profile_image'] }}">
+      <img class="img-fullwidth" id="imageresource_{{ $i }}" style="height: 200px; width: auto" alt="{{ $trainer['name'] ?? 'YogIntra instructor' }} - YogIntra yoga instructor" title="{{ $trainer['name'] ?? 'YogIntra instructor' }} - YogIntra yoga instructor" loading="lazy" decoding="async" src="{{ $api }}/{{ $trainer['profile_image'] }}">
     </div>
     <div class="team-details">
       <div class="p-10" style="background-color: #01AEB7;">
