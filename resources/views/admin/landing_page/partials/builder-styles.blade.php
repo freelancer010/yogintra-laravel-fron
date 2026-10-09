@@ -1,5 +1,5 @@
 @push('styles')
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap">
 <style>
   .landing-builder-shell { max-width: 1320px; margin: 28px auto; }
   .landing-builder-shell .builder-source-fields[hidden] { display:none !important; }
@@ -496,6 +496,12 @@
   .preview-section.is-classic-preview.is-trainers-section .preview-feature { overflow:hidden; padding:0 0 22px; border-radius:8px; }
   .preview-section.is-classic-preview.is-trainers-section .preview-feature img { width:100%; height:230px; border-radius:0; object-fit:cover; }
   .preview-section.is-classic-preview.is-trainers-section .preview-feature > div { padding:0 20px; }
+  /* Match the public trainer slider, whose title and card names use the
+     landing page's Quicksand treatment rather than the Classic serif face. */
+  .preview-section.is-classic-preview.is-trainers-section .preview-grid-heading h3,
+  .preview-section.is-classic-preview.is-trainers-section .preview-feature h4 { color:#01aeb7 !important; font-family:Quicksand,sans-serif !important; font-weight:900 !important; }
+  .preview-section.is-classic-preview.is-trainers-section .preview-feature h4 { margin:0 0 6px; font-size:20px; line-height:1.3; }
+  .preview-section.is-classic-preview.is-trainers-section .preview-feature p { font-family:Quicksand,sans-serif; line-height:1.55; }
   .preview-section.is-classic-preview.is-services-section .preview-feature { padding:30px 25px; border:0; border-right:1px solid #dce4df; border-bottom:1px solid #dce4df; border-radius:0; background:transparent; box-shadow:none; }
   .preview-section.is-classic-preview .preview-feature { height:100%; padding:30px 25px; border:1px solid #dce4df; border-radius:0; background:#fff; box-shadow:none; }
   .preview-section.is-classic-preview .preview-feature:hover { background:#f8f7f2; transform:none; }

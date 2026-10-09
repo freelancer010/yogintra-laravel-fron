@@ -1239,7 +1239,7 @@
         + (heading === 'Why YogIntra' ? ' is-brand-story' : '')
         + (heading === 'A practice made for you' ? ' is-benefit-strip-section' : '')
         + (heading === 'Yoga Services Available Across India' ? ' is-services-section' : '')
-        + (heading === 'Practice with experienced instructors.' ? ' is-trainers-section' : '')
+        + (type === 'trainer_slider' || heading === 'Practice with experienced instructors.' ? ' is-trainers-section' : '')
         + (heading === 'Yoga Classes for Different Needs, Ages & Experience Levels' ? ' is-audience-section' : '')
         + (heading === 'Start Your Yoga Journey in 3 Simple Steps' ? ' is-steps-section' : '')
         + (heading === 'Yoga Plans for Different Needs' ? ' is-plans-section' : '')
