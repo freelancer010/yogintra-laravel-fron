@@ -272,7 +272,7 @@
                             @foreach ($section_1_content as $content_1)
                                 <div class="col-sm-6">
                                     <div class="icon-box icon-theme-colored benefit-icon left media p-0 mb-sm-10 mt-30">
-                                        <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip" aria-label="Explore yoga centres">
+                                        <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip" aria-label="Explore yoga centres" title="Explore YogIntra yoga centres">
                                             <img src="{{ asset($content_1->of_image) }}" 
                                                 width="75" height="75" loading="lazy" alt="YogIntra Feature - {{ $content_1->of_heading }}" title="YogIntra Feature - {{ $content_1->of_heading }}" decoding="async">
                                         </a>
@@ -411,7 +411,7 @@
                                          <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['yoga_center'] ?? 'uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility" title="YogIntra Yoga Center and Training Facility">
                                          <h3 class="mb-15 fs-16">Yoga Center</h3>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('yoga_center') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
-                                         <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
+                                         <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark" title="Explore YogIntra yoga centres">{{ $cardButton['label'] }}</a>
                                     </div>
                                 </div>
                                 </div>
@@ -466,7 +466,7 @@
                         </div>
                         <h3>Find a suitable option</h3>
                         <p>Explore classes, centres and wellness services in your area. If you are unsure where to start, our team can help you choose the right format.</p>
-                        <a href="{{ route('yoga.center') }}" class="summary-link">Explore centres and services <span aria-hidden="true">&rarr;</span></a>
+                        <a href="{{ route('yoga.center') }}" class="summary-link" title="Explore YogIntra yoga centres and services">Explore centres and services <span aria-hidden="true">&rarr;</span></a>
                     </article>
                 </div>
             </div>
