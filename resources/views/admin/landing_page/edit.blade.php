@@ -193,7 +193,7 @@
         const blocks = document.createElement('input');
         blocks.type = 'hidden';
         blocks.name = `sections[${index}][blocks]`;
-        blocks.value = JSON.stringify([{ title: 'Trainer name', text: '' }]);
+        blocks.value = JSON.stringify([{ title: 'Trainer name', text: '', bullets: '' }]);
         card.appendChild(blocks);
         const columns = document.createElement('input');
         columns.type = 'hidden';
@@ -202,22 +202,6 @@
         card.appendChild(columns);
       }
     }));
-    document.querySelector('[data-trainer-slider]')?.addEventListener('click', () => {
-      const card = sections.lastElementChild;
-      const layout = card?.querySelector('select[name$="[section_type]"]');
-      if (!card || !layout) return;
-      if (!layout.querySelector('option[value="feature_grid"]')) layout.add(new Option('Feature grid', 'feature_grid'));
-      layout.value = 'feature_grid';
-      const blocks = document.createElement('input');
-      blocks.type = 'hidden'; blocks.name = layout.name.replace('[section_type]', '[blocks]');
-      blocks.value = JSON.stringify([{ title: 'Trainer name', text: '' }, { title: 'Trainer name', text: '' }, { title: 'Trainer name', text: '' }]);
-      const elements = document.createElement('input');
-      elements.type = 'hidden'; elements.name = layout.name.replace('[section_type]', '[elements]');
-      elements.value = JSON.stringify([{ type: 'trainer_slider' }]);
-      const columns = document.createElement('input');
-      columns.type = 'hidden'; columns.name = layout.name.replace('[section_type]', '[grid_columns]'); columns.value = '3';
-      card.append(blocks, elements, columns);
-    });
     sections.addEventListener('click', (event) => {
       const card = event.target.closest('.page-builder-section');
       if (!card) return;
