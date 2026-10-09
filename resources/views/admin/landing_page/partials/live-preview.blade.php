@@ -858,7 +858,7 @@
         let frameMain = frameDocument.querySelector('main');
         if (!frameMain) return;
         const editingStyle = frameDocument.createElement('style');
-        editingStyle.textContent = '[data-builder-editable-text]:hover{outline:1px dashed #095253;outline-offset:4px;cursor:text}[data-builder-editable-text]:focus,[data-builder-selected-text]{outline:2px solid #095253;outline-offset:4px}[data-builder-editable-image]{cursor:pointer}[data-builder-editable-image]:hover{outline:3px solid #095253;outline-offset:3px}.chips span[data-builder-editable-text]{padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;font:inherit!important;color:inherit!important}';
+        editingStyle.textContent = '[data-builder-editable-text]:hover{outline:1px dashed #095253;outline-offset:4px;cursor:text}[data-builder-editable-text]:focus,[data-builder-selected-text]{outline:2px solid #095253;outline-offset:4px}[data-builder-editable-image]{cursor:pointer}[data-builder-editable-image]:hover{outline:3px solid #095253;outline-offset:3px}[data-builder-selected-image]{outline:3px solid #095253;outline-offset:3px}.chips span[data-builder-editable-text]{padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;font:inherit!important;color:inherit!important}';
         frameDocument.head.appendChild(editingStyle);
         if (savedClassicCanvas) {
           const restoredCanvas = frameDocument.createRange().createContextualFragment(savedClassicCanvas);
@@ -907,16 +907,18 @@
           // content. Never persist that state into the public canvas.
           savedMain.querySelectorAll('.faq-list details[open]').forEach(item => item.removeAttribute('open'));
           savedMain.querySelectorAll('[data-builder-inline-wrapper]').forEach(wrapper => wrapper.replaceWith(...wrapper.childNodes));
-          savedMain.querySelectorAll('[contenteditable],[data-builder-editable-text],[data-builder-selected-text],[data-builder-editable-image]').forEach(element => {
+          savedMain.querySelectorAll('[contenteditable],[data-builder-editable-text],[data-builder-selected-text],[data-builder-editable-image],[data-builder-selected-image]').forEach(element => {
             element.removeAttribute('contenteditable');
             element.removeAttribute('data-builder-editable-text');
             element.removeAttribute('data-builder-selected-text');
             element.removeAttribute('data-builder-editable-image');
+            element.removeAttribute('data-builder-selected-image');
             element.removeAttribute('data-builder-inline-wrapper');
           });
           classicCanvasField.value = savedMain.outerHTML;
         };
         let selectedClassicText = null;
+        let selectedClassicImage = null;
         const classicTextHistory = new WeakMap();
         const ensureClassicTextHistory = element => {
           if (!classicTextHistory.has(element)) {
@@ -982,6 +984,7 @@
         };
         const showClassicTextEditor = element => {
           if (selectedClassicText) selectedClassicText.removeAttribute('data-builder-selected-text');
+          if (selectedClassicImage) selectedClassicImage.removeAttribute('data-builder-selected-image');
           selectedClassicText = element;
           selectedClassicText.dataset.builderSelectedText = 'true';
           const selectedElement = inspector.querySelector('[data-selected-element]');
@@ -1000,6 +1003,7 @@
         };
         const showClassicLinkEditor = element => {
           if (selectedClassicText) selectedClassicText.removeAttribute('data-builder-selected-text');
+          if (selectedClassicImage) selectedClassicImage.removeAttribute('data-builder-selected-image');
           selectedClassicText = element;
           selectedClassicText.dataset.builderSelectedText = 'true';
           const selectedElement = inspector.querySelector('[data-selected-element]');
@@ -1074,12 +1078,40 @@
         imagePicker.hidden = true;
         frameDocument.body.appendChild(imagePicker);
         let selectedImage = null;
+        const setImageAttribute = (image, attribute, value) => {
+          const normalized = value.trim();
+          if (normalized) image.setAttribute(attribute, normalized);
+          else image.removeAttribute(attribute);
+          saveClassicCanvas();
+          setSaveState('Unsaved changes');
+        };
+        const showClassicImageEditor = image => {
+          if (selectedClassicText) selectedClassicText.removeAttribute('data-builder-selected-text');
+          if (selectedClassicImage) selectedClassicImage.removeAttribute('data-builder-selected-image');
+          selectedClassicText = null;
+          selectedClassicImage = image;
+          selectedClassicImage.dataset.builderSelectedImage = 'true';
+          const selectedElement = inspector.querySelector('[data-selected-element]');
+          selectedElement?.closest('.builder-selected-element')?.classList.remove('is-empty');
+          if (selectedElement) selectedElement.textContent = 'Image';
+          stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Edit image</span><span>▧</span></div><label for="classic-image-alt">Alt text</label><input id="classic-image-alt" type="text" maxlength="255" placeholder="Describe the image"><small class="classic-editor-help">Describe the image for screen readers and search engines.</small><label for="classic-image-title">Title attribute</label><input id="classic-image-title" type="text" maxlength="255" placeholder="Image title"><small class="classic-editor-help">Shown as supporting information when a visitor points to the image.</small><button type="button" id="classic-image-replace" class="btn btn-outline-primary btn-sm mt-2">Replace image</button>';
+          const altInput = stylePanel.querySelector('#classic-image-alt');
+          const titleInput = stylePanel.querySelector('#classic-image-title');
+          altInput.value = image.getAttribute('alt') || '';
+          titleInput.value = image.getAttribute('title') || '';
+          altInput.addEventListener('input', () => setImageAttribute(image, 'alt', altInput.value));
+          titleInput.addEventListener('input', () => setImageAttribute(image, 'title', titleInput.value));
+          stylePanel.querySelector('#classic-image-replace')?.addEventListener('click', () => {
+            selectedImage = image;
+            imagePicker.click();
+          });
+        };
         frameMain.querySelectorAll('img').forEach(image => {
           image.dataset.builderEditableImage = 'true';
           image.addEventListener('click', event => {
             event.preventDefault();
-            selectedImage = image;
-            imagePicker.click();
+            event.stopPropagation();
+            showClassicImageEditor(image);
           });
         });
         imagePicker.addEventListener('change', event => {
