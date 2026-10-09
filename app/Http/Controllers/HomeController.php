@@ -569,11 +569,14 @@ class HomeController extends Controller
             $referenceLayout = preg_replace('#<header>.*?</header>#s', $globalHeader, $referenceLayout, 1);
             $referenceLayout = str_replace('<section id="about" class="about section">', $trainerSection . '<section id="about" class="about section">', $referenceLayout);
             $referenceLayout = preg_replace('#<footer\\b[^>]*>.*?</footer>#s', $globalFooter, $referenceLayout, 1);
+            $landingFloatingTools = request()->boolean('builder_preview')
+                ? ''
+                : view('front.partials.landing-floating-tools', [
+                    'source' => $cityName . ' Landing Page',
+                ])->render() . '<script src="/assets/front/js/contact-popup-form.min.js" defer></script>';
             $referenceLayout = str_replace(
                 '</body>',
-                view('front.partials.landing-floating-tools', [
-                    'source' => $cityName . ' Landing Page',
-                ])->render() . '<script src="/assets/landing-reference/global-header.js" defer></script><script src="/assets/front/js/contact-popup-form.min.js" defer></script></body>',
+                $landingFloatingTools . '<script src="/assets/landing-reference/global-header.js" defer></script></body>',
                 $referenceLayout
             );
 

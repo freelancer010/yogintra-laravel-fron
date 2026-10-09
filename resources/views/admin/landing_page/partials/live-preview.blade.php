@@ -843,7 +843,7 @@
       content.replaceChildren();
       const classicFrame = document.createElement('iframe');
       classicFrame.className = 'classic-live-canvas';
-      classicFrame.src = @json('/city/' . rawurlencode($page->page_slug));
+      classicFrame.src = @json('/city/' . rawurlencode($page->page_slug) . '?builder_preview=1');
       classicFrame.title = 'Live landing page canvas';
       classicFrame.loading = 'eager';
       classicFrame.addEventListener('load', () => {
@@ -851,7 +851,7 @@
         // only inside this iframe so editors work with page content alone.
         const frameDocument = classicFrame.contentDocument;
         if (!frameDocument) return;
-        frameDocument.querySelectorAll('header, footer, .landing-global-header, .landing-global-footer').forEach(element => element.remove());
+        frameDocument.querySelectorAll('header, footer, .landing-global-header, .landing-global-footer, .landing-float, #messagePopup').forEach(element => element.remove());
         frameDocument.documentElement.style.scrollPaddingTop = '0';
         frameDocument.body.style.paddingTop = '0';
 
