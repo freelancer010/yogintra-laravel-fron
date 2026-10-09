@@ -772,11 +772,42 @@ class HomeController extends Controller
     {
         $slug = trim(strtolower((string) ($page->page_slug ?? '')), '/');
         $canonicalUrl = url('/city/' . $slug);
+        $pageTitle = trim((string) ($page->page_meta_title ?? $page->page_image_title ?? $page->page_name ?? 'YogIntra')) ?: 'YogIntra';
+        $description = trim(preg_replace('/\s+/', ' ', strip_tags((string) ($page->page_meta_description ?? $page->page_image_description ?? ''))) ?? '');
+        if ($description === '') {
+            $description = 'Explore personalised and online yoga classes with YogIntra in ' . $cityName . '.';
+        }
+        $siteName = trim((string) ($setting?->app_name ?? 'YogIntra')) ?: 'YogIntra';
+        $imagePath = strtolower((string) (parse_url($heroImage, PHP_URL_PATH) ?: ''));
+        $imageType = match (pathinfo($imagePath, PATHINFO_EXTENSION)) {
+            'jpg', 'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'avif' => 'image/avif',
+            default => 'image/webp',
+        };
+        $secureImageMeta = str_starts_with(strtolower($heroImage), 'https://')
+            ? '<meta property="og:image:secure_url" content="' . e($heroImage) . '">'
+            : '';
 
         return '<link rel="canonical" href="' . e($canonicalUrl) . '">' .
             '<link rel="alternate" hreflang="en-IN" href="' . e($canonicalUrl) . '">' .
             '<link rel="alternate" hreflang="x-default" href="' . e($canonicalUrl) . '">' .
             '<link rel="alternate" type="text/plain" title="YogIntra LLMs.txt" href="' . e(url('/llms.txt')) . '">' .
+            '<meta property="og:type" content="website">' .
+            '<meta property="og:title" content="' . e($pageTitle) . '">' .
+            '<meta property="og:description" content="' . e($description) . '">' .
+            '<meta property="og:url" content="' . e($canonicalUrl) . '">' .
+            '<meta property="og:site_name" content="' . e($siteName) . '">' .
+            '<meta property="og:locale" content="en_IN">' .
+            '<meta property="og:image" content="' . e($heroImage) . '">' .
+            $secureImageMeta .
+            '<meta property="og:image:type" content="' . $imageType . '">' .
+            '<meta property="og:image:alt" content="' . e($pageTitle) . '">' .
+            '<meta name="twitter:card" content="summary_large_image">' .
+            '<meta name="twitter:title" content="' . e($pageTitle) . '">' .
+            '<meta name="twitter:description" content="' . e($description) . '">' .
+            '<meta name="twitter:image" content="' . e($heroImage) . '">' .
+            '<meta name="twitter:image:alt" content="' . e($pageTitle) . '">' .
             $this->landingPageSchemaMarkup($page, $setting, $heroImage, $cityName);
     }
 
@@ -786,8 +817,11 @@ class HomeController extends Controller
         $slug = trim(strtolower((string) ($page->page_slug ?? '')), '/');
         $canonicalUrl = url('/city/' . $slug);
         $siteUrl = url('/');
-        $pageTitle = trim((string) ($page->page_meta_title ?? $page->page_image_title ?? $page->page_name ?? 'YogIntra'));
+        $pageTitle = trim((string) ($page->page_meta_title ?? $page->page_image_title ?? $page->page_name ?? 'YogIntra')) ?: 'YogIntra';
         $description = trim(preg_replace('/\s+/', ' ', strip_tags((string) ($page->page_meta_description ?? $page->page_image_description ?? ''))) ?? '');
+        if ($description === '') {
+            $description = 'Explore personalised and online yoga classes with YogIntra in ' . $cityName . '.';
+        }
         $organizationId = rtrim($siteUrl, '/') . '/#organization';
         $webPageId = $canonicalUrl . '#webpage';
         $serviceId = $canonicalUrl . '#service';
@@ -797,68 +831,61 @@ class HomeController extends Controller
             ? $logoPath
             : asset($logoPath);
 
+        $organization = array_filter([
+            '@type' => 'Organization',
+            '@id' => $organizationId,
+            'name' => trim((string) ($setting?->app_name ?? 'YogIntra')) ?: 'YogIntra',
+            'url' => $siteUrl,
+            'logo' => [
+                '@type' => 'ImageObject',
+                'url' => $logoUrl,
+            ],
+            'email' => filled($setting?->app_email) ? (string) $setting->app_email : null,
+            'telephone' => filled($setting?->app_mobile) ? (string) $setting->app_mobile : null,
+        ], static fn ($value) => $value !== null && $value !== '');
+
         $schema = [
             '@context' => 'https://schema.org',
-            '@graph' => [
-                [
-                    '@type' => 'Organization',
-                    '@id' => $organizationId,
-                    'name' => trim((string) ($setting?->app_name ?? 'YogIntra')) ?: 'YogIntra',
-                    'url' => $siteUrl,
-                    'logo' => [
-                        '@type' => 'ImageObject',
-                        'url' => $logoUrl,
-                    ],
-                    'email' => filled($setting?->app_email) ? (string) $setting->app_email : null,
-                    'telephone' => filled($setting?->app_mobile) ? (string) $setting->app_mobile : null,
-                ],
-                [
-                    '@type' => 'WebPage',
-                    '@id' => $webPageId,
-                    'url' => $canonicalUrl,
-                    'name' => $pageTitle,
-                    'description' => $description,
-                    'inLanguage' => 'en-IN',
-                    'isPartOf' => [
-                        '@type' => 'WebSite',
-                        '@id' => rtrim($siteUrl, '/') . '/#website',
-                        'url' => $siteUrl,
-                        'name' => 'YogIntra',
-                    ],
-                    'primaryImageOfPage' => [
-                        '@type' => 'ImageObject',
-                        'url' => $heroImage,
-                    ],
-                    'breadcrumb' => ['@id' => $breadcrumbId],
-                    'mainEntity' => ['@id' => $serviceId],
-                ],
-                [
-                    '@type' => 'Service',
-                    '@id' => $serviceId,
-                    'name' => $pageTitle,
-                    'description' => $description,
-                    'url' => $canonicalUrl,
-                    'image' => $heroImage,
-                    'serviceType' => 'Yoga classes and personalised yoga instruction',
-                    'areaServed' => [
-                        '@type' => 'Place',
-                        'name' => $cityName,
-                    ],
-                    'provider' => ['@id' => $organizationId],
-                ],
-                [
-                    '@type' => 'BreadcrumbList',
-                    '@id' => $breadcrumbId,
-                    'itemListElement' => [
-                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $siteUrl],
-                        ['@type' => 'ListItem', 'position' => 2, 'name' => $cityName, 'item' => $canonicalUrl],
-                    ],
+            '@type' => 'WebPage',
+            '@id' => $webPageId,
+            'url' => $canonicalUrl,
+            'name' => $pageTitle,
+            'description' => $description,
+            'inLanguage' => 'en-IN',
+            'isPartOf' => [
+                '@type' => 'WebSite',
+                '@id' => rtrim($siteUrl, '/') . '/#website',
+                'url' => $siteUrl,
+                'name' => 'YogIntra',
+            ],
+            'publisher' => $organization,
+            'primaryImageOfPage' => [
+                '@type' => 'ImageObject',
+                'url' => $heroImage,
+            ],
+            'breadcrumb' => [
+                '@type' => 'BreadcrumbList',
+                '@id' => $breadcrumbId,
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $siteUrl],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => $cityName, 'item' => $canonicalUrl],
                 ],
             ],
+            'mainEntity' => [
+                '@type' => 'Service',
+                '@id' => $serviceId,
+                'name' => $pageTitle,
+                'description' => $description,
+                'url' => $canonicalUrl,
+                'image' => $heroImage,
+                'serviceType' => 'Yoga classes and personalised yoga instruction',
+                'areaServed' => [
+                    '@type' => 'Place',
+                    'name' => $cityName,
+                ],
+                'provider' => ['@id' => $organizationId],
+            ],
         ];
-
-        // Remove unavailable optional properties instead of emitting nulls.
-        $schema['@graph'][0] = array_filter($schema['@graph'][0], static fn ($value) => $value !== null && $value !== '');
         $json = json_encode(
             $schema,
             JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
