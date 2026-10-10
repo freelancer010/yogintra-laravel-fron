@@ -30,6 +30,7 @@ window.loadGoogleAnalytics = function () {
         window.loadWhatsAppWidget = function () {
             if (window.whatsAppWidgetLoaded) return;
             window.whatsAppWidgetLoaded = true;
+            if (document.querySelector('.site-float-whatsapp, .landing-float-whatsapp')) return;
             window.wa_btnSetting = {"btnColor":"#16BE45","ctaText":"","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"right","whatsAppNumber":"919867291573","welcomeMessage":"Hello","zIndex":999999,"btnColorScheme":"light"};
             var script = document.createElement('script');
             script.async = true;

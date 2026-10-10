@@ -145,6 +145,14 @@
 
     @stack('styles') {{-- For additional CSS in child views --}}
 
+    <style id="site-whatsapp-float-styles">
+        .site-float-whatsapp{position:fixed;right:20px;bottom:20px;z-index:9999;display:flex;width:54px;height:54px;align-items:center;justify-content:center;border-radius:50%;background:#16be45;color:#fff!important;text-decoration:none!important;box-shadow:0 5px 16px rgba(0,0,0,.28);transition:transform .2s ease,background-color .2s ease}
+        .site-float-whatsapp:hover,.site-float-whatsapp:focus{background:#0da63a;color:#fff!important;transform:translateY(-2px)}
+        .site-float-whatsapp i{font-size:27px;line-height:1}
+        .site-float-whatsapp .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+        @media(max-width:767px){.site-float-whatsapp{right:16px;bottom:18px;width:50px;height:50px}}
+    </style>
+
     <!-- Optional services are loaded only after the visitor grants consent. -->
         <script src="{{ asset('assets/front/js/consent-loaders.min.js') }}" defer></script>
 
@@ -275,6 +283,11 @@
     <div class="tooltip-popup">
         Enquire with us!
     </div>
+
+    <a class="site-float-whatsapp" href="https://wa.me/919867291573" target="_blank" rel="noopener noreferrer" aria-label="Chat with YogIntra on WhatsApp" title="Chat with YogIntra on WhatsApp">
+        <i class="fa fa-whatsapp" aria-hidden="true"></i>
+        <span class="sr-only">Chat with YogIntra on WhatsApp</span>
+    </a>
 
     <div id="messagePopup">
         <div class="close-btn" onclick="toggleMessagePopup()">&times;</div>

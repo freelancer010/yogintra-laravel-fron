@@ -1,6 +1,6 @@
 <style>
   .landing-float{position:fixed;right:20px;display:grid;place-items:center;width:54px;height:54px;border:0;border-radius:50%;color:#fff!important;text-decoration:none;box-shadow:0 5px 16px rgba(0,0,0,.28);z-index:9999;cursor:pointer}
-  .landing-float-enquiry{bottom:88px;background:#1677ea;font-size:21px}.landing-float-whatsapp{bottom:20px;display:flex;width:auto;min-width:54px;padding:0 17px;gap:9px;background:#16be45;font:700 13px/1 Arial,sans-serif;white-space:nowrap}.landing-float-whatsapp i{font-size:26px}
+  .landing-float-enquiry{bottom:88px;background:#1677ea;font-size:21px}.landing-float-whatsapp{bottom:20px;background:#16be45}.landing-float-whatsapp i{font-size:26px}.landing-float-whatsapp .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   .landing-float:hover{transform:translateY(-2px)}
   .tooltip-popup{position:fixed;right:82px;bottom:98px;padding:10px 14px;border-radius:7px;background:#263238;color:#fff;font:600 13px/1.2 Arial,sans-serif;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9998}.tooltip-popup.show{opacity:1}
   #messagePopup{position:fixed;right:20px;bottom:154px;display:none;width:min(410px,calc(100vw - 32px));max-height:calc(100vh - 180px);overflow:auto;padding:26px;background:#fff;border-radius:14px;box-shadow:0 12px 38px rgba(0,0,0,.3);z-index:10000;color:#183c45;font-family:Arial,sans-serif}
@@ -9,12 +9,12 @@
   #messagePopup .form-control{display:block;width:100%;min-height:44px;padding:9px 11px;border:1px solid #cbd8d9;border-radius:7px;background:#fff;color:#183c45;font:14px/1.4 Arial,sans-serif}#messagePopup textarea.form-control{min-height:90px;resize:vertical}
   #messagePopup .btn{min-height:42px;padding:9px 17px;border:1px solid #0b6970;border-radius:7px;font-weight:700;cursor:pointer}#messagePopup .btn-primary{background:#0b6970;color:#fff}#messagePopup .btn-light{margin-right:8px;background:#fff;color:#183c45}
   #messagePopup .d-flex{display:flex}#messagePopup .justify-content-end{justify-content:flex-end}#messagePopup .is-invalid{border-color:#c9302c}.invalid-feedback{color:#c9302c;font-size:12px}
-  @media(max-width:680px){.landing-float{right:16px;width:50px;height:50px}.landing-float-enquiry{bottom:82px}.landing-float-whatsapp{bottom:18px;width:auto;padding-inline:15px}#messagePopup{right:16px;bottom:144px;max-height:calc(100vh - 165px);padding:22px 18px}}
+  @media(max-width:680px){.landing-float{right:16px;width:50px;height:50px}.landing-float-enquiry{bottom:82px}.landing-float-whatsapp{bottom:18px}#messagePopup{right:16px;bottom:144px;max-height:calc(100vh - 165px);padding:22px 18px}}
 </style>
 
 <button id="messageIcon" class="landing-float landing-float-enquiry" type="button" aria-label="Open enquiry form"><i class="fa fa-comment" aria-hidden="true"></i></button>
 <div class="tooltip-popup">Enquire with us!</div>
-<a class="landing-float landing-float-whatsapp" href="https://wa.me/919867291573" target="_blank" rel="noopener noreferrer" aria-label="Chat with YogIntra on WhatsApp"><i class="fa fa-whatsapp" aria-hidden="true"></i><span>Chat on WhatsApp</span></a>
+<a class="landing-float landing-float-whatsapp" href="https://wa.me/919867291573" target="_blank" rel="noopener noreferrer" aria-label="Chat with YogIntra on WhatsApp" title="Chat with YogIntra on WhatsApp"><i class="fa fa-whatsapp" aria-hidden="true"></i><span class="sr-only">Chat with YogIntra on WhatsApp</span></a>
 
 <div id="messagePopup" role="dialog" aria-modal="true" aria-labelledby="landingEnquiryTitle">
   <button class="close-btn" type="button" onclick="toggleMessagePopup()" aria-label="Close enquiry form">&times;</button>
