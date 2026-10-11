@@ -26,7 +26,7 @@
         #wrapper{width:100%;overflow:hidden}
         .container{width:100%;margin-right:auto;margin-left:auto;padding-right:15px;padding-left:15px}
         .row{display:flex;flex-wrap:wrap;margin-right:-15px;margin-left:-15px}
-        .row>[class*=col-]{position:relative;width:100%;padding-right:15px;padding-left:15px}
+        .row>[class*=col-]{position:relative;padding-right:15px;padding-left:15px}
         .col-md-6{width:50%}
         .text-right{text-align:right}.text-center{text-align:center}
         .ml-md-auto{margin-left:auto}.offset-md-2{margin-left:16.666667%}.col-md-8{width:66.666667%}
@@ -47,6 +47,7 @@
            mobile hero's final geometry before it arrives so the hidden desktop
            carousel never creates a large first-paint layout shift. */
         @media (max-width: 767px) {
+            .row>[class*=col-]{width:100%}
             .col-md-6,.col-md-8{width:100%}.offset-md-2{margin-left:0}.font-54{font-size:2rem!important}
             #home.hero-video-home{height:calc(100svh - 70px)!important;min-height:calc(100svh - 70px)!important;margin:0!important;padding:0!important}
             #home.hero-video-home .hero-video-wrap,#home.hero-video-home .hero-video-copy{height:calc(100svh - 70px);min-height:calc(100svh - 70px)}
@@ -79,6 +80,7 @@
             #home:not(.hero-video-home) .fullwidth-carousel .display-table-cell { display:table-cell; height:100%; vertical-align:middle; }
             #home:not(.hero-video-home) .fullwidth-carousel .container.position-ab { position:relative!important; top:auto!important; width:100%; }
         }
+        @media (min-width: 768px) and (max-width: 991px) {.row>[class*=col-md-]{width:100%}}
         @media (min-width: 992px) {.container{max-width:970px}}
         @media (min-width: 1200px) {.container{max-width:1170px}}
     </style>
