@@ -128,11 +128,15 @@
         <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css">
     @endif
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    @php($googleFontDisplay = $isHomePage ? 'optional' : 'swap')
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display={{ $googleFontDisplay }}" onload="this.onload=null;this.rel='stylesheet'">
-    @unless(request()->is('yoga-center*'))<noscript><link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display={{ $googleFontDisplay }}" rel="stylesheet"></noscript>@endunless
+    @if ($isHomePage)
+        <link rel="preload" as="font" href="{{ asset('assets/front/fonts/quicksand-600-700-latin.woff2') }}" type="font/woff2" crossorigin>
+        <link rel="stylesheet" href="{{ asset('assets/front/css/home-fonts.css') }}?v={{ filemtime(public_path('assets/front/css/home-fonts.css')) }}">
+    @else
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+        @unless(request()->is('yoga-center*'))<noscript><link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Philosopher:wght@700&family=Quicksand:wght@600;700&family=Roboto&display=swap" rel="stylesheet"></noscript>@endunless
+    @endif
 
     @if (request()->segment(1) == 'pages')
         <link href="{{ asset('assets/front/css/preloader.min.css?xv=1') }}" rel="stylesheet" type="text/css">

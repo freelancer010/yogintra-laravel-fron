@@ -1,0 +1,41 @@
+/* Self-hosted homepage fonts. Keeping these on the YogIntra origin gives the
+   immutable static-asset cache policy to both the stylesheet and font files. */
+@font-face {
+  font-family: "Dancing Script";
+  font-style: normal;
+  font-weight: 700;
+  font-display: optional;
+  src: url("../fonts/dancing-script-700-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Philosopher";
+  font-style: normal;
+  font-weight: 700;
+  font-display: optional;
+  src: url("../fonts/philosopher-700-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Quicksand";
+  font-style: normal;
+  font-weight: 600;
+  font-display: optional;
+  src: url("../fonts/quicksand-600-700-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Quicksand";
+  font-style: normal;
+  font-weight: 700;
+  font-display: optional;
+  src: url("../fonts/quicksand-600-700-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url("../fonts/roboto-400-latin.woff2") format("woff2");
+}
