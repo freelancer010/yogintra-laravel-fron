@@ -64,8 +64,8 @@
             /* The trainer and testimonial carousels initialise after first paint.
                Keep their pre-init layout to one slide so Owl does not collapse a
                stack of cards while it is visible. */
-            .owl-carousel-4col:not(.owl-loaded),.owl-carousel-3col:not(.owl-loaded) { min-height:350px; overflow:hidden; }
-            .owl-carousel-4col:not(.owl-loaded) > .item:not(:first-child),.owl-carousel-3col:not(.owl-loaded) > .item:not(:first-child) { display:none; }
+            .home-trainer-carousel:not(.owl-loaded),.home-testimonial-carousel:not(.owl-loaded) { min-height:350px; overflow:hidden; }
+            .home-trainer-carousel:not(.owl-loaded) > .item:not(:first-child),.home-testimonial-carousel:not(.owl-loaded) > .item:not(:first-child) { display:none; }
         }
         @media (min-width: 768px) {
             .container{max-width:750px}
@@ -492,7 +492,7 @@
 
             <div class="row mtli-row-clearfix">
                 <div class="col-md-12">
-                    <div class="owl-carousel-4col" data-nav="true" data-dots="true" data-autoplay="false">
+                    <div class="home-trainer-carousel" data-nav="true" data-dots="true" data-autoplay="false">
                         @foreach ($all_trainer as $trainer)
                             <div class="item">
                                 <div class="team-members text-center maxwidth400">
@@ -568,7 +568,7 @@
 
             <div class="row mtli-row-clearfix">
                 <div class="col-md-12">
-                    <div class="owl-carousel-3col" data-nav="true" data-dots="true" data-autoplay="false">
+                    <div class="home-testimonial-carousel" data-nav="true" data-dots="true" data-autoplay="false">
                         @forelse($testimonials as $testimonial)
                             <div class="item">
                                 <div class="testimonial-card bg-white rounded" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: 350px; display: flex; flex-direction: column; overflow: hidden; padding: 25px;">
