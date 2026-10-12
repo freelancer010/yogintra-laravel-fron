@@ -70,6 +70,10 @@
         @media (min-width: 768px) {
             .container{max-width:750px}
             #home .mobile-home { display:none !important; }
+            /* homepage.bundle.min.css adds 60px vertical padding to every
+               .divider .container. Mirror that final desktop geometry in the
+               critical CSS so the deferred stylesheet cannot move the hero. */
+            #home.hero-video-home .hero-video-copy .container{position:static;top:auto;padding-top:60px;padding-bottom:60px}
             #home:not(.hero-video-home) { position:relative; min-height:100vh; height:100vh; overflow:hidden; }
             #home:not(.hero-video-home) .fullwidth-carousel,
             #home:not(.hero-video-home) .fullwidth-carousel .carousel-item { min-height:100%; height:100%; }
