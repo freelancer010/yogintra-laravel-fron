@@ -24,6 +24,8 @@ class AddSecurityHeaders
             "media-src 'self' blob: https:",
             "connect-src 'self' https:",
             "frame-src 'self' https:",
+            "form-action 'self'",
+            "upgrade-insecure-requests",
         ]));
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
         $response->headers->set('X-Content-Type-Options', 'nosniff');
