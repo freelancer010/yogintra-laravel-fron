@@ -595,12 +595,7 @@ class HomeController extends Controller
                     $savedCanvas = str_replace(array_keys($defaultCityCopy), array_values($defaultCityCopy), $savedCanvas);
                     // The page-level image is the source of truth for the
                     // hero, including canvases saved before this behaviour.
-                    $savedCanvas = preg_replace_callback(
-                        '#(<div\\b[^>]*\\bclass=(["\'])[^"\']*\\bhero-visual\\b[^"\']*\\2[^>]*>\\s*<img\\b[^>]*\\bsrc=)(["\'])[^"\']*\\3#i',
-                        fn (array $match) => $match[1] . $match[3] . e($heroImage) . $match[3],
-                        $savedCanvas,
-                        1
-                    ) ?? $savedCanvas;
+                    $savedCanvas = $this->replaceLandingHeroSource($savedCanvas, $heroImage);
                     $referenceLayout = preg_replace('#<main\\b[^>]*>.*?</main>#s', $savedCanvas, $referenceLayout, 1) ?? $referenceLayout;
                 }
             }
@@ -765,6 +760,47 @@ class HomeController extends Controller
         }
 
         return $tag;
+    }
+
+    /**
+     * Replace the Classic hero source without scanning an arbitrarily large
+     * data URL through a regular expression. Older builder saves can contain
+     * an inline preview image large enough to exceed PCRE's backtrack limit.
+     */
+    private function replaceLandingHeroSource(string $canvas, string $heroImage): string
+    {
+        if (!preg_match(
+            '#<div\\b[^>]*\\bclass=(["\'])[^"\']*\\bhero-visual\\b[^"\']*\\1[^>]*>#i',
+            $canvas,
+            $heroMatch,
+            PREG_OFFSET_CAPTURE
+        )) {
+            return $canvas;
+        }
+
+        $heroOffset = $heroMatch[0][1];
+        $imageOffset = stripos($canvas, '<img', $heroOffset + strlen($heroMatch[0][0]));
+        if ($imageOffset === false) {
+            return $canvas;
+        }
+
+        $imageTagEnd = strpos($canvas, '>', $imageOffset);
+        if ($imageTagEnd === false) {
+            return $canvas;
+        }
+
+        $imageTag = substr($canvas, $imageOffset, $imageTagEnd - $imageOffset + 1);
+        if (!preg_match('#\\bsrc\\s*=\\s*(["\'])#i', $imageTag, $sourceMatch, PREG_OFFSET_CAPTURE)) {
+            return $canvas;
+        }
+
+        $valueOffset = $imageOffset + $sourceMatch[0][1] + strlen($sourceMatch[0][0]);
+        $valueEnd = strpos($canvas, $sourceMatch[1][0], $valueOffset);
+        if ($valueEnd === false || $valueEnd > $imageTagEnd) {
+            return $canvas;
+        }
+
+        return substr_replace($canvas, e($heroImage), $valueOffset, $valueEnd - $valueOffset);
     }
 
     /** Build canonical, language-alternate and structured data tags for a city page. */
