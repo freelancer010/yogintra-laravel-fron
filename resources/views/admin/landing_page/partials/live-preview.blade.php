@@ -1213,6 +1213,7 @@
         const enhanceClassicTrainerList = list => {
           if (list.dataset.builderTrainerList === 'true') return;
           list.dataset.builderTrainerList = 'true';
+          list.style.textAlign = 'left';
           const removeList = frameDocument.createElement('button');
           removeList.type = 'button';
           removeList.dataset.builderControl = 'remove-trainer-list';
@@ -1220,12 +1221,13 @@
           removeList.title = 'Delete this bullet list';
           removeList.setAttribute('aria-label', 'Delete bullet list');
           removeList.textContent = 'Delete list';
+          removeList.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;margin:6px 0 12px;padding:4px 9px;border:0;border-radius:4px;background:#c43d3d;color:#fff;font:600 11px/1.35 Arial;cursor:pointer;';
           removeList.addEventListener('click', event => {
             event.preventDefault(); event.stopPropagation();
             list.remove(); removeList.remove();
             saveClassicCanvas(); setSaveState('Unsaved changes');
           });
-          list.before(removeList);
+          list.after(removeList);
           [...list.children].filter(item => item.tagName === 'LI').forEach(item => {
             const text = frameDocument.createElement('span');
             text.dataset.builderListItemText = 'true';
@@ -1241,6 +1243,7 @@
             removeItem.setAttribute('aria-label', 'Delete list item');
             removeItem.textContent = '×';
             removeItem.contentEditable = 'false';
+            removeItem.style.cssText = 'position:absolute;top:1px;right:0;display:grid;place-items:center;width:18px;height:18px;padding:0;border:0;border-radius:50%;background:#c43d3d;color:#fff;font:700 12px/18px Arial;cursor:pointer;';
             removeItem.addEventListener('click', event => {
               event.preventDefault(); event.stopPropagation();
               item.remove();
