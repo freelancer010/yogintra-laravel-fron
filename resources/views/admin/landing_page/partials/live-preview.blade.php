@@ -22,6 +22,15 @@
   const classicCanvasField = document.getElementById('classic-canvas-content');
   const savedClassicCanvas = @json(str_starts_with((string) ($page->page_content ?? ''), '<!-- classic-builder-canvas -->') ? substr((string) $page->page_content, strlen('<!-- classic-builder-canvas -->')) : '');
   const heroEditor = window.landingPageHeroEditor;
+  // Classic mode edits the hero inside the live iframe, so its separate UI
+  // panel is not displayed. Keep that panel attached (but hidden) inside the
+  // form: detached file inputs are omitted from FormData even though their
+  // FileReader previews still work, which previously made hero uploads appear
+  // successful until the builder was refreshed.
+  if (isClassicLayout && heroEditor && !heroEditor.isConnected) {
+    heroEditor.hidden = true;
+    builderForm.appendChild(heroEditor);
+  }
   const saveState = preview.querySelector('.builder-save-state');
   const autoSaveToggle = document.getElementById('auto-save-toggle');
   const pageHeader = document.querySelector('.landing-page-header');
@@ -58,6 +67,9 @@
       const result = await response.json();
       if (!response.ok || result.saved !== true) {
         throw new Error(Object.values(result.errors || {}).flat().join(' ') || result.message || 'Please try saving again.');
+      }
+      if (submittedHeroFile && result.hero_uploaded !== true) {
+        throw new Error('The hero preview changed, but the image was not uploaded. Please select it again.');
       }
       // The uploaded hero now has its own unique server path. Do not resend
       // the same File on every later text autosave.

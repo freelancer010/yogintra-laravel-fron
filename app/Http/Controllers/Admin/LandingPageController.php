@@ -312,6 +312,7 @@ class LandingPageController extends Controller
         }
 
         // Handle Image Upload
+        $heroUploaded = false;
         if ($request->hasFile('page_image')) {
             $oldImagePath = ltrim(str_replace('\\', '/', (string) ($page->page_image ?? '')), '/');
             // Only remove page-owned uploads. The default Classic hero is a
@@ -321,6 +322,7 @@ class LandingPageController extends Controller
             }
 
             $data['page_image'] = app(OptimizedImageUpload::class)->store($request->file('page_image'));
+            $heroUploaded = true;
         }
 
         DB::table('new_landing_page')->where('page_id', $id)->update($data);
@@ -333,7 +335,11 @@ class LandingPageController extends Controller
         }
 
         if ($request->expectsJson()) {
-            return response()->json(['saved' => true]);
+            return response()->json([
+                'saved' => true,
+                'hero_uploaded' => $heroUploaded,
+                'page_image' => $data['page_image'] ?? $page->page_image,
+            ]);
         }
 
         return redirect()->route('admin.landing-pages.edit', $id)->with('success', 'Page updated successfully.');
