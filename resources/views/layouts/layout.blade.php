@@ -289,7 +289,7 @@
         Enquire with us!
     </div>
 
-    <a class="site-float-whatsapp" href="https://wa.me/919867291573" target="_blank" rel="noopener noreferrer" aria-label="Chat with YogIntra on WhatsApp" title="Chat with YogIntra on WhatsApp">
+    <a class="site-float-whatsapp" href="https://api.whatsapp.com/send/?phone=919867291573&amp;text&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener noreferrer" aria-label="Chat with YogIntra on WhatsApp" title="Chat with YogIntra on WhatsApp">
         <i class="fa fa-whatsapp" aria-hidden="true"></i>
         <span class="sr-only">Chat with YogIntra on WhatsApp</span>
     </a>

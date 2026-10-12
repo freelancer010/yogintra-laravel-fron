@@ -31,7 +31,7 @@
                 <div class="widget dark mb-0">
                     <div class="widget-title line-bottom footer-heading">Useful Links</div>
                     <ul class="list-border">
-                        <li><a href="{{ url('about') }}">About</a></li>
+                        <li><a href="{{ route('about') }}">About</a></li>
                         <li><a href="{{ url('blog') }}">Blog</a></li>
                         <li><a href="{{ url('/locate-us') }}">Locate Us</a></li>
                         <li><a href="{{ url('contact') }}">Contact</a></li>
