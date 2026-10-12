@@ -46,9 +46,12 @@
     let saveSucceeded = false;
     saveState.textContent = 'Saving…';
     try {
+      const heroUpload = builderForm.querySelector('[name="page_image"]');
+      const submittedHeroFile = heroUpload?.files?.[0] || null;
+      const formData = new FormData(builderForm);
       const response = await fetch(builderForm.action, {
         method: 'POST',
-        body: new FormData(builderForm),
+        body: formData,
         credentials: 'same-origin',
         headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
       });
@@ -58,8 +61,9 @@
       }
       // The uploaded hero now has its own unique server path. Do not resend
       // the same File on every later text autosave.
-      const savedHeroUpload = builderForm.querySelector('[name="page_image"]');
-      if (savedHeroUpload?.files?.length) savedHeroUpload.value = '';
+      if (submittedHeroFile && heroUpload?.files?.[0] === submittedHeroFile) {
+        heroUpload.value = '';
+      }
       saveSucceeded = true;
       saveState.textContent = editRevision === savingRevision ? 'Saved' : 'Unsaved changes';
       saveState.parentElement.classList.toggle('is-dirty', editRevision !== savingRevision);
