@@ -327,9 +327,20 @@
     ['heading', 'content'].forEach(key => { ['padding_x', 'padding_y', 'margin_x', 'margin_y'].forEach(property => styles[key][property] ??= 0); styles[key].font_weight ??= key === 'heading' ? 'bold' : 'normal'; styles[key].font_style ??= 'normal'; styles[key].text_decoration ??= 'none'; });
     return { field, styles };
   };
-  const addElementToSection = (card, type, targetColumnIndex = null) => {
+  const addElementToSection = (card, type, targetColumnIndex = null, targetCardIndex = null) => {
     if (!card || !type) return;
-    const sectionType = getValue(card, 'section_type');
+    const sectionType = resolvedSectionType(card);
+    if (sectionType === 'trainer_slider' && type === 'bullets' && targetCardIndex !== null) {
+      const blocksField = ensureField(card, 'blocks', '[]'); let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {}
+      const trainerIndex = Number(targetCardIndex);
+      if (!Number.isInteger(trainerIndex) || !blocks[trainerIndex]) return;
+      const defaultItems = 'First point\nSecond point\nThird point';
+      const existingItems = String(blocks[trainerIndex].bullets || '').trim();
+      blocks[trainerIndex].bullets = existingItems ? existingItems + '\n' + defaultItems : defaultItems;
+      blocksField.value = JSON.stringify(blocks);
+      render(); focusCard(card, 'card-' + trainerIndex); queueSnapshot();
+      return;
+    }
     if (sectionType === 'custom_columns') {
       const blocksField = ensureField(card, 'blocks', '[]'); let blocks = []; try { blocks = JSON.parse(blocksField.value || '[]'); } catch (_) {}
       const gridColumns = ensureField(card, 'grid_columns', '1');
@@ -391,7 +402,12 @@
   };
   elementsPanel.querySelectorAll('[data-library-element]').forEach(item => {
     item.addEventListener('dragstart', event => { event.dataTransfer.effectAllowed = 'copy'; event.dataTransfer.setData('application/x-builder-element', item.dataset.libraryElement); });
-    item.addEventListener('click', () => { const selected = sections.querySelector('.page-builder-section.is-selected'); if (!selected) { alert('Select a section first, then choose an element.'); return; } addElementToSection(selected, item.dataset.libraryElement); });
+    item.addEventListener('click', () => {
+      const selected = sections.querySelector('.page-builder-section.is-selected');
+      if (!selected) { alert('Select a section first, then choose an element.'); return; }
+      const selectedTrainer = /^card-(\d+)$/.exec(selected.dataset.selectedTarget || '');
+      addElementToSection(selected, item.dataset.libraryElement, null, item.dataset.libraryElement === 'bullets' && selectedTrainer ? Number(selectedTrainer[1]) : null);
+    });
   });
   const escape = (value) => String(value || '').replace(/[&<>'"]/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#039;', '"':'&quot;' })[character]);
   // contenteditable.innerHTML encodes a literal ampersand as `&amp;`. The
@@ -1472,6 +1488,22 @@
         column.addEventListener('dragleave', () => column.classList.remove('is-element-drop-target'));
         column.addEventListener('drop', event => { const type = event.dataTransfer.getData('application/x-builder-element'); if (!type) return; event.preventDefault(); event.stopPropagation(); column.classList.remove('is-element-drop-target'); addElementToSection(card, type, columnIndex); });
       });
+      if (type === 'trainer_slider') {
+        previewSection.querySelectorAll('.preview-feature[data-preview-column-target^="card-"]').forEach(trainerCard => {
+          trainerCard.addEventListener('dragover', event => {
+            if (!event.dataTransfer.types.includes('application/x-builder-element')) return;
+            event.preventDefault(); event.stopPropagation(); trainerCard.classList.add('is-element-drop-target'); event.dataTransfer.dropEffect = 'copy';
+          });
+          trainerCard.addEventListener('dragleave', event => { if (!trainerCard.contains(event.relatedTarget)) trainerCard.classList.remove('is-element-drop-target'); });
+          trainerCard.addEventListener('drop', event => {
+            const elementType = event.dataTransfer.getData('application/x-builder-element');
+            if (elementType !== 'bullets') return;
+            event.preventDefault(); event.stopPropagation(); trainerCard.classList.remove('is-element-drop-target');
+            const match = /^card-(\d+)$/.exec(trainerCard.dataset.previewColumnTarget || '');
+            if (match) addElementToSection(card, elementType, null, Number(match[1]));
+          });
+        });
+      }
       previewSection.addEventListener('dragover', event => { if (!event.dataTransfer.types.includes('application/x-builder-element')) return; event.preventDefault(); previewSection.classList.add('is-element-drop-target'); event.dataTransfer.dropEffect = 'copy'; });
       previewSection.addEventListener('dragleave', () => previewSection.classList.remove('is-element-drop-target'));
       previewSection.addEventListener('drop', event => { const type = event.dataTransfer.getData('application/x-builder-element'); if (!type) return; event.preventDefault(); previewSection.classList.remove('is-element-drop-target'); addElementToSection(card, type); });
