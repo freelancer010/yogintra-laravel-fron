@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('meta_title', 'Editorial Policy | YogIntra')
+@section('meta_title', 'Yoga And wellness content editorial policy')
 @section('meta_description', 'Learn how YogIntra reviews yoga and wellness content for accuracy, clarity, and responsible guidance.')
 @section('meta_author', 'YogIntra Editorial Team')
 
