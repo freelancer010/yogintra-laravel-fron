@@ -1214,6 +1214,8 @@
           if (list.dataset.builderTrainerList === 'true') return;
           list.dataset.builderTrainerList = 'true';
           list.style.textAlign = 'left';
+          list.style.marginLeft = '0';
+          list.style.paddingLeft = '14px';
           const removeList = frameDocument.createElement('button');
           removeList.type = 'button';
           removeList.dataset.builderControl = 'remove-trainer-list';
@@ -1221,7 +1223,7 @@
           removeList.title = 'Delete this bullet list';
           removeList.setAttribute('aria-label', 'Delete bullet list');
           removeList.textContent = 'Delete list';
-          removeList.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;margin:6px 0 12px;padding:4px 9px;border:0;border-radius:4px;background:#c43d3d;color:#fff;font:600 11px/1.35 Arial;cursor:pointer;';
+          removeList.style.cssText = 'display:block;margin:6px 0 12px;padding:4px 9px;border:0;border-radius:4px;background:#c43d3d;color:#fff;font:600 11px/1.35 Arial;cursor:pointer;';
           removeList.addEventListener('click', event => {
             event.preventDefault(); event.stopPropagation();
             list.remove(); removeList.remove();
