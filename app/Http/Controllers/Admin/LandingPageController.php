@@ -313,8 +313,11 @@ class LandingPageController extends Controller
 
         // Handle Image Upload
         if ($request->hasFile('page_image')) {
-            if ($page && file_exists(public_path($page->page_image))) {
-                unlink(public_path($page->page_image));
+            $oldImagePath = ltrim(str_replace('\\', '/', (string) ($page->page_image ?? '')), '/');
+            // Only remove page-owned uploads. The default Classic hero is a
+            // shared application asset and must remain available to all pages.
+            if (str_starts_with($oldImagePath, 'uploads/') && file_exists(public_path($oldImagePath))) {
+                unlink(public_path($oldImagePath));
             }
 
             $data['page_image'] = app(OptimizedImageUpload::class)->store($request->file('page_image'));

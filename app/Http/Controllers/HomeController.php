@@ -595,9 +595,9 @@ class HomeController extends Controller
                     $savedCanvas = str_replace(array_keys($defaultCityCopy), array_values($defaultCityCopy), $savedCanvas);
                     // The page-level image is the source of truth for the
                     // hero, including canvases saved before this behaviour.
-                    $savedCanvas = preg_replace(
-                        '#(<div\\s+class="hero-visual"[^>]*>\\s*<img\\b[^>]*\\bsrc=")[^"]*#i',
-                        '$1' . e($heroImage),
+                    $savedCanvas = preg_replace_callback(
+                        '#(<div\\b[^>]*\\bclass=(["\'])[^"\']*\\bhero-visual\\b[^"\']*\\2[^>]*>\\s*<img\\b[^>]*\\bsrc=)(["\'])[^"\']*\\3#i',
+                        fn (array $match) => $match[1] . $match[3] . e($heroImage) . $match[3],
                         $savedCanvas,
                         1
                     ) ?? $savedCanvas;

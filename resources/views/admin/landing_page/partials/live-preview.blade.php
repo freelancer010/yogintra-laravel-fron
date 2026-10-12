@@ -56,6 +56,10 @@
       if (!response.ok || result.saved !== true) {
         throw new Error(Object.values(result.errors || {}).flat().join(' ') || result.message || 'Please try saving again.');
       }
+      // The uploaded hero now has its own unique server path. Do not resend
+      // the same File on every later text autosave.
+      const savedHeroUpload = builderForm.querySelector('[name="page_image"]');
+      if (savedHeroUpload?.files?.length) savedHeroUpload.value = '';
       saveSucceeded = true;
       saveState.textContent = editRevision === savingRevision ? 'Saved' : 'Unsaved changes';
       saveState.parentElement.classList.toggle('is-dirty', editRevision !== savingRevision);
@@ -871,6 +875,11 @@
 
         let frameMain = frameDocument.querySelector('main');
         if (!frameMain) return;
+        // Keep the server-rendered hero URL as the persisted canvas value. A
+        // replacement is uploaded through the real page_image field below;
+        // storing FileReader data inside page_content would bloat the record
+        // and is intentionally ignored by the public renderer.
+        const persistedHeroSource = frameMain.querySelector('.hero-visual img')?.getAttribute('src') || '';
         const editingStyle = frameDocument.createElement('style');
         editingStyle.textContent = '[data-builder-editable-text]:hover{outline:1px dashed #095253;outline-offset:4px;cursor:text}[data-builder-editable-text]:focus,[data-builder-selected-text]{outline:2px solid #095253;outline-offset:4px}[data-builder-editable-image]{cursor:pointer}[data-builder-editable-image]:hover{outline:3px solid #095253;outline-offset:3px}[data-builder-selected-image]{outline:3px solid #095253;outline-offset:3px}.chips span[data-builder-editable-text]{padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;font:inherit!important;color:inherit!important}';
         frameDocument.head.appendChild(editingStyle);
@@ -916,6 +925,8 @@
           // Save clean page markup. Builder-only markers and temporary text
           // wrappers must never leak into the public landing page.
           const savedMain = frameMain.cloneNode(true);
+          const savedHeroImage = savedMain.querySelector('.hero-visual img');
+          if (savedHeroImage && persistedHeroSource) savedHeroImage.setAttribute('src', persistedHeroSource);
           savedMain.querySelectorAll('[data-builder-control]').forEach(control => control.remove());
           // Opening an FAQ in the editor is preview UI state, not page
           // content. Never persist that state into the public canvas.
@@ -1117,6 +1128,10 @@
           titleInput.addEventListener('input', () => setImageAttribute(image, 'title', titleInput.value));
           stylePanel.querySelector('#classic-image-replace')?.addEventListener('click', () => {
             selectedImage = image;
+            if (image.closest('.hero-visual') && heroImageInput) {
+              heroImageInput.click();
+              return;
+            }
             imagePicker.click();
           });
         };
@@ -1141,6 +1156,26 @@
           });
           reader.readAsDataURL(file);
         });
+        if (heroImageInput?._landingHeroPreviewHandler) {
+          heroImageInput.removeEventListener('change', heroImageInput._landingHeroPreviewHandler);
+        }
+        const previewUploadedHero = event => {
+          const file = event.target.files?.[0];
+          const heroImage = frameMain.querySelector('.hero-visual img');
+          if (!file || !heroImage) return;
+          const reader = new FileReader();
+          reader.addEventListener('load', () => {
+            // This data URL is preview-only. saveClassicCanvas restores the
+            // server URL while FormData uploads the selected file separately.
+            heroImage.src = reader.result;
+            setSaveState('Unsaved changes');
+          });
+          reader.readAsDataURL(file);
+        };
+        if (heroImageInput) {
+          heroImageInput._landingHeroPreviewHandler = previewUploadedHero;
+          heroImageInput.addEventListener('change', previewUploadedHero);
+        }
         makeTextEditable();
         frameDocument.addEventListener('keydown', handleSaveShortcut);
         frameDocument.addEventListener('keydown', handleClassicTextUndo);
