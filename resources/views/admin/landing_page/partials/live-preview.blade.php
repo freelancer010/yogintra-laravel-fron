@@ -913,7 +913,7 @@
         // and is intentionally ignored by the public renderer.
         const persistedHeroSource = frameMain.querySelector('.hero-visual img')?.getAttribute('src') || '';
         const editingStyle = frameDocument.createElement('style');
-        editingStyle.textContent = '[data-builder-editable-text]:hover{outline:1px dashed #095253;outline-offset:4px;cursor:text}[data-builder-editable-text]:focus,[data-builder-selected-text]{outline:2px solid #095253;outline-offset:4px}[data-builder-editable-image]{cursor:pointer}[data-builder-editable-image]:hover{outline:3px solid #095253;outline-offset:3px}[data-builder-selected-image]{outline:3px solid #095253;outline-offset:3px}.chips span[data-builder-editable-text]{padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;font:inherit!important;color:inherit!important}';
+        editingStyle.textContent = '[data-builder-editable-text]:hover{outline:1px dashed #095253;outline-offset:4px;cursor:text}[data-builder-editable-text]:focus,[data-builder-selected-text]{outline:2px solid #095253;outline-offset:4px}[data-builder-editable-image]{cursor:pointer}[data-builder-editable-image]:hover{outline:3px solid #095253;outline-offset:3px}[data-builder-selected-image]{outline:3px solid #095253;outline-offset:3px}.chips span[data-builder-editable-text]{padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;font:inherit!important;color:inherit!important}.classic-trainer-card[data-builder-element-drop]{outline:3px dashed #0f7a84;outline-offset:-6px;background:#eef9f8}.classic-trainer-card[data-builder-element-drop] .classic-trainer-card__body:after{content:"Drop bullet list here";display:block;margin-top:12px;padding:8px;border:1px dashed #0f7a84;border-radius:6px;color:#0f6269;font:600 13px/1.4 Arial;text-align:center}';
         frameDocument.head.appendChild(editingStyle);
         if (savedClassicCanvas) {
           const restoredCanvas = frameDocument.createRange().createContextualFragment(savedClassicCanvas);
@@ -1209,6 +1209,35 @@
           heroImageInput.addEventListener('change', previewUploadedHero);
         }
         makeTextEditable();
+        frameMain.querySelectorAll('.classic-trainer-card').forEach(trainerCard => {
+          trainerCard.addEventListener('dragover', event => {
+            if (!event.dataTransfer.types.includes('application/x-builder-element')) return;
+            event.preventDefault(); event.stopPropagation();
+            trainerCard.dataset.builderElementDrop = 'bullets';
+            event.dataTransfer.dropEffect = 'copy';
+          });
+          trainerCard.addEventListener('dragleave', event => {
+            if (!trainerCard.contains(event.relatedTarget)) trainerCard.removeAttribute('data-builder-element-drop');
+          });
+          trainerCard.addEventListener('drop', event => {
+            const elementType = event.dataTransfer.getData('application/x-builder-element');
+            trainerCard.removeAttribute('data-builder-element-drop');
+            if (elementType !== 'bullets') return;
+            event.preventDefault(); event.stopPropagation();
+            const cardBody = trainerCard.querySelector('.classic-trainer-card__body') || trainerCard;
+            const list = frameDocument.createElement('ul');
+            ['First point', 'Second point', 'Third point'].forEach(text => {
+              const item = frameDocument.createElement('li');
+              item.textContent = text;
+              list.appendChild(item);
+              bindClassicTextEditor(item);
+            });
+            cardBody.appendChild(list);
+            saveClassicCanvas();
+            setSaveState('Unsaved changes');
+            showClassicTextEditor(list.firstElementChild);
+          });
+        });
         frameDocument.addEventListener('keydown', handleSaveShortcut);
         frameDocument.addEventListener('keydown', handleClassicTextUndo);
         frameMain.querySelectorAll('.faq-list details').forEach((faqItem, index) => {

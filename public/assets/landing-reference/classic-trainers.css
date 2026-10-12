@@ -32,6 +32,9 @@
 .classic-trainer-card__body p { margin: 7px 0 4px; font-size: 14px; }
 .classic-trainer-card__body span { color: #566b68; font-size: 14px; }
 .classic-trainer-card__body i { margin-right: 5px; color: #095253; }
+.classic-trainer-card__body ul { margin: 14px 0 0; padding-left: 20px; color: #566b68; font-size: 15px; line-height: 1.55; text-align: left; list-style: disc outside; }
+.classic-trainer-card__body li { display: list-item; }
+.classic-trainer-card__body li + li { margin-top: 5px; }
 .classic-trainers-link { margin-top: 32px; }
 
 @media (max-width: 800px) {
