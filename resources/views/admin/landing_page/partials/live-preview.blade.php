@@ -960,6 +960,7 @@
           const savedHeroImage = savedMain.querySelector('.hero-visual img');
           if (savedHeroImage && persistedHeroSource) savedHeroImage.setAttribute('src', persistedHeroSource);
           savedMain.querySelectorAll('[data-builder-control]').forEach(control => control.remove());
+          savedMain.querySelectorAll('[data-builder-trainer-list]').forEach(list => list.removeAttribute('data-builder-trainer-list'));
           // Opening an FAQ in the editor is preview UI state, not page
           // content. Never persist that state into the public canvas.
           savedMain.querySelectorAll('.faq-list details[open]').forEach(item => item.removeAttribute('open'));
@@ -1085,6 +1086,7 @@
         const makeTextEditable = () => {
           const editableElements = new Set();
           frameMain.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,summary,.eyebrow,.photo-note strong,.photo-note span,.vertical-label,.image-label,.large-number,.booking-note').forEach(element => {
+            if (element.matches('li') && element.querySelector(':scope > [data-builder-list-item-text]')) return;
             const styledRuns = [...element.querySelectorAll('em,strong,b,i,u')]
               .filter(run => run.innerText.trim() && !run.querySelector('em,strong,b,i,u'));
             if (!styledRuns.length) {
@@ -1208,6 +1210,47 @@
           heroImageInput._landingHeroPreviewHandler = previewUploadedHero;
           heroImageInput.addEventListener('change', previewUploadedHero);
         }
+        const enhanceClassicTrainerList = list => {
+          if (list.dataset.builderTrainerList === 'true') return;
+          list.dataset.builderTrainerList = 'true';
+          const removeList = frameDocument.createElement('button');
+          removeList.type = 'button';
+          removeList.dataset.builderControl = 'remove-trainer-list';
+          removeList.className = 'classic-builder-list-remove';
+          removeList.title = 'Delete this bullet list';
+          removeList.setAttribute('aria-label', 'Delete bullet list');
+          removeList.textContent = 'Delete list';
+          removeList.addEventListener('click', event => {
+            event.preventDefault(); event.stopPropagation();
+            list.remove(); removeList.remove();
+            saveClassicCanvas(); setSaveState('Unsaved changes');
+          });
+          list.before(removeList);
+          [...list.children].filter(item => item.tagName === 'LI').forEach(item => {
+            const text = frameDocument.createElement('span');
+            text.dataset.builderListItemText = 'true';
+            text.dataset.builderInlineWrapper = 'true';
+            while (item.firstChild) text.appendChild(item.firstChild);
+            item.appendChild(text);
+            bindClassicTextEditor(text);
+            const removeItem = frameDocument.createElement('button');
+            removeItem.type = 'button';
+            removeItem.dataset.builderControl = 'remove-list-item';
+            removeItem.className = 'classic-builder-list-item-remove';
+            removeItem.title = 'Delete this list item';
+            removeItem.setAttribute('aria-label', 'Delete list item');
+            removeItem.textContent = '×';
+            removeItem.contentEditable = 'false';
+            removeItem.addEventListener('click', event => {
+              event.preventDefault(); event.stopPropagation();
+              item.remove();
+              if (!list.querySelector('li')) { list.remove(); removeList.remove(); }
+              saveClassicCanvas(); setSaveState('Unsaved changes');
+            });
+            item.appendChild(removeItem);
+          });
+        };
+        frameMain.querySelectorAll('.classic-trainer-card__body ul').forEach(enhanceClassicTrainerList);
         makeTextEditable();
         frameMain.querySelectorAll('.classic-trainer-card').forEach(trainerCard => {
           trainerCard.addEventListener('dragover', event => {
@@ -1230,12 +1273,18 @@
               const item = frameDocument.createElement('li');
               item.textContent = text;
               list.appendChild(item);
-              bindClassicTextEditor(item);
             });
-            cardBody.appendChild(list);
+            const anchor = event.target.closest?.('.classic-trainer-card__body > *');
+            if (anchor && anchor.parentElement === cardBody) {
+              const insertAfter = event.clientY > anchor.getBoundingClientRect().top + (anchor.getBoundingClientRect().height / 2);
+              cardBody.insertBefore(list, insertAfter ? anchor.nextSibling : anchor);
+            } else {
+              cardBody.appendChild(list);
+            }
+            enhanceClassicTrainerList(list);
             saveClassicCanvas();
             setSaveState('Unsaved changes');
-            showClassicTextEditor(list.firstElementChild);
+            showClassicTextEditor(list.querySelector('[data-builder-list-item-text]'));
           });
         });
         frameDocument.addEventListener('keydown', handleSaveShortcut);
