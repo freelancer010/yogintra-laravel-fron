@@ -43,6 +43,7 @@
         .hero-video-copy .btn{display:inline-block;padding:12px 24px;border:1px solid #1a73e8;border-radius:4px;background:#1a73e8;color:#fff;font-weight:600;line-height:1.42857143;text-decoration:none;text-transform:uppercase;letter-spacing:.5px}
         .hero-video-play{position:absolute;bottom:20px;right:20px;z-index:4;border:1px solid #fff;border-radius:6px;padding:10px 16px;background:#123e46;color:#fff;cursor:pointer}
         .hero-video-play[hidden]{display:none}
+        .types-of-yoga-section .yoga-service-item img.img-circle{display:block;width:128px!important;height:128px!important;max-width:128px!important;aspect-ratio:1/1;object-fit:cover}
         /* The shared legacy stylesheet is deferred on the homepage. Reserve the
            mobile hero's final geometry before it arrives so the hidden desktop
            carousel never creates a large first-paint layout shift. */
@@ -125,7 +126,7 @@
                 };
             @endphp
             <div class="hero-video-wrap" @if($heroPoster) style="background-image: url('{{ asset($heroPoster) }}');" @endif>
-                <video class="hero-background-video" muted loop playsinline preload="none" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}" @if($heroPoster) poster="{{ asset($heroPoster) }}" @endif>
+                <video class="hero-background-video" width="1920" height="1080" muted loop playsinline preload="none" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}" @if($heroPoster) poster="{{ asset($heroPoster) }}" @endif>
                     <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
                     <track kind="captions" srclang="en" label="English" src="{{ asset('assets/front/captions/yogintra-hero-en.vtt') }}">
                 </video>
@@ -361,7 +362,7 @@
                                     @endphp
                                     <div class="col-lg-3 col-md-3 col-sm-4 mb-30">
                                         <div class="yoga-service-item text-center">
-                                             <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}" title="YogIntra Service Category - {{ $r_service->service_cat_name }}">
+                                             <img class="img-circle img-thumbnail mb-20" src="{{ asset($r_service->service_cat_image) }}" width="128" height="128" loading="lazy" decoding="async" alt="YogIntra Service Category - {{ $r_service->service_cat_name }}" title="YogIntra Service Category - {{ $r_service->service_cat_name }}">
                                              <h3 class="mb-15 fs-16">{{ $r_service->service_cat_name }}</h3>
                                              <ul class="section3-card-bullets">@foreach($section3BulletItems('category_'.$r_service->service_cat_id) as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                              <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
@@ -374,7 +375,7 @@
                                         $cardButton = $section3Button('ttc', 'Visit Now', route('ttc'));
                                     @endphp
                                     <div class="yoga-service-item text-center">
-                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['ttc'] ?? 'assets/icon-thumb3-150x150.jpg') }}" width="150" height="150" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course" title="YogIntra TTC - Teacher Training Course">
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['ttc'] ?? 'assets/icon-thumb3-150x150.jpg') }}" width="128" height="128" decoding="async" loading="lazy" alt="YogIntra TTC - Teacher Training Course" title="YogIntra TTC - Teacher Training Course">
                                          <h3 class="mb-15 fs-16">TTC</h3>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('ttc') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
@@ -386,7 +387,7 @@
                                         $cardButton = $section3Button('retreat', 'Visit Now', route('retreat.all'));
                                     @endphp
                                     <div class="yoga-service-item text-center">
-                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['retreat'] ?? 'assets/icon-thumb4-150x150.jpg') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Retreat Programs" title="YogIntra Retreat Programs">
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['retreat'] ?? 'assets/icon-thumb4-150x150.jpg') }}" height="128" width="128" decoding="async" loading="lazy" alt="YogIntra Retreat Programs" title="YogIntra Retreat Programs">
                                          <h3 class="mb-15 fs-16">Retreat</h3>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('retreat') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
@@ -398,7 +399,7 @@
                                         $cardButton = $section3Button('workshop', 'Visit Now', route('workshop'));
                                     @endphp
                                     <div class="yoga-service-item text-center">
-                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['workshop'] ?? 'assets/icon-thumb1-150x150.webp') }}" height="150" width="150" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops" title="YogIntra Yoga Workshops">
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['workshop'] ?? 'assets/icon-thumb1-150x150.webp') }}" height="128" width="128" decoding="async" loading="lazy" alt="YogIntra Yoga Workshops" title="YogIntra Yoga Workshops">
                                          <h3 class="mb-15 fs-16">Workshop</h3>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('workshop') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark">{{ $cardButton['label'] }}</a>
@@ -410,7 +411,7 @@
                                         $cardButton = $section3Button('yoga_center', 'Visit Now', route('yoga.center'));
                                     @endphp
                                     <div class="yoga-service-item text-center">
-                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['yoga_center'] ?? 'uploads/yog_center.jpg') }}" width="150" height="150" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility" title="YogIntra Yoga Center and Training Facility">
+                                         <img class="img-circle img-thumbnail mb-20" src="{{ asset($section3FixedImages['yoga_center'] ?? 'uploads/yog_center.jpg') }}" width="128" height="128" loading="lazy" decoding="async" alt="YogIntra Yoga Center and Training Facility" title="YogIntra Yoga Center and Training Facility">
                                          <h3 class="mb-15 fs-16">Yoga Center</h3>
                                          <ul class="section3-card-bullets">@foreach($section3BulletItems('yoga_center') as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>
                                          <a href="{{ $cardButton['url'] }}" class="btn-sm-cs btn btn-success btn-primary-dark" title="Explore YogIntra yoga centres">{{ $cardButton['label'] }}</a>
