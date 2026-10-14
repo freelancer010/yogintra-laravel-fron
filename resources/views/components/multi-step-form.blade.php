@@ -107,6 +107,7 @@
     </div>
 </div>
 
+@if(request()->path() !== '/')
 @push('scripts')
     <script>
         $(document).ready(function() {
@@ -399,8 +400,9 @@
         });
     </script>
 @endpush
+@endif
 
-@if($form_type == 'embed')
+@if($form_type == 'embed' && request()->path() !== '/')
     <style>
         .error-message {
             color: #dc3545;

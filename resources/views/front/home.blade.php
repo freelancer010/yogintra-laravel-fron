@@ -281,7 +281,7 @@
                                     <div class="icon-box icon-theme-colored benefit-icon left media p-0 mb-sm-10 mt-30">
                                         <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip" aria-label="Explore yoga centres" title="Explore YogIntra yoga centres">
                                             <img src="{{ asset($content_1->of_image) }}" 
-                                                width="75" height="75" loading="lazy" alt="YogIntra Feature - {{ $content_1->of_heading }}" title="YogIntra Feature - {{ $content_1->of_heading }}" decoding="async">
+                                                width="75" height="75" loading="{{ $loop->first ? 'eager' : 'lazy' }}" alt="YogIntra Feature - {{ $content_1->of_heading }}" title="YogIntra Feature - {{ $content_1->of_heading }}" decoding="async">
                                         </a>
                                         <div class="media-body">
                                             <h3 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h3>

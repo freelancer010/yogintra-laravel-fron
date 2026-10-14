@@ -54,9 +54,7 @@
 
     <!-- Page-specific preloads (e.g., hero images) -->
     @stack('page_preloads')
-    @unless ($isHomePage)
-        <link rel="preload" as="image" href="{{ asset($app_setting->app_sticky_logo) }}" fetchpriority="high">
-    @endunless
+    <link rel="preload" as="image" href="{{ asset($app_setting->app_sticky_logo) }}" fetchpriority="high">
     @if (!$deferNonCriticalStyles)
         <link rel="preload" as="font" href="{{ asset('assets/front/fonts/fontawesome-webfont3e6e.woff2') }}?v=4.7.0" type="font/woff2" crossorigin>
     @endif
@@ -130,7 +128,7 @@
 
     @if ($isHomePage)
         <link rel="preload" as="font" href="{{ asset('assets/front/fonts/quicksand-600-700-latin.woff2') }}" type="font/woff2" crossorigin>
-        <link rel="stylesheet" href="{{ asset('assets/front/css/home-fonts.css') }}?v={{ filemtime(public_path('assets/front/css/home-fonts.css')) }}">
+        <style id="home-font-faces">@font-face{font-family:"Dancing Script";font-style:normal;font-weight:700;font-display:optional;src:url("{{ asset('assets/front/fonts/dancing-script-700-latin.woff2') }}") format("woff2")}@font-face{font-family:"Philosopher";font-style:normal;font-weight:700;font-display:optional;src:url("{{ asset('assets/front/fonts/philosopher-700-latin.woff2') }}") format("woff2")}@font-face{font-family:"Quicksand";font-style:normal;font-weight:600;font-display:optional;src:url("{{ asset('assets/front/fonts/quicksand-600-700-latin.woff2') }}") format("woff2")}@font-face{font-family:"Quicksand";font-style:normal;font-weight:700;font-display:optional;src:url("{{ asset('assets/front/fonts/quicksand-600-700-latin.woff2') }}") format("woff2")}@font-face{font-family:"Roboto";font-style:normal;font-weight:400;font-display:optional;src:url("{{ asset('assets/front/fonts/roboto-400-latin.woff2') }}") format("woff2")}</style>
     @else
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
