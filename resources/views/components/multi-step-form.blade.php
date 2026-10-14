@@ -107,7 +107,7 @@
     </div>
 </div>
 
-@if(request()->path() !== '/')
+@if(request()->path() !== '/' && !request()->is('city/*'))
 @push('scripts')
     <script>
         $(document).ready(function() {
@@ -402,7 +402,7 @@
 @endpush
 @endif
 
-@if($form_type == 'embed' && request()->path() !== '/')
+@if($form_type == 'embed' && request()->path() !== '/' && !request()->is('city/*'))
     <style>
         .error-message {
             color: #dc3545;

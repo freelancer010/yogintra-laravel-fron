@@ -459,6 +459,7 @@ class HomeController extends Controller
             $heroImage = $pageImagePath !== '' && $pageImagePath !== 'uploads/1681071409default-profile.png'
                 ? (str_starts_with($pageImagePath, 'data:') || preg_match('#^https?://#i', $pageImagePath) ? $pageImagePath : asset($pageImagePath))
                 : asset('assets/landing-reference/hero.webp');
+            $heroImage = $this->externalizeLandingDataImage($heroImage);
             $heroVariantPaths = preg_match('#^(?:https?:)?//#i', $pageImagePath) || str_starts_with($pageImagePath, 'data:')
                 ? []
                 : app(OptimizedImageUpload::class)->responsiveVariants($pageImagePath);
@@ -484,7 +485,14 @@ class HomeController extends Controller
             $heroPreload = '<link rel="preload" as="image" href="' . e($heroImage) . '"' .
                 ($heroSrcset !== '' ? ' imagesrcset="' . e($heroSrcset) . '" imagesizes="' . e($heroSizes) . '"' : '') .
                 ' fetchpriority="high">';
-            $referenceLayout = str_replace('</head>', $landingSeoMarkup . $heroPreload . '</head>', $referenceLayout);
+            $logoPath = trim((string) ($appSetting->app_sticky_logo ?? 'assets/og-logo.webp'));
+            $logoImage = preg_match('#^(?:https?:)?//#i', $logoPath) || str_starts_with($logoPath, 'data:')
+                ? $this->externalizeLandingDataImage($logoPath)
+                : asset($logoPath);
+            $logoPreload = $logoImage !== $heroImage
+                ? '<link rel="preload" as="image" href="' . e($logoImage) . '" fetchpriority="high">'
+                : '';
+            $referenceLayout = str_replace('</head>', $landingSeoMarkup . $heroPreload . $logoPreload . '</head>', $referenceLayout);
             // These replacements keep the shared editorial layout cohesive
             // while making its default city-facing copy useful and unique.
             // An editor's custom words are left untouched below.
@@ -555,8 +563,7 @@ class HomeController extends Controller
                 '<meta name="csrf-token" content="' . e(csrf_token()) . '"><link rel="icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="shortcut icon" type="' . $faviconType . '" href="' . e($favicon) . '"><link rel="apple-touch-icon" href="' . e($favicon) . '">' .
                 '<style id="landing-header-critical-css">' . $landingHeaderCss . '</style>' .
                 $deferredStylesheet(asset('assets/front/css/font-awesome.min.css')) .
-                $deferredStylesheet(asset('assets/landing-reference/classic-trainers.css')) .
-                $deferredStylesheet(asset('assets/landing-reference/global-footer.css') . '?v=' . filemtime(public_path('assets/landing-reference/global-footer.css'))) .
+                $deferredStylesheet(asset('assets/landing-reference/landing-components.min.css') . '?v=' . filemtime(public_path('assets/landing-reference/landing-components.min.css'))) .
                 '<style>.brand-logo img{display:block;width:190px;height:auto;object-fit:contain}@media(max-width:680px){.brand-logo img{width:150px}}</style></head>',
                 $referenceLayout
             );
@@ -624,9 +631,6 @@ class HomeController extends Controller
                 }
                 $referenceLayout = preg_replace('#<main\b#', '<main data-locations-initialized="true"', $referenceLayout, 1);
             }
-            $locationsCss = asset('assets/landing-reference/classic-locations.css') . '?v=' . filemtime(public_path('assets/landing-reference/classic-locations.css'));
-            $referenceLayout = str_replace('</head>', $deferredStylesheet($locationsCss) . '</head>', $referenceLayout);
-
             // Restore each page's original hero copy once, then let subsequent
             // builder edits remain authoritative through the saved marker.
             if (!str_contains($referenceLayout, 'data-hero-copy-restored')) {
@@ -646,9 +650,6 @@ class HomeController extends Controller
                 }
                 $referenceLayout = preg_replace('#<main\b#', '<main data-hero-copy-restored="true"', $referenceLayout, 1);
             }
-            $testimonialCss = asset('assets/landing-reference/classic-testimonials.css') . '?v=' . filemtime(public_path('assets/landing-reference/classic-testimonials.css'));
-            $referenceLayout = str_replace('</head>', $deferredStylesheet($testimonialCss) . '</head>', $referenceLayout);
-
             $referenceLayout = str_replace(
                 'src="/assets/landing-reference/app.js"',
                 'src="/assets/landing-reference/app.js?v=' . filemtime(public_path('assets/landing-reference/app.js')) . '"',
@@ -671,6 +672,7 @@ class HomeController extends Controller
                 $referenceLayout
             ) ?? $referenceLayout;
             $referenceLayout = $this->ensureLandingImageTitles($referenceLayout);
+            $referenceLayout = $this->externalizeLandingDataImages($referenceLayout);
 
             $response = response($referenceLayout)->header('Content-Type', 'text/html; charset=UTF-8');
             // A non-responsive image can be safely preloaded from the HTTP
@@ -724,6 +726,64 @@ class HomeController extends Controller
 
             return preg_replace('#\s*/?>$#', $attribute . '$0', $tag, 1) ?? $tag;
         }, $html) ?? $html;
+    }
+
+    /**
+     * Keep builder-saved inline previews out of every HTML response. The
+     * original database content remains untouched; decoded files are reused
+     * by their content hash under the already ignored public/uploads tree.
+     */
+    private function externalizeLandingDataImages(string $html): string
+    {
+        if (!str_contains($html, 'data:image/')) {
+            return $html;
+        }
+
+        return preg_replace_callback(
+            '#(<img\b[^>]*\bsrc\s*=\s*)(["\'])(data:image/(?:avif|webp|png|jpe?g|gif);base64,[A-Za-z0-9+/=\r\n]++)\2#i',
+            fn (array $match): string => $match[1] . $match[2] . e($this->externalizeLandingDataImage($match[3])) . $match[2],
+            $html
+        ) ?? $html;
+    }
+
+    /** Convert one valid data-image URI into a cacheable public asset URL. */
+    private function externalizeLandingDataImage(string $uri): string
+    {
+        if (!preg_match('#^data:image/(avif|webp|png|jpe?g|gif);base64,(.+)$#is', $uri, $match)) {
+            return $uri;
+        }
+
+        $binary = base64_decode(preg_replace('/\s+/', '', $match[2]) ?? '', true);
+        if ($binary === false || strlen($binary) < 16 || strlen($binary) > 10 * 1024 * 1024) {
+            return $uri;
+        }
+
+        $imageInfo = @getimagesizefromstring($binary);
+        $extension = match ($imageInfo['mime'] ?? '') {
+            'image/avif' => 'avif',
+            'image/webp' => 'webp',
+            'image/png' => 'png',
+            'image/jpeg' => 'jpg',
+            'image/gif' => 'gif',
+            default => null,
+        };
+        if ($extension === null) {
+            return $uri;
+        }
+
+        $relativeDirectory = 'uploads/landing-inline';
+        $directory = public_path($relativeDirectory);
+        if (!is_dir($directory) && !@mkdir($directory, 0755, true) && !is_dir($directory)) {
+            return $uri;
+        }
+
+        $filename = hash('sha256', $binary) . '.' . $extension;
+        $path = $directory . DIRECTORY_SEPARATOR . $filename;
+        if (!is_file($path) && @file_put_contents($path, $binary, LOCK_EX) === false) {
+            return $uri;
+        }
+
+        return asset($relativeDirectory . '/' . $filename);
     }
 
     /** Make the above-the-fold hero immediately loadable without altering its content. */
