@@ -64,6 +64,10 @@
            out of normal flow before the deferred stylesheet has loaded. --}}
         <style id="home-overlay-critical">
             .home-critical-loading main>section:not(#home){visibility:hidden}
+            .skip-to-content{position:fixed;top:12px;left:12px;z-index:10000;padding:10px 16px;color:#fff;background:#075c66;border-radius:4px;transform:translateY(-160%)}
+            .skip-to-content:focus{transform:translateY(0);color:#fff;outline:3px solid #f6a623;outline-offset:3px}
+            .home-critical-loading .cookie-banner{display:none!important}
+            .home-critical-loading .tooltip-popup{display:none!important}
             .cookie-banner,#messagePopup{position:fixed;display:none;z-index:1000000}
             #messageIcon,.tooltip-popup{position:fixed;z-index:9999}
             .cookie-banner{right:20px;bottom:20px;left:20px;max-width:480px;margin:auto}
@@ -82,16 +86,18 @@
                 #header.home-mobile-hero-navigation .menuzord-brand img.logo-scrolled-to-fixed{display:none}
                 #header.home-mobile-hero-navigation .menuzord-menu{float:right;margin:0;padding:0;list-style:none}
                 #header.home-mobile-hero-navigation .menuzord-menu>li{display:inline-block;float:left}
+                #header.home-mobile-hero-navigation .menuzord-menu>li>a{display:block;padding:22px 10px;line-height:26px}
             }
             @media(max-width:767px){
                 #messageIcon{right:16px;bottom:84px;width:48px;height:48px}.tooltip-popup{display:none!important}
                 /* Keep the homepage's desktop menu from taking normal-flow space
                    before the deferred navigation stylesheet and script initialise. */
                 #header.home-mobile-hero-navigation{position:absolute;top:0;left:0;width:100%;height:64px;z-index:1100;background:transparent}
+                #header.home-mobile-hero-navigation .header-top{display:none}
                 #header.home-mobile-hero-navigation .header-nav{position:fixed;top:0;left:0;right:0;width:100%;height:64px;z-index:1101;background:#fff;box-shadow:0 2px 12px rgba(10,49,59,.12)}
                 #header.home-mobile-hero-navigation .header-nav-wrapper,#header.home-mobile-hero-navigation .ipad_header,#header.home-mobile-hero-navigation .menuzord{position:relative;width:100%;height:64px;min-height:64px;margin:0;padding:0;background:#fff}
-                #header.home-mobile-hero-navigation .menuzord-brand{display:flex;align-items:center;height:64px;margin:0 0 0 18px;padding:0;line-height:0}
-                #header.home-mobile-hero-navigation .menuzord-brand img.logo-default{display:block;width:155px;height:44px;max-width:calc(100vw - 104px);object-fit:contain;object-position:left center}
+                #header.home-mobile-hero-navigation .menuzord-brand{display:flex;align-items:center;width:185px;height:64px;margin:0 0 0 22px;padding:0;line-height:0}
+                #header.home-mobile-hero-navigation .menuzord-brand img.logo-default{display:block;width:185px;height:48px;max-width:calc(100vw - 104px);object-fit:contain;object-position:left center}
                 #header.home-mobile-hero-navigation .menuzord-brand img.logo-scrolled-to-fixed,#header.home-mobile-hero-navigation .menuzord-menu{display:none}
                 #header.home-mobile-hero-navigation.mobile-menu-open .header-nav-wrapper,#header.home-mobile-hero-navigation.mobile-menu-open .menuzord{height:auto}
             }

@@ -1,6 +1,19 @@
 @extends('layouts.layout')
 @php
-    $heroPoster = $app_setting->hero_video_thumbnail ?: ($all_slider->first()?->slider_image ?: 'assets/Mobile-Banner-new.webp');
+    $configuredHeroPoster = trim((string) ($app_setting->hero_video_thumbnail ?? ''));
+    $sliderHeroPoster = trim((string) ($all_slider->first()?->slider_image ?? ''));
+    $isUsableHeroAsset = static function (string $path): bool {
+        if ($path === '') {
+            return false;
+        }
+
+        return preg_match('#^(?:https?:)?//#i', $path) === 1
+            || str_starts_with($path, 'data:')
+            || is_file(public_path(ltrim($path, '/\\')));
+    };
+    $heroPoster = $isUsableHeroAsset($configuredHeroPoster)
+        ? $configuredHeroPoster
+        : ($isUsableHeroAsset($sliderHeroPoster) ? $sliderHeroPoster : 'assets/Mobile-Banner-new.webp');
     $heroVideoHeading = $app_setting->hero_video_heading ?: ($app_setting->hero_video_title ?: ($all_slider->first()?->slider_heading ?: 'Wellness classes with YogIntra'));
     $heroVideoSubHeading = $app_setting->hero_video_sub_heading ?: ($app_setting->hero_video_description ?: ($all_slider->first()?->slider_sub_heading ?: 'Discover guided movement and wellbeing support with YogIntra.'));
     $heroVideoTitle = $heroVideoHeading;
@@ -41,7 +54,7 @@
         .hero-video-copy h1{margin:.67em 0;font-family:Quicksand,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:900;line-height:1}
         .hero-video-copy p{margin-bottom:10px}
         .hero-video-copy .btn{display:inline-block;padding:12px 24px;border:1px solid #1a73e8;border-radius:4px;background:#1a73e8;color:#fff;font-weight:600;line-height:1.42857143;text-decoration:none;text-transform:uppercase;letter-spacing:.5px}
-        .hero-video-play{position:absolute;bottom:20px;right:20px;z-index:4;border:1px solid #fff;border-radius:6px;padding:10px 16px;background:#123e46;color:#fff;cursor:pointer}
+        .hero-video-play{position:absolute;bottom:20px;right:20px;z-index:4;border:1px solid #fff;border-radius:6px;padding:10px 16px;background:#123e46;color:#fff;font:inherit;cursor:pointer}
         .hero-video-play[hidden]{display:none}
         .types-of-yoga-section .yoga-service-item img.img-circle{display:block;width:128px!important;height:128px!important;max-width:128px!important;aspect-ratio:1/1;object-fit:cover}
         /* The shared legacy stylesheet is deferred on the homepage. Reserve the
@@ -52,7 +65,7 @@
             .col-md-6,.col-md-8{width:100%}.offset-md-2{margin-left:0}.font-54{font-size:2rem!important}
             #home.hero-video-home{height:calc(100svh - 70px)!important;min-height:calc(100svh - 70px)!important;margin:0!important;padding:0!important}
             #home.hero-video-home .hero-video-wrap,#home.hero-video-home .hero-video-copy{height:calc(100svh - 70px);min-height:calc(100svh - 70px)}
-            #home.hero-video-home .hero-video-copy .container{position:static!important;padding-right:20px;padding-left:20px}
+            #home.hero-video-home .hero-video-copy .container.position-ab{position:static!important;top:auto!important;width:100%!important;padding:60px 20px!important}
             #home.hero-video-home .hero-video-copy .row>[class*=col-]{width:100%;margin-left:0;text-align:center!important}
             #home.hero-video-home .hero-video-copy .bg-white-transparent{text-align:center!important}
             #home { position:relative; min-height:75svh; height:75svh; overflow:hidden; }

@@ -3,20 +3,29 @@ import { writeFileSync } from 'node:fs';
 const require = createRequire(import.meta.url);
 const { PurgeCSS } = require(process.env.PURGECSS_PATH || 'purgecss');
 
-// Scan all public templates and scripts, not just the initial viewport.
-// Preserve plugin-generated markup and dynamic utility/icon classes used by
-// database content, menus, modals, carousels and form validation.
+// The homepage bundle must not inherit selectors from every unrelated public
+// page or from the legacy all-plugins scripts. Scan the homepage and its shared
+// shell/components, plus only scripts that actually mutate homepage markup.
+// Plugin-generated classes are retained explicitly below.
 const [result] = await new PurgeCSS().purge({
   content: [
-    'resources/views/front/**/*.blade.php',
-    'resources/views/partials/**/*.blade.php',
-    'resources/views/components/**/*.blade.php',
+    'resources/views/front/home.blade.php',
+    'resources/views/partials/navbar.blade.php',
+    'resources/views/partials/footer.blade.php',
+    'resources/views/components/multi-step-form.blade.php',
     'resources/views/layouts/layout.blade.php',
-    'public/assets/front/js/*.js',
+    'public/assets/front/js/home-page.min.js',
+    'public/assets/front/js/home-backgrounds.js',
+    'public/assets/front/js/home-carousel-accessibility.js',
+    'public/assets/front/js/home-hero-video.js',
+    'public/assets/front/js/navbar-hero.js',
+    'public/assets/front/js/navbar-accessibility.min.js',
+    'public/assets/front/js/contact-popup-form.min.js',
+    'public/assets/front/js/cookie-preferences.min.js',
   ],
   css: ['public/assets/front/css/frontend.bundle.min.css'],
   safelist: {
-    standard: [/^(?:fa|glyphicon|owl|menuzord|slick|modal|collapse|collapsing|dropdown|tooltip|popover|carousel|mfp|select2|ui-|has-|is-|bg-|text-|font-|col-|hidden-|visible-|btn|alert|form-|input-|p[trblxy]?-|m[trblxy]?-)/, 'active', 'open', 'in', 'show', 'hide', 'disabled', 'error', 'valid'],
+    standard: [/^(?:fa|owl|menuzord|modal|collapse|collapsing|dropdown|tooltip|popover|mfp|has-|is-|bg-|text-|font-|col-|hidden-|visible-|btn|alert|form-|input-|p[trblxy]?-|m[trblxy]?-)/, 'active', 'open', 'in', 'show', 'hide', 'disabled', 'error', 'valid'],
     deep: [/^(?:owl|menuzord|modal|dropdown|mfp|select2|ui-)/],
   },
   fontFace: false,
