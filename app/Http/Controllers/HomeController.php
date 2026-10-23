@@ -536,7 +536,7 @@ class HomeController extends Controller
             // below-the-fold component CSS can download without blocking the
             // first render.
             $landingCss = file_get_contents(public_path('assets/landing-reference/styles.css')) ?: '';
-            $landingHeaderCss = file_get_contents(public_path('assets/landing-reference/global-header.css')) ?: '';
+            $landingHeaderCss = file_get_contents(public_path('assets/landing-reference/global-header.min.css')) ?: '';
             $referenceLayout = str_replace(
                 '<link rel="stylesheet" href="styles.css">',
                 '<style id="landing-critical-css">' . $landingCss . '</style>',
@@ -564,7 +564,7 @@ class HomeController extends Controller
                 '<style id="landing-header-critical-css">' . $landingHeaderCss . '</style>' .
                 $deferredStylesheet(asset('assets/front/css/font-awesome.min.css')) .
                 $deferredStylesheet(asset('assets/landing-reference/landing-components.min.css') . '?v=' . filemtime(public_path('assets/landing-reference/landing-components.min.css'))) .
-                '<style>.brand-logo img{display:block;width:190px;height:auto;object-fit:contain}@media(max-width:680px){.brand-logo img{width:150px}}</style></head>',
+                '</head>',
                 $referenceLayout
             );
             $referenceLayout = preg_replace(
