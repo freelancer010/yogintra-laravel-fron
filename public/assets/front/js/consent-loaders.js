@@ -1,4 +1,20 @@
-window.loadGoogleAnalytics = function () {
+window.runAfterPrimaryPaint = function (callback) {
+            var schedule = function () {
+                if ('requestIdleCallback' in window) {
+                    window.requestIdleCallback(callback, { timeout: 3000 });
+                } else {
+                    window.setTimeout(callback, 1200);
+                }
+            };
+
+            if (document.readyState === 'complete') {
+                schedule();
+            } else {
+                window.addEventListener('load', schedule, { once: true });
+            }
+        };
+
+        window.loadGoogleAnalytics = function () {
             if (window.googleAnalyticsLoaded) return;
             window.googleAnalyticsLoaded = true;
             window.dataLayer = window.dataLayer || [];
@@ -25,6 +41,17 @@ window.loadGoogleAnalytics = function () {
             'https://connect.facebook.net/en_US/fbevents.js');
             window.fbq('init', '399354049700557');
             window.fbq('track', 'PageView');
+        };
+
+        window.loadGoogleAds = function () {
+            if (window.googleAdsLoaded) return;
+            window.googleAdsLoaded = true;
+
+            var script = document.createElement('script');
+            script.async = true;
+            script.crossOrigin = 'anonymous';
+            script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6393908257919272';
+            document.head.appendChild(script);
         };
 
         window.loadWhatsAppWidget = function () {

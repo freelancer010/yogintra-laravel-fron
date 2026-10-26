@@ -32,7 +32,17 @@ const [result] = await new PurgeCSS().purge({
     extension: 'css',
   }],
   safelist: {
-    standard: [/^(?:fa|owl|menuzord|modal|collapse|collapsing|dropdown|tooltip|popover|mfp|has-|is-|bg-|text-|font-|col-|hidden-|visible-|btn|alert|form-|input-|p[trblxy]?-|m[trblxy]?-)/, 'active', 'open', 'in', 'show', 'hide', 'disabled', 'error', 'valid'],
+    // Static utility classes are discovered directly in the Blade/JS sources.
+    // Keep only classes generated at runtime by icon, carousel, navigation and
+    // overlay plugins; retaining every col/text/font/spacing class kept more
+    // than 250 KB of CSS that the homepage never uses.
+    standard: [
+      /^(?:fa|owl|menuzord)(?:$|-)/,
+      /^(?:modal|collapse|collapsing|dropdown|tooltip|popover|mfp|select2|ui-)(?:$|-)/,
+      /^(?:has-|is-)/,
+      'active', 'open', 'in', 'show', 'hide', 'fade', 'collapsed',
+      'disabled', 'error', 'valid', 'is-invalid',
+    ],
     deep: [/^(?:owl|menuzord|modal|dropdown|mfp|select2|ui-)/],
   },
   fontFace: false,

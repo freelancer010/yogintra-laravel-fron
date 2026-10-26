@@ -4,28 +4,56 @@
     var loader = document.getElementById('homeLegacyLoader');
     if (!loader) return;
 
+    var jquerySource = loader.getAttribute('data-jquery-src');
     var pluginSource = loader.getAttribute('data-plugin-src');
     var loading = false;
 
-    function loadLegacyCarouselRuntime() {
-        if (loading || !pluginSource || (window.jQuery && jQuery.fn && jQuery.fn.owlCarousel)) {
-            if (window.jQuery && jQuery.fn && jQuery.fn.owlCarousel) {
-                window.dispatchEvent(new Event('home:legacy-ready'));
-            }
+    function dispatchReady() {
+        window.dispatchEvent(new Event('home:legacy-ready'));
+    }
+
+    function loadPluginRuntime() {
+        if (window.jQuery && jQuery.fn && jQuery.fn.owlCarousel) {
+            dispatchReady();
             return;
         }
 
-        loading = true;
         var script = document.createElement('script');
         script.src = pluginSource;
         script.async = true;
-        script.onload = function () {
-            window.dispatchEvent(new Event('home:legacy-ready'));
-        };
+        script.onload = dispatchReady;
         script.onerror = function () {
             loading = false;
         };
         document.head.appendChild(script);
+    }
+
+    function loadLegacyCarouselRuntime() {
+        if (loading || !pluginSource) return;
+        if (window.jQuery && jQuery.fn && jQuery.fn.owlCarousel) {
+            dispatchReady();
+            return;
+        }
+
+        loading = true;
+        if (window.jQuery) {
+            loadPluginRuntime();
+            return;
+        }
+
+        if (!jquerySource) {
+            loading = false;
+            return;
+        }
+
+        var jquery = document.createElement('script');
+        jquery.src = jquerySource;
+        jquery.async = true;
+        jquery.onload = loadPluginRuntime;
+        jquery.onerror = function () {
+            loading = false;
+        };
+        document.head.appendChild(jquery);
     }
 
     ['pointerdown', 'touchstart', 'keydown', 'wheel'].forEach(function (eventName) {

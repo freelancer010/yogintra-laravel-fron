@@ -9,14 +9,21 @@
                             if (playButton) {
                                 playButton.hidden = false;
                                 playButton.addEventListener('click', function () {
-                                    video.play().then(function () { playButton.hidden = true; }).catch(function () {
+                                    video.play().then(function () {
+                                        video.classList.add('is-playing');
+                                        playButton.hidden = true;
+                                    }).catch(function () {
                                         playButton.textContent = 'Retry background video';
                                     });
                                 });
                             }
                             return;
                         }
-                        var startVideo = function () { video.play().catch(function () {}); };
+                        var startVideo = function () {
+                            video.play().then(function () {
+                                video.classList.add('is-playing');
+                            }).catch(function () {});
+                        };
                         // The preloaded poster is the LCP image. Delay the larger
                         // video request until the initial page paint is complete.
                         window.addEventListener('load', function () {
@@ -28,6 +35,7 @@
                         }, { once: true });
 
                         var showPosterFallback = function () {
+                            video.classList.remove('is-playing');
                             video.style.display = 'none';
                         };
                         video.addEventListener('error', showPosterFallback);

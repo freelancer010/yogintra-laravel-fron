@@ -13,7 +13,6 @@ use App\Models\Setting;
 use App\Models\Slider;
 use App\Models\Front;
 use App\Models\Service;
-use App\Models\LandingPage;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\Yoga;
@@ -56,7 +55,6 @@ class HomeController extends Controller
         $section_1_content = StaticSiteFallback::features();
         $section_2 = StaticSiteFallback::serviceHeading();
         $section_2_content = StaticSiteFallback::serviceItems();
-        $all_landing_page = collect();
         $visual_setting = StaticSiteFallback::visualSettings();
         $all_service = collect();
         $rand_service = collect();
@@ -74,16 +72,35 @@ class HomeController extends Controller
         }
 
         try {
-            $all_slider = Slider::all();
-            $section_1 = Front::getOurFeaturesHeading() ?: $section_1;
-            $section_1_content = Front::getAllOurFeatures();
-            $section_2 = Front::getOurServiceImage() ?: $section_2;
-            $section_2_content = Front::getAllOurService();
-            $all_landing_page = LandingPage::whereNotNull('page_slug')->get();
-            $visual_setting = DB::table('visual_setting')->first() ?: $visual_setting;
-            $all_service = DB::table('service_category')->get();
-            $rand_service = Service::getSixCategoryForHomePage()->take(4);
-            $testimonials = Testimonial::orderByDesc('test_id')->limit(4)->get();
+            // Homepage content changes infrequently, but previously every visit
+            // repeated all of these queries. Keep data fresh for one minute and
+            // serve the last value while Laravel refreshes it after the response.
+            // This lowers TTFB without making admin updates meaningfully stale.
+            $homepageContent = Cache::flexible('homepage.public-content.v2', [60, 600], function () {
+                return [
+                    'all_slider' => Slider::all(),
+                    'section_1' => Front::getOurFeaturesHeading(),
+                    'section_1_content' => Front::getAllOurFeatures(),
+                    'section_2' => Front::getOurServiceImage(),
+                    'section_2_content' => Front::getAllOurService(),
+                    'visual_setting' => DB::table('visual_setting')->first(),
+                    'all_service' => DB::table('service_category')->get(),
+                    // Preserve the exact model query/order used by the
+                    // existing homepage; only its result is cached.
+                    'rand_service' => Service::getSixCategoryForHomePage()->take(4),
+                    'testimonials' => Testimonial::orderByDesc('test_id')->limit(4)->get(),
+                ];
+            });
+
+            $all_slider = $homepageContent['all_slider'];
+            $section_1 = $homepageContent['section_1'] ?: $section_1;
+            $section_1_content = $homepageContent['section_1_content'];
+            $section_2 = $homepageContent['section_2'] ?: $section_2;
+            $section_2_content = $homepageContent['section_2_content'];
+            $visual_setting = $homepageContent['visual_setting'] ?: $visual_setting;
+            $all_service = $homepageContent['all_service'];
+            $rand_service = $homepageContent['rand_service'];
+            $testimonials = $homepageContent['testimonials'];
         } catch (\Throwable $exception) {
             report($exception);
         }
@@ -99,7 +116,6 @@ class HomeController extends Controller
             'app_setting',
             'all_slider',
             'all_trainer',
-            'all_landing_page',
             'visual_setting',
             'all_service',
             'api',
@@ -996,37 +1012,52 @@ class HomeController extends Controller
      */
     private function cachedTrainers()
     {
-        $allTrainer = Cache::get('homepage.trainers.current');
-
-        if ($allTrainer !== null) {
-            return $allTrainer;
-        }
-
         try {
-            $response = Http::acceptJson()
-                ->connectTimeout(2)
-                ->timeout(5)
-                ->get($this->api . '/get_all_trainer_limit');
+            $trainerCacheKey = 'homepage.trainers.flexible.v1';
+            $trainerCreatedKey = 'illuminate:cache:flexible:created:' . $trainerCacheKey;
 
-            $trainerPayload = $response->json();
-            $trainers = $response->successful() && is_array($trainerPayload)
-                ? collect($trainerPayload)->map(fn ($trainer) => (object) $trainer)
-                : null;
+            // Seed the flexible cache from the previous/last-known-good value.
+            // A cold deploy can then render immediately and refresh the remote
+            // CRM response after it has already sent the page to the visitor.
+            if (Cache::get($trainerCacheKey) === null) {
+                $seed = Cache::get('homepage.trainers.current')
+                    ?? Cache::get('homepage.trainers.last_successful')
+                    ?? collect();
 
-            if ($trainers === null) {
-                throw new \RuntimeException('The trainer API returned an invalid response.');
+                Cache::put($trainerCacheKey, $seed, now()->addDay());
+                Cache::put($trainerCreatedKey, now()->subMinutes(11)->getTimestamp(), now()->addDay());
             }
 
-            Cache::put('homepage.trainers.current', $trainers, now()->addMinutes(10));
-            Cache::put('homepage.trainers.last_successful', $trainers, now()->addDay());
+            return Cache::flexible($trainerCacheKey, [600, 86400], function () {
+                try {
+                    $response = Http::acceptJson()
+                        ->connectTimeout(2)
+                        ->timeout(5)
+                        ->get($this->api . '/get_all_trainer_limit');
 
-            return $trainers;
+                    $trainerPayload = $response->json();
+                    $trainers = $response->successful() && is_array($trainerPayload)
+                        ? collect($trainerPayload)->map(fn ($trainer) => (object) $trainer)
+                        : null;
+
+                    if ($trainers === null) {
+                        throw new \RuntimeException('The trainer API returned an invalid response.');
+                    }
+
+                    Cache::put('homepage.trainers.last_successful', $trainers, now()->addDays(7));
+
+                    return $trainers;
+                } catch (\Throwable $exception) {
+                    report($exception);
+
+                    return Cache::get('homepage.trainers.last_successful', collect());
+                }
+            });
         } catch (\Throwable $exception) {
+            // Cache storage must never make the public homepage unavailable.
             report($exception);
-            $allTrainer = Cache::get('homepage.trainers.last_successful', collect());
-            Cache::put('homepage.trainers.current', $allTrainer, now()->addMinute());
 
-            return $allTrainer;
+            return collect();
         }
     }
 

@@ -243,8 +243,6 @@
     </script>
 
 </head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6393908257919272"
-     crossorigin="anonymous"></script>
 <body data-contact-form-endpoint="{{ route('form.submit') }}">
     <a class="skip-to-content" href="#main-content">Skip to main content</a>
     @include('partials.navbar')
@@ -257,7 +255,9 @@
 
     {{-- On the homepage these dependent scripts retain their document order but
        defer until parsing completes, reducing main-thread work during FCP/LCP. --}}
-    <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}" @if ($isHomePage) defer @endif></script>
+    @unless($homeUsesVideoHero)
+        <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}" @if ($isHomePage) defer @endif></script>
+    @endunless
     @if (request()->is('service-details/*', 'service_details/*'))
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     @endif
@@ -267,7 +267,8 @@
            or interacts with the manual trainer/testimonial carousels. --}}
         <script
             id="homeLegacyLoader"
-            src="{{ asset('assets/front/js/home-legacy-loader.js') }}?v={{ filemtime(public_path('assets/front/js/home-legacy-loader.js')) }}"
+            src="{{ asset('assets/front/js/home-legacy-loader.min.js') }}?v={{ filemtime(public_path('assets/front/js/home-legacy-loader.min.js')) }}"
+            data-jquery-src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}"
             data-plugin-src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}?v={{ filemtime(public_path('assets/front/js/jquery-plugin-collection.min.js')) }}"
             defer
         ></script>

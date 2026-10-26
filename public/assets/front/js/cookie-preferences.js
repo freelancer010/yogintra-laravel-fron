@@ -11,9 +11,14 @@
             }
 
             function applyConsent(consent) {
-                if (consent.analytics) window.loadGoogleAnalytics();
-                if (consent.marketing) window.loadMetaPixel();
-                if (consent.functional) window.loadWhatsAppWidget();
+                window.runAfterPrimaryPaint(function () {
+                    if (consent.analytics) window.loadGoogleAnalytics();
+                    if (consent.marketing) {
+                        window.loadMetaPixel();
+                        window.loadGoogleAds();
+                    }
+                    if (consent.functional) window.loadWhatsAppWidget();
+                });
             }
 
             function saveConsent(consent) {

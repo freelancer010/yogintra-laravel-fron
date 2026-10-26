@@ -48,7 +48,9 @@
         .heading-bold{font-weight:900}.bg-white-transparent{background:transparent}
         #home{position:relative;min-height:100vh}
         .hero-video-wrap{position:relative;min-height:100vh;overflow:hidden;background:#111 center/cover no-repeat}
-        .hero-video-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+        .hero-video-poster,.hero-video-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+        .hero-background-video{opacity:0}
+        .hero-background-video.is-playing{opacity:1}
         .hero-video-wrap:after{position:absolute;inset:0;content:"";background:#00000061}
         .hero-video-copy{position:relative;z-index:1;display:flex;align-items:center;min-height:100vh}
         .hero-video-copy h1{margin:.67em 0;font-family:Quicksand,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:900;line-height:1}
@@ -119,7 +121,7 @@
         <script type="application/ld+json">{!! json_encode($heroVideoSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
     @endif
 @endpush
-@push('styles')
+@push('page_preloads')
     @if(($app_setting->hero_media_type ?? 'slider') === 'slider' && count($all_slider) > 0)
         <link rel="preload" as="image" href="{{ asset($all_slider[0]->slider_image) }}" media="(min-width: 768px)" fetchpriority="high">
         <link rel="preload" as="image" href="{{ asset('assets/Mobile-Banner-new.webp') }}" media="(max-width: 767px)" fetchpriority="high">
@@ -127,7 +129,13 @@
     @if(($app_setting->hero_media_type ?? 'slider') === 'video' && $heroPoster)
         <link rel="preload" as="image" href="{{ asset($heroPoster) }}" fetchpriority="high">
     @endif
-    <noscript><style>.types-of-yoga-section{background-image:url('{{ asset($app_setting->section3_background_image ?: 'assets/parallax-decor2.png') }}')}</style></noscript>
+@endpush
+@push('styles')
+    <noscript><style>
+        #home-intro{background-image:url('{{ asset($section_1->of_image) }}')}
+        .section-pattern-bg{background-image:url('{{ asset('assets/pattern-chakras-alt-color.webp') }}')}
+        .types-of-yoga-section{background-image:url('{{ asset($app_setting->section3_background_image ?: 'assets/parallax-decor2.png') }}')}
+    </style></noscript>
 @endpush
 @section('content')
     <section id="home" class="divider {{ (($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video)) ? 'hero-video-home' : '' }}">
@@ -140,8 +148,11 @@
                     default => 'col-md-6',
                 };
             @endphp
-            <div class="hero-video-wrap" @if($heroPoster) style="background-image: url('{{ asset($heroPoster) }}');" @endif>
-                <video class="hero-background-video" width="1920" height="1080" muted loop playsinline preload="none" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}" @if($heroPoster) poster="{{ asset($heroPoster) }}" @endif>
+            <div class="hero-video-wrap">
+                @if($heroPoster)
+                    <img class="hero-video-poster" src="{{ asset($heroPoster) }}" width="1920" height="1080" loading="eager" fetchpriority="high" alt="{{ $heroVideoDescription }}" title="{{ $heroVideoTitle }}">
+                @endif
+                <video class="hero-background-video" width="1920" height="1080" muted loop playsinline preload="none" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}">
                     <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
                     <track kind="captions" srclang="en" label="English" src="{{ asset('assets/front/captions/yogintra-hero-en.vtt') }}">
                 </video>
@@ -268,7 +279,7 @@
         <a class="hero-scroll-cue visible-xs" href="#home-intro" aria-label="Scroll to explore"><span class="sr-only">Scroll to explore YogIntra services</span></a>
     </section>
 
-    <section id="home-intro" class="section-content-image section-content-bg" style="background-image: url('{{ asset($section_1->of_image) }}');">
+    <section id="home-intro" class="section-content-image section-content-bg" data-home-background="{{ asset($section_1->of_image) }}">
         <div class="container">
             <div class="section-title text-center">
                 <div class="row">
@@ -291,8 +302,8 @@
                                 <div class="col-sm-6">
                                     <div class="icon-box icon-theme-colored benefit-icon left media p-0 mb-sm-10 mt-30">
                                         <a href="{{ route('yoga.center') }}" class="icon icon-circled icon-md pull-left flip" aria-label="Explore yoga centres" title="Explore YogIntra yoga centres">
-                                            <img src="{{ asset($content_1->of_image) }}" 
-                                                width="75" height="75" loading="{{ $loop->first ? 'eager' : 'lazy' }}" alt="YogIntra Feature - {{ $content_1->of_heading }}" title="YogIntra Feature - {{ $content_1->of_heading }}" decoding="async">
+                                            <img src="{{ asset($content_1->of_image) }}"
+                                                width="75" height="75" loading="lazy" alt="YogIntra Feature - {{ $content_1->of_heading }}" title="YogIntra Feature - {{ $content_1->of_heading }}" decoding="async">
                                         </a>
                                         <div class="media-body">
                                             <h3 class="media-heading heading"><b>{{ $content_1->of_heading }}</b></h3>
@@ -308,7 +319,7 @@
         </div>
     </section>
 
-    <section class="divider section-pattern-bg" style="background-image: url('{{ asset('assets/pattern-chakras-alt-color.webp') }}');">
+    <section class="divider section-pattern-bg" data-home-background="{{ asset('assets/pattern-chakras-alt-color.webp') }}">
         <div class="elementor-shape elementor-shape-top" data-negative="false">
             <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 283.5 27.8" preserveAspectRatio="xMidYMax slice">
                 <path class="elementor-shape-fill" d="M0 0v6.7c1.9-.8 4.7-1.4 8.5-1 9.5 1.1 11.1 6 11.1 6s2.1-.7 4.3-.2c2.1.5 2.8 2.6 2.8 2.6s.2-.5 1.4-.7c1.2-.2 1.7.2 1.7.2s0-2.1 1.9-2.8c1.9-.7 3.6.7 3.6.7s.7-2.9 3.1-4.1 4.7 0 4.7 0 1.2-.5 2.4 0 1.7 1.4 1.7 1.4h1.4c.7 0 1.2.7 1.2.7s.8-1.8 4-2.2c3.5-.4 5.3 2.4 6.2 4.4.4-.4 1-.7 1.8-.9 2.8-.7 4 .7 4 .7s1.7-5 11.1-6c9.5-1.1 12.3 3.9 12.3 3.9s1.2-4.8 5.7-5.7c4.5-.9 6.8 1.8 6.8 1.8s.6-.6 1.5-.9c.9-.2 1.9-.2 1.9-.2s5.2-6.4 12.6-3.3c7.3 3.1 4.7 9 4.7 9s1.9-.9 4 0 2.8 2.4 2.8 2.4 1.9-1.2 4.5-1.2 4.3 1.2 4.3 1.2.2-1 1.4-1.7 2.1-.7 2.1-.7-.5-3.1 2.1-5.5 5.7-1.4 5.7-1.4 1.5-2.3 4.2-1.1c2.7 1.2 1.7 5.2 1.7 5.2s.3-.1 1.3.5c.5.4.8.8.9 1.1.5-1.4 2.4-5.8 8.4-4 7.1 2.1 3.5 8.9 3.5 8.9s.8-.4 2 0 1.1 1.1 1.1 1.1 1.1-1.1 2.3-1.1 2.1.5 2.1.5 1.9-3.6 6.2-1.2 1.9 6.4 1.9 6.4 2.6-2.4 7.4 0c3.4 1.7 3.9 4.9 3.9 4.9s3.3-6.9 10.4-7.9 11.5 2.6 11.5 2.6.8 0 1.2.2c.4.2.9.9.9.9s4.4-3.1 8.3.2c1.9 1.7 1.5 5 1.5 5s.3-1.1 1.6-1.4c1.3-.3 2.3.2 2.3.2s-.1-1.2.5-1.9 1.9-.9 1.9-.9-4.7-9.3 4.4-13.4c5.6-2.5 9.2.9 9.2.9s5-6.2 15.9-6.2 16.1 8.1 16.1 8.1.7-.2 1.6-.4V0H0z"></path>
@@ -753,11 +764,7 @@
 @endsection
 @push('scripts')
     {{-- FAQ accordion uses the site's existing Bootstrap 4 collapse styles; no second Bootstrap runtime is needed. --}}
-        @if(($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video))
-            <script src="{{ asset('assets/front/js/home-page.js') }}?v={{ filemtime(public_path('assets/front/js/home-page.js')) }}" defer></script>
-        @else
-            <script src="{{ asset('assets/front/js/home-page.min.js') }}?v={{ filemtime(public_path('assets/front/js/home-page.min.js')) }}" defer></script>
-        @endif
+        <script src="{{ asset('assets/front/js/home-page.min.js') }}?v={{ filemtime(public_path('assets/front/js/home-page.min.js')) }}" defer></script>
         <script src="{{ asset('assets/front/js/home-backgrounds.js') }}" defer></script>
         <script src="{{ asset('assets/front/js/home-carousel-accessibility.js') }}" defer></script>
 
