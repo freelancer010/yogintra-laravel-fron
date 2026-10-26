@@ -5,6 +5,8 @@
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
 </head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6393908257919272"
+     crossorigin="anonymous"></script>
 <body>
   <button id="rzp-button1" style="display:none;">Pay with Razorpay</button>
 

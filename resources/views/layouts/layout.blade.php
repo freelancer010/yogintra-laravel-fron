@@ -243,6 +243,8 @@
     </script>
 
 </head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6393908257919272"
+     crossorigin="anonymous"></script>
 <body data-contact-form-endpoint="{{ route('form.submit') }}">
     <a class="skip-to-content" href="#main-content">Skip to main content</a>
     @include('partials.navbar')

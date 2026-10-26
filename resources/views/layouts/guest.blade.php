@@ -24,6 +24,8 @@
             <link rel="stylesheet" href="{{ asset('assets/front/css/login.css') }}?v={{ filemtime(public_path('assets/front/css/login.css')) }}">
         @endif
     </head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6393908257919272"
+     crossorigin="anonymous"></script>
     <body class="font-sans text-gray-900 antialiased {{ request()->routeIs('login') ? 'login-page' : '' }}">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg text" style="border-top:4px solid #007bff">
