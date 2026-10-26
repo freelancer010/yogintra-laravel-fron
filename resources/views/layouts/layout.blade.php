@@ -17,7 +17,6 @@
     <link rel="canonical" href="{{ $canonicalUrl }}" />
     <link rel="alternate" hreflang="en-IN" href="{{ $canonicalUrl }}" />
     <link rel="alternate" hreflang="x-default" href="{{ $canonicalUrl }}" />
-    <link rel="amphtml" href="{{ url(strtolower(request()->path())) }}/amp" />
     <title>@yield('meta_title', $app_setting->app_meta_title ?? 'YogIntra')</title>
     <meta name="description" content="@yield('meta_description', $app_setting->app_meta_description ?? 'Yogintra')">
     <meta name="keywords" content="@yield('meta_keywords', $app_setting->app_keywords ?? 'Yogintra')">
