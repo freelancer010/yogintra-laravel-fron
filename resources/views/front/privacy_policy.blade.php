@@ -1,6 +1,6 @@
 @extends('layouts.layout')
-@section('meta_title', 'Privacy Policy | YogIntra')
-@section('meta_description', 'How YogIntra collects, uses and protects personal information.')
+@section('meta_title', 'Privacy Policy | Data Protection & User Privacy - YogIntra')
+@section('meta_description', 'Read YogIntra’s Privacy Policy to learn how we collect, use, protect and manage personal information from bookings, enquiries, payments and website visitors.')
 @section('content')
 <section class="inner-header divider layer-overlay overlay-dark-5" data-bg-img="{{ asset('assets/bg/bg6.jpg') }}"><div class="container pt-70 pb-20"><div class="text-center"><h1 class="title text-white">Privacy Policy</h1><ol class="breadcrumb text-center mt-10"><li class="text-white"><a class="text-white" href="{{ url('/') }}">Home</a></li><li class="active text-gray">Privacy Policy</li></ol></div></div></section>
 <section class="privacy-policy-page"><div class="container pt-50 pb-70"><article class="privacy-policy-card">
