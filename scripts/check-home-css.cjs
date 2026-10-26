@@ -8,7 +8,13 @@ const fs = require('node:fs');
     const results = [];
     for (const original of [true, false]) {
       const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
-      if (original) await page.route('**/homepage.bundle.min.css*', route => route.fulfill({ contentType: 'text/css', body: fs.readFileSync('public/assets/front/css/frontend.bundle.min.css', 'utf8') }));
+      if (original) await page.route('**/homepage.bundle.min.css*', route => route.fulfill({
+        contentType: 'text/css',
+        body: [
+          fs.readFileSync('public/assets/front/css/frontend.bundle.min.css', 'utf8'),
+          fs.readFileSync('public/assets/front/css/home.min.css', 'utf8'),
+        ].join('\n'),
+      }));
       await page.goto(baseUrl, { waitUntil: 'networkidle' });
       await page.evaluate(() => document.fonts.ready);
       // Database-backed images may be absent in a local checkout. Resolve every

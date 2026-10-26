@@ -118,6 +118,9 @@ function ajaxCall() {
         // below-the-fold carousels until the browser has completed the first paint
         // so their measurements do not block the hero or force layout during LCP.
         var initializeNonCriticalCarousels = function () {
+        if (!window.jQuery || !jQuery.fn || typeof jQuery.fn.owlCarousel !== 'function') {
+            return;
+        }
         var $owl_carousel_4col = $('.home-trainer-carousel');
 
         if ( $owl_carousel_4col.length > 0 ) {
@@ -283,3 +286,4 @@ function ajaxCall() {
         } else {
             window.addEventListener('load', scheduleNonCriticalCarousels, { once: true });
         }
+        window.addEventListener('home:legacy-ready', initializeNonCriticalCarousels, { once: true });

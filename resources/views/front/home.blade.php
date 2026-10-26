@@ -127,8 +127,6 @@
     @if(($app_setting->hero_media_type ?? 'slider') === 'video' && $heroPoster)
         <link rel="preload" as="image" href="{{ asset($heroPoster) }}" fetchpriority="high">
     @endif
-    <link rel="stylesheet" href="{{ asset('assets/front/css/home.min.css') }}?v={{ filemtime(public_path('assets/front/css/home.min.css')) }}" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="{{ asset('assets/front/css/home.min.css') }}?v={{ filemtime(public_path('assets/front/css/home.min.css')) }}"></noscript>
     <noscript><style>.types-of-yoga-section{background-image:url('{{ asset($app_setting->section3_background_image ?: 'assets/parallax-decor2.png') }}')}</style></noscript>
 @endpush
 @section('content')
@@ -755,7 +753,11 @@
 @endsection
 @push('scripts')
     {{-- FAQ accordion uses the site's existing Bootstrap 4 collapse styles; no second Bootstrap runtime is needed. --}}
-        <script src="{{ asset('assets/front/js/home-page.min.js') }}?v={{ filemtime(public_path('assets/front/js/home-page.min.js')) }}" defer></script>
+        @if(($app_setting->hero_media_type ?? 'slider') === 'video' && filled($app_setting->hero_video))
+            <script src="{{ asset('assets/front/js/home-page.js') }}?v={{ filemtime(public_path('assets/front/js/home-page.js')) }}" defer></script>
+        @else
+            <script src="{{ asset('assets/front/js/home-page.min.js') }}?v={{ filemtime(public_path('assets/front/js/home-page.min.js')) }}" defer></script>
+        @endif
         <script src="{{ asset('assets/front/js/home-backgrounds.js') }}" defer></script>
         <script src="{{ asset('assets/front/js/home-carousel-accessibility.js') }}" defer></script>
 

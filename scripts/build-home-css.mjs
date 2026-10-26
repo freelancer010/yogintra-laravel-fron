@@ -1,5 +1,5 @@
 import { createRequire } from 'node:module';
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 const require = createRequire(import.meta.url);
 const { PurgeCSS } = require(process.env.PURGECSS_PATH || 'purgecss');
 
@@ -14,7 +14,8 @@ const [result] = await new PurgeCSS().purge({
     'resources/views/partials/footer.blade.php',
     'resources/views/components/multi-step-form.blade.php',
     'resources/views/layouts/layout.blade.php',
-    'public/assets/front/js/home-page.min.js',
+    'public/assets/front/js/home-page.js',
+    'public/assets/front/js/home-legacy-loader.js',
     'public/assets/front/js/home-backgrounds.js',
     'public/assets/front/js/home-carousel-accessibility.js',
     'public/assets/front/js/home-hero-video.js',
@@ -23,7 +24,13 @@ const [result] = await new PurgeCSS().purge({
     'public/assets/front/js/contact-popup-form.min.js',
     'public/assets/front/js/cookie-preferences.min.js',
   ],
-  css: ['public/assets/front/css/frontend.bundle.min.css'],
+  css: [{
+    raw: [
+      readFileSync('public/assets/front/css/frontend.bundle.min.css', 'utf8'),
+      readFileSync('public/assets/front/css/home.min.css', 'utf8'),
+    ].join('\n'),
+    extension: 'css',
+  }],
   safelist: {
     standard: [/^(?:fa|owl|menuzord|modal|collapse|collapsing|dropdown|tooltip|popover|mfp|has-|is-|bg-|text-|font-|col-|hidden-|visible-|btn|alert|form-|input-|p[trblxy]?-|m[trblxy]?-)/, 'active', 'open', 'in', 'show', 'hide', 'disabled', 'error', 'valid'],
     deep: [/^(?:owl|menuzord|modal|dropdown|mfp|select2|ui-)/],

@@ -4,6 +4,9 @@
     @php
         $isLandingPage = request()->is('city/*');
         $isHomePage = request()->path() === '/';
+        $homeUsesVideoHero = $isHomePage
+            && (($app_setting->hero_media_type ?? 'slider') === 'video')
+            && filled($app_setting->hero_video ?? null);
         $deferNonCriticalStyles = $isLandingPage || $isHomePage;
         $canonicalUrl = url(strtolower(request()->path()));
     @endphp
@@ -63,7 +66,7 @@
         {{-- These overlays are rendered near the end of the document. Keep them
            out of normal flow before the deferred stylesheet has loaded. --}}
         <style id="home-overlay-critical">
-            .home-critical-loading main>section:not(#home){visibility:hidden}
+            main>section:not(#home):not(#home-intro){content-visibility:auto;contain-intrinsic-size:auto 900px}
             .skip-to-content{position:fixed;top:12px;left:12px;z-index:10000;padding:10px 16px;color:#fff;background:#075c66;border-radius:4px;transform:translateY(-160%)}
             .skip-to-content:focus{transform:translateY(0);color:#fff;outline:3px solid #f6a623;outline-offset:3px}
             .home-critical-loading .cookie-banner{display:none!important}
@@ -97,8 +100,10 @@
                 #header.home-mobile-hero-navigation .header-nav{position:fixed;top:0;left:0;right:0;width:100%;height:64px;z-index:1101;background:#fff;box-shadow:0 2px 12px rgba(10,49,59,.12)}
                 #header.home-mobile-hero-navigation .header-nav-wrapper,#header.home-mobile-hero-navigation .ipad_header,#header.home-mobile-hero-navigation .menuzord{position:relative;width:100%;height:64px;min-height:64px;margin:0;padding:0;background:#fff}
                 #header.home-mobile-hero-navigation .menuzord-brand{display:flex;align-items:center;width:185px;height:64px;margin:0 0 0 22px;padding:0;line-height:0}
-                #header.home-mobile-hero-navigation .menuzord-brand img.logo-default{display:block;width:185px;height:48px;max-width:calc(100vw - 104px);object-fit:contain;object-position:left center}
+                #header.home-mobile-hero-navigation .menuzord-brand img.logo-default{display:block;width:185px;height:30px;max-width:calc(100vw - 104px);object-fit:contain;object-position:left center}
                 #header.home-mobile-hero-navigation .menuzord-brand img.logo-scrolled-to-fixed,#header.home-mobile-hero-navigation .menuzord-menu{display:none}
+                #header.home-mobile-hero-navigation .home-native-menu-toggle{display:block!important;position:absolute;top:0;right:8px;width:64px;height:64px;margin:0;padding:17px 0 0;border:0;background:transparent;text-decoration:none;cursor:pointer}
+                #header.home-mobile-hero-navigation .home-native-menu-toggle em{display:block;width:28px;height:4px;margin:5px 18px 0;border-radius:4px;background:#084451}
                 #header.home-mobile-hero-navigation.mobile-menu-open .header-nav-wrapper,#header.home-mobile-hero-navigation.mobile-menu-open .menuzord{height:auto}
             }
         </style>
@@ -110,7 +115,7 @@
         <link href="{{ asset('assets/front/css/homepage.bundle.min.css') }}?v={{ filemtime(public_path('assets/front/css/homepage.bundle.min.css')) }}" rel="stylesheet" media="print" onload="this.media='all';document.documentElement.classList.remove('home-critical-loading')" onerror="document.documentElement.classList.remove('home-critical-loading')">
         <link href="{{ asset('assets/landing-reference/global-footer.css') }}?v={{ filemtime(public_path('assets/landing-reference/global-footer.css')) }}" rel="stylesheet" media="print" onload="this.media='all'">
         <noscript>
-            <style>.home-critical-loading main>section:not(#home){visibility:visible}</style>
+            <style>main>section:not(#home):not(#home-intro){content-visibility:visible}</style>
             <link href="{{ asset('assets/front/css/homepage.bundle.min.css') }}?v={{ filemtime(public_path('assets/front/css/homepage.bundle.min.css')) }}" rel="stylesheet">
             <link href="{{ asset('assets/landing-reference/global-footer.css') }}?v={{ filemtime(public_path('assets/landing-reference/global-footer.css')) }}" rel="stylesheet">
         </noscript>
@@ -254,9 +259,21 @@
     @if (request()->is('service-details/*', 'service_details/*'))
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     @endif
-    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}" @if ($isHomePage) defer @endif></script>
-    <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}?v={{ filemtime(public_path('assets/front/js/jquery-plugin-collection.min.js')) }}" @if ($isHomePage) defer @endif></script>
-    <script src="{{ asset('assets/front/js/custom.min.js') }}" @if ($isHomePage) defer @endif></script>
+    @if ($homeUsesVideoHero)
+        {{-- The video homepage does not need the 800 KB legacy plugin/theme
+           runtime for its first screen. Load Owl only when a visitor approaches
+           or interacts with the manual trainer/testimonial carousels. --}}
+        <script
+            id="homeLegacyLoader"
+            src="{{ asset('assets/front/js/home-legacy-loader.js') }}?v={{ filemtime(public_path('assets/front/js/home-legacy-loader.js')) }}"
+            data-plugin-src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}?v={{ filemtime(public_path('assets/front/js/jquery-plugin-collection.min.js')) }}"
+            defer
+        ></script>
+    @else
+        <script src="{{ asset('assets/front/js/bootstrap.min.js') }}" @if ($isHomePage) defer @endif></script>
+        <script src="{{ asset('assets/front/js/jquery-plugin-collection.min.js') }}?v={{ filemtime(public_path('assets/front/js/jquery-plugin-collection.min.js')) }}" @if ($isHomePage) defer @endif></script>
+        <script src="{{ asset('assets/front/js/custom.min.js') }}" @if ($isHomePage) defer @endif></script>
+    @endif
     @stack('scripts')
 
 
