@@ -5,10 +5,9 @@
     <meta charset="UTF-8" />
     <title>@yield('title', 'Admin Dashboard')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6393908257919272"
-     crossorigin="anonymous"></script>
 <body class="bg-gray-100 text-gray-800">
 
     <div class="flex min-h-screen">

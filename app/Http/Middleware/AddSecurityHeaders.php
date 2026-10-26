@@ -32,6 +32,29 @@ class AddSecurityHeaders
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(), usb=()');
 
+        if ($request->is([
+            'admin',
+            'admin/*',
+            'login',
+            'register',
+            'forgot-password',
+            'reset-password',
+            'reset-password/*',
+            'verify-email',
+            'verify-email/*',
+            'confirm-password',
+            'profile',
+            'profile/*',
+        ])) {
+            $response->headers->set(
+                'X-Robots-Tag',
+                'noindex, nofollow, noarchive, nosnippet'
+            );
+            $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+            $response->headers->set('Pragma', 'no-cache');
+            $response->headers->set('Expires', '0');
+        }
+
         if ($request->isSecure()) {
             $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
         }

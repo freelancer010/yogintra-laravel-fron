@@ -94,9 +94,9 @@ Route::get('/event-thank-you', [EventController::class, 'eventThankYou'])->name(
 // });
 Route::get('/admin', function () {
     return redirect()->route('admin.dashboard');
-})->middleware(['auth'])->name('dashboard');
+})->middleware(['admin.ip', 'auth', 'admin'])->name('dashboard');
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['admin.ip', 'auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     
     Route::post('/ckeditor/upload', [App\Http\Controllers\Admin\CKEditorController::class, 'upload'])->name('ckeditor.upload');
