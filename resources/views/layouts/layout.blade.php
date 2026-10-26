@@ -169,73 +169,50 @@
     <!-- Optional services are loaded only after the visitor grants consent. -->
         <script src="{{ asset('assets/front/js/consent-loaders.min.js') }}" defer></script>
 
-    <!-- SCHEMA -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "HealthAndBeautyBusiness",
-        "name": "YogIntra",
-        "image": "{{ asset('assets/og-logo.webp') }}",
-        "url": "{{ url('/') }}",
-        "@id": "{{ url('/') }}",
-        "logo": "{{ asset('assets/og-logo.webp') }}",
-        "description": "Yogintra - Your Trusted Source for Yoga Training and Wellness",
-        "priceRange": "₹₹",
-        "telephone": "+91-9867291573",
-        "email": "{{ str_replace('@', '&#64;', str_replace('.', '&#46;', 'support@yogintra.com')) }}",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "",
-            "addressLocality": "Mumbai",
-            "addressRegion": "Maharashtra",
-            "postalCode": "",
-            "addressCountry": "IN"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": "19.0760",
-            "longitude": "72.8777"
-        },
-        "openingHoursSpecification": {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday"
+    <!-- Local business data comes from the same Application Settings values shown in the footer. -->
+    @php
+        $businessContact = \App\Support\BusinessContact::fromSetting($app_setting);
+        $businessLogoPath = trim((string) ($app_setting->app_sticky_logo ?? 'assets/og-logo.webp'));
+        $businessLogoUrl = preg_match('#^(?:https?:)?//#i', $businessLogoPath)
+            ? $businessLogoPath
+            : asset($businessLogoPath);
+        $businessSchema = array_filter([
+            '@context' => 'https://schema.org',
+            '@type' => 'HealthAndBeautyBusiness',
+            '@id' => rtrim(url('/'), '/') . '/#organization',
+            'name' => trim((string) ($app_setting->app_name ?? 'YogIntra')) ?: 'YogIntra',
+            'image' => $businessLogoUrl,
+            'url' => url('/'),
+            'logo' => $businessLogoUrl,
+            'description' => trim((string) ($app_setting->app_meta_description ?? '')) ?: null,
+            'priceRange' => '₹₹',
+            'telephone' => $businessContact['telephone'] ?: null,
+            'email' => $businessContact['email'] ?: null,
+            'address' => $businessContact['postal_address'],
+            'openingHoursSpecification' => [
+                '@type' => 'OpeningHoursSpecification',
+                'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                'opens' => '06:00',
+                'closes' => '20:00',
             ],
-            "opens": "06:00",
-            "closes": "20:00"
-        },
-        "sameAs": {!! json_encode(\App\Support\SocialMedia::urls($app_setting), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!},
-        "offers": {
-            "@type": "AggregateOffer",
-            "priceCurrency": "INR",
-            "name": "Yoga Training Services",
-            "description": "Professional yoga training services including personal training, group classes, and workshops"
-        },
-        "potentialAction": {
-            "@type": "ReserveAction",
-            "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "{{ url('/contact') }}",
-                "inLanguage": "en-US",
-                "actionPlatform": [
-                    "http://schema.org/DesktopWebPlatform",
-                    "http://schema.org/IOSPlatform",
-                    "http://schema.org/AndroidPlatform"
-                ]
-            },
-            "result": {
-                "@type": "Reservation",
-                "name": "Yoga Session Booking"
-            }
-        }
-    }
-    </script>
+            'sameAs' => \App\Support\SocialMedia::urls($app_setting),
+            'potentialAction' => [
+                '@type' => 'ReserveAction',
+                'target' => [
+                    '@type' => 'EntryPoint',
+                    'urlTemplate' => url('/contact'),
+                    'inLanguage' => 'en-IN',
+                    'actionPlatform' => [
+                        'https://schema.org/DesktopWebPlatform',
+                        'https://schema.org/IOSPlatform',
+                        'https://schema.org/AndroidPlatform',
+                    ],
+                ],
+                'result' => ['@type' => 'Reservation', 'name' => 'Yoga Session Booking'],
+            ],
+        ], static fn ($value) => $value !== null && $value !== '' && $value !== []);
+    @endphp
+    <script type="application/ld+json">{!! json_encode($businessSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 
 </head>
 <body data-contact-form-endpoint="{{ route('form.submit') }}">

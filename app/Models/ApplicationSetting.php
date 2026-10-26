@@ -15,6 +15,8 @@ class ApplicationSetting extends Model
     protected $fillable = [
         'app_name', 'app_keywords', 'app_meta_title', 'app_meta_description',
         'app_description', 'app_sticky_logo', 'app_footer_logo', 'app_address',
+        'app_address_locality', 'app_address_region', 'app_postal_code',
+        'app_address_country',
         'app_email', 'app_mobile', 'footer_about_us', 'facebook', 'twitter',
         'fevicon', 'rozar_key_id', 'rozar_key_secret', 'head_code', 'youtube',
         'instagram', 'telegram', 'linkedin', 'google_client_id',

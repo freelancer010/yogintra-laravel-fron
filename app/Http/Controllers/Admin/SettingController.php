@@ -31,9 +31,16 @@ class SettingController extends Controller
                 break;
 
             case 'contact':
+                $request->validate($this->contactValidationRules());
                 $data = $request->only([
-                    'app_address', 'app_mobile', 'app_email', 'map_iframe'
+                    'app_address', 'app_address_locality', 'app_address_region',
+                    'app_postal_code', 'app_address_country', 'app_mobile',
+                    'app_email', 'map_iframe'
                 ]);
+                $data = collect($data)
+                    ->map(fn ($value) => is_string($value) ? trim($value) : $value)
+                    ->all();
+                $data['app_address_country'] = strtoupper((string) ($data['app_address_country'] ?? ''));
                 $message = 'Contact settings updated successfully';
                 break;
 
@@ -84,10 +91,15 @@ class SettingController extends Controller
 
             default:
                 // If no type specified, handle all fields
-                $request->validate($this->generalValidationRules());
+                $request->validate(array_merge(
+                    $this->generalValidationRules(),
+                    $this->contactValidationRules()
+                ));
                 $data = $request->only([
                     'app_name', 'app_keywords', 'app_meta_title', 'app_meta_description',
-                    'footer_about_us', 'app_address', 'app_mobile', 'app_email',
+                    'footer_about_us', 'app_address', 'app_address_locality',
+                    'app_address_region', 'app_postal_code', 'app_address_country',
+                    'app_mobile', 'app_email',
                     'rozar_key_id', 'rozar_key_secret', 'head_code', 'facebook', 'twitter',
                     'youtube', 'instagram', 'telegram', 'linkedin', 'map_iframe'
                 ]);
@@ -107,6 +119,10 @@ class SettingController extends Controller
                 $message = 'All settings updated successfully';
         }
 
+        if (array_key_exists('app_address_country', $data)) {
+            $data['app_address_country'] = strtoupper(trim((string) $data['app_address_country']));
+        }
+
         $appSetting->update($data);
 
         return redirect()->back()->with('success', $message)
@@ -122,6 +138,20 @@ class SettingController extends Controller
             'app_meta_description' => ['nullable', 'string', 'max:160'],
             'app_keywords' => ['nullable', 'string', 'max:255'],
             'footer_about_us' => ['nullable', 'string', 'max:200'],
+        ];
+    }
+
+    private function contactValidationRules(): array
+    {
+        return [
+            'app_address' => ['nullable', 'string', 'max:500'],
+            'app_address_locality' => ['nullable', 'string', 'max:120'],
+            'app_address_region' => ['nullable', 'string', 'max:120'],
+            'app_postal_code' => ['nullable', 'string', 'max:20'],
+            'app_address_country' => ['nullable', 'alpha', 'size:2'],
+            'app_mobile' => ['nullable', 'string', 'max:30'],
+            'app_email' => ['nullable', 'email', 'max:255'],
+            'map_iframe' => ['nullable', 'string', 'max:5000'],
         ];
     }
 }

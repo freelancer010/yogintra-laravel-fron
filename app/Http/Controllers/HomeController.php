@@ -942,9 +942,10 @@ class HomeController extends Controller
         $logoUrl = preg_match('#^(?:https?:)?//#i', $logoPath) || str_starts_with($logoPath, 'data:')
             ? $logoPath
             : asset($logoPath);
+        $businessContact = \App\Support\BusinessContact::fromSetting($setting);
 
         $organization = array_filter([
-            '@type' => 'Organization',
+            '@type' => 'HealthAndBeautyBusiness',
             '@id' => $organizationId,
             'name' => trim((string) ($setting?->app_name ?? 'YogIntra')) ?: 'YogIntra',
             'url' => $siteUrl,
@@ -952,8 +953,10 @@ class HomeController extends Controller
                 '@type' => 'ImageObject',
                 'url' => $logoUrl,
             ],
-            'email' => filled($setting?->app_email) ? (string) $setting->app_email : null,
-            'telephone' => filled($setting?->app_mobile) ? (string) $setting->app_mobile : null,
+            'email' => $businessContact['email'] ?: null,
+            'telephone' => $businessContact['telephone'] ?: null,
+            'address' => $businessContact['postal_address'],
+            'sameAs' => \App\Support\SocialMedia::urls($setting),
         ], static fn ($value) => $value !== null && $value !== '');
 
         $schema = [

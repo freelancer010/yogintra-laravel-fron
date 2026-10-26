@@ -1,10 +1,11 @@
+@php($businessContact = \App\Support\BusinessContact::fromSetting($app_setting))
 <footer id="footer" class="{{ request()->is('/') ? 'landing-global-footer ' : '' }}footer bg-black-000">
     <div class="container pt-40 pb-0">
         <div class="row border-bottom-black">
             <div class="col-sm-6 col-md-3">
                 <div class="widget dark mb-5">
-                    <img class="mt-10 mb-20" width="246" height="66" alt="YogIntra" title="YogIntra Logo" loading="lazy" src="{{ asset('uploads/6522371db10e06501ab36d6f70Rectrangular-logo-2.png') }}">
-                    <p>YogIntra helps promote a balanced development of the physical, mental, and spiritual being.</p>
+                    <img class="mt-10 mb-20" width="246" height="66" alt="{{ $app_setting->app_name ?? 'YogIntra' }}" title="{{ $app_setting->app_name ?? 'YogIntra' }} Logo" loading="lazy" src="{{ asset($app_setting->app_footer_logo ?? 'uploads/6522371db10e06501ab36d6f70Rectrangular-logo-2.png') }}">
+                    <p>{{ $app_setting->footer_about_us ?? 'YogIntra helps promote balanced physical, mental and spiritual wellbeing.' }}</p>
                 </div>
                 <div class="widget dark mb-0">
                     @php($socialLinks = \App\Support\SocialMedia::links($app_setting))
@@ -51,22 +52,32 @@
             <div class="col-sm-6 col-md-3">
                 <div class="widget dark mb-0">
                     <div class="widget-title line-bottom footer-heading">Support</div>
-                    <div class="opening-hours">
+                    <address class="opening-hours mb-0" style="font-style:normal" itemscope itemtype="https://schema.org/PostalAddress">
                         <ul class="list-border mt-5">
-                            <li class="m-0 pl-10 pr-10"> 
-                                <i class="fa fa-map-marker text-theme-colored mr-5"></i> 
-                                <a class="text-gray" href="https://www.google.com/maps/search/?api=1&amp;query=D-408+Shivlila+Apt%2C+Mumbra+Devi+Colony+Road%2C+Diva+East%2C+Thane-400612" rel="nofollow noopener noreferrer">D-408 Shivlila Apt, Mumbra Devi Colony Road, Diva East, Thane-400612</a>
-                            </li>
-                            <li class="m-0 pl-10 pr-10"> 
-                                <i class="fa fa-phone text-theme-colored mr-5"></i> 
-                                <a class="text-gray" href="tel:+919867291573">+91-9867291573</a>
-                            </li>
-                            <li class="m-0 pl-10 pr-10"> 
-                                <i class="fa fa-envelope-o text-theme-colored mr-5"></i> 
-                                <a class="text-gray" href="mailto:support&#64;yogintra&#46;com">support&#64;yogintra&#46;com</a> 
-                            </li>
+                            @if($businessContact['visible_address'])
+                                <li class="m-0 pl-10 pr-10">
+                                    <i class="fa fa-map-marker text-theme-colored mr-5" aria-hidden="true"></i>
+                                    <a class="text-gray" href="{{ $businessContact['map_url'] }}" rel="nofollow noopener noreferrer" title="View {{ $app_setting->app_name ?? 'YogIntra' }} on Google Maps"><span itemprop="streetAddress">{{ $businessContact['visible_address'] }}</span></a>
+                                    @if($businessContact['locality'])<meta itemprop="addressLocality" content="{{ $businessContact['locality'] }}">@endif
+                                    @if($businessContact['region'])<meta itemprop="addressRegion" content="{{ $businessContact['region'] }}">@endif
+                                    @if($businessContact['postal_code'])<meta itemprop="postalCode" content="{{ $businessContact['postal_code'] }}">@endif
+                                    @if($businessContact['country'])<meta itemprop="addressCountry" content="{{ $businessContact['country'] }}">@endif
+                                </li>
+                            @endif
+                            @if($businessContact['telephone'])
+                                <li class="m-0 pl-10 pr-10">
+                                    <i class="fa fa-phone text-theme-colored mr-5" aria-hidden="true"></i>
+                                    <a class="text-gray" itemprop="telephone" href="tel:{{ $businessContact['telephone_href'] }}">{{ $businessContact['telephone'] }}</a>
+                                </li>
+                            @endif
+                            @if($businessContact['email'])
+                                <li class="m-0 pl-10 pr-10">
+                                    <i class="fa fa-envelope-o text-theme-colored mr-5" aria-hidden="true"></i>
+                                    <a class="text-gray" itemprop="email" href="mailto:{{ $businessContact['email'] }}">{{ $businessContact['email'] }}</a>
+                                </li>
+                            @endif
                         </ul>
-                    </div>
+                    </address>
                 </div>
             </div>
         </div>

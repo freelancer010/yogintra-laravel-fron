@@ -789,7 +789,12 @@
         without repeating the same provider/service details in separate scripts. --}}
     @php
         $homeUrl = url('/');
-        $organizationId = $homeUrl . '#organization';
+        $organizationId = rtrim($homeUrl, '/') . '/#organization';
+        $homeContact = \App\Support\BusinessContact::fromSetting($app_setting);
+        $homeLogoPath = trim((string) ($app_setting->app_sticky_logo ?? 'assets/og-logo.webp'));
+        $homeLogoUrl = preg_match('#^(?:https?:)?//#i', $homeLogoPath)
+            ? $homeLogoPath
+            : asset($homeLogoPath);
         $homeOffers = [];
 
         foreach ($rand_service as $service) {
@@ -806,34 +811,38 @@
             ];
         }
 
+        $homeBusiness = array_filter([
+            '@type' => 'HealthAndBeautyBusiness',
+            '@id' => $organizationId,
+            'name' => trim((string) ($app_setting->app_name ?? 'YogIntra')) ?: 'YogIntra',
+            'url' => $homeUrl,
+            'logo' => $homeLogoUrl,
+            'description' => trim((string) ($app_setting->app_meta_description ?? '')) ?: null,
+            'foundingDate' => '2018',
+            'telephone' => $homeContact['telephone'] ?: null,
+            'email' => $homeContact['email'] ?: null,
+            'contactPoint' => $homeContact['telephone'] ? [
+                '@type' => 'ContactPoint',
+                'telephone' => $homeContact['telephone'],
+                'contactType' => 'customer service',
+                'areaServed' => $homeContact['country'] ?: 'IN',
+                'availableLanguage' => ['English', 'Hindi'],
+            ] : null,
+            'sameAs' => \App\Support\SocialMedia::urls($app_setting),
+            'address' => $homeContact['postal_address'],
+            'hasOfferCatalog' => ['@type' => 'OfferCatalog', 'name' => 'Yoga Services', 'itemListElement' => $homeOffers],
+        ], static fn ($value) => $value !== null && $value !== '' && $value !== []);
+
         $homeSchema = [
             '@context' => 'https://schema.org',
             '@graph' => [
-                [
-                    '@type' => 'HealthAndBeautyBusiness',
-                    '@id' => $organizationId,
-                    'name' => 'YogIntra',
-                    'url' => $homeUrl,
-                    'logo' => asset('assets/og-logo.webp'),
-                    'description' => 'Premier Yoga Institute in India offering comprehensive yoga training, personal sessions, teacher training courses, and wellness programs.',
-                    'foundingDate' => '2018',
-                    'contactPoint' => [
-                        '@type' => 'ContactPoint',
-                        'telephone' => '+91-9867291573',
-                        'contactType' => 'customer service',
-                        'areaServed' => 'IN',
-                        'availableLanguage' => ['English', 'Hindi'],
-                    ],
-                    'sameAs' => \App\Support\SocialMedia::urls($app_setting),
-                    'address' => ['@type' => 'PostalAddress', 'addressLocality' => 'Mumbai', 'addressRegion' => 'Maharashtra', 'addressCountry' => 'IN'],
-                    'hasOfferCatalog' => ['@type' => 'OfferCatalog', 'name' => 'Yoga Services', 'itemListElement' => $homeOffers],
-                ],
+                $homeBusiness,
                 [
                     '@type' => 'WebPage',
                     '@id' => $homeUrl . '#webpage',
-                    'name' => 'YogIntra - Premier Yoga Institute in India',
+                    'name' => trim((string) ($app_setting->app_meta_title ?? 'YogIntra')) ?: 'YogIntra',
                     'url' => $homeUrl,
-                    'description' => 'Transform your mind and body with YogIntra through online classes, personal home visits, teacher training courses, and yoga centre services.',
+                    'description' => trim((string) ($app_setting->app_meta_description ?? '')) ?: null,
                     'about' => ['@id' => $organizationId],
                 ],
                 [
@@ -843,5 +852,5 @@
             ],
         ];
     @endphp
-    <script type="application/ld+json">{!! json_encode($homeSchema, JSON_UNESCAPED_UNICODE) !!}</script>
+    <script type="application/ld+json">{!! json_encode($homeSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 @endpush
