@@ -18,6 +18,7 @@ class ApplicationSetting extends Model
         'app_email', 'app_mobile', 'footer_about_us', 'facebook', 'twitter',
         'fevicon', 'rozar_key_id', 'rozar_key_secret', 'head_code', 'youtube',
         'instagram', 'telegram', 'linkedin', 'google_client_id',
+        'hero_video_duration',
         'google_client_secret', 'mail_host', 'mail_port', 'mail_username',
         'mail_password', 'map_iframe'
     ];

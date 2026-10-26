@@ -28,6 +28,7 @@ class StaticSiteFallback
             'hero_video_title' => null,
             'hero_video_sub_heading' => null,
             'hero_video_description' => null,
+            'hero_video_duration' => 14,
             'hero_video_btn_name' => null,
             'hero_video_btn_link' => null,
             'hero_video_text_direction' => 'left',

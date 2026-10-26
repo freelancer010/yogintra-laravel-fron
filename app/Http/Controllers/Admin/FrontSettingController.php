@@ -32,6 +32,7 @@ class FrontSettingController extends Controller
             'hero_media_type' => 'required|in:slider,video',
             'hero_video' => 'nullable|file|mimes:mp4,webm,ogg,mov|max:51200',
             'hero_video_thumbnail' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5000',
+            'hero_video_duration' => 'nullable|integer|min:1|max:86400',
             'hero_video_heading' => 'required_if:hero_media_type,video|nullable|string|max:255',
             'hero_video_sub_heading' => 'nullable|string|max:255',
             'hero_video_btn_name' => 'nullable|string|max:100',
@@ -63,6 +64,9 @@ class FrontSettingController extends Controller
         $setting->hero_media_type = $request->hero_media_type;
         $setting->hero_video_title = $request->filled('hero_video_heading') ? $request->hero_video_heading : null;
         $setting->hero_video_description = $request->filled('hero_video_sub_heading') ? $request->hero_video_sub_heading : null;
+        if ($request->filled('hero_video_duration')) {
+            $setting->hero_video_duration = (int) $request->hero_video_duration;
+        }
         $setting->hero_video_heading = $request->filled('hero_video_heading') ? $request->hero_video_heading : null;
         $setting->hero_video_sub_heading = $request->filled('hero_video_sub_heading') ? $request->hero_video_sub_heading : null;
         $setting->hero_video_btn_name = $request->filled('hero_video_btn_name') ? $request->hero_video_btn_name : null;

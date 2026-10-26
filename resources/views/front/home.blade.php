@@ -25,6 +25,14 @@
     $heroVideoUploadDate = $heroVideoPath && is_file($heroVideoPath)
         ? date(DATE_ATOM, filemtime($heroVideoPath))
         : now()->toAtomString();
+    $heroVideoDurationSeconds = max(1, (int) ($app_setting->hero_video_duration ?? 14));
+    $heroVideoDurationHours = intdiv($heroVideoDurationSeconds, 3600);
+    $heroVideoDurationMinutes = intdiv($heroVideoDurationSeconds % 3600, 60);
+    $heroVideoDurationRemainder = $heroVideoDurationSeconds % 60;
+    $heroVideoDuration = 'PT'
+        . ($heroVideoDurationHours > 0 ? $heroVideoDurationHours . 'H' : '')
+        . ($heroVideoDurationMinutes > 0 ? $heroVideoDurationMinutes . 'M' : '')
+        . ($heroVideoDurationRemainder > 0 || ($heroVideoDurationHours === 0 && $heroVideoDurationMinutes === 0) ? $heroVideoDurationRemainder . 'S' : '');
 @endphp
 @section('meta_title', $app_setting->app_meta_title)
 @section('meta_description', $app_setting->app_meta_description)
@@ -116,6 +124,13 @@
                 'embedUrl' => url('/'),
                 'uploadDate' => $heroVideoUploadDate,
                 'dateModified' => $heroVideoUploadDate,
+                'duration' => $heroVideoDuration,
+                'author' => [
+                    '@' . 'type' => 'Organization',
+                    '@' . 'id' => url('/') . '#organization',
+                    'name' => $app_setting->app_name ?: 'YogIntra',
+                    'url' => url('/'),
+                ],
             ];
         @endphp
         <script type="application/ld+json">{!! json_encode($heroVideoSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>

@@ -92,6 +92,7 @@
                   <div class="hero-video-control mb-3" id="hero-video-control">
                     <label class="d-block">Slider Background Video <span class="text-danger">*</span></label>
                     <input type="file" name="hero_video" id="hero_video" accept="video/mp4,video/webm,video/ogg,video/quicktime" class="d-none">
+                    <input type="hidden" name="hero_video_duration" id="hero_video_duration" value="{{ old('hero_video_duration', $heroSetting->hero_video_duration ?? 14) }}">
                     <label for="hero_video" class="btn btn-outline-primary btn-sm mb-0"><i class="fas fa-upload"></i> Choose video</label>
                     <span class="text-muted small ml-2" id="hero-video-name">{{ $heroSetting->hero_video ? basename($heroSetting->hero_video) : 'MP4, WebM, OGG, or MOV · max 50 MB' }}</span>
                   </div>
@@ -197,6 +198,15 @@
       const sliderList = document.getElementById('hero-slider-list');
       const heroMediaToggle = document.getElementById('hero-media-toggle');
       const heroMediaType = document.getElementById('hero-media-type');
+      const heroVideoPreview = document.getElementById('hero-video-preview');
+      const heroVideoDuration = document.getElementById('hero_video_duration');
+      const captureVideoDuration = () => {
+        if (Number.isFinite(heroVideoPreview.duration) && heroVideoPreview.duration > 0) {
+          heroVideoDuration.value = String(Math.ceil(heroVideoPreview.duration));
+        }
+      };
+      heroVideoPreview.addEventListener('loadedmetadata', captureVideoDuration);
+      if (heroVideoPreview.readyState >= 1) captureVideoDuration();
       const updateHeroMediaControl = () => {
         const isVideo = heroMediaToggle.checked;
         heroMediaType.value = isVideo ? 'video' : 'slider';
@@ -209,7 +219,7 @@
         const file = this.files[0];
         document.getElementById('hero-video-name').textContent = file ? file.name : 'MP4, WebM, OGG, or MOV · max 50 MB';
         if (!file) return;
-        const preview = document.getElementById('hero-video-preview');
+        const preview = heroVideoPreview;
         preview.src = URL.createObjectURL(file);
         preview.classList.remove('d-none');
         document.getElementById('hero-video-preview-empty').classList.add('d-none');
