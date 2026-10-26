@@ -2506,7 +2506,7 @@
                     <div class="accordion-item mb-15 border-1px">
                         <h5 class="accordion-header" id="headingFour">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                <strong>Do YogIntra Trainers offer personalized programs?</strong>
+                                <strong>Do YogIntra trainers offer personalized programs?</strong>
                             </button>
                         </h5>
                         <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">

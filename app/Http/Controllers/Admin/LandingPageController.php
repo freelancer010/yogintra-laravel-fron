@@ -711,7 +711,7 @@ class LandingPageController extends Controller
             ['type' => 'empty'],
             ['type' => 'faq', 'question' => 'What is YogIntra?', 'answer' => 'YogIntra offers guided classes, wellness programmes and community events. Each option supports movement, rest and everyday wellbeing.'],
             ['type' => 'faq', 'question' => 'What services does YogIntra provide?', 'answer' => 'Choose from group classes, online and at-home classes, private one-on-one sessions, meditation and breathwork, corporate wellness programmes, and mindfulness workshops.'],
-            ['type' => 'faq', 'question' => 'Do YogIntra offer trial classes?', 'answer' => 'Many locations offer trial or introductory packages. Check the current options before you book.'],
+            ['type' => 'faq', 'question' => 'Does YogIntra offer trial classes?', 'answer' => 'Many locations offer trial or introductory packages. Check the current options before you book.'],
             ['type' => 'faq', 'question' => 'Do YogIntra trainers offer personalized programs?', 'answer' => 'Yes. Instructors can tailor a plan around flexibility and strength goals, stress reduction, non-medical recovery support, and lifestyle or mindfulness routines.'],
             ['type' => 'faq', 'question' => 'How can I contact YogIntra?', 'answer' => 'You can contact our team through the website contact form, email, phone, or our social media channels.'],
         ];
