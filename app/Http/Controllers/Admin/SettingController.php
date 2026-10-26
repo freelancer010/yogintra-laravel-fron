@@ -68,10 +68,17 @@ class SettingController extends Controller
                 break;
 
             case 'social':
-                $data = $request->only([
+                $socialFields = [
                     'facebook', 'twitter', 'youtube', 'instagram',
-                    'telegram', 'linkedin'
-                ]);
+                    'telegram', 'linkedin',
+                ];
+                $request->validate(array_fill_keys(
+                    $socialFields,
+                    ['nullable', 'url:http,https', 'max:500']
+                ));
+                $data = collect($request->only($socialFields))
+                    ->map(fn ($value) => filled($value) ? trim($value) : null)
+                    ->all();
                 $message = 'Social media settings updated successfully';
                 break;
 

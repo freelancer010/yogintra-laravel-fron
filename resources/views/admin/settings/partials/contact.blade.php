@@ -1,29 +1,19 @@
 <div class="form-group">
-    <label>Facebook</label>
-    <input type="text" name="facebook" class="form-control" value="{{ old('facebook', $setting->facebook) }}">
+    <label>Address</label>
+    <textarea name="app_address" class="form-control" rows="3">{{ old('app_address', $setting->app_address) }}</textarea>
 </div>
 
 <div class="form-group">
-    <label>Twitter</label>
-    <input type="text" name="twitter" class="form-control" value="{{ old('twitter', $setting->twitter) }}">
+    <label>Phone Number</label>
+    <input type="text" name="app_mobile" class="form-control" value="{{ old('app_mobile', $setting->app_mobile) }}">
 </div>
 
 <div class="form-group">
-    <label>Instagram</label>
-    <input type="text" name="instagram" class="form-control" value="{{ old('instagram', $setting->instagram) }}">
+    <label>Email Address</label>
+    <input type="email" name="app_email" class="form-control" value="{{ old('app_email', $setting->app_email) }}">
 </div>
 
 <div class="form-group">
-    <label>LinkedIn</label>
-    <input type="text" name="linkedin" class="form-control" value="{{ old('linkedin', $setting->linkedin) }}">
-</div>
-
-<div class="form-group">
-    <label>YouTube</label>
-    <input type="text" name="youtube" class="form-control" value="{{ old('youtube', $setting->youtube) }}">
-</div>
-
-<div class="form-group">
-    <label>Telegram</label>
-    <input type="text" name="telegram" class="form-control" value="{{ old('telegram', $setting->telegram) }}">
+    <label>Map Embed Code</label>
+    <textarea name="map_iframe" class="form-control" rows="4">{{ old('map_iframe', $setting->map_iframe) }}</textarea>
 </div>

@@ -809,7 +809,7 @@
                         'areaServed' => 'IN',
                         'availableLanguage' => ['English', 'Hindi'],
                     ],
-                    'sameAs' => ['https://www.facebook.com/yogintra', 'https://www.instagram.com/yogintra', 'https://www.twitter.com/yogintra'],
+                    'sameAs' => \App\Support\SocialMedia::urls($app_setting),
                     'address' => ['@type' => 'PostalAddress', 'addressLocality' => 'Mumbai', 'addressRegion' => 'Maharashtra', 'addressCountry' => 'IN'],
                     'hasOfferCatalog' => ['@type' => 'OfferCatalog', 'name' => 'Yoga Services', 'itemListElement' => $homeOffers],
                 ],

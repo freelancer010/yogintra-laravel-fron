@@ -318,11 +318,7 @@
             "opens": "06:00",
             "closes": "20:00"
         },
-        "sameAs": [
-            "https://www.facebook.com/yogintra",
-            "https://www.instagram.com/yogintra",
-            "https://www.twitter.com/yogintra"
-        ]
+        "sameAs": {!! json_encode(\App\Support\SocialMedia::urls($app_setting), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     }
     </script>
 </head>
