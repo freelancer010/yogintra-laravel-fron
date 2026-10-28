@@ -630,6 +630,11 @@
             display: block;
         }
 
+        .faq-section .accordion-button strong {
+            font-weight: 700;
+            -webkit-text-stroke: 0.15px currentColor;
+        }
+
         .accordion-button:not(.collapsed) {
             background-color: #ffffff !important;
             border-color: #e0e0e0 !important;

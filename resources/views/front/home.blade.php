@@ -66,6 +66,7 @@
         .hero-video-copy .btn{display:inline-block;padding:12px 24px;border:1px solid #1a73e8;border-radius:4px;background:#1a73e8;color:#fff;font-weight:600;line-height:1.42857143;text-decoration:none;text-transform:uppercase;letter-spacing:.5px}
         .hero-video-play{position:absolute;bottom:20px;right:20px;z-index:4;border:1px solid #fff;border-radius:6px;padding:10px 16px;background:#123e46;color:#fff;font:inherit;cursor:pointer}
         .hero-video-play[hidden]{display:none}
+        .faq-section .accordion-button strong{font-weight:700;-webkit-text-stroke:.15px currentColor}
         .types-of-yoga-section .yoga-service-item img.img-circle{display:block;width:128px!important;height:128px!important;max-width:128px!important;aspect-ratio:1/1;object-fit:cover}
         /* The shared legacy stylesheet is deferred on the homepage. Reserve the
            mobile hero's final geometry before it arrives so the hidden desktop
