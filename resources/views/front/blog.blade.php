@@ -28,7 +28,7 @@
         .blog-card .post-thumb-fallback { display: flex; align-items: center; justify-content: center; height: 100%; padding: 24px; color: #153f49; font-size: 19px; font-weight: 700; line-height: 1.35; text-align: center; }
         .blog-card .entry-content { display: flex; flex: 1; flex-direction: column; padding: 24px; border: 0; }
         .blog-card .entry-meta { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; color: #65808a; font-size: 13px; }
-        .blog-card .entry-date { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: 7px; background: #e8f5f3; color: #107c87; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+        .blog-card .entry-date { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: 7px; background: #e8f5f3; color: #000; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
         .blog-card .entry-category { color: #647b82; font-size: 13px; font-weight: 600; }
         .blog-card .entry-title { margin: 0 0 13px; color: #153f49; font-size: 21px; font-weight: 700; line-height: 1.34; }
         .blog-card .entry-title a { color: inherit; }
