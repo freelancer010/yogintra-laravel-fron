@@ -15,7 +15,6 @@
                     $details = (array) $trainer;
                     $birthYear = !empty($details['dob'] ?? null) ? \Carbon\Carbon::parse($details['dob'])->year : null;
                     $age = $birthYear ? now()->year - $birthYear : null;
-                    $location = collect([$details['city'] ?? null, $details['state'] ?? null])->filter()->implode(', ');
                     $image = !empty($details['profile_image'] ?? null)
                         ? rtrim($api, '/') . '/' . ltrim($details['profile_image'], '/')
                         : asset('assets/landing-reference/guidance.webp');
@@ -26,9 +25,6 @@
                         <h3>{{ $details['name'] ?? 'YogIntra Instructor' }}</h3>
                         @if ($age)
                             <p>Age {{ $age }}</p>
-                        @endif
-                        @if ($location)
-                            <span><i class="fa fa-map-marker" aria-hidden="true"></i> {{ $location }}</span>
                         @endif
                     </div>
                 </article>

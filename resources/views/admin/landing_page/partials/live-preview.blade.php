@@ -913,7 +913,7 @@
         // and is intentionally ignored by the public renderer.
         const persistedHeroSource = frameMain.querySelector('.hero-visual img')?.getAttribute('src') || '';
         const editingStyle = frameDocument.createElement('style');
-        editingStyle.textContent = '[data-builder-editable-text]:hover{outline:1px dashed #095253;outline-offset:4px;cursor:text}[data-builder-editable-text]:focus,[data-builder-selected-text]{outline:2px solid #095253;outline-offset:4px}[data-builder-editable-image]{cursor:pointer}[data-builder-editable-image]:hover{outline:3px solid #095253;outline-offset:3px}[data-builder-selected-image]{outline:3px solid #095253;outline-offset:3px}.chips span[data-builder-editable-text]{padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;font:inherit!important;color:inherit!important}.classic-trainer-card[data-builder-element-drop]{outline:3px dashed #0f7a84;outline-offset:-6px;background:#eef9f8}.classic-trainer-card[data-builder-element-drop] .classic-trainer-card__body:after{content:"Drop bullet list here";display:block;margin-top:12px;padding:8px;border:1px dashed #0f7a84;border-radius:6px;color:#0f6269;font:600 13px/1.4 Arial;text-align:center}';
+        editingStyle.textContent = '[data-builder-editable-text]:hover{outline:1px dashed #095253;outline-offset:4px;cursor:text}[data-builder-editable-text]:focus,[data-builder-selected-text]{outline:2px solid #095253;outline-offset:4px}[data-builder-editable-image]{cursor:pointer}[data-builder-editable-image]:hover{outline:3px solid #095253;outline-offset:3px}[data-builder-selected-image]{outline:3px solid #095253;outline-offset:3px}.chips span[data-builder-editable-text]{padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;font:inherit!important;color:inherit!important}.classic-trainer-card__body [data-builder-trainer-list]{padding-left:22px!important;text-align:left!important}.classic-trainer-card__body [data-builder-trainer-list] li{padding-left:2px!important;padding-right:24px!important;text-align:left!important}.classic-trainer-card [data-builder-list-item-text]{position:relative;z-index:2;display:inline-block;min-width:calc(100% - 28px);padding:1px 3px;cursor:text}.classic-trainer-card [data-builder-list-item-text]:hover{outline-offset:1px}.classic-trainer-card [data-builder-list-item-text]:focus,.classic-trainer-card [data-builder-list-item-text][data-builder-selected-text]{outline-offset:1px}.classic-trainer-card[data-builder-element-drop]{outline:3px dashed #0f7a84;outline-offset:-6px;background:#eef9f8}.classic-trainer-card[data-builder-element-drop] .classic-trainer-card__body:after{content:"Drop bullet list here";display:block;margin-top:12px;padding:8px;border:1px dashed #0f7a84;border-radius:6px;color:#0f6269;font:600 13px/1.4 Arial;text-align:center}';
         frameDocument.head.appendChild(editingStyle);
         if (savedClassicCanvas) {
           const restoredCanvas = frameDocument.createRange().createContextualFragment(savedClassicCanvas);
@@ -952,11 +952,19 @@
           }
         }
 
+        const removeClassicTrainerLocations = root => {
+          root.querySelectorAll('.classic-trainer-card__body > span').forEach(location => {
+            if (location.querySelector('.fa-map-marker')) location.remove();
+          });
+        };
+        removeClassicTrainerLocations(frameMain);
+
         const saveClassicCanvas = () => {
           if (!classicCanvasField) return;
           // Save clean page markup. Builder-only markers and temporary text
           // wrappers must never leak into the public landing page.
           const savedMain = frameMain.cloneNode(true);
+          removeClassicTrainerLocations(savedMain);
           const savedHeroImage = savedMain.querySelector('.hero-visual img');
           if (savedHeroImage && persistedHeroSource) savedHeroImage.setAttribute('src', persistedHeroSource);
           savedMain.querySelectorAll('[data-builder-control]').forEach(control => control.remove());
@@ -972,6 +980,7 @@
             element.removeAttribute('data-builder-editable-image');
             element.removeAttribute('data-builder-selected-image');
             element.removeAttribute('data-builder-inline-wrapper');
+            element.removeAttribute('data-builder-text-bound');
           });
           classicCanvasField.value = savedMain.outerHTML;
         };
@@ -1019,6 +1028,8 @@
           restoreClassicTextHistory(editable, redo ? 1 : -1);
         };
         const bindClassicTextEditor = element => {
+          if (element.dataset.builderTextBound === 'true') return;
+          element.dataset.builderTextBound = 'true';
           element.contentEditable = 'true';
           element.dataset.builderEditableText = 'true';
           ensureClassicTextHistory(element);
@@ -1211,32 +1222,42 @@
           heroImageInput.addEventListener('change', previewUploadedHero);
         }
         const enhanceClassicTrainerList = list => {
-          if (list.dataset.builderTrainerList === 'true') return;
           list.dataset.builderTrainerList = 'true';
+          list.contentEditable = 'false';
           list.style.textAlign = 'left';
           list.style.marginLeft = '0';
-          list.style.paddingLeft = '14px';
-          const removeList = frameDocument.createElement('button');
-          removeList.type = 'button';
-          removeList.dataset.builderControl = 'remove-trainer-list';
-          removeList.className = 'classic-builder-list-remove';
-          removeList.title = 'Delete this bullet list';
-          removeList.setAttribute('aria-label', 'Delete bullet list');
-          removeList.textContent = 'Delete list';
-          removeList.style.cssText = 'display:block;margin:6px 0 12px;padding:4px 9px;border:0;border-radius:4px;background:#c43d3d;color:#fff;font:600 11px/1.35 Arial;cursor:pointer;';
-          removeList.addEventListener('click', event => {
-            event.preventDefault(); event.stopPropagation();
-            list.remove(); removeList.remove();
-            saveClassicCanvas(); setSaveState('Unsaved changes');
-          });
-          list.after(removeList);
+          list.style.paddingLeft = '22px';
+          let removeList = list.nextElementSibling?.matches('[data-builder-control="remove-trainer-list"]')
+            ? list.nextElementSibling
+            : null;
+          if (!removeList) {
+            removeList = frameDocument.createElement('button');
+            removeList.type = 'button';
+            removeList.dataset.builderControl = 'remove-trainer-list';
+            removeList.className = 'classic-builder-list-remove';
+            removeList.title = 'Delete this bullet list';
+            removeList.setAttribute('aria-label', 'Delete bullet list');
+            removeList.textContent = 'Delete list';
+            removeList.style.cssText = 'display:block;margin:6px 0 12px;padding:4px 9px;border:0;border-radius:4px;background:#c43d3d;color:#fff;font:600 11px/1.35 Arial;cursor:pointer;';
+            removeList.addEventListener('click', event => {
+              event.preventDefault(); event.stopPropagation();
+              list.remove(); removeList.remove();
+              saveClassicCanvas(); setSaveState('Unsaved changes');
+            });
+            list.after(removeList);
+          }
           [...list.children].filter(item => item.tagName === 'LI').forEach(item => {
-            const text = frameDocument.createElement('span');
-            text.dataset.builderListItemText = 'true';
-            text.dataset.builderInlineWrapper = 'true';
-            while (item.firstChild) text.appendChild(item.firstChild);
-            item.appendChild(text);
+            item.contentEditable = 'false';
+            let text = item.querySelector(':scope > [data-builder-list-item-text]');
+            if (!text) {
+              text = frameDocument.createElement('span');
+              text.dataset.builderListItemText = 'true';
+              text.dataset.builderInlineWrapper = 'true';
+              [...item.childNodes].filter(child => !child.matches?.('[data-builder-control]')).forEach(child => text.appendChild(child));
+              item.prepend(text);
+            }
             bindClassicTextEditor(text);
+            if (item.querySelector(':scope > [data-builder-control="remove-list-item"]')) return;
             const removeItem = frameDocument.createElement('button');
             removeItem.type = 'button';
             removeItem.dataset.builderControl = 'remove-list-item';

@@ -18,6 +18,7 @@ use App\Models\BlogCategory;
 use App\Models\Yoga;
 use App\Models\Event;
 use App\Models\Testimonial;
+use App\Support\LandingPageCanvas;
 use App\Support\StaticSiteFallback;
 use App\Services\OptimizedImageUpload;
 
@@ -609,6 +610,7 @@ class HomeController extends Controller
             $savedCanvas = (string) ($data['page_data']->page_content ?? '');
             if (str_starts_with($savedCanvas, $canvasPrefix)) {
                 $savedCanvas = substr($savedCanvas, strlen($canvasPrefix));
+                $savedCanvas = LandingPageCanvas::withoutTrainerLocations($savedCanvas);
                 if (str_starts_with(ltrim($savedCanvas), '<main')) {
                     if (!str_contains($savedCanvas, 'data-saved-classic-canvas')) {
                         $savedCanvas = preg_replace('#<main\b#', '<main data-saved-classic-canvas="true"', $savedCanvas, 1);

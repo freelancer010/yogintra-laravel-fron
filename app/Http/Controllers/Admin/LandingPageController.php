@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use App\Models\LandingPageSection;
+use App\Support\LandingPageCanvas;
 use App\Services\LlmsFileUpdater;
 use App\Services\OptimizedImageUpload;
 use Illuminate\Validation\Rule;
@@ -308,7 +309,7 @@ class LandingPageController extends Controller
         // reference layout. Keep its snapshot with the page record so edits
         // reappear in the builder without changing the public page output.
         if ($request->filled('classic_canvas_content')) {
-            $data['page_content'] = '<!-- classic-builder-canvas -->' . $request->classic_canvas_content;
+            $data['page_content'] = '<!-- classic-builder-canvas -->' . LandingPageCanvas::withoutTrainerLocations($request->classic_canvas_content);
         }
 
         // Handle Image Upload
