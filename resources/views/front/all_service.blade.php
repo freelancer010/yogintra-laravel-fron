@@ -55,7 +55,7 @@
                             <div class="box-hover-effect thumb-cross-effect">
                                 <div class="effect-wrapper">
                                     <div class="thumb">
-                                        <img class="img-fullwidth" src="{{ asset($service_data->service_image) }}" alt="{{ $service_data->service_name }}">
+                                        <img class="img-fullwidth" src="{{ asset($service_data->service_image) }}" alt="{{ ($service_data->service_image_alt ?? null) ?: $service_data->service_name }}" title="{{ ($service_data->service_image_title ?? null) ?: $service_data->service_name }}">
                                     </div>
                                     <div class="text-holder text-holder-top-right">
                                         <a href="{{ url('/service-details/' . $service_data->service_slug) }}" class="btn btn-dark btn-theme-colored">View More</a>

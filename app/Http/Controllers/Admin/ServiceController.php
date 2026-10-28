@@ -83,6 +83,9 @@ class ServiceController extends Controller
             'service_capacity' => 'nullable|integer',
             'service_duration' => 'nullable|integer',
             'service_category' => 'required|integer',
+            'service_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'service_image_alt' => 'nullable|string|max:255',
+            'service_image_title' => 'nullable|string|max:255',
         ]);
 
         $service = DB::table('service')->where('service_id', $id)->first();
@@ -99,6 +102,8 @@ class ServiceController extends Controller
             'service_description' => $request->service_description,
             'service_category' => $request->service_category,
             'service_slug' => strtolower(str_replace(' ', '-', $request->service_name)),
+            'service_image_alt' => $request->filled('service_image_alt') ? trim($request->service_image_alt) : null,
+            'service_image_title' => $request->filled('service_image_title') ? trim($request->service_image_title) : null,
         ];
 
         // Handle image upload
@@ -135,7 +140,9 @@ class ServiceController extends Controller
             'service_capacity' => 'nullable|integer',
             'service_duration' => 'nullable|integer',
             'service_description' => 'nullable|string',
-            'service_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'service_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'service_image_alt' => 'nullable|string|max:255',
+            'service_image_title' => 'nullable|string|max:255',
         ]);
 
         $data = [
@@ -146,6 +153,8 @@ class ServiceController extends Controller
             'service_capacity' => $request->service_capacity,
             'service_duration' => $request->service_duration,
             'service_description' => $request->service_description,
+            'service_image_alt' => $request->filled('service_image_alt') ? trim($request->service_image_alt) : null,
+            'service_image_title' => $request->filled('service_image_title') ? trim($request->service_image_title) : null,
         ];
 
         // Handle file upload
@@ -168,6 +177,25 @@ class ServiceController extends Controller
         }
 
         return view('admin.service.edit_service', compact('service', 'categories'));
+    }
+
+    public function updateImageAccessibility(Request $request, $id)
+    {
+        $request->validate([
+            'service_image_alt' => 'nullable|string|max:255',
+            'service_image_title' => 'nullable|string|max:255',
+        ]);
+
+        if (!DB::table('service')->where('service_id', $id)->exists()) {
+            return redirect()->route('admin.service.index')->with('error', 'Service not found');
+        }
+
+        DB::table('service')->where('service_id', $id)->update([
+            'service_image_alt' => $request->filled('service_image_alt') ? trim($request->service_image_alt) : null,
+            'service_image_title' => $request->filled('service_image_title') ? trim($request->service_image_title) : null,
+        ]);
+
+        return redirect()->route('admin.service.index')->with('success', 'Image accessibility text updated successfully.');
     }
 
     public function updateCategory(Request $request, $id)

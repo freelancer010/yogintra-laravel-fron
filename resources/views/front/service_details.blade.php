@@ -256,7 +256,7 @@
                 <div class="row">
                     <div class="am-service-header">
                         <div class="am-service-image">
-                            <img class="" src="{{ asset($service->service_image) }}" alt="{{ $service->service_name }}">
+                            <img class="" src="{{ asset($service->service_image) }}" alt="{{ ($service->service_image_alt ?? null) ?: $service->service_name }}" title="{{ ($service->service_image_title ?? null) ?: $service->service_name }}">
                         </div>
                         <div class="am-service-title">
                             <h2 class="text-theme-colored line-bottom text-theme-colored mb-5 p-0">{{ $service->service_name }}</h2>

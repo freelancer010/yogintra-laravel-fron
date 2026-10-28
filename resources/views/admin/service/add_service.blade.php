@@ -67,7 +67,21 @@
                            <div class="col-md-6">
                               <div class="form-group">
                                  <label>Service Image</label>
-                                 <input type="file" name="service_image" class="form-control">
+                                 <input type="file" name="service_image" class="form-control" accept="image/*">
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="service_image_alt">Image Alt Text</label>
+                                 <input id="service_image_alt" type="text" name="service_image_alt" class="form-control" maxlength="255" value="{{ old('service_image_alt') }}" placeholder="Describe what is shown in the image">
+                                 <small class="form-text text-muted">Used by screen readers. Keep it short and describe the image’s purpose.</small>
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="service_image_title">Image Title</label>
+                                 <input id="service_image_title" type="text" name="service_image_title" class="form-control" maxlength="255" value="{{ old('service_image_title') }}" placeholder="Optional supporting image title">
+                                 <small class="form-text text-muted">Optional text shown as supporting information when a visitor points to the image.</small>
                               </div>
                            </div>
                            <div class="col-md-12">

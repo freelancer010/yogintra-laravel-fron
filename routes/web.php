@@ -121,6 +121,7 @@ Route::middleware(['admin.ip', 'auth', 'admin'])->prefix('admin')->name('admin.'
     Route::post('/service/store', [ServiceController::class, 'store'])->name('service.store');
     Route::get('/service/edit/{id}', [ServiceController::class, 'edit'])->name('service.edit');
     Route::put('/service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
+    Route::patch('/service/image-accessibility/{id}', [ServiceController::class, 'updateImageAccessibility'])->name('service.image_accessibility');
     Route::delete('/service/delete/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
 
     // Yoga Center
