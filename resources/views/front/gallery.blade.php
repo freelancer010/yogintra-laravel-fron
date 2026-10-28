@@ -161,7 +161,8 @@
                                         <img style="height: 200px;" 
                                              class="img-fullwidth" 
                                              src="{{ asset($gallery->gallery_image) }}" 
-                                             alt="{{ $gallery->g_cat_name }}">
+                                             alt="{{ ($gallery->gallery_image_alt ?? null) ?: (($gallery->g_cat_name ?? null) ? $gallery->g_cat_name . ' gallery image' : 'YogIntra gallery image') }}"
+                                             title="{{ ($gallery->gallery_image_title ?? null) ?: ($gallery->g_cat_name ?? 'YogIntra gallery image') }}">
                                         <div class="overlay-shade"></div>
                                         <div class="icons-holder">
                                             <div class="icons-holder-inner">

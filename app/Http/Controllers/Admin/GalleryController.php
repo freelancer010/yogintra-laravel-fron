@@ -67,11 +67,22 @@ class GalleryController extends Controller
     // Store new gallery
     public function storeGallery(Request $request)
     {
+        $request->validate([
+            'gallery_category' => 'required|integer',
+            'gallery_is_video_or_image' => 'required|in:1,2',
+            'gallery_image' => 'required_if:gallery_is_video_or_image,1|nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'gallery_video' => 'required_if:gallery_is_video_or_image,2|nullable|string|max:1000',
+            'gallery_image_alt' => 'nullable|string|max:255',
+            'gallery_image_title' => 'nullable|string|max:255',
+        ]);
+
         $data = [
             'gallery_category' => $request->gallery_category,
             'gallery_is_video_or_image' => $request->gallery_is_video_or_image,
             'gallery_video' => '', // Default empty string
-            'gallery_image' => ''  // Default empty string
+            'gallery_image' => '', // Default empty string
+            'gallery_image_alt' => $request->filled('gallery_image_alt') ? trim($request->gallery_image_alt) : null,
+            'gallery_image_title' => $request->filled('gallery_image_title') ? trim($request->gallery_image_title) : null,
         ];
 
         if ($request->gallery_is_video_or_image == '1') { // Image
@@ -98,9 +109,20 @@ class GalleryController extends Controller
     // Update gallery
     public function updateGallery(Request $request, $id)
     {
+        $request->validate([
+            'gallery_category' => 'required|integer',
+            'gallery_is_video_or_image' => 'required|in:1,2',
+            'gallery_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'gallery_video' => 'required_if:gallery_is_video_or_image,2|nullable|string|max:1000',
+            'gallery_image_alt' => 'nullable|string|max:255',
+            'gallery_image_title' => 'nullable|string|max:255',
+        ]);
+
         $data = [
             'gallery_category' => $request->gallery_category,
             'gallery_is_video_or_image' => $request->gallery_is_video_or_image,
+            'gallery_image_alt' => $request->filled('gallery_image_alt') ? trim($request->gallery_image_alt) : null,
+            'gallery_image_title' => $request->filled('gallery_image_title') ? trim($request->gallery_image_title) : null,
         ];
 
         if ($request->gallery_is_video_or_image == 1) { // Image mode

@@ -46,7 +46,7 @@
                 <td>{{ $index + 1 }}</td>
                 <td>
                   @if($data->gallery_is_video_or_image == 1)
-                    <img src="{{ asset($data->gallery_image) }}" width="70px">
+                    <img src="{{ asset($data->gallery_image) }}" alt="{{ ($data->gallery_image_alt ?? null) ?: (($data->g_cat_name ?? null) ? $data->g_cat_name . ' gallery image' : 'YogIntra gallery image') }}" title="{{ ($data->gallery_image_title ?? null) ?: ($data->g_cat_name ?? 'YogIntra gallery image') }}" width="70px">
                   @else
                     {!! preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","<iframe width='70' height='40' src='//www.youtube.com/embed/$1' frameborder='0' allowfullscreen></iframe>", $data->gallery_video) !!}
                   @endif
@@ -106,7 +106,13 @@
           </div>
           <div class="form-group" id="image_section">
             <label>Upload Image <span class="text-danger">*</span></label>
-            <input id="image_filed" type="file" class="form-control" name="gallery_image">
+            <input id="image_filed" type="file" class="form-control" name="gallery_image" accept="image/*">
+            <label for="gallery_image_alt" class="mt-3">Image Alt Text</label>
+            <input id="gallery_image_alt" type="text" class="form-control" name="gallery_image_alt" maxlength="255" value="{{ old('gallery_image_alt') }}" placeholder="Describe what is shown in the image">
+            <small class="form-text text-muted">Used by screen readers. Keep it short and describe the image’s purpose.</small>
+            <label for="gallery_image_title" class="mt-3">Image Title</label>
+            <input id="gallery_image_title" type="text" class="form-control" name="gallery_image_title" maxlength="255" value="{{ old('gallery_image_title') }}" placeholder="Optional supporting image title">
+            <small class="form-text text-muted">Optional supporting information shown when a visitor points to the image.</small>
           </div>
           <div class="form-group" id="video_section">
             <label>Youtube Url <span class="text-danger">*</span></label>

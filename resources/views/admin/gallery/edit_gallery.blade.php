@@ -66,11 +66,11 @@
                       <div class="d-flex align-items-center">
                         <div>
                           @if(!empty($gallery->gallery_image) && file_exists(public_path($gallery->gallery_image)))
-                            <img id="gallery_image_preview" src="{{ asset($gallery->gallery_image) }}" width="120" height="120" class="rounded-circle shadow border" style="object-fit:cover;">
+                            <img id="gallery_image_preview" src="{{ asset($gallery->gallery_image) }}" alt="{{ ($gallery->gallery_image_alt ?? null) ?: 'Gallery image preview' }}" title="{{ ($gallery->gallery_image_title ?? null) ?: 'Gallery image preview' }}" width="120" height="120" class="rounded-circle shadow border" style="object-fit:cover;">
                           @elseif(!empty($gallery->gallery_image))
-                            <img id="gallery_image_preview" src="/{{ $gallery->gallery_image }}" width="120" height="120" class="rounded-circle shadow border" style="object-fit:cover;">
+                            <img id="gallery_image_preview" src="/{{ $gallery->gallery_image }}" alt="{{ ($gallery->gallery_image_alt ?? null) ?: 'Gallery image preview' }}" title="{{ ($gallery->gallery_image_title ?? null) ?: 'Gallery image preview' }}" width="120" height="120" class="rounded-circle shadow border" style="object-fit:cover;">
                           @else
-                            <img id="gallery_image_preview" src="https://via.placeholder.com/120?text=No+Image" width="120" height="120" class="rounded-circle shadow border" style="object-fit:cover;">
+                            <img id="gallery_image_preview" src="https://via.placeholder.com/120?text=No+Image" alt="No gallery image selected" width="120" height="120" class="rounded-circle shadow border" style="object-fit:cover;">
                           @endif
                         </div>
                         <div class="ml-4">
@@ -81,6 +81,12 @@
                           <div id="selected_file_name" class="text-muted small mt-2"></div>
                         </div>
                       </div>
+                      <label for="gallery_image_alt" class="mt-3">Image Alt Text</label>
+                      <input id="gallery_image_alt" type="text" class="form-control" name="gallery_image_alt" maxlength="255" value="{{ old('gallery_image_alt', $gallery->gallery_image_alt ?? '') }}" placeholder="Describe what is shown in the image">
+                      <small class="form-text text-muted">Used by screen readers. Keep it short and describe the image’s purpose.</small>
+                      <label for="gallery_image_title" class="mt-3">Image Title</label>
+                      <input id="gallery_image_title" type="text" class="form-control" name="gallery_image_title" maxlength="255" value="{{ old('gallery_image_title', $gallery->gallery_image_title ?? '') }}" placeholder="Optional supporting image title">
+                      <small class="form-text text-muted">Optional supporting information shown when a visitor points to the image.</small>
                     </div>
                   </div>
 
