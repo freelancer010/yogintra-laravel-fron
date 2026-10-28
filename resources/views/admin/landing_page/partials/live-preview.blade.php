@@ -913,7 +913,7 @@
         // and is intentionally ignored by the public renderer.
         const persistedHeroSource = frameMain.querySelector('.hero-visual img')?.getAttribute('src') || '';
         const editingStyle = frameDocument.createElement('style');
-        editingStyle.textContent = '[data-builder-editable-text]:hover{outline:1px dashed #095253;outline-offset:4px;cursor:text}[data-builder-editable-text]:focus,[data-builder-selected-text]{outline:2px solid #095253;outline-offset:4px}[data-builder-editable-image]{cursor:pointer}[data-builder-editable-image]:hover{outline:3px solid #095253;outline-offset:3px}[data-builder-selected-image]{outline:3px solid #095253;outline-offset:3px}.chips span[data-builder-editable-text]{padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;font:inherit!important;color:inherit!important}.classic-trainer-card__body [data-builder-trainer-list]{padding-left:22px!important;text-align:left!important}.classic-trainer-card__body [data-builder-trainer-list] li{padding-left:2px!important;padding-right:24px!important;text-align:left!important}.classic-trainer-card [data-builder-list-item-text]{position:relative;z-index:2;display:inline-block;min-width:calc(100% - 28px);padding:1px 3px;cursor:text}.classic-trainer-card [data-builder-list-item-text]:hover{outline-offset:1px}.classic-trainer-card [data-builder-list-item-text]:focus,.classic-trainer-card [data-builder-list-item-text][data-builder-selected-text]{outline-offset:1px}.classic-trainer-card[data-builder-element-drop]{outline:3px dashed #0f7a84;outline-offset:-6px;background:#eef9f8}.classic-trainer-card[data-builder-element-drop] .classic-trainer-card__body:after{content:"Drop bullet list here";display:block;margin-top:12px;padding:8px;border:1px dashed #0f7a84;border-radius:6px;color:#0f6269;font:600 13px/1.4 Arial;text-align:center}';
+        editingStyle.textContent = '[data-builder-editable-text]:hover{outline:1px dashed #095253;outline-offset:4px;cursor:text}[data-builder-editable-text]:focus,[data-builder-selected-text]{outline:2px solid #095253;outline-offset:4px}[data-builder-editable-image]{cursor:pointer}[data-builder-editable-image]:hover{outline:3px solid #095253;outline-offset:3px}[data-builder-selected-image]{outline:3px solid #095253;outline-offset:3px}.chips span[data-builder-editable-text]{padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;font:inherit!important;color:inherit!important}.classic-trainer-card [data-builder-trainer-block]{position:relative;cursor:text}.classic-trainer-card [data-builder-trainer-block]:hover{outline:1px dashed #095253;outline-offset:3px}.classic-trainer-card [data-builder-trainer-block][data-builder-selected-text]{outline:2px solid #095253;outline-offset:3px}.classic-trainer-card [data-builder-trainer-block] [contenteditable="true"]{cursor:text}.classic-trainer-card__body [data-builder-trainer-list]{padding-left:22px!important;text-align:left!important}.classic-trainer-card__body [data-builder-trainer-list] li{padding-left:2px!important;padding-right:24px!important;text-align:left!important}.classic-trainer-card [data-builder-list-item-text]{position:relative;z-index:2;display:inline-block;min-width:calc(100% - 28px);padding:1px 3px;cursor:text}.classic-trainer-card [data-builder-list-item-text]:hover{outline-offset:1px}.classic-trainer-card [data-builder-list-item-text]:focus,.classic-trainer-card [data-builder-list-item-text][data-builder-selected-text]{outline-offset:1px}.classic-trainer-card[data-builder-element-drop]{outline:3px dashed #0f7a84;outline-offset:-6px;background:#eef9f8}.classic-trainer-card[data-builder-element-drop] .classic-trainer-card__body:after{content:"Drop bullet list here";display:block;margin-top:12px;padding:8px;border:1px dashed #0f7a84;border-radius:6px;color:#0f6269;font:600 13px/1.4 Arial;text-align:center}';
         frameDocument.head.appendChild(editingStyle);
         if (savedClassicCanvas) {
           const restoredCanvas = frameDocument.createRange().createContextualFragment(savedClassicCanvas);
@@ -981,6 +981,9 @@
             element.removeAttribute('data-builder-selected-image');
             element.removeAttribute('data-builder-inline-wrapper');
             element.removeAttribute('data-builder-text-bound');
+            element.removeAttribute('data-builder-trainer-block');
+            element.removeAttribute('data-builder-trainer-bound');
+            element.removeAttribute('spellcheck');
           });
           classicCanvasField.value = savedMain.outerHTML;
         };
@@ -1070,6 +1073,102 @@
             setSaveState('Unsaved changes');
           });
         };
+        const trainerBlockLabel = block => [...block.children].find(child => child.matches('strong,b')) || null;
+        const ensureTrainerBlockCopy = block => {
+          let copy = block.querySelector(':scope > [data-builder-trainer-copy]');
+          if (copy) return copy;
+          const label = trainerBlockLabel(block);
+          copy = frameDocument.createElement('span');
+          copy.dataset.builderTrainerCopy = 'true';
+          copy.dataset.builderInlineWrapper = 'true';
+          [...block.childNodes]
+            .filter(child => child !== label && !child.matches?.('[data-builder-control]'))
+            .forEach(child => copy.appendChild(child));
+          block.appendChild(copy);
+          return copy;
+        };
+        const showClassicTrainerBlockEditor = (block, type) => {
+          if (selectedClassicText) selectedClassicText.removeAttribute('data-builder-selected-text');
+          if (selectedClassicImage) selectedClassicImage.removeAttribute('data-builder-selected-image');
+          selectedClassicText = block;
+          block.dataset.builderSelectedText = 'true';
+          const selectedElement = inspector.querySelector('[data-selected-element]');
+          selectedElement?.closest('.builder-selected-element')?.classList.remove('is-empty');
+          if (selectedElement) selectedElement.textContent = 'Trainer ' + type + ' block';
+
+          if (type === 'name') {
+            stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Edit trainer name</span><span>¶</span></div><label for="classic-trainer-name">Name</label><input id="classic-trainer-name" type="text"><small class="classic-editor-help">Edit here or directly in the selected name block.</small>';
+            const input = stylePanel.querySelector('#classic-trainer-name');
+            input.value = block.innerText.trim();
+            input.addEventListener('input', () => {
+              block.textContent = input.value;
+              saveClassicCanvas();
+              setSaveState('Unsaved changes');
+            });
+            return;
+          }
+
+          const label = trainerBlockLabel(block);
+          const copy = ensureTrainerBlockCopy(block);
+          const heading = type === 'education' ? 'Edit education block' : 'Edit experience block';
+          const help = type === 'education'
+            ? 'Select any bullet on the canvas to edit that education item separately.'
+            : 'The label stays bold while the description remains normal text.';
+          stylePanel.innerHTML = '<div class="builder-inspector-title"><span>' + heading + '</span><span>¶</span></div><label for="classic-trainer-block-label">Label</label><input id="classic-trainer-block-label" type="text"><label for="classic-trainer-block-copy">Content</label><textarea id="classic-trainer-block-copy" rows="7"></textarea><small class="classic-editor-help">' + help + '</small>';
+          const labelInput = stylePanel.querySelector('#classic-trainer-block-label');
+          const copyInput = stylePanel.querySelector('#classic-trainer-block-copy');
+          labelInput.value = label?.innerText.trim() || (type === 'education' ? 'Education:-' : 'Experience:-');
+          copyInput.value = copy.innerText.trim();
+          labelInput.addEventListener('input', () => {
+            if (label) label.textContent = labelInput.value;
+            saveClassicCanvas();
+            setSaveState('Unsaved changes');
+          });
+          copyInput.addEventListener('input', () => {
+            copy.textContent = copyInput.value ? ' ' + copyInput.value : '';
+            saveClassicCanvas();
+            setSaveState('Unsaved changes');
+          });
+        };
+        const bindClassicTrainerBlock = (block, type) => {
+          if (block.dataset.builderTrainerBound === 'true') return;
+          block.dataset.builderTrainerBlock = type;
+          block.dataset.builderTrainerBound = 'true';
+          block.contentEditable = type === 'name' ? 'true' : 'false';
+          const editableParts = type === 'name'
+            ? [block]
+            : [trainerBlockLabel(block), ensureTrainerBlockCopy(block)].filter(Boolean);
+          editableParts.forEach(part => {
+            part.contentEditable = 'true';
+            part.spellcheck = true;
+          });
+          block.addEventListener('input', () => {
+            saveClassicCanvas();
+            setSaveState('Unsaved changes');
+            if (selectedClassicText !== block) return;
+            const nameInput = stylePanel.querySelector('#classic-trainer-name');
+            if (nameInput) nameInput.value = block.innerText.trim();
+            const labelInput = stylePanel.querySelector('#classic-trainer-block-label');
+            const copyInput = stylePanel.querySelector('#classic-trainer-block-copy');
+            if (labelInput) labelInput.value = trainerBlockLabel(block)?.innerText.trim() || '';
+            if (copyInput) copyInput.value = ensureTrainerBlockCopy(block).innerText.trim();
+          });
+          block.addEventListener('click', event => {
+            event.stopPropagation();
+            showClassicTrainerBlockEditor(block, type);
+          });
+        };
+        const enhanceClassicTrainerBlocks = () => {
+          frameMain.querySelectorAll('.classic-trainer-card__body').forEach(body => {
+            const name = body.querySelector(':scope > h3');
+            if (name) bindClassicTrainerBlock(name, 'name');
+            body.querySelectorAll(':scope > p').forEach(paragraph => {
+              const label = trainerBlockLabel(paragraph)?.innerText.trim().toLowerCase() || '';
+              if (label.startsWith('education')) bindClassicTrainerBlock(paragraph, 'education');
+              if (label.startsWith('experience')) bindClassicTrainerBlock(paragraph, 'experience');
+            });
+          });
+        };
         const showClassicLinkEditor = element => {
           if (selectedClassicText) selectedClassicText.removeAttribute('data-builder-selected-text');
           if (selectedClassicImage) selectedClassicImage.removeAttribute('data-builder-selected-image');
@@ -1098,6 +1197,7 @@
           const editableElements = new Set();
           frameMain.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,summary,.eyebrow,.photo-note strong,.photo-note span,.vertical-label,.image-label,.large-number,.booking-note').forEach(element => {
             if (element.matches('li') && element.querySelector(':scope > [data-builder-list-item-text]')) return;
+            if (element.matches('[data-builder-trainer-block]')) return;
             const styledRuns = [...element.querySelectorAll('em,strong,b,i,u')]
               .filter(run => run.innerText.trim() && !run.querySelector('em,strong,b,i,u'));
             if (!styledRuns.length) {
@@ -1277,6 +1377,7 @@
           });
         };
         frameMain.querySelectorAll('.classic-trainer-card__body ul').forEach(enhanceClassicTrainerList);
+        enhanceClassicTrainerBlocks();
         makeTextEditable();
         frameMain.querySelectorAll('.classic-trainer-card').forEach(trainerCard => {
           trainerCard.addEventListener('dragover', event => {
