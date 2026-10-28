@@ -34,7 +34,6 @@
                      <tr>
                         <th>ID</th>
                         <th>Image</th>
-                        <th>Image Accessibility</th>
                         <th>Name</th>
                         <th>Price</th>
                         <th>Capacity</th>
@@ -48,17 +47,6 @@
                      <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td><img src="{{ asset($service->service_image) }}" alt="{{ ($service->service_image_alt ?? null) ?: $service->service_name }}" title="{{ ($service->service_image_title ?? null) ?: $service->service_name }}" width="50px"></td>
-                        <td>
-                           <form action="{{ route('admin.service.image_accessibility', $service->service_id) }}" method="POST" style="min-width:230px">
-                              @csrf
-                              @method('PATCH')
-                              <label class="sr-only" for="service-image-alt-{{ $service->service_id }}">Image alt text for {{ $service->service_name }}</label>
-                              <input id="service-image-alt-{{ $service->service_id }}" type="text" name="service_image_alt" class="form-control form-control-sm mb-1" maxlength="255" value="{{ $service->service_image_alt ?? '' }}" placeholder="Alt: {{ $service->service_name }}">
-                              <label class="sr-only" for="service-image-title-{{ $service->service_id }}">Image title for {{ $service->service_name }}</label>
-                              <input id="service-image-title-{{ $service->service_id }}" type="text" name="service_image_title" class="form-control form-control-sm mb-1" maxlength="255" value="{{ $service->service_image_title ?? '' }}" placeholder="Title: {{ $service->service_name }}">
-                              <button type="submit" class="btn btn-outline-success btn-sm">Save image text</button>
-                           </form>
-                        </td>
                         <td>{{ $service->service_name }}</td>
                         <td>Rs. {{ $service->service_price }}</td>
                         <td>{{ $service->service_capacity }}</td>

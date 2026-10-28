@@ -179,25 +179,6 @@ class ServiceController extends Controller
         return view('admin.service.edit_service', compact('service', 'categories'));
     }
 
-    public function updateImageAccessibility(Request $request, $id)
-    {
-        $request->validate([
-            'service_image_alt' => 'nullable|string|max:255',
-            'service_image_title' => 'nullable|string|max:255',
-        ]);
-
-        if (!DB::table('service')->where('service_id', $id)->exists()) {
-            return redirect()->route('admin.service.index')->with('error', 'Service not found');
-        }
-
-        DB::table('service')->where('service_id', $id)->update([
-            'service_image_alt' => $request->filled('service_image_alt') ? trim($request->service_image_alt) : null,
-            'service_image_title' => $request->filled('service_image_title') ? trim($request->service_image_title) : null,
-        ]);
-
-        return redirect()->route('admin.service.index')->with('success', 'Image accessibility text updated successfully.');
-    }
-
     public function updateCategory(Request $request, $id)
     {
         $request->validate([
