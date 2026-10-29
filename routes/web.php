@@ -237,4 +237,6 @@ Route::post('/generate-sitemap', [\App\Http\Controllers\SitemapController::class
 
 // Public service pages use concise root-level URLs, e.g. /home-visit-yoga.
 // This remains last so named public routes and authentication routes take priority.
+Route::get('/{categorySlug}/{serviceSlug}', [HomeController::class, 'serviceDetailsByCategory'])
+    ->name('service.details');
 Route::get('/{slug}', [HomeController::class, 'allService'])->name('all-service');

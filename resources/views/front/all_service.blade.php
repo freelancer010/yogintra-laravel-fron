@@ -58,11 +58,11 @@
                                         <img class="img-fullwidth" src="{{ asset($service_data->service_image) }}" alt="{{ ($service_data->service_image_alt ?? null) ?: $service_data->service_name }}" title="{{ ($service_data->service_image_title ?? null) ?: $service_data->service_name }}">
                                     </div>
                                     <div class="text-holder text-holder-top-right">
-                                        <a href="{{ url('/service-details/' . $service_data->service_slug) }}" class="btn btn-dark btn-theme-colored">View More</a>
+                                        <a href="{{ route('service.details', ['categorySlug' => $service->service_cat_slug, 'serviceSlug' => \App\Models\Service::publicServiceSlug($service_data->service_slug)]) }}" class="btn btn-dark btn-theme-colored">View More</a>
                                     </div>
-                                    <a class="hover-link" href="{{ url('/service-details/' . $service_data->service_slug) }}">View more</a>
+                                    <a class="hover-link" href="{{ route('service.details', ['categorySlug' => $service->service_cat_slug, 'serviceSlug' => \App\Models\Service::publicServiceSlug($service_data->service_slug)]) }}">View more</a>
                                 </div>
-                                <h3><a href="{{ url('/service-details/' . $service_data->service_slug) }}">{{ $service_data->service_name }}</a></h3>
+                                <h3><a href="{{ route('service.details', ['categorySlug' => $service->service_cat_slug, 'serviceSlug' => \App\Models\Service::publicServiceSlug($service_data->service_slug)]) }}">{{ $service_data->service_name }}</a></h3>
                             </div>
                         </div>
                     @endforeach

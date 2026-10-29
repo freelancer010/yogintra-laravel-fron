@@ -256,7 +256,7 @@
     @unless($homeUsesVideoHero)
         <script src="{{ asset('assets/front/js/jquery-2.2.4.min.js') }}" @if ($isHomePage) defer @endif></script>
     @endunless
-    @if (request()->is('service-details/*', 'service_details/*'))
+    @if (request()->is('service-details/*', 'service_details/*') || request()->routeIs('service.details'))
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     @endif
     @if ($homeUsesVideoHero)

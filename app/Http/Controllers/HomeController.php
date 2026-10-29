@@ -309,6 +309,29 @@ class HomeController extends Controller
             abort(404); // show 404 page if service not found
         }
 
+        return redirect()->route('service.details', [
+            'categorySlug' => $service->service_cat_slug,
+            'serviceSlug' => Service::publicServiceSlug($service->service_slug),
+        ], 301);
+    }
+
+    /** Display a service beneath its owning category URL. */
+    public function serviceDetailsByCategory(string $categorySlug, string $serviceSlug)
+    {
+        $service = Service::getServiceByCategoryAndSlug($categorySlug, $serviceSlug);
+
+        if (!$service) {
+            abort(404);
+        }
+
+        $canonicalSlug = Service::publicServiceSlug($service->service_slug);
+        if ($serviceSlug !== $canonicalSlug) {
+            return redirect()->route('service.details', [
+                'categorySlug' => $service->service_cat_slug,
+                'serviceSlug' => $canonicalSlug,
+            ], 301);
+        }
+
         return view('front.service_details', [
             'service' => $service,
             'title' => $service->service_name,

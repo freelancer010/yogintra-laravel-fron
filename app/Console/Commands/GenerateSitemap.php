@@ -7,6 +7,7 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\Blog; // adjust based on your Blog model location
 use App\Models\Event;
+use App\Models\Service;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -62,14 +63,17 @@ class GenerateSitemap extends Command
         }
 
         // Keep the CLI-generated service detail URLs aligned with the admin generator.
-        $services = DB::table('service')
-            ->whereNotNull('service_slug')
-            ->where('service_slug', '<>', '')
-            ->select('service_slug')
+        $services = DB::table('service as a')
+            ->join('service_category as b', 'b.service_cat_id', '=', 'a.service_category')
+            ->whereNotNull('a.service_slug')
+            ->where('a.service_slug', '<>', '')
+            ->whereNotNull('b.service_cat_slug')
+            ->where('b.service_cat_slug', '<>', '')
+            ->select('a.service_slug', 'b.service_cat_slug')
             ->distinct()
             ->get();
         foreach ($services as $service) {
-            $sitemap->add(Url::create('/service-details/' . $service->service_slug)->setPriority(0.8));
+            $sitemap->add(Url::create('/' . $service->service_cat_slug . '/' . Service::publicServiceSlug($service->service_slug))->setPriority(0.8));
         }
 
         $cities = DB::table('new_landing_page')->where('is_published', true)->whereNotNull('page_slug')->select('page_slug')->get();

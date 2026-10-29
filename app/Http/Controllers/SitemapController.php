@@ -62,15 +62,18 @@ class SitemapController extends Controller
             }
 
             // Service detail URLs (from `service_slug`)
-            $services = DB::table('service')
-                ->whereNotNull('service_slug')
-                ->where('service_slug', '<>', '')
-                ->select('service_slug')
+            $services = DB::table('service as a')
+                ->join('service_category as b', 'b.service_cat_id', '=', 'a.service_category')
+                ->whereNotNull('a.service_slug')
+                ->where('a.service_slug', '<>', '')
+                ->whereNotNull('b.service_cat_slug')
+                ->where('b.service_cat_slug', '<>', '')
+                ->select('a.service_slug', 'b.service_cat_slug')
                 ->distinct()
                 ->get();
             $debugMessages[] = 'Found ' . count($services) . ' services for sitemap';
             foreach ($services as $service) {
-                $urls[] = $this->formatUrl(url('/service-details/' . $service->service_slug), '0.80');
+                $urls[] = $this->formatUrl(url('/' . $service->service_cat_slug . '/' . Service::publicServiceSlug($service->service_slug)), '0.80');
             }
 
             // Landing Pages (from `page_slug`)
