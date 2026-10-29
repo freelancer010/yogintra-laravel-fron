@@ -864,6 +864,15 @@ class HomeController extends Controller
                 'sizes' => $sizes,
             ];
             foreach ($responsiveAttributes as $name => $value) {
+                if (preg_match('#\\b' . preg_quote($name, '#') . '\\s*=#i', $tag)) {
+                    $tag = preg_replace(
+                        "#\\b" . preg_quote($name, '#') . "\\s*=\\s*([\"']).*?\\1#i",
+                        $name . '="' . e($value) . '"',
+                        $tag,
+                        1
+                    ) ?? $tag;
+                    continue;
+                }
                 $tag = preg_replace('#\\s*/?>$#', ' ' . $name . '="' . e($value) . '"$0', $tag, 1) ?? $tag;
             }
         }

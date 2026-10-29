@@ -37,7 +37,7 @@
                         @if($page->page_image)
                             <img id="preview-image" src="{{ asset($page->page_image) }}" width="45%" alt="Page Image">
                         @endif
-                        <input type="file" name="page_image" class="form-control w-50 m-auto" onchange="previewImage(event)">
+                        <input type="file" name="page_image" accept="image/jpeg,image/png,image/gif,image/webp" class="form-control w-50 m-auto" onchange="previewImage(event)">
                     </div>
                         
                     <div class="col-md-6 form-group">

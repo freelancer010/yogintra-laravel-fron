@@ -78,7 +78,7 @@
                   </div>
                   <div class="col-md-6 form-group">
                     <label>Page Image <span class="text-danger">*</span></label>
-                    <input type="file" name="page_image" class="form-control" onchange="previewImage(event)">
+                    <input type="file" name="page_image" accept="image/jpeg,image/png,image/gif,image/webp" class="form-control" onchange="previewImage(event)">
                   </div>
                 </div>
               </div>

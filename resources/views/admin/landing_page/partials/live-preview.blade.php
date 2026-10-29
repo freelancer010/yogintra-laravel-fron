@@ -10,6 +10,51 @@
   document.getElementById('landing-page-form').noValidate = true;
   const builderForm = document.getElementById('landing-page-form');
   let builderDirty = false;
+  let updateClassicHeroUpload = null;
+  let uploadFeedbackTimer = null;
+  const showUploadFeedback = (message, type = 'error') => {
+    let feedback = document.querySelector('.builder-upload-feedback');
+    if (!feedback) {
+      feedback = document.createElement('div');
+      feedback.className = 'builder-upload-feedback';
+      feedback.setAttribute('role', 'alert');
+      document.body.appendChild(feedback);
+    }
+    clearTimeout(uploadFeedbackTimer);
+    feedback.textContent = message;
+    feedback.className = 'builder-upload-feedback is-' + type;
+    const inlineStatus = inspector.querySelector('.classic-image-upload-status');
+    if (inlineStatus) {
+      inlineStatus.textContent = message;
+      inlineStatus.className = 'classic-image-upload-status ' + (type === 'error' ? 'is-error' : 'is-visible');
+    }
+    uploadFeedbackTimer = setTimeout(() => feedback.remove(), type === 'error' ? 7000 : 3500);
+  };
+  const validateBuilderImage = file => new Promise(resolve => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    const allowedExtension = /\.(?:jpe?g|png|gif|webp)$/i.test(file.name || '');
+    if (!allowedTypes.includes(file.type) && !(file.type === '' && allowedExtension)) {
+      resolve('Unsupported image type. Choose a JPG, PNG, GIF, or WebP image.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      resolve('Image is too large. The maximum upload size is 5 MB.');
+      return;
+    }
+    const objectUrl = URL.createObjectURL(file);
+    const image = new Image();
+    image.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+      resolve(image.naturalWidth > 8000 || image.naturalHeight > 8000
+        ? 'Image dimensions are too large. Use an image no larger than 8000 × 8000 pixels.'
+        : '');
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      resolve('This image could not be read. Choose another JPG, PNG, GIF, or WebP image.');
+    };
+    image.src = objectUrl;
+  });
 
   // Form cards remain the persistence layer; visual controls below are the editor UI.
   const panelColumn = sections.closest('.col-md-12');
@@ -64,7 +109,15 @@
         credentials: 'same-origin',
         headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
       });
-      const result = await response.json();
+      const responseBody = await response.text();
+      let result = {};
+      try {
+        result = JSON.parse(responseBody);
+      } catch (_) {
+        throw new Error(response.status === 413
+          ? 'Image upload is larger than the server allows. Choose an image smaller than 5 MB.'
+          : 'The server could not process this image upload. Please try a JPG, PNG, GIF, or WebP image.');
+      }
       if (!response.ok || result.saved !== true) {
         throw new Error(Object.values(result.errors || {}).flat().join(' ') || result.message || 'Please try saving again.');
       }
@@ -74,7 +127,9 @@
       // The uploaded hero now has its own unique server path. Do not resend
       // the same File on every later text autosave.
       if (submittedHeroFile && heroUpload?.files?.[0] === submittedHeroFile) {
+        updateClassicHeroUpload?.(result.page_image);
         heroUpload.value = '';
+        showUploadFeedback('Hero image uploaded and saved.', 'success');
       }
       saveSucceeded = true;
       saveState.textContent = editRevision === savingRevision ? 'Saved' : 'Unsaved changes';
@@ -84,6 +139,7 @@
       saveState.textContent = 'Save failed';
       saveState.title = error.message;
       saveState.parentElement.classList.add('is-dirty');
+      showUploadFeedback(error.message || 'Image upload failed. Please try again.');
     } finally {
       autoSaveInFlight = false;
       if (saveSucceeded && editRevision !== savingRevision) queueAutoSave();
@@ -911,7 +967,7 @@
         // replacement is uploaded through the real page_image field below;
         // storing FileReader data inside page_content would bloat the record
         // and is intentionally ignored by the public renderer.
-        const persistedHeroSource = frameMain.querySelector('.hero-visual img')?.getAttribute('src') || '';
+        let persistedHeroSource = frameMain.querySelector('.hero-visual img')?.getAttribute('src') || '';
         const editingStyle = frameDocument.createElement('style');
         editingStyle.textContent = '[data-builder-editable-text]:hover{outline:1px dashed #095253;outline-offset:4px;cursor:text}[data-builder-editable-text]:focus,[data-builder-selected-text]{outline:2px solid #095253;outline-offset:4px}[data-builder-editable-image]{cursor:pointer}[data-builder-editable-image]:hover{outline:3px solid #095253;outline-offset:3px}[data-builder-selected-image]{outline:3px solid #095253;outline-offset:3px}.chips span[data-builder-editable-text]{padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;font:inherit!important;color:inherit!important}.classic-trainer-card [data-builder-trainer-block]{position:relative;cursor:text}.classic-trainer-card [data-builder-trainer-block]:hover{outline:1px dashed #095253;outline-offset:3px}.classic-trainer-card [data-builder-trainer-block][data-builder-selected-text]{outline:2px solid #095253;outline-offset:3px}.classic-trainer-card [data-builder-trainer-block] [contenteditable="true"]{cursor:text}.classic-trainer-card__body [data-builder-trainer-list]{padding-left:22px!important;text-align:left!important}.classic-trainer-card__body [data-builder-trainer-list] li{padding-left:2px!important;padding-right:24px!important;text-align:left!important}.classic-trainer-card [data-builder-list-item-text]{position:relative;z-index:2;display:inline-block;min-width:calc(100% - 28px);padding:1px 3px;cursor:text}.classic-trainer-card [data-builder-list-item-text]:hover{outline-offset:1px}.classic-trainer-card [data-builder-list-item-text]:focus,.classic-trainer-card [data-builder-list-item-text][data-builder-selected-text]{outline-offset:1px}.classic-trainer-card[data-builder-element-drop]{outline:3px dashed #0f7a84;outline-offset:-6px;background:#eef9f8}.classic-trainer-card[data-builder-element-drop] .classic-trainer-card__body:after{content:"Drop bullet list here";display:block;margin-top:12px;padding:8px;border:1px dashed #0f7a84;border-radius:6px;color:#0f6269;font:600 13px/1.4 Arial;text-align:center}';
         frameDocument.head.appendChild(editingStyle);
@@ -949,6 +1005,12 @@
             }
             frameMain.replaceWith(restoredMain);
             frameMain = restoredMain;
+            const restoredHeroImage = frameMain.querySelector('.hero-visual img');
+            if (restoredHeroImage && persistedHeroSource) {
+              restoredHeroImage.removeAttribute('srcset');
+              restoredHeroImage.removeAttribute('sizes');
+              restoredHeroImage.src = persistedHeroSource;
+            }
           }
         }
 
@@ -966,7 +1028,14 @@
           const savedMain = frameMain.cloneNode(true);
           removeClassicTrainerLocations(savedMain);
           const savedHeroImage = savedMain.querySelector('.hero-visual img');
-          if (savedHeroImage && persistedHeroSource) savedHeroImage.setAttribute('src', persistedHeroSource);
+          if (savedHeroImage && persistedHeroSource) {
+            savedHeroImage.setAttribute('src', persistedHeroSource);
+            // Responsive candidates are generated by the public renderer from
+            // the current database image. Saving the old candidates here can
+            // make the browser keep showing the previous upload.
+            savedHeroImage.removeAttribute('srcset');
+            savedHeroImage.removeAttribute('sizes');
+          }
           savedMain.querySelectorAll('[data-builder-control]').forEach(control => control.remove());
           savedMain.querySelectorAll('[data-builder-trainer-list]').forEach(list => list.removeAttribute('data-builder-trainer-list'));
           // Opening an FAQ in the editor is preview UI state, not page
@@ -1326,7 +1395,7 @@
         };
         const imagePicker = frameDocument.createElement('input');
         imagePicker.type = 'file';
-        imagePicker.accept = 'image/avif,image/*';
+        imagePicker.accept = 'image/jpeg,image/png,image/gif,image/webp';
         imagePicker.hidden = true;
         frameDocument.body.appendChild(imagePicker);
         let selectedImage = null;
@@ -1346,7 +1415,7 @@
           const selectedElement = inspector.querySelector('[data-selected-element]');
           selectedElement?.closest('.builder-selected-element')?.classList.remove('is-empty');
           if (selectedElement) selectedElement.textContent = 'Image';
-          stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Edit image</span><span>▧</span></div><label for="classic-image-alt">Alt text</label><input id="classic-image-alt" type="text" maxlength="255" placeholder="Describe the image"><small class="classic-editor-help">Describe the image for screen readers and search engines.</small><label for="classic-image-title">Title attribute</label><input id="classic-image-title" type="text" maxlength="255" placeholder="Image title"><small class="classic-editor-help">Shown as supporting information when a visitor points to the image.</small><button type="button" id="classic-image-replace" class="btn btn-outline-primary btn-sm mt-2">Replace image</button>';
+          stylePanel.innerHTML = '<div class="builder-inspector-title"><span>Edit image</span><span>▧</span></div><label for="classic-image-alt">Alt text</label><input id="classic-image-alt" type="text" maxlength="255" placeholder="Describe the image"><small class="classic-editor-help">Describe the image for screen readers and search engines.</small><label for="classic-image-title">Title attribute</label><input id="classic-image-title" type="text" maxlength="255" placeholder="Image title"><small class="classic-editor-help">Shown as supporting information when a visitor points to the image.</small><button type="button" id="classic-image-replace" class="btn btn-outline-primary btn-sm mt-2">Replace image</button><div class="classic-image-upload-status" role="alert"></div>';
           const altInput = stylePanel.querySelector('#classic-image-alt');
           const titleInput = stylePanel.querySelector('#classic-image-title');
           altInput.value = image.getAttribute('alt') || '';
@@ -1370,9 +1439,15 @@
             showClassicImageEditor(image);
           });
         });
-        imagePicker.addEventListener('change', event => {
+        imagePicker.addEventListener('change', async event => {
           const file = event.target.files?.[0];
           if (!file || !selectedImage) return;
+          const validationError = await validateBuilderImage(file);
+          if (validationError) {
+            imagePicker.value = '';
+            showUploadFeedback(validationError);
+            return;
+          }
           const reader = new FileReader();
           const imageToUpdate = selectedImage;
           reader.addEventListener('load', () => {
@@ -1381,21 +1456,39 @@
             setSaveState('Unsaved changes');
             imagePicker.value = '';
           });
+          reader.addEventListener('error', () => {
+            imagePicker.value = '';
+            showUploadFeedback('The selected image could not be previewed. Please choose another image.');
+          });
           reader.readAsDataURL(file);
         });
         if (heroImageInput?._landingHeroPreviewHandler) {
           heroImageInput.removeEventListener('change', heroImageInput._landingHeroPreviewHandler);
         }
-        const previewUploadedHero = event => {
+        const previewUploadedHero = async event => {
           const file = event.target.files?.[0];
           const heroImage = frameMain.querySelector('.hero-visual img');
           if (!file || !heroImage) return;
+          const validationError = await validateBuilderImage(file);
+          if (validationError) {
+            event.target.value = '';
+            showUploadFeedback(validationError);
+            return;
+          }
           const reader = new FileReader();
           reader.addEventListener('load', () => {
             // This data URL is preview-only. saveClassicCanvas restores the
             // server URL while FormData uploads the selected file separately.
+            // Remove old responsive candidates first: srcset otherwise wins
+            // over src and makes the replacement appear not to preview.
+            heroImage.removeAttribute('srcset');
+            heroImage.removeAttribute('sizes');
             heroImage.src = reader.result;
             setSaveState('Unsaved changes');
+          });
+          reader.addEventListener('error', () => {
+            event.target.value = '';
+            showUploadFeedback('The selected hero image could not be previewed. Please choose another image.');
           });
           reader.readAsDataURL(file);
         };
@@ -1403,6 +1496,23 @@
           heroImageInput._landingHeroPreviewHandler = previewUploadedHero;
           heroImageInput.addEventListener('change', previewUploadedHero);
         }
+        updateClassicHeroUpload = serverPath => {
+          if (!serverPath) return;
+          const uploadedPath = String(serverPath);
+          const normalizedPath = uploadedPath.replace(/^\/+/, '');
+          persistedHeroSource = /^(?:https?:|data:)/i.test(uploadedPath)
+            ? uploadedPath
+            : new URL('/' + normalizedPath, window.location.origin).href;
+          const heroImage = frameMain.querySelector('.hero-visual img');
+          if (heroImage) {
+            heroImage.removeAttribute('srcset');
+            heroImage.removeAttribute('sizes');
+            heroImage.src = persistedHeroSource;
+          }
+          const persistedPreview = heroEditor?.querySelector('#preview-image');
+          if (persistedPreview) persistedPreview.src = persistedHeroSource;
+          saveClassicCanvas();
+        };
         const enhanceClassicTrainerList = list => {
           list.dataset.builderTrainerList = 'true';
           list.contentEditable = 'false';

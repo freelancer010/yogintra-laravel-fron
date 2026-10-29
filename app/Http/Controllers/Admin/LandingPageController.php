@@ -76,7 +76,7 @@ class LandingPageController extends Controller
             'use_classic_layout' => 'nullable|boolean',
             'page_image_title' => 'nullable|string',
             'page_image_description' => 'nullable|string',
-            'page_image' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:5000',
+            'page_image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000|dimensions:max_width=8000,max_height=8000',
             'sections' => 'nullable|array',
             'sections.*.section_type' => 'required|in:text,image,image_text,feature_grid,trainer_slider,custom_columns,cta,testimonial,faq',
             'sections.*.heading' => 'nullable|string|max:255',
@@ -115,6 +115,10 @@ class LandingPageController extends Controller
             'sections.*.grid_gap' => 'nullable|integer|min:0|max:100',
             'sections.*.block_images.*' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
         ], [
+            'page_image.image' => 'The hero upload must be a valid image.',
+            'page_image.mimes' => 'The hero image must be a JPG, PNG, GIF, or WebP file.',
+            'page_image.max' => 'The hero image is too large. Choose an image smaller than 5 MB.',
+            'page_image.dimensions' => 'The hero image dimensions are too large. Use an image no larger than 8000 × 8000 pixels.',
             'sections.*.background_image.max' => 'Background image size limit exceeded. Please choose an image smaller than 5 MB, then upload again.',
         ]);
 
@@ -242,7 +246,7 @@ class LandingPageController extends Controller
             'page_image_description' => 'nullable|string',
             'page_head_code' => 'nullable|string',
             'use_classic_layout' => 'nullable|boolean',
-            'page_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5000',
+            'page_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5000|dimensions:max_width=8000,max_height=8000',
             'sections' => 'nullable|array',
             'sections.*.section_type' => 'required|in:text,image,image_text,feature_grid,trainer_slider,custom_columns,cta,testimonial,faq',
             'sections.*.heading' => 'nullable|string|max:255',
@@ -281,6 +285,10 @@ class LandingPageController extends Controller
             'sections.*.grid_gap' => 'nullable|integer|min:0|max:100',
             'sections.*.block_images.*' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5000',
         ], [
+            'page_image.image' => 'The hero upload must be a valid image.',
+            'page_image.mimes' => 'The hero image must be a JPG, PNG, GIF, or WebP file.',
+            'page_image.max' => 'The hero image is too large. Choose an image smaller than 5 MB.',
+            'page_image.dimensions' => 'The hero image dimensions are too large. Use an image no larger than 8000 × 8000 pixels.',
             'sections.*.background_image.max' => 'Background image size limit exceeded. Please choose an image smaller than 5 MB, then upload again.',
         ]);
 
@@ -316,13 +324,16 @@ class LandingPageController extends Controller
         $heroUploaded = false;
         if ($request->hasFile('page_image')) {
             $oldImagePath = ltrim(str_replace('\\', '/', (string) ($page->page_image ?? '')), '/');
+            $newImagePath = app(OptimizedImageUpload::class)->store($request->file('page_image'));
             // Only remove page-owned uploads. The default Classic hero is a
             // shared application asset and must remain available to all pages.
-            if (str_starts_with($oldImagePath, 'uploads/') && file_exists(public_path($oldImagePath))) {
+            // Store the replacement first so an upload/conversion failure can
+            // never delete the currently working hero.
+            if ($oldImagePath !== $newImagePath && str_starts_with($oldImagePath, 'uploads/') && file_exists(public_path($oldImagePath))) {
                 unlink(public_path($oldImagePath));
             }
 
-            $data['page_image'] = app(OptimizedImageUpload::class)->store($request->file('page_image'));
+            $data['page_image'] = $newImagePath;
             $heroUploaded = true;
         }
 

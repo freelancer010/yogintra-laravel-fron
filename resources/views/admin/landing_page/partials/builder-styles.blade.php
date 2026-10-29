@@ -6,6 +6,12 @@
   .builder-toast { position:fixed; z-index:1060; right:26px; top:76px; background:#16717a; color:#fff; border-radius:10px; padding:12px 17px; font-weight:700; box-shadow:0 12px 28px rgba(15,89,98,.28); transition:opacity .3s ease, transform .3s ease; }
   .builder-toast.is-hidden { opacity:0; transform:translateY(-10px); pointer-events:none; }
   .builder-toast-error { background:#b63b47; }
+  .builder-upload-feedback { position:fixed; z-index:1070; right:26px; top:76px; max-width:min(420px,calc(100vw - 36px)); border-radius:10px; padding:12px 17px; background:#16717a; color:#fff; font-weight:700; line-height:1.45; box-shadow:0 12px 28px rgba(15,89,98,.28); }
+  .builder-upload-feedback.is-error { background:#b63b47; }
+  .builder-upload-feedback.is-success { background:#247a50; }
+  .classic-image-upload-status { display:none; margin-top:10px; padding:8px 10px; border-radius:6px; font-size:12px; line-height:1.4; }
+  .classic-image-upload-status.is-visible { display:block; background:#e8f5ef; color:#17613d; }
+  .classic-image-upload-status.is-error { display:block; background:#fbeaec; color:#9d2634; }
   .landing-builder-shell .card { border: 0; border-radius: 18px; box-shadow: 0 14px 40px rgba(31, 41, 55, .08); overflow: visible; }
   .landing-builder-shell > .card > .card-header { background: linear-gradient(135deg, #132a3a, #1f6a75); color: #fff; padding: 22px 26px; }
   .landing-builder-shell > .card > .card-header h3 { font-size: 21px; font-weight: 700; letter-spacing: -.02em; }
