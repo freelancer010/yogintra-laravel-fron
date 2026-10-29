@@ -13,7 +13,8 @@
                                         video.classList.add('is-playing');
                                         playButton.hidden = true;
                                     }).catch(function () {
-                                        playButton.textContent = 'Retry background video';
+                                        playButton.setAttribute('aria-label', 'Retry background video');
+                                        playButton.setAttribute('title', 'Retry background video');
                                     });
                                 });
                             }

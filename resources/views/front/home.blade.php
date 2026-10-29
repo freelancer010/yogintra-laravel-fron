@@ -64,7 +64,9 @@
         .hero-video-copy h1{margin:.67em 0;font-family:Quicksand,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:900;line-height:1}
         .hero-video-copy p{margin-bottom:10px}
         .hero-video-copy .btn{display:inline-block;padding:12px 24px;border:1px solid #1a73e8;border-radius:4px;background:#1a73e8;color:#fff;font-weight:600;line-height:1.42857143;text-decoration:none;text-transform:uppercase;letter-spacing:.5px}
-        .hero-video-play{position:absolute;bottom:20px;right:20px;z-index:4;border:1px solid #fff;border-radius:6px;padding:10px 16px;background:#123e46;color:#fff;font:inherit;cursor:pointer}
+        .hero-video-play{position:absolute;right:20px;bottom:20px;z-index:4;width:42px;height:42px;padding:0;border:1px solid #ffffffcc;border-radius:50%;background:#123e46e8;color:#fff;box-shadow:0 4px 12px #00000040;cursor:pointer}
+        .hero-video-play:before{position:absolute;top:50%;left:52%;width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:11px solid #fff;content:"";transform:translate(-50%,-50%)}
+        .hero-video-play:hover,.hero-video-play:focus{background:#0b5963;outline:2px solid #fff;outline-offset:2px}
         .hero-video-play[hidden]{display:none}
         .faq-section .accordion-button strong{font-weight:700;-webkit-text-stroke:.15px currentColor}
         .types-of-yoga-section .yoga-service-item img.img-circle{display:block;width:128px!important;height:128px!important;max-width:128px!important;aspect-ratio:1/1;object-fit:cover}
@@ -79,7 +81,7 @@
             #home.hero-video-home .hero-video-copy .container.position-ab{position:static!important;top:auto!important;width:100%!important;padding:60px 20px!important}
             #home.hero-video-home .hero-video-copy .row>[class*=col-]{width:100%;margin-left:0;text-align:center!important}
             #home.hero-video-home .hero-video-copy .bg-white-transparent{text-align:center!important}
-            #home.hero-video-home .hero-video-play{right:auto;left:50%;max-width:calc(100% - 120px);transform:translateX(-50%);white-space:nowrap}
+            #home.hero-video-home .hero-video-play{right:auto;bottom:16px;left:16px;transform:none}
             #home { position:relative; min-height:75svh; height:75svh; overflow:hidden; }
             #home .fullwidth-carousel { display:none !important; }
             #home .mobile-home { display:block !important; position:relative; width:100%; min-height:75svh; height:75svh; padding:0 !important; overflow:hidden; }
@@ -173,7 +175,7 @@
                     <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
                     <track kind="captions" srclang="en" label="English" src="{{ asset('assets/front/captions/yogintra-hero-en.vtt') }}">
                 </video>
-                <button class="hero-video-play" type="button" hidden aria-label="Play background video">Play background video</button>
+                <button class="hero-video-play" type="button" hidden aria-label="Play background video" title="Play background video"></button>
                 <script src="{{ asset('assets/front/js/home-hero-video.js') }}?v={{ filemtime(public_path('assets/front/js/home-hero-video.js')) }}" defer></script>
                 @if($heroVideoHeading)
                     <div class="hero-video-copy">
