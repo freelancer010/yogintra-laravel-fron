@@ -46,13 +46,25 @@
                     @if($blog->blog_image)
                     <div class="form-group text-center col-md-6">
                       <b class="d-block mb-3 text-left">Preview Blog Image</b>
-                      <img src="{{ asset($blog->blog_image) }}" width="100%">
+                      <img src="{{ asset($blog->blog_image) }}" alt="{{ ($blog->blog_image_alt ?? null) ?: $blog->blog_title }}" title="{{ ($blog->blog_image_title ?? null) ?: $blog->blog_title }}" width="100%">
                     </div>
                     @endif
 
                     <div class="form-group col-md-6">
                       <label for="blog_image">Blog Image</label>
                       <input type="file" name="blog_image" id="blog_image" class="form-control" accept="image/*">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label for="blog_image_alt">Image Alt Text</label>
+                      <input id="blog_image_alt" type="text" name="blog_image_alt" class="form-control" maxlength="255" value="{{ old('blog_image_alt', $blog->blog_image_alt ?? '') }}" placeholder="Describe what is shown in the featured image">
+                      <small class="form-text text-muted">Used by screen readers. Keep it concise and relevant to the article.</small>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label for="blog_image_title">Image Title</label>
+                      <input id="blog_image_title" type="text" name="blog_image_title" class="form-control" maxlength="255" value="{{ old('blog_image_title', $blog->blog_image_title ?? '') }}" placeholder="Optional supporting image title">
+                      <small class="form-text text-muted">Optional supporting information shown when a visitor points to the image.</small>
                     </div>
                   
                     <hr class="w-100 border-bottom mb-5">

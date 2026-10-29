@@ -43,7 +43,7 @@
                      @foreach ($get_all_blog as $post)
                         <tr>
                            <td>
-                              <img src="{{ asset($post->blog_image) }}" width="100px">
+                              <img src="{{ asset($post->blog_image) }}" alt="{{ ($post->blog_image_alt ?? null) ?: $post->blog_title }}" title="{{ ($post->blog_image_title ?? null) ?: $post->blog_title }}" width="100px">
                            </td>
                            <td style="width: 45%;">
                               {{ $post->blog_title }}

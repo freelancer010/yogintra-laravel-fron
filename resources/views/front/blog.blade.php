@@ -68,7 +68,7 @@
                         <a href="{{ url('/blog/' . $all_blog->blog_slug) }}" aria-label="Read {{ $all_blog->blog_title }}">
                             <div class="post-thumb">
                                 @if ($all_blog->blog_image)
-                                    <img src="{{ asset($all_blog->blog_image) }}" alt="{{ $all_blog->blog_title }}" title="{{ $all_blog->blog_title }}" loading="lazy" decoding="async">
+                                    <img src="{{ asset($all_blog->blog_image) }}" alt="{{ ($all_blog->blog_image_alt ?? null) ?: $all_blog->blog_title }}" title="{{ ($all_blog->blog_image_title ?? null) ?: $all_blog->blog_title }}" loading="lazy" decoding="async">
                                 @else
                                     <div class="post-thumb-fallback">{{ Str::limit($all_blog->blog_title, 72) }}</div>
                                 @endif

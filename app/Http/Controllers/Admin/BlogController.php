@@ -104,6 +104,8 @@ class BlogController extends Controller
             'blog_content' => 'nullable|string',
             'blog_category' => 'required|exists:blog_category,id',
             'blog_image' => 'required|image|mimes:jpeg,png,jpg,webp,gif|max:20480',
+            'blog_image_alt' => 'nullable|string|max:255',
+            'blog_image_title' => 'nullable|string|max:255',
         ]);
 
         $imagePath = null;
@@ -121,6 +123,8 @@ class BlogController extends Controller
             'blog_content' => $request->blog_content,
             'blog_category' => $request->blog_category,
             'blog_image' => $imagePath,
+            'blog_image_alt' => $request->filled('blog_image_alt') ? trim($request->blog_image_alt) : null,
+            'blog_image_title' => $request->filled('blog_image_title') ? trim($request->blog_image_title) : null,
             'created_at' => now(),
             'status' => 1,
             'blog_view' => 0,
@@ -171,6 +175,8 @@ class BlogController extends Controller
             'blog_content' => 'nullable|string',
             'blog_category' => 'required|exists:blog_category,id',
             'blog_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:20480',
+            'blog_image_alt' => 'nullable|string|max:255',
+            'blog_image_title' => 'nullable|string|max:255',
         ]);
 
         $blog = Blog::findOrFail($id);
@@ -189,6 +195,8 @@ class BlogController extends Controller
         $blog->blog_short_description = $request->blog_short_description;
         $blog->blog_meta_keywords = $request->blog_meta_keywords;
         $blog->blog_meta_description = $request->blog_meta_description;
+        $blog->blog_image_alt = $request->filled('blog_image_alt') ? trim($request->blog_image_alt) : null;
+        $blog->blog_image_title = $request->filled('blog_image_title') ? trim($request->blog_image_title) : null;
         $blog->blog_content = $request->blog_content;
         $blog->blog_category = $request->blog_category;
         // $blog->updated_at = now();

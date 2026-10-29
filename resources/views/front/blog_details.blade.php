@@ -126,7 +126,7 @@
 @section('content')
 <div class="main-content">
   <section class="inner-header image-sec divider parallax text-center">
-    <img class="w-50" src="{{ asset($blog->blog_image) }}" alt="{{ $blog->blog_title }}" title="{{ $blog->blog_title }}" />
+    <img class="w-50" src="{{ asset($blog->blog_image) }}" alt="{{ ($blog->blog_image_alt ?? null) ?: $blog->blog_title }}" title="{{ ($blog->blog_image_title ?? null) ?: $blog->blog_title }}" />
   </section>
 
   <section>

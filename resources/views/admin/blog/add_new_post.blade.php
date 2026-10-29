@@ -106,7 +106,21 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Blog Image <span class="text-danger">*</span> (690x460 px)</label>
-                                            <input type="file" name="blog_image" class="form-control" required>
+                                            <input type="file" name="blog_image" class="form-control" accept="image/*" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="blog_image_alt">Image Alt Text</label>
+                                            <input id="blog_image_alt" type="text" name="blog_image_alt" class="form-control" maxlength="255" value="{{ old('blog_image_alt') }}" placeholder="Describe what is shown in the featured image">
+                                            <small class="form-text text-muted">Used by screen readers. Keep it concise and relevant to the article.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="blog_image_title">Image Title</label>
+                                            <input id="blog_image_title" type="text" name="blog_image_title" class="form-control" maxlength="255" value="{{ old('blog_image_title') }}" placeholder="Optional supporting image title">
+                                            <small class="form-text text-muted">Optional supporting information shown when a visitor points to the image.</small>
                                         </div>
                                     </div>
 
