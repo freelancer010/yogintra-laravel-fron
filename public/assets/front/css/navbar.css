@@ -234,12 +234,13 @@
                 padding-left:0 !important;
                 padding-right:0 !important;
             }
-            .home-mobile-hero-navigation .menuzord-responsive .showhide em {
+            .home-mobile-hero-navigation .home-native-menu-toggle em {
                 background:#084451 !important;
             }
-            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide em { opacity:0; }
-            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::before,
-            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::after {
+            .home-mobile-hero-navigation .menuzord-responsive > .showhide { display:none !important; }
+            .home-mobile-hero-navigation.mobile-menu-open .home-native-menu-toggle em { opacity:0; }
+            .home-mobile-hero-navigation.mobile-menu-open .home-native-menu-toggle::before,
+            .home-mobile-hero-navigation.mobile-menu-open .home-native-menu-toggle::after {
                 content:'';
                 position:absolute;
                 top:31px;
@@ -249,8 +250,9 @@
                 border-radius:4px;
                 background:#084451;
             }
-            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::before { transform:rotate(45deg); }
-            .home-mobile-hero-navigation.mobile-menu-open .menuzord-responsive .showhide::after { transform:rotate(-45deg); }
+            .home-mobile-hero-navigation.mobile-menu-open .home-native-menu-toggle::before { transform:rotate(45deg); }
+            .home-mobile-hero-navigation.mobile-menu-open .home-native-menu-toggle::after { transform:rotate(-45deg); }
+            .home-mobile-hero-navigation.mobile-menu-open .menuzord-menu { display:block !important; }
             .home-mobile-hero-navigation .menuzord-menu { background:#fff !important; }
             .home-mobile-hero-navigation.mobile-hero-scrolled,
             .home-mobile-hero-navigation.mobile-hero-scrolled .header-nav,

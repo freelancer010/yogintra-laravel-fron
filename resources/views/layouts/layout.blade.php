@@ -76,7 +76,8 @@
             #messageIcon{right:20px;bottom:90px;width:50px;height:50px}
             .tooltip-popup{right:20px;bottom:150px}
             #messagePopup{right:20px;bottom:100px;max-width:90%;max-height:90vh}
-            @media(min-width:768px){
+            #header .home-native-menu-toggle{display:none}
+            @media(min-width:1001px){
                 /* The homepage navigation overlays the hero on desktop. Reserve
                    that out-of-flow position before the deferred theme CSS arrives. */
                 #header.home-mobile-hero-navigation{position:absolute;top:0;left:0;width:100%;z-index:1100;background:transparent}
@@ -90,7 +91,7 @@
                 #header.home-mobile-hero-navigation .menuzord-menu>li{display:inline-block;float:left}
                 #header.home-mobile-hero-navigation .menuzord-menu>li>a{display:block;padding:22px 10px;line-height:26px}
             }
-            @media(max-width:767px){
+            @media(max-width:1000px){
                 #messageIcon{right:16px;bottom:84px;width:48px;height:48px}.tooltip-popup{display:none!important}
                 /* Keep the homepage's desktop menu from taking normal-flow space
                    before the deferred navigation stylesheet and script initialise. */
@@ -103,7 +104,15 @@
                 #header.home-mobile-hero-navigation .menuzord-brand img.logo-scrolled-to-fixed,#header.home-mobile-hero-navigation .menuzord-menu{display:none}
                 #header.home-mobile-hero-navigation .home-native-menu-toggle{display:block!important;position:absolute;top:0;right:8px;width:64px;height:64px;margin:0;padding:17px 0 0;border:0;background:transparent;text-decoration:none;cursor:pointer}
                 #header.home-mobile-hero-navigation .home-native-menu-toggle em{display:block;width:28px;height:4px;margin:5px 18px 0;border-radius:4px;background:#084451}
-                #header.home-mobile-hero-navigation.mobile-menu-open .header-nav-wrapper,#header.home-mobile-hero-navigation.mobile-menu-open .menuzord{height:auto}
+                #header.home-mobile-hero-navigation .menuzord>.showhide{display:none!important}
+                #header.home-mobile-hero-navigation.mobile-menu-open .header-nav,#header.home-mobile-hero-navigation.mobile-menu-open .header-nav-wrapper,#header.home-mobile-hero-navigation.mobile-menu-open .ipad_header,#header.home-mobile-hero-navigation.mobile-menu-open .menuzord{height:auto!important;background:#fff!important}
+                #header.home-mobile-hero-navigation.mobile-menu-open .menuzord-menu{display:block!important;clear:both;float:none;width:100%;max-height:calc(100vh - 64px)!important;margin:0;padding:0 16px 16px;overflow-y:auto;background:#fff!important;box-shadow:0 8px 16px rgba(10,49,59,.12)}
+                #header.home-mobile-hero-navigation.mobile-menu-open .menuzord-menu>li{display:block;float:none;width:100%}
+                #header.home-mobile-hero-navigation.mobile-menu-open .menuzord-menu>li>a{display:block;padding:12px 8px;color:#222!important}
+                #header.home-mobile-hero-navigation.mobile-menu-open .home-native-menu-toggle em{opacity:0}
+                #header.home-mobile-hero-navigation.mobile-menu-open .home-native-menu-toggle:before,#header.home-mobile-hero-navigation.mobile-menu-open .home-native-menu-toggle:after{content:'';position:absolute;top:30px;right:18px;width:28px;height:4px;border-radius:4px;background:#084451}
+                #header.home-mobile-hero-navigation.mobile-menu-open .home-native-menu-toggle:before{transform:rotate(45deg)}
+                #header.home-mobile-hero-navigation.mobile-menu-open .home-native-menu-toggle:after{transform:rotate(-45deg)}
             }
         </style>
     @endif

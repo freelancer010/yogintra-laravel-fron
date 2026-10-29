@@ -30,8 +30,8 @@
             <div class="header-nav-wrapper">
                 <div class="container ipad_header">
                     <nav id="menuzord-right" class="menuzord orange no-bg menuzord-responsive">
-                        @if ($videoHeroNavigation)
-                            <button type="button" class="showhide home-native-menu-toggle" aria-label="Toggle navigation menu" aria-controls="menuzord-right" aria-expanded="false">
+                        @if ($homeMobileHeroNavigation)
+                            <button type="button" class="home-native-menu-toggle" aria-label="Toggle navigation menu" aria-controls="home-navigation-menu" aria-expanded="false">
                                 <em></em><em></em><em></em>
                                 <span class="sr-only">Toggle navigation menu</span>
                             </button>
@@ -41,7 +41,7 @@
                             <img class="logo-scrolled-to-fixed" width="205" height="55" src="{{ asset($app_setting->app_sticky_logo) }}" alt="YogIntra Logo" title="YogIntra Logo">
                             <span class="sr-only">YogIntra home page</span>
                         </a>
-                        <ul class="menuzord-menu menuzord-right menuzord-indented scrollable" style="max-height: 400px;">
+                        <ul @if ($homeMobileHeroNavigation) id="home-navigation-menu" @endif class="menuzord-menu menuzord-right menuzord-indented scrollable" style="max-height: 400px;">
                             <li class="{{ request()->segment(1) == '' ? 'active' : '' }}"><a href="{{ url('/') }}">Home</a></li>
                             <li class="{{ in_array(request()->segment(1), ['about', 'gallery']) ? 'active' : '' }}">
                                 <a href="{{ url('/about-us') }}">About</a>

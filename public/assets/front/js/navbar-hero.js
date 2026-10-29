@@ -59,10 +59,35 @@ document.addEventListener('DOMContentLoaded', function () {
                     updateMobileHeroNavigation();
                     window.requestAnimationFrame(watchMobileHeroNavigation);
                 }());
+                const homeToggle = header.querySelector('.home-native-menu-toggle');
+                const homeMenu = header.querySelector('#home-navigation-menu');
+                const setHomeMenuOpen = function (open) {
+                    header.classList.toggle('mobile-menu-open', open);
+                    if (homeToggle) homeToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                };
                 document.addEventListener('click', function (event) {
-                    if (!event.target.closest('.home-mobile-hero-navigation .showhide, .landing-hero-navigation .showhide')) return;
+                    const nativeToggle = event.target.closest('.home-mobile-hero-navigation .home-native-menu-toggle');
+                    if (nativeToggle) {
+                        event.preventDefault();
+                        setHomeMenuOpen(!header.classList.contains('mobile-menu-open'));
+                        return;
+                    }
+                    if (!event.target.closest('.landing-hero-navigation .showhide')) return;
                     header.classList.toggle('mobile-menu-open');
-                    const toggle = header.querySelector('.showhide');
-                    if (toggle) toggle.setAttribute('aria-expanded', header.classList.contains('mobile-menu-open') ? 'true' : 'false');
+                    const landingToggle = header.querySelector('.showhide');
+                    if (landingToggle) landingToggle.setAttribute('aria-expanded', header.classList.contains('mobile-menu-open') ? 'true' : 'false');
                 }, true);
+                document.addEventListener('keydown', function (event) {
+                    if (event.key !== 'Escape' || !header.classList.contains('mobile-menu-open') || !homeToggle) return;
+                    setHomeMenuOpen(false);
+                    homeToggle.focus();
+                });
+                if (homeMenu) {
+                    homeMenu.addEventListener('click', function (event) {
+                        if (event.target.closest('a') && !event.target.closest('.indicator')) setHomeMenuOpen(false);
+                    });
+                }
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth > 1000 && homeToggle) setHomeMenuOpen(false);
+                });
             });
