@@ -54,9 +54,19 @@ final class BusinessContact
             $country,
         ], static fn (string $value): bool => $value !== '')));
         $telephoneDigits = preg_replace('/\D+/', '', $telephone) ?? '';
-        $telephoneHref = $telephoneDigits === ''
-            ? null
-            : (str_starts_with($telephone, '+') ? '+' : '') . $telephoneDigits;
+        $isUnqualifiedIndianNumber = $telephoneDigits !== ''
+            && strlen($telephoneDigits) === 10
+            && ! str_starts_with($telephone, '+')
+            && ($country === '' || $country === 'IN');
+
+        if ($isUnqualifiedIndianNumber) {
+            $telephone = '+91-' . $telephoneDigits;
+            $telephoneHref = '+91' . $telephoneDigits;
+        } else {
+            $telephoneHref = $telephoneDigits === ''
+                ? null
+                : (str_starts_with($telephone, '+') ? '+' : '') . $telephoneDigits;
+        }
 
         return [
             'street_address' => $streetAddress,

@@ -38,3 +38,13 @@ test('it extracts an Indian postal code from an existing full address', function
         ->and($contact['visible_address'])->toBe('Diva East, Thane-400612')
         ->and($contact['postal_address']['postalCode'])->toBe('400612');
 });
+
+test('it adds the Indian country code to an unqualified ten digit phone number', function () {
+    $contact = BusinessContact::fromSetting((object) [
+        'app_address_country' => 'IN',
+        'app_mobile' => '9867291573',
+    ]);
+
+    expect($contact['telephone'])->toBe('+91-9867291573')
+        ->and($contact['telephone_href'])->toBe('+919867291573');
+});
