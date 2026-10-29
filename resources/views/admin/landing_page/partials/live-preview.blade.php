@@ -1074,6 +1074,86 @@
           });
         };
         const trainerBlockLabel = block => [...block.children].find(child => child.matches('strong,b')) || null;
+        const trainerLabelKind = label => {
+          const text = label?.innerText.trim().toLowerCase() || '';
+          if (text.startsWith('education')) return 'education';
+          if (text.startsWith('experience')) return 'experience';
+          return '';
+        };
+        const trainerEducationItems = (block, label) => {
+          const holder = frameDocument.createElement('div');
+          [...block.childNodes]
+            .filter(child => child !== label && !child.matches?.('[data-builder-control]'))
+            .forEach(child => holder.appendChild(child.cloneNode(true)));
+          holder.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+          return (holder.textContent || '')
+            .replace(/\u00a0/g, ' ')
+            .split(/(?:\r?\n|\u2022|•)/)
+            .map(item => item.replace(/^[\s\-–—:]+|\s+$/g, ''))
+            .filter(Boolean);
+        };
+        const createTrainerEducationList = items => {
+          const list = frameDocument.createElement('ul');
+          list.className = 'classic-trainer-education-list';
+          (items.length ? items : ['First education point', 'Second education point', 'Third education point']).forEach(text => {
+            const item = frameDocument.createElement('li');
+            item.textContent = text;
+            list.appendChild(item);
+          });
+          return list;
+        };
+        const normalizeClassicTrainerBlocks = () => {
+          frameMain.querySelectorAll('.classic-trainer-card__body').forEach(body => {
+            [...body.querySelectorAll(':scope > p')].forEach(paragraph => {
+              const labels = [...paragraph.querySelectorAll('strong,b')];
+              const educationLabel = labels.find(label => trainerLabelKind(label) === 'education');
+              const experienceLabel = labels.find(label => trainerLabelKind(label) === 'experience');
+              if (!educationLabel || !experienceLabel) return;
+
+              const experienceBlock = paragraph.cloneNode(false);
+              experienceBlock.classList.add('classic-trainer-experience');
+              let node = experienceLabel;
+              while (node) {
+                const next = node.nextSibling;
+                experienceBlock.appendChild(node);
+                node = next;
+              }
+              paragraph.classList.add('classic-trainer-education');
+              paragraph.after(experienceBlock);
+            });
+
+            [...body.querySelectorAll(':scope > p')].forEach(paragraph => {
+              const label = [...paragraph.querySelectorAll('strong,b')]
+                .find(candidate => trainerLabelKind(candidate) === 'education');
+              if (!label) return;
+              paragraph.classList.add('classic-trainer-education');
+              const items = trainerEducationItems(paragraph, label);
+              [...paragraph.childNodes]
+                .filter(child => child !== label && !child.matches?.('[data-builder-control]'))
+                .forEach(child => child.remove());
+
+              const existingList = paragraph.nextElementSibling?.matches('ul')
+                ? paragraph.nextElementSibling
+                : null;
+              if (existingList) {
+                existingList.classList.add('classic-trainer-education-list');
+                items.reverse().forEach(text => {
+                  const item = frameDocument.createElement('li');
+                  item.textContent = text;
+                  existingList.prepend(item);
+                });
+              } else {
+                paragraph.after(createTrainerEducationList(items));
+              }
+            });
+
+            [...body.querySelectorAll(':scope > p')].forEach(paragraph => {
+              const label = [...paragraph.querySelectorAll('strong,b')]
+                .find(candidate => trainerLabelKind(candidate) === 'experience');
+              if (label) paragraph.classList.add('classic-trainer-experience');
+            });
+          });
+        };
         const ensureTrainerBlockCopy = block => {
           let copy = block.querySelector(':scope > [data-builder-trainer-copy]');
           if (copy) return copy;
@@ -1109,22 +1189,22 @@
           }
 
           const label = trainerBlockLabel(block);
-          const copy = ensureTrainerBlockCopy(block);
           const heading = type === 'education' ? 'Edit education block' : 'Edit experience block';
           const help = type === 'education'
-            ? 'Select any bullet on the canvas to edit that education item separately.'
+            ? 'The education label and every bullet are separate. Select a bullet on the canvas to edit it.'
             : 'The label stays bold while the description remains normal text.';
-          stylePanel.innerHTML = '<div class="builder-inspector-title"><span>' + heading + '</span><span>¶</span></div><label for="classic-trainer-block-label">Label</label><input id="classic-trainer-block-label" type="text"><label for="classic-trainer-block-copy">Content</label><textarea id="classic-trainer-block-copy" rows="7"></textarea><small class="classic-editor-help">' + help + '</small>';
+          stylePanel.innerHTML = '<div class="builder-inspector-title"><span>' + heading + '</span><span>¶</span></div><label for="classic-trainer-block-label">Label</label><input id="classic-trainer-block-label" type="text">' + (type === 'experience' ? '<label for="classic-trainer-block-copy">Content</label><textarea id="classic-trainer-block-copy" rows="7"></textarea>' : '') + '<small class="classic-editor-help">' + help + '</small>';
           const labelInput = stylePanel.querySelector('#classic-trainer-block-label');
           const copyInput = stylePanel.querySelector('#classic-trainer-block-copy');
           labelInput.value = label?.innerText.trim() || (type === 'education' ? 'Education:-' : 'Experience:-');
-          copyInput.value = copy.innerText.trim();
+          const copy = type === 'experience' ? ensureTrainerBlockCopy(block) : null;
+          if (copyInput) copyInput.value = copy.innerText.trim();
           labelInput.addEventListener('input', () => {
             if (label) label.textContent = labelInput.value;
             saveClassicCanvas();
             setSaveState('Unsaved changes');
           });
-          copyInput.addEventListener('input', () => {
+          copyInput?.addEventListener('input', () => {
             copy.textContent = copyInput.value ? ' ' + copyInput.value : '';
             saveClassicCanvas();
             setSaveState('Unsaved changes');
@@ -1137,7 +1217,9 @@
           block.contentEditable = type === 'name' ? 'true' : 'false';
           const editableParts = type === 'name'
             ? [block]
-            : [trainerBlockLabel(block), ensureTrainerBlockCopy(block)].filter(Boolean);
+            : type === 'education'
+              ? [trainerBlockLabel(block)].filter(Boolean)
+              : [trainerBlockLabel(block), ensureTrainerBlockCopy(block)].filter(Boolean);
           editableParts.forEach(part => {
             part.contentEditable = 'true';
             part.spellcheck = true;
@@ -1376,6 +1458,7 @@
             item.appendChild(removeItem);
           });
         };
+        normalizeClassicTrainerBlocks();
         frameMain.querySelectorAll('.classic-trainer-card__body ul').forEach(enhanceClassicTrainerList);
         enhanceClassicTrainerBlocks();
         makeTextEditable();
