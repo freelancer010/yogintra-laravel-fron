@@ -1347,6 +1347,7 @@
         const makeTextEditable = () => {
           const editableElements = new Set();
           frameMain.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,summary,.eyebrow,.photo-note strong,.photo-note span,.vertical-label,.image-label,.large-number,.booking-note').forEach(element => {
+            if (element.closest('[data-builder-control]')) return;
             if (element.matches('li') && element.querySelector(':scope > [data-builder-list-item-text]')) return;
             if (element.matches('[data-builder-trainer-block]')) return;
             const styledRuns = [...element.querySelectorAll('em,strong,b,i,u')]
@@ -1375,6 +1376,7 @@
           while ((node = walker.nextNode())) {
             const parent = node.parentElement;
             if (!parent || !node.nodeValue.trim() || ['SCRIPT', 'STYLE', 'SVG'].includes(parent.tagName)) continue;
+            if (parent.closest('[data-builder-control]')) continue;
             if (!parent.closest('h1,h2,h3,h4,h5,h6,p,a,li,blockquote,summary,.eyebrow,.photo-note strong,.photo-note span,.vertical-label,.image-label,.large-number,.booking-note,[data-builder-editable-text]')) standaloneTextNodes.push(node);
           }
           editableElements.forEach(element => {
