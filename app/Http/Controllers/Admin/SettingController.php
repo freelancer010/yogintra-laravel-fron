@@ -68,6 +68,9 @@ class SettingController extends Controller
                 break;
 
             case 'htmlhead':
+                $request->validate([
+                    'head_code' => ['nullable', 'string', 'max:100000'],
+                ]);
                 $data = $request->only([
                     'head_code'
                 ]);

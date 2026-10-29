@@ -15,6 +15,12 @@
     {!! $landing_schema_markup ?? '' !!}
 @endpush
 
+@if (filled($page_data->page_head_code ?? null))
+    @push('custom_head_code')
+        {!! $page_data->page_head_code !!}
+    @endpush
+@endif
+
 @push('page_preloads')
     <!-- Critical preloads for LCP optimization -->
     <link rel="preload" as="image" href="{{ asset($page_data->page_image) }}" fetchpriority="high" media="(min-width: 768px)">

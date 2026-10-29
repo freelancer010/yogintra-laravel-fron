@@ -245,6 +245,14 @@
     @endphp
     <script type="application/ld+json">{!! json_encode($businessSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 
+    {{-- Trusted administrator-provided global head markup (verification tags,
+         analytics, custom styles, and similar integrations). Page-specific
+         markup is intentionally last so it can refine the global defaults. --}}
+    @if (filled($app_setting->head_code ?? null))
+        {!! $app_setting->head_code !!}
+    @endif
+    @stack('custom_head_code')
+
 </head>
 <body data-contact-form-endpoint="{{ route('form.submit') }}">
     <a class="skip-to-content" href="#main-content">Skip to main content</a>

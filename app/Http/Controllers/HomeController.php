@@ -607,6 +607,14 @@ class HomeController extends Controller
                 '</head>',
                 $referenceLayout
             );
+            // Both settings are intentionally raw: only authenticated admins
+            // can edit them, and their purpose is to accept complete head tags.
+            $globalHeadCode = trim((string) ($appSetting->head_code ?? ''));
+            $pageHeadCode = trim((string) ($data['page_data']->page_head_code ?? ''));
+            $customHeadCode = implode("\n", array_filter([$globalHeadCode, $pageHeadCode], static fn (string $code) => $code !== ''));
+            if ($customHeadCode !== '') {
+                $referenceLayout = str_replace('</head>', $customHeadCode . "\n</head>", $referenceLayout);
+            }
             $referenceLayout = preg_replace(
                 '#<body([^>]*)>#i',
                 '<body$1 data-contact-form-endpoint="' . e(route('form.submit')) . '">',
