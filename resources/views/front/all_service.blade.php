@@ -25,10 +25,10 @@
         <div class="section-content">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h1 class="title text-white">Services</h1>
+                    <h1 class="title text-white">{{ $service->service_cat_name }}</h1>
                     <ol class="breadcrumb text-center mt-10">
                         <li><a href="{{ url('/') }}" class="text-white">Home</a></li>
-                        <li class="active text-gray">Services</li>
+                        <li class="active text-gray">{{ $service->service_cat_name }}</li>
                     </ol>
                 </div>
             </div>
