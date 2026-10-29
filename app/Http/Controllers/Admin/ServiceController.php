@@ -88,6 +88,7 @@ class ServiceController extends Controller
             'service_image_title' => 'nullable|string|max:255',
             'service_meta_title' => 'nullable|string|max:255',
             'service_meta_description' => 'nullable|string|max:500',
+            'service_meta_keywords' => 'nullable|string|max:500',
         ]);
 
         $service = DB::table('service')->where('service_id', $id)->first();
@@ -108,6 +109,7 @@ class ServiceController extends Controller
             'service_image_title' => $request->filled('service_image_title') ? trim($request->service_image_title) : null,
             'service_meta_title' => $request->filled('service_meta_title') ? trim($request->service_meta_title) : null,
             'service_meta_description' => $request->filled('service_meta_description') ? trim($request->service_meta_description) : null,
+            'service_meta_keywords' => $request->filled('service_meta_keywords') ? trim($request->service_meta_keywords) : null,
         ];
 
         // Handle image upload
@@ -149,6 +151,7 @@ class ServiceController extends Controller
             'service_image_title' => 'nullable|string|max:255',
             'service_meta_title' => 'nullable|string|max:255',
             'service_meta_description' => 'nullable|string|max:500',
+            'service_meta_keywords' => 'nullable|string|max:500',
         ]);
 
         $data = [
@@ -163,6 +166,7 @@ class ServiceController extends Controller
             'service_image_title' => $request->filled('service_image_title') ? trim($request->service_image_title) : null,
             'service_meta_title' => $request->filled('service_meta_title') ? trim($request->service_meta_title) : null,
             'service_meta_description' => $request->filled('service_meta_description') ? trim($request->service_meta_description) : null,
+            'service_meta_keywords' => $request->filled('service_meta_keywords') ? trim($request->service_meta_keywords) : null,
         ];
 
         // Handle file upload

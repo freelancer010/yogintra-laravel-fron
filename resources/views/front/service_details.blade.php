@@ -5,13 +5,15 @@
     $serviceMetaTitle = trim((string) ($service->service_meta_title ?? '')) ?: $service->service_name;
     $customMetaDescription = trim(preg_replace('/\s+/', ' ', strip_tags((string) ($service->service_meta_description ?? ''))));
     $serviceMetaDescription = $customMetaDescription ?: Str::limit($serviceDescription ?: $service->service_name, 160, '');
+    $serviceMetaKeywords = trim((string) ($service->service_meta_keywords ?? ''))
+        ?: $service->service_name . ', yoga service, YogIntra';
 @endphp
 
 @extends('layouts.layout')
 
 @section('meta_title', $serviceMetaTitle)
 @section('meta_description', $serviceMetaDescription)
-@section('meta_keywords', $service->service_name . ', yoga service, YogIntra')
+@section('meta_keywords', $serviceMetaKeywords)
 
 @push('styles')
 <style>

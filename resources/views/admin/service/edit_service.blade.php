@@ -88,12 +88,6 @@
                                  <small class="form-text text-muted">Optional text shown as supporting information when a visitor points to the image.</small>
                               </div>
                            </div>
-                           <div class="col-md-12">
-                              <div class="form-group">
-                                 <label>Description</label>
-                                 <textarea name="service_description" class="form-control text-editor" rows="4">{{ old('service_description', $service->service_description) }}</textarea>
-                              </div>
-                           </div>
                            <div class="col-md-12 mt-2">
                               <h5>SEO Metadata</h5>
                            </div>
@@ -109,6 +103,19 @@
                                  <label for="service_meta_description">Meta Description</label>
                                  <textarea id="service_meta_description" name="service_meta_description" class="form-control" rows="3" maxlength="500" placeholder="Short summary for search results">{{ old('service_meta_description', $service->service_meta_description ?? '') }}</textarea>
                                  <small class="form-text text-muted">Recommended: 150–160 characters. The service description is used when blank.</small>
+                              </div>
+                           </div>
+                           <div class="col-md-12">
+                              <div class="form-group">
+                                 <label for="service_meta_keywords">Meta Keywords</label>
+                                 <textarea id="service_meta_keywords" name="service_meta_keywords" class="form-control" rows="2" maxlength="500" placeholder="e.g. home yoga classes, personal yoga trainer, YogIntra">{{ old('service_meta_keywords', $service->service_meta_keywords ?? '') }}</textarea>
+                                 <small class="form-text text-muted">Optional comma-separated keywords. Maximum 500 characters.</small>
+                              </div>
+                           </div>
+                           <div class="col-md-12">
+                              <div class="form-group">
+                                 <label>Description</label>
+                                 <textarea name="service_description" class="form-control text-editor" rows="4">{{ old('service_description', $service->service_description) }}</textarea>
                               </div>
                            </div>
                            <div class="col-md-12">
