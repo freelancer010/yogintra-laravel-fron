@@ -13,6 +13,24 @@
     left: 50%;
     transform: translate(-50%, -50%);
     }
+    .service-category-heading {
+        margin: 0 0 10px;
+        color: #153f49;
+        font-size: 30px;
+        font-weight: 800;
+        line-height: 1.3;
+        text-transform: none;
+    }
+    .service-category-intro {
+        margin: 0;
+        color: #111 !important;
+        font-size: 17px;
+        line-height: 1.7;
+    }
+    @media (max-width: 767px) {
+        .service-category-heading { font-size: 25px; }
+        .service-category-intro { font-size: 16px; }
+    }
 </style>
 @endpush
 
@@ -42,7 +60,8 @@
         <div class="section-title text-center">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <p>YogIntra provides One of the Best {{ $service->service_cat_name }} in India with our expertise, professional and experienced team of Trainers.</p>
+                    <h2 class="service-category-heading">{{ $service->service_cat_name }} Classes and Plans</h2>
+                    <p class="service-category-intro">YogIntra provides One of the Best {{ $service->service_cat_name }} in India with our expertise, professional and experienced team of Trainers.</p>
                 </div>
             </div>
         </div>
@@ -68,7 +87,7 @@
                     @endforeach
                 @else
                     <div class="col-xs-12 col-sm-12 col-md-12 mb-30 text-center">
-                        <h5>No Data Found</h5>
+                        <p>No services are currently available in this category.</p>
                     </div>
                 @endif
             </div>
