@@ -1448,19 +1448,51 @@
             showUploadFeedback(validationError);
             return;
           }
-          const reader = new FileReader();
           const imageToUpdate = selectedImage;
-          reader.addEventListener('load', () => {
-            imageToUpdate.src = reader.result;
+          const previousImage = {
+            src: imageToUpdate.getAttribute('src') || '',
+            srcset: imageToUpdate.getAttribute('srcset'),
+            sizes: imageToUpdate.getAttribute('sizes'),
+          };
+          const temporaryPreview = URL.createObjectURL(file);
+          imageToUpdate.removeAttribute('srcset');
+          imageToUpdate.removeAttribute('sizes');
+          imageToUpdate.src = temporaryPreview;
+          showUploadFeedback('Uploading image…', 'info');
+          try {
+            const upload = new FormData();
+            upload.append('image', file);
+            upload.append('_token', builderForm.querySelector('[name="_token"]')?.value || '');
+            const response = await fetch(@json(route('admin.landing-pages.upload-canvas-image')), {
+              method: 'POST',
+              body: upload,
+              credentials: 'same-origin',
+              headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+            });
+            const responseBody = await response.text();
+            let result = {};
+            try { result = JSON.parse(responseBody); } catch (_) {}
+            if (!response.ok || result.saved !== true || !result.url) {
+              throw new Error(Object.values(result.errors || {}).flat().join(' ') || result.message || 'The image could not be uploaded.');
+            }
+            imageToUpdate.src = result.url;
             saveClassicCanvas();
             setSaveState('Unsaved changes');
+            clearTimeout(autoSaveTimer);
+            await runAutoSave(true);
+            if (saveState.textContent === 'Save failed') {
+              throw new Error(saveState.title || 'The image uploaded, but the landing page could not be saved.');
+            }
+            showUploadFeedback('Image uploaded and page saved.', 'success');
+          } catch (error) {
+            imageToUpdate.src = previousImage.src;
+            if (previousImage.srcset !== null) imageToUpdate.setAttribute('srcset', previousImage.srcset);
+            if (previousImage.sizes !== null) imageToUpdate.setAttribute('sizes', previousImage.sizes);
+            showUploadFeedback(error.message || 'The selected image could not be uploaded. Please try again.');
+          } finally {
+            URL.revokeObjectURL(temporaryPreview);
             imagePicker.value = '';
-          });
-          reader.addEventListener('error', () => {
-            imagePicker.value = '';
-            showUploadFeedback('The selected image could not be previewed. Please choose another image.');
-          });
-          reader.readAsDataURL(file);
+          }
         });
         if (heroImageInput?._landingHeroPreviewHandler) {
           heroImageInput.removeEventListener('change', heroImageInput._landingHeroPreviewHandler);
