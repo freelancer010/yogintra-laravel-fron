@@ -1551,9 +1551,33 @@
           list.style.textAlign = 'left';
           list.style.marginLeft = '0';
           list.style.paddingLeft = '22px';
-          let removeList = list.nextElementSibling?.matches('[data-builder-control="remove-trainer-list"]')
+          let addPoint = list.nextElementSibling?.matches('[data-builder-control="add-trainer-list-item"]')
             ? list.nextElementSibling
             : null;
+          let removeList = (addPoint ? addPoint.nextElementSibling : list.nextElementSibling)?.matches('[data-builder-control="remove-trainer-list"]')
+            ? (addPoint ? addPoint.nextElementSibling : list.nextElementSibling)
+            : null;
+          if (!addPoint) {
+            addPoint = frameDocument.createElement('button');
+            addPoint.type = 'button';
+            addPoint.dataset.builderControl = 'add-trainer-list-item';
+            addPoint.className = 'classic-builder-list-add';
+            addPoint.textContent = '+ Add point';
+            addPoint.title = 'Add another bullet point';
+            addPoint.style.cssText = 'display:block;margin:7px 0 5px;padding:4px 9px;border:1px solid #0b6f73;border-radius:4px;background:#fff;color:#0b6f73;font:600 11px/1.35 Arial;cursor:pointer;';
+            addPoint.addEventListener('click', event => {
+              event.preventDefault(); event.stopPropagation();
+              const item = frameDocument.createElement('li');
+              item.textContent = 'New education point';
+              list.appendChild(item);
+              enhanceClassicTrainerList(list);
+              const text = item.querySelector('[data-builder-list-item-text]');
+              saveClassicCanvas(); setSaveState('Unsaved changes');
+              if (text) { showClassicTextEditor(text); text.focus(); }
+            });
+            if (removeList) removeList.before(addPoint);
+            else list.after(addPoint);
+          }
           if (!removeList) {
             removeList = frameDocument.createElement('button');
             removeList.type = 'button';
@@ -1565,10 +1589,10 @@
             removeList.style.cssText = 'display:block;margin:6px 0 12px;padding:4px 9px;border:0;border-radius:4px;background:#c43d3d;color:#fff;font:600 11px/1.35 Arial;cursor:pointer;';
             removeList.addEventListener('click', event => {
               event.preventDefault(); event.stopPropagation();
-              list.remove(); removeList.remove();
+              list.remove(); addPoint.remove(); removeList.remove();
               saveClassicCanvas(); setSaveState('Unsaved changes');
             });
-            list.after(removeList);
+            addPoint.after(removeList);
           }
           [...list.children].filter(item => item.tagName === 'LI').forEach(item => {
             item.contentEditable = 'false';
@@ -1594,7 +1618,7 @@
             removeItem.addEventListener('click', event => {
               event.preventDefault(); event.stopPropagation();
               item.remove();
-              if (!list.querySelector('li')) { list.remove(); removeList.remove(); }
+              if (!list.querySelector('li')) { list.remove(); addPoint.remove(); removeList.remove(); }
               saveClassicCanvas(); setSaveState('Unsaved changes');
             });
             item.appendChild(removeItem);

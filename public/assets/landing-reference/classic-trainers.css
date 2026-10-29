@@ -38,8 +38,9 @@
 .classic-trainer-card__body li { display: list-item; }
 .classic-trainer-card__body li + li { margin-top: 5px; }
 .classic-trainer-card__body [data-builder-trainer-list] li { position: relative; padding-right: 24px; }
-.classic-builder-list-remove { display: block; margin: 6px 0 12px; padding: 4px 9px; border: 0; border-radius: 4px; background: #c43d3d; color: #fff; font: 600 11px/1.35 Arial; cursor: pointer; }
-.classic-builder-list-item-remove { position: absolute; top: 0; right: 0; width: 20px; height: 20px; padding: 0; border: 1px solid #d7b9b9; border-radius: 50%; background: #fff; color: #9a3838; font: 700 15px/17px Arial; cursor: pointer; }
+.classic-builder-list-add { display: block; margin: 7px 0 5px; padding: 4px 9px; border: 1px solid #0b6f73; border-radius: 4px; background: #fff; color: #0b6f73; font: 600 11px/1.35 Arial; cursor: pointer; }
+.classic-builder-list-remove { display: block; margin: 6px 0 12px; padding: 4px 9px; border: 0; border-radius: 4px; background: #c43d3d; color: #fff !important; font: 600 11px/1.35 Arial; cursor: pointer; }
+.classic-builder-list-item-remove { position: absolute; top: 0; right: 0; width: 20px; height: 20px; padding: 0; border: 1px solid #c43d3d; border-radius: 50%; background: #c43d3d; color: #fff !important; font: 700 15px/17px Arial; cursor: pointer; }
 .classic-trainers-link { margin-top: 32px; }
 
 @media (max-width: 800px) {
