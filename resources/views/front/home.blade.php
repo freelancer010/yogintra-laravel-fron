@@ -112,6 +112,14 @@
             #home:not(.hero-video-home) .fullwidth-carousel .display-table-cell { display:table-cell; height:100%; vertical-align:middle; }
             #home:not(.hero-video-home) .fullwidth-carousel .container.position-ab { position:relative!important; top:auto!important; width:100%; }
         }
+        @media (min-width: 768px) and (max-width: 1024px) {
+            #home.hero-video-home,#home.hero-video-home .hero-video-wrap,#home.hero-video-home .hero-video-copy{height:clamp(520px,62svh,640px)!important;min-height:clamp(520px,62svh,640px)!important}
+            #home.hero-video-home .hero-video-copy .container.position-ab{position:static!important;top:auto!important;width:100%!important;padding:64px 30px 42px!important}
+            #home.hero-video-home .hero-video-copy .row>[class*=col-]{width:100%!important;margin-left:0!important;text-align:center!important}
+            #home.hero-video-home .hero-video-copy .bg-white-transparent{max-width:680px;margin:0 auto;padding:0!important;text-align:center!important}
+            #home.hero-video-home .hero-video-copy h1{margin-bottom:16px;font-size:clamp(38px,6vw,48px)!important;line-height:1.08!important}
+            #home.hero-video-home .hero-video-copy p{max-width:620px;margin-right:auto;margin-left:auto;font-size:17px!important;line-height:1.55}
+        }
         @media (min-width: 768px) and (max-width: 991px) {.row>[class*=col-md-]{width:100%}}
         @media (min-width: 992px) {.container{max-width:970px}}
         @media (min-width: 1200px) {.container{max-width:1170px}}
