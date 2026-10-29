@@ -17,30 +17,6 @@ use Illuminate\Validation\Rule;
 
 class LandingPageController extends Controller
 {
-    /** Upload an image used inside the saved Classic landing-page canvas. */
-    public function uploadCanvasImage(Request $request)
-    {
-        $validated = $request->validate([
-            'image' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:5000|dimensions:max_width=8000,max_height=8000',
-        ], [
-            'image.required' => 'Choose an image to upload.',
-            'image.image' => 'The selected file must be a valid image.',
-            'image.mimes' => 'The image must be a JPG, PNG, GIF, or WebP file.',
-            'image.max' => 'The image is too large. Choose an image smaller than 5 MB.',
-            'image.dimensions' => 'The image dimensions are too large. Use an image no larger than 8000 × 8000 pixels.',
-        ]);
-
-        $path = app(OptimizedImageUpload::class)->store($validated['image'], 'uploads/landing-canvas');
-
-        return response()->json([
-            'saved' => true,
-            'path' => $path,
-            // Keep the saved canvas portable between local and production;
-            // the browser resolves this against the current host.
-            'url' => '/' . ltrim($path, '/'),
-        ]);
-    }
-
     public function index()
     {
         $pages = DB::table('new_landing_page')->get();
@@ -260,6 +236,29 @@ class LandingPageController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Canvas images use the page's existing update endpoint. Keeping this
+        // as an early, focused request avoids a separate named route that can
+        // be absent from a production route cache during deployment.
+        if ($request->hasFile('canvas_image')) {
+            $validated = $request->validate([
+                'canvas_image' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:5000|dimensions:max_width=8000,max_height=8000',
+            ], [
+                'canvas_image.required' => 'Choose an image to upload.',
+                'canvas_image.image' => 'The selected file must be a valid image.',
+                'canvas_image.mimes' => 'The image must be a JPG, PNG, GIF, or WebP file.',
+                'canvas_image.max' => 'The image is too large. Choose an image smaller than 5 MB.',
+                'canvas_image.dimensions' => 'The image dimensions are too large. Use an image no larger than 8000 × 8000 pixels.',
+            ]);
+
+            $path = app(OptimizedImageUpload::class)->store($validated['canvas_image'], 'uploads/landing-canvas');
+
+            return response()->json([
+                'saved' => true,
+                'path' => $path,
+                'url' => '/' . ltrim($path, '/'),
+            ]);
+        }
+
         $request->validate([
             'page_name' => 'required|string|max:255',
             'page_slug' => ['required', 'string', 'max:500', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('new_landing_page', 'page_slug')->ignore($id, 'page_id')],

@@ -1461,9 +1461,9 @@
           showUploadFeedback('Uploading image…', 'info');
           try {
             const upload = new FormData();
-            upload.append('image', file);
+            upload.append('canvas_image', file);
             upload.append('_token', builderForm.querySelector('[name="_token"]')?.value || '');
-            const response = await fetch(@json(route('admin.landing-pages.upload-canvas-image')), {
+            const response = await fetch(builderForm.action, {
               method: 'POST',
               body: upload,
               credentials: 'same-origin',

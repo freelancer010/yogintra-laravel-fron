@@ -167,7 +167,6 @@ Route::middleware(['admin.ip', 'auth', 'admin'])->prefix('admin')->name('admin.'
     Route::get('landing-pages/create', [LandingPageController::class, 'create'])->name('landing-pages.create');
     Route::post('landing-pages/start', [LandingPageController::class, 'start'])->name('landing-pages.start');
     Route::post('landing-pages/store', [LandingPageController::class, 'store'])->name('landing-pages.store');
-    Route::post('landing-pages/upload-canvas-image', [LandingPageController::class, 'uploadCanvasImage'])->name('landing-pages.upload-canvas-image');
     Route::get('landing-pages/edit/{id}', [LandingPageController::class, 'edit'])->name('landing-pages.edit');
     Route::post('landing-pages/{id}/toggle-published', [LandingPageController::class, 'togglePublished'])->name('landing-pages.toggle-published');
     Route::post('landing-pages/{id}/convert-classic', [LandingPageController::class, 'convertClassic'])->name('landing-pages.convert-classic');
