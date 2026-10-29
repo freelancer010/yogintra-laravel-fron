@@ -43,7 +43,7 @@
                         </a>
                         <ul @if ($homeMobileHeroNavigation) id="home-navigation-menu" @endif class="menuzord-menu menuzord-right menuzord-indented scrollable" style="max-height: 400px;">
                             <li class="{{ request()->segment(1) == '' ? 'active' : '' }}"><a href="{{ url('/') }}">Home</a></li>
-                            <li class="{{ in_array(request()->segment(1), ['about', 'gallery']) ? 'active' : '' }}">
+                            <li class="home-has-submenu {{ in_array(request()->segment(1), ['about', 'gallery']) ? 'active' : '' }}">
                                 <a href="{{ url('/about-us') }}">About</a>
                                 <ul class="dropdown">
                                     <li><a href="{{ url('/about-us') }}">About</a></li>   
@@ -55,7 +55,7 @@
                                 <a href="{{ url('/blog') }}">Blog</a>
                             </li>
 
-                            <li class="{{ request()->segment(1) == 'service' ? 'active' : '' }}">
+                            <li class="home-has-submenu {{ request()->segment(1) == 'service' ? 'active' : '' }}">
                                 <a href="{{ url('/yoga-center') }}">Yoga Services</a>
                                 <ul class="dropdown">
                                     @foreach ($all_service as $service_menu)
@@ -73,7 +73,7 @@
                             {{-- <li class="{{ request()->segment(1) == 'yoga-center' ? 'active' : '' }}">
                                 <a href="{{ url('/yoga-center') }}">Yoga Center</a>
                             </li> --}}
-                            <li class="{{ in_array(request()->segment(1), ['teacher-training-course', 'retreat', 'workshop']) ? 'active' : '' }}">
+                            <li class="home-has-submenu {{ in_array(request()->segment(1), ['teacher-training-course', 'retreat', 'workshop']) ? 'active' : '' }}">
                                 <a href="{{ url('/workshop') }}">Events</a>
                                 <ul class="dropdown">
                                     <li><a href="{{ url('/teacher-training-course') }}">TTC</a></li>   

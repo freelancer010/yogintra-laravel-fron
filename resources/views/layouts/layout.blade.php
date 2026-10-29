@@ -78,6 +78,8 @@
             #messagePopup{right:20px;bottom:100px;max-width:90%;max-height:90vh}
             #header .home-native-menu-toggle{display:none}
             #header .home-submenu-toggle{display:none}
+            #header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu>a:after{display:inline-block;width:7px;height:7px;margin:0 0 3px 8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;content:'';transform:rotate(45deg)}
+            #header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu>a>.indicator{display:none!important}
             @media(min-width:1001px){
                 /* The homepage navigation overlays the hero on desktop. Reserve
                    that out-of-flow position before the deferred theme CSS arrives. */
@@ -91,6 +93,12 @@
                 #header.home-mobile-hero-navigation .menuzord-menu{float:right;margin:0;padding:0;list-style:none}
                 #header.home-mobile-hero-navigation .menuzord-menu>li{display:inline-block;float:left}
                 #header.home-mobile-hero-navigation .menuzord-menu>li>a{display:block;padding:22px 10px;line-height:26px}
+                #header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu{position:relative}
+                #header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu>ul.dropdown,#header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu>ul.megamenu{position:absolute;top:100%;left:0;z-index:1200;display:none;min-width:220px;margin:0;padding:8px 0;border-top:3px solid #14757d;background:#fff;box-shadow:0 8px 22px rgba(10,49,59,.16);list-style:none}
+                #header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu:hover>ul.dropdown,#header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu:focus-within>ul.dropdown,#header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu:hover>ul.megamenu,#header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu:focus-within>ul.megamenu{display:block!important;visibility:visible!important;opacity:1!important}
+                #header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu>ul>li{display:block;float:none;width:100%}
+                #header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu>ul>li>a{display:block;padding:10px 18px;color:#183c45!important;line-height:1.45;white-space:nowrap}
+                #header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu>ul>li>a:hover,#header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu>ul>li>a:focus{background:#f1f7f6;color:#0b6d75!important}
             }
             @media(max-width:1000px){
                 #messageIcon{right:16px;bottom:84px;width:48px;height:48px}.tooltip-popup{display:none!important}
@@ -111,6 +119,7 @@
                 #header.home-mobile-hero-navigation.mobile-menu-open .menuzord-menu>li{display:block;float:none;width:100%}
                 #header.home-mobile-hero-navigation.mobile-menu-open .menuzord-menu>li>a{display:block;padding:12px 52px 12px 8px;color:#222!important}
                 #header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu{position:relative}
+                #header.home-mobile-hero-navigation .menuzord-menu>li.home-has-submenu>a:after{display:none}
                 #header.home-mobile-hero-navigation .menuzord-menu>li>a>.indicator{display:none!important}
                 #header.home-mobile-hero-navigation .home-submenu-toggle{position:absolute;top:2px;right:0;display:flex!important;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:0;border-radius:6px;background:transparent;color:#084451;font-size:26px;font-weight:500;line-height:1;cursor:pointer}
                 #header.home-mobile-hero-navigation .home-submenu-toggle:focus{outline:2px solid #14757d;outline-offset:-3px}
