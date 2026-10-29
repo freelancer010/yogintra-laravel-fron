@@ -86,6 +86,12 @@
   .entry-content .blog-article-body a { color: #087985 !important; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
   .blog-article-body ul,
   .blog-article-body ol { margin: 0 0 23px; padding-left: 25px; }
+  .blog-article-body ul { list-style: disc outside; }
+  .blog-article-body ol { list-style: decimal outside; }
+  .blog-article-body ul ul { list-style-type: circle; }
+  .blog-article-body ul ul ul { list-style-type: square; }
+  .blog-article-body ol ol { list-style-type: lower-alpha; }
+  .blog-article-body ol ol ol { list-style-type: lower-roman; }
   .blog-article-body li { margin-bottom: 8px; padding-left: 4px; }
   .blog-article-body blockquote {
     margin: 28px 0;
