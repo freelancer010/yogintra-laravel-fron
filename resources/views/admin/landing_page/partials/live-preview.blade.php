@@ -1162,7 +1162,12 @@
           textEditor.value = element.innerText;
           textEditor.addEventListener('input', () => {
             if (!selectedClassicText) return;
-            selectedClassicText.textContent = textEditor.value;
+            const lines = textEditor.value.replace(/\r\n?/g, '\n').split('\n');
+            selectedClassicText.replaceChildren();
+            lines.forEach((line, index) => {
+              if (index) selectedClassicText.appendChild(frameDocument.createElement('br'));
+              selectedClassicText.appendChild(frameDocument.createTextNode(line));
+            });
             recordClassicTextHistory(selectedClassicText);
             saveClassicCanvas();
             setSaveState('Unsaved changes');
@@ -1370,6 +1375,26 @@
             setSaveState('Unsaved changes');
           });
         };
+        const normalizeClassicSectionHeadings = () => {
+          frameMain.querySelectorAll('.section-top > div').forEach(group => {
+            const headings = [...group.children].filter(element => /^H[1-6]$/.test(element.tagName));
+            headings.forEach(heading => {
+              let sibling = heading.nextElementSibling;
+              while (sibling
+                && sibling.tagName === heading.tagName
+                && sibling.className === heading.className
+                && sibling.style.cssText === heading.style.cssText) {
+                const nextSibling = sibling.nextElementSibling;
+                if (heading.textContent.trim() && sibling.textContent.trim()) {
+                  heading.appendChild(frameDocument.createElement('br'));
+                }
+                while (sibling.firstChild) heading.appendChild(sibling.firstChild);
+                sibling.remove();
+                sibling = nextSibling;
+              }
+            });
+          });
+        };
         const makeTextEditable = () => {
           const editableElements = new Set();
           frameMain.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,summary,.eyebrow,.photo-note strong,.photo-note span,.vertical-label,.image-label,.large-number,.booking-note').forEach(element => {
@@ -1384,16 +1409,30 @@
             }
 
             // Mixed-style headings must not be flattened into one plain-text
-            // field. Keep each styled run intact and wrap direct normal text
-            // only while the builder is open; saveClassicCanvas unwraps it.
-            [...element.childNodes].forEach(child => {
-              if (child.nodeType !== Node.TEXT_NODE || !child.nodeValue.trim()) return;
+            // field. Group consecutive normal lines into one editable run and
+            // keep styled runs (such as the italic phrase) independently
+            // editable. saveClassicCanvas unwraps this temporary grouping.
+            let normalRun = [];
+            const wrapNormalRun = () => {
+              if (!normalRun.some(child => child.nodeType === Node.TEXT_NODE && child.nodeValue.trim())) {
+                normalRun = [];
+                return;
+              }
               const editor = frameDocument.createElement('span');
-              editor.textContent = child.nodeValue;
               editor.dataset.builderInlineWrapper = 'true';
-              child.replaceWith(editor);
+              normalRun[0].before(editor);
+              normalRun.forEach(child => editor.appendChild(child));
               editableElements.add(editor);
+              normalRun = [];
+            };
+            [...element.childNodes].forEach(child => {
+              if (child.nodeType === Node.TEXT_NODE || child.nodeName === 'BR') {
+                normalRun.push(child);
+                return;
+              }
+              wrapNormalRun();
             });
+            wrapNormalRun();
             styledRuns.forEach(run => editableElements.add(run));
           });
           const walker = frameDocument.createTreeWalker(frameMain, NodeFilter.SHOW_TEXT);
@@ -1686,6 +1725,7 @@
             item.appendChild(removeItem);
           });
         };
+        normalizeClassicSectionHeadings();
         normalizeClassicTrainerBlocks();
         frameMain.querySelectorAll('.classic-trainer-card__body ul').forEach(enhanceClassicTrainerList);
         enhanceClassicTrainerBlocks();
