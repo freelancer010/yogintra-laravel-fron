@@ -1059,6 +1059,29 @@
         let selectedClassicText = null;
         let selectedClassicImage = null;
         const classicTextHistory = new WeakMap();
+        const classicStructureHistory = [];
+        let classicStructureHistoryIndex = -1;
+        const recordClassicStructureChange = operation => {
+          classicStructureHistory.splice(classicStructureHistoryIndex + 1);
+          classicStructureHistory.push(operation);
+          if (classicStructureHistory.length > 40) classicStructureHistory.shift();
+          classicStructureHistoryIndex = classicStructureHistory.length - 1;
+        };
+        const restoreClassicStructureHistory = redo => {
+          const operationIndex = redo ? classicStructureHistoryIndex + 1 : classicStructureHistoryIndex;
+          const operation = classicStructureHistory[operationIndex];
+          if (!operation) return false;
+          if (redo) {
+            operation.redo();
+            classicStructureHistoryIndex = operationIndex;
+          } else {
+            operation.undo();
+            classicStructureHistoryIndex = operationIndex - 1;
+          }
+          saveClassicCanvas();
+          setSaveState('Unsaved changes');
+          return true;
+        };
         const ensureClassicTextHistory = element => {
           if (!classicTextHistory.has(element)) {
             classicTextHistory.set(element, { entries: [element.innerHTML], index: 0, timer: null });
@@ -1093,11 +1116,14 @@
         };
         const handleClassicTextUndo = event => {
           if (!(event.ctrlKey || event.metaKey) || !['z', 'y'].includes(event.key.toLowerCase())) return;
-          const editable = frameDocument.activeElement?.closest?.('[data-builder-editable-text]');
-          if (!editable || !frameMain.contains(editable)) return;
-          event.preventDefault();
           const redo = event.key.toLowerCase() === 'y' || (event.key.toLowerCase() === 'z' && event.shiftKey);
-          restoreClassicTextHistory(editable, redo ? 1 : -1);
+          const editable = frameDocument.activeElement?.closest?.('[data-builder-editable-text]');
+          if (editable && frameMain.contains(editable)) {
+            event.preventDefault();
+            restoreClassicTextHistory(editable, redo ? 1 : -1);
+            return;
+          }
+          if (restoreClassicStructureHistory(redo)) event.preventDefault();
         };
         const bindClassicTextEditor = element => {
           if (element.dataset.builderTextBound === 'true') return;
@@ -1591,7 +1617,41 @@
             removeList.style.cssText = 'display:block;margin:6px 0 12px;padding:4px 9px;border:0;border-radius:4px;background:#c43d3d;color:#fff;font:600 11px/1.35 Arial;cursor:pointer;';
             removeList.addEventListener('click', event => {
               event.preventDefault(); event.stopPropagation();
+              const listParent = list.parentNode;
+              const insertionAnchor = removeList.nextSibling;
+              const savedList = list.cloneNode(true);
+              savedList.querySelectorAll('[data-builder-control]').forEach(control => control.remove());
+              savedList.removeAttribute('data-builder-trainer-list');
+              savedList.querySelectorAll('[data-builder-list-item-text]').forEach(text => {
+                text.removeAttribute('contenteditable');
+                text.removeAttribute('data-builder-text-bound');
+                text.removeAttribute('data-builder-selected-text');
+              });
+              let restoredList = null;
+              const removeRenderedList = targetList => {
+                if (!targetList?.isConnected) return;
+                const targetAdd = targetList.nextElementSibling?.matches('[data-builder-control="add-trainer-list-item"]')
+                  ? targetList.nextElementSibling
+                  : null;
+                const targetRemove = (targetAdd ? targetAdd.nextElementSibling : targetList.nextElementSibling)?.matches('[data-builder-control="remove-trainer-list"]')
+                  ? (targetAdd ? targetAdd.nextElementSibling : targetList.nextElementSibling)
+                  : null;
+                targetList.remove();
+                targetAdd?.remove();
+                targetRemove?.remove();
+              };
               list.remove(); addPoint.remove(); removeList.remove();
+              recordClassicStructureChange({
+                undo: () => {
+                  restoredList = savedList.cloneNode(true);
+                  listParent.insertBefore(restoredList, insertionAnchor?.parentNode === listParent ? insertionAnchor : null);
+                  enhanceClassicTrainerList(restoredList);
+                },
+                redo: () => {
+                  removeRenderedList(restoredList);
+                  restoredList = null;
+                },
+              });
               saveClassicCanvas(); setSaveState('Unsaved changes');
             });
             addPoint.after(removeList);
