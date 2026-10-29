@@ -94,6 +94,23 @@
                                  <textarea name="service_description" class="form-control text-editor" rows="4">{{ old('service_description', $service->service_description) }}</textarea>
                               </div>
                            </div>
+                           <div class="col-md-12 mt-2">
+                              <h5>SEO Metadata</h5>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="service_meta_title">Meta Title</label>
+                                 <input id="service_meta_title" type="text" name="service_meta_title" class="form-control" maxlength="255" value="{{ old('service_meta_title', $service->service_meta_title ?? '') }}" placeholder="Search result title for this service">
+                                 <small class="form-text text-muted">Recommended: 50–60 characters. Service name is used when blank.</small>
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="service_meta_description">Meta Description</label>
+                                 <textarea id="service_meta_description" name="service_meta_description" class="form-control" rows="3" maxlength="500" placeholder="Short summary for search results">{{ old('service_meta_description', $service->service_meta_description ?? '') }}</textarea>
+                                 <small class="form-text text-muted">Recommended: 150–160 characters. The service description is used when blank.</small>
+                              </div>
+                           </div>
                            <div class="col-md-12">
                               <button type="submit" class="btn btn-success float-right">Update</button>
                            </div>

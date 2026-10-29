@@ -86,6 +86,8 @@ class ServiceController extends Controller
             'service_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'service_image_alt' => 'nullable|string|max:255',
             'service_image_title' => 'nullable|string|max:255',
+            'service_meta_title' => 'nullable|string|max:255',
+            'service_meta_description' => 'nullable|string|max:500',
         ]);
 
         $service = DB::table('service')->where('service_id', $id)->first();
@@ -104,6 +106,8 @@ class ServiceController extends Controller
             'service_slug' => strtolower(str_replace(' ', '-', $request->service_name)),
             'service_image_alt' => $request->filled('service_image_alt') ? trim($request->service_image_alt) : null,
             'service_image_title' => $request->filled('service_image_title') ? trim($request->service_image_title) : null,
+            'service_meta_title' => $request->filled('service_meta_title') ? trim($request->service_meta_title) : null,
+            'service_meta_description' => $request->filled('service_meta_description') ? trim($request->service_meta_description) : null,
         ];
 
         // Handle image upload
@@ -143,6 +147,8 @@ class ServiceController extends Controller
             'service_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'service_image_alt' => 'nullable|string|max:255',
             'service_image_title' => 'nullable|string|max:255',
+            'service_meta_title' => 'nullable|string|max:255',
+            'service_meta_description' => 'nullable|string|max:500',
         ]);
 
         $data = [
@@ -155,6 +161,8 @@ class ServiceController extends Controller
             'service_description' => $request->service_description,
             'service_image_alt' => $request->filled('service_image_alt') ? trim($request->service_image_alt) : null,
             'service_image_title' => $request->filled('service_image_title') ? trim($request->service_image_title) : null,
+            'service_meta_title' => $request->filled('service_meta_title') ? trim($request->service_meta_title) : null,
+            'service_meta_description' => $request->filled('service_meta_description') ? trim($request->service_meta_description) : null,
         ];
 
         // Handle file upload

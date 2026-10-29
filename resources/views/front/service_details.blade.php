@@ -2,12 +2,14 @@
     use Illuminate\Support\Str;
 
     $serviceDescription = trim(preg_replace('/\s+/', ' ', strip_tags($service->service_description ?? '')));
-    $serviceMetaDescription = Str::limit($serviceDescription ?: $service->service_name, 160, '');
+    $serviceMetaTitle = trim((string) ($service->service_meta_title ?? '')) ?: $service->service_name;
+    $customMetaDescription = trim(preg_replace('/\s+/', ' ', strip_tags((string) ($service->service_meta_description ?? ''))));
+    $serviceMetaDescription = $customMetaDescription ?: Str::limit($serviceDescription ?: $service->service_name, 160, '');
 @endphp
 
 @extends('layouts.layout')
 
-@section('meta_title', $service->service_name)
+@section('meta_title', $serviceMetaTitle)
 @section('meta_description', $serviceMetaDescription)
 @section('meta_keywords', $service->service_name . ', yoga service, YogIntra')
 
