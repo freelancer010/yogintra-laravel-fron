@@ -4,6 +4,7 @@
     @php
         $isLandingPage = request()->is('city/*');
         $isHomePage = request()->path() === '/';
+        $isContactPage = request()->is('contact');
         $homeUsesVideoHero = $isHomePage
             && (($app_setting->hero_media_type ?? 'slider') === 'video')
             && filled($app_setting->hero_video ?? null);
@@ -163,6 +164,8 @@
                 #header.video-hero-navigation.home-mobile-hero-navigation.mobile-hero-scrolled .menuzord-menu>li>a>i{color:#222!important}
             }
         </style>
+    @elseif ($isContactPage)
+        <link href="{{ asset('assets/front/css/contact.bundle.min.css') }}?v={{ filemtime(public_path('assets/front/css/contact.bundle.min.css')) }}" rel="stylesheet" type="text/css">
     @else
         <link href="{{ asset('assets/front/css/frontend.bundle.min.css') }}" rel="stylesheet" type="text/css">
     @endif

@@ -3,6 +3,7 @@
     "type": "module",
     "scripts": {
         "build:home-css": "node scripts/build-home-css.mjs",
+        "build:contact-css": "node scripts/build-contact-css.mjs",
         "build:landing-css": "node scripts/build-landing-css.mjs",
         "build": "vite build",
         "dev": "vite"

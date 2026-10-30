@@ -8,15 +8,33 @@
     $contact = \App\Support\BusinessContact::fromSetting($app_setting);
     $mapMarkup = app(\App\Support\HtmlSanitizer::class)->sanitize((string) ($app_setting->map_iframe ?? ''));
     $hasEmbeddedMap = str_contains(mb_strtolower($mapMarkup), '<iframe');
+    if ($hasEmbeddedMap) {
+        $mapMarkup = preg_replace_callback('/<iframe\b([^>]*)>/i', static function (array $matches): string {
+            $attributes = $matches[1];
+            if (! preg_match('/\bloading\s*=/i', $attributes)) {
+                $attributes .= ' loading="lazy"';
+            }
+            if (! preg_match('/\btitle\s*=/i', $attributes)) {
+                $attributes .= ' title="YogIntra location map"';
+            }
+
+            return '<iframe' . $attributes . '>';
+        }, $mapMarkup, 1) ?? $mapMarkup;
+    }
     $mapQuery = trim(implode(', ', array_filter([
         $contact['visible_address'] ?? '',
         $contact['country'] ?? '',
     ])));
 @endphp
 
+@push('page_preloads')
+    <link rel="preload" as="image" href="{{ asset('assets/front/images/bg/bg6.jpg') }}" fetchpriority="high">
+@endpush
+
 @section('content')
 <div class="contact-page">
-    <section class="contact-hero divider parallax layer-overlay" aria-labelledby="contact-page-title">
+    <section class="contact-hero" aria-labelledby="contact-page-title">
+        <img class="contact-hero-media" src="{{ asset('assets/front/images/bg/bg6.jpg') }}" alt="" width="1920" height="1280" fetchpriority="high" decoding="sync" aria-hidden="true">
         <div class="contact-hero-inner container">
             <h1 id="contact-page-title">Let&rsquo;s plan your yoga journey</h1>
             <p class="contact-hero-copy">Tell us what you are looking for and we will help you find a class, instructor or wellness programme that fits your goals.</p>
@@ -100,24 +118,25 @@
                         <div class="contact-response-note"><i class="fa fa-clock-o" aria-hidden="true"></i><span><strong>Friendly, personal guidance</strong>We usually respond within one business day.</span></div>
                     </div>
 
-                    @if ($hasEmbeddedMap || $mapQuery !== '')
-                        <div class="contact-map-card">
-                            <div class="contact-map-heading">
-                                <div><span class="contact-kicker">Find us</span><h3>YogIntra location</h3></div>
-                                @if (!empty($contact['map_url']))
-                                    <a href="{{ $contact['map_url'] }}" target="_blank" rel="noopener noreferrer">Directions <i class="fa fa-external-link" aria-hidden="true"></i></a>
-                                @endif
-                            </div>
-                            <div class="contact-map" aria-label="Map showing the YogIntra location">
-                                @if ($hasEmbeddedMap)
-                                    {!! $mapMarkup !!}
-                                @else
-                                    <iframe src="https://www.google.com/maps?q={{ rawurlencode($mapQuery) }}&amp;output=embed" title="YogIntra location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-                                @endif
-                            </div>
-                        </div>
-                    @endif
                 </aside>
+
+                @if ($hasEmbeddedMap || $mapQuery !== '')
+                    <div class="contact-map-card">
+                        <div class="contact-map-heading">
+                            <div><span class="contact-kicker">Find us</span><h3>YogIntra location</h3></div>
+                            @if (!empty($contact['map_url']))
+                                <a href="{{ $contact['map_url'] }}" target="_blank" rel="noopener noreferrer">Directions <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                            @endif
+                        </div>
+                        <div class="contact-map" aria-label="Map showing the YogIntra location">
+                            @if ($hasEmbeddedMap)
+                                {!! $mapMarkup !!}
+                            @else
+                                <iframe src="https://www.google.com/maps?q={{ rawurlencode($mapQuery) }}&amp;output=embed" title="YogIntra location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+                            @endif
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section>
@@ -128,9 +147,11 @@
 @push('styles')
 <style>
     .contact-page{--contact-teal:#086d72;--contact-dark:#143f48;--contact-muted:#557078;--contact-line:#d8e8e5;overflow:hidden;color:var(--contact-dark)}
-    .contact-page .contact-hero{position:relative;display:flex;min-height:390px;align-items:center;margin:0;background-image:linear-gradient(90deg,rgba(6,44,49,.88),rgba(6,44,49,.56)),url('{{ asset('assets/front/images/bg/bg6.jpg') }}');background-position:center 40%;background-size:cover}
-    .contact-page .contact-hero::after{position:absolute;right:-90px;bottom:-160px;width:390px;height:390px;border:1px solid rgba(255,255,255,.18);border-radius:50%;content:''}
-    .contact-page .contact-hero-inner{position:relative;z-index:1;width:100%;padding-top:70px;padding-bottom:65px}
+    .contact-page .contact-hero{position:relative;display:flex;min-height:390px;align-items:center;margin:0;overflow:hidden;background:#143f48}
+    .contact-page .contact-hero::before{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(6,44,49,.88),rgba(6,44,49,.56));content:''}
+    .contact-page .contact-hero::after{position:absolute;right:-90px;bottom:-160px;z-index:1;width:390px;height:390px;border:1px solid rgba(255,255,255,.18);border-radius:50%;content:''}
+    .contact-hero-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
+    .contact-page .contact-hero-inner{position:relative;z-index:2;width:100%;padding-top:70px;padding-bottom:65px}
     .contact-kicker{display:inline-block;margin-bottom:12px;color:#0b7478;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
     .contact-hero h1{max-width:760px;margin:0 0 18px;color:#fff;font-size:52px;font-weight:700;line-height:1.08;letter-spacing:-.025em;text-transform:none}
     .contact-hero-copy{max-width:700px;margin:0;color:rgba(255,255,255,.9);font-size:18px;line-height:1.7}
@@ -184,18 +205,18 @@
     .contact-response-note>i{color:#9fe2dc;font-size:20px}
     .contact-response-note span{display:flex;flex-direction:column;color:rgba(255,255,255,.74);font-size:12px;line-height:1.5}
     .contact-response-note strong{color:#fff;font-size:13px}
-    .contact-map-card{overflow:hidden}
+    .contact-map-card{grid-column:1/-1;overflow:hidden}
     .contact-map-heading{display:flex;align-items:center;justify-content:space-between;padding:25px 27px 20px}
     .contact-map-heading .contact-kicker{margin-bottom:4px}
     .contact-map-heading h3{margin:0;color:var(--contact-dark);font-size:20px;font-weight:700}
     .contact-map-heading>a{color:#087477;font-size:12px;font-weight:800}
-    .contact-map{height:245px;background:#dbe9e7}
+    .contact-map{height:360px;background:#dbe9e7}
     .contact-map iframe{display:block;width:100%!important;height:100%!important;border:0!important}
     @media (max-width:991px){
         .contact-page .contact-hero{min-height:350px}.contact-hero h1{font-size:45px}
         .contact-method-grid{grid-template-columns:1fr;max-width:680px;margin:0 auto}.contact-method-card{min-height:0}
         .contact-layout{grid-template-columns:1fr;max-width:760px;margin:0 auto}
-        .contact-support-column{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-next-card,.contact-map-card{height:100%}
+        .contact-support-column{display:block}.contact-next-card{height:100%}.contact-map{height:300px}
     }
     @media (max-width:767px){
         .contact-page{width:100vw!important;max-width:100vw!important;margin:0!important}
