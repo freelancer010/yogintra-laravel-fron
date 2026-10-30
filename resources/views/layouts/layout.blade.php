@@ -196,6 +196,9 @@
         .site-float-whatsapp .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
         @media(max-width:767px){.site-float-whatsapp{right:16px;bottom:18px;width:50px;height:50px}}
     </style>
+    <style id="cookie-mobile-action-styles">
+        @media(max-width:575px){.cookie-banner .cookie-actions{justify-content:center}.cookie-banner .cookie-actions button{flex:0 1 auto}}
+    </style>
 
     <!-- Optional services are loaded only after the visitor grants consent. -->
         <script src="{{ asset('assets/front/js/consent-loaders.min.js') }}" defer></script>
