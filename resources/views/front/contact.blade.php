@@ -18,7 +18,6 @@
 <div class="contact-page">
     <section class="contact-hero divider parallax layer-overlay" aria-labelledby="contact-page-title">
         <div class="contact-hero-inner container">
-            <p class="contact-eyebrow">Talk to the YogIntra team</p>
             <h1 id="contact-page-title">Let&rsquo;s plan your yoga journey</h1>
             <p class="contact-hero-copy">Tell us what you are looking for and we will help you find a class, instructor or wellness programme that fits your goals.</p>
             <nav aria-label="Breadcrumb">
@@ -132,8 +131,7 @@
     .contact-page .contact-hero{position:relative;display:flex;min-height:390px;align-items:center;margin:0;background-image:linear-gradient(90deg,rgba(6,44,49,.88),rgba(6,44,49,.56)),url('{{ asset('assets/front/images/bg/bg6.jpg') }}');background-position:center 40%;background-size:cover}
     .contact-page .contact-hero::after{position:absolute;right:-90px;bottom:-160px;width:390px;height:390px;border:1px solid rgba(255,255,255,.18);border-radius:50%;content:''}
     .contact-page .contact-hero-inner{position:relative;z-index:1;width:100%;padding-top:70px;padding-bottom:65px}
-    .contact-eyebrow,.contact-kicker{display:inline-block;margin-bottom:12px;color:#0b7478;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
-    .contact-eyebrow{color:#9ce3de}
+    .contact-kicker{display:inline-block;margin-bottom:12px;color:#0b7478;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
     .contact-hero h1{max-width:760px;margin:0 0 18px;color:#fff;font-size:52px;font-weight:700;line-height:1.08;letter-spacing:-.025em;text-transform:none}
     .contact-hero-copy{max-width:700px;margin:0;color:rgba(255,255,255,.9);font-size:18px;line-height:1.7}
     .contact-breadcrumb{display:flex;gap:10px;margin:25px 0 0;padding:0;list-style:none;color:rgba(255,255,255,.74);font-size:13px}
