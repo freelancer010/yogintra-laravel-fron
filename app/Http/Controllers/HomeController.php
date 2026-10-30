@@ -19,6 +19,7 @@ use App\Models\Yoga;
 use App\Models\Event;
 use App\Models\Testimonial;
 use App\Support\LandingPageCanvas;
+use App\Support\LandingPageHeadCode;
 use App\Support\StaticSiteFallback;
 use App\Services\OptimizedImageUpload;
 
@@ -607,10 +608,11 @@ class HomeController extends Controller
                 '</head>',
                 $referenceLayout
             );
-            // Both settings are intentionally raw: only authenticated admins
-            // can edit them, and their purpose is to accept complete head tags.
+            // Only authenticated admins can edit these values. Complete head
+            // tags remain untouched; raw JSON-LD is wrapped before rendering
+            // so browsers do not move it into the visible page body.
             $globalHeadCode = trim((string) ($appSetting->head_code ?? ''));
-            $pageHeadCode = trim((string) ($data['page_data']->page_head_code ?? ''));
+            $pageHeadCode = LandingPageHeadCode::normalize($data['page_data']->page_head_code ?? null);
             $customHeadCode = implode("\n", array_filter([$globalHeadCode, $pageHeadCode], static fn (string $code) => $code !== ''));
             if ($customHeadCode !== '') {
                 $referenceLayout = str_replace('</head>', $customHeadCode . "\n</head>", $referenceLayout);

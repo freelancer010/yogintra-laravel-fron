@@ -963,6 +963,11 @@
 
         let frameMain = frameDocument.querySelector('main');
         if (!frameMain) return;
+        // Malformed legacy head code can be parsed by the browser as a direct
+        // body text node. Never let that non-visual metadata cover the canvas.
+        [...frameDocument.body.childNodes].forEach(node => {
+          if (node.nodeType === 3 && node.textContent.trim() !== '') node.remove();
+        });
         // Keep the server-rendered hero URL as the persisted canvas value. A
         // replacement is uploaded through the real page_image field below;
         // storing FileReader data inside page_content would bloat the record

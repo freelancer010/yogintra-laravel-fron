@@ -17,7 +17,7 @@
 
 @if (filled($page_data->page_head_code ?? null))
     @push('custom_head_code')
-        {!! $page_data->page_head_code !!}
+        {!! \App\Support\LandingPageHeadCode::normalize($page_data->page_head_code) !!}
     @endpush
 @endif
 
