@@ -166,7 +166,7 @@
     .service-purchase-details .am-service-data > [class*="col-"] { margin:0 !important; padding:7px; }
     .service-order-summary { padding:24px; border:1px solid #cfe3e6; border-radius:16px; background:linear-gradient(155deg,#f6fcfc,#fff); box-shadow:0 14px 28px rgba(16,76,85,.12); }
     .service-order-summary > small { display:block; margin-bottom:8px; color:#5b777e; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
-    .service-order-summary h3 { margin:0 0 18px; color:#153f49; font-size:19px; line-height:1.35; }
+    .service-order-summary h2 { margin:0 0 18px; color:#153f49; font-size:19px; line-height:1.35; }
     .service-order-summary .am-service-price { display:block; margin:0 -25px 20px; border-radius:0; text-align:left; }
     .service-order-line { display:flex; justify-content:space-between; gap:12px; margin:10px 0; color:#58727a; font-size:13px; }
     .service-order-line strong { color:#183f48; text-align:right; }
@@ -175,6 +175,7 @@
     .service-secure-note { display:block; margin-top:14px; color:#698087; font-size:11px; line-height:1.5; text-align:center; }
     .service-trust-row { display:flex; flex-wrap:wrap; justify-content:center; gap:7px; margin-top:15px; }
     .service-trust-row span { padding:5px 8px; border-radius:999px; background:#e7f4f4; color:#17636d; font-size:10px; font-weight:800; }
+    .booking-modal-title { font-size:18px; }
 
     @media (max-width: 768px) {
         .inner-header { height:180px !important; background-position:center !important; }
@@ -263,7 +264,7 @@
                             <img class="" src="{{ asset($service->service_image) }}" alt="{{ ($service->service_image_alt ?? null) ?: $service->service_name }}" title="{{ ($service->service_image_title ?? null) ?: $service->service_name }}">
                         </div>
                         <div class="am-service-title">
-                            <h2 class="text-theme-colored line-bottom text-theme-colored mb-5 p-0">{{ $service->service_name }}</h2>
+                            <h2 class="text-theme-colored line-bottom text-theme-colored mb-5 p-0">About {{ $service->service_name }}</h2>
                         </div>
                     </div>
                     <div class="service-purchase-layout">
@@ -287,9 +288,9 @@
                         {!! app(\App\Support\HtmlSanitizer::class)->sanitize($service->service_description) !!}
                     </div>
                     </div>
-                    <aside class="service-order-summary" aria-label="Booking summary">
+                    <aside class="service-order-summary" aria-labelledby="booking-summary-heading">
                         <small>Your booking</small>
-                        <h3>{{ $service->service_name }}</h3>
+                        <h2 id="booking-summary-heading">Book {{ $service->service_name }}</h2>
                         <div class="am-service-price">INR {{ number_format($service->service_price) }}.00</div>
                         <div class="service-order-line"><span>Duration</span><strong>{{ $service->service_duration }} hr</strong></div>
                         <div class="service-order-line"><span>Category</span><strong>{{ $service->service_cat_name }}</strong></div>
@@ -311,7 +312,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Book Now</h5>
+                <h2 class="modal-title booking-modal-title">Complete Your Booking</h2>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
             </div>
             <div class="modal-body">
