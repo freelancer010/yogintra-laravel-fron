@@ -42,8 +42,9 @@
     <meta name="theme-color" content="#0f7c87">
     <style id="home-mobile-layout-critical">
         *,*:before,*:after{box-sizing:border-box}
+        html{font-size:80%}
         html,body{margin:0;width:100%;min-height:100%}
-        body{overflow-x:hidden;color:#777;background:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:14px;line-height:1.7}
+        body{overflow-x:hidden;color:#777;background:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:14px;font-weight:500;line-height:1.7}
         #wrapper{width:100%;overflow:hidden}
         .container{width:100%;margin-right:auto;margin-left:auto;padding-right:15px;padding-left:15px}
         .row{display:flex;flex-wrap:wrap;margin-right:-15px;margin-left:-15px}
@@ -62,7 +63,7 @@
         .hero-video-wrap:after{position:absolute;inset:0;content:"";background:#00000061}
         .hero-video-copy{position:relative;z-index:1;display:flex;align-items:center;min-height:100vh}
         .hero-video-copy h1{margin:.67em 0;font-family:Quicksand,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:900;line-height:1}
-        .hero-video-copy p{margin-bottom:10px}
+        .hero-video-copy p{margin-bottom:10px;text-wrap:balance}
         .hero-video-copy .btn{display:inline-block;padding:12px 24px;border:1px solid #1a73e8;border-radius:4px;background:#1a73e8;color:#fff;font-weight:600;line-height:1.42857143;text-decoration:none;text-transform:uppercase;letter-spacing:.5px}
         .hero-video-play{position:absolute;right:20px;bottom:20px;z-index:4;width:42px;height:42px;padding:0;border:1px solid #ffffffcc;border-radius:50%;background:#123e46e8;color:#fff;box-shadow:0 4px 12px #00000040;cursor:pointer}
         .hero-video-play:before{position:absolute;top:50%;left:52%;width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:11px solid #fff;content:"";transform:translate(-50%,-50%)}
@@ -79,9 +80,11 @@
             #home.hero-video-home{height:calc(100svh - 70px)!important;min-height:calc(100svh - 70px)!important;margin:0!important;padding:0!important}
             #home.hero-video-home .hero-video-wrap,#home.hero-video-home .hero-video-copy{height:calc(100svh - 70px);min-height:calc(100svh - 70px)}
             #home.hero-video-home .hero-video-copy .container.position-ab{position:static!important;top:auto!important;width:100%!important;padding:60px 20px!important}
-            #home.hero-video-home .hero-video-copy .row>[class*=col-]{width:100%;margin-left:0;text-align:center!important}
+            #home.hero-video-home .hero-video-copy .row{margin-right:-10px;margin-left:-10px}
+            #home.hero-video-home .hero-video-copy .row>[class*=col-]{width:100%;margin-left:0;padding-top:10px;padding-bottom:10px;text-align:center!important}
             #home.hero-video-home .hero-video-copy .bg-white-transparent{text-align:center!important}
-            #home.hero-video-home .hero-video-play{right:auto;bottom:16px;left:16px;transform:none}
+            #home.hero-video-home .hero-video-copy h1{font-size:2rem!important}
+            #home.hero-video-home .hero-video-play{right:auto;bottom:16px;left:50%;max-width:calc(100% - 120px);transform:translateX(-50%);white-space:nowrap}
             #home { position:relative; min-height:75svh; height:75svh; overflow:hidden; }
             #home .fullwidth-carousel { display:none !important; }
             #home .mobile-home { display:block !important; position:relative; width:100%; min-height:75svh; height:75svh; padding:0 !important; overflow:hidden; }
