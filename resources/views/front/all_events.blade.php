@@ -32,6 +32,9 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <h1 class="title text-white">Yoga Teacher Training Course</h1>
+                    <p class="text-white font-18 mb-0" style="max-width: 850px; margin: 15px auto 0;">
+                        Build a strong foundation for teaching yoga through structured study, guided practice and practical instruction. Explore upcoming YogIntra teacher training courses designed for aspiring and practising instructors.
+                    </p>
                     <ol class="breadcrumb text-center text-black mt-10">
                         <li><a href="{{ url('/') }}" class="text-white">Home</a></li>
                         <li class="active text-gray">TTC</li>

@@ -11,6 +11,9 @@
       <div class="row">
         <div class="col-md-12 text-center">
           <h1 class="title text-white">Retreat</h1>
+          <p class="text-white font-18 mb-0" style="max-width: 850px; margin: 15px auto 0;">
+            Step away from routine and reconnect through guided yoga, meditation and mindful wellness experiences. Explore upcoming YogIntra retreats created to support rest, reflection and renewed energy.
+          </p>
           <ol class="breadcrumb text-center text-black mt-10">
             <li><a href="{{ url('/') }}" class="text-white">Home</a></li>
             <li class="active text-gray">Retreat</li>
