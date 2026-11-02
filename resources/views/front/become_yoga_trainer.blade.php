@@ -57,7 +57,7 @@
               @csrf
               <!-- Step 1 -->
               <div class="form-step active" id="step-1">
-                <h4 class="mb-4">Personal Information</h4>
+                <h3 class="h4 mb-4">Personal Information</h3>
                 <div class="form-group">
                   <label for="name">Your Name: <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="name" name="name" required>
@@ -85,7 +85,7 @@
 
               <!-- Step 2 -->
               <div class="form-step" id="step-2">
-                <h4 class="mb-4">Education & Experience</h4>
+                <h3 class="h4 mb-4">Education & Experience</h3>
                 <div class="form-group">
                   <label for="certification">University of Certification: <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="certification" name="education" required>
@@ -113,7 +113,7 @@
 
               <!-- Step 3 -->
               <div class="form-step" id="step-3">
-                <h4 class="mb-4">Location Details</h4>
+                <h3 class="h4 mb-4">Location Details</h3>
                 <div class="form-group">
                   <label for="country">Country: <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="country" name="country" required placeholder="Country">
@@ -471,7 +471,7 @@ $(document).ready(function () {
           // Show success message
           $('#multi-step-form').html(`
             <div class="alert alert-success text-center">
-              <h4><i class="fa fa-check-circle"></i> Application Submitted Successfully!</h4>
+              <h3 class="h4"><i class="fa fa-check-circle"></i> Application Submitted Successfully!</h3>
               <p>Thank you for your interest in joining YogIntra. Our team will review your application and contact you soon.</p>
               <a href="{{ url('/') }}" class="btn btn-primary">Return to Home</a>
             </div>
