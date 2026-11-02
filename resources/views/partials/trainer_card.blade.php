@@ -5,9 +5,9 @@
     </div>
     <div class="team-details">
       <div class="p-10" style="background-color: #01AEB7;">
-        <h4 class="team-title text-uppercase mt-0 mb-0">
+        <h2 class="team-title h4 text-uppercase mt-0 mb-0">
           <span style="color: white;">{{ $trainer['name'] }}</span>
-        </h4>
+        </h2>
         <p class="team-subtitle mt-0 mb-0"><i class="fa fa-map-marker"></i> {{ $trainer['city'] }}, {{ $trainer['state'] }}</p>
       </div>
       <div class="p-20 bg-white d-none">

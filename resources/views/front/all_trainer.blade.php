@@ -48,9 +48,9 @@
           </div>
           <div class="team-details">
             <div class="p-10" style="background-color: #01AEB7;">
-              <h4 class="team-title text-uppercase mt-0 mb-0">
+              <h2 class="team-title h4 text-uppercase mt-0 mb-0">
                 <span style="color: white;">{{ $trainer['name'] }}</span>
-              </h4>
+              </h2>
               <p class="team-subtitle mt-0 mb-0"><i class="fa fa-map-marker"></i> {{ $trainer['city'] }}, {{ $trainer['state'] }}</p>
             </div>
             <div class="p-20 bg-white d-none">
@@ -83,17 +83,17 @@
       <div class="modal-body text-center p-0">
         <div id="imagepreview"><div style="height: 60vh;"></div></div>
         <div class="p-20 pb-10 pt-10">
-          <h3><b id="main_name"></b></h3>
-          <h5><b>Age </b> - <span id="age"></span></h5>
-          <h6><b>Education </b> - <span id="education"></span></h6>
-          <h6><b>Experience </b> - <span id="experience"></span></h6>
-          <h5><b>Package </b> - <span id="package"></span></h5>
+          <h2 class="h3" id="myModalLabel"><b id="main_name">Trainer details</b></h2>
+          <p class="h5"><b>Age </b> - <span id="age"></span></p>
+          <p class="h6"><b>Education </b> - <span id="education"></span></p>
+          <p class="h6"><b>Experience </b> - <span id="experience"></span></p>
+          <p class="h5"><b>Package </b> - <span id="package"></span></p>
         </div>
       </div>
       <div class="modal-footer text-center" style="background: #dcd8d8; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;">
-        <h3 class="pt-1 pb-0 text-center">
+        <p class="h3 pt-1 pb-0 text-center">
           <i class="fa fa-map-marker" aria-hidden="true"></i> <span id="address"></span>
-        </h3>
+        </p>
       </div>
     </div>
   </div>
