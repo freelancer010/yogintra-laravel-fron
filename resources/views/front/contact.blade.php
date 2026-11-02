@@ -36,14 +36,7 @@
     <section class="contact-hero" aria-labelledby="contact-page-title">
         <img class="contact-hero-media" src="{{ asset('assets/front/images/bg/bg6.jpg') }}" alt="" width="1920" height="1280" fetchpriority="high" decoding="sync" aria-hidden="true">
         <div class="contact-hero-inner container">
-            <h1 id="contact-page-title">Let&rsquo;s plan your yoga journey</h1>
-            <p class="contact-hero-copy">Tell us what you are looking for and we will help you find a class, instructor or wellness programme that fits your goals.</p>
-            <nav aria-label="Breadcrumb">
-                <ol class="contact-breadcrumb">
-                    <li><a href="{{ url('/') }}">Home</a></li>
-                    <li aria-current="page">Contact</li>
-                </ol>
-            </nav>
+            <h1 id="contact-page-title">CONTACT US</h1>
         </div>
     </section>
 
