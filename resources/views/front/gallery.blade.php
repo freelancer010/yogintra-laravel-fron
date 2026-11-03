@@ -172,7 +172,7 @@
                                             </div>
                                         </div>
                                         <a class="hover-link" data-lightbox="image" href="{{ asset($gallery->gallery_image) }}">View more</a>
-                                        <h5 class="mt-10 text-center">{{ $gallery->g_cat_name }}</h5>
+                                        <h2 class="h5 mt-10 text-center">{{ $gallery->g_cat_name }}</h2>
                                     @else
                                         @php
                                             $videoId = explode('?v=', $gallery->gallery_video)[1] ?? '';
@@ -190,7 +190,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <h5 class="mt-10 text-center">{{ $gallery->g_cat_name }}</h5>
+                                        <h2 class="h5 mt-10 text-center">{{ $gallery->g_cat_name }}</h2>
                                     @endif
                                 </div>
                             </div>

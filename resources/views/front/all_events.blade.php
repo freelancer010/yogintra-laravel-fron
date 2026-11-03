@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="schedule-details clearfix p-15 pt-5">
-                                <h5 class="font-16 title elipse-text-title">
+                                <h2 class="h5 font-16 title elipse-text-title">
                                     <a href=" 
                                         @if($event->category == 'TTC') 
                                             {{url('teacher-training-course/' . $event->link)}}
@@ -70,7 +70,7 @@
                                         @endif
                                         "
                                     >{{ $event->title }}</a>
-                                </h5>
+                                </h2>
                                 <ul class="list-inline font-11 mb-20">
                                     <li><i class="fa fa-calendar mr-5"></i> {{ date('d-m-Y h:i A', strtotime($event->date_time)) }}</li>
                                     <li><i class="fa fa-map-marker mr-5"></i> {{ $event->event_location }}</li>
