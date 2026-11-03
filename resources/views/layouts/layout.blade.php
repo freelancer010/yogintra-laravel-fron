@@ -225,7 +225,6 @@
             'description' => trim((string) ($app_setting->app_meta_description ?? '')) ?: null,
             'priceRange' => '₹₹',
             'telephone' => $businessContact['telephone'] ?: null,
-            'email' => $businessContact['email'] ?: null,
             'address' => $businessContact['postal_address'],
             'openingHoursSpecification' => [
                 '@type' => 'OpeningHoursSpecification',

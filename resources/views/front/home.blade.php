@@ -835,7 +835,6 @@
             'description' => trim((string) ($app_setting->app_meta_description ?? '')) ?: null,
             'foundingDate' => '2018',
             'telephone' => $homeContact['telephone'] ?: null,
-            'email' => $homeContact['email'] ?: null,
             'contactPoint' => $homeContact['telephone'] ? [
                 '@type' => 'ContactPoint',
                 'telephone' => $homeContact['telephone'],

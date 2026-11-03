@@ -73,7 +73,7 @@
                             @if($businessContact['email'])
                                 <li class="m-0 pl-10 pr-10">
                                     <i class="fa fa-envelope-o text-theme-colored mr-5" aria-hidden="true"></i>
-                                    <a class="text-gray" itemprop="email" href="mailto:{{ $businessContact['email'] }}">{{ $businessContact['email'] }}</a>
+                                    <a class="text-gray" href="{{ url('contact') }}" aria-label="Contact YogIntra support by email">Email support</a>
                                 </li>
                             @endif
                         </ul>
