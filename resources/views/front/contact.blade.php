@@ -166,7 +166,7 @@
     .contact-method-arrow{margin-top:18px;color:#83aaa5;transition:transform .2s ease}
     .contact-method-card:hover .contact-method-arrow{transform:translateX(4px)}
     .contact-conversation{padding:92px 0 105px;background:linear-gradient(135deg,#eff7f6 0%,#f9fbfb 48%,#e8f3f1 100%)}
-    .contact-layout{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(350px,.88fr);gap:34px;align-items:start}
+    .contact-layout{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(350px,.88fr);gap:34px;align-items:stretch}
     .contact-form-card,.contact-next-card,.contact-map-card{border:1px solid rgba(19,109,114,.13);border-radius:22px;background:#fff;box-shadow:0 18px 48px rgba(17,64,70,.09)}
     .contact-form-card{padding:45px 48px}
     .contact-form-intro{margin-bottom:30px}
@@ -185,7 +185,7 @@
     .contact-privacy-note i{margin-top:3px;color:#6c9a95}
     .contact-privacy-note a{color:#087477;font-weight:700;text-decoration:underline}
     .contact-support-column{display:grid;gap:26px}
-    .contact-next-card{overflow:hidden;padding:42px;background:linear-gradient(150deg,#0e6268,#143f48);color:#fff}
+    .contact-next-card{display:flex;height:100%;flex-direction:column;overflow:hidden;padding:42px;background:linear-gradient(150deg,#0e6268,#143f48);color:#fff}
     .contact-kicker-light{color:#9fe2dc}
     .contact-next-card>h2{color:#fff;font-size:31px}
     .contact-next-list{display:grid;gap:23px;margin:31px 0 28px;padding:0;list-style:none}
@@ -193,7 +193,7 @@
     .contact-next-list li>span{display:flex;width:36px;height:36px;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-weight:800}
     .contact-next-list strong{display:block;margin-bottom:4px;color:#fff;font-size:15px}
     .contact-next-list p{margin:0;color:rgba(255,255,255,.73);font-size:13px;line-height:1.65}
-    .contact-response-note{display:flex;gap:13px;align-items:center;padding:16px;border:1px solid rgba(255,255,255,.16);border-radius:11px;background:rgba(255,255,255,.08)}
+    .contact-response-note{display:flex;gap:13px;align-items:center;margin-top:auto;padding:16px;border:1px solid rgba(255,255,255,.16);border-radius:11px;background:rgba(255,255,255,.08)}
     .contact-response-note>i{color:#9fe2dc;font-size:20px}
     .contact-response-note span{display:flex;flex-direction:column;color:rgba(255,255,255,.74);font-size:12px;line-height:1.5}
     .contact-response-note strong{color:#fff;font-size:13px}
