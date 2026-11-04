@@ -404,8 +404,8 @@
                     <div class="section-title text-center mb-50">
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-md-10">
-                                <h2 class="ssc-ttl brief-dec-title m-fs-25 mb-20">{{ $app_setting->section3_heading ?: 'A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES' }}</h2>
-                                <p class="text-center">{{ $app_setting->section3_description ?: 'Choose a class that fits your goals, schedule and experience. Our team can help you find the right place to begin.' }}</p>
+                                <h2 class="ssc-ttl brief-dec-title m-fs-25 mb-20" style="color:{{ $app_setting->section3_heading_color ?: '#000000' }}">{{ $app_setting->section3_heading ?: 'A BRIEF DESCRIPTION OF THE TYPES OF YOGA SERVICES' }}</h2>
+                                <p class="text-center" style="color:{{ $app_setting->section3_description_color ?: '#777777' }}">{{ $app_setting->section3_description ?: 'Choose a class that fits your goals, schedule and experience. Our team can help you find the right place to begin.' }}</p>
                             </div>
                         </div>
                     </div>

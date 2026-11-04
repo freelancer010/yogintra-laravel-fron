@@ -44,6 +44,8 @@ class StaticSiteFallback
             'section3_padding_y' => 70,
             'section3_heading' => 'Yoga services for every stage of your practice',
             'section3_description' => 'Choose a class that fits your goals, schedule and experience.',
+            'section3_heading_color' => '#000000',
+            'section3_description_color' => '#777777',
             'section3_fixed_card_images' => '{}',
             'section3_card_bullets' => '{}',
             'section3_card_buttons' => '{}',

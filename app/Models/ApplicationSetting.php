@@ -21,6 +21,7 @@ class ApplicationSetting extends Model
         'fevicon', 'rozar_key_id', 'rozar_key_secret', 'head_code', 'youtube',
         'instagram', 'telegram', 'linkedin', 'google_client_id',
         'hero_video_duration',
+        'section3_heading_color', 'section3_description_color',
         'google_client_secret', 'mail_host', 'mail_port', 'mail_username',
         'mail_password', 'map_iframe'
     ];

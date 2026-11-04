@@ -97,6 +97,8 @@ class FrontSettingController extends Controller
         $request->validate([
             'section3_heading' => 'required|string|max:255',
             'section3_description' => 'required|string|max:1000',
+            'section3_heading_color' => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'section3_description_color' => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             // Laravel's `image` rule does not recognise AVIF on every server.
             // Validate the uploaded file and its allowed image extension instead.
             'section3_background_image' => 'nullable|file|mimes:jpg,jpeg,png,webp,avif|max:5000',
@@ -121,6 +123,8 @@ class FrontSettingController extends Controller
         $setting->section3_card_buttons = json_encode($request->input('section3_card_buttons', []));
         $setting->section3_heading = $request->section3_heading;
         $setting->section3_description = $request->section3_description;
+        $setting->section3_heading_color = $request->section3_heading_color;
+        $setting->section3_description_color = $request->section3_description_color;
         $setting->section3_padding_y = $request->section3_padding_y;
         $setting->save();
         return back()->with('success', 'Section 3 updated successfully.');
