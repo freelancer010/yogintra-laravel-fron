@@ -2,7 +2,21 @@
 @section('meta_title', 'Privacy Policy | Data Protection & User Privacy - YogIntra')
 @section('meta_description', 'Read YogIntra’s Privacy Policy to learn how we collect, use, protect and manage personal information from bookings, enquiries, payments and website visitors.')
 @section('content')
-<section class="inner-header divider layer-overlay overlay-dark-5" data-bg-img="{{ asset('assets/bg/bg6.jpg') }}"><div class="container pt-70 pb-20"><div class="text-center"><h1 class="title text-white">Privacy Policy</h1><ol class="breadcrumb text-center mt-10"><li class="text-white"><a class="text-white" href="{{ url('/') }}">Home</a></li><li class="active text-gray">Privacy Policy</li></ol></div></div></section>
+<section class="inner-header divider parallax layer-overlay overlay-dark-7" style="background-image: url('{{ asset('assets/front/images/bg/bg6.jpg') }}'); background-position: 50% 45px; height: 300px;">
+  <div class="container pt-60 pb-60">
+    <div class="section-content">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h1 class="title text-white">Privacy Policy</h1>
+          <ol class="breadcrumb text-center mt-10">
+            <li class="text-white"><a class="text-white" href="{{ url('/') }}">Home</a></li>
+            <li class="active text-gray">Privacy Policy</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="privacy-policy-page"><div class="container pt-50 pb-70"><article class="privacy-policy-card">
 <header><h2>Privacy Policy</h2><p><strong>Last Updated: September 14, 2026</strong></p></header>
 <p>At YogIntra, we respect your privacy and are committed to protecting the personal information you share with us. This Privacy Policy explains how YogIntra collects, uses, stores, protects, and may disclose information when you visit our website, contact us, book a yoga service, participate in our programs, or otherwise interact with us.</p>
