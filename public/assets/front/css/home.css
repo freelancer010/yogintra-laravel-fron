@@ -42,7 +42,9 @@
             #home.hero-video-home .hero-video-copy .container { position:static !important; top:auto !important; padding-left:20px; padding-right:20px; }
             #home.hero-video-home .hero-video-copy .row > [class*="col-"] { width:100%; margin-left:0; text-align:center !important; }
             #home.hero-video-home .hero-video-copy .bg-white-transparent { text-align:center !important; }
-            #home.hero-video-home .hero-video-play { right:auto; left:50%; max-width:calc(100% - 120px); transform:translateX(-50%); white-space:nowrap; }
+            /* Keep the manual video control away from the centred scroll cue and
+               the floating contact controls on the right edge. */
+            #home.hero-video-home .hero-video-play { right:auto; bottom:20px; left:20px; max-width:none; transform:none; white-space:normal; }
             #home.hero-video-home .hero-video-copy .btn { display:inline-block; background-color:#1a73e8 !important; border-color:#1a73e8 !important; color:#fff !important; }
             #home.hero-video-home .hero-video-copy .btn:hover,
             #home.hero-video-home .hero-video-copy .btn:focus { background-color:#1557b0 !important; border-color:#1557b0 !important; }

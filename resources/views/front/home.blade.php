@@ -84,7 +84,7 @@
             #home.hero-video-home .hero-video-copy .row>[class*=col-]{width:100%;margin-left:0;padding-top:10px;padding-bottom:10px;text-align:center!important}
             #home.hero-video-home .hero-video-copy .bg-white-transparent{text-align:center!important}
             #home.hero-video-home .hero-video-copy h1{font-size:2rem!important}
-            #home.hero-video-home .hero-video-play{right:auto;bottom:16px;left:50%;max-width:calc(100% - 120px);transform:translateX(-50%);white-space:nowrap}
+            #home.hero-video-home .hero-video-play{right:auto;bottom:20px;left:20px;max-width:none;transform:none;white-space:normal}
             #home { position:relative; min-height:75svh; height:75svh; overflow:hidden; }
             #home .fullwidth-carousel { display:none !important; }
             #home .mobile-home { display:block !important; position:relative; width:100%; min-height:75svh; height:75svh; padding:0 !important; overflow:hidden; }
