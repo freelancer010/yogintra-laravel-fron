@@ -3,6 +3,10 @@
   padding: 0;
   background: #000;
   color: #d7e3df;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.7;
 }
 
 .landing-global-footer .container {
@@ -55,9 +59,12 @@
 .landing-global-footer .footer-heading {
   margin: 5px 0 16px;
   color: #fff;
-  font: 600 14px/1.35 Arial, Helvetica, sans-serif;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 .landing-global-footer ul {
@@ -128,9 +135,9 @@
 .landing-global-footer .footer-bottom p,
 .landing-global-footer .footer-bottom a,
 .landing-global-footer .footer-bottom li { color: #fff; }
-.landing-global-footer .footer-bottom p { font-size: 12px; }
+.landing-global-footer .footer-bottom p { font-size: 13px; }
 .landing-global-footer .footer-bottom ul { display: flex; gap: 9px; flex-wrap: wrap; }
-.landing-global-footer .footer-bottom li { font-size: 12px; }
+.landing-global-footer .footer-bottom li { font-size: 14px; }
 
 @media (max-width: 1000px) {
   .landing-global-footer .row { grid-template-columns: repeat(2, 1fr); }
@@ -144,9 +151,9 @@
   .landing-global-footer .row > :last-child { grid-column: 1 / -1; }
   .landing-global-footer .row > :nth-child(4) .list-border { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; }
   .landing-global-footer img { width: 165px; margin-bottom: 12px; }
-  .landing-global-footer p { font-size: 13px; line-height: 1.55; }
-  .landing-global-footer .footer-heading { margin: 0 0 8px; font-size: 12px; }
-  .landing-global-footer .list-border li { padding: 5px 0; font-size: 13px; }
+  .landing-global-footer p { font-size: 14px; line-height: 1.7; }
+  .landing-global-footer .footer-heading { margin: 0 0 8px; font-size: 18px; }
+  .landing-global-footer .list-border li { padding: 5px 0; font-size: 14px; }
   .landing-global-footer .styled-icons { margin-top: 14px; }
   .landing-global-footer .opening-hours .list-border li { padding: 6px 0; }
   .landing-global-footer .footer-bottom .container { display: block; padding: 16px 0 20px; }
