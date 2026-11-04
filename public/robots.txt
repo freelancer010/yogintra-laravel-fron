@@ -5,4 +5,7 @@ Disallow: /forgot-password
 Disallow: /admin
 Disallow: /cgi-bin/
 
+User-agent: OAI-SearchBot
+Allow: /
+
 Sitemap: https://yogintra.com/sitemap.xml

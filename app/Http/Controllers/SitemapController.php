@@ -13,6 +13,7 @@ use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\Yoga;
 use App\Models\Event;
+use App\Support\RobotsTxt;
 
 class SitemapController extends Controller
 {
@@ -154,6 +155,7 @@ class SitemapController extends Controller
             }
 
             File::move($temporaryPath, $sitemapPath, true);
+            RobotsTxt::ensureSearchBotDirectives();
 
             // Verify the file was created and get statistics
             if (File::exists($sitemapPath)) {

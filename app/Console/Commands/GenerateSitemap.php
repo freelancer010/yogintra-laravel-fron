@@ -10,6 +10,7 @@ use App\Models\Event;
 use App\Models\Service;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Support\RobotsTxt;
 
 class GenerateSitemap extends Command
 {
@@ -117,6 +118,7 @@ class GenerateSitemap extends Command
         // Save to public path
         try {
             $sitemap->writeToFile(public_path('sitemap.xml'));
+            RobotsTxt::ensureSearchBotDirectives();
             
             // Verify the file was created and get statistics
             if (file_exists(public_path('sitemap.xml'))) {
