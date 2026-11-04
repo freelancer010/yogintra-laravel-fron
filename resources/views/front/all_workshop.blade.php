@@ -11,9 +11,6 @@
       <div class="row">
         <div class="col-md-12 text-center">
           <h1 class="title text-white">Workshop</h1>
-          <p class="text-white font-18 mb-0" style="max-width: 850px; margin: 15px auto 0;">
-            Deepen your practice through focused sessions led by experienced YogIntra instructors. Explore upcoming workshops covering yoga fundamentals, movement, breathwork and practical wellness skills for different experience levels.
-          </p>
           <ol class="breadcrumb text-center text-black mt-10">
             <li><a href="{{ url('/') }}" class="text-white">Home</a></li>
             <li class="active text-white">Workshop</li>
@@ -21,6 +18,13 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+<section class="bg-white" aria-label="Yoga workshops introduction">
+  <div class="container" style="padding-top:28px!important;padding-bottom:28px!important;">
+    <p class="font-18 text-center mb-0" style="max-width:850px;margin:0 auto;color:#333;">
+      Deepen your practice through focused sessions led by experienced YogIntra instructors. Explore upcoming workshops covering yoga fundamentals, movement, breathwork and practical wellness skills for different experience levels.
+    </p>
   </div>
 </section>
 
