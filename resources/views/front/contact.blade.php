@@ -142,7 +142,7 @@
     .contact-page{--contact-teal:#086d72;--contact-dark:#143f48;--contact-muted:#557078;--contact-line:#d8e8e5;overflow:hidden;color:var(--contact-dark)}
     .contact-page .contact-hero{position:relative;display:flex;min-height:390px;align-items:center;margin:0;overflow:hidden;background:#143f48}
     .contact-page .contact-hero::before,.contact-page .contact-hero::after{content:none}
-    .contact-hero-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
+    .contact-page .contact-hero-media{position:absolute;inset:0;display:block;width:100%!important;max-width:none!important;height:100%!important;object-fit:cover;object-position:center 40%}
     .contact-page .contact-hero-inner{position:relative;z-index:2;display:flex;width:100%;align-items:center;justify-content:center;padding-top:0;padding-bottom:0;text-align:center}
     .contact-kicker{display:inline-block;margin-bottom:12px;color:#0b7478;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
     .contact-hero h1{max-width:760px;margin:0 auto;color:#fff;font-size:52px;font-weight:700;line-height:1.08;letter-spacing:-.025em;text-transform:none}
