@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Slider;
 use App\Models\Setting;
 use App\Models\OurFeatureHeading;
@@ -123,10 +124,20 @@ class FrontSettingController extends Controller
         $setting->section3_card_buttons = json_encode($request->input('section3_card_buttons', []));
         $setting->section3_heading = $request->section3_heading;
         $setting->section3_description = $request->section3_description;
-        $setting->section3_heading_color = $request->section3_heading_color;
-        $setting->section3_description_color = $request->section3_description_color;
+        $colorsSupported = Schema::hasColumn('application_setting', 'section3_heading_color')
+            && Schema::hasColumn('application_setting', 'section3_description_color');
+
+        if ($colorsSupported) {
+            $setting->section3_heading_color = $request->section3_heading_color;
+            $setting->section3_description_color = $request->section3_description_color;
+        }
         $setting->section3_padding_y = $request->section3_padding_y;
         $setting->save();
+
+        if (! $colorsSupported) {
+            return back()->with('warning', 'Section 3 was saved, but its colors require the latest database migration. Run php artisan migrate --force on production.');
+        }
+
         return back()->with('success', 'Section 3 updated successfully.');
     }
 
