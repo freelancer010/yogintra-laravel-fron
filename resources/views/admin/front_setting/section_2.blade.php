@@ -52,14 +52,26 @@
                            <div class="col-md-6">
                               <div class="form-group">
                                  <label>Image</label>
-                                 <input type="file" name="os_image_image" class="form-control">
+                                 <input id="section2ImageInput" type="file" name="os_image_image" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp">
+                                 <small class="form-text text-muted">Choose a JPG, PNG, GIF or WebP image up to 5 MB.</small>
                               </div>
                            </div>
                            <div class="col-md-6">
                               <div class="form-group">
                                  <label>Image Preview</label><br>
-                                 @if(!empty($service_heading->os_image_image))
-                                    <img src="{{ asset($service_heading->os_image_image) }}" width="100px">
+                                 @php
+                                    $section2ImagePath = ltrim((string) ($service_heading->os_image_image ?? ''), '/');
+                                    $section2ImageExists = $section2ImagePath !== '' && is_file(public_path($section2ImagePath));
+                                 @endphp
+                                 <img id="section2ImagePreview"
+                                      src="{{ $section2ImageExists ? asset($section2ImagePath) : '' }}"
+                                      alt="Section 2 image preview"
+                                      style="display:{{ $section2ImageExists ? 'block' : 'none' }}; width:100%; max-width:240px; max-height:180px; object-fit:contain; border:1px solid #d9e1e5; border-radius:6px; padding:6px; background:#fff;">
+                                 <div id="section2ImageMissing" class="alert alert-warning mt-2 mb-0" style="display:{{ $section2ImageExists ? 'none' : 'block' }};">
+                                    The saved image file is missing. Please choose a replacement image and click Update.
+                                 </div>
+                                 @if($section2ImageExists)
+                                    <small id="section2CurrentImage" class="form-text text-muted">Current image</small>
                                  @endif
                               </div>
                            </div>
@@ -165,6 +177,33 @@
 <script src="https://cdn.tiny.cloud/1/p96sr398x0evyp69lvm9o2ieiuyexn462e38v64kghyfl7zy/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
+   (function () {
+      const input = document.getElementById('section2ImageInput');
+      const preview = document.getElementById('section2ImagePreview');
+      const missing = document.getElementById('section2ImageMissing');
+      const currentLabel = document.getElementById('section2CurrentImage');
+
+      if (!input || !preview) return;
+
+      input.addEventListener('change', function () {
+         const file = this.files && this.files[0];
+         if (!file) return;
+
+         if (!file.type.startsWith('image/')) {
+            this.value = '';
+            window.alert('Please choose a valid image file.');
+            return;
+         }
+
+         const objectUrl = URL.createObjectURL(file);
+         preview.onload = function () { URL.revokeObjectURL(objectUrl); };
+         preview.src = objectUrl;
+         preview.style.display = 'block';
+         if (missing) missing.style.display = 'none';
+         if (currentLabel) currentLabel.textContent = 'New image preview';
+      });
+   }());
+
    // TinyMCE Init - fully featured toolbar (removed hr and toc)
    tinymce.init({
       selector: 'textarea.text-editor',
