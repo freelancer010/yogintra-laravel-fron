@@ -11,7 +11,7 @@
     <div class="section-content">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h2 class="title text-white">Trainer Profile</h2>
+          <p class="h2 title text-white">Trainer Profile</p>
           <ol class="breadcrumb text-center mt-10">
             <li><a class="text-white" href="{{ url('/') }}">Home</a></li>
             <li><a class="text-white" href="{{ url('/trainers') }}">Trainers</a></li>
@@ -115,7 +115,7 @@
         <div class="detail-card h-100">
           <div class="card-header">
             <i class="fa fa-graduation-cap card-icon"></i>
-            <h4>Education & Qualification</h4>
+            <h2>Education & Qualification</h2>
           </div>
           <div class="card-body">
             <p class="education-text">{{ strtolower($trainer['Education']) }}</p>
@@ -136,7 +136,7 @@
         <div class="detail-card h-100">
           <div class="card-header">
             <i class="fa fa-gift card-icon"></i>
-            <h4>Training Package</h4>
+            <h2>Training Package</h2>
           </div>
           <div class="card-body">
             <div class="package-info">
@@ -162,7 +162,7 @@
     <div class="row justify-content-center">
       <div class="col-lg-12">
         <div class="cta-section text-center">
-          <h3 class="cta-title">Ready to Start Your Yoga Journey?</h3>
+          <h2 class="cta-title">Ready to Start Your Yoga Journey?</h2>
           <p class="cta-subtitle">Book a session with {{ $trainer['name'] }} and transform your wellness routine</p>
           
           <div class="cta-buttons">
@@ -337,7 +337,7 @@
     color: #FF8C00;
   }
 
-  .detail-card h4 {
+  .detail-card h2 {
     margin: 0;
     font-size: 1.3rem;
     font-weight: 600;
