@@ -78,7 +78,7 @@ class HomeController extends Controller
             // repeated all of these queries. Keep data fresh for one minute and
             // serve the last value while Laravel refreshes it after the response.
             // This lowers TTFB without making admin updates meaningfully stale.
-            $homepageContent = Cache::flexible('homepage.public-content.v2', [60, 600], function () {
+            $homepageContent = Cache::flexible('homepage.public-content.v3', [60, 600], function () {
                 return [
                     'all_slider' => Slider::all(),
                     'section_1' => Front::getOurFeaturesHeading(),
@@ -90,7 +90,7 @@ class HomeController extends Controller
                     // Preserve the exact model query/order used by the
                     // existing homepage; only its result is cached.
                     'rand_service' => Service::getSixCategoryForHomePage()->take(4),
-                    'testimonials' => Testimonial::orderByDesc('test_id')->limit(4)->get(),
+                    'testimonials' => Testimonial::orderByDesc('test_id')->get(),
                 ];
             });
 

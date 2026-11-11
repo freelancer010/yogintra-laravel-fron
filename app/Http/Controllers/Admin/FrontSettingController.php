@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Slider;
 use App\Models\Setting;
 use App\Models\OurFeatureHeading;
@@ -343,6 +344,7 @@ class FrontSettingController extends Controller
         }
 
         $testimonial->save();
+        Cache::forget('homepage.public-content.v3');
 
         return back()->with('success', 'Testimonial added successfully');
     }
@@ -377,6 +379,7 @@ class FrontSettingController extends Controller
         }
 
         $testimonial->save();
+        Cache::forget('homepage.public-content.v3');
 
         return redirect()->route('admin.front.testimonial')->with('success', 'Testimonial updated successfully');
     }
@@ -388,6 +391,7 @@ class FrontSettingController extends Controller
             unlink(public_path($testimonial->test_image));
         }
         $testimonial->delete();
+        Cache::forget('homepage.public-content.v3');
 
         return back()->with('success', 'Testimonial deleted successfully');
     }
