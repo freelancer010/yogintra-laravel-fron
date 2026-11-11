@@ -151,22 +151,37 @@ class FrontSettingController extends Controller
             'os_image_image'       => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5000'
         ]);
 
-        $image = OurServiceImage::first();
+        $image = OurServiceImage::firstOrNew(['os_image_id' => 1]);
         $image->os_image_heading = $request->os_image_heading;
         $image->os_image_sub_heading = $request->os_image_sub_heading;
         $image->os_image_description = $request->os_image_description;
 
         if ($request->hasFile('os_image_image')) {
-            if ($image->os_image_image && file_exists(public_path($image->os_image_image))) {
-                Storage::disk('public')->delete(str_replace('storage/', '', $image->os_image_image));
-            }   
-            $path = $request->file('os_image_image')->store('uploads', 'public');
-            $image->os_image_image = 'storage/' . $path;
+            $oldImagePath = ltrim((string) $image->os_image_image, '/');
+            $newImagePath = app(OptimizedImageUpload::class)->store(
+                $request->file('os_image_image'),
+                'uploads/our-services'
+            );
+
+            if (! is_file(public_path($newImagePath))) {
+                return back()->withInput()->with('error', 'The image could not be saved. Please check the uploads directory permissions and try again.');
+            }
+
+            $image->os_image_image = $newImagePath;
+
+            if ($oldImagePath !== '' && $oldImagePath !== $newImagePath) {
+                if (str_starts_with($oldImagePath, 'storage/')) {
+                    Storage::disk('public')->delete(substr($oldImagePath, strlen('storage/')));
+                } elseif (is_file(public_path($oldImagePath))) {
+                    @unlink(public_path($oldImagePath));
+                }
+            }
         }
 
         $image->save();
+        Cache::forget('homepage.public-content.v3');
 
-        return back()->with('success', 'Service image section updated successfully');
+        return back()->with('success', 'Service image section updated successfully.');
     }
 
     public function storeService(Request $request)
