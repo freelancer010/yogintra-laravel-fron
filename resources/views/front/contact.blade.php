@@ -214,7 +214,7 @@
         .contact-page{width:100vw!important;max-width:100vw!important;margin:0!important}
         .contact-page section,.contact-page .container,.contact-page .contact-layout,.contact-page .contact-support-column{width:100%;max-width:100%;min-width:0;box-sizing:border-box}
         .contact-page .container{margin-right:0!important;margin-left:0!important}
-        .contact-page .contact-hero{min-height:380px;background-position:42% center}.contact-page .contact-hero-inner{padding:0 22px}
+        .contact-page .contact-hero{width:100%;height:auto;min-height:0;aspect-ratio:3/2;background-position:42% center}.contact-page .contact-hero-inner{position:absolute;inset:0;padding:0 22px}
         .contact-hero h1{font-size:38px;line-height:1.12}.contact-hero-copy{font-size:16px;line-height:1.65}
         .contact-page h1,.contact-page h2,.contact-page h3,.contact-page p,.contact-method-content strong{max-width:100%;white-space:normal!important;overflow-wrap:anywhere;text-wrap:wrap!important}
         .contact-methods{padding:62px 0 68px}.contact-methods .container,.contact-conversation .container{padding-right:18px!important;padding-left:18px!important}
