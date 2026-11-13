@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }());
                 const homeToggle = header.querySelector('.home-native-menu-toggle');
                 const homeMenu = header.querySelector('#home-navigation-menu');
+                const landingToggle = header.querySelector('.landing-native-menu-toggle');
                 const homeSubmenuItems = homeMenu ? Array.from(homeMenu.children).filter(function (item) {
                     return Array.from(item.children).some(function (child) {
                         return child.matches('ul.dropdown, ul.megamenu');
@@ -106,15 +107,29 @@ document.addEventListener('DOMContentLoaded', function () {
                         setHomeMenuOpen(!header.classList.contains('mobile-menu-open'));
                         return;
                     }
+                    const nativeLandingToggle = event.target.closest('.landing-hero-navigation .landing-native-menu-toggle');
+                    if (nativeLandingToggle) {
+                        event.preventDefault();
+                        const open = !header.classList.contains('mobile-menu-open');
+                        header.classList.toggle('mobile-menu-open', open);
+                        nativeLandingToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                        return;
+                    }
                     if (!event.target.closest('.landing-hero-navigation .showhide')) return;
                     header.classList.toggle('mobile-menu-open');
-                    const landingToggle = header.querySelector('.showhide');
-                    if (landingToggle) landingToggle.setAttribute('aria-expanded', header.classList.contains('mobile-menu-open') ? 'true' : 'false');
+                    const generatedLandingToggle = header.querySelector('.showhide');
+                    if (generatedLandingToggle) generatedLandingToggle.setAttribute('aria-expanded', header.classList.contains('mobile-menu-open') ? 'true' : 'false');
                 }, true);
                 document.addEventListener('keydown', function (event) {
-                    if (event.key !== 'Escape' || !header.classList.contains('mobile-menu-open') || !homeToggle) return;
-                    setHomeMenuOpen(false);
-                    homeToggle.focus();
+                    if (event.key !== 'Escape' || !header.classList.contains('mobile-menu-open')) return;
+                    if (homeToggle) {
+                        setHomeMenuOpen(false);
+                        homeToggle.focus();
+                    } else if (landingToggle) {
+                        header.classList.remove('mobile-menu-open');
+                        landingToggle.setAttribute('aria-expanded', 'false');
+                        landingToggle.focus();
+                    }
                 });
                 if (homeMenu) {
                     homeMenu.addEventListener('click', function (event) {
@@ -133,5 +148,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 window.addEventListener('resize', function () {
                     if (window.innerWidth > 1000 && homeToggle) setHomeMenuOpen(false);
+                    if (window.innerWidth > 1000 && landingToggle) {
+                        header.classList.remove('mobile-menu-open');
+                        landingToggle.setAttribute('aria-expanded', 'false');
+                    }
                 });
             });
