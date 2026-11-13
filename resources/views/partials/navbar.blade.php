@@ -102,6 +102,8 @@
         <style>
             :root{--theme-color-1:{{ $visual_setting->color_1 }};--theme-color-2:{{ $visual_setting->color_2 }};}
             .landing-native-menu-toggle{display:none}
+            .landing-submenu-toggle{display:none}
+            .landing-hero-navigation .menuzord-menu>li.home-has-submenu>a:after{display:inline-block;width:7px;height:7px;margin:0 0 3px 8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;content:'';transform:rotate(45deg)}
             @media only screen and (max-width:1000px){
                 .landing-hero-navigation .landing-native-menu-toggle{position:absolute;top:0;right:8px;z-index:4;display:flex!important;width:56px;height:64px;flex-direction:column;align-items:center;justify-content:center;gap:5px;margin:0;padding:0;border:0;background:transparent;cursor:pointer}
                 .landing-hero-navigation .landing-native-menu-toggle em{display:block!important;width:27px!important;height:3px!important;margin:0!important;border-radius:3px;background:#084451!important}
@@ -112,6 +114,15 @@
                 .landing-hero-navigation.mobile-menu-open .landing-native-menu-toggle:before,.landing-hero-navigation.mobile-menu-open .landing-native-menu-toggle:after{content:'';position:absolute;top:30px;right:14px;width:27px;height:3px;border-radius:3px;background:#084451}
                 .landing-hero-navigation.mobile-menu-open .landing-native-menu-toggle:before{transform:rotate(45deg)}
                 .landing-hero-navigation.mobile-menu-open .landing-native-menu-toggle:after{transform:rotate(-45deg)}
+                .landing-hero-navigation .menuzord-menu>li.home-has-submenu{position:relative}
+                .landing-hero-navigation .menuzord-menu>li.home-has-submenu>a{padding-right:52px!important}
+                .landing-hero-navigation .menuzord-menu>li.home-has-submenu>a:after{display:none}
+                .landing-hero-navigation .landing-submenu-toggle{position:absolute;top:2px;right:4px;display:flex;width:44px;height:44px;align-items:center;justify-content:center;padding:0;border:0;border-radius:6px;background:transparent;color:#084451;cursor:pointer}
+                .landing-hero-navigation .landing-submenu-toggle:after{width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;content:'';transform:rotate(45deg);transition:transform .2s ease}
+                .landing-hero-navigation .landing-submenu-toggle[aria-expanded=true]:after{transform:rotate(225deg)}
+                .landing-hero-navigation .landing-submenu-toggle:focus{outline:2px solid #14757d;outline-offset:-3px}
+                .landing-hero-navigation .menuzord-menu>li.home-has-submenu>ul.dropdown,.landing-hero-navigation .menuzord-menu>li.home-has-submenu>ul.megamenu{display:none!important;position:static!important;width:100%!important;background:#f5f9f9!important;box-shadow:none!important}
+                .landing-hero-navigation .menuzord-menu>li.landing-submenu-open>ul.dropdown,.landing-hero-navigation .menuzord-menu>li.landing-submenu-open>ul.megamenu{display:block!important}
             }
         </style>
     @if ($heroOverlayNavigation)
