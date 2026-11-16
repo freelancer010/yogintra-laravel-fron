@@ -34,7 +34,7 @@
 @section('content')
 <div class="contact-page">
     <section class="contact-hero" aria-labelledby="contact-page-title">
-        <img class="contact-hero-media" src="{{ asset('assets/front/images/bg/bg6.jpg') }}" alt="" width="1920" height="1280" fetchpriority="high" decoding="sync" aria-hidden="true">
+        <img class="contact-hero-media" src="{{ asset('assets/front/images/bg/bg6.jpg') }}" alt="Women practising yoga and meditation in a bright studio" title="Contact YogIntra for yoga classes and wellness support" width="1920" height="1280" fetchpriority="high" decoding="sync">
         <div class="contact-hero-inner container">
             <h1 id="contact-page-title">CONTACT US</h1>
         </div>
