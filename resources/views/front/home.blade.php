@@ -96,6 +96,10 @@
                stack of cards while it is visible. */
             .home-trainer-carousel:not(.owl-loaded),.home-testimonial-carousel:not(.owl-loaded) { min-height:350px; overflow:hidden; }
             .home-trainer-carousel:not(.owl-loaded) > .item:not(:first-child),.home-testimonial-carousel:not(.owl-loaded) > .item:not(:first-child) { display:none; }
+            .home-testimonial-carousel .owl-dots{display:flex!important;flex-wrap:nowrap;justify-content:center;align-items:center;gap:6px;margin-top:14px!important;padding:0 8px;overflow-x:auto;scrollbar-width:none}
+            .home-testimonial-carousel .owl-dots::-webkit-scrollbar{display:none}
+            .home-testimonial-carousel .owl-dots .owl-dot{flex:0 0 18px;width:18px!important;height:24px!important;margin:0!important;padding:0!important}
+            .home-testimonial-carousel .owl-dots .owl-dot span{display:block;width:8px!important;height:8px!important;margin:0 auto!important}
         }
         @media (min-width: 768px) {
             .container{max-width:750px}
@@ -212,6 +216,13 @@
             @endphp
 
             @foreach ($all_slider as $index => $slider)
+                @php
+                    $sliderAltText = \Illuminate\Support\Str::limit(
+                        trim(strip_tags(html_entity_decode('YogIntra - ' . ($slider->slider_heading ?: 'Yoga and wellness classes')))),
+                        80,
+                        ''
+                    );
+                @endphp
                 @if ($index == 1)
                     @php
                         $mob_heading = $slider->slider_heading;
@@ -232,8 +243,8 @@
                                 loading="eager"
                                 decoding="async"
                                 fetchpriority="high"
-                                alt="YogIntra - {{ $slider->slider_heading }}"
-                                title="YogIntra - {{ $slider->slider_heading }}"
+                                alt="{{ $sliderAltText }}"
+                                title="{{ $sliderAltText }}"
                             >
                         </picture>
                     @else
@@ -246,8 +257,8 @@
                                 appear as an above-the-fold lazy image to browsers/audits. --}}
                             loading="eager"
                             decoding="async"
-                            alt="YogIntra - {{ $slider->slider_heading }}"
-                            title="YogIntra - {{ $slider->slider_heading }}"
+                            alt="{{ $sliderAltText }}"
+                            title="{{ $sliderAltText }}"
                         >
                     @endif
                     <div class="overlay"></div>
