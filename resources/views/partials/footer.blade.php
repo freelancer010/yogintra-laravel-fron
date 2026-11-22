@@ -95,7 +95,7 @@
                 </div>
                 <div class="col-md-6 text-center text-sm-right">
                     <ul>
-                        <li style="display:inline-block" class="pr-10"><a class="text-white" href="{{ url('terms-and-condition') }}">Terms & Condition</a></li>
+                        <li style="display:inline-block" class="pr-10"><a class="text-white" href="{{ url('terms-and-condition') }}">Terms & Conditions</a></li>
                         <li style="display:inline-block" class="pr-10">|</li>
                         <li style="display:inline-block" class="pr-10"><a class="text-white" href="{{ url('refund-policy') }}">Refund Policy</a></li>
                         <li style="display:inline-block" class="pr-10">|</li>
