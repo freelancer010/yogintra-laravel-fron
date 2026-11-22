@@ -755,7 +755,7 @@
                         <div class="accordion-item mb-15 border-1px">
                             <h3 class="accordion-header" id="headingThree">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <strong>Does YogIntra offer trial classes?</strong>
+                                    <strong>Do YogIntra offer trial classes?</strong>
                                 </button>
                             </h3>
                             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">

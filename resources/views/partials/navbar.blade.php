@@ -46,7 +46,7 @@
                             <li class="home-has-submenu {{ in_array(request()->segment(1), ['about', 'gallery']) ? 'active' : '' }}">
                                 <a href="{{ url('/about-us') }}">About</a>
                                 <ul class="dropdown">
-                                    <li><a href="{{ url('/about-us') }}">About</a></li>   
+                                    <li><a href="{{ url('/about-us') }}">About us</a></li>
                                     <li><a href="{{ url('/gallery') }}">Gallery</a></li>
                                 </ul>
                             </li>
