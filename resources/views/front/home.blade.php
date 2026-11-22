@@ -18,6 +18,10 @@
     $heroVideoSubHeading = $app_setting->hero_video_sub_heading ?: ($app_setting->hero_video_description ?: ($all_slider->first()?->slider_sub_heading ?: 'Discover guided movement and wellbeing support with YogIntra.'));
     $heroVideoTitle = $heroVideoHeading;
     $heroVideoDescription = $heroVideoSubHeading;
+    // Keep the poster image alt text concise for screen readers and SEO tools.
+    // The complete description remains on the video element's aria-label.
+    $heroVideoAltSource = trim(strip_tags((string) ($heroVideoHeading ?: 'YogIntra yoga and meditation class')));
+    $heroVideoAlt = \Illuminate\Support\Str::limit($heroVideoAltSource, 110, '');
     // Application settings do not use Eloquent timestamps. Use the hero video's
     // file modification time as its upload date, with a valid ISO fallback for
     // installations where the video is served from remote storage.
@@ -71,6 +75,12 @@
         .hero-video-play[hidden]{display:none}
         .faq-section .accordion-button strong{font-weight:700;-webkit-text-stroke:.15px currentColor}
         .types-of-yoga-section .yoga-service-item img.img-circle{display:block;width:128px!important;height:128px!important;max-width:128px!important;aspect-ratio:1/1;object-fit:cover}
+        /* Section 1 is managed from the backend. Preserve the editor's exact
+           letter casing instead of applying the theme's uppercase helpers. */
+        #home-intro .section-title h2,
+        #home-intro .section-title .sub-heading,
+        #home-intro .section_1 .media-heading,
+        #home-intro .section_1 .media-body p{text-transform:none!important}
         /* The shared legacy stylesheet is deferred on the homepage. Reserve the
            mobile hero's final geometry before it arrives so the hidden desktop
            carousel never creates a large first-paint layout shift. */
@@ -184,7 +194,7 @@
             @endphp
             <div class="hero-video-wrap">
                 @if($heroPoster)
-                    <img class="hero-video-poster" src="{{ asset($heroPoster) }}" width="1920" height="1080" loading="eager" fetchpriority="high" alt="{{ $heroVideoDescription }}" title="{{ $heroVideoTitle }}">
+                    <img class="hero-video-poster" src="{{ asset($heroPoster) }}" width="1920" height="1080" loading="eager" fetchpriority="high" alt="{{ $heroVideoAlt }}" title="{{ $heroVideoTitle }}">
                 @endif
                 <video class="hero-background-video" width="1920" height="1080" muted loop playsinline preload="none" title="{{ $heroVideoTitle }}" aria-label="{{ $heroVideoDescription }}">
                     <source src="{{ asset($app_setting->hero_video) }}" type="{{ \Illuminate\Support\Str::endsWith($app_setting->hero_video, '.webm') ? 'video/webm' : (\Illuminate\Support\Str::endsWith($app_setting->hero_video, '.ogg') ? 'video/ogg' : 'video/mp4') }}">
@@ -325,7 +335,7 @@
             <div class="section-title text-center">
                 <div class="row">
                     <div class="col-md-7 col-md-offset-5">
-                        <h2 class="text-uppercase line-bottom-double-line-centered mt-0 cst-font">
+                        <h2 class="line-bottom-double-line-centered mt-0 cst-font">
                             {{ $section_1->of_heading }}
                         </h2>
                         <span class="sub-heading text-theme-colored2">{{ $section_1->of_sub_heading }}</span>

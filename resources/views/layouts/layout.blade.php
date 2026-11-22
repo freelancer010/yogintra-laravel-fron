@@ -255,7 +255,7 @@
          analytics, custom styles, and similar integrations). Page-specific
          markup is intentionally last so it can refine the global defaults. --}}
     @if (filled($app_setting->head_code ?? null))
-        {!! $app_setting->head_code !!}
+        {!! \App\Support\LandingPageHeadCode::normalize($app_setting->head_code) !!}
     @endif
     @stack('custom_head_code')
 

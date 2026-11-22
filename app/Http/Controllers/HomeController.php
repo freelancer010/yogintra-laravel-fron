@@ -611,7 +611,7 @@ class HomeController extends Controller
             // Only authenticated admins can edit these values. Complete head
             // tags remain untouched; raw JSON-LD is wrapped before rendering
             // so browsers do not move it into the visible page body.
-            $globalHeadCode = trim((string) ($appSetting->head_code ?? ''));
+            $globalHeadCode = LandingPageHeadCode::normalize($appSetting->head_code ?? null);
             $pageHeadCode = LandingPageHeadCode::normalize($data['page_data']->page_head_code ?? null);
             $customHeadCode = implode("\n", array_filter([$globalHeadCode, $pageHeadCode], static fn (string $code) => $code !== ''));
             if ($customHeadCode !== '') {

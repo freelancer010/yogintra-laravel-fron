@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ApplicationSetting;
+use App\Support\LandingPageHeadCode;
 use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
@@ -69,7 +70,16 @@ class SettingController extends Controller
 
             case 'htmlhead':
                 $request->validate([
-                    'head_code' => ['nullable', 'string', 'max:100000'],
+                    'head_code' => [
+                        'nullable',
+                        'string',
+                        'max:100000',
+                        static function (string $attribute, mixed $value, \Closure $fail): void {
+                            if (LandingPageHeadCode::containsRedirect((string) $value)) {
+                                $fail('Redirect code is not allowed in the HTML Head field.');
+                            }
+                        },
+                    ],
                 ]);
                 $data = $request->only([
                     'head_code'

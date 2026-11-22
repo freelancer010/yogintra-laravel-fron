@@ -22,7 +22,7 @@ final class LandingPageHeadCode
         $schema = json_decode($json, true);
 
         if (json_last_error() !== JSON_ERROR_NONE || ! is_array($schema) || ! self::isSchema($schema)) {
-            return $code;
+            return self::stripRedirects($code);
         }
 
         $encoded = json_encode(
@@ -36,6 +36,45 @@ final class LandingPageHeadCode
         );
 
         return '<script type="application/ld+json">' . $encoded . '</script>';
+    }
+
+    /**
+     * Head-code fields intentionally support analytics and verification tags,
+     * but must never be able to navigate visitors away from the website.
+     */
+    public static function containsRedirect(?string $code): bool
+    {
+        $code = (string) $code;
+
+        return (bool) preg_match(
+            '#<meta\b(?=[^>]*\bhttp-equiv\s*=\s*(["\']?)\s*refresh\s*\1)[^>]*>#is',
+            $code
+        ) || (bool) preg_match(
+            '#<script\b[^>]*>.*?(?:'
+                . '(?:window|document|top|self|parent)\s*\.\s*location\b'
+                . '|location\s*\.\s*(?:href|assign|replace)\b'
+                . ').*?</script\s*>#is',
+            $code
+        );
+    }
+
+    public static function stripRedirects(?string $code): string
+    {
+        $code = (string) $code;
+        $code = preg_replace(
+            '#<meta\b(?=[^>]*\bhttp-equiv\s*=\s*(["\']?)\s*refresh\s*\1)[^>]*>#is',
+            '',
+            $code
+        ) ?? $code;
+
+        return preg_replace(
+            '#<script\b[^>]*>.*?(?:'
+                . '(?:window|document|top|self|parent)\s*\.\s*location\b'
+                . '|location\s*\.\s*(?:href|assign|replace)\b'
+                . ').*?</script\s*>#is',
+            '',
+            $code
+        ) ?? $code;
     }
 
     private static function isSchema(array $value): bool
